@@ -1,0 +1,28 @@
+{
+  "name": "finance",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^15.2.1",
+    "react-addons-pure-render-mixin": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-toolbox": "^1.0.3"
+  },
+  "cssModules": {
+    "extensions": [
+      "scss"
+    ],
+    "globalVariables": [
+      "node_modules/react-toolbox/lib/_colors.scss",
+      {
+        "theme-building": true
+      }
+    ]
+  },
+  "devDependencies": {
+    "node-sass": "^3.4.2"
+  }
+}
