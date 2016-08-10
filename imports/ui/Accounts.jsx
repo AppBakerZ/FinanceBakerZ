@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { List, ListItem, ListDivider } from 'react-toolbox';
+import { List, ListItem, ListDivider, Button } from 'react-toolbox';
 
 export default class Accounts extends Component {
 
@@ -8,13 +8,21 @@ export default class Accounts extends Component {
         super(props);
 
         this.state = {
-        }
+        };
+
+    }
+
+    toggleSidebar(){
+        this.props.toggleSidebar();
     }
 
     render() {
         return (
             <List selectable ripple>
+                <Button icon='add' floating accent className='add-button' />
+
                 <ListItem
+                    onClick={ this.toggleSidebar.bind(this) }
                     avatar='https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg'
                     caption='Meezan Bank'
                     legend="Jonathan 'Jon' Osterman"

@@ -53,15 +53,15 @@ export default class App extends Component {
                     <AppBar>
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                     </AppBar>
-                    <div style={{ flex: 1, overflowY: 'auto', padding: '1.8rem' }}>
-                        <Accounts></Accounts>
+                    <div style={{ flex: 1, padding: '1.8rem' }}>
+                        <Accounts toggleSidebar={ this.toggleSidebar.bind(this) }></Accounts>
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>
                     <div>
                         <IconButton icon='close' onClick={ this.toggleSidebar.bind(this) }/>
                     </div>
-                    <div style={{ flex: 1, overflowY: 'auto', padding: '1.8rem' }}>
+                    <div style={{ flex: 1, padding: '1.8rem' }}>
                         <form>
                             <Input type='text' label='Name' name='name' maxLength={16 } />
                         </form>
