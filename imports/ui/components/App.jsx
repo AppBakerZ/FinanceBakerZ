@@ -4,8 +4,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
 import { Layout, NavDrawer, Panel, Card, CardTitle, Input } from 'react-toolbox';
 
-import Accounts from './Accounts.jsx';
-
 // App component - represents the whole app
 export default class App extends Component {
 
@@ -54,7 +52,7 @@ export default class App extends Component {
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                     </AppBar>
                     <div style={{ flex: 1, padding: '1.8rem' }}>
-                        <Accounts toggleSidebar={ this.toggleSidebar.bind(this) }></Accounts>
+                        {React.cloneElement(this.props.children, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>

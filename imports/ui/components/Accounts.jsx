@@ -13,6 +13,7 @@ export default class Accounts extends Component {
     }
 
     toggleSidebar(){
+        console.log('this :', this.props);
         this.props.toggleSidebar();
     }
 
