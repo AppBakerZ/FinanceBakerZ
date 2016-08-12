@@ -17,8 +17,19 @@ Accounts.deny({
 Accounts.schema = new SimpleSchema({
     name: {
         type: String,
-        label: 'Name',
+        label: 'Name of account',
         max: 50
+    },
+    purpose: {
+        type: String,
+        label: 'Purpose of account',
+        max: 50,
+        optional: true
+    },
+    icon: {
+        type: String,
+        label: 'icon of account',
+        optional: true
     }
 });
 

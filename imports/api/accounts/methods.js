@@ -10,14 +10,22 @@ import { Accounts } from './accounts.js';
 
 export const insert = new ValidatedMethod({
     name: 'accounts.insert',
-    validate: new SimpleSchema({}).validator(),
-    run({ }) {
-
-
-        const account = {
-        };
-
-        Accounts.insert(account);
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.name': {
+            type: String
+        },
+        'account.purpose': {
+            type: String
+        },
+        'account.icon': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        return Accounts.insert(account);
     }
 });
 

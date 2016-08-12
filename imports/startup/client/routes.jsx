@@ -3,14 +3,17 @@ import { render } from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import App from '../../ui/components/App.jsx';
-import Accounts from '../../ui/components/Accounts.jsx';
+import AccountsPage from '../../ui/components/Accounts.jsx';
+import AccountsSideBar from '../../ui/components/AccountsSideBar.jsx';
 
 Meteor.startup( () => {
     render(
         <Router history={ browserHistory }>
             <Route path="/" component={App}>
-                <IndexRoute component={Accounts}/>
-                <Route path="accounts" component={Accounts} />
+                <IndexRoute components={{ content: AccountsPage, sidebar: AccountsSideBar }} />
+                <Route path="accounts" components={{ content: AccountsPage, sidebar: AccountsSideBar }}>
+                    <Route path="new" />
+                </Route>
             </Route>
         </Router>,
         document.getElementById( 'render-root' )

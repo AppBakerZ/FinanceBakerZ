@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Input } from 'react-toolbox';
+import { Layout, NavDrawer, Panel, Card, CardTitle, Input, Button } from 'react-toolbox';
 
 // App component - represents the whole app
 export default class App extends Component {
@@ -26,7 +26,8 @@ export default class App extends Component {
         this.setState({
             sidebarPinned: !this.state.sidebarPinned
         });
-    };
+    }
+
     render() {
         return (
             <Layout>
@@ -52,7 +53,7 @@ export default class App extends Component {
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                     </AppBar>
                     <div style={{ flex: 1, padding: '1.8rem' }}>
-                        {React.cloneElement(this.props.children, {toggleSidebar: this.toggleSidebar.bind(this)})}
+                        {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>
@@ -60,9 +61,7 @@ export default class App extends Component {
                         <IconButton icon='close' onClick={ this.toggleSidebar.bind(this) }/>
                     </div>
                     <div style={{ flex: 1, padding: '1.8rem' }}>
-                        <form>
-                            <Input type='text' label='Name' name='name' maxLength={16 } />
-                        </form>
+                        {React.cloneElement(this.props.sidebar, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
                 </Sidebar>
             </Layout>

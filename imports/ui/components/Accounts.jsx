@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 
 import { List, ListItem, ListDivider, Button } from 'react-toolbox';
 
-export default class Accounts extends Component {
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from '../../api/accounts/accounts.js';
+
+class AccountsPage extends Component {
 
     constructor(props) {
         super(props);
@@ -13,37 +17,40 @@ export default class Accounts extends Component {
     }
 
     toggleSidebar(){
-        console.log('this :', this.props);
         this.props.toggleSidebar();
+    }
+
+    renderAccount(){
+        return this.props.accounts.map((account) => {
+            return <ListItem
+                key={account._id}
+                onClick={ this.toggleSidebar.bind(this) }
+                avatar='https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg'
+                caption={account.name}
+                legend={account.purpose}
+                rightIcon='mode_edit'
+                />
+        })
     }
 
     render() {
         return (
             <List selectable ripple>
                 <Button icon='add' floating accent className='add-button' />
-
-                <ListItem
-                    onClick={ this.toggleSidebar.bind(this) }
-                    avatar='https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg'
-                    caption='Meezan Bank'
-                    legend="Jonathan 'Jon' Osterman"
-                    rightIcon='mode_edit'
-                    />
-                <ListDivider inset />
-                <ListItem
-                    avatar='https://dl.dropboxusercontent.com/u/2247264/assets/o.jpg'
-                    caption='Dubai Islami Bank'
-                    legend='Adrian Veidt'
-                    rightIcon='mode_edit'
-                    />
-                <ListDivider inset />
-                <ListItem
-                    avatar='https://dl.dropboxusercontent.com/u/2247264/assets/r.jpg'
-                    caption='UBL'
-                    legend='Walter Joseph Kovacs'
-                    rightIcon='mode_edit'
-                    />
+                {this.renderAccount()}
             </List>
         );
     }
 }
+
+AccountsPage.propTypes = {
+    accounts: PropTypes.array.isRequired
+};
+
+export default createContainer(() => {
+    Meteor.subscribe('accounts');
+
+    return {
+        accounts: Accounts.find({}).fetch()
+    };
+}, AccountsPage);
