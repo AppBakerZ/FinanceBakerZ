@@ -13,6 +13,7 @@ Meteor.startup( () => {
                 <IndexRoute components={{ content: AccountsPage, sidebar: AccountsSideBar }} />
                 <Route path="accounts" components={{ content: AccountsPage, sidebar: AccountsSideBar }}>
                     <Route path="new" />
+                    <Route path=":id" />
                 </Route>
             </Route>
         </Router>,

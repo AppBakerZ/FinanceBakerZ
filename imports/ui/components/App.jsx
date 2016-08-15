@@ -22,9 +22,9 @@ export default class App extends Component {
         });
     }
 
-    toggleSidebar () {
+    toggleSidebar (stopToggle) {
         this.setState({
-            sidebarPinned: !this.state.sidebarPinned
+            sidebarPinned: stopToggle ? true : !this.state.sidebarPinned
         });
     }
 
@@ -52,16 +52,16 @@ export default class App extends Component {
                     <AppBar>
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                     </AppBar>
-                    <div style={{ flex: 1, padding: '1.8rem' }}>
+                    <div style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>
                     <div>
-                        <IconButton icon='close' onClick={ this.toggleSidebar.bind(this) }/>
+                        <IconButton icon='close' onClick={ this.toggleSidebar.bind(this, false) }/>
                     </div>
                     <div style={{ flex: 1, padding: '1.8rem' }}>
-                        {React.cloneElement(this.props.sidebar, {toggleSidebar: this.toggleSidebar.bind(this)})}
+                        {this.props.sidebar}
                     </div>
                 </Sidebar>
             </Layout>

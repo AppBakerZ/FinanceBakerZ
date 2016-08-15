@@ -29,9 +29,53 @@ export const insert = new ValidatedMethod({
     }
 });
 
+export const update = new ValidatedMethod({
+    name: 'accounts.update',
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account._id': {
+            type: String
+        },
+        'account.name': {
+            type: String
+        },
+        'account.purpose': {
+            type: String
+        },
+        'account.icon': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        const {_id} = account;
+        delete account._id;
+        return Accounts.update(_id, {$set: account});
+    }
+});
+
+export const remove = new ValidatedMethod({
+    name: 'accounts.remove',
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account._id': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        const {_id} = account;
+        return Accounts.remove(_id);
+    }
+});
+
 // Get list of all method names on Companies
 const ACCOUNTS_METHODS = _.pluck([
-    insert
+    insert,
+    update,
+    remove
 ], 'name');
 
 if (Meteor.isServer) {
