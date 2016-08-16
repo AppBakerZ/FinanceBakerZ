@@ -24,3 +24,6 @@ dburles:collection-helpers
 mdg:validated-method
 ddp-rate-limiter
 nathantreid:css-modules@2.0.2
+accounts-password
+accounts-ui
+tunifight:loggedin-mixin

@@ -1,43 +1,43 @@
-// definition of the Accounts collection
+// definition of the Income collection
 
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-class AccountsCollection extends Mongo.Collection {}
+class IncomeCollection extends Mongo.Collection {}
 
-export const Accounts = new AccountsCollection('accounts');
+export const Incomes = new IncomeCollection('incomes');
 
 // Deny all client-side updates since we will be using methods to manage this collection
-Accounts.deny({
+Incomes.deny({
     insert() { return true; },
     update() { return true; },
     remove() { return true; }
 });
 
-Accounts.schema = new SimpleSchema({
+Incomes.schema = new SimpleSchema({
     owner: {
         type: String,
-        label: 'Owner of account'
+        label: 'Owner of income'
     },
     name: {
         type: String,
-        label: 'Name of account',
+        label: 'Name of income',
         max: 50
     },
     purpose: {
         type: String,
-        label: 'Purpose of account',
+        label: 'Purpose of income',
         max: 50,
         optional: true
     },
     icon: {
         type: String,
-        label: 'Icon of account',
+        label: 'Icon of income',
         optional: true
     },
     createdAt: {
         type: Date,
-        label: "Created At account",
+        label: "Created At income",
         denyUpdate: true,
         autoValue: function() {
             if (this.isInsert) {
@@ -51,7 +51,7 @@ Accounts.schema = new SimpleSchema({
     },
     updatedAt: {
         type: Date,
-        label: "Updated At account",
+        label: "Updated At income",
         autoValue: function() {
             if (this.isUpdate) {
                 return new Date();
@@ -62,16 +62,16 @@ Accounts.schema = new SimpleSchema({
     }
 });
 
-Accounts.attachSchema(Accounts.schema);
+Incomes.attachSchema(Incomes.schema);
 
 // This represents the keys from Lists objects that should be published
 // to the client. If we add secret properties to List objects, don't list
 // them here to keep them private to the server.
-Accounts.publicFields = {
+Incomes.publicFields = {
     name: 1
 };
 
 
-Accounts.helpers({
+Incomes.helpers({
 
 });

@@ -5,7 +5,7 @@ import { List, ListItem, ListDivider, Button } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from '../../api/accounts/accounts.js';
+import { Accounts } from '../../../api/accounts/accounts.js';
 
 class AccountsPage extends Component {
 
@@ -26,7 +26,7 @@ class AccountsPage extends Component {
             return <Link
                 key={account._id}
                 activeClassName='active'
-                to={`/accounts/${account._id}`}>
+                to={`/app/accounts/${account._id}`}>
                 <ListItem
                     selectable
                     onClick={ this.toggleSidebar.bind(this) }
@@ -43,8 +43,8 @@ class AccountsPage extends Component {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <Link
-                    to={`/accounts/new`}>
-                    <Button icon='add' floating accent className='add-button' />
+                    to={`/app/accounts/new`}>
+                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                 </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>

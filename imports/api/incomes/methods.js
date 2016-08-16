@@ -7,89 +7,88 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
-import { Accounts } from './accounts.js';
+import { Incomes } from './incomes.js';
 
 export const insert = new ValidatedMethod({
-    name: 'accounts.insert',
+    name: 'incomes.insert',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to create account'
+        message: 'You need to be logged in to create income'
     },
     validate: new SimpleSchema({
-        'account': {
+        'income': {
             type: Object
         },
-        'account.name': {
+        'income.name': {
             type: String
         },
-        'account.purpose': {
+        'income.purpose': {
             type: String
         },
-        'account.icon': {
+        'income.icon': {
             type: String
         }
     }).validator(),
-    run({ account }) {
-        account.owner = this.userId;
-        return Accounts.insert(account);
+    run({ income }) {
+        income.owner = this.userId;
+        return Incomes.insert(income);
     }
 });
 
 export const update = new ValidatedMethod({
-    name: 'accounts.update',
+    name: 'incomes.update',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to update account'
+        message: 'You need to be logged in to update income'
     },
     validate: new SimpleSchema({
-        'account': {
+        'income': {
             type: Object
         },
-        'account._id': {
+        'income._id': {
             type: String
         },
-        'account.name': {
+        'income.name': {
             type: String
         },
-        'account.purpose': {
+        'income.purpose': {
             type: String
         },
-        'account.icon': {
+        'income.icon': {
             type: String
         }
     }).validator(),
-    run({ account }) {
-        const {_id} = account;
-        delete account._id;
-        return Accounts.update(_id, {$set: account});
+    run({ income }) {
+        const {_id} = income;
+        delete income._id;
+        return Incomes.update(_id, {$set: income});
     }
 });
 
 export const remove = new ValidatedMethod({
-    name: 'accounts.remove',
+    name: 'incomes.remove',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to remove account'
+        message: 'You need to be logged in to remove income'
     },
     validate: new SimpleSchema({
-        'account': {
+        'income': {
             type: Object
         },
-        'account._id': {
+        'income._id': {
             type: String
         }
     }).validator(),
-    run({ account }) {
-        const {_id} = account;
-        return Accounts.remove(_id);
+    run({ income }) {
+        const {_id} = income;
+        return Incomes.remove(_id);
     }
 });
 
-// Get list of all method names on Companies
-const ACCOUNTS_METHODS = _.pluck([
+const INCOMES_METHODS = _.pluck([
     insert,
     update,
     remove
@@ -98,7 +97,7 @@ const ACCOUNTS_METHODS = _.pluck([
 if (Meteor.isServer) {
     DDPRateLimiter.addRule({
         name(name) {
-            return _.contains(ACCOUNTS_METHODS, name);
+            return _.contains(INCOMES_METHODS, name);
         },
 
         // Rate limit per connection ID

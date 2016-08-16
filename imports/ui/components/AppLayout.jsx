@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Link } from 'react-router'
 
 import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Input, Button } from 'react-toolbox';
+import { Layout, NavDrawer, Panel, Card, CardTitle, Button } from 'react-toolbox';
+
+import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 // App component - represents the whole app
-export default class App extends Component {
+export default class AppLayout extends Component {
 
     constructor(props) {
         super(props);
@@ -41,8 +44,18 @@ export default class App extends Component {
                                 />
                         </Card>
                         <List selectable ripple>
-                            <ListItem caption='Accounts' leftIcon='account_balance' />
-                            <ListItem caption='Transactions' leftIcon='loop' />
+                            <Link
+                                to={`/app/transactions/new`}>
+                                <ListItem caption='Transactions' leftIcon='loop' />
+                            </Link>
+                            <Link
+                                to={`/app/incomes/new`}>
+                                <ListItem caption='Income' leftIcon='monetization_on' />
+                            </Link>
+                            <Link
+                                to={`/app/accounts/new`}>
+                                <ListItem caption='Accounts' leftIcon='account_balance' />
+                            </Link>
                             <ListItem caption='Settings' leftIcon='settings' />
                             <ListItem caption='Categories' leftIcon='border_all' />
                         </List>
@@ -51,6 +64,7 @@ export default class App extends Component {
                 <Panel>
                     <AppBar>
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
+                        <AccountsUIWrapper />
                     </AppBar>
                     <div style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from '../../api/accounts/accounts.js';
+import { Accounts } from '../../../api/accounts/accounts.js';
 
 export default class AccountsSideBar extends Component {
 
@@ -16,13 +16,14 @@ export default class AccountsSideBar extends Component {
             name: '',
             purpose: '',
             icon: '',
-            active: false
+            active: false,
+            loading: false
         };
     }
 
     setCurrentRoute(){
         this.setState({
-            isNewRoute: this.props.history.isActive('accounts/new')
+            isNewRoute: this.props.history.isActive('app/accounts/new')
         })
     }
 
@@ -38,6 +39,7 @@ export default class AccountsSideBar extends Component {
     onSubmit(event){
         event.preventDefault();
         this.state.isNewRoute ? this.createAccount() : this.updateAccount();
+        this.setState({loading: true})
     }
 
     createAccount(){
@@ -65,6 +67,7 @@ export default class AccountsSideBar extends Component {
                     barType: 'cancel'
                 });
             }
+            this.setState({loading: false})
         });
     }
 
@@ -93,6 +96,7 @@ export default class AccountsSideBar extends Component {
                     barType: 'accept'
                 });
             }
+            this.setState({loading: false})
         });
     }
 
@@ -111,7 +115,7 @@ export default class AccountsSideBar extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/accounts/new');
+                this.props.history.replace('/app/accounts/new');
                 this.setState({
                     active: true,
                     barMessage: 'Account deleted successfully',
@@ -135,7 +139,7 @@ export default class AccountsSideBar extends Component {
     }
 
     progressBarToggle (){
-        return this.props.loading ? 'progress-bar' : 'progress-bar hide';
+        return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
     componentWillReceiveProps (p){
