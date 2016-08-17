@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { List, ListItem, ListDivider, Button } from 'react-toolbox';
+import { List, ListItem, ListDivider, Button, IconButton } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -30,10 +30,10 @@ class IncomesPage extends Component {
                 <ListItem
                     selectable
                     onClick={ this.toggleSidebar.bind(this) }
-                    avatar='https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg'
-                    caption={income.name}
-                    legend={income.purpose}
+                    leftIcon='input'
                     rightIcon='mode_edit'
+                    caption={`PKR : ${income.amount}`}
+                    legend={`Project: ${income.project}`}
                     />
             </Link>
         })

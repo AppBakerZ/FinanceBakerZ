@@ -19,25 +19,26 @@ Incomes.schema = new SimpleSchema({
         type: String,
         label: 'Owner of income'
     },
-    name: {
+    account: {
         type: String,
-        label: 'Name of income',
-        max: 50
+        label: 'Account of income'
     },
-    purpose: {
-        type: String,
-        label: 'Purpose of income',
-        max: 50,
-        optional: true
+    amount: {
+        type: Number,
+        label: 'Amount of income'
     },
-    icon: {
+    type: {
         type: String,
-        label: 'Icon of income',
+        label: 'Type of income'
+    },
+    project: {
+        type: String,
+        label: 'Project of income',
         optional: true
     },
     createdAt: {
         type: Date,
-        label: "Created At income",
+        label: 'Created At income',
         denyUpdate: true,
         autoValue: function() {
             if (this.isInsert) {
@@ -51,7 +52,7 @@ Incomes.schema = new SimpleSchema({
     },
     updatedAt: {
         type: Date,
-        label: "Updated At income",
+        label: 'Updated At income',
         autoValue: function() {
             if (this.isUpdate) {
                 return new Date();
@@ -68,7 +69,7 @@ Incomes.attachSchema(Incomes.schema);
 // to the client. If we add secret properties to List objects, don't list
 // them here to keep them private to the server.
 Incomes.publicFields = {
-    name: 1
+    owner: 1
 };
 
 

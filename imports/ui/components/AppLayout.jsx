@@ -45,8 +45,12 @@ export default class AppLayout extends Component {
                         </Card>
                         <List selectable ripple>
                             <Link
-                                to={`/app/transactions/new`}>
-                                <ListItem caption='Transactions' leftIcon='loop' />
+                                to={`/app/dashboard`}>
+                                <ListItem caption='Dashboard' leftIcon='dashboard' />
+                            </Link>
+                            <Link
+                                to={`/app/expenses/new`}>
+                                <ListItem caption='Expenses' leftIcon='content_cut' />
                             </Link>
                             <Link
                                 to={`/app/incomes/new`}>
@@ -56,8 +60,8 @@ export default class AppLayout extends Component {
                                 to={`/app/accounts/new`}>
                                 <ListItem caption='Accounts' leftIcon='account_balance' />
                             </Link>
-                            <ListItem caption='Settings' leftIcon='settings' />
                             <ListItem caption='Categories' leftIcon='border_all' />
+                            <ListItem caption='Settings' leftIcon='settings' />
                         </List>
                     </div>
                 </NavDrawer>

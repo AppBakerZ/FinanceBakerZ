@@ -16,9 +16,8 @@ export default class IncomesSideBar extends Component {
         this.state = {
             account: '',
             amount: '',
-            type: '',
+            type: 'project',
             project: '',
-            client: '',
             active: false,
             loading: false
         };
@@ -32,9 +31,10 @@ export default class IncomesSideBar extends Component {
 
     resetIncome(){
         this.setState({
-            name: '',
-            purpose: '',
-            icon: ''
+            account: '',
+            amount: '',
+            type: 'project',
+            project: ''
         })
     }
 
@@ -46,12 +46,13 @@ export default class IncomesSideBar extends Component {
     }
 
     createIncome(){
-        const {name, purpose, icon} = this.state;
+        const {account, amount, type, project} = this.state;
         Meteor.call('incomes.insert', {
             income: {
-                name,
-                purpose,
-                icon
+                account,
+                amount: Number(amount),
+                type,
+                project
             }
         }, (err, response) => {
             if(response){
@@ -75,13 +76,14 @@ export default class IncomesSideBar extends Component {
     }
 
     updateIncome(){
-        const {_id, name, purpose, icon} = this.state;
+        const {_id, account, amount, type, project} = this.state;
         Meteor.call('incomes.update', {
             income: {
                 _id,
-                name,
-                purpose,
-                icon
+                account,
+                amount: Number(amount),
+                type,
+                project
             }
         }, (err, response) => {
             if(err){
@@ -204,12 +206,31 @@ export default class IncomesSideBar extends Component {
         );
     }
 
+    typeItem (type) {
+        return (
+            <strong>{type.title}</strong>
+        );
+    }
+
     accounts(){
         return this.props.accounts.map((account) => {
             account.value = account._id;
             account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
             return account;
         })
+    }
+
+    types(){
+        return [
+            {
+                title: 'Salary',
+                value: 'salary'
+            },
+            {
+                title: 'Project',
+                value: 'project'
+            }
+        ]
     }
 
     render() {
@@ -237,22 +258,22 @@ export default class IncomesSideBar extends Component {
                     label='Select your account'
                     value={this.state.account}
                     template={this.accountItem}
+                    required
                     />
 
-                <Input type='text' label='Account'
-                       name='account'
-                       value={this.state.account}
-                       onChange={this.onChange.bind(this)}
-                    />
                 <Input type='number' label='Amount'
                        name='amount'
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
+                       required
                     />
-                <Input type='text' label='Type'
-                       name='type'
-                       value={this.state.type}
-                       onChange={this.onChange.bind(this)}
+                <Dropdown
+                    source={this.types()}
+                    name='type'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.type}
+                    template={this.typeItem}
+                    required
                     />
                 <Input type='text' label='Project'
                        name='project'
@@ -260,11 +281,6 @@ export default class IncomesSideBar extends Component {
                        value={this.state.project}
                        onChange={this.onChange.bind(this)}
                        required
-                    />
-                <Input type='text' label='Client'
-                       name='client'
-                       value={this.state.client}
-                       onChange={this.onChange.bind(this)}
                     />
                 {this.renderButton()}
             </form>

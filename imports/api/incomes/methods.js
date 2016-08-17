@@ -20,13 +20,16 @@ export const insert = new ValidatedMethod({
         'income': {
             type: Object
         },
-        'income.name': {
+        'income.account': {
             type: String
         },
-        'income.purpose': {
+        'income.amount': {
+            type: Number
+        },
+        'income.type': {
             type: String
         },
-        'income.icon': {
+        'income.project': {
             type: String
         }
     }).validator(),
@@ -50,13 +53,16 @@ export const update = new ValidatedMethod({
         'income._id': {
             type: String
         },
-        'income.name': {
+        'income.account': {
             type: String
         },
-        'income.purpose': {
+        'income.amount': {
+            type: Number
+        },
+        'income.type': {
             type: String
         },
-        'income.icon': {
+        'income.project': {
             type: String
         }
     }).validator(),
