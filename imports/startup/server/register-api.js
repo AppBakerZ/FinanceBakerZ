@@ -6,3 +6,6 @@ import '../../api/accounts/server/publications.js';
 
 import '../../api/incomes/methods.js';
 import '../../api/incomes/server/publications.js';
+
+import '../../api/expences/methods.js';
+import '../../api/expences/server/publications.js';

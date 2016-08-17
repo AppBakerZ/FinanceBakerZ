@@ -11,6 +11,9 @@ import AccountsSideBar from '../../ui/components/accounts/AccountsSideBar.jsx';
 import IncomesPage from '../../ui/components/incomes/Incomes.jsx';
 import IncomesSideBar from '../../ui/components/incomes/IncomesSideBar.jsx';
 
+import ExpensesPage from '../../ui/components/expenses/Expenses.jsx';
+import ExpensesSideBar from '../../ui/components/expenses/ExpensesSideBar.jsx';
+
 Meteor.startup( () => {
     render(
         <Router history={ browserHistory }>
@@ -21,6 +24,10 @@ Meteor.startup( () => {
                     <Route path=":id" />
                 </Route>
                 <Route path="incomes" components={{ content: IncomesPage, sidebar: IncomesSideBar }}>
+                    <Route path="new" />
+                    <Route path=":id" />
+                </Route>
+                <Route path="expenses" components={{ content: ExpensesPage, sidebar: ExpensesSideBar }}>
                     <Route path="new" />
                     <Route path=":id" />
                 </Route>

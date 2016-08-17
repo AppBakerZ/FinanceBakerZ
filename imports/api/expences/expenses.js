@@ -27,11 +27,11 @@ Expenses.schema = new SimpleSchema({
         type: Number,
         label: 'Amount of expense'
     },
-    type: {
+    purpose: {
         type: String,
         label: 'Type of expense'
     },
-    project: {
+    description: {
         type: String,
         label: 'Project of expense',
         optional: true

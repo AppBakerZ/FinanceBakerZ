@@ -5,9 +5,9 @@ import { List, ListItem, ListDivider, Button, IconButton } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '../../../api/incomes/incomes.js';
+import { Expenses } from '../../../api/expences/expenses.js';
 
-class IncomesPage extends Component {
+class ExpensesPage extends Component {
 
     constructor(props) {
         super(props);
@@ -21,19 +21,19 @@ class IncomesPage extends Component {
         this.props.toggleSidebar(true);
     }
 
-    renderIncome(){
-        return this.props.incomes.map((income) => {
+    renderExpense(){
+        return this.props.expenses.map((expense) => {
             return <Link
-                key={income._id}
+                key={expense._id}
                 activeClassName='active'
-                to={`/app/incomes/${income._id}`}>
+                to={`/app/expenses/${expense._id}`}>
                 <ListItem
                     selectable
                     onClick={ this.toggleSidebar.bind(this) }
-                    leftIcon='monetization_on'
+                    leftIcon='content_cut'
                     rightIcon='mode_edit'
-                    caption={`PKR : ${income.amount}`}
-                    legend={`Project: ${income.project}`}
+                    caption={`PKR : ${expense.amount}`}
+                    legend={`PURPOSE : ${expense.purpose} DESCRIPTION: ${expense.description}`}
                     />
             </Link>
         })
@@ -43,12 +43,12 @@ class IncomesPage extends Component {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <Link
-                    to={`/app/incomes/new`}>
+                    to={`/app/expenses/new`}>
                     <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                 </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
-                        {this.renderIncome()}
+                        {this.renderExpense()}
                     </List>
                 </div>
             </div>
@@ -56,14 +56,14 @@ class IncomesPage extends Component {
     }
 }
 
-IncomesPage.propTypes = {
-    incomes: PropTypes.array.isRequired
+ExpensesPage.propTypes = {
+    expenses: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('incomes');
+    Meteor.subscribe('expenses');
 
     return {
-        incomes: Incomes.find({}).fetch()
+        expenses: Expenses.find({}).fetch()
     };
-}, IncomesPage);
+}, ExpensesPage);

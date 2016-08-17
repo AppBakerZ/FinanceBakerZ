@@ -26,10 +26,10 @@ export const insert = new ValidatedMethod({
         'expense.amount': {
             type: Number
         },
-        'expense.type': {
+        'expense.purpose': {
             type: String
         },
-        'expense.project': {
+        'expense.description': {
             type: String
         }
     }).validator(),
@@ -59,10 +59,10 @@ export const update = new ValidatedMethod({
         'expense.amount': {
             type: Number
         },
-        'expense.type': {
+        'expense.purpose': {
             type: String
         },
-        'expense.project': {
+        'expense.description': {
             type: String
         }
     }).validator(),
