@@ -5,6 +5,8 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import AuthLayout from '../../ui/components/AuthLayout.jsx';
 import AppLayout from '../../ui/components/AppLayout.jsx';
 
+import DashboardPage from '../../ui/components/dashboard/Dashboard.jsx';
+
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 import AccountsSideBar from '../../ui/components/accounts/AccountsSideBar.jsx';
 
@@ -18,7 +20,8 @@ Meteor.startup( () => {
     render(
         <Router history={ browserHistory }>
             <Route path="app" component={AppLayout}>
-                <IndexRoute components={{ content: AccountsPage, sidebar: AccountsSideBar }} />
+                <IndexRoute components={{ content: DashboardPage}} />
+                <Route path="dashboard" components={{ content: DashboardPage}} />
                 <Route path="accounts" components={{ content: AccountsPage, sidebar: AccountsSideBar }}>
                     <Route path="new" />
                     <Route path=":id" />
