@@ -30,9 +30,9 @@ class AccountsPage extends Component {
                 <ListItem
                     selectable
                     onClick={ this.toggleSidebar.bind(this) }
-                    avatar='https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg'
                     caption={account.name}
                     legend={account.purpose}
+                    leftIcon='account_balance'
                     rightIcon='mode_edit'
                     />
             </Link>
