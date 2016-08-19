@@ -24,3 +24,13 @@
 .float-right{
     float: right;
 }
+
+.dashboard-card{
+    margin: 25px 0 0 25px;
+}
+
+.dashboard-card-icon {
+    margin-right: 1.3rem;
+    font-size: 2.6rem;
+    color: #757575;
+}
