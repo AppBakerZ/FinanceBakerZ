@@ -3,9 +3,9 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router'
 
 import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Button } from 'react-toolbox';
+import { Layout, NavDrawer, Panel, Card, CardTitle, Button, FontIcon } from 'react-toolbox';
 
-import AccountsUIWrapper from './AccountsUIWrapper.jsx';
+import { Meteor } from 'meteor/meteor'
 
 // App component - represents the whole app
 export default class AppLayout extends Component {
@@ -31,6 +31,18 @@ export default class AppLayout extends Component {
         });
     }
 
+    logout(){
+        Meteor.logout(() => {
+            this.props.history.push('/login')
+        })
+    }
+
+    name(){
+        let user = Meteor.user();
+        name = user.profile && user.profile.fullName ? user.profile.fullName : user.username || user.emails[0].address;
+        return name;
+    }
+
     render() {
         return (
             <Layout>
@@ -38,9 +50,9 @@ export default class AppLayout extends Component {
                     <div>
                         <Card style={{width: '350px'}}>
                             <CardTitle
-                                avatar="https://placeimg.com/80/80/animals"
-                                title="Kamran Masood"
-                                subtitle="Crocodile of Manghopir"
+                                avatar={<FontIcon className='dashboard-card-icon' value='account_balance_wallet'/>}
+                                title={this.name()}
+                                subtitle="Accounts Manager"
                                 />
                         </Card>
                         <List selectable ripple>
@@ -62,13 +74,13 @@ export default class AppLayout extends Component {
                             </Link>
                             <ListItem caption='Categories' leftIcon='border_all' />
                             <ListItem caption='Settings' leftIcon='settings' />
+                            <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
                         </List>
                     </div>
                 </NavDrawer>
                 <Panel>
                     <AppBar>
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
-                        <AccountsUIWrapper />
                     </AppBar>
                     <div style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}

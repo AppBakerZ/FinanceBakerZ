@@ -45,7 +45,7 @@ export default class Register extends Component {
             if(err){
                 console.log(err);
             }else{
-                this.props.history.push('app/dashboard');
+                this.props.history.push('/app/dashboard');
             }
         });
         //this.setState({loading: true})
@@ -64,7 +64,6 @@ export default class Register extends Component {
                 <Input type='text' label='Username or Email'
                        name='usernameOrEmail'
                        maxLength={ 30 }
-                       autocomplete='off'
                        value={this.state.usernameOrEmail}
                        onChange={this.onChange.bind(this)}
                        required
@@ -72,7 +71,6 @@ export default class Register extends Component {
                 <Input type='password' label='Password'
                        name='password'
                        maxLength={ 20 }
-                       autocomplete='off'
                        value={this.state.password}
                        onChange={this.onChange.bind(this)}
                        required

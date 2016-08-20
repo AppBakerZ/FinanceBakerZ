@@ -2,12 +2,15 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+import { Meteor } from 'meteor/meteor'
+
 import AuthLayout from '../../ui/components/AuthLayout.jsx';
 import AppLayout from '../../ui/components/AppLayout.jsx';
 
 import DashboardPage from '../../ui/components/dashboard/Dashboard.jsx';
 
 import Register from '../../ui/components/auth/Register.jsx';
+import Login from '../../ui/components/auth/Login.jsx';
 
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 import AccountsSideBar from '../../ui/components/accounts/AccountsSideBar.jsx';
@@ -18,10 +21,20 @@ import IncomesSideBar from '../../ui/components/incomes/IncomesSideBar.jsx';
 import ExpensesPage from '../../ui/components/expenses/Expenses.jsx';
 import ExpensesSideBar from '../../ui/components/expenses/ExpensesSideBar.jsx';
 
+
+let requireAuth = (nextState, replace) => {
+    if (!Meteor.user()) {
+        replace({
+            pathname: '/login',
+            state: { nextPathname: nextState.location.pathname }
+        })
+    }
+};
+
 Meteor.startup( () => {
     render(
         <Router history={ browserHistory }>
-            <Route path="app" component={AppLayout}>
+            <Route path="app" component={AppLayout} onEnter={requireAuth}>
                 <IndexRoute components={{ content: DashboardPage}} />
                 <Route path="dashboard" components={{ content: DashboardPage}} />
                 <Route path="accounts" components={{ content: AccountsPage, sidebar: AccountsSideBar }}>
@@ -38,8 +51,9 @@ Meteor.startup( () => {
                 </Route>
             </Route>
             <Route path="/" component={AuthLayout}>
-                <IndexRoute component={ Register} />
+                <IndexRoute component={ Login} />
                 <Route path="register" component={ Register} />
+                <Route path="login" component={ Login} />
             </Route>
             </Router>,
         document.getElementById( 'render-root' )
