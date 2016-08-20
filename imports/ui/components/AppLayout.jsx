@@ -52,7 +52,6 @@ export default class AppLayout extends Component {
                             <CardTitle
                                 avatar={<FontIcon className='dashboard-card-icon' value='account_balance_wallet'/>}
                                 title={this.name()}
-                                subtitle="Accounts Manager"
                                 />
                         </Card>
                         <List selectable ripple>

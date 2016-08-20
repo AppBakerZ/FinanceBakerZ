@@ -36,18 +36,33 @@ export default class Register extends Component {
 
         const key = Object.keys(selector)[0];
 
+        this.props.progressBarUpdate(true);
+
         Accounts.createUser({
             [key]: selector[key],
             password,
             profile: {fullName}
         }, (err) => {
             if(err){
-                console.log(err);
+                this.props.showSnackbar({
+                    activeSnackbar: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
             }else{
-                this.props.history.push('/app/dashboard');
+                this.props.showSnackbar({
+                    activeSnackbar: true,
+                    barMessage: 'Successfully Registered',
+                    barIcon: 'done',
+                    barType: 'accept'
+                });
+                setTimeout(() => {
+                    this.props.history.push('/app/dashboard');
+                }, 1000);
             }
+            this.props.progressBarUpdate(false);
         });
-        //this.setState({loading: true})
     }
 
     render() {
@@ -74,7 +89,7 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Button icon='person_add' label='Register' raised primary />
+                <Button disabled={this.props.loading} icon='person_add' label='Register' raised primary />
             </form>
         );
     }

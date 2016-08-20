@@ -12,6 +12,13 @@
     left: 0;
 }
 
+.auth {
+    top: 81px;
+    right: 20px;
+    z-index: 100;
+    left: auto;
+}
+
 .hide {
     display: none;
 }
