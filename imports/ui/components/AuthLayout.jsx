@@ -8,6 +8,8 @@ export default class AuthLayout extends Component {
 
     constructor(props) {
         super(props);
+
+        console.log(this.props);
     }
 
     render() {
@@ -19,18 +21,7 @@ export default class AuthLayout extends Component {
                     </AppBar>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
                         <Card style={{width: '350px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
-                            <form>
-                                <Input type='text' label='Username or Email'
-                                       name='username-or-email'
-                                       maxLength={ 30 }
-                                       required
-                                    />
-                                <Input type='password' label='Password'
-                                       name='password'
-                                       maxLength={ 20 }
-                                    />
-                                <Button icon='person_add' label='Register' raised primary />
-                            </form>
+                            {this.props.children}
                         </Card>
                     </div>
                 </Panel>

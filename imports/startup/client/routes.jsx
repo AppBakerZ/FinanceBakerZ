@@ -7,6 +7,8 @@ import AppLayout from '../../ui/components/AppLayout.jsx';
 
 import DashboardPage from '../../ui/components/dashboard/Dashboard.jsx';
 
+import Register from '../../ui/components/auth/Register.jsx';
+
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 import AccountsSideBar from '../../ui/components/accounts/AccountsSideBar.jsx';
 
@@ -36,7 +38,8 @@ Meteor.startup( () => {
                 </Route>
             </Route>
             <Route path="/" component={AuthLayout}>
-
+                <IndexRoute component={ Register} />
+                <Route path="register" component={ Register} />
             </Route>
             </Router>,
         document.getElementById( 'render-root' )
