@@ -34,3 +34,7 @@
     font-size: 2.6rem;
     color: #757575;
 }
+
+.list li{
+    border-bottom: #eeeeee solid 1px;
+}

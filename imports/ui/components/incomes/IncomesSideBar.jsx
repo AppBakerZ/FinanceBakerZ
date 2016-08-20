@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar, Dropdown } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
@@ -13,9 +13,13 @@ export default class IncomesSideBar extends Component {
     constructor(props) {
         super(props);
 
+        let datetime = new Date();
+
         this.state = {
             account: '',
             amount: '',
+            receivedAt: datetime,
+            receivedTime: datetime,
             type: 'project',
             project: '',
             active: false,
@@ -30,9 +34,12 @@ export default class IncomesSideBar extends Component {
     }
 
     resetIncome(){
+        let datetime = new Date();
         this.setState({
             account: '',
             amount: '',
+            receivedAt: datetime,
+            receivedTime: datetime,
             type: 'project',
             project: ''
         })
@@ -46,7 +53,7 @@ export default class IncomesSideBar extends Component {
     }
 
     createIncome(){
-        const {account, amount, type, project} = this.state;
+        const {account, amount, receivedAt, receivedTime, type, project} = this.state;
         Meteor.call('incomes.insert', {
             income: {
                 account,
@@ -76,7 +83,7 @@ export default class IncomesSideBar extends Component {
     }
 
     updateIncome(){
-        const {_id, account, amount, type, project} = this.state;
+        const {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
         Meteor.call('incomes.update', {
             income: {
                 _id,
@@ -266,6 +273,19 @@ export default class IncomesSideBar extends Component {
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
                        required
+                    />
+                <DatePicker
+                    label='Receiving Date'
+                    name='receivedAt'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.receivedAt}
+                    />
+                <TimePicker
+                    label='Receiving time'
+                    name='receivedTime'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.receivedTime}
+                    format='ampm'
                     />
                 <Dropdown
                     source={this.types()}

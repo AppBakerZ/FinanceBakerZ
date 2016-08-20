@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { List, ListItem, ListDivider, Button, IconButton } from 'react-toolbox';
+import { List, ListItem, Button, IconButton } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -47,7 +47,7 @@ class IncomesPage extends Component {
                     <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                 </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
-                    <List ripple>
+                    <List ripple className='list'>
                         {this.renderIncome()}
                     </List>
                 </div>
