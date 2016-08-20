@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Input, Button } from 'react-toolbox';
+import { IconButton, Input, Button } from 'react-toolbox';
+
+import { Link } from 'react-router'
 
 import { Accounts } from 'meteor/accounts-base'
 
@@ -63,6 +64,11 @@ export default class Register extends Component {
                        required
                     />
                 <Button icon='lock_open' label='Login' raised primary />
+                <Link
+                    className='float-right'
+                    to={`/register`}>
+                    <Button icon='person_add' label='Register' />
+                </Link>
             </form>
         );
     }

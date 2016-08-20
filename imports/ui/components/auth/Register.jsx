@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Input, Button } from 'react-toolbox';
+import { IconButton, Input, Button } from 'react-toolbox';
 
 import { Accounts } from 'meteor/accounts-base'
 
