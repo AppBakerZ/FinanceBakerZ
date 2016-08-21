@@ -56,8 +56,8 @@ export default class Register extends Component {
                 setTimeout(() => {
                     this.props.history.push('/app/dashboard');
                 }, 1000);
+                this.props.progressBarUpdate(false);
             }
-            this.props.progressBarUpdate(false);
         });
     }
 
@@ -78,11 +78,11 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Button icon='lock_open' label='Login' raised primary />
+                <Button disabled={this.props.loading} icon='lock_open' label='Login' raised primary />
                 <Link
                     className='float-right'
                     to={`/register`}>
-                    <Button disabled={this.props.loading} icon='person_add' label='Register' />
+                    <Button icon='person_add' label='Register' />
                 </Link>
             </form>
         );
