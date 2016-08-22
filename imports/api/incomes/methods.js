@@ -26,6 +26,9 @@ export const insert = new ValidatedMethod({
         'income.amount': {
             type: Number
         },
+        'income.receivedAt': {
+            type: Date
+        },
         'income.type': {
             type: String
         },
@@ -58,6 +61,9 @@ export const update = new ValidatedMethod({
         },
         'income.amount': {
             type: Number
+        },
+        'income.receivedAt': {
+            type: Date
         },
         'income.type': {
             type: String

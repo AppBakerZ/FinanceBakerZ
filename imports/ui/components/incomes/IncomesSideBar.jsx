@@ -53,11 +53,21 @@ export default class IncomesSideBar extends Component {
     }
 
     createIncome(){
-        const {account, amount, receivedAt, receivedTime, type, project} = this.state;
+        let {account, amount, receivedAt, receivedTime, type, project} = this.state;
+
+        receivedAt = new Date(receivedAt);
+        receivedTime = new Date(receivedTime);
+        console.log(receivedAt)
+        console.log(receivedTime)
+        console.log('--------------------')
+        receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        console.log(receivedAt)
+
         Meteor.call('incomes.insert', {
             income: {
                 account,
                 amount: Number(amount),
+                receivedAt,
                 type,
                 project
             }
@@ -83,12 +93,18 @@ export default class IncomesSideBar extends Component {
     }
 
     updateIncome(){
-        const {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
+        let {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
+
+        receivedAt = new Date(receivedAt);
+        receivedTime = new Date(receivedTime);
+        receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+
         Meteor.call('incomes.update', {
             income: {
                 _id,
                 account,
                 amount: Number(amount),
+                receivedAt,
                 type,
                 project
             }
@@ -155,6 +171,7 @@ export default class IncomesSideBar extends Component {
     }
 
     componentWillReceiveProps (p){
+        p.income.receivedTime = p.income.receivedAt;
         this.setState(p.income);
         this.setCurrentRoute();
         if(this.state.isNewRoute){

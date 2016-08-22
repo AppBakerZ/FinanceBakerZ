@@ -2,7 +2,7 @@
 .add-button {
     position: absolute;
     right: 20px;
-    top: -31px;
+    bottom: 20px;
     z-index: 101;
 }
 

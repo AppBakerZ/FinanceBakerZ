@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import moment from 'moment';
 
-import { List, ListItem, Button, IconButton } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -22,21 +23,37 @@ class IncomesPage extends Component {
     }
 
     renderIncome(){
-        return this.props.incomes.map((income) => {
-            return <Link
-                key={income._id}
-                activeClassName='active'
-                to={`/app/incomes/${income._id}`}>
-                <ListItem
-                    selectable
-                    onClick={ this.toggleSidebar.bind(this) }
-                    leftIcon='monetization_on'
-                    rightIcon='mode_edit'
-                    caption={`PKR : ${income.amount}`}
-                    legend={`Project: ${income.project}`}
-                    />
-            </Link>
-        })
+
+        const { incomes } = this.props;
+        let groupedIncomes = _.groupBy(incomes, (result) => moment(result['receivedAt'], 'DD/MM/YYYY').startOf('isoWeek'));
+
+        return _.map(groupedIncomes, (incomes, date) => {
+
+            let items = incomes.map((income) => {
+                return <Link
+                    key={income._id}
+                    activeClassName='active'
+                    to={`/app/incomes/${income._id}`}>
+
+                    <ListItem
+                        selectable
+                        onClick={ this.toggleSidebar.bind(this) }
+                        leftIcon='monetization_on'
+                        rightIcon='mode_edit'
+                        caption={`PKR : ${income.amount}`}
+                        legend={`Project: ${income.project}`}
+                        />
+                </Link>
+            });
+
+            return (
+                <section>
+                <ListSubHeader caption={moment(date).format('ll')} />
+                {items}
+                </section>
+            )
+        });
+
     }
 
     render() {

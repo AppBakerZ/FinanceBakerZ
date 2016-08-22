@@ -56,8 +56,8 @@ export default class Register extends Component {
                 setTimeout(() => {
                     this.props.history.push('/app/dashboard');
                 }, 1000);
-                this.props.progressBarUpdate(false);
             }
+            this.props.progressBarUpdate(false);
         });
     }
 

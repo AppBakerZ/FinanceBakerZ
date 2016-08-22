@@ -36,6 +36,10 @@ Incomes.schema = new SimpleSchema({
         label: 'Project of income',
         optional: true
     },
+    receivedAt: {
+        type: Date,
+        label: 'received At income'
+    },
     createdAt: {
         type: Date,
         label: 'Created At income',
