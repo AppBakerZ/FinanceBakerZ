@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import moment from 'moment';
 
-import { List, ListItem, ListDivider, Button, IconButton } from 'react-toolbox';
+import { List, ListItem, ListDivider, Button, IconButton, ListSubHeader } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -22,21 +23,36 @@ class ExpensesPage extends Component {
     }
 
     renderExpense(){
-        return this.props.expenses.map((expense) => {
-            return <Link
-                key={expense._id}
-                activeClassName='active'
-                to={`/app/expenses/${expense._id}`}>
-                <ListItem
-                    selectable
-                    onClick={ this.toggleSidebar.bind(this) }
-                    leftIcon='content_cut'
-                    rightIcon='mode_edit'
-                    caption={`PKR : ${expense.amount}`}
-                    legend={`PURPOSE : ${expense.purpose} DESCRIPTION: ${expense.description}`}
+        const { expenses } = this.props;
+    
+        let groupedExpenses = _.groupBy(expenses, (result) => moment(result['createdAt'], 'DD/MM/YYYY').format("YYYY-MM-DD"));
+
+        return _.map(groupedExpenses, (expenses, date) => {
+
+            let items = expenses.map((expense) => {
+                return <Link
+                    key={expense._id}
+                    activeClassName='active'
+                    to={`/app/expenses/${expense._id}`}>
+
+                    <ListItem
+                        selectable
+                        onClick={ this.toggleSidebar.bind(this) }
+                        leftIcon='content_cut'
+                        rightIcon='mode_edit'
+                        caption={`PKR : ${expense.amount}`}
+                        legend={`PURPOSE : ${expense.purpose} - DESCRIPTION: ${expense.description}`}
                     />
-            </Link>
-        })
+                </Link>
+            });
+
+            return (
+                <section>
+                    <ListSubHeader caption={moment(date).format('ll')} />
+                    {items}
+                </section>
+            )
+        });
     }
 
     render() {

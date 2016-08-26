@@ -31,6 +31,9 @@ export const insert = new ValidatedMethod({
         },
         'expense.description': {
             type: String
+        },
+        'expense.createdAt': {
+            type: Date
         }
     }).validator(),
     run({ expense }) {
@@ -64,6 +67,9 @@ export const update = new ValidatedMethod({
         },
         'expense.description': {
             type: String
+        },
+        'expense.createdAt': {
+            type: Date
         }
     }).validator(),
     run({ expense }) {

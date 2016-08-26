@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar, Dropdown } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown,DatePicker, TimePicker } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 
@@ -14,10 +14,14 @@ export default class ExpensesSideBar extends Component {
     constructor(props) {
         super(props);
 
+        let datetime = new Date();
+
         this.state = {
             account: '',
             amount: '',
             description: '',
+            createdAt: datetime,
+            createdTime: datetime,
             purpose: '',
             active: false,
             loading: false
@@ -31,10 +35,13 @@ export default class ExpensesSideBar extends Component {
     }
 
     resetExpense(){
+        let datetime = new Date();
         this.setState({
             account: '',
             amount: '',
             description: '',
+            createdAt: datetime,
+            createdTime: datetime,
             purpose: ''
         })
     }
@@ -47,11 +54,16 @@ export default class ExpensesSideBar extends Component {
     }
 
     createExpense(){
-        const {account, amount, description, purpose} = this.state;
+        let {account, amount, description, createdAt, createdTime, purpose} = this.state;
+        createdAt = new Date(createdAt);
+        createdTime = new Date(createdTime);
+        createdAt.setHours(createdTime.getHours(), createdTime.getMinutes(), 0, 0);
+
         Meteor.call('expenses.insert', {
             expense: {
                 account,
                 amount: Number(amount),
+                createdAt,
                 description,
                 purpose
             }
@@ -77,12 +89,16 @@ export default class ExpensesSideBar extends Component {
     }
 
     updateExpense(){
-        const {_id, account, amount, description, purpose} = this.state;
+        let {_id, account, amount ,createdAt ,createdTime ,description, purpose} = this.state;
+        createdAt = new Date(createdAt);
+        createdTime = new Date(createdTime);
+        createdAt.setHours(createdTime.getHours(), createdTime.getMinutes(), 0, 0);
         Meteor.call('expenses.update', {
             expense: {
                 _id,
                 account,
                 amount: Number(amount),
+                createdAt,
                 description,
                 purpose
             }
@@ -263,6 +279,20 @@ export default class ExpensesSideBar extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
+                <DatePicker
+                    label='Creation Date'
+                    name='createdAt'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.createdAt}
+                />
+                <TimePicker
+                    label='Creation time'
+                    name='createdTime'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.createdTime}
+                    format='ampm'
+                />
+
                 {this.renderButton()}
             </form>
         );
