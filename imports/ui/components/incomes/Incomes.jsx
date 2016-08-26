@@ -25,7 +25,7 @@ class IncomesPage extends Component {
     renderIncome(){
 
         const { incomes } = this.props;
-        let groupedIncomes = _.groupBy(incomes, (result) => moment(result['receivedAt'], 'DD/MM/YYYY').startOf('isoWeek'));
+        let groupedIncomes = _.groupBy(incomes, (result) => moment(result['receivedAt'], 'DD/MM/YYYY').format("YYYY-MM-DD"));
 
         return _.map(groupedIncomes, (incomes, date) => {
 
