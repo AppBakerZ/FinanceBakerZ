@@ -38,7 +38,7 @@ Expenses.schema = new SimpleSchema({
     },
     createdAt: {
         type: Date,
-        label: 'received At income'
+        label: 'created At expense'
     },
 
     updatedAt: {
