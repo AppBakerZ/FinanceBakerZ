@@ -8,6 +8,10 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Expenses } from '../../../api/expences/expenses.js';
 
+const RECORDS_PER_PAGE = 8;
+let pageNumber = new ReactiveVar(1);
+
+
 class ExpensesPage extends Component {
 
     constructor(props) {
@@ -20,6 +24,17 @@ class ExpensesPage extends Component {
 
     toggleSidebar(event){
         this.props.toggleSidebar(true);
+    }
+
+    // componentDidMount() {
+    //     window.addEventListener('scroll', this.handleScroll);
+    // }
+
+    handleScroll(event) {
+        let infiniteState = event.nativeEvent;
+        if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
+          pageNumber.set(pageNumber.get() + 1)
+        }
     }
 
     renderExpense(){
@@ -57,12 +72,12 @@ class ExpensesPage extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
+            <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
                 <Link
                     to={`/app/expenses/new`}>
                     <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                 </Link>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }} onScroll={this.handleScroll} >
                     <List ripple>
                         {this.renderExpense()}
                     </List>
@@ -77,7 +92,7 @@ ExpensesPage.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('expenses');
+    Meteor.subscribe('expenses', RECORDS_PER_PAGE * pageNumber.get());
 
     return {
         expenses: Expenses.find({}).fetch()
