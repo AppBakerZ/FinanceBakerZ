@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar, Dropdown,DatePicker, TimePicker } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 

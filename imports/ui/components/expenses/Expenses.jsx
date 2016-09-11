@@ -5,6 +5,7 @@ import moment from 'moment';
 import { List, ListItem, ListDivider, Button, IconButton, ListSubHeader } from 'react-toolbox';
 import { Link } from 'react-router'
 
+import { ReactiveVar } from 'meteor/reactive-var'
 import { Meteor } from 'meteor/meteor';
 import { Expenses } from '../../../api/expences/expenses.js';
 
@@ -25,10 +26,6 @@ class ExpensesPage extends Component {
     toggleSidebar(event){
         this.props.toggleSidebar(true);
     }
-
-    // componentDidMount() {
-    //     window.addEventListener('scroll', this.handleScroll);
-    // }
 
     handleScroll(event) {
         let infiniteState = event.nativeEvent;

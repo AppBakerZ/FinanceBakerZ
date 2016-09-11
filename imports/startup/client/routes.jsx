@@ -21,14 +21,27 @@ import IncomesSideBar from '../../ui/components/incomes/IncomesSideBar.jsx';
 import ExpensesPage from '../../ui/components/expenses/Expenses.jsx';
 import ExpensesSideBar from '../../ui/components/expenses/ExpensesSideBar.jsx';
 
-
-let requireAuth = (nextState, replace) => {
-    if (!Meteor.user()) {
+let checkAuth = (nextState, replace, next, setIntervalHandel) => {
+    clearInterval(setIntervalHandel);
+    if (! Meteor.user() ) {
         replace({
             pathname: '/login',
             state: { nextPathname: nextState.location.pathname }
-        })
+        });
+        next()
+    }else{
+        next()
     }
+};
+
+let requireAuth = (nextState, replace, next) => {
+    let setIntervalHandel;
+    setIntervalHandel = setInterval(() => {
+        if (Meteor.user() !== undefined){
+            checkAuth(nextState, replace, next, setIntervalHandel)
+        }
+    }, 1)
+
 };
 
 Meteor.startup( () => {
