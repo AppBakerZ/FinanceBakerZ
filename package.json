@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
+    "immutability-helper": "^2.0.0",
     "meteor-node-stubs": "~0.2.0",
     "moment": "^2.14.1",
     "node-sass": "^3.8.0",
