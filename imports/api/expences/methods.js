@@ -100,7 +100,33 @@ export const remove = new ValidatedMethod({
     }
 });
 
-const INCOMES_METHODS = _.pluck([
+export const total = new ValidatedMethod({
+    name: 'expenses.total',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove expenses'
+    },
+    validate: new SimpleSchema({
+        accounts: {
+            type: [String]
+        }
+    }).validator(),
+    run({accounts}) {
+        let query = {};
+        if(accounts.length){
+            query['account'] = {$in: accounts}
+        }
+        return Expenses.aggregate({
+            $match: query
+        },{
+            $group: { _id: null, total: { $sum: '$amount' } }
+        });
+    }
+});
+
+
+const EXPENSES_METHODS = _.pluck([
     insert,
     update,
     remove
@@ -109,7 +135,7 @@ const INCOMES_METHODS = _.pluck([
 if (Meteor.isServer) {
     DDPRateLimiter.addRule({
         name(name) {
-            return _.contains(INCOMES_METHODS, name);
+            return _.contains(EXPENSES_METHODS, name);
         },
 
         // Rate limit per connection ID

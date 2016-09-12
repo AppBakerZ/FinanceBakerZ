@@ -100,6 +100,32 @@ export const remove = new ValidatedMethod({
     }
 });
 
+
+export const total = new ValidatedMethod({
+    name: 'incomes.total',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove income'
+    },
+    validate: new SimpleSchema({
+        accounts: {
+            type: [String]
+        }
+    }).validator(),
+    run({accounts}) {
+        let query = {};
+        if(accounts.length){
+            query['account'] = {$in: accounts}
+        }
+        return Incomes.aggregate({
+            $match: query
+        },{
+            $group: { _id: null, total: { $sum: '$amount' } }
+        });
+    }
+});
+
 const INCOMES_METHODS = _.pluck([
     insert,
     update,

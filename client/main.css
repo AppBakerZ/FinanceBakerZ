@@ -33,9 +33,13 @@
 }
 
 .dashboard-card{
-    margin: 25px 0 0 25px;
+    margin: 0 0 25px 25px;
 }
 
+.dashboard-autocomplete {
+    margin: 25px 0 0 25px;
+    width: 100%
+}
 .dashboard-card-icon {
     margin-right: 1.3rem;
     font-size: 2.6rem;
