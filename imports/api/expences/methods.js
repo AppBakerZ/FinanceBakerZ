@@ -113,7 +113,9 @@ export const total = new ValidatedMethod({
         }
     }).validator(),
     run({accounts}) {
-        let query = {};
+        let query = {
+          owner: this.userId
+        };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
