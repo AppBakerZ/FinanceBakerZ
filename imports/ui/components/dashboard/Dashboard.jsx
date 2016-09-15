@@ -113,40 +113,40 @@ class DashboardPage extends Component {
         return accounts;
     }
 
+    icon (){
+      return <FontIcon value='content_cut' />
+    }
     render() {
         return (
             <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <Autocomplete
                         className='dashboard-autocomplete'
-                        direction="down"
+                        direction='down'
                         name='multiple'
                         onChange={this.handleMultipleChange.bind(this)}
-                        label="Filter By Account"
+                        label='Filter By Account'
                         source={this.accounts()}
                         value={this.state.multiple}
                         />
                     <Card className='dashboard-card'>
                         <CardTitle
+                            avatar={this.icon()}
                             title={'' + (this.state.totalIncome - this.state.totalExpense)}
-                            subtitle="Available Balance"
+                            subtitle='Available Balance'
                             />
                     </Card>
-                    <Card className='dashboard-card' >
-                        <Tabs index={this.state.index} onChange={this.handleTabChange.bind(this)}>
-                            <Tab label='All'>
-                                {this.getStatisticsRendered('all')}
-                            </Tab>
-                            <Tab label='This Week'>
-                                {this.getStatisticsRendered('week')}
-                            </Tab>
-                            <Tab label={this.month}>
-                                {this.getStatisticsRendered('month')}
-                            </Tab>
-                            <Tab label={this.year}>
-                                {this.getStatisticsRendered('year')}
-                            </Tab>
-                        </Tabs>
+                    <Card className='dashboard-card'>
+                        <CardTitle
+                            title={'' + this.state.totalIncome}
+                            subtitle='Incomes'
+                            />
+                    </Card>
+                    <Card className='dashboard-card'>
+                        <CardTitle
+                            title={'' + this.state.totalExpense}
+                            subtitle='Expensis'
+                            />
                     </Card>
                 </div>
             </div>
