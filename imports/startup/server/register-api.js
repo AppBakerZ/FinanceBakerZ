@@ -2,6 +2,8 @@
 // as an API to the client.
 
 import '../../api/accounts/methods.js';
+import '../../api/statistics/methods.js';
+
 import '../../api/accounts/server/publications.js';
 
 import '../../api/incomes/methods.js';

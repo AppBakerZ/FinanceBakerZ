@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import moment from 'moment';
 
-import { Card, CardTitle, CardMedia, CardText, CardActions, Button, FontIcon, Tabs, Tab, Autocomplete } from 'react-toolbox';
+import { Card, CardTitle, CardMedia, CardText, CardActions, Button, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -14,22 +15,18 @@ class DashboardPage extends Component {
 
         this.state = {
             index: 0,
-            totalIncome: 0,
-            totalExpense: 0,
-            multiple: []
+            totalIncomes: 0,
+            totalExpenses: 0,
+            availableBalance: 0,
+            multiple: [],
+            filterBy: 'this_month'
         };
-        let d = new Date();
-        this.month = d.getMonth();
-        this.year = d.getYear();
     }
 
     toggleSidebar(event){
         this.props.toggleSidebar(true);
     }
 
-    handleTabChange (index) {
-        this.setState({index});
-    }
 
     componentWillReceiveProps (p){
         this.setDefaultAccounts(p);
@@ -47,16 +44,17 @@ class DashboardPage extends Component {
         this.setState({multiple});
         this.updateByAccount(multiple)
     }
+
     updateByAccount(accounts){
-        this.getTotalIncome(accounts);
-        this.getTotalExpense(accounts);
+        this.getAvailableBalance(accounts);
+        this.getTotalIncomesAndExpenses(accounts);
     }
 
-    getTotalIncome (accounts){
-        Meteor.call('incomes.total', {accounts}, (err, response) => {
-            if(response){
+    getAvailableBalance (accounts){
+        Meteor.call('statistics.availableBalance', {accounts}, (err, ab) => {
+            if(ab){
                 this.setState({
-                    totalIncome: response[0].total
+                    availableBalance: ab
                 })
             }else{
                 this.setState({
@@ -69,11 +67,31 @@ class DashboardPage extends Component {
         });
     }
 
-    getTotalExpense (accounts){
-        Meteor.call('expenses.total', {accounts}, (err, response) => {
-            if(response){
+    getTotalIncomesAndExpenses (accounts, filterBy){
+        let date = {};
+        switch (filterBy || this.state.filterBy){
+            case 'today':
+                date.start = moment().startOf('day').format();
+                date.end = moment().endOf('day').format();
+                break;
+            case 'this_week':
+                date.start = moment().startOf('week').format();
+                date.end = moment().endOf('week').format();
+                break;
+            case 'this_month':
+                date.start = moment().startOf('month').format();
+                date.end = moment().endOf('month').format();
+                break;
+            case 'this_year':
+                date.start = moment().startOf('year').format();
+                date.end = moment().endOf('year').format();
+                break;
+        }
+        Meteor.call('statistics.totalIncomesAndExpenses', {accounts, date}, (err, totals) => {
+            if(totals){
                 this.setState({
-                    totalExpense: response[0].total
+                    totalIncomes: totals.incomes,
+                    totalExpenses: totals.expenses
                 })
             }else{
                 this.setState({
@@ -91,6 +109,31 @@ class DashboardPage extends Component {
         this.updateByAccount(value)
     }
 
+    accountItem (account) {
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2
+        };
+
+        return (
+            <div style={containerStyle}>
+                <div style={contentStyle}>
+                    <strong>{account.name}</strong>
+                </div>
+            </div>
+        );
+    }
+
+    onChange (val, e) {
+        this.setState({[e.target.name]: val});
+        this.getTotalIncomesAndExpenses(this.state.multiple, val);
+    }
 
     accounts(){
         let accounts = {};
@@ -98,6 +141,27 @@ class DashboardPage extends Component {
             accounts[account._id] = account.name;
         });
         return accounts;
+    }
+
+    filters(){
+      return [
+        {
+          name: 'Today',
+          value: 'today'
+        },
+        {
+          name: 'This Week',
+          value: 'this_week'
+        },
+        {
+          name: 'This Month',
+          value: 'this_month'
+        },
+        {
+          name: 'This Year',
+          value: 'this_year'
+        }
+      ];
     }
 
     render() {
@@ -115,22 +179,35 @@ class DashboardPage extends Component {
                         />
                     <Card className='dashboard-card'>
                         <CardTitle
-                            title={'' + (this.state.totalIncome - this.state.totalExpense)}
+                            title={'' + this.state.availableBalance}
                             subtitle='Available Balance'
                             />
                     </Card>
-                    <Card className='dashboard-card'>
-                        <CardTitle
-                            title={'' + this.state.totalIncome}
-                            subtitle='Incomes'
-                            />
-                    </Card>
-                    <Card className='dashboard-card'>
-                        <CardTitle
-                            title={'' + this.state.totalExpense}
-                            subtitle='Expensis'
-                            />
-                    </Card>
+                    <Dropdown
+                        className='dashboard-dropdown'
+                        auto={false}
+                        source={this.filters()}
+                        name='filterBy'
+                        onChange={this.onChange.bind(this)}
+                        label='Filter By'
+                        value={this.state.filterBy}
+                        template={this.accountItem}
+                        required
+                        />
+                      <div className='dashboard-card-group'>
+                        <Card className='card'>
+                            <CardTitle
+                                title={'' + this.state.totalIncomes}
+                                subtitle='Total Incomes'
+                                />
+                        </Card>
+                        <Card className='card'>
+                            <CardTitle
+                                title={'' + this.state.totalExpenses}
+                                subtitle='Total Expensis'
+                                />
+                        </Card>
+                      </div>
                 </div>
             </div>
         );

@@ -32,8 +32,27 @@
     float: right;
 }
 
+.dashboard-card-group{
+  margin: 0 0 25px 25px;
+  display: flex;
+  width: 100%;
+}
+
+.dashboard-card-group .card {
+  justify-content: space-between;
+}
+
+.dashboard-card-group .card:first-child {
+  margin-right: 25px;
+}
+
 .dashboard-card{
     margin: 0 0 25px 25px;
+}
+
+.dashboard-dropdown{
+  margin: 0 0 25px 25px;
+  width: 100%;
 }
 
 .dashboard-autocomplete {
