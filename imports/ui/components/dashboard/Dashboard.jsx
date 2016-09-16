@@ -91,19 +91,6 @@ class DashboardPage extends Component {
         this.updateByAccount(value)
     }
 
-    getStatisticsRendered(filterBy){
-        return (
-            <small>
-                <CardText>
-                    <strong>Available Balance : </strong><strong style={{fontSize: '20px'}}>
-                    {this.state.totalIncome - this.state.totalExpense}
-                </strong> <br/>
-                    <strong>Incomes : </strong><strong style={{fontSize: '20px'}}>{this.state.totalIncome}</strong> <br/>
-                    <strong>Expenses : </strong><strong style={{fontSize: '20px'}}>{this.state.totalExpense}</strong>
-                </CardText>
-            </small>
-        )
-    }
 
     accounts(){
         let accounts = {};
@@ -113,9 +100,6 @@ class DashboardPage extends Component {
         return accounts;
     }
 
-    icon (){
-      return <FontIcon value='content_cut' />
-    }
     render() {
         return (
             <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
@@ -131,7 +115,6 @@ class DashboardPage extends Component {
                         />
                     <Card className='dashboard-card'>
                         <CardTitle
-                            avatar={this.icon()}
                             title={'' + (this.state.totalIncome - this.state.totalExpense)}
                             subtitle='Available Balance'
                             />
