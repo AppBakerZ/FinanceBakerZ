@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Card, CardTitle, CardMedia, CardText, CardActions, Button, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
+import { Card, CardTitle, Button, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -113,7 +113,7 @@ class DashboardPage extends Component {
         this.updateByAccount(value)
     }
 
-    accountItem (account) {
+    filterItem (account) {
         const containerStyle = {
             display: 'flex',
             flexDirection: 'row'
@@ -199,7 +199,7 @@ class DashboardPage extends Component {
                         onChange={this.onChange.bind(this)}
                         label='Filter By'
                         value={this.state.filterBy}
-                        template={this.accountItem}
+                        template={this.filterItem}
                         required
                         />
                       <div className='dashboard-card-group'>
