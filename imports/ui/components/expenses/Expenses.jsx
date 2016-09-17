@@ -37,7 +37,7 @@ class ExpensesPage extends Component {
     renderExpense(){
         const { expenses } = this.props;
     
-        let groupedExpenses = _.groupBy(expenses, (result) => moment(result['createdAt'], 'DD/MM/YYYY').format("YYYY-MM-DD"));
+        let groupedExpenses = _.groupBy(expenses, (result) => moment(result['spentAt'], 'DD/MM/YYYY').format("YYYY-MM-DD"));
 
         return _.map(groupedExpenses, (expenses, date) => {
 

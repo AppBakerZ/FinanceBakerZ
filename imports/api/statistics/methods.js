@@ -84,6 +84,7 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
             $group: { _id: null, total: { $sum: '$amount' } }
         });
 
+        query.spentAt = query.receivedAt;
         delete query.receivedAt;
 
         const sumOfExpenses = Expenses.aggregate({
@@ -91,7 +92,11 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
         },{
             $group: { _id: null, total: { $sum: '$amount' } }
         });
-        return {incomes: sumOfIncomes[0].total, expenses: sumOfExpenses[0].total};
+
+        return {
+            incomes: sumOfIncomes.length ? sumOfIncomes[0].total : 0,
+            expenses: sumOfExpenses.length ? sumOfExpenses[0].total : 0
+        };
     }
 });
 

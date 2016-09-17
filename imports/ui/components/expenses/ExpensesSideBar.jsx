@@ -20,8 +20,8 @@ export default class ExpensesSideBar extends Component {
             account: '',
             amount: '',
             description: '',
-            createdAt: datetime,
-            createdTime: datetime,
+            spentAt: datetime,
+            spentTime: datetime,
             purpose: '',
             active: false,
             loading: false
@@ -40,8 +40,8 @@ export default class ExpensesSideBar extends Component {
             account: '',
             amount: '',
             description: '',
-            createdAt: datetime,
-            createdTime: datetime,
+            spentAt: datetime,
+            spentTime: datetime,
             purpose: ''
         })
     }
@@ -54,16 +54,16 @@ export default class ExpensesSideBar extends Component {
     }
 
     createExpense(){
-        let {account, amount, description, createdAt, createdTime, purpose} = this.state;
-        createdAt = new Date(createdAt);
-        createdTime = new Date(createdTime);
-        createdAt.setHours(createdTime.getHours(), createdTime.getMinutes(), 0, 0);
+        let {account, amount, description, spentAt, spentTime, purpose} = this.state;
+        spentAt = new Date(spentAt);
+        spentTime = new Date(spentTime);
+        spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
 
         Meteor.call('expenses.insert', {
             expense: {
                 account,
                 amount: Number(amount),
-                createdAt,
+                spentAt,
                 description,
                 purpose
             }
@@ -89,16 +89,16 @@ export default class ExpensesSideBar extends Component {
     }
 
     updateExpense(){
-        let {_id, account, amount ,createdAt ,createdTime ,description, purpose} = this.state;
-        createdAt = new Date(createdAt);
-        createdTime = new Date(createdTime);
-        createdAt.setHours(createdTime.getHours(), createdTime.getMinutes(), 0, 0);
+        let {_id, account, amount ,spentAt ,spentTime ,description, purpose} = this.state;
+        spentAt = new Date(spentAt);
+        spentTime = new Date(spentTime);
+        spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
         Meteor.call('expenses.update', {
             expense: {
                 _id,
                 account,
                 amount: Number(amount),
-                createdAt,
+                spentAt,
                 description,
                 purpose
             }
@@ -281,15 +281,15 @@ export default class ExpensesSideBar extends Component {
                     />
                 <DatePicker
                     label='Creation Date'
-                    name='createdAt'
+                    name='spentAt'
                     onChange={this.onChange.bind(this)}
-                    value={this.state.createdAt}
+                    value={this.state.spentAt}
                 />
                 <TimePicker
                     label='Creation time'
-                    name='createdTime'
+                    name='spentTime'
                     onChange={this.onChange.bind(this)}
-                    value={this.state.createdTime}
+                    value={this.state.spentTime}
                     format='ampm'
                 />
 

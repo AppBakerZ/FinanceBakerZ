@@ -36,11 +36,24 @@ Expenses.schema = new SimpleSchema({
         label: 'Project of expense',
         optional: true
     },
+    spentAt: {
+        type: Date,
+        label: 'Spent At'
+    },
     createdAt: {
         type: Date,
-        label: 'created At expense'
+        label: 'Created At expense',
+        denyUpdate: true,
+        autoValue: function() {
+            if (this.isInsert) {
+                return new Date();
+            } else if (this.isUpsert) {
+                return {$setOnInsert: new Date()};
+            } else {
+                this.unset();
+            }
+        }
     },
-
     updatedAt: {
         type: Date,
         label: 'Updated At expense',

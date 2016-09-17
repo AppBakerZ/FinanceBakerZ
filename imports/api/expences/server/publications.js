@@ -6,7 +6,7 @@ Meteor.publish('expenses', function(limit){
     new SimpleSchema({
         limit: {type: Number}
     }).validate({limit});
-    return Expenses.find({owner: this.userId}, {limit: limit});
+    return Expenses.find({owner: this.userId}, {limit: limit, sort: {spentAt: 1}});
 });
 
 Meteor.publish('expenses.single', function (id) {
