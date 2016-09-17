@@ -82,6 +82,10 @@ class DashboardPage extends Component {
                 date.start = moment().startOf('month').format();
                 date.end = moment().endOf('month').format();
                 break;
+            case 'last_month':
+                date.start = moment().subtract(1, 'months').startOf('month').format();
+                date.end = moment().subtract(1, 'months').endOf('month').format();
+                break;
             case 'this_year':
                 date.start = moment().startOf('year').format();
                 date.end = moment().endOf('year').format();
@@ -156,6 +160,10 @@ class DashboardPage extends Component {
         {
           name: 'This Month',
           value: 'this_month'
+        },
+        {
+          name: 'Last Month',
+          value: 'last_month'
         },
         {
           name: 'This Year',
