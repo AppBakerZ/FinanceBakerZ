@@ -29,7 +29,7 @@ export const insert = new ValidatedMethod({
         'expense.spentAt': {
             type: Date
         },
-        'expense.purpose': {
+        'expense.category': {
             type: String
         },
         'expense.description': {
@@ -65,7 +65,7 @@ export const update = new ValidatedMethod({
         'expense.spentAt': {
             type: Date
         },
-        'expense.purpose': {
+        'expense.category': {
             type: String
         },
         'expense.description': {
@@ -97,33 +97,6 @@ export const remove = new ValidatedMethod({
     run({ expense }) {
         const {_id} = expense;
         return Expenses.remove(_id);
-    }
-});
-
-export const total = new ValidatedMethod({
-    name: 'expenses.total',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to remove expenses'
-    },
-    validate: new SimpleSchema({
-        accounts: {
-            type: [String]
-        }
-    }).validator(),
-    run({accounts}) {
-        let query = {
-          owner: this.userId
-        };
-        if(accounts.length){
-            query['account'] = {$in: accounts}
-        }
-        return Expenses.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
     }
 });
 

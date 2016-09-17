@@ -23,6 +23,10 @@ class DashboardPage extends Component {
         };
     }
 
+    formatNumber(num){
+        return new Intl.NumberFormat().format(num);
+    }
+
     toggleSidebar(event){
         this.props.toggleSidebar(true);
     }
@@ -187,7 +191,7 @@ class DashboardPage extends Component {
                         />
                     <Card className='dashboard-card'>
                         <CardTitle
-                            title={'' + this.state.availableBalance}
+                            title={'' + this.formatNumber(this.state.availableBalance)}
                             subtitle='Available Balance'
                             />
                     </Card>
@@ -205,13 +209,13 @@ class DashboardPage extends Component {
                       <div className='dashboard-card-group'>
                         <Card className='card'>
                             <CardTitle
-                                title={'' + this.state.totalIncomes}
+                                title={'' + this.formatNumber(this.state.totalIncomes)}
                                 subtitle='Total Incomes'
                                 />
                         </Card>
                         <Card className='card'>
                             <CardTitle
-                                title={'' + this.state.totalExpenses}
+                                title={'' + this.formatNumber(this.state.totalExpenses)}
                                 subtitle='Total Expensis'
                                 />
                         </Card>

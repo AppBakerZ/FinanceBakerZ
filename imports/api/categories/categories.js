@@ -1,48 +1,35 @@
-// definition of the Expense collection
+// definition of the Category collection
 
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-class ExpenseCollection extends Mongo.Collection {}
+class CategoryCollection extends Mongo.Collection {}
 
-export const Expenses = new ExpenseCollection('expenses');
+export const Categories = new CategoryCollection('categories');
 
 // Deny all client-side updates since we will be using methods to manage this collection
-Expenses.deny({
+Categories.deny({
     insert() { return true; },
     update() { return true; },
     remove() { return true; }
 });
 
-Expenses.schema = new SimpleSchema({
+Categories.schema = new SimpleSchema({
+    name: {
+        type: String,
+        label: 'Name of category'
+    },
+    icon: {
+        type: String,
+        label: 'Icon of category'
+    },
     owner: {
         type: String,
-        label: 'Owner of expense'
-    },
-    account: {
-        type: String,
-        label: 'Account of expense'
-    },
-    amount: {
-        type: Number,
-        label: 'Amount of expense'
-    },
-    category: {
-        type: String,
-        label: 'Type of expense'
-    },
-    description: {
-        type: String,
-        label: 'Project of expense',
-        optional: true
-    },
-    spentAt: {
-        type: Date,
-        label: 'Spent At'
+        label: 'Owner of category'
     },
     createdAt: {
         type: Date,
-        label: 'Created At expense',
+        label: 'Created At category',
         denyUpdate: true,
         autoValue: function() {
             if (this.isInsert) {
@@ -56,7 +43,7 @@ Expenses.schema = new SimpleSchema({
     },
     updatedAt: {
         type: Date,
-        label: 'Updated At expense',
+        label: 'Updated At category',
         autoValue: function() {
             if (this.isUpdate) {
                 return new Date();
@@ -67,16 +54,16 @@ Expenses.schema = new SimpleSchema({
     }
 });
 
-Expenses.attachSchema(Expenses.schema);
+Categories.attachSchema(Categories.schema);
 
 // This represents the keys from Lists objects that should be published
 // to the client. If we add secret properties to List objects, don't list
 // them here to keep them private to the server.
-Expenses.publicFields = {
+Categories.publicFields = {
     owner: 1
 };
 
 
-Expenses.helpers({
+Categories.helpers({
 
 });

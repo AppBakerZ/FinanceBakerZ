@@ -71,7 +71,10 @@ export default class AppLayout extends Component {
                                 to={`/app/accounts/new`}>
                                 <ListItem caption='Accounts' leftIcon='account_balance' />
                             </Link>
-                            <ListItem caption='Categories' leftIcon='border_all' />
+                            <Link
+                                to={`/app/categories/new`}>
+                                <ListItem caption='Categories' leftIcon='border_all' />
+                            </Link>
                             <ListItem caption='Settings' leftIcon='settings' />
                             <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
                         </List>

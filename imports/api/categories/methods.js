@@ -7,96 +7,78 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
-import { Incomes } from './incomes.js';
+import { Categories } from './categories.js';
 
 export const insert = new ValidatedMethod({
-    name: 'incomes.insert',
+    name: 'categories.insert',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to create income'
+        message: 'You need to be logged in to create category'
     },
     validate: new SimpleSchema({
-        'income': {
+        'category': {
             type: Object
         },
-        'income.account': {
+        'category.name': {
             type: String
         },
-        'income.amount': {
-            type: Number
-        },
-        'income.receivedAt': {
-            type: Date
-        },
-        'income.type': {
-            type: String
-        },
-        'income.project': {
+        'category.icon': {
             type: String
         }
     }).validator(),
-    run({ income }) {
-        income.owner = this.userId;
-        return Incomes.insert(income);
+    run({ category }) {
+        category.owner = this.userId;
+        return Categories.insert(category);
     }
 });
 
 export const update = new ValidatedMethod({
-    name: 'incomes.update',
+    name: 'categories.update',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to update income'
+        message: 'You need to be logged in to update category'
     },
     validate: new SimpleSchema({
-        'income': {
+        'category': {
             type: Object
         },
-        'income._id': {
+        'category._id': {
             type: String
         },
-        'income.account': {
+        'category.name': {
             type: String
         },
-        'income.amount': {
-            type: Number
-        },
-        'income.receivedAt': {
-            type: Date
-        },
-        'income.type': {
-            type: String
-        },
-        'income.project': {
+        'category.icon': {
             type: String
         }
     }).validator(),
-    run({ income }) {
-        const {_id} = income;
-        delete income._id;
-        return Incomes.update(_id, {$set: income});
+    run({ category }) {
+        const {_id} = category;
+        delete category._id;
+        return Categories.update(_id, {$set: category});
     }
 });
 
 export const remove = new ValidatedMethod({
-    name: 'incomes.remove',
+    name: 'categories.remove',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to remove income'
+        message: 'You need to be logged in to remove category'
     },
     validate: new SimpleSchema({
-        'income': {
+        'category': {
             type: Object
         },
-        'income._id': {
+        'category._id': {
             type: String
         }
     }).validator(),
-    run({ income }) {
-        const {_id} = income;
-        return Incomes.remove(_id);
+    run({ category }) {
+        const {_id} = category;
+        return Categories.remove(_id);
     }
 });
 

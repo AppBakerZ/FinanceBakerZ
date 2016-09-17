@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { Categories } from '../../../api/categories/categories.js';
 
 export default class ExpensesSideBar extends Component {
 
@@ -22,7 +23,7 @@ export default class ExpensesSideBar extends Component {
             description: '',
             spentAt: datetime,
             spentTime: datetime,
-            purpose: '',
+            category: '',
             active: false,
             loading: false
         };
@@ -42,7 +43,7 @@ export default class ExpensesSideBar extends Component {
             description: '',
             spentAt: datetime,
             spentTime: datetime,
-            purpose: ''
+            category: ''
         })
     }
 
@@ -54,7 +55,7 @@ export default class ExpensesSideBar extends Component {
     }
 
     createExpense(){
-        let {account, amount, description, spentAt, spentTime, purpose} = this.state;
+        let {account, amount, description, spentAt, spentTime, category} = this.state;
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
@@ -65,7 +66,7 @@ export default class ExpensesSideBar extends Component {
                 amount: Number(amount),
                 spentAt,
                 description,
-                purpose
+                category
             }
         }, (err, response) => {
             if(response){
@@ -89,7 +90,7 @@ export default class ExpensesSideBar extends Component {
     }
 
     updateExpense(){
-        let {_id, account, amount ,spentAt ,spentTime ,description, purpose} = this.state;
+        let {_id, account, amount ,spentAt ,spentTime ,description, category} = this.state;
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
@@ -100,7 +101,7 @@ export default class ExpensesSideBar extends Component {
                 amount: Number(amount),
                 spentAt,
                 description,
-                purpose
+                category
             }
         }, (err, response) => {
             if(err){
@@ -217,7 +218,7 @@ export default class ExpensesSideBar extends Component {
                 <img src={account.icon} style={imageStyle}/>
                 <div style={contentStyle}>
                     <strong>{account.name}</strong>
-                    <small>{account.purpose}</small>
+                    <small>{account.category}</small>
                 </div>
             </div>
         );
@@ -228,6 +229,44 @@ export default class ExpensesSideBar extends Component {
             account.value = account._id;
             account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
             return account;
+        })
+    }
+
+    categoryItem(category){
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const imageStyle = {
+            display: 'flex',
+            width: '22px',
+            height: '22px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2,
+            paddingTop: '4px'
+        };
+
+        return (
+            <div style={containerStyle}>
+                <FontIcon value={category.icon} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{category.name}</strong>
+                </div>
+            </div>
+        );
+    }
+
+    categories(){
+        return this.props.categories.map((category) => {
+            category.value = category._id;
+            return category;
         })
     }
 
@@ -265,12 +304,15 @@ export default class ExpensesSideBar extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='text' label='Purpose'
-                       name='purpose'
-                       maxLength={ 50 }
-                       value={this.state.purpose}
-                       onChange={this.onChange.bind(this)}
-                       required
+                <Dropdown
+                    auto={false}
+                    source={this.categories()}
+                    name='category'
+                    onChange={this.onChange.bind(this)}
+                    label='Select your category'
+                    value={this.state.category}
+                    template={this.categoryItem}
+                    required
                     />
                 <Input type='text' label='Description'
                        name='description'
@@ -309,6 +351,7 @@ export default createContainer((props) => {
     const { id } = props.params;
     const expenseHandle = Meteor.subscribe('expenses.single', id);
     const accountsHandle = Meteor.subscribe('accounts');
+    const categoriesHandle = Meteor.subscribe('categories');
     const loading = !expenseHandle.ready();
     const expense = Expenses.findOne(id);
     const expenseExists = !loading && !!expense;
@@ -316,6 +359,7 @@ export default createContainer((props) => {
         loading,
         expenseExists,
         expense: expenseExists ? expense : {},
-        accounts: Accounts.find({}).fetch()
+        accounts: Accounts.find({}).fetch(),
+        categories: Categories.find({}).fetch()
     };
 }, ExpensesSideBar);
