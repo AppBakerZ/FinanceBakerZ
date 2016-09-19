@@ -8,6 +8,7 @@ import { Link } from 'react-router'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { Meteor } from 'meteor/meteor';
 import { Expenses } from '../../../api/expences/expenses.js';
+import { Categories } from '../../../api/categories/categories.js';
 
 const RECORDS_PER_PAGE = 8;
 let pageNumber = new ReactiveVar(1);
@@ -34,6 +35,11 @@ class ExpensesPage extends Component {
         }
     }
 
+    getCategoryName(_id){
+        const category = this.props.categories.filter((c) => { return c._id == _id });
+        return category.length ? category[0].name : _id;
+    }
+
     renderExpense(){
         const { expenses } = this.props;
     
@@ -53,7 +59,7 @@ class ExpensesPage extends Component {
                         leftIcon='content_cut'
                         rightIcon='mode_edit'
                         caption={`PKR : ${expense.amount}`}
-                        legend={`PURPOSE : ${expense.purpose} - DESCRIPTION: ${expense.description}`}
+                        legend={`CATEGORY : ${this.getCategoryName(expense.category)} - DESCRIPTION: ${expense.description}`}
                     />
                 </Link>
             });
@@ -85,13 +91,16 @@ class ExpensesPage extends Component {
 }
 
 ExpensesPage.propTypes = {
-    expenses: PropTypes.array.isRequired
+    expenses: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
     Meteor.subscribe('expenses', RECORDS_PER_PAGE * pageNumber.get());
+    const accountsHandle = Meteor.subscribe('categories');
 
     return {
-        expenses: Expenses.find({}).fetch()
+        expenses: Expenses.find({}).fetch(),
+        categories: Categories.find({}).fetch()
     };
 }, ExpensesPage);
