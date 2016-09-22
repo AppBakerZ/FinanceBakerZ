@@ -2,6 +2,11 @@
 
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
+
+import webshot from 'webshot';
+import fs from 'fs';
+import Future from 'fibers/future';
+
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
@@ -97,6 +102,81 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
             incomes: sumOfIncomes.length ? sumOfIncomes[0].total : 0,
             expenses: sumOfExpenses.length ? sumOfExpenses[0].total : 0
         };
+    }
+});
+
+export const generateReport = new ValidatedMethod({
+    name: 'statistics.generateReport',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to get total Incomes and Expenses'
+    },
+    validate: new SimpleSchema({
+
+    }).validator(),
+    run({}) {
+
+        let fut = new Future();
+
+        let fileName = "report.pdf";
+
+        // GENERATE HTML STRING
+        let css = Assets.getText('bootstrap.min.css');
+
+        SSR.compileTemplate('layout', Assets.getText('layout.html'));
+
+        Template.layout.helpers({
+            getDocType: function() {
+                return "<!DOCTYPE html>";
+            }
+        });
+
+        SSR.compileTemplate('report', Assets.getText('report.html'));
+
+        // PREPARE DATA
+        let incomes = Incomes.find({});
+        let fullName = Meteor.user().profile.fullName;
+        let data = {
+            incomes: incomes,
+            fullName: fullName
+        }
+
+        let html_string = SSR.render('layout', {
+            css: css,
+            template: "report",
+            data: data
+        });
+
+        // Setup Webshot options
+        let options = {
+            //renderDelay: 2000,
+            "paperSize": {
+                "format": "Letter",
+                "orientation": "portrait",
+                "margin": "1cm"
+            },
+            siteType: 'html'
+        };
+
+        // Commence Webshot
+        console.log("Commencing webshot...");
+        webshot(html_string, fileName, options, function(err) {
+            fs.readFile(fileName, function (err, data) {
+                if (err) {
+                    return console.log(err);
+                }
+
+                fs.unlinkSync(fileName);
+                fut.return(data);
+
+            });
+        });
+
+        let pdfData = fut.wait();
+        let base64String = new Buffer(pdfData).toString('base64');
+
+        return base64String;
     }
 });
 

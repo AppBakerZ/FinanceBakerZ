@@ -176,6 +176,16 @@ class DashboardPage extends Component {
       ];
     }
 
+    generatePdf(){
+        Meteor.call('statistics.generateReport', {}, function(err, res){
+            if (err) {
+                console.error(err);
+            } else if (res) {
+                window.open("data:application/pdf;base64, " + res);
+            }
+        })
+    }
+
     render() {
         return (
             <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
@@ -195,6 +205,9 @@ class DashboardPage extends Component {
                             subtitle='Available Balance'
                             />
                     </Card>
+                    <div className='pdf-generator' onClick={this.generatePdf.bind(this)}>
+                        <Button icon='add' label='Generate Report' raised primary />
+                    </div>
                     <Dropdown
                         className='dashboard-dropdown'
                         auto={false}
