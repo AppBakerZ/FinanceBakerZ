@@ -117,12 +117,10 @@ export const generateReport = new ValidatedMethod({
     }).validator(),
     run({}) {
 
-        let fut = new Future();
-
-        let fileName = "report.pdf";
-
-        // GENERATE HTML STRING
-        let css = Assets.getText('bootstrap.min.css');
+        let incomes, fullName, data, html_string, options, pdfData,
+            fut = new Future(),
+            fileName = "report.pdf",
+            css = Assets.getText('bootstrap.min.css')// GENERATE HTML STRING
 
         SSR.compileTemplate('layout', Assets.getText('layout.html'));
 
@@ -135,21 +133,23 @@ export const generateReport = new ValidatedMethod({
         SSR.compileTemplate('report', Assets.getText('report.html'));
 
         // PREPARE DATA
-        let incomes = Incomes.find({});
-        let fullName = Meteor.user().profile.fullName;
-        let data = {
+         incomes = Incomes.find({});
+         fullName = Meteor.user().profile.fullName;
+         data = {
             incomes: incomes,
             fullName: fullName
-        }
+        };
 
-        let html_string = SSR.render('layout', {
+        console.log('data ....', data);
+
+         html_string = SSR.render('layout', {
             css: css,
             template: "report",
             data: data
         });
 
         // Setup Webshot options
-        let options = {
+         options = {
             //renderDelay: 2000,
             "paperSize": {
                 "format": "Letter",
@@ -173,10 +173,9 @@ export const generateReport = new ValidatedMethod({
             });
         });
 
-        let pdfData = fut.wait();
-        let base64String = new Buffer(pdfData).toString('base64');
+        pdfData = fut.wait();
+        return new Buffer(pdfData).toString('base64');
 
-        return base64String;
     }
 });
 

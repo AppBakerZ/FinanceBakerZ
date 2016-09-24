@@ -1,36 +1,25 @@
-<!-- private/pokemon-report.html -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <h3 class="text-center">Report for user <b>{{fullName}}</b></h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-8">
-          {{#each incomes}}
-              <div class="row">
-                  <div class="col-sm-4">
-                      <h4>Account Id</h4>
-                  </div>
-                  <div class="col-sm-3">
-                      <h4>Amount</h4>
-                  </div>
-                  <div class="col-sm-3">
-                      <h4>Type</h4>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-sm-4">
-                      <p>{{account}}</p>
-                  </div>
-                  <div class="col-sm-3">
-                      <p>{{amount}}</p>
-                  </div>
-                  <div class="col-sm-3">
-                      <p>{{type}}</p>
-                  </div>
-              </div>
-          {{/each}}
-        </div>
-    </div>
+<div class="">
+
+    <h3 class="text-center">Report for user <b>{{fullName}}</b></h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Account Id</th>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each incomes}}
+            <tr>
+                <th>{{@index}}</th>
+                <td>{{account}}</td>
+                <td>{{type}}</td>
+                <td class="text-center">{{amount}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
 </div>
