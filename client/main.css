@@ -69,3 +69,7 @@
 .list li{
     border-bottom: #eeeeee solid 1px;
 }
+
+.pdf-generator {
+    margin-left: auto
+}

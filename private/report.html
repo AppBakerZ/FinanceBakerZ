@@ -1,0 +1,25 @@
+<div class="">
+
+    <h3 class="text-center">Report for user <b>{{fullName}}</b></h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Account Id</th>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each incomes}}
+            <tr>
+                <th>{{@index}}</th>
+                <td>{{account}}</td>
+                <td>{{type}}</td>
+                <td class="text-center">{{amount}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
