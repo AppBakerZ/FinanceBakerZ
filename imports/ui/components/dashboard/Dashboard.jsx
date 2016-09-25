@@ -216,7 +216,13 @@ class DashboardPage extends Component {
                         <Card className='card'>
                             <CardTitle
                                 title={'' + this.formatNumber(this.state.totalExpenses)}
-                                subtitle='Total Expensis'
+                                subtitle='Total Expenses'
+                                />
+                        </Card>
+                        <Card className='card'>
+                            <CardTitle
+                                title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
+                                subtitle='Remaining Amount'
                                 />
                         </Card>
                       </div>

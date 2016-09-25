@@ -40,10 +40,11 @@
 
 .dashboard-card-group .card {
   justify-content: space-between;
+  margin-right: 25px;
 }
 
-.dashboard-card-group .card:first-child {
-  margin-right: 25px;
+.dashboard-card-group .card:last-child {
+  margin-right: 0;
 }
 
 .dashboard-card{
