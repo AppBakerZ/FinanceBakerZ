@@ -113,14 +113,28 @@ export const generateReport = new ValidatedMethod({
         message: 'You need to be logged in to get total Incomes and Expenses'
     },
     validate: new SimpleSchema({
-
+        report : {
+            type: String
+        },
+        date: {
+            type: Object
+        },
+        'date.start': {
+            type: String
+        },
+        'date.end': {
+            type: String
+        },
+        filterBy : {
+            type: String
+        }
     }).validator(),
-    run({}) {
+    run({report, date, filterBy}) {
 
-        let incomes, fullName, data, html_string, options, pdfData,
+        let record, data, html_string, options, pdfData,
             fut = new Future(),
             fileName = "report.pdf",
-            css = Assets.getText('bootstrap.min.css')// GENERATE HTML STRING
+            css = Assets.getText('bootstrap.min.css'); // GENERATE HTML STRING
 
         SSR.compileTemplate('layout', Assets.getText('layout.html'));
 
@@ -133,14 +147,25 @@ export const generateReport = new ValidatedMethod({
         SSR.compileTemplate('report', Assets.getText('report.html'));
 
         // PREPARE DATA
-         incomes = Incomes.find({});
-         fullName = Meteor.user().profile.fullName;
-         data = {
-            incomes: incomes,
-            fullName: fullName
-        };
+        //createdAt
+        let query = {};
+        if(date){
+            query['createdAt'] = {
+                $gte: new Date(date.start),
+                $lte: new Date(date.end)
+            };
+        }
 
-        console.log('data ....', data);
+        record =  (report == 'incomes') ? Incomes.find(query) : Expenses.find(query);
+
+         //incomes = Incomes.find(query);
+         data = {
+            heading : (report == 'incomes') ? ('Incomes Report for ' + filterBy) : ('Expenses Report for ' + filterBy),
+            record: record,
+            income : (report == 'incomes')
+
+         };
+
 
          html_string = SSR.render('layout', {
             css: css,

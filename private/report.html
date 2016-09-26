@@ -1,22 +1,21 @@
 <div class="">
-
-    <h3 class="text-center">Report for user <b>{{fullName}}</b></h3>
+    <h3 class="text-center">{{heading}}</h3>
 
     <table class="table table-striped">
         <thead>
         <tr>
             <th>#</th>
             <th>Account Id</th>
-            <th>Type</th>
+            <th>{{#if income}}Type{{else}} Category{{/if}}</th>
             <th>Amount</th>
         </tr>
         </thead>
         <tbody>
-        {{#each incomes}}
+        {{#each record}}
             <tr>
                 <th>{{@index}}</th>
                 <td>{{account}}</td>
-                <td>{{type}}</td>
+                <th>{{#if income}} {{type}} {{else}} {{category}}{{/if}}</th>
                 <td class="text-center">{{amount}}</td>
             </tr>
         {{/each}}

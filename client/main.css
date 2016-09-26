@@ -73,3 +73,8 @@
 .pdf-generator {
     margin-left: auto
 }
+
+.report-btn{
+    display: inline-block;
+    margin-left: 10px;
+}

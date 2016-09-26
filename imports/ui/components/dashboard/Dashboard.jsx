@@ -19,12 +19,48 @@ class DashboardPage extends Component {
             totalExpenses: 0,
             availableBalance: 0,
             multiple: [],
-            filterBy: 'this_month'
+            filterBy: 'month'
         };
     }
 
     formatNumber(num){
         return new Intl.NumberFormat().format(num);
+    }
+
+    filterByDate(filter){
+
+        let date = {};
+        if(filter == 'months'){
+            date.start = moment().subtract(1, 'months').startOf('month').format();
+            date.end = moment().subtract(1, 'months').endOf('month').format();
+        }
+        else{
+            date.start = moment().startOf(filter).format();
+            date.end = moment().endOf(filter).format();
+        }
+      /*  switch (filter){
+            case 'today':
+                date.start = moment().startOf('day').format();
+                date.end = moment().endOf('day').format();
+                break;
+            case 'this_week':
+                date.start = moment().startOf('week').format();
+                date.end = moment().endOf('week').format();
+                break;
+            case 'this_month':
+                date.start = moment().startOf('month').format();
+                date.end = moment().endOf('month').format();
+                break;
+            case 'last_month':
+                date.start = moment().subtract(1, 'months').startOf('month').format();
+                date.end = moment().subtract(1, 'months').endOf('month').format();
+                break;
+            case 'this_year':
+                date.start = moment().startOf('year').format();
+                date.end = moment().endOf('year').format();
+                break;
+        }*/
+        return date
     }
 
     toggleSidebar(event){
@@ -72,29 +108,7 @@ class DashboardPage extends Component {
     }
 
     getTotalIncomesAndExpenses (accounts, filterBy){
-        let date = {};
-        switch (filterBy || this.state.filterBy){
-            case 'today':
-                date.start = moment().startOf('day').format();
-                date.end = moment().endOf('day').format();
-                break;
-            case 'this_week':
-                date.start = moment().startOf('week').format();
-                date.end = moment().endOf('week').format();
-                break;
-            case 'this_month':
-                date.start = moment().startOf('month').format();
-                date.end = moment().endOf('month').format();
-                break;
-            case 'last_month':
-                date.start = moment().subtract(1, 'months').startOf('month').format();
-                date.end = moment().subtract(1, 'months').endOf('month').format();
-                break;
-            case 'this_year':
-                date.start = moment().startOf('year').format();
-                date.end = moment().endOf('year').format();
-                break;
-        }
+        let date = this.filterByDate(filterBy || this.state.filterBy);
         Meteor.call('statistics.totalIncomesAndExpenses', {accounts, date}, (err, totals) => {
             if(totals){
                 this.setState({
@@ -155,29 +169,36 @@ class DashboardPage extends Component {
       return [
         {
           name: 'Today',
-          value: 'today'
+          value: 'day'
         },
         {
           name: 'This Week',
-          value: 'this_week'
+          value: 'week'
         },
         {
           name: 'This Month',
-          value: 'this_month'
+          value: 'month'
         },
         {
           name: 'Last Month',
-          value: 'last_month'
+          value: 'months'
         },
         {
           name: 'This Year',
-          value: 'this_year'
+          value: 'year'
         }
       ];
     }
 
-    generatePdf(){
-        Meteor.call('statistics.generateReport', {}, function(err, res){
+
+
+
+    generatePdf(report){
+
+    let filterBy = this.state.filterBy,
+        date = this.filterByDate(this.state.filterBy);
+
+    Meteor.call('statistics.generateReport', {report, date, filterBy } , function(err, res){
             if (err) {
                 console.error(err);
             } else if (res) {
@@ -205,9 +226,6 @@ class DashboardPage extends Component {
                             subtitle='Available Balance'
                             />
                     </Card>
-                    <div className='pdf-generator' onClick={this.generatePdf.bind(this)}>
-                        <Button icon='add' label='Generate Report' raised primary />
-                    </div>
                     <Dropdown
                         className='dashboard-dropdown'
                         auto={false}
@@ -239,6 +257,14 @@ class DashboardPage extends Component {
                                 />
                         </Card>
                       </div>
+                        <div className='pdf-generator'>
+                           <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                               <Button icon='add' label='Income Report' raised primary />
+                           </div>
+                           <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                                <Button icon='add' label='Expences Report' raised primary />
+                            </div>
+                        </div>
                 </div>
             </div>
         );
