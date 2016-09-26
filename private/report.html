@@ -11,14 +11,26 @@
         </tr>
         </thead>
         <tbody>
-        {{#each record}}
-            <tr>
-                <th>{{@index}}</th>
-                <td>{{account}}</td>
-                <th>{{#if income}} {{type}} {{else}} {{category}}{{/if}}</th>
-                <td class="text-center">{{amount}}</td>
-            </tr>
-        {{/each}}
+        {{#if income}}
+            {{#each record}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td>{{account}}</td>
+                    <th> {{type}}</th>
+                    <td class="text-center">{{amount}}</td>
+                </tr>
+            {{/each}}
+        {{else}}
+            {{#each record}}
+                <tr>
+                    <th>{{@index}}</th>
+                    <td>{{account}}</td>
+                    <th>{{category}}</th>
+                    <td class="text-center">{{amount}}</td>
+                </tr>
+            {{/each}}
+        {{/if}}
+
         </tbody>
     </table>
 </div>
