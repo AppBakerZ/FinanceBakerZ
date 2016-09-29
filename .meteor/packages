@@ -31,3 +31,4 @@ shell-server@0.2.1
 meteorhacks:aggregate
 dfischer:phantomjs
 meteorhacks:ssr
+edgee:slingshot

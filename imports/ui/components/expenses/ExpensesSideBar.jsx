@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
+import { Slingshot } from 'meteor/edgee:slingshot'
 
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
@@ -270,6 +271,35 @@ export default class ExpensesSideBar extends Component {
         })
     }
 
+    componentWillMount(){
+         //we create this rule both on client and server
+        Slingshot.fileRestrictions("imageUploader", {
+            allowedFileTypes: ["image/png", "image/jpeg", "image/gif"],
+            maxSize: 2 * 500 * 500
+        });
+    }
+
+    uploadBill(){
+        var userId = Meteor.user()._id;
+        console.log(document.getElementById('input').files[0]);
+        var metaContext = {uploaderId: userId};
+        var uploader = new Slingshot.Upload("imageUploader", metaContext);
+        uploader.send(document.getElementById('input').files[0], function (error, downloadUrl) { // you can use refs if you like
+            if (error) {
+                // Log service detailed response
+                console.error('Error uploading', uploader.xhr.response);
+                alert (error); // you may want to fancy this up when you're ready instead of a popup.
+            }
+            else {
+                // we use $set because the user can change their avatar so it overwrites the url :)
+                //Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                console.log(downloadUrl);
+            }
+            // you will need this in the event the user hit the update button because it will remove the avatar url
+            this.setState({imageUrl: downloadUrl});
+        }.bind(this));
+    }
+
     render() {
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
@@ -334,6 +364,11 @@ export default class ExpensesSideBar extends Component {
                     value={this.state.spentTime}
                     format='ampm'
                 />
+                <Input
+                    type="file"
+                    id="input"
+                    onChange={this.uploadBill.bind(this)} />
+                <img className='img-uploader' src={this.state.imageUrl} width="40px"/>
 
                 {this.renderButton()}
             </form>
