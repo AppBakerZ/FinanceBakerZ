@@ -36,6 +36,11 @@ Expenses.schema = new SimpleSchema({
         label: 'Project of expense',
         optional: true
     },
+    billUrl: {
+        type: String,
+        label: 'Bill url of expense',
+        optional: true
+    },
     spentAt: {
         type: Date,
         label: 'Spent At'

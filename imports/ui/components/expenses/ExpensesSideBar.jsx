@@ -26,7 +26,9 @@ export default class ExpensesSideBar extends Component {
             spentTime: datetime,
             category: '',
             active: false,
-            loading: false
+            loading: false,
+            billUrl: '',
+            disableButton: false
         };
     }
 
@@ -56,7 +58,7 @@ export default class ExpensesSideBar extends Component {
     }
 
     createExpense(){
-        let {account, amount, description, spentAt, spentTime, category} = this.state;
+        let {account, amount, description, spentAt, spentTime, category, billUrl} = this.state;
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
@@ -67,6 +69,7 @@ export default class ExpensesSideBar extends Component {
                 amount: Number(amount),
                 spentAt,
                 description,
+                billUrl,
                 category
             }
         }, (err, response) => {
@@ -91,7 +94,7 @@ export default class ExpensesSideBar extends Component {
     }
 
     updateExpense(){
-        let {_id, account, amount ,spentAt ,spentTime ,description, category} = this.state;
+        let {_id, account, amount ,spentAt ,spentTime ,description, billUrl, category} = this.state;
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
@@ -102,6 +105,7 @@ export default class ExpensesSideBar extends Component {
                 amount: Number(amount),
                 spentAt,
                 description,
+                billUrl,
                 category
             }
         }, (err, response) => {
@@ -177,10 +181,10 @@ export default class ExpensesSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <Button icon='add' label='Add Expense' raised primary />
+            button = <Button disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
         }else{
             button = <div>
-                <Button icon='mode_edit' label='Update Expense' raised primary />
+                <Button disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
                     type='button'
@@ -273,31 +277,54 @@ export default class ExpensesSideBar extends Component {
 
     componentWillMount(){
          //we create this rule both on client and server
-        Slingshot.fileRestrictions("imageUploader", {
-            allowedFileTypes: ["image/png", "image/jpeg", "image/gif"],
-            maxSize: 2 * 500 * 500
+        Slingshot.fileRestrictions('imageUploader', {
+            allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
+            maxSize: 4 * 1024 * 1024 // 4 MB (use null for unlimited).
         });
     }
 
-    uploadBill(){
-        var userId = Meteor.user()._id;
-        console.log(document.getElementById('input').files[0]);
-        var metaContext = {uploaderId: userId};
-        var uploader = new Slingshot.Upload("imageUploader", metaContext);
-        uploader.send(document.getElementById('input').files[0], function (error, downloadUrl) { // you can use refs if you like
-            if (error) {
-                // Log service detailed response
-                console.error('Error uploading', uploader.xhr.response);
-                alert (error); // you may want to fancy this up when you're ready instead of a popup.
-            }
-            else {
-                // we use $set because the user can change their avatar so it overwrites the url :)
-                //Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
-                console.log(downloadUrl);
-            }
-            // you will need this in the event the user hit the update button because it will remove the avatar url
-            this.setState({imageUrl: downloadUrl});
-        }.bind(this));
+    uploadBill(value, e){
+        let userId = Meteor.user()._id;
+        if(e.target.files.length){
+
+            this.setState({
+                disableButton: true,
+                loading: true
+            });
+
+            const reader = new FileReader();
+            const file = e.target.files[0];
+            reader.onload = (upload) => {
+                console.log(upload);
+                this.setState({
+                    data_uri: upload.target.result
+                });
+            };
+            reader.readAsDataURL(file);
+
+            let metaContext = {
+                uploaderId: userId
+            };
+
+            let uploader = new Slingshot.Upload('imageUploader', metaContext);
+            uploader.send(e.target.files[0],  (error, downloadUrl) => { // you can use refs if you like
+                if (error) {
+                    // Log service detailed response
+                    console.error('Error uploading', uploader.xhr.response);
+                    alert (error); // you may want to fancy this up when you're ready instead of a popup.
+                }
+                else {
+                    // we use $set because the user can change their avatar so it overwrites the url :)
+                    //Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                    console.log(downloadUrl);
+                    this.setState({billUrl: downloadUrl});
+                }
+                this.setState({
+                    disableButton: false,
+                    loading: false
+                });
+            });
+        }
     }
 
     render() {
@@ -365,10 +392,10 @@ export default class ExpensesSideBar extends Component {
                     format='ampm'
                 />
                 <Input
-                    type="file"
-                    id="input"
+                    type='file'
+                    id='input'
                     onChange={this.uploadBill.bind(this)} />
-                <img className='img-uploader' src={this.state.imageUrl} width="40px"/>
+                <img className='img-uploader' src={this.state.billUrl || this.state.data_uri} width='40px'/>
 
                 {this.renderButton()}
             </form>

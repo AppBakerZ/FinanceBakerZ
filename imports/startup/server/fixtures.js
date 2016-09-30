@@ -10,7 +10,7 @@ import { Slingshot } from 'meteor/edgee:slingshot'
 Meteor.startup(() => {
     Slingshot.fileRestrictions("imageUploader", {
         allowedFileTypes: ["image/png", "image/jpeg", "image/jpg"],
-        maxSize: 2 * 500 * 500 // 2 MB (use null for unlimited)
+        maxSize: 4 * 1024 * 1024 // 4 MB (use null for unlimited).
     });
 
 
@@ -31,7 +31,6 @@ Meteor.startup(() => {
         },
         key: function (file, metaContext) {
             // image url with ._id attached:
-
             return metaContext.uploaderId + "/" + Date.now() + "-" + file.name.replace(/\s/g, '_');
         }
     });
