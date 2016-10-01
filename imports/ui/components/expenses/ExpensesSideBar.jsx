@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon, IconButton } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Slingshot } from 'meteor/edgee:slingshot'
@@ -171,6 +171,8 @@ export default class ExpensesSideBar extends Component {
     }
 
     componentWillReceiveProps (p){
+        p.expense.billUrl = p.expense.billUrl || '';
+        p.expense.receivedTime = p.expense.receivedAt;
         this.setState(p.expense);
         this.setCurrentRoute();
         if(this.state.isNewRoute){
@@ -181,9 +183,11 @@ export default class ExpensesSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <Button disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
+            button = <div className='sidebar-buttons-group'>
+                <Button disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
+                </div>
         }else{
-            button = <div>
+            button = <div className='sidebar-buttons-group'>
                 <Button disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
@@ -283,6 +287,13 @@ export default class ExpensesSideBar extends Component {
         });
     }
 
+    resetBillUpload(){
+        this.setState({
+            data_uri: '',
+            billUrl: ''
+        });
+    }
+
     uploadBill(value, e){
         let userId = Meteor.user()._id;
         if(e.target.files.length){
@@ -328,6 +339,24 @@ export default class ExpensesSideBar extends Component {
     }
 
     render() {
+        //Show bill if added
+        if(this.state.billUrl || this.state.data_uri){
+            var uploadedBill = <div className='bill-group'>
+                <Button
+                    className='bill-change-button'
+                    label='Change Bill'
+                    type='button'
+                    onClick={this.resetBillUpload.bind(this)}
+                    />
+                <img className='expenses-bill' src={this.state.billUrl || this.state.data_uri} />
+                </div>
+        }else{
+            //Enable upload bill option
+            var billUpload = <Input
+                type='file'
+                id='input'
+                onChange={this.uploadBill.bind(this)} />
+        }
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
 
@@ -391,11 +420,9 @@ export default class ExpensesSideBar extends Component {
                     value={this.state.spentTime}
                     format='ampm'
                 />
-                <Input
-                    type='file'
-                    id='input'
-                    onChange={this.uploadBill.bind(this)} />
-                <img className='img-uploader' src={this.state.billUrl || this.state.data_uri} width='40px'/>
+
+                {billUpload}
+                {uploadedBill}
 
                 {this.renderButton()}
             </form>

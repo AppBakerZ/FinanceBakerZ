@@ -153,9 +153,11 @@ export default class AccountsSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <Button icon='add' label='Add Account' raised primary />
+            button = <div className='sidebar-buttons-group'>
+                <Button icon='add' label='Add Account' raised primary />
+                </div>
         }else{
-            button = <div>
+            button = <div className='sidebar-buttons-group'>
                 <Button icon='mode_edit' label='Update Account' raised primary />
                 <Button
                     onClick={this.removeAccount.bind(this)}

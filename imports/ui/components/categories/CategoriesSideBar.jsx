@@ -153,9 +153,11 @@ export default class CategoriesSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <Button icon='add' label='Add Category' raised primary />
+            button = <div className='sidebar-buttons-group'>
+                <Button icon='add' label='Add Category' raised primary />
+                </div>
         }else{
-            button = <div>
+            button = <div className='sidebar-buttons-group'>
                 <Button icon='mode_edit' label='Update Category' raised primary />
                 <Button
                     onClick={this.removeCategory.bind(this)}

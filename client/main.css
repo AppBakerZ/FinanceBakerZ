@@ -79,6 +79,27 @@
     margin-left: 10px;
 }
 
-.img-uploader{
-    float: right
+.expenses-bill {
+    width: 100%;
+}
+
+.sidebar-buttons-group {
+    position: absolute;
+    bottom: 0;
+    background-color: #fafafa;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 10px;
+    left: 0;
+}
+
+.bill-group {
+    position: relative;
+}
+
+.bill-change-button {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

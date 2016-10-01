@@ -92,7 +92,7 @@ export default class AppLayout extends Component {
                     <div>
                         <IconButton icon='close' onClick={ this.toggleSidebar.bind(this, false) }/>
                     </div>
-                    <div style={{ flex: 1, padding: '1.8rem' }}>
+                    <div style={{ flex: 1, padding: '1.8rem 1.8rem 5.8rem 1.8rem', overflowY: 'auto' }}>
                         {this.props.sidebar}
                     </div>
                 </Sidebar>
