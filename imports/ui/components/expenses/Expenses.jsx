@@ -40,6 +40,10 @@ class ExpensesPage extends Component {
         return category.length ? category[0].name : _id;
     }
 
+    formatNumber(num){
+        return new Intl.NumberFormat().format(num);
+    }
+
     renderExpense(){
         const { expenses } = this.props;
     
@@ -58,7 +62,7 @@ class ExpensesPage extends Component {
                         onClick={ this.toggleSidebar.bind(this) }
                         leftIcon='content_cut'
                         rightIcon='mode_edit'
-                        caption={`PKR : ${expense.amount}`}
+                        caption={`PKR : ${this.formatNumber(expense.amount)}`}
                         legend={`CATEGORY : ${this.getCategoryName(expense.category)} - DESCRIPTION: ${expense.description}`}
                     />
                 </Link>
