@@ -26,12 +26,6 @@
       "scss"
     ]
   },
-  "globalVariables": [
-    "node_modules/react-toolbox/lib/_colors.scss",
-    {
-      "theme-building": true
-    }
-  ],
   "devDependencies": {
     "node-sass": "^3.10.0"
   }
