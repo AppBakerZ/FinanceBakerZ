@@ -64,7 +64,7 @@ class DashboardPage extends Component {
     }
 
     toggleSidebar(event){
-        this.props.toggleSidebar(true);
+        this.props.toggleSidebar(false);
     }
 
 
