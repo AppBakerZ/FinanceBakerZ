@@ -2,7 +2,8 @@
   "name": "finance",
   "private": true,
   "scripts": {
-    "start": "meteor --settings settings.json"
+    "start": "meteor --settings settings.json",
+    "cordova": "meteor run ios-device --settings settings.json --mobile-server https://financebakerz.herokuapp.com"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
