@@ -14,6 +14,8 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Expenses } from '../expences/expenses.js';
 import { Incomes } from '../incomes/incomes.js';
+import { Accounts } from '../accounts/accounts.js';
+import { Categories } from '../categories/categories.js';
 
 export const availableBalance = new ValidatedMethod({
     name: 'statistics.availableBalance',
@@ -136,6 +138,14 @@ export const generateReport = new ValidatedMethod({
             fileName = "report.pdf",
             css = Assets.getText('bootstrap.min.css'); // GENERATE HTML STRING
 
+        let query = {};
+        if(date){
+            query['createdAt'] = {
+                $gte: new Date(date.start),
+                $lte: new Date(date.end)
+            };
+        }
+
         SSR.compileTemplate('layout', Assets.getText('layout.html'));
 
         Template.layout.helpers({
@@ -146,19 +156,45 @@ export const generateReport = new ValidatedMethod({
 
         SSR.compileTemplate('report', Assets.getText('report.html'));
 
+        /*Todo use later relation */
+        Template.report.helpers({
+            accountName : function(id){
+                return Accounts.findOne({_id : id}).name;
+            },
+            categoryName : function(id){
+                return Categories.findOne({_id : id}).name;
+            },
+            totalIncome : function(){
+                if(date){
+                    let incomes = Incomes.aggregate({
+                        $match: query
+                    },{
+                        $group: { _id: null, total: { $sum: '$amount' } }
+                    });
+                    return incomes.length ? incomes[0].total : 0;
+                }
+            },
+            totalExpenses : function(){
+                if(date){
+                    let expenses = Expenses.aggregate({
+                        $match: query
+                    },{
+                        $group: { _id: null, total: { $sum: '$amount' } }
+                    });
+                    return expenses.length ? expenses[0].total : 0;
+                }
+            }
+        });
+
         // PREPARE DATA
         //createdAt
-        let query = {};
-        if(date){
-            query['createdAt'] = {
-                $gte: new Date(date.start),
-                $lte: new Date(date.end)
-            };
+
+        record =  (report == 'incomes') ? Incomes.find(query).fetch() : Expenses.find(query).fetch();
+
+        if(!record.length){
+            throw new Meteor.Error( 404, 'result not found' );
         }
 
-        record =  (report == 'incomes') ? Incomes.find(query) : Expenses.find(query);
-
-         //incomes = Incomes.find(query);
          data = {
             heading : (report == 'incomes') ? ('Incomes Report for ' + filterBy) : ('Expenses Report for ' + filterBy),
             record: record,

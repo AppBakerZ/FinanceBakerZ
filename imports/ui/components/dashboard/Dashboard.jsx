@@ -39,28 +39,6 @@ class DashboardPage extends Component {
             date.start = moment().startOf(filter).format();
             date.end = moment().endOf(filter).format();
         }
-      /*  switch (filter){
-            case 'today':
-                date.start = moment().startOf('day').format();
-                date.end = moment().endOf('day').format();
-                break;
-            case 'this_week':
-                date.start = moment().startOf('week').format();
-                date.end = moment().endOf('week').format();
-                break;
-            case 'this_month':
-                date.start = moment().startOf('month').format();
-                date.end = moment().endOf('month').format();
-                break;
-            case 'last_month':
-                date.start = moment().subtract(1, 'months').startOf('month').format();
-                date.end = moment().subtract(1, 'months').endOf('month').format();
-                break;
-            case 'this_year':
-                date.start = moment().startOf('year').format();
-                date.end = moment().endOf('year').format();
-                break;
-        }*/
         return date
     }
 
@@ -206,7 +184,7 @@ class DashboardPage extends Component {
                 window.open("data:application/pdf;base64, " + res);
             }
         })
-    }
+    };
 
     render() {
         return (
@@ -259,12 +237,16 @@ class DashboardPage extends Component {
                         </Card>
                       </div>
                         <div className='pdf-generator'>
-                           <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
-                               <Button icon='add' label='Income Report' raised primary />
-                           </div>
-                           <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
-                                <Button icon='add' label='Expences Report' raised primary />
-                            </div>
+                            {(!this.state.totalIncomes ||
+                                <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                                    <Button icon='add' label='Income Report' raised primary />
+                                </div>
+                            )}
+                            {(!this.state.totalExpenses ||
+                                <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                                    <Button icon='add' label='Expences Report' raised primary />
+                                </div>
+                            )}
                         </div>
                 </div>
             </div>

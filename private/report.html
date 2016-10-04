@@ -5,7 +5,7 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Account Id</th>
+            <th>Account</th>
             <th>{{#if income}}Type{{else}} Category{{/if}}</th>
             <th>Amount</th>
         </tr>
@@ -15,7 +15,7 @@
             {{#each record}}
                 <tr>
                     <th>{{@index}}</th>
-                    <td>{{account}}</td>
+                    <td>{{accountName account}}</td>
                     <th> {{type}}</th>
                     <td class="text-center">{{amount}}</td>
                 </tr>
@@ -24,13 +24,18 @@
             {{#each record}}
                 <tr>
                     <th>{{@index}}</th>
-                    <td>{{account}}</td>
-                    <th>{{category}}</th>
+                    <td>{{accountName account}}</td>
+                    <th>{{categoryName category}}</th>
                     <td class="text-center">{{amount}}</td>
                 </tr>
             {{/each}}
         {{/if}}
-
+        <tr>
+            <th></th>
+            <td></td>
+            <th>Total</th>
+            <td class="text-center">{{#if income}} {{totalIncome}} {{else}} {{totalExpenses}} {{/if}}</td>
+        </tr>
         </tbody>
     </table>
 </div>
