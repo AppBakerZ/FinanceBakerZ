@@ -21,6 +21,7 @@ class DashboardPage extends Component {
             multiple: [],
             filterBy: 'month'
         };
+        this.toggleSidebar();
     }
 
     formatNumber(num){
