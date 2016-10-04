@@ -86,4 +86,9 @@ Meteor.startup( () => {
             FastClick.attach(document.body);
         }, false);
     }
+
+    window.addEventListener('load', () => {
+        console.log('FastClick working 2 ...');
+        FastClick.attach(document.body);
+    });
 });
