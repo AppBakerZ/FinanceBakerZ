@@ -115,34 +115,43 @@ export const generateReport = new ValidatedMethod({
         message: 'You need to be logged in to get total Incomes and Expenses'
     },
     validate: new SimpleSchema({
-        report : {
-            type: String
-        },
-        date: {
+        params : {
             type: Object
         },
-        'date.start': {
+        'params.report' : {
             type: String
         },
-        'date.end': {
+        'params.date': {
+            type: Object
+        },
+        'params.date.start': {
             type: String
         },
-        filterBy : {
+        'params.date.end': {
             type: String
+        },
+        'params.filterBy' : {
+            type: String
+        },
+        'params.multiple' : {
+            type: [String]
         }
     }).validator(),
-    run({report, date, filterBy}) {
-
+    //run({report, date, filterBy}) {
+    run({params}) {
         let record, data, html_string, options, pdfData,
             fut = new Future(),
             fileName = "report.pdf",
             css = Assets.getText('bootstrap.min.css'); // GENERATE HTML STRING
 
         let query = {};
-        if(date){
+           if(params.multiple.length){
+               query['account'] = {$in: params.multiple};
+           }
+        if(params.date){
             query['createdAt'] = {
-                $gte: new Date(date.start),
-                $lte: new Date(date.end)
+                $gte: new Date(params.date.start),
+                $lte: new Date(params.date.end)
             };
         }
 
@@ -165,7 +174,7 @@ export const generateReport = new ValidatedMethod({
                 return Categories.findOne({_id : id}).name;
             },
             totalIncome : function(){
-                if(date){
+                if(params.date){
                     let incomes = Incomes.aggregate({
                         $match: query
                     },{
@@ -175,7 +184,7 @@ export const generateReport = new ValidatedMethod({
                 }
             },
             totalExpenses : function(){
-                if(date){
+                if(params.date){
                     let expenses = Expenses.aggregate({
                         $match: query
                     },{
@@ -189,16 +198,16 @@ export const generateReport = new ValidatedMethod({
         // PREPARE DATA
         //createdAt
 
-        record =  (report == 'incomes') ? Incomes.find(query).fetch() : Expenses.find(query).fetch();
+        record =  (params.report == 'incomes') ? Incomes.find(query).fetch() : Expenses.find(query).fetch();
 
         if(!record.length){
             throw new Meteor.Error( 404, 'result not found' );
         }
 
          data = {
-            heading : (report == 'incomes') ? ('Incomes Report for ' + filterBy) : ('Expenses Report for ' + filterBy),
+            heading : (params.report == 'incomes') ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
             record: record,
-            income : (report == 'incomes')
+            income : (params.report == 'incomes')
 
          };
 

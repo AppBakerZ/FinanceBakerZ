@@ -174,10 +174,14 @@ class DashboardPage extends Component {
 
     generatePdf(report){
 
-    let filterBy = this.state.filterBy,
-        date = this.filterByDate(this.state.filterBy);
+    let params = {
+        multiple : this.state.multiple,
+        filterBy : this.state.filterBy,
+        date : this.filterByDate(this.state.filterBy),
+        report : report
+    };
 
-    Meteor.call('statistics.generateReport', {report, date, filterBy } , function(err, res){
+    Meteor.call('statistics.generateReport', {params } , function(err, res){
             if (err) {
                 console.error(err);
             } else if (res) {
