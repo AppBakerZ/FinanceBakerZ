@@ -25,6 +25,9 @@ import ExpensesSideBar from '../../ui/components/expenses/ExpensesSideBar.jsx';
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
 import CategoriesSideBar from '../../ui/components/categories/CategoriesSideBar.jsx';
 
+import SettingsPage from '../../ui/components/settings/Settings.jsx';
+import SettingsSideBar from '../../ui/components/settings/SettingsSideBar.jsx';
+
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     clearInterval(setIntervalHandel);
     if (! Meteor.user() ) {
@@ -67,6 +70,10 @@ Meteor.startup( () => {
                     <Route path=":id" />
                 </Route>
                 <Route path="categories" components={{ content: CategoriesPage, sidebar: CategoriesSideBar }}>
+                    <Route path="new" />
+                    <Route path=":id" />
+                </Route>
+                <Route path="settings" components={{ content: SettingsPage, sidebar: SettingsSideBar }}>
                     <Route path="new" />
                     <Route path=":id" />
                 </Route>
