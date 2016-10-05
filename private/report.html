@@ -1,12 +1,16 @@
-<div class="">
-    <h3 class="text-center">{{heading}}</h3>
+<div class="report">
+    <h3 class="text-center">
+        <span>{{heading}}</span>
+    </h3>
 
     <table class="table table-striped">
         <thead>
         <tr>
             <th>#</th>
             <th>Account</th>
-            <th>{{#if income}}Type{{else}} Category{{/if}}</th>
+            <th>{{#if income}} Type {{else}} Category {{/if}}</th>
+            <th>Date</th>
+            <th>{{#if income}} Project {{else}} Description {{/if}}</th>
             <th>Amount</th>
         </tr>
         </thead>
@@ -15,9 +19,11 @@
             {{#each record}}
                 <tr>
                     <th>{{@index}}</th>
-                    <td>{{accountName account}}</td>
+                    <th>{{accountName account}}</th>
                     <th> {{type}}</th>
-                    <td class="text-center">{{amount}}</td>
+                    <th> {{dateFormat createdAt}}</th>
+                    <th> {{project}}</th>
+                    <th>{{amount}}</th>
                 </tr>
             {{/each}}
         {{else}}
@@ -25,16 +31,17 @@
                 <tr>
                     <th>{{@index}}</th>
                     <td>{{accountName account}}</td>
-                    <th>{{categoryName category}}</th>
-                    <td class="text-center">{{amount}}</td>
+                    <td>{{categoryName category}}</td>
+                    <td> {{dateFormat createdAt}}</td>
+                    <th> {{description}}</th>
+                    <td>{{amount}}</td>
                 </tr>
             {{/each}}
         {{/if}}
-        <tr>
-            <th></th>
-            <td></td>
-            <th>Total</th>
-            <td class="text-center">{{#if income}} {{totalIncome}} {{else}} {{totalExpenses}} {{/if}}</td>
+        <tr class="total">
+            <td colspan="4"></td>
+            <td >Total</td>
+            <td>{{#if income}} {{totalIncome}} {{else}} {{totalExpenses}} {{/if}}</td>
         </tr>
         </tbody>
     </table>

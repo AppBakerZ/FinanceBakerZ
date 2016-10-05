@@ -6,6 +6,7 @@ import { _ } from 'meteor/underscore';
 import webshot from 'webshot';
 import fs from 'fs';
 import Future from 'fibers/future';
+import moment from 'moment';
 
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
@@ -31,7 +32,7 @@ export const availableBalance = new ValidatedMethod({
     }).validator(),
     run({accounts}) {
         let query = {
-          owner: this.userId
+            owner: this.userId
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
@@ -142,12 +143,13 @@ export const generateReport = new ValidatedMethod({
         let record, data, html_string, options, pdfData,
             fut = new Future(),
             fileName = "report.pdf",
-            css = Assets.getText('bootstrap.min.css'); // GENERATE HTML STRING
+            css = Assets.getText('bootstrap.min.css'), // GENERATE HTML STRING
+            reportStyle = Assets.getText('report.css');
 
         let query = {};
-           if(params.multiple.length){
-               query['account'] = {$in: params.multiple};
-           }
+        if(params.multiple.length){
+            query['account'] = {$in: params.multiple};
+        }
         if(params.date){
             query['createdAt'] = {
                 $gte: new Date(params.date.start),
@@ -192,6 +194,9 @@ export const generateReport = new ValidatedMethod({
                     });
                     return expenses.length ? expenses[0].total : 0;
                 }
+            },
+            dateFormat : function(data){
+               return moment(data).format('L')
             }
         });
 
@@ -204,22 +209,23 @@ export const generateReport = new ValidatedMethod({
             throw new Meteor.Error( 404, 'result not found' );
         }
 
-         data = {
+        data = {
             heading : (params.report == 'incomes') ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
             record: record,
             income : (params.report == 'incomes')
 
-         };
+        };
 
 
-         html_string = SSR.render('layout', {
+        html_string = SSR.render('layout', {
+            reportStyle: reportStyle,
             css: css,
             template: "report",
             data: data
         });
 
         // Setup Webshot options
-         options = {
+        options = {
             //renderDelay: 2000,
             "paperSize": {
                 "format": "Letter",
