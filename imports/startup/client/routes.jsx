@@ -28,6 +28,9 @@ import CategoriesSideBar from '../../ui/components/categories/CategoriesSideBar.
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
 import SettingsSideBar from '../../ui/components/settings/SettingsSideBar.jsx';
 
+import CurrencyPage from '../../ui/components/settings/currency/Currency.jsx';
+import CurrencySideBar from '../../ui/components/settings/currency/CurrencySideBar.jsx';
+
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     clearInterval(setIntervalHandel);
     if (! Meteor.user() ) {
@@ -74,6 +77,10 @@ Meteor.startup( () => {
                     <Route path=":id" />
                 </Route>
                 <Route path="settings" components={{ content: SettingsPage, sidebar: SettingsSideBar }}>
+                    <Route path="new" />
+                    <Route path=":id" />
+                </Route>
+                <Route path="currency" components={{ content: CurrencyPage, sidebar: CurrencySideBar }}>
                     <Route path="new" />
                     <Route path=":id" />
                 </Route>

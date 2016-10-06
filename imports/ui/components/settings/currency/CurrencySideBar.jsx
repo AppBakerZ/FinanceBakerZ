@@ -5,10 +5,10 @@ import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
-import { Categories } from '../../../api/categories/categories.js';
-import { Accounts } from '../../../api/accounts/accounts.js';
+import { Currencies } from '../../../../api/currencies/currencies.js';
+import { Accounts } from '../../../../api/accounts/accounts.js';
 
-export default class CategoriesSideBar extends Component {
+export default class CurrencySideBar extends Component {
 
     constructor(props) {
         super(props);
@@ -25,11 +25,11 @@ export default class CategoriesSideBar extends Component {
 
     setCurrentRoute(){
         this.setState({
-            isNewRoute: this.props.history.isActive('app/settings/new')
+            isNewRoute: this.props.history.isActive('app/currency/new')
         })
     }
 
-    resetCategory(){
+    resetCurrency(){
         this.setState({
             name: '',
             icon: ''
@@ -38,15 +38,15 @@ export default class CategoriesSideBar extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        this.state.isNewRoute ? this.createCategory() : this.updateCategory();
+        this.state.isNewRoute ? this.createCurrency() : this.updateCurrency();
         this.setState({loading: true})
     }
 
-    createCategory(){
+    createCurrency(){
         let {name, icon} = this.state;
 
-        Meteor.call('categories.insert', {
-            category: {
+        Meteor.call('currencies.insert', {
+            currency: {
                 name,
                 icon
             }
@@ -54,11 +54,11 @@ export default class CategoriesSideBar extends Component {
             if(response){
                 this.setState({
                     active: true,
-                    barMessage: 'Category created successfully',
+                    barMessage: 'Currency created successfully',
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                this.resetCategory();
+                this.resetCurrency();
             }else{
                 this.setState({
                     active: true,
@@ -71,11 +71,11 @@ export default class CategoriesSideBar extends Component {
         });
     }
 
-    updateCategory(){
+    updateCurrency(){
         let {_id, name, icon} = this.state;
 
-        Meteor.call('categories.update', {
-            category: {
+        Meteor.call('currencies.update', {
+            currency: {
                 _id,
                 name,
                 icon
@@ -91,7 +91,7 @@ export default class CategoriesSideBar extends Component {
             }else{
                 this.setState({
                     active: true,
-                    barMessage: 'Category updated successfully',
+                    barMessage: 'Currency updated successfully',
                     barIcon: 'done',
                     barType: 'accept'
                 });
@@ -100,10 +100,10 @@ export default class CategoriesSideBar extends Component {
         });
     }
 
-    removeCategory(){
+    removeCurrency(){
         const {_id} = this.state;
-        Meteor.call('categories.remove', {
-            category: {
+        Meteor.call('currencies.remove', {
+            currency: {
                 _id
             }
         }, (err, response) => {
@@ -115,10 +115,10 @@ export default class CategoriesSideBar extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/app/settings/new');
+                this.props.history.replace('/app/currency/new');
                 this.setState({
                     active: true,
-                    barMessage: 'Category deleted successfully',
+                    barMessage: 'Currency deleted successfully',
                     barIcon: 'done',
                     barType: 'accept'
                 });
@@ -143,10 +143,10 @@ export default class CategoriesSideBar extends Component {
     }
 
     componentWillReceiveProps (p){
-        this.setState(p.category);
+        this.setState(p.currency);
         this.setCurrentRoute();
         if(this.state.isNewRoute){
-            this.resetCategory()
+            this.resetCurrency()
         }
     }
 
@@ -154,16 +154,16 @@ export default class CategoriesSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button icon='add' label='Add Category' raised primary />
-                </div>
+                <Button icon='add' label='Add Currency' raised primary />
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button icon='mode_edit' label='Update Category' raised primary />
+                <Button icon='mode_edit' label='Update Currency' raised primary />
                 <Button
-                    onClick={this.removeCategory.bind(this)}
+                    onClick={this.removeCurrency.bind(this)}
                     type='button'
                     icon='delete'
-                    label='Remove Category'
+                    label='Remove Currency'
                     className='float-right'
                     accent />
             </div>
@@ -208,21 +208,21 @@ export default class CategoriesSideBar extends Component {
     }
 }
 
-CategoriesSideBar.propTypes = {
-    category: PropTypes.object.isRequired,
+CurrencySideBar.propTypes = {
+    currency: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    categoryExists: PropTypes.bool.isRequired
+    currencyExists: PropTypes.bool.isRequired
 };
 
 export default createContainer((props) => {
     const { id } = props.params;
-    const categoryHandle = Meteor.subscribe('categories.single', id);
-    const loading = !categoryHandle.ready();
-    const category = Categories.findOne(id);
-    const categoryExists = !loading && !!category;
+    const currencyHandle = Meteor.subscribe('currencies.single', id);
+    const loading = !currencyHandle.ready();
+    const currency = Currencies.findOne(id);
+    const currencyExists = !loading && !!currency;
     return {
         loading,
-        categoryExists,
-        category: categoryExists ? category : {}
+        currencyExists,
+        currency: currencyExists ? currency : {}
     };
-}, CategoriesSideBar);
+}, CurrencySideBar);

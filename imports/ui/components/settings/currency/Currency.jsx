@@ -6,9 +6,10 @@ import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
-import { Categories } from '../../../api/categories/categories.js';
+import { Currencies } from '../../../../api/currencies/currencies.js';
 
-class SettingsPage extends Component {
+
+class CurrencyPage extends Component {
 
     constructor(props) {
         super(props);
@@ -22,20 +23,29 @@ class SettingsPage extends Component {
         this.props.toggleSidebar(true);
     }
 
-    renderCategory(){
+    renderCurrencies(){
+
+        const { currencies } = this.props;
+        let items = currencies.map((currency) => {
+            return <Link
+                key={currency._id}
+                activeClassName='active'
+                to={`/app/currency/${currency._id}`}>
+
+                <ListItem
+                    selectable
+                    onClick={ this.toggleSidebar.bind(this) }
+                    leftIcon={currency.icon}
+                    rightIcon='mode_edit'
+                    caption={currency.name}
+                    />
+            </Link>
+        });
+
         return (
             <section>
-                <Link
-                    activeClassName='active'
-                    to={`/app/currency/new`}>
-
-                    <ListItem
-                        selectable
-                        onClick={ this.toggleSidebar.bind(this) }
-                        rightIcon='mode_edit'
-                        caption='Currency Symbol'
-                        />
-                </Link>
+                <h1>Currency Testing </h1>
+                {items}
             </section>
         )
     }
@@ -49,7 +59,7 @@ class SettingsPage extends Component {
                 </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple className='list'>
-                        {this.renderCategory()}
+                        {this.renderCurrencies()}
                     </List>
                 </div>
             </div>
@@ -57,14 +67,14 @@ class SettingsPage extends Component {
     }
 }
 
-SettingsPage.propTypes = {
-    categories: PropTypes.array.isRequired
+CurrencyPage.propTypes = {
+    currencies: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('categories');
+    Meteor.subscribe('currencies');
 
     return {
-        categories: Categories.find({}).fetch()
+        currencies: Currencies.find({}).fetch()
     };
-}, SettingsPage);
+}, CurrencyPage);
