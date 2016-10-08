@@ -44,7 +44,6 @@ class CurrencyPage extends Component {
 
         return (
             <section>
-                <h1>Currency Testing </h1>
                 {items}
             </section>
         )

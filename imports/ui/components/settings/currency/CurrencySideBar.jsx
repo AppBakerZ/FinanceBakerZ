@@ -6,7 +6,6 @@ import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Currencies } from '../../../../api/currencies/currencies.js';
-import { Accounts } from '../../../../api/accounts/accounts.js';
 
 export default class CurrencySideBar extends Component {
 

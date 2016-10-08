@@ -13,5 +13,8 @@ import '../../api/expences/server/publications.js';
 import '../../api/categories/methods.js';
 import '../../api/categories/server/publications.js';
 
+import '../../api/currencies/methods.js';
+import '../../api/currencies/server/publications.js';
+
 import '../../api/statistics/methods.js';
 
