@@ -16,10 +16,11 @@ class SettingsPage extends Component {
         this.state = {
         };
 
+        this.toggleSidebar()
     }
 
     toggleSidebar(event){
-        this.props.toggleSidebar(true);
+        this.props.toggleSidebar(false);
     }
 
     renderCategory(){
@@ -27,7 +28,7 @@ class SettingsPage extends Component {
             <section>
                 <Link
                     activeClassName='active'
-                    to={`/app/currency/new`}>
+                    to={`/app/settings/currency`}>
 
                     <ListItem
                         selectable
@@ -43,10 +44,6 @@ class SettingsPage extends Component {
     render() {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <Link
-                    to={`/app/currency/new`}>
-                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple className='list'>
                         {this.renderCategory()}
