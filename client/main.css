@@ -70,6 +70,10 @@
     border-bottom: #eeeeee solid 1px;
 }
 
+.list li.active{
+    background: #cccccc;
+}
+
 .pdf-generator {
     margin-left: auto
 }
