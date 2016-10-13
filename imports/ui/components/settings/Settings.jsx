@@ -33,7 +33,7 @@ class SettingsPage extends Component {
                     <ListItem
                         selectable
                         onClick={ this.toggleSidebar.bind(this) }
-                        rightIcon='mode_edit'
+                        leftIcon='attach_money'
                         caption='Currency Symbol'
                         />
                 </Link>

@@ -23,22 +23,14 @@ export const get = new ValidatedMethod({
         return [
             {
                 "symbol": "$",
-                "name": "US Dollar",
+                "name": "Dollar",
                 "symbol_native": "$",
                 "decimal_digits": 2,
                 "rounding": 0,
                 "code": "USD",
-                "name_plural": "US dollars"
+                "name_plural": "dollars"
             },
-            {
-                "symbol": "CA$",
-                "name": "Canadian Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "CAD",
-                "name_plural": "Canadian dollars"
-            },
+
             {
                 "symbol": "€",
                 "name": "Euro",
@@ -92,15 +84,6 @@ export const get = new ValidatedMethod({
                 "rounding": 0,
                 "code": "ARS",
                 "name_plural": "Argentine pesos"
-            },
-            {
-                "symbol": "AU$",
-                "name": "Australian Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "AUD",
-                "name_plural": "Australian dollars"
             },
             {
                 "symbol": "man.",
@@ -157,15 +140,6 @@ export const get = new ValidatedMethod({
                 "name_plural": "Burundian francs"
             },
             {
-                "symbol": "BN$",
-                "name": "Brunei Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "BND",
-                "name_plural": "Brunei dollars"
-            },
-            {
                 "symbol": "Bs",
                 "name": "Bolivian Boliviano",
                 "symbol_native": "Bs",
@@ -200,15 +174,6 @@ export const get = new ValidatedMethod({
                 "rounding": 0,
                 "code": "BYR",
                 "name_plural": "Belarusian rubles"
-            },
-            {
-                "symbol": "BZ$",
-                "name": "Belize Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "BZD",
-                "name_plural": "Belize dollars"
             },
             {
                 "symbol": "CDF",
@@ -400,15 +365,6 @@ export const get = new ValidatedMethod({
                 "name_plural": "Guatemalan quetzals"
             },
             {
-                "symbol": "HK$",
-                "name": "Hong Kong Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "HKD",
-                "name_plural": "Hong Kong dollars"
-            },
-            {
                 "symbol": "HNL",
                 "name": "Honduran Lempira",
                 "symbol_native": "L",
@@ -488,15 +444,6 @@ export const get = new ValidatedMethod({
                 "rounding": 0,
                 "code": "ISK",
                 "name_plural": "Icelandic krónur"
-            },
-            {
-                "symbol": "J$",
-                "name": "Jamaican Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "JMD",
-                "name_plural": "Jamaican dollars"
             },
             {
                 "symbol": "JD",
@@ -706,15 +653,6 @@ export const get = new ValidatedMethod({
                 "name_plural": "Mozambican meticals"
             },
             {
-                "symbol": "N$",
-                "name": "Namibian Dollar",
-                "symbol_native": "N$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "NAD",
-                "name_plural": "Namibian dollars"
-            },
-            {
                 "symbol": "₦",
                 "name": "Nigerian Naira",
                 "symbol_native": "₦",
@@ -749,15 +687,6 @@ export const get = new ValidatedMethod({
                 "rounding": 0,
                 "code": "NPR",
                 "name_plural": "Nepalese rupees"
-            },
-            {
-                "symbol": "NZ$",
-                "name": "New Zealand Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "NZD",
-                "name_plural": "New Zealand dollars"
             },
             {
                 "symbol": "OMR",
@@ -895,15 +824,6 @@ export const get = new ValidatedMethod({
                 "name_plural": "Swedish kronor"
             },
             {
-                "symbol": "S$",
-                "name": "Singapore Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "SGD",
-                "name_plural": "Singapore dollars"
-            },
-            {
                 "symbol": "Ssh",
                 "name": "Somali Shilling",
                 "symbol_native": "Ssh",
@@ -956,24 +876,6 @@ export const get = new ValidatedMethod({
                 "rounding": 0,
                 "code": "TRY",
                 "name_plural": "Turkish Lira"
-            },
-            {
-                "symbol": "TT$",
-                "name": "Trinidad and Tobago Dollar",
-                "symbol_native": "$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "TTD",
-                "name_plural": "Trinidad and Tobago dollars"
-            },
-            {
-                "symbol": "NT$",
-                "name": "New Taiwan Dollar",
-                "symbol_native": "NT$",
-                "decimal_digits": 2,
-                "rounding": 0,
-                "code": "TWD",
-                "name_plural": "New Taiwan dollars"
             },
             {
                 "symbol": "TSh",
