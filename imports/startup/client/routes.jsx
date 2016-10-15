@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import FastClick from 'fastclick';
+import {FastClick} from 'fastclick';
 
 import { Meteor } from 'meteor/meteor'
 
