@@ -16,11 +16,11 @@ class SettingsPage extends Component {
         this.state = {
         };
 
-        this.toggleSidebar()
+        //this.toggleSidebar()
     }
 
     toggleSidebar(event){
-        this.props.toggleSidebar(false);
+        this.props.toggleSidebar(true);
     }
 
     renderCategory(){

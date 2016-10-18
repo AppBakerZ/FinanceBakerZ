@@ -10,6 +10,7 @@
     "fastclick": "^1.0.6",
     "fibers": "^1.0.14",
     "immutability-helper": "^2.0.0",
+    "iscroll": "^5.2.0",
     "meteor-node-stubs": "~0.2.0",
     "moment": "^2.15.1",
     "node-sass": "3.6.0",
@@ -21,7 +22,8 @@
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1",
     "react-toolbox": "^1.2.1",
-    "webshot": "^0.18.0"
+    "webshot": "^0.18.0",
+    "react-iscroll": "~1.1.0"
   },
   "cssModules": {
     "extensions": [

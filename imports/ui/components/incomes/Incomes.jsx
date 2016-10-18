@@ -8,6 +8,16 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true
+};
+
+
 class IncomesPage extends Component {
 
     constructor(props) {
@@ -58,6 +68,9 @@ class IncomesPage extends Component {
 
     render() {
         return (
+            <ReactIScroll iScroll={iScroll}
+                          options={iScrollOptions}
+                >
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <Link
                     to={`/app/incomes/new`}>
@@ -69,6 +82,8 @@ class IncomesPage extends Component {
                     </List>
                 </div>
             </div>
+            </ReactIScroll>
+
         );
     }
 }

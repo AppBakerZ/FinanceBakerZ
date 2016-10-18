@@ -6,6 +6,18 @@ import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox
 
 import { Meteor } from 'meteor/meteor';
 
+/*ReactIScroll = require('react-iscroll'),
+    iScroll = require('iscroll');*/
+
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true
+};
+
 export default class SettingsSideBar extends Component {
 
     constructor(props) {
@@ -13,10 +25,22 @@ export default class SettingsSideBar extends Component {
 
         this.state = {
             userCurrency : Meteor.user().profile.currency,
-            currencies : []
+            currencies : [],
+            y: 0,
+            isScrolling: false
         };
     }
 
+    onScrollStart (){
+        console.log('on Scroll start');
+        //this.setState({isScrolling: true})
+    };
+
+    onScrollEnd  (iScrollInstance) {
+        console.log('on Scroll end', iScrollInstance);
+
+        this.setState({isScrolling: false, y: iScrollInstance.y})
+    };
 
     componentWillMount() {
         Meteor.call("get.currencies",{}, (error, currencies) => {
@@ -68,11 +92,14 @@ export default class SettingsSideBar extends Component {
 
     render() {
         return (
+            <ReactIScroll iScroll={iScroll}
+                          options={iScrollOptions}
+                        >
             <List selectable ripple>
                 <ListSubHeader caption='Currencies' />
                 {this.renderList()}
             </List>
-
+            </ReactIScroll>
         );
     }
 }
