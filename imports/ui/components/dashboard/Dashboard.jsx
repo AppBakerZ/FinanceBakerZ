@@ -32,7 +32,6 @@ class DashboardPage extends Component {
             multiple: [],
             filterBy: 'month'
         };
-        this.toggleSidebar();
     }
 
     formatNumber(num){
@@ -63,6 +62,7 @@ class DashboardPage extends Component {
     }
 
     componentWillMount(){
+        this.toggleSidebar();
         this.setDefaultAccounts(this.props);
     }
 
@@ -179,9 +179,6 @@ class DashboardPage extends Component {
             }
         ];
     }
-
-
-
 
     generatePdf(report){
 

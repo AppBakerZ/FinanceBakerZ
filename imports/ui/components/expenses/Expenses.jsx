@@ -60,7 +60,6 @@ class ExpensesPage extends Component {
         let groupedExpenses = _.groupBy(expenses, (result) => moment(result['spentAt'], 'DD/MM/YYYY').format("YYYY-MM-DD"));
 
         return _.map(groupedExpenses, (expenses, date) => {
-
             let items = expenses.map((expense) => {
                 return <Link
                     key={expense._id}
@@ -79,7 +78,7 @@ class ExpensesPage extends Component {
             });
 
             return (
-                <section>
+                <section key={date}>
                     <ListSubHeader caption={moment(date).format('ll')} />
                     {items}
                 </section>

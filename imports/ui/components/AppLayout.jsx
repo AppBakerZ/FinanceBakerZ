@@ -27,7 +27,7 @@ export default class AppLayout extends Component {
 
     toggleSidebar (stopToggle) {
         this.setState({
-            sidebarPinned: stopToggle ? true : !this.state.sidebarPinned
+            sidebarPinned: stopToggle
         });
     }
 

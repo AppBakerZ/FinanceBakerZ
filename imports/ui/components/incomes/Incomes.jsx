@@ -58,7 +58,7 @@ class IncomesPage extends Component {
             });
 
             return (
-                <section>
+                <section key={date}>
                     <ListSubHeader caption={moment(date).format('ll')} />
                     {items}
                 </section>
