@@ -151,7 +151,8 @@ export const generateReport = new ValidatedMethod({
             query['account'] = {$in: params.multiple};
         }
         if(params.date){
-            query['createdAt'] = {
+            let fetch = (params.report == 'incomes') ? 'receivedAt' : 'spentAt';
+            query[fetch] = {
                 $gte: new Date(params.date.start),
                 $lte: new Date(params.date.end)
             };
