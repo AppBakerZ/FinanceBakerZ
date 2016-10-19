@@ -8,6 +8,16 @@ import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true,
+    click : true
+};
+
 export default class CategoriesSideBar extends Component {
 
     constructor(props) {
@@ -155,7 +165,7 @@ export default class CategoriesSideBar extends Component {
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
                 <Button icon='add' label='Add Category' raised primary />
-                </div>
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
                 <Button icon='mode_edit' label='Update Category' raised primary />
@@ -173,37 +183,39 @@ export default class CategoriesSideBar extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-category">
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <form onSubmit={this.onSubmit.bind(this)} className="add-category">
 
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                    <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.active}
-                    icon={this.state.barIcon}
-                    label={this.state.barMessage}
-                    timeout={2000}
-                    onClick={this.handleBarClick.bind(this)}
-                    onTimeout={this.handleBarTimeout.bind(this)}
-                    type={this.state.barType}
-                    />
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.active}
+                        icon={this.state.barIcon}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.handleBarClick.bind(this)}
+                        onTimeout={this.handleBarTimeout.bind(this)}
+                        type={this.state.barType}
+                        />
 
-                <Input type='text' label='Name'
-                       name='name'
-                       maxLength={ 50 }
-                       value={this.state.name}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Input type='text' label='Icon'
-                       name='icon'
-                       maxLength={ 50 }
-                       value={this.state.icon}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                {this.renderButton()}
-            </form>
+                    <Input type='text' label='Name'
+                           name='name'
+                           maxLength={ 50 }
+                           value={this.state.name}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    <Input type='text' label='Icon'
+                           name='icon'
+                           maxLength={ 50 }
+                           value={this.state.icon}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    {this.renderButton()}
+                </form>
+            </ReactIScroll>
         );
     }
 }

@@ -11,6 +11,16 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
 
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true,
+    click : true
+};
+
 export default class ExpensesSideBar extends Component {
 
     constructor(props) {
@@ -185,7 +195,7 @@ export default class ExpensesSideBar extends Component {
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
                 <Button disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
-                </div>
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
                 <Button disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
@@ -280,7 +290,7 @@ export default class ExpensesSideBar extends Component {
     }
 
     componentWillMount(){
-         //we create this rule both on client and server
+        //we create this rule both on client and server
         Slingshot.fileRestrictions('imageUploader', {
             allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
             maxSize: 4 * 1024 * 1024 // 4 MB (use null for unlimited).
@@ -349,7 +359,7 @@ export default class ExpensesSideBar extends Component {
                     onClick={this.resetBillUpload.bind(this)}
                     />
                 <img className='expenses-bill' src={this.state.billUrl || this.state.data_uri} />
-                </div>
+            </div>
         }else{
             //Enable upload bill option
             var billUpload = <Input
@@ -358,74 +368,76 @@ export default class ExpensesSideBar extends Component {
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
 
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                    <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.active}
-                    icon={this.state.barIcon}
-                    label={this.state.barMessage}
-                    timeout={2000}
-                    onClick={this.handleBarClick.bind(this)}
-                    onTimeout={this.handleBarTimeout.bind(this)}
-                    type={this.state.barType}
-                    />
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.active}
+                        icon={this.state.barIcon}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.handleBarClick.bind(this)}
+                        onTimeout={this.handleBarTimeout.bind(this)}
+                        type={this.state.barType}
+                        />
 
-                <Dropdown
-                    auto={false}
-                    source={this.accounts()}
-                    name='account'
-                    onChange={this.onChange.bind(this)}
-                    label='Select your account'
-                    value={this.state.account}
-                    template={this.accountItem}
-                    required
-                    />
+                    <Dropdown
+                        auto={false}
+                        source={this.accounts()}
+                        name='account'
+                        onChange={this.onChange.bind(this)}
+                        label='Select your account'
+                        value={this.state.account}
+                        template={this.accountItem}
+                        required
+                        />
 
-                <Input type='number' label='Amount'
-                       name='amount'
-                       value={this.state.amount}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Dropdown
-                    auto={false}
-                    source={this.categories()}
-                    name='category'
-                    onChange={this.onChange.bind(this)}
-                    label='Select your category'
-                    value={this.state.category}
-                    template={this.categoryItem}
-                    required
-                    />
-                <Input type='text' label='Description'
-                       name='description'
-                       multiline
-                       value={this.state.description}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <DatePicker
-                    label='Creation Date'
-                    name='spentAt'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.spentAt}
-                />
-                <TimePicker
-                    label='Creation time'
-                    name='spentTime'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.spentTime}
-                    format='ampm'
-                />
+                    <Input type='number' label='Amount'
+                           name='amount'
+                           value={this.state.amount}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    <Dropdown
+                        auto={false}
+                        source={this.categories()}
+                        name='category'
+                        onChange={this.onChange.bind(this)}
+                        label='Select your category'
+                        value={this.state.category}
+                        template={this.categoryItem}
+                        required
+                        />
+                    <Input type='text' label='Description'
+                           name='description'
+                           multiline
+                           value={this.state.description}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    <DatePicker
+                        label='Creation Date'
+                        name='spentAt'
+                        onChange={this.onChange.bind(this)}
+                        value={this.state.spentAt}
+                        />
+                    <TimePicker
+                        label='Creation time'
+                        name='spentTime'
+                        onChange={this.onChange.bind(this)}
+                        value={this.state.spentTime}
+                        format='ampm'
+                        />
 
-                {billUpload}
-                {uploadedBill}
+                    {billUpload}
+                    {uploadedBill}
 
-                {this.renderButton()}
-            </form>
+                    {this.renderButton()}
+                </form>
+            </ReactIScroll>
         );
     }
 }

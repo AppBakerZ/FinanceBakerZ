@@ -6,16 +6,15 @@ import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox
 
 import { Meteor } from 'meteor/meteor';
 
-/*ReactIScroll = require('react-iscroll'),
-    iScroll = require('iscroll');*/
-
 import iScroll from 'iscroll'
 import ReactIScroll from 'react-iscroll'
 
 const iScrollOptions = {
     mouseWheel: true,
     scrollbars: true,
-    scrollX: true
+    scrollX: true,
+    click : true
+
 };
 
 export default class SettingsSideBar extends Component {
@@ -67,13 +66,13 @@ export default class SettingsSideBar extends Component {
         const { currencies } = this.state;
         return currencies.map((currency, i)=> {
             return  (<ListItem
-                key={i}
-                className={this.state.userCurrency && this.state.userCurrency.code == currency.code ? 'active' : ''}
-                caption={currency.name}
-                legend={currency.symbol}
-                rightIcon  = {this.state.userCurrency && this.state.userCurrency.code == currency.code ? 'done' : ''}
-                onClick={ this.setCurrency.bind(this, currency)}
-                />
+                    key={i}
+                    className={this.state.userCurrency && this.state.userCurrency.code == currency.code ? 'active' : ''}
+                    caption={currency.name}
+                    legend={currency.symbol}
+                    rightIcon  = {this.state.userCurrency && this.state.userCurrency.code == currency.code ? 'done' : ''}
+                    onClick={ this.setCurrency.bind(this, currency)}
+                    />
             );
 
         });
@@ -92,13 +91,11 @@ export default class SettingsSideBar extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll}
-                          options={iScrollOptions}
-                        >
-            <List selectable ripple>
-                <ListSubHeader caption='Currencies' />
-                {this.renderList()}
-            </List>
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <List selectable ripple>
+                    <ListSubHeader caption='Currencies' />
+                    {this.renderList()}
+                </List>
             </ReactIScroll>
         );
     }

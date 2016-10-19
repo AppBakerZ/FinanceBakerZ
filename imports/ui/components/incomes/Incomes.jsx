@@ -14,7 +14,8 @@ import ReactIScroll from 'react-iscroll'
 const iScrollOptions = {
     mouseWheel: true,
     scrollbars: true,
-    scrollX: true
+    scrollX: true,
+    click : true
 };
 
 
@@ -58,8 +59,8 @@ class IncomesPage extends Component {
 
             return (
                 <section>
-                <ListSubHeader caption={moment(date).format('ll')} />
-                {items}
+                    <ListSubHeader caption={moment(date).format('ll')} />
+                    {items}
                 </section>
             )
         });
@@ -68,20 +69,18 @@ class IncomesPage extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll}
-                          options={iScrollOptions}
-                >
-            <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <Link
-                    to={`/app/incomes/new`}>
-                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                </Link>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
-                    <List ripple className='list'>
-                        {this.renderIncome()}
-                    </List>
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
+                    <Link
+                        to={`/app/incomes/new`}>
+                        <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
+                    </Link>
+                    <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                        <List ripple className='list'>
+                            {this.renderIncome()}
+                        </List>
+                    </div>
                 </div>
-            </div>
             </ReactIScroll>
 
         );

@@ -7,6 +7,17 @@ import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true,
+    click : true
+};
+
+
 export default class AccountsSideBar extends Component {
 
     constructor(props) {
@@ -155,7 +166,7 @@ export default class AccountsSideBar extends Component {
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
                 <Button icon='add' label='Add Account' raised primary />
-                </div>
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
                 <Button icon='mode_edit' label='Update Account' raised primary />
@@ -173,41 +184,42 @@ export default class AccountsSideBar extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+                    <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.active}
+                        icon={this.state.barIcon}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.handleBarClick.bind(this)}
+                        onTimeout={this.handleBarTimeout.bind(this)}
+                        type={this.state.barType}
+                        />
 
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.active}
-                    icon={this.state.barIcon}
-                    label={this.state.barMessage}
-                    timeout={2000}
-                    onClick={this.handleBarClick.bind(this)}
-                    onTimeout={this.handleBarTimeout.bind(this)}
-                    type={this.state.barType}
-                    />
-
-                <Input type='text' label='Name'
-                       name='name'
-                       maxLength={ 25 }
-                       value={this.state.name}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Input type='text' label='Purpose'
-                       name='purpose'
-                       maxLength={ 50 }
-                       value={this.state.purpose}
-                       onChange={this.onChange.bind(this)}
-                    />
-                <Input type='text' label='Icon'
-                       name='icon'
-                       value={this.state.icon}
-                       onChange={this.onChange.bind(this)}
-                    />
-                {this.renderButton()}
-            </form>
+                    <Input type='text' label='Name'
+                           name='name'
+                           maxLength={ 25 }
+                           value={this.state.name}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    <Input type='text' label='Purpose'
+                           name='purpose'
+                           maxLength={ 50 }
+                           value={this.state.purpose}
+                           onChange={this.onChange.bind(this)}
+                        />
+                    <Input type='text' label='Icon'
+                           name='icon'
+                           value={this.state.icon}
+                           onChange={this.onChange.bind(this)}
+                        />
+                    {this.renderButton()}
+                </form>
+            </ReactIScroll>
         );
     }
 }

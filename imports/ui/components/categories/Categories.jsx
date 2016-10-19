@@ -8,6 +8,16 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true,
+    click : true
+};
+
 class CategoriesPage extends Component {
 
     constructor(props) {
@@ -50,17 +60,19 @@ class CategoriesPage extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <Link
-                    to={`/app/categories/new`}>
-                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                </Link>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
-                    <List ripple className='list'>
-                        {this.renderCategory()}
-                    </List>
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
+                    <Link
+                        to={`/app/categories/new`}>
+                        <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
+                    </Link>
+                    <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                        <List ripple className='list'>
+                            {this.renderCategory()}
+                        </List>
+                    </div>
                 </div>
-            </div>
+            </ReactIScroll>
         );
     }
 }

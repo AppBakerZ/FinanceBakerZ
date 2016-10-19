@@ -8,6 +8,17 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
+import iScroll from 'iscroll'
+import ReactIScroll from 'react-iscroll'
+
+const iScrollOptions = {
+    mouseWheel: true,
+    scrollbars: true,
+    scrollX: true,
+    click : true
+};
+
+
 class DashboardPage extends Component {
 
     constructor(props) {
@@ -145,28 +156,28 @@ class DashboardPage extends Component {
     }
 
     filters(){
-      return [
-        {
-          name: 'Today',
-          value: 'day'
-        },
-        {
-          name: 'This Week',
-          value: 'week'
-        },
-        {
-          name: 'This Month',
-          value: 'month'
-        },
-        {
-          name: 'Last Month',
-          value: 'months'
-        },
-        {
-          name: 'This Year',
-          value: 'year'
-        }
-      ];
+        return [
+            {
+                name: 'Today',
+                value: 'day'
+            },
+            {
+                name: 'This Week',
+                value: 'week'
+            },
+            {
+                name: 'This Month',
+                value: 'month'
+            },
+            {
+                name: 'Last Month',
+                value: 'months'
+            },
+            {
+                name: 'This Year',
+                value: 'year'
+            }
+        ];
     }
 
 
@@ -174,14 +185,14 @@ class DashboardPage extends Component {
 
     generatePdf(report){
 
-    let params = {
-        multiple : this.state.multiple,
-        filterBy : this.state.filterBy,
-        date : this.filterByDate(this.state.filterBy),
-        report : report
-    };
+        let params = {
+            multiple : this.state.multiple,
+            filterBy : this.state.filterBy,
+            date : this.filterByDate(this.state.filterBy),
+            report : report
+        };
 
-    Meteor.call('statistics.generateReport', {params } , function(err, res){
+        Meteor.call('statistics.generateReport', {params } , function(err, res){
             if (err) {
                 console.error(err);
             } else if (res) {
@@ -192,54 +203,55 @@ class DashboardPage extends Component {
 
     render() {
         return (
-            <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <Autocomplete
-                        className='dashboard-autocomplete'
-                        direction='down'
-                        name='multiple'
-                        onChange={this.handleMultipleChange.bind(this)}
-                        label='Filter By Account'
-                        source={this.accounts()}
-                        value={this.state.multiple}
-                        />
-                    <Card className='dashboard-card'>
-                        <CardTitle
-                            title={'' + this.formatNumber(this.state.availableBalance)}
-                            subtitle='Available Balance'
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+                <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        <Autocomplete
+                            className='dashboard-autocomplete'
+                            direction='down'
+                            name='multiple'
+                            onChange={this.handleMultipleChange.bind(this)}
+                            label='Filter By Account'
+                            source={this.accounts()}
+                            value={this.state.multiple}
                             />
-                    </Card>
-                    <Dropdown
-                        className='dashboard-dropdown'
-                        auto={false}
-                        source={this.filters()}
-                        name='filterBy'
-                        onChange={this.onChange.bind(this)}
-                        label='Filter By'
-                        value={this.state.filterBy}
-                        template={this.filterItem}
-                        required
-                        />
-                      <div className='dashboard-card-group'>
-                        <Card className='card'>
+                        <Card className='dashboard-card'>
                             <CardTitle
-                                title={'' + this.formatNumber(this.state.totalIncomes)}
-                                subtitle='Total Incomes'
+                                title={'' + this.formatNumber(this.state.availableBalance)}
+                                subtitle='Available Balance'
                                 />
                         </Card>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalExpenses)}
-                                subtitle='Total Expenses'
-                                />
-                        </Card>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
-                                subtitle='Remaining Amount'
-                                />
-                        </Card>
-                      </div>
+                        <Dropdown
+                            className='dashboard-dropdown'
+                            auto={false}
+                            source={this.filters()}
+                            name='filterBy'
+                            onChange={this.onChange.bind(this)}
+                            label='Filter By'
+                            value={this.state.filterBy}
+                            template={this.filterItem}
+                            required
+                            />
+                        <div className='dashboard-card-group'>
+                            <Card className='card'>
+                                <CardTitle
+                                    title={'' + this.formatNumber(this.state.totalIncomes)}
+                                    subtitle='Total Incomes'
+                                    />
+                            </Card>
+                            <Card className='card'>
+                                <CardTitle
+                                    title={'' + this.formatNumber(this.state.totalExpenses)}
+                                    subtitle='Total Expenses'
+                                    />
+                            </Card>
+                            <Card className='card'>
+                                <CardTitle
+                                    title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
+                                    subtitle='Remaining Amount'
+                                    />
+                            </Card>
+                        </div>
                         <div className='pdf-generator'>
                             {(!this.state.totalIncomes ||
                                 <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
@@ -252,8 +264,9 @@ class DashboardPage extends Component {
                                 </div>
                             )}
                         </div>
+                    </div>
                 </div>
-            </div>
+            </ReactIScroll>
         );
     }
 }
