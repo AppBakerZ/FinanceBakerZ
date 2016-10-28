@@ -368,7 +368,8 @@ export default class ExpensesSideBar extends Component {
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+            /*Todo account dropdown is not working*/
+            //<ReactIScroll iScroll={iScroll} options={iScrollOptions}>
                 <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
 
                     <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -437,7 +438,7 @@ export default class ExpensesSideBar extends Component {
 
                     {this.renderButton()}
                 </form>
-            </ReactIScroll>
+            //</ReactIScroll>
         );
     }
 }

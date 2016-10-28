@@ -88,7 +88,8 @@ class ExpensesPage extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+            /*Todo infinite scroll is not working*/
+            //<ReactIScroll iScroll={iScroll} options={iScrollOptions}>
                 <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
                     <Link
                         to={`/app/expenses/new`}>
@@ -100,7 +101,7 @@ class ExpensesPage extends Component {
                         </List>
                     </div>
                 </div>
-            </ReactIScroll>
+            //</ReactIScroll>
         );
     }
 }

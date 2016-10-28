@@ -271,7 +271,8 @@ export default class IncomesSideBar extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+            /*Todo account dropdown is not working*/
+            //<ReactIScroll iScroll={iScroll} options={iScrollOptions}>
                 <form onSubmit={this.onSubmit.bind(this)} className="add-income">
 
                     <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -334,7 +335,7 @@ export default class IncomesSideBar extends Component {
                         />
                     {this.renderButton()}
                 </form>
-            </ReactIScroll>
+            //</ReactIScroll>
         );
     }
 }
