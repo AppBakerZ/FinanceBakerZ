@@ -14,8 +14,7 @@ import ReactIScroll from 'react-iscroll'
 const iScrollOptions = {
     mouseWheel: true,
     scrollbars: true,
-    scrollX: true,
-    click : true
+    scrollX: true
 };
 
 export default class IncomesSideBar extends Component {
@@ -271,8 +270,7 @@ export default class IncomesSideBar extends Component {
 
     render() {
         return (
-            /*Todo account dropdown is not working*/
-            //<ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
                 <form onSubmit={this.onSubmit.bind(this)} className="add-income">
 
                     <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -335,7 +333,7 @@ export default class IncomesSideBar extends Component {
                         />
                     {this.renderButton()}
                 </form>
-            //</ReactIScroll>
+            </ReactIScroll>
         );
     }
 }

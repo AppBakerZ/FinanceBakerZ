@@ -14,8 +14,7 @@ import ReactIScroll from 'react-iscroll'
 const iScrollOptions = {
     mouseWheel: true,
     scrollbars: true,
-    scrollX: true,
-    click : true
+    scrollX: true
 };
 
 class CategoriesPage extends Component {

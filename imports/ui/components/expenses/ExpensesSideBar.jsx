@@ -17,8 +17,7 @@ import ReactIScroll from 'react-iscroll'
 const iScrollOptions = {
     mouseWheel: true,
     scrollbars: true,
-    scrollX: true,
-    click : true
+    scrollX: true
 };
 
 export default class ExpensesSideBar extends Component {
@@ -368,8 +367,7 @@ export default class ExpensesSideBar extends Component {
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
-            /*Todo account dropdown is not working*/
-            //<ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
                 <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
 
                     <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -438,7 +436,7 @@ export default class ExpensesSideBar extends Component {
 
                     {this.renderButton()}
                 </form>
-            //</ReactIScroll>
+            </ReactIScroll>
         );
     }
 }

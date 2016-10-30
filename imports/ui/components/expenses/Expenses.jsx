@@ -16,8 +16,7 @@ import ReactIScroll from 'react-iscroll'
 const iScrollOptions = {
     mouseWheel: true,
     scrollbars: true,
-    scrollX: true,
-    click : true
+    scrollX: true
 };
 
 const RECORDS_PER_PAGE = 8;
@@ -88,8 +87,7 @@ class ExpensesPage extends Component {
 
     render() {
         return (
-            /*Todo infinite scroll is not working*/
-            //<ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
                 <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
                     <Link
                         to={`/app/expenses/new`}>
@@ -101,7 +99,7 @@ class ExpensesPage extends Component {
                         </List>
                     </div>
                 </div>
-            //</ReactIScroll>
+            </ReactIScroll>
         );
     }
 }
