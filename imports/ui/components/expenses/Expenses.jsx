@@ -22,6 +22,7 @@ const iScrollOptions = {
 const RECORDS_PER_PAGE = 8;
 let pageNumber = new ReactiveVar(1);
 
+let heightOfScroll ;
 
 class ExpensesPage extends Component {
 
@@ -38,9 +39,10 @@ class ExpensesPage extends Component {
     }
 
     handleScroll(event) {
-        let infiniteState = event.nativeEvent;
-        if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
-            pageNumber.set(pageNumber.get() + 1)
+        let reqLength = Math.abs(event.maxScrollY - event.y);
+        if(event.maxScrollY != heightOfScroll && reqLength < 100 ){
+            heightOfScroll = event.maxScrollY;
+            pageNumber.set(pageNumber.get() + 1);
         }
     }
 
@@ -87,19 +89,18 @@ class ExpensesPage extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
+
                 <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
                     <Link
                         to={`/app/expenses/new`}>
                         <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                     </Link>
-                    <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }} onScroll={this.handleScroll} >
+                    <ReactIScroll iScroll={iScroll} options={iScrollOptions} onScrollEnd={this.handleScroll} >
                         <List ripple>
                             {this.renderExpense()}
                         </List>
-                    </div>
+                    </ReactIScroll>
                 </div>
-            </ReactIScroll>
         );
     }
 }
