@@ -14,8 +14,9 @@ import { Categories } from '../../../api/categories/categories.js';
 import iScroll from 'iscroll'
 import ReactIScroll from 'react-iscroll'
 
+/*Todo  mouseWheel issued fixed later dropdown scroll and iscroll conflict with each other */
 const iScrollOptions = {
-    mouseWheel: true,
+    mouseWheel: false,
     scrollbars: true,
     scrollX: true
 };
