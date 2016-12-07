@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import {FastClick} from 'fastclick';
 
 import { Meteor } from 'meteor/meteor'
 
@@ -87,16 +86,4 @@ Meteor.startup( () => {
             </Router>,
         document.getElementById( 'render-root' )
     );
-
-    if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('FastClick working ...');
-            FastClick.attach(document.body);
-        }, false);
-    }
-
-    window.addEventListener('load', () => {
-        console.log('FastClick working 2 ...');
-        FastClick.attach(document.body);
-    });
 });

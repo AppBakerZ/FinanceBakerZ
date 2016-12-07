@@ -10,15 +10,6 @@ import { Meteor } from 'meteor/meteor';
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Categories } from '../../../api/categories/categories.js';
 
-import iScroll from 'iscroll'
-import ReactIScroll from 'react-iscroll'
-
-const iScrollOptions = {
-    mouseWheel: true,
-    scrollbars: true,
-    scrollX: true
-};
-
 const RECORDS_PER_PAGE = 8;
 let pageNumber = new ReactiveVar(1);
 
@@ -39,10 +30,9 @@ class ExpensesPage extends Component {
     }
 
     handleScroll(event) {
-        let reqLength = Math.abs(event.maxScrollY - event.y);
-        if(event.maxScrollY != heightOfScroll && reqLength < 100 ){
-            heightOfScroll = event.maxScrollY;
-            pageNumber.set(pageNumber.get() + 1);
+        let infiniteState = event.nativeEvent;
+        if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
+            pageNumber.set(pageNumber.get() + 1)
         }
     }
 
@@ -90,17 +80,17 @@ class ExpensesPage extends Component {
     render() {
         return (
 
-                <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
-                    <Link
-                        to={`/app/expenses/new`}>
-                        <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                    </Link>
-                    <ReactIScroll iScroll={iScroll} options={iScrollOptions} onScrollEnd={this.handleScroll} >
-                        <List ripple>
-                            {this.renderExpense()}
-                        </List>
-                    </ReactIScroll>
+            <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
+                <Link
+                    to={`/app/expenses/new`}>
+                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
+                </Link>
+                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }} onScroll={this.handleScroll} >
+                    <List ripple>
+                        {this.renderExpense()}
+                    </List>
                 </div>
+            </div>
         );
     }
 }

@@ -78,7 +78,7 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Button disabled={this.props.loading} icon='lock_open' label='Login' raised primary />
+                <Button type='submit' disabled={this.props.loading} icon='lock_open' label='Login' raised primary />
                 <Link
                     className='float-right'
                     to={`/register`}>

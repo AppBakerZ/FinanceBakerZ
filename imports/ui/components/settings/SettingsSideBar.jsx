@@ -6,15 +6,6 @@ import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox
 
 import { Meteor } from 'meteor/meteor';
 
-import iScroll from 'iscroll'
-import ReactIScroll from 'react-iscroll'
-
-const iScrollOptions = {
-    mouseWheel: true,
-    scrollbars: true,
-    scrollX: true
-};
-
 export default class SettingsSideBar extends Component {
 
     constructor(props) {
@@ -89,12 +80,10 @@ export default class SettingsSideBar extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
-                <List selectable ripple>
-                    <ListSubHeader caption='Currencies' />
-                    {this.renderList()}
-                </List>
-            </ReactIScroll>
+            <List selectable ripple>
+                <ListSubHeader caption='Currencies' />
+                {this.renderList()}
+            </List>
         );
     }
 }

@@ -11,17 +11,7 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
 
-import iScroll from 'iscroll'
-import ReactIScroll from 'react-iscroll'
-
-/*Todo  mouseWheel issued fixed later dropdown scroll and iscroll conflict with each other */
-const iScrollOptions = {
-    mouseWheel: false,
-    scrollbars: true,
-    scrollX: true
-};
-
-export default class ExpensesSideBar extends Component {
+class ExpensesSideBar extends Component {
 
     constructor(props) {
         super(props);
@@ -194,11 +184,11 @@ export default class ExpensesSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
             </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
                     type='button'
@@ -368,76 +358,74 @@ export default class ExpensesSideBar extends Component {
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
-                <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
+            <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
 
-                    <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                    <Snackbar
-                        action='Dismiss'
-                        active={this.state.active}
-                        icon={this.state.barIcon}
-                        label={this.state.barMessage}
-                        timeout={2000}
-                        onClick={this.handleBarClick.bind(this)}
-                        onTimeout={this.handleBarTimeout.bind(this)}
-                        type={this.state.barType}
-                        />
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.active}
+                    icon={this.state.barIcon}
+                    label={this.state.barMessage}
+                    timeout={2000}
+                    onClick={this.handleBarClick.bind(this)}
+                    onTimeout={this.handleBarTimeout.bind(this)}
+                    type={this.state.barType}
+                    />
 
-                    <Dropdown
-                        auto={false}
-                        source={this.accounts()}
-                        name='account'
-                        onChange={this.onChange.bind(this)}
-                        label='Select your account'
-                        value={this.state.account}
-                        template={this.accountItem}
-                        required
-                        />
+                <Dropdown
+                    auto={false}
+                    source={this.accounts()}
+                    name='account'
+                    onChange={this.onChange.bind(this)}
+                    label='Select your account'
+                    value={this.state.account}
+                    template={this.accountItem}
+                    required
+                    />
 
-                    <Input type='number' label='Amount'
-                           name='amount'
-                           value={this.state.amount}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <Dropdown
-                        auto={false}
-                        source={this.categories()}
-                        name='category'
-                        onChange={this.onChange.bind(this)}
-                        label='Select your category'
-                        value={this.state.category}
-                        template={this.categoryItem}
-                        required
-                        />
-                    <Input type='text' label='Description'
-                           name='description'
-                           multiline
-                           value={this.state.description}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <DatePicker
-                        label='Creation Date'
-                        name='spentAt'
-                        onChange={this.onChange.bind(this)}
-                        value={this.state.spentAt}
-                        />
-                    <TimePicker
-                        label='Creation time'
-                        name='spentTime'
-                        onChange={this.onChange.bind(this)}
-                        value={this.state.spentTime}
-                        format='ampm'
-                        />
+                <Input type='number' label='Amount'
+                       name='amount'
+                       value={this.state.amount}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <Dropdown
+                    auto={false}
+                    source={this.categories()}
+                    name='category'
+                    onChange={this.onChange.bind(this)}
+                    label='Select your category'
+                    value={this.state.category}
+                    template={this.categoryItem}
+                    required
+                    />
+                <Input type='text' label='Description'
+                       name='description'
+                       multiline
+                       value={this.state.description}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <DatePicker
+                    label='Creation Date'
+                    name='spentAt'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.spentAt}
+                    />
+                <TimePicker
+                    label='Creation time'
+                    name='spentTime'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.spentTime}
+                    format='ampm'
+                    />
 
-                    {billUpload}
-                    {uploadedBill}
+                {billUpload}
+                {uploadedBill}
 
-                    {this.renderButton()}
-                </form>
-            </ReactIScroll>
+                {this.renderButton()}
+            </form>
         );
     }
 }

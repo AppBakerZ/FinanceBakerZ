@@ -89,7 +89,7 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Button disabled={this.props.loading} icon='person_add' label='Register' raised primary />
+                <Button type='submit' disabled={this.props.loading} icon='person_add' label='Register' raised primary />
             </form>
         );
     }

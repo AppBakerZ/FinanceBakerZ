@@ -8,16 +8,6 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
-import iScroll from 'iscroll'
-import ReactIScroll from 'react-iscroll'
-
-const iScrollOptions = {
-    mouseWheel: true,
-    scrollbars: true,
-    scrollX: true
-};
-
-
 class DashboardPage extends Component {
 
     constructor(props) {
@@ -199,70 +189,68 @@ class DashboardPage extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
-                <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        <Autocomplete
-                            className='dashboard-autocomplete'
-                            direction='down'
-                            name='multiple'
-                            onChange={this.handleMultipleChange.bind(this)}
-                            label='Filter By Account'
-                            source={this.accounts()}
-                            value={this.state.multiple}
+            <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <Autocomplete
+                        className='dashboard-autocomplete'
+                        direction='down'
+                        name='multiple'
+                        onChange={this.handleMultipleChange.bind(this)}
+                        label='Filter By Account'
+                        source={this.accounts()}
+                        value={this.state.multiple}
+                        />
+                    <Card className='dashboard-card'>
+                        <CardTitle
+                            title={'' + this.formatNumber(this.state.availableBalance)}
+                            subtitle='Available Balance'
                             />
-                        <Card className='dashboard-card'>
+                    </Card>
+                    <Dropdown
+                        className='dashboard-dropdown'
+                        auto={false}
+                        source={this.filters()}
+                        name='filterBy'
+                        onChange={this.onChange.bind(this)}
+                        label='Filter By'
+                        value={this.state.filterBy}
+                        template={this.filterItem}
+                        required
+                        />
+                    <div className='dashboard-card-group'>
+                        <Card className='card'>
                             <CardTitle
-                                title={'' + this.formatNumber(this.state.availableBalance)}
-                                subtitle='Available Balance'
+                                title={'' + this.formatNumber(this.state.totalIncomes)}
+                                subtitle='Total Incomes'
                                 />
                         </Card>
-                        <Dropdown
-                            className='dashboard-dropdown'
-                            auto={false}
-                            source={this.filters()}
-                            name='filterBy'
-                            onChange={this.onChange.bind(this)}
-                            label='Filter By'
-                            value={this.state.filterBy}
-                            template={this.filterItem}
-                            required
-                            />
-                        <div className='dashboard-card-group'>
-                            <Card className='card'>
-                                <CardTitle
-                                    title={'' + this.formatNumber(this.state.totalIncomes)}
-                                    subtitle='Total Incomes'
-                                    />
-                            </Card>
-                            <Card className='card'>
-                                <CardTitle
-                                    title={'' + this.formatNumber(this.state.totalExpenses)}
-                                    subtitle='Total Expenses'
-                                    />
-                            </Card>
-                            <Card className='card'>
-                                <CardTitle
-                                    title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
-                                    subtitle='Remaining Amount'
-                                    />
-                            </Card>
-                        </div>
-                        <div className='pdf-generator'>
-                            {(!this.state.totalIncomes ||
-                                <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
-                                    <Button icon='add' label='Income Report' raised primary />
-                                </div>
-                            )}
-                            {(!this.state.totalExpenses ||
-                                <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
-                                    <Button icon='add' label='Expences Report' raised primary />
-                                </div>
-                            )}
-                        </div>
+                        <Card className='card'>
+                            <CardTitle
+                                title={'' + this.formatNumber(this.state.totalExpenses)}
+                                subtitle='Total Expenses'
+                                />
+                        </Card>
+                        <Card className='card'>
+                            <CardTitle
+                                title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
+                                subtitle='Remaining Amount'
+                                />
+                        </Card>
+                    </div>
+                    <div className='pdf-generator'>
+                        {(!this.state.totalIncomes ||
+                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                                <Button icon='add' label='Income Report' raised primary />
+                            </div>
+                        )}
+                        {(!this.state.totalExpenses ||
+                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                                <Button icon='add' label='Expences Report' raised primary />
+                            </div>
+                        )}
                     </div>
                 </div>
-            </ReactIScroll>
+            </div>
         );
     }
 }

@@ -8,15 +8,6 @@ import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
-import iScroll from 'iscroll'
-import ReactIScroll from 'react-iscroll'
-
-const iScrollOptions = {
-    mouseWheel: true,
-    scrollbars: true,
-    scrollX: true
-};
-
 export default class IncomesSideBar extends Component {
 
     constructor(props) {
@@ -270,70 +261,68 @@ export default class IncomesSideBar extends Component {
 
     render() {
         return (
-            <ReactIScroll iScroll={iScroll} options={iScrollOptions}>
-                <form onSubmit={this.onSubmit.bind(this)} className="add-income">
+            <form onSubmit={this.onSubmit.bind(this)} className="add-income">
 
-                    <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                    <Snackbar
-                        action='Dismiss'
-                        active={this.state.active}
-                        icon={this.state.barIcon}
-                        label={this.state.barMessage}
-                        timeout={2000}
-                        onClick={this.handleBarClick.bind(this)}
-                        onTimeout={this.handleBarTimeout.bind(this)}
-                        type={this.state.barType}
-                        />
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.active}
+                    icon={this.state.barIcon}
+                    label={this.state.barMessage}
+                    timeout={2000}
+                    onClick={this.handleBarClick.bind(this)}
+                    onTimeout={this.handleBarTimeout.bind(this)}
+                    type={this.state.barType}
+                    />
 
-                    <Dropdown
-                        auto={false}
-                        source={this.accounts()}
-                        name='account'
-                        onChange={this.onChange.bind(this)}
-                        label='Select your account'
-                        value={this.state.account}
-                        template={this.accountItem}
-                        required
-                        />
+                <Dropdown
+                    auto={false}
+                    source={this.accounts()}
+                    name='account'
+                    onChange={this.onChange.bind(this)}
+                    label='Select your account'
+                    value={this.state.account}
+                    template={this.accountItem}
+                    required
+                    />
 
-                    <Input type='number' label='Amount'
-                           name='amount'
-                           value={this.state.amount}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <DatePicker
-                        label='Receiving Date'
-                        name='receivedAt'
-                        onChange={this.onChange.bind(this)}
-                        value={this.state.receivedAt}
-                        />
-                    <TimePicker
-                        label='Receiving time'
-                        name='receivedTime'
-                        onChange={this.onChange.bind(this)}
-                        value={this.state.receivedTime}
-                        format='ampm'
-                        />
-                    <Dropdown
-                        source={this.types()}
-                        name='type'
-                        onChange={this.onChange.bind(this)}
-                        value={this.state.type}
-                        template={this.typeItem}
-                        required
-                        />
-                    <Input type='text' label='Project'
-                           name='project'
-                           maxLength={ 50 }
-                           value={this.state.project}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    {this.renderButton()}
-                </form>
-            </ReactIScroll>
+                <Input type='number' label='Amount'
+                       name='amount'
+                       value={this.state.amount}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <DatePicker
+                    label='Receiving Date'
+                    name='receivedAt'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.receivedAt}
+                    />
+                <TimePicker
+                    label='Receiving time'
+                    name='receivedTime'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.receivedTime}
+                    format='ampm'
+                    />
+                <Dropdown
+                    source={this.types()}
+                    name='type'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.type}
+                    template={this.typeItem}
+                    required
+                    />
+                <Input type='text' label='Project'
+                       name='project'
+                       maxLength={ 50 }
+                       value={this.state.project}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                {this.renderButton()}
+            </form>
         );
     }
 }
