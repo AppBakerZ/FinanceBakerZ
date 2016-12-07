@@ -183,11 +183,11 @@ export default class IncomesSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button icon='add' label='Add Income' raised primary />
+                <Button type='submit' icon='add' label='Add Income' raised primary />
             </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button icon='mode_edit' label='Update Income' raised primary />
+                <Button type='submit' icon='mode_edit' label='Update Income' raised primary />
                 <Button
                     onClick={this.removeIncome.bind(this)}
                     type='button'

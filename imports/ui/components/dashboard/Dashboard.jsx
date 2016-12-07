@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Card, CardTitle, Button, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
+import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -13,13 +13,17 @@ class DashboardPage extends Component {
     constructor(props) {
         super(props);
 
+        let datetime = new Date();
+
         this.state = {
             index: 0,
             totalIncomes: 0,
             totalExpenses: 0,
             availableBalance: 0,
             multiple: [],
-            filterBy: 'month'
+            filterBy: 'month',
+            dateFrom: datetime,
+            dateTo: datetime
         };
     }
 
@@ -27,17 +31,30 @@ class DashboardPage extends Component {
         return new Intl.NumberFormat().format(num);
     }
 
-    filterByDate(filter){
+    filterByDate(filter, range){
+
+        console.log('filter : ', filter);
+        console.log('this.state.filterBy : ', this.state.filterBy);
 
         let date = {};
         if(filter == 'months'){
             date.start = moment().subtract(1, 'months').startOf('month').format();
             date.end = moment().subtract(1, 'months').endOf('month').format();
         }
+        else if(filter == 'range'){
+            console.log('range :', range);
+            console.log('this.state.dateFrom :', this.state.dateFrom);
+            console.log('this.state.dateTo :', this.state.dateTo);
+
+            date.start = moment(range.dateFrom || this.state.dateFrom).startOf('day').format();
+            date.end = moment(range.dateTo || this.state.dateTo).endOf('day').format();
+        }
         else{
             date.start = moment().startOf(filter).format();
             date.end = moment().endOf(filter).format();
         }
+
+        console.log('date :', date);
         return date
     }
 
@@ -86,8 +103,8 @@ class DashboardPage extends Component {
         });
     }
 
-    getTotalIncomesAndExpenses (accounts, filterBy){
-        let date = this.filterByDate(filterBy || this.state.filterBy);
+    getTotalIncomesAndExpenses (accounts, filterBy, range){
+        let date = this.filterByDate(filterBy || this.state.filterBy, range);
         Meteor.call('statistics.totalIncomesAndExpenses', {accounts, date}, (err, totals) => {
             if(totals){
                 this.setState({
@@ -133,7 +150,7 @@ class DashboardPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        this.getTotalIncomesAndExpenses(this.state.multiple, val);
+        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name == 'filterBy' ? val : null, {[e.target.name]: val});
     }
 
     accounts(){
@@ -165,6 +182,10 @@ class DashboardPage extends Component {
             {
                 name: 'This Year',
                 value: 'year'
+            },
+            {
+                name: 'Date Range',
+                value: 'range'
             }
         ];
     }
@@ -185,8 +206,30 @@ class DashboardPage extends Component {
                 window.open("data:application/pdf;base64, " + res);
             }
         })
-    };
+    }
 
+    renderDateRange(){
+        let dropDowns = (
+            <div className='dashboard-dropdown'>
+                <DatePicker
+                    label='Date From'
+                    name='dateFrom'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.dateFrom}
+                    />
+
+                <DatePicker
+                    label='Date To'
+                    name='dateTo'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.dateTo}
+                    />
+            </div>
+        );
+        return (
+            this.state.filterBy == 'range' ?  dropDowns : null
+        )
+    }
     render() {
         return (
             <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
@@ -217,6 +260,9 @@ class DashboardPage extends Component {
                         template={this.filterItem}
                         required
                         />
+
+                    {this.renderDateRange()}
+
                     <div className='dashboard-card-group'>
                         <Card className='card'>
                             <CardTitle
