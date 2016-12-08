@@ -195,7 +195,7 @@ class DashboardPage extends Component {
         let params = {
             multiple : this.state.multiple,
             filterBy : this.state.filterBy,
-            date : this.filterByDate(this.state.filterBy),
+            date : this.filterByDate(this.state.filterBy, {}),
             report : report
         };
 
