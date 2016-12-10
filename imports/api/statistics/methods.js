@@ -18,6 +18,52 @@ import { Incomes } from '../incomes/incomes.js';
 import { Accounts } from '../accounts/accounts.js';
 import { Categories } from '../categories/categories.js';
 
+export const incomesGroupByMonth = new ValidatedMethod({
+    name: 'statistics.incomesGroupByMonth',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to get Available Balance'
+    },
+    validate: new SimpleSchema({}).validator(),
+    run({accounts}) {
+
+        const sumOfIncomesByMonth = Incomes.aggregate([
+            { "$project": {
+                "amount": 1,
+                "month": { "$month": "$receivedAt" }
+            }},
+            { "$group": {
+                "_id": "$month",
+                "income": { "$sum": "$amount" }
+            }}
+        ]);
+
+        const sumOfExpensesByMonth = Expenses.aggregate([
+            { "$project": {
+                "amount": 1,
+                "month": { "$month": "$spentAt" }
+            }},
+            { "$group": {
+                "_id": "$month",
+                "expense": { "$sum": "$amount" }
+            }}
+        ]);
+
+        const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
+
+        const graph = _.map(incomeAndExpensesArray, (arrayGroup) => {
+            if(arrayGroup.length > 1){
+                return _.extend(arrayGroup[0], arrayGroup[1]);
+            }else{
+                return arrayGroup[0]
+            }
+        });
+
+        return graph;
+    }
+});
+
 export const availableBalance = new ValidatedMethod({
     name: 'statistics.availableBalance',
     mixins : [LoggedInMixin],
