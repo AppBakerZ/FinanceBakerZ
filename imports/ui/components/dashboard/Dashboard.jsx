@@ -39,20 +39,12 @@ class DashboardPage extends Component {
     }
 
     filterByDate(filter, range){
-
-        console.log('filter : ', filter);
-        console.log('this.state.filterBy : ', this.state.filterBy);
-
         let date = {};
         if(filter == 'months'){
             date.start = moment().subtract(1, 'months').startOf('month').format();
             date.end = moment().subtract(1, 'months').endOf('month').format();
         }
         else if(filter == 'range'){
-            console.log('range :', range);
-            console.log('this.state.dateFrom :', this.state.dateFrom);
-            console.log('this.state.dateTo :', this.state.dateTo);
-
             date.start = moment(range.dateFrom || this.state.dateFrom).startOf('day').format();
             date.end = moment(range.dateTo || this.state.dateTo).endOf('day').format();
         }
@@ -60,8 +52,6 @@ class DashboardPage extends Component {
             date.start = moment().startOf(filter).format();
             date.end = moment().endOf(filter).format();
         }
-
-        console.log('date :', date);
         return date
     }
 

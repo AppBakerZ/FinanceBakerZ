@@ -29,38 +29,29 @@ export const incomesGroupByMonth = new ValidatedMethod({
     run({accounts}) {
 
         const sumOfIncomesByMonth = Incomes.aggregate([
-            { "$project": {
-                "amount": 1,
-                "month": { "$month": "$receivedAt" }
-            }},
             { "$group": {
-                "_id": "$month",
-                "income": { "$sum": "$amount" }
+                "_id": { "$month": "$receivedAt" },
+                "income": { "$sum": "$amount" },
+                "expense": {"$sum": "$zeroInitially"} //Dummy
             }}
         ]);
 
         const sumOfExpensesByMonth = Expenses.aggregate([
-            { "$project": {
-                "amount": 1,
-                "month": { "$month": "$spentAt" }
-            }},
             { "$group": {
-                "_id": "$month",
+                "_id": { "$month": "$spentAt" },
                 "expense": { "$sum": "$amount" }
             }}
         ]);
 
         const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
 
-        const graph = _.map(incomeAndExpensesArray, (arrayGroup) => {
+        return _.map(incomeAndExpensesArray, (arrayGroup) => {
             if(arrayGroup.length > 1){
                 return _.extend(arrayGroup[0], arrayGroup[1]);
             }else{
                 return arrayGroup[0]
             }
         });
-
-        return graph;
     }
 });
 
