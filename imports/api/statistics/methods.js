@@ -31,8 +31,7 @@ export const incomesGroupByMonth = new ValidatedMethod({
         const sumOfIncomesByMonth = Incomes.aggregate([
             { "$group": {
                 "_id": { "$month": "$receivedAt" },
-                "income": { "$sum": "$amount" },
-                "expense": {"$sum": "$zeroInitially"} //Dummy
+                "income": { "$sum": "$amount" }
             }}
         ]);
 
@@ -46,6 +45,11 @@ export const incomesGroupByMonth = new ValidatedMethod({
         const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
 
         return _.map(incomeAndExpensesArray, (arrayGroup) => {
+            arrayGroup = _.map(arrayGroup, (item) => {
+                if(!_.has(item, 'income')) item.income = 0;
+                if(!_.has(item, 'expense')) item.expense = 0;
+                return item;
+            });
             if(arrayGroup.length > 1){
                 return _.extend(arrayGroup[0], arrayGroup[1]);
             }else{
