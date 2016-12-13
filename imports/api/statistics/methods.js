@@ -29,6 +29,9 @@ export const incomesGroupByMonth = new ValidatedMethod({
     run({accounts}) {
 
         const sumOfIncomesByMonth = Incomes.aggregate([
+            { "$match": {
+                owner: this.userId
+            }},
             { "$group": {
                 "_id": { "$month": "$receivedAt" },
                 "income": { "$sum": "$amount" }
@@ -36,6 +39,9 @@ export const incomesGroupByMonth = new ValidatedMethod({
         ]);
 
         const sumOfExpensesByMonth = Expenses.aggregate([
+            { "$match": {
+                owner: this.userId
+            }},
             { "$group": {
                 "_id": { "$month": "$spentAt" },
                 "expense": { "$sum": "$amount" }
