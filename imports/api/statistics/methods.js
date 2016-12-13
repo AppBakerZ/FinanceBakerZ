@@ -52,8 +52,10 @@ export const incomesGroupByMonth = new ValidatedMethod({
 
         return _.map(incomeAndExpensesArray, (arrayGroup) => {
             arrayGroup = _.map(arrayGroup, (item) => {
+                console.log('item 1 :', item)
                 if(!_.has(item, 'income')) item.income = 0;
                 if(!_.has(item, 'expense')) item.expense = 0;
+                console.log('item 2 :', item)
                 return item;
             });
             if(arrayGroup.length > 1){
