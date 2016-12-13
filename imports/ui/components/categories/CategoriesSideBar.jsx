@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Autocomplete } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
@@ -13,13 +13,12 @@ export default class CategoriesSideBar extends Component {
     constructor(props) {
         super(props);
 
-        let datetime = new Date();
-
         this.state = {
             name: '',
             icon: '',
             active: false,
-            loading: false
+            loading: false,
+            parent: null
         };
     }
 
@@ -150,6 +149,12 @@ export default class CategoriesSideBar extends Component {
         }
     }
 
+    categories(){
+        return this.props.categories.map((category) => {
+            return category.name;
+        })
+    }
+
     renderButton (){
         let button;
         if(this.state.isNewRoute){
@@ -202,6 +207,18 @@ export default class CategoriesSideBar extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
+
+                <Autocomplete
+                    name='parent'
+                    direction="up"
+                    label="Choose a parent"
+                    hint="You can only choose one..."
+                    multiple={false}
+                    onChange={this.onChange.bind(this)}
+                    source={this.categories()}
+                    value={this.state.parent}
+                    />
+
                 {this.renderButton()}
             </form>
         );
@@ -217,12 +234,14 @@ CategoriesSideBar.propTypes = {
 export default createContainer((props) => {
     const { id } = props.params;
     const categoryHandle = Meteor.subscribe('categories.single', id);
+    const categoriesHandle = Meteor.subscribe('categories', {});
     const loading = !categoryHandle.ready();
     const category = Categories.findOne(id);
     const categoryExists = !loading && !!category;
     return {
         loading,
         categoryExists,
-        category: categoryExists ? category : {}
+        category: categoryExists ? category : {},
+        categories: Categories.find({}).fetch()
     };
 }, CategoriesSideBar);
