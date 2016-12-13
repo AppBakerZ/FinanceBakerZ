@@ -51,18 +51,17 @@ export const incomesGroupByMonth = new ValidatedMethod({
         const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
 
         return _.map(incomeAndExpensesArray, (arrayGroup) => {
-            arrayGroup = _.map(arrayGroup, (item) => {
-                console.log('item 1 :', item)
-                if(!_.has(item, 'income')) item.income = 0;
-                if(!_.has(item, 'expense')) item.expense = 0;
-                console.log('item 2 :', item)
-                return item;
-            });
+            let item = {};
             if(arrayGroup.length > 1){
-                return _.extend(arrayGroup[0], arrayGroup[1]);
+                item = _.extend(arrayGroup[0], arrayGroup[1]);
             }else{
-                return arrayGroup[0]
+                item = arrayGroup[0]
             }
+
+            if(!_.has(item, 'income')) item.income = 0;
+            if(!_.has(item, 'expense')) item.expense = 0;
+
+            return item
         });
     }
 });

@@ -218,7 +218,7 @@ class DashboardPage extends Component {
             <div className="area-chart">
                 <ResponsiveContainer>
                     <AreaChart data={this.state.graph}
-                               margin={{top: 10, right: 0, left: 20, bottom: 0}}>
+                               margin={{top: 10, right: 0, left: 40, bottom: 0}}>
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#008148" stopOpacity={0.8}/>
