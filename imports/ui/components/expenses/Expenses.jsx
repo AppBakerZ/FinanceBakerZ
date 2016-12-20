@@ -105,7 +105,7 @@ export default createContainer(() => {
     const accountsHandle = Meteor.subscribe('categories');
 
     return {
-        expenses: Expenses.find({}).fetch(),
+        expenses: Expenses.find({}, {sort: { spentAt: -1 }}).fetch(),
         categories: Categories.find({}).fetch()
     };
 }, ExpensesPage);

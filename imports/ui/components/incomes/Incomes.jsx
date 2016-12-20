@@ -82,6 +82,6 @@ export default createContainer(() => {
     Meteor.subscribe('incomes');
 
     return {
-        incomes: Incomes.find({}).fetch()
+        incomes: Incomes.find({}, {sort: { receivedAt: -1 }}).fetch()
     };
 }, IncomesPage);

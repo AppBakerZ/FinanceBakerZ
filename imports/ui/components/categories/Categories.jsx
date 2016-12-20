@@ -37,6 +37,7 @@ class CategoriesPage extends Component {
                     leftIcon={category.icon}
                     rightIcon='mode_edit'
                     caption={category.name}
+                    legend={category.children ? category.children.join(' | ') : ''}
                     />
             </Link>
         });

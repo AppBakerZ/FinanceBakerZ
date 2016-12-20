@@ -2,7 +2,8 @@
   "name": "finance",
   "private": true,
   "scripts": {
-    "start": "meteor --settings settings.json",
+    "start": "export MONGO_URL=mongodb://heroku_xkqbxgwq:13i39o50l8fo8pv9ort7tvt2q5@ds161505.mlab.com:61505/heroku_xkqbxgwq&& meteor --settings settings.json",
+    "start-local": "meteor --settings settings.json",
     "cordova": "meteor run ios-device --settings settings.json --mobile-server https://financebakerz.herokuapp.com"
   },
   "dependencies": {
