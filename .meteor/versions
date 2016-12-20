@@ -56,6 +56,7 @@ meteor-base@1.0.4
 meteorhacks:aggregate@1.3.0
 meteorhacks:collection-utils@1.2.0
 meteorhacks:ssr@2.2.0
+meteortoys:toykit@3.0.4
 minifier-css@1.2.14
 minifier-js@1.2.14
 minimongo@1.0.17
@@ -66,6 +67,7 @@ modules-runtime@0.7.6
 mongo@1.1.12
 mongo-id@1.0.5
 mongo-livedata@1.0.12
+msavin:mongol@2.0.1
 nathantreid:css-modules@2.2.2
 nathantreid:css-modules-import-path-helpers@0.1.4
 npm-bcrypt@0.9.1

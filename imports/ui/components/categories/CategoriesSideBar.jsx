@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown, FontIcon } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
@@ -13,13 +13,12 @@ export default class CategoriesSideBar extends Component {
     constructor(props) {
         super(props);
 
-        let datetime = new Date();
-
         this.state = {
             name: '',
             icon: '',
             active: false,
-            loading: false
+            loading: false,
+            parent: null
         };
     }
 
@@ -43,12 +42,13 @@ export default class CategoriesSideBar extends Component {
     }
 
     createCategory(){
-        let {name, icon} = this.state;
+        let {name, icon, parent} = this.state;
 
         Meteor.call('categories.insert', {
             category: {
                 name,
-                icon
+                icon,
+                parent
             }
         }, (err, response) => {
             if(response){
@@ -72,13 +72,14 @@ export default class CategoriesSideBar extends Component {
     }
 
     updateCategory(){
-        let {_id, name, icon} = this.state;
+        let {_id, name, icon, parent} = this.state;
 
         Meteor.call('categories.update', {
             category: {
                 _id,
                 name,
-                icon
+                icon,
+                parent
             }
         }, (err, response) => {
             if(err){
@@ -101,10 +102,12 @@ export default class CategoriesSideBar extends Component {
     }
 
     removeCategory(){
-        const {_id} = this.state;
+        const {_id, name, parent} = this.state;
         Meteor.call('categories.remove', {
             category: {
-                _id
+                _id,
+                name,
+                parent
             }
         }, (err, response) => {
             if(err){
@@ -130,6 +133,10 @@ export default class CategoriesSideBar extends Component {
         this.setState({[e.target.name]: val});
     }
 
+    onChangeParentCategory (val) {
+        this.setState({parent: val});
+    }
+
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -148,6 +155,14 @@ export default class CategoriesSideBar extends Component {
         if(this.state.isNewRoute){
             this.resetCategory()
         }
+    }
+
+    categories(){
+        let cats = this.props.categories.map((category) => {
+            return {value: category.name, label: category.name};
+        })
+        cats.unshift({value: null, label: 'No Parent'});
+        return cats
     }
 
     renderButton (){
@@ -169,6 +184,37 @@ export default class CategoriesSideBar extends Component {
             </div>
         }
         return button;
+    }
+
+    categoryItem(category){
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const imageStyle = {
+            display: 'flex',
+            width: '22px',
+            height: '22px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2,
+            paddingTop: '4px'
+        };
+
+        return (
+            <div style={containerStyle}>
+                <FontIcon value={category.icon} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{category.label}</strong>
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -202,6 +248,17 @@ export default class CategoriesSideBar extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
+
+                <Dropdown
+                    auto
+                    name='parent'
+                    onChange={this.onChangeParentCategory.bind(this)}
+                    source={this.categories()}
+                    value={this.state.parent}
+                    label='Select parent category'
+                    template={this.categoryItem}
+                    />
+
                 {this.renderButton()}
             </form>
         );
@@ -217,12 +274,14 @@ CategoriesSideBar.propTypes = {
 export default createContainer((props) => {
     const { id } = props.params;
     const categoryHandle = Meteor.subscribe('categories.single', id);
+    const categoriesHandle = Meteor.subscribe('categories', {});
     const loading = !categoryHandle.ready();
     const category = Categories.findOne(id);
     const categoryExists = !loading && !!category;
     return {
         loading,
         categoryExists,
-        category: categoryExists ? category : {}
+        category: categoryExists ? category : {},
+        categories: Categories.find({}).fetch()
     };
 }, CategoriesSideBar);
