@@ -194,7 +194,10 @@ export const generateReport = new ValidatedMethod({
             css = Assets.getText('bootstrap.min.css'), // GENERATE HTML STRING
             reportStyle = Assets.getText('report.css');
 
-        let query = {};
+        let query = {
+            owner: this.userId
+        };
+
         if(params.multiple.length){
             query['account'] = {$in: params.multiple};
         }
@@ -218,8 +221,8 @@ export const generateReport = new ValidatedMethod({
 
         /*Todo use later relation */
         Template.report.helpers({
-            accountName : function(id){
-                return Accounts.findOne({_id : id}).name;
+            accountName : (id) => {
+                return Accounts.findOne({_id : id, owner: this.userId}).name;
             },
             categoryName : function(id){
                 return Categories.findOne({_id : id}).name;
