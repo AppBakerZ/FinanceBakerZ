@@ -80,6 +80,28 @@ export const update = new ValidatedMethod({
     }
 });
 
+export const removeFromParent = new ValidatedMethod({
+    name: 'categories.removeFromParent',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove category'
+    },
+    validate: new SimpleSchema({
+        'category': {
+            type: Object
+        },
+        'category.name': {
+            type: String
+        }
+    }).validator(),
+    run({ category }) {
+        const {name} = category;
+        Categories.update({name: name, owner: this.userId}, {$set: {parent: null}});
+        Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
+    }
+});
+
 export const remove = new ValidatedMethod({
     name: 'categories.remove',
     mixins : [LoggedInMixin],

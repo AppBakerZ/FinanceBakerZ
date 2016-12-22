@@ -22,6 +22,39 @@ class CategoriesPage extends Component {
         this.props.toggleSidebar(true);
     }
 
+    deleteSubcategory(e){
+        e.stopPropagation();
+        e.preventDefault();
+        Meteor.call('categories.removeFromParent', {
+            category: {
+                name: e.currentTarget.dataset.text
+            }
+        }, (err, response) => {
+            if(err){
+                console.log(err)
+            }else{
+
+            }
+        });
+    }
+
+    renderSubcategories(children){
+        return children.map((cat) => {
+            return <span>
+                    <Link
+                        activeClassName='active'
+                        to={`/app/categories/${cat}`}>
+                        {cat}
+
+                        <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
+                            x
+                        </a>
+
+                    </Link>
+                    </span>
+        });
+    }
+
     renderCategory(){
 
         const { categories } = this.props;
@@ -37,7 +70,7 @@ class CategoriesPage extends Component {
                     leftIcon={category.icon}
                     rightIcon='mode_edit'
                     caption={category.name}
-                    legend={category.children ? category.children.join(' | ') : ''}
+                    legend={this.renderSubcategories(category.children || [])}
                     />
             </Link>
         });
@@ -74,6 +107,8 @@ export default createContainer(() => {
     Meteor.subscribe('categories');
 
     return {
-        categories: Categories.find({}).fetch()
+        categories: Categories.find({
+            parent: null
+        }, {sort: {createdAt: -1}}).fetch()
     };
 }, CategoriesPage);
