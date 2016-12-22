@@ -71,7 +71,7 @@ Meteor.startup( () => {
                 </Route>
                 <Route path="categories" components={{ content: CategoriesPage, sidebar: CategoriesSideBar }}>
                     <Route path="new" />
-                    <Route path=":id" />
+                    <Route path=":id(/:subcategoryName)" />
                 </Route>
                 <Route path="settings" components={{ content: SettingsPage, sidebar: SettingsSideBar }}>
                     <Route path="new" />
