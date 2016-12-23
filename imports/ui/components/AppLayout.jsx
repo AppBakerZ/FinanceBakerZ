@@ -60,6 +60,10 @@ export default class AppLayout extends Component {
                                 <ListItem caption='Dashboard' leftIcon='dashboard' />
                             </Link>
                             <Link
+                                to={`/app/projects`}>
+                                <ListItem caption='Project' leftIcon='content_cut' />
+                            </Link>
+                            <Link
                                 to={`/app/expenses/new`}>
                                 <ListItem caption='Expenses' leftIcon='content_cut' />
                             </Link>

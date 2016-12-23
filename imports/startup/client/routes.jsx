@@ -27,6 +27,9 @@ import CategoriesSideBar from '../../ui/components/categories/CategoriesSideBar.
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
 import SettingsSideBar from '../../ui/components/settings/SettingsSideBar.jsx';
 
+import ProjectPage from '../../ui/components/projects/Project.jsx';
+
+
 
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     clearInterval(setIntervalHandel);
@@ -76,6 +79,8 @@ Meteor.startup( () => {
                 <Route path="settings" components={{ content: SettingsPage, sidebar: SettingsSideBar }}>
                     <Route path="new" />
                     <Route path=":id" />
+                </Route>
+                <Route path="projects" components={{ content: ProjectPage}}>
                 </Route>
             </Route>
             <Route path="/" component={AuthLayout}>

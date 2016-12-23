@@ -1,0 +1,30 @@
+.projects{
+    flex: 1;
+    display:  flex;
+    position: relative;
+}
+
+.projects .container{
+    flex: 1;
+    padding: 1.8rem;
+    overflow-y: auto
+}
+.projects .container .flex{
+    display: flex;
+    flex-direction: row;
+    flex-grow : 4;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.page-title{
+    padding: 30px 50px;
+    background-color: #008142;
+    color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    flex-grow : 2;
+    justify-content: space-between;
+
+}
+

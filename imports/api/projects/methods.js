@@ -24,10 +24,13 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'project.type': {
-            type: Object
+            type: String
         },
         'project.client': {
             type: Object
+        },
+        'project.client.name': {
+            type: String
         },
         'project.status': {
             type: String

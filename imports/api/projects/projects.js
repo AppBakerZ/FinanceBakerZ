@@ -24,18 +24,22 @@ Projects.schema = new SimpleSchema({
       label : 'Project name'
     },
     type:{
-        type: Object,
+        type: String,
         label : 'Project type'
     },
     client :{
         type: Object,
         label : 'Client details'
     },
+    'client.name' : {
+        type: String,
+        label : 'Client name'
+    },
     status :{
         type: String,
         label : 'Status'
     },
-    startDate :{
+    startAt :{
         type: Date,
         label : 'Project start date',
         optional: true
@@ -45,12 +49,7 @@ Projects.schema = new SimpleSchema({
         label : 'Milestones of project',
         optional: true
     },
-    member : {
-        type: [Object],
-        label : 'Member of project',
-        optional: true
-    },
-    endDate :{
+    endAt :{
         type: Date,
         label : 'Project end date',
         optional: true
