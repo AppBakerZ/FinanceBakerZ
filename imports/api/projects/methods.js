@@ -34,6 +34,9 @@ export const insert = new ValidatedMethod({
         },
         'project.status': {
             type: String
+        },
+        'project.startAt': {
+            type: Date
         }
     }).validator(),
     run({ project }) {
