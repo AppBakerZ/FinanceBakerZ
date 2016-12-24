@@ -45,13 +45,14 @@ export default class AuthLayout extends Component {
         return (
             <Layout>
                 <Panel>
-                    <AppBar>
+                    <AppBar className="header-wrapper">
                         <Link
                             to={`/`}>
-                            FinanceBakerZ
+                            //FinanceBakerZ
+                            <img src={'../assets/images/logo.png'} alt="Logo" className="header-logo"/>
                         </Link>
                     </AppBar>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
+                    <div className="app-body" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
                         <ProgressBar type='circular' mode='indeterminate' multicolor className={this.progressBarToggle()} />
                         <Snackbar
                             action='Dismiss'
@@ -63,13 +64,16 @@ export default class AuthLayout extends Component {
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
                             />
-                        <Card style={{width: '350px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
+                        <Card className="login-card" style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
                             {React.cloneElement(this.props.children, {
                                 showSnackbar: this.showSnackbar.bind(this),
                                 progressBarUpdate: this.progressBarUpdate.bind(this),
                                 loading: this.state.loading
                             })}
                         </Card>
+                    </div>
+                    <div className="app-footer text-center">
+                        <span className="margin-top-5 margin-bottom-5">A Product of AppBakerz</span>
                     </div>
                 </Panel>
             </Layout>

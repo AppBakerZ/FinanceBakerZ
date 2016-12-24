@@ -16,7 +16,8 @@ export default class AppLayout extends Component {
         this.state = {
             drawerActive: false,
             sidebarPinned: true
-        }
+        };
+
     }
 
     toggleDrawerActive() {
