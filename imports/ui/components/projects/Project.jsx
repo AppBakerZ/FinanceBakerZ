@@ -17,6 +17,9 @@ class ProjectPage extends Component {
             filterByDateIs: 'day',
             openDialog : false,
             barActive : false,
+            showForm : true,
+            updateForm : false,
+            selectedProject : {},
             project : {
                 client : {}
             }
@@ -79,8 +82,22 @@ class ProjectPage extends Component {
         );
     }
 
-    addNewProject (e, t) {
-        this.setState({openDialog: !this.state.openDialog});
+    openedPopup (showForm) {
+        this.setState({showForm, openDialog: true});
+    }
+
+    closePopup () {
+        this.setState({openDialog:false, updateForm : false});
+    }
+
+
+    editPopup(){
+        let project = JSON.parse(JSON.stringify(this.state.selectedProject));
+        delete project.createdAt;
+        delete project.clientName;
+        delete project.date;
+        delete project.updatedAt;
+        this.setState({showForm : true, updateForm : true, project});
     }
 
     onChange (val, e) {
@@ -100,8 +117,15 @@ class ProjectPage extends Component {
     createNewProject(event){
         event.preventDefault();
         const {project} = this.state;
+        if(!this.state.updateForm){
+            project._id = null;
+        }
+        console.log('err, response ....', project);
+
         Meteor.call('project.insert', {project}
             , (err, response) => {
+                console.log('err, response ....', err, response);
+
                 if(err){
                     this.setState({
                         barActive: true,
@@ -112,17 +136,16 @@ class ProjectPage extends Component {
                 }else{
                     this.setState({
                         barActive: true,
-                        barMessage: 'Add new Project successfully',
+                        barMessage: this.state.updateForm ? 'Update Successfully!' : 'Add new Project successfully',
                         barIcon: 'done',
                         barType: 'accept'
                     });
-                    this.addNewProject();
+                    this.closePopup();
+                    this.setState({project :   {client : {}} });
+
                 }
                 console.log('response...', response);
             });
-
-        console.log('createNewProject e', event);
-        console.log('addNewProject', this.state);
     }
 
 
@@ -131,57 +154,93 @@ class ProjectPage extends Component {
     }
 
 
-    addNewProjectTemplate(){
+
+    selectProject(index){
+        let selectedProject =  this.props.projects[index] ;
+        this.setState({selectedProject});
+        this.openedPopup();
+    }
+
+    renderSelectedProject(){
+        let selectedProject = this.state.selectedProject ;
         return(
-            <Dialog
-                active={this.state.openDialog}
-                onEscKeyDown={this.addNewProject.bind(this)}
-                onOverlayClick={this.addNewProject.bind(this)}
-                title='ADD NEW PROJECT'
-                >
-                <form className="create-project-form"  onSubmit={this.createNewProject.bind(this)} >
-                    <Input type='text' label='Project Name'
-                           name='name'
-                           maxLength={ 50 }
-                           value={this.state.project.name}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <Input type='text' label='Client Name'
-                           name='client.name'
-                           maxLength={ 50 }
-                           value={this.state.project.client.name}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <Input type='text' label='Type'
-                           name='type'
-                           maxLength={ 50 }
-                           value={this.state.project.type}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <Input type='text' label='Status'
-                           name='status'
-                           maxLength={ 50 }
-                           value={this.state.project.status}
-                           onChange={this.onChange.bind(this)}
-                           required
-                        />
-                    <DatePicker
-                        label='Start Date'
-                        name='startAt'
-                        onChange={this.onChange.bind(this)}
-                        value={this.state.project.startAt}
-                        />
-                    <Button type="submit" icon='add' label='Add Now' raised primary />
-                </form>
-            </Dialog>
+            <div>
+                <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>
+                {(selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
+
+                    <h4>{selectedProject.name}</h4>
+
+                <div> <span>Client Name:</span><span>{selectedProject.client.name}</span></div>
+                <div> <span>Project Status :</span><span>{selectedProject.status}</span></div>
+
+                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
+            </div>
         )
     }
 
-    handleSelect(selected){
-        console.log('this.state.selected',selected, this.state.selected);
+    renderAddProjectForm(){
+        let {updateForm, selectedProject} = this.state;
+        return(
+            <form className="create-project-form"  onSubmit={this.createNewProject.bind(this)} >
+                {(updateForm) && <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>}
+                {(updateForm && selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
+
+                <h4>{(updateForm) ? selectedProject.name :   'Add New Project'}</h4>
+
+                <Input type='text' label='Project Name'
+                       name='name'
+                       maxLength={ 50 }
+                       value={this.state.project.name}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <Input type='text' label='Client Name'
+                       name='client.name'
+                       maxLength={ 50 }
+                       value={this.state.project.client.name}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <Input type='text' label='Type'
+                       name='type'
+                       maxLength={ 50 }
+                       value={this.state.project.type}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <Input type='text' label='Status'
+                       name='status'
+                       maxLength={ 50 }
+                       value={this.state.project.status}
+                       onChange={this.onChange.bind(this)}
+                       required
+                    />
+                <DatePicker
+                    label='Start Date'
+                    name='startAt'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.project.startAt}
+                    />
+                <Button type="submit" icon='add' label={(updateForm) ?'update':   'Add Now'} raised primary />
+            </form>
+        )
+    }
+
+    templateRender(){
+        return this.state.showForm ? this.renderAddProjectForm() : this.renderSelectedProject();
+    }
+
+    popupTemplate(){
+        return(
+            <Dialog
+                className='dialog-box tiny-scroll'
+                active={this.state.openDialog}
+                onEscKeyDown={this.closePopup.bind(this)}
+                onOverlayClick={this.closePopup.bind(this)}
+                >
+                {this.templateRender()}
+            </Dialog>
+        )
     }
 
     renderProjectTable() {
@@ -189,6 +248,7 @@ class ProjectPage extends Component {
         const tableModel = {
             date: {type: Date, title: 'Date'},
             name: {type: String, title: 'Project'},
+            type:{type: String, title: 'Type'},
             clientName: {type: String, title: 'Client'},
             status: {type: String, title: 'Status'}
         };
@@ -202,11 +262,8 @@ class ProjectPage extends Component {
 
         return ( <Table
                 model={tableModel}
-                onRowClick={(i, a) => {
-                            console.log(i, a.currentTarget.parentNode)
-                            }}
+                onRowClick={this.selectProject.bind(this)}
                 selectable={false}
-                selected={this.state.selected}
                 source={data}
                 />
         )
@@ -269,8 +326,8 @@ class ProjectPage extends Component {
 
                     <div className="page-title">
                         <h3>Projects</h3>
-                        <Button icon='add' label='Add New' flat onClick={this.addNewProject.bind(this)} />
-                        {this.addNewProjectTemplate()}
+                        <Button icon='add' label='Add New' flat onClick={this.openedPopup.bind(this, true)} />
+                        {this.popupTemplate()}
                     </div>
                     {this.renderProjectTable()}
 

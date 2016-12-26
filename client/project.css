@@ -25,6 +25,31 @@
     flex-direction: row;
     flex-grow : 2;
     justify-content: space-between;
-
 }
 
+.dialog-box{
+    overflow: auto;
+}
+
+.tiny-scroll::-webkit-scrollbar-track
+ {
+     margin-top: 5px;
+     -webkit-box-shadow:transparent;
+     background-color: transparent;
+     border-radius: 2px;
+ }
+.tiny-scroll::-webkit-scrollbar
+ {
+     width: 5px;
+     height: 5px;
+     background-color: transparent;
+ }
+.tiny-scroll::-webkit-scrollbar-thumb
+ {
+     background-color: transparent;
+     border-radius: 5px;
+ }
+.tiny-scroll:hover::-webkit-scrollbar-thumb
+ {
+     background-color: #cccccc;
+}

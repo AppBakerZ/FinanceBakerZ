@@ -1,6 +1,7 @@
 // methods related to companies
 
 import { Meteor } from 'meteor/meteor';
+import { Match } from 'meteor/check';
 import { _ } from 'meteor/underscore';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
@@ -19,6 +20,9 @@ export const insert = new ValidatedMethod({
     validate: new SimpleSchema({
         'project': {
             type: Object
+        },
+        'project._id': {
+            type: Match.OneOf(String, null)
         },
         'project.name': {
             type: String
@@ -41,7 +45,17 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ project }) {
         project.owner = this.userId;
-        return Projects.insert(project);
+        //let argumentsValid = Match.test(project._id, Match.Optional(String));
+        //if ( !argumentsValid ) {
+        //    ThrowError('Arguments Invalid', 'Arguments id are not valid');
+        //}
+        if(project._id){
+            return Projects.update({_id : project._id}, {$set :project}, true);
+        }
+        else{
+            return Projects.insert(project);
+        }
+
     }
 });
 
