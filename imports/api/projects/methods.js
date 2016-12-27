@@ -22,7 +22,8 @@ export const insert = new ValidatedMethod({
             type: Object
         },
         'project._id': {
-            type: Match.OneOf(String, null)
+            type: String,
+            optional: true
         },
         'project.name': {
             type: String
@@ -40,22 +41,18 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'project.startAt': {
-            type: Date
+            type: Date,
+            optional: true
         }
     }).validator(),
     run({ project }) {
-        project.owner = this.userId;
-        //let argumentsValid = Match.test(project._id, Match.Optional(String));
-        //if ( !argumentsValid ) {
-        //    ThrowError('Arguments Invalid', 'Arguments id are not valid');
-        //}
         if(project._id){
-            return Projects.update({_id : project._id}, {$set :project}, true);
+            return Projects.update({_id : project._id}, {$set :project});
         }
         else{
+            project.owner = this.userId;
             return Projects.insert(project);
         }
-
     }
 });
 

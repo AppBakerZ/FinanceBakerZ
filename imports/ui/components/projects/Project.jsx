@@ -2,11 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Input, DatePicker, Dropdown, Table, Dialog, Snackbar } from 'react-toolbox';
+import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table} from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var'
+
 import { Projects } from '../../../api/projects/projects.js';
+
+let filters = new ReactiveVar({});
+
 
 class ProjectPage extends Component {
 
@@ -14,8 +19,11 @@ class ProjectPage extends Component {
         super(props);
 
         this.state = {
-            filterByDateIs: 'day',
+            filter : {},
             openDialog : false,
+            distinct : {
+                type : []
+            },
             barActive : false,
             showForm : true,
             updateForm : false,
@@ -27,38 +35,28 @@ class ProjectPage extends Component {
         this.props.toggleSidebar(false);
     }
 
-    /*************** date filters ***************/
-    dateFilters(){
+
+    /*************** status filters ***************/
+    statusFilters(){
         return [
             {
-                name: 'Today',
-                value: 'day'
+                name: 'Working',
+                value: 'working'
             },
             {
-                name: 'This Week',
-                value: 'week'
+                name: 'Progress',
+                value: 'progress'
             },
             {
-                name: 'This Month',
-                value: 'month'
+                name: 'Waiting',
+                value: 'waiting'
             },
             {
-                name: 'Last Month',
-                value: 'months'
-            },
-            {
-                name: 'This Year',
-                value: 'year'
-            },
-            {
-                name: 'Date Range',
-                value: 'range'
+                name: 'Completed',
+                value: 'completed'
             }
-        ];
-    }
 
-    filterByDate(value, event){
-        this.setState({[event.target.name]: value});
+        ];
     }
 
     filterItem (account) {
@@ -82,24 +80,32 @@ class ProjectPage extends Component {
         );
     }
 
+    /*************** open popup ***************/
     openedPopup (showForm) {
         this.setState({showForm, openDialog: true});
     }
 
+    /*************** close popup ***************/
     closePopup () {
         this.setState({openDialog:false, updateForm : false});
     }
 
-
+    /*************** edit project popup ***************/
     editPopup(){
         let project = JSON.parse(JSON.stringify(this.state.selectedProject));
         delete project.createdAt;
         delete project.clientName;
         delete project.date;
         delete project.updatedAt;
+        delete project.owner;
+        delete project.test;
+        if(project.startAt){
+            project.startAt = new Date(project.startAt);
+        }
         this.setState({showForm : true, updateForm : true, project});
     }
 
+    /*************** onChange value in popup form ***************/
     onChange (val, e) {
         let newProject = _.extend(this.state.project, this.state.project),
             label = e.target.name;
@@ -114,18 +120,52 @@ class ProjectPage extends Component {
         this.setState({ project: newProject });
     }
 
+    /*************** onChange filter value***************/
+    onChangeFilter(val, event){
+        let copyFilter = filters.get();
+        let  label = event.target.name;
+        if(label == 'startAt'){
+            this.setState({ dateFilter: val });
+            let startDate = new Date(val); // this is the starting date that looks like ISODate("2014-10-03T04:00:00.188Z")
+            startDate.setSeconds(0);
+            startDate.setHours(0);
+            startDate.setMinutes(0);
+
+            let endDate = new Date(val);
+            endDate.setHours(23);
+            endDate.setMinutes(59);
+            endDate.setSeconds(59);
+
+            copyFilter.startAt = {
+                $gt:startDate,
+                $lt:endDate
+            };
+            filters.set(copyFilter);
+        }
+        else{
+            let filter = _.extend(this.state.filter, this.state.filter);
+            filter[label] = val;
+            this.setState({ filter});
+            copyFilter[label] = val;
+            filters.set(copyFilter);
+            console.log('filters get ...', filters.get());
+        }
+
+    }
+
+    resetDateFilter(){
+        this.setState({ dateFilter: '' });
+        let copyFilter = filters.get();
+        delete copyFilter.startAt;
+        filters.set(copyFilter);
+    }
+
+    /*************** create and update project method  ***************/
     createNewProject(event){
         event.preventDefault();
         const {project} = this.state;
-        if(!this.state.updateForm){
-            project._id = null;
-        }
-        console.log('err, response ....', project);
-
         Meteor.call('project.insert', {project}
             , (err, response) => {
-                console.log('err, response ....', err, response);
-
                 if(err){
                     this.setState({
                         barActive: true,
@@ -144,23 +184,21 @@ class ProjectPage extends Component {
                     this.setState({project :   {client : {}} });
 
                 }
-                console.log('response...', response);
             });
     }
-
 
     barClick () {
         this.setState({ barActive: false });
     }
 
-
-
+    /*************** Select single project in table row click ***************/
     selectProject(index){
         let selectedProject =  this.props.projects[index] ;
         this.setState({selectedProject});
         this.openedPopup();
     }
 
+    /*************** Select single project in table row click ***************/
     renderSelectedProject(){
         let selectedProject = this.state.selectedProject ;
         return(
@@ -178,6 +216,7 @@ class ProjectPage extends Component {
         )
     }
 
+    /*************** form template ***************/
     renderAddProjectForm(){
         let {updateForm, selectedProject} = this.state;
         return(
@@ -255,10 +294,9 @@ class ProjectPage extends Component {
 
         const data = projects.map((obj)=>{
             obj.clientName = obj.client.name;
-            obj.date = moment(obj.createdAt).format("MMM Do YY");
+            obj.date = obj.startAt ? moment(obj.startAt).format("MMM Do YY") : 'Not Start Yet';
             return obj;
         });
-
 
         return ( <Table
                 model={tableModel}
@@ -274,50 +312,39 @@ class ProjectPage extends Component {
             <div className="projects">
                 <div className="container">
                     <div className="flex">
-                        <div >
-                            <Dropdown
-                                auto={false}
-                                source={this.dateFilters()}
-                                name='filterByDateIs'
-                                onChange={this.filterByDate.bind(this)}
-                                label='Filter by'
-                                value={this.state.filterBy}
-                                template={this.filterItem}
-                                required
+                        <div className="date-picker">
+                            <DatePicker
+                                label='Filter Date'
+                                name='startAt'
+                                onChange={this.onChangeFilter.bind(this)}
+                                value={this.state.dateFilter}
+                                />
+                            {(this.state.dateFilter) && <IconButton className="close" icon='clear' onClick={this.resetDateFilter.bind(this)} />}
+                        </div>
+                        <div>
+                            <Input type='text'
+                                   label="Filter by Project Type"
+                                   name='type'
+                                   value={this.state.filter.type}
+                                   onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>
                         <div>
-                            <Dropdown
-                                auto={false}
-                                source={this.dateFilters()}
-                                name='filterByDateIs'
-                                onChange={this.filterByDate.bind(this)}
-                                label='Filter by Project Type'
-                                value={this.state.filterBy}
-                                template={this.filterItem}
-                                required
-                                />
-                        </div>
-                        <div>
-                            <Dropdown
-                                auto={false}
-                                source={this.dateFilters()}
-                                name='filterByDateIs'
-                                onChange={this.filterByDate.bind(this)}
-                                label='Filter By Client'
-                                value={this.state.filterBy}
-                                template={this.filterItem}
-                                required
+                            <Input type='text'
+                                   label="Filter by Client Name"
+                                   name='type'
+                                   value={this.state.filter.type}
+                                   onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>
                         <div >
                             <Dropdown
-                                auto={false}
-                                source={this.dateFilters()}
-                                name='filterByDateIs'
-                                onChange={this.filterByDate.bind(this)}
+                                auto={true}
+                                source={this.statusFilters()}
+                                name='status'
+                                onChange={this.onChangeFilter.bind(this)}
                                 label='Filter By Status'
-                                value={this.state.filterBy}
+                                value={this.state.filter.status}
                                 template={this.filterItem}
                                 required
                                 />
@@ -353,8 +380,7 @@ ProjectPage.propTypes = {
 
 export default createContainer(() => {
     Meteor.subscribe('projects');
-
     return {
-        projects: Projects.find({}).fetch()
+        projects: Projects.find(filters.get()).fetch()
     };
 }, ProjectPage);

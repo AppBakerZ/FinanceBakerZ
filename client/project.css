@@ -27,6 +27,27 @@
     justify-content: space-between;
 }
 
+.date-picker{
+    position: relative;
+}
+
+.date-picker .close{
+    position: absolute;
+    bottom: 18px;
+    right: -10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .dialog-box{
     overflow: auto;
 }
