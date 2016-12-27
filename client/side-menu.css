@@ -1,0 +1,13 @@
+.side-menu-wrapper ul li .material-icons{
+    color: #008142 !important;
+}
+.side-menu-wrapper ul li ._node_modules_react_toolbox_lib_list__theme__itemText {
+    color: #deb342 !important;
+}
+.side-menu-wrapper ul a.active li .material-icons,
+.side-menu-wrapper ul a.active li ._node_modules_react_toolbox_lib_list__theme__itemText{
+    color: #fff !important;
+}
+.side-menu-wrapper ul a{
+    background-color: #deb342 !important;
+}

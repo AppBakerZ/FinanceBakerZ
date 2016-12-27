@@ -47,7 +47,7 @@ export default class AppLayout extends Component {
     render() {
         return (
             <Layout>
-                <NavDrawer active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
+                <NavDrawer className="side-menu-wrapper" active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
                     <div>
                         <Card style={{width: '350px'}}>
                             <CardTitle
@@ -56,31 +56,32 @@ export default class AppLayout extends Component {
                                 />
                         </Card>
                         <List selectable ripple>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/dashboard' && 'active'}
                                 to={`/app/dashboard`}>
                                 <ListItem caption='Dashboard' leftIcon='dashboard' />
                             </Link>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/expenses/new' && 'active'}
                                 to={`/app/expenses/new`}>
                                 <ListItem caption='Expenses' leftIcon='content_cut' />
                             </Link>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/incomes/new' && 'active'}
                                 to={`/app/incomes/new`}>
                                 <ListItem caption='Income' leftIcon='monetization_on' />
                             </Link>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/accounts/new' && 'active'}
                                 to={`/app/accounts/new`}>
                                 <ListItem caption='Accounts' leftIcon='account_balance' />
                             </Link>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/categories/new' && 'active'}
                                 to={`/app/categories/new`}>
                                 <ListItem caption='Categories' leftIcon='border_all' />
                             </Link>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/settings/new' && 'active'}
                                 to={`/app/settings/new`}>
                                 <ListItem caption='Settings' leftIcon='settings' />
                             </Link>
-                            <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
+                            <ListItem className={this.props.location.pathname == '/login' && 'active'}
+                                      caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
                         </List>
                     </div>
                 </NavDrawer>
