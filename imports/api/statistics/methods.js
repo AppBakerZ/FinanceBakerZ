@@ -254,8 +254,9 @@ export const generateReport = new ValidatedMethod({
 
         // PREPARE DATA
         //createdAt
-
-        record =  (params.report == 'incomes') ? Incomes.find(query).fetch() : Expenses.find(query).fetch();
+        let option = {sort: {}};
+        (params.report == 'incomes') ? option.sort['receivedAt'] = 1 : option.sort['spentAt'] = 1;
+        record =  (params.report == 'incomes') ? Incomes.find(query, option).fetch() : Expenses.find(query, option).fetch();
 
         if(!record.length){
             throw new Meteor.Error( 404, 'result not found' );
