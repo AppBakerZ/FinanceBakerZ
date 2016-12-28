@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
+import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { Incomes } from '../../../api/incomes/incomes.js';
+import { Expenses } from '../../../api/expences/expenses.js';
 
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 
@@ -267,6 +269,28 @@ class DashboardPage extends Component {
             this.state.filterBy == 'range' ?  dropDowns : null
         )
     }
+    renderRecents(){
+        return (
+            <div className='recents'>{this.renderRecentIncomes()}
+                {this.renderRecentExpenses()}</div>
+        )
+    }
+    renderRecentIncomes(){
+        const model = {
+            type: {type: String},
+            amount: {type: Number}
+        };
+        return (
+            <div>
+                <h3>RECENT INCOMES</h3>
+                <Table heading={false} model={model} source={this.props.incomes}/>
+                View More
+            </div>
+        )
+    }
+    renderRecentExpenses(){
+
+    }
     render() {
         return (
             <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
@@ -333,6 +357,7 @@ class DashboardPage extends Component {
                         )}
                     </div>
 
+                    {this.renderRecents()}
                     {this.renderAreaChart()}
 
                 </div>
@@ -347,8 +372,11 @@ DashboardPage.propTypes = {
 
 export default createContainer(() => {
     Meteor.subscribe('accounts');
+    Meteor.subscribe('incomes', 5);
+    Meteor.subscribe('expenses', 5);
 
     return {
-        accounts: Accounts.find({}).fetch()
+        accounts: Accounts.find({}).fetch(),
+        incomes: Incomes.find({}, {fields: {amount: 1, type: 1}}).fetch()
     };
 }, DashboardPage);
