@@ -40,6 +40,10 @@ export const insert = new ValidatedMethod({
         'project.status': {
             type: String
         },
+        'project.amount': {
+            type: Number,
+            optional: true
+        },
         'project.startAt': {
             type: Date,
             optional: true
