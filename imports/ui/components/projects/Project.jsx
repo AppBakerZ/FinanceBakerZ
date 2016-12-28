@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table} from 'react-toolbox';
+import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar} from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -10,7 +10,30 @@ import { ReactiveVar } from 'meteor/reactive-var'
 
 import { Projects } from '../../../api/projects/projects.js';
 
-let filters = new ReactiveVar({});
+const RECORDS_PER_PAGE = 8;
+
+let pageNumber = 1,
+    statusFilters = [
+        {
+            name: 'Working',
+            value: 'working'
+        },
+        {
+            name: 'Progress',
+            value: 'progress'
+        },
+        {
+            name: 'Waiting',
+            value: 'waiting'
+        },
+        {
+            name: 'Completed',
+            value: 'completed'
+        }
+    ],
+    query = new ReactiveVar({
+        limit : RECORDS_PER_PAGE * pageNumber
+    });
 
 
 class ProjectPage extends Component {
@@ -23,12 +46,11 @@ class ProjectPage extends Component {
                 client : {}
             },
             openDialog : false,
-            distinct : {
-                type : []
-            },
             barActive : false,
             showForm : true,
             updateForm : false,
+            loading : false,
+            deleteConfirmMessage : false,
             selectedProject : {},
             project : {
                 client : {}
@@ -38,53 +60,20 @@ class ProjectPage extends Component {
     }
 
 
-    /*************** status filters ***************/
-    statusFilters(){
-        return [
-            {
-                name: 'Working',
-                value: 'working'
-            },
-            {
-                name: 'Progress',
-                value: 'progress'
-            },
-            {
-                name: 'Waiting',
-                value: 'waiting'
-            },
-            {
-                name: 'Completed',
-                value: 'completed'
-            }
-
-        ];
+    /*************** Infinite scroll ***************/
+    handleScroll(event) {
+        let infiniteState = event.nativeEvent;
+        if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
+            let copyQuery = query.get();
+            copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber + 1);
+            query.set(copyQuery);
+        }
     }
 
-    filterItem (account) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
-
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
-
-        return (
-            <div style={containerStyle}>
-                <div style={contentStyle}>
-                    <strong>{account.name}</strong>
-                </div>
-            </div>
-        );
-    }
 
     /*************** open popup ***************/
     openedPopup (showForm) {
-        this.setState({showForm, openDialog: true});
+        this.setState({showForm, openDialog: true, deleteConfirmMessage: false});
     }
 
     /*************** close popup ***************/
@@ -105,6 +94,42 @@ class ProjectPage extends Component {
             project.startAt = new Date(project.startAt);
         }
         this.setState({showForm : true, updateForm : true, project});
+    }
+
+    deleteProjectToggle(){
+        this.setState({deleteConfirmMessage : !this.state.deleteConfirmMessage});
+    }
+
+    deleteProject(){
+        let selectedProject = this.state.selectedProject;
+        this.setState({loading : true});
+        Meteor.call('project.remove', {project : {_id : selectedProject._id}}
+            , (err, response) => {
+                if(err){
+                    this.setState({
+                        barActive: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel',
+                        loading : false
+                    });
+                }else{
+                    this.setState({
+                        barActive: true,
+                        barMessage:   'Remove' + this.state.selectedProject.name + 'Successfully!',
+                        barIcon: 'done',
+                        barType: 'accept',
+                        loading : false
+                    });
+                    this.closePopup();
+                    this.setState({project :   {client : {}} });
+
+                }
+            });
+    }
+
+    progressBarToggle (){
+        return  this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
     /*************** onChange value in popup form ***************/
@@ -128,20 +153,43 @@ class ProjectPage extends Component {
 
     /*************** onChange filter value***************/
     onChangeFilter(val, event){
-        let copyFilter = filters.get();
-        let  label = event.target.name;
-            let filter = _.extend(this.state.filter, this.state.filter);
-            filter[label] = val;
-            this.setState({ filter});
-            copyFilter[label] = val;
-            filters.set(copyFilter);
+        let copyQuery = query.get(),
+            label = event.target.name,
+            filter = _.extend(this.state.filter, this.state.filter);
+
+        filter[label] = val;
+        if(label == 'client.name'){
+            filter['client']['name'] = val;
+        }
+        this.setState({ filter});
+        if(val){
+            copyQuery[label] = (label != 'status') ? { $regex : val} : val;
+        }
+        else{
+            delete  copyQuery[label]
+        }
+
+        pageNumber = 1;
+        copyQuery.limit  = RECORDS_PER_PAGE * pageNumber;
+        query.set(copyQuery);
     }
 
+    /*************** reset status filter ***************/
+    resetStatusFilter(){
+        let copyQuery = query.get(),
+            filter = _.extend(this.state.filter, this.state.filter);
+
+        filter.status = '';
+        this.setState({ filter});
+        delete copyQuery.status;
+        query.set(copyQuery);
+    }
 
     /*************** create and update project method  ***************/
     createNewProject(event){
         event.preventDefault();
         const {project} = this.state;
+        this.setState({loading : true});
         Meteor.call('project.insert', {project}
             , (err, response) => {
                 if(err){
@@ -149,14 +197,16 @@ class ProjectPage extends Component {
                         barActive: true,
                         barMessage: err.reason,
                         barIcon: 'error_outline',
-                        barType: 'cancel'
+                        barType: 'cancel',
+                        loading : false
                     });
                 }else{
                     this.setState({
                         barActive: true,
                         barMessage: this.state.updateForm ? 'Update Successfully!' : 'Add new Project successfully',
                         barIcon: 'done',
-                        barType: 'accept'
+                        barType: 'accept',
+                        loading : false
                     });
                     this.closePopup();
                     this.setState({project :   {client : {}} });
@@ -176,6 +226,48 @@ class ProjectPage extends Component {
         this.openedPopup();
     }
 
+    /********************************************* Templates *********************************************/
+
+    /*************** Dropdown select option template ***************/
+    dropDownSelectedTemplate (account) {
+        return (
+            <span>
+                <strong>{account.name}</strong>
+            </span>
+        );
+    }
+
+    selectedProjectDetails(){
+        return this.state.deleteConfirmMessage ? this.renderConfirmationMessage() : this.renderProjectDetails();
+    }
+
+    renderConfirmationMessage(){
+        let selectedProject = this.state.selectedProject ;
+
+        return (
+            <div>
+                <div><p>Are you sure to delete this project?</p></div>
+
+                <Button label='Yes' raised primary onClick={this.deleteProject.bind(this)} />
+                <Button label='No' raised primary onClick={this.deleteProjectToggle.bind(this)} />
+            </div>
+        )
+    }
+
+
+    renderProjectDetails(){
+        let selectedProject = this.state.selectedProject ;
+
+        return (
+            <div>
+                <div> <span>Client Name:</span><span>{selectedProject.client.name}</span></div>
+                <div> <span>Project Status :</span><span>{selectedProject.status}</span></div>
+
+                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
+                <Button label='Delete Project' raised primary onClick={this.deleteProjectToggle.bind(this)} />
+            </div>
+        )
+    }
     /*************** Select single project in table row click ***************/
     renderSelectedProject(){
         let selectedProject = this.state.selectedProject ;
@@ -184,12 +276,9 @@ class ProjectPage extends Component {
                 <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>
                 {(selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
 
-                    <h4>{selectedProject.name}</h4>
+                <h4>{selectedProject.name}</h4>
 
-                <div> <span>Client Name:</span><span>{selectedProject.client.name}</span></div>
-                <div> <span>Project Status :</span><span>{selectedProject.status}</span></div>
-
-                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
+                {this.selectedProjectDetails()}
             </div>
         )
     }
@@ -232,15 +321,14 @@ class ProjectPage extends Component {
                     />
                 <Dropdown
                     auto={true}
-                    source={this.statusFilters()}
+                    source={statusFilters}
                     name='status'
                     onChange={this.onChange.bind(this)}
                     label='Status'
                     value={this.state.project.status}
-                    template={this.filterItem}
+                    template={this.dropDownSelectedTemplate}
                     required
                     />
-
                 <DatePicker
                     label='Start Date'
                     name='startAt'
@@ -252,10 +340,12 @@ class ProjectPage extends Component {
         )
     }
 
+    /*************** choose template which show on popup ***************/
     templateRender(){
         return this.state.showForm ? this.renderAddProjectForm() : this.renderSelectedProject();
     }
 
+    /*************** popup ***************/
     popupTemplate(){
         return(
             <Dialog
@@ -264,22 +354,24 @@ class ProjectPage extends Component {
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
                 >
+                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                 {this.templateRender()}
             </Dialog>
         )
     }
 
+    /*************** table template ***************/
     renderProjectTable() {
-        const projects = this.props.projects;
-        const tableModel = {
+        let projects = this.props.projects;
+        let tableModel = {
             date: {type: Date, title: 'Date'},
             name: {type: String, title: 'Project'},
-            type:{type: String, title: 'Type'},
             clientName: {type: String, title: 'Client'},
+            amount: {type: Number, title: 'Amount'},
             status: {type: String, title: 'Status'}
         };
 
-        const data = projects.map((obj)=>{
+        let data = projects.map((obj)=>{
             obj.clientName = obj.client.name;
             obj.date = obj.startAt ? moment(obj.startAt).format("MMM Do YY") : 'Not Start Yet';
             return obj;
@@ -294,38 +386,39 @@ class ProjectPage extends Component {
         )
     }
 
+    /*************** template render ***************/
     render() {
         return (
-            <div className="projects">
+            <div className="projects"  onScroll={this.handleScroll}>
                 <div className="container">
                     <div className="flex">
                         <div>
                             <Input type='text'
-                                   label="Filter by Project Type"
-                                   name='type'
-                                   value={this.state.filter.type}
+                                   label="Filter by Project Name"
+                                   name='name'
+                                   value={this.state.filter.name}
                                    onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>
                         <div>
                             <Input type='text'
                                    label="Filter by Client Name"
-                                   name='type'
+                                   name='client.name'
                                    value={this.state.filter.client.name}
                                    onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>
-                        <div >
+                        <div className="drop-down-select">
                             <Dropdown
                                 auto={true}
-                                source={this.statusFilters()}
+                                source={statusFilters}
                                 name='status'
                                 onChange={this.onChangeFilter.bind(this)}
                                 label='Filter By Status'
                                 value={this.state.filter.status}
-                                template={this.filterItem}
-                                required
+                                template={this.dropDownSelectedTemplate}
                                 />
+                            {(this.state.filter.status) && <IconButton className="close" icon='clear' onClick={this.resetStatusFilter.bind(this)} />}
                         </div>
                     </div>
 
@@ -357,8 +450,8 @@ ProjectPage.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('projects');
+    Meteor.subscribe('projects', query.get());
     return {
-        projects: Projects.find(filters.get()).fetch()
+        projects: Projects.find().fetch()
     };
 }, ProjectPage);

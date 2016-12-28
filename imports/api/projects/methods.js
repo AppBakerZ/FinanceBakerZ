@@ -61,8 +61,31 @@ export const insert = new ValidatedMethod({
 });
 
 
+export const remove = new ValidatedMethod({
+    name: 'project.remove',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove category'
+    },
+    validate: new SimpleSchema({
+        'project' : {
+            type: Object
+        },
+        'project._id' : {
+            type: String
+        }
+    }).validator(),
+    run({ project }) {
+        console.log('project.remove ..id', project._id);
+        return Projects.remove(project._id);
+    }
+});
+
+
 const PROJECTS_METHODS = _.pluck([
-    insert
+    insert,
+    remove
 ], 'name');
 
 if (Meteor.isServer) {

@@ -2,6 +2,7 @@
     flex: 1;
     display:  flex;
     position: relative;
+    overflow: auto;
 }
 
 .projects .container{
@@ -12,7 +13,7 @@
 .projects .container .flex{
     display: flex;
     flex-direction: row;
-    flex-grow : 4;
+    flex-grow : 3;
     justify-content: space-around;
     width: 100%;
 }
@@ -26,6 +27,17 @@
     flex-grow : 2;
     justify-content: space-between;
 }
+
+.drop-down-select{
+    position: relative;
+}
+
+.drop-down-select .close{
+    position: absolute;
+    bottom: 18px;
+    right: -10px;
+}
+
 
 
 .dialog-box{

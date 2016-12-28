@@ -9,9 +9,44 @@ Meteor.publish('projects.all', function(){
         }, {fields: {name: 1}});
 });
 
-Meteor.publish('projects.single', function (id) {
-    return Projects.find({
-        owner: this.userId,
-        _id: id
-    });
+
+Meteor.publish('projects', function(query){
+    new SimpleSchema({
+        query: {type: Object},
+        'query.limit' :{
+            type : Number
+        },
+        'query.name' :{
+            type : Object,
+            optional: true
+        },
+        'query.name.$regex' :{
+            type : String,
+            optional: true
+        },
+        'query.client.name' :{
+            type : Object,
+            optional: true
+        },
+        'query.client.name.$regex' :{
+            type : String,
+            optional: true
+        },
+        'query.status' :{
+            type : String,
+            optional: true
+        }
+    }).validate({query});
+    let options = {
+        limit: query.limit,
+        sort: {
+            startAt: -1
+        }
+    };
+
+    query.owner =  this.userId;
+
+    delete query.limit;
+
+    return Projects.find(query, options);
 });
