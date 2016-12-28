@@ -7,6 +7,7 @@ import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker 
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { Projects } from '../../../api/projects/projects.js';
 
 export default class IncomesSideBar extends Component {
 
@@ -62,6 +63,9 @@ export default class IncomesSideBar extends Component {
         console.log('--------------------')
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         console.log(receivedAt)
+        project = project.split('*-*');
+        project = {_id: project[0], name: project[1]};
+        type != "project" && (project = null);
 
         Meteor.call('incomes.insert', {
             income: {
@@ -98,6 +102,9 @@ export default class IncomesSideBar extends Component {
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        project = project.split('*-*');
+        project = {_id: project[0], name: project[1]};
+        type != "project" && (project = null);
 
         Meteor.call('incomes.update', {
             income: {
@@ -238,11 +245,25 @@ export default class IncomesSideBar extends Component {
         );
     }
 
+    projectItem (project) {
+        return (
+            <strong>{project.name}</strong>
+        );
+    }
+
     accounts(){
         return this.props.accounts.map((account) => {
             account.value = account._id;
             account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
             return account;
+        })
+    }
+
+    projects(){
+        return this.props.projects.map((project) => {
+            project.value = project._id + '*-*' + project.name;
+            project.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+            return project;
         })
     }
 
@@ -309,18 +330,22 @@ export default class IncomesSideBar extends Component {
                 <Dropdown
                     source={this.types()}
                     name='type'
+                    label='Select type'
                     onChange={this.onChange.bind(this)}
                     value={this.state.type}
                     template={this.typeItem}
                     required
                     />
-                <Input type='text' label='Project'
-                       name='project'
-                       maxLength={ 50 }
-                       value={this.state.project}
-                       onChange={this.onChange.bind(this)}
-                       required
+                {this.state.type == 'project' &&
+                <Dropdown
+                    source={this.projects()}
+                    name='project'
+                    onChange={this.onChange.bind(this)}
+                    label='Select project'
+                    value={this.state.project}
+                    template={this.projectItem}
                     />
+                }
                 {this.renderButton()}
             </form>
         );
@@ -336,14 +361,16 @@ IncomesSideBar.propTypes = {
 export default createContainer((props) => {
     const { id } = props.params;
     const incomeHandle = Meteor.subscribe('incomes.single', id);
-    const accountsHandle = Meteor.subscribe('accounts');
     const loading = !incomeHandle.ready();
     const income = Incomes.findOne(id);
     const incomeExists = !loading && !!income;
+    Meteor.subscribe('accounts');
+    Meteor.subscribe('projects.all');
     return {
         loading,
         incomeExists,
         income: incomeExists ? income : {},
-        accounts: Accounts.find({}).fetch()
+        accounts: Accounts.find({}).fetch(),
+        projects: Projects.find({}).fetch()
     };
 }, IncomesSideBar);

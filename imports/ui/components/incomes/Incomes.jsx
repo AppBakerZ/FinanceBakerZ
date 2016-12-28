@@ -41,7 +41,7 @@ class IncomesPage extends Component {
                         leftIcon='monetization_on'
                         rightIcon='mode_edit'
                         caption={`PKR : ${income.amount}`}
-                        legend={`Project: ${income.project}`}
+                        legend={income.type == 'project' ? `Project: ${income.project.name || 'None'} ` : `Salary`}
                         />
                 </Link>
             });

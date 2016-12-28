@@ -32,8 +32,18 @@ Incomes.schema = new SimpleSchema({
         label: 'Type of income'
     },
     project: {
-        type: String,
+        type: Object,
         label: 'Project of income',
+        optional: true
+    },
+    'project._id': {
+        type: String,
+        label: "Project's id of income",
+        optional: true
+    },
+    'project.name': {
+        type: String,
+        label: "Project's name of income",
         optional: true
     },
     receivedAt: {
