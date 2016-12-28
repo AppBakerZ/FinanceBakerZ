@@ -19,7 +19,9 @@ class ProjectPage extends Component {
         super(props);
 
         this.state = {
-            filter : {},
+            filter : {
+                client : {}
+            },
             openDialog : false,
             distinct : {
                 type : []
@@ -113,6 +115,10 @@ class ProjectPage extends Component {
         if(label == 'client.name'){
             newProject['client']['name'] = val;
         }
+        else if(label == 'amount'){
+            newProject[label] = +val;
+
+        }
         else{
             newProject[label] = val;
 
@@ -124,41 +130,13 @@ class ProjectPage extends Component {
     onChangeFilter(val, event){
         let copyFilter = filters.get();
         let  label = event.target.name;
-        if(label == 'startAt'){
-            this.setState({ dateFilter: val });
-            let startDate = new Date(val); // this is the starting date that looks like ISODate("2014-10-03T04:00:00.188Z")
-            startDate.setSeconds(0);
-            startDate.setHours(0);
-            startDate.setMinutes(0);
-
-            let endDate = new Date(val);
-            endDate.setHours(23);
-            endDate.setMinutes(59);
-            endDate.setSeconds(59);
-
-            copyFilter.startAt = {
-                $gt:startDate,
-                $lt:endDate
-            };
-            filters.set(copyFilter);
-        }
-        else{
             let filter = _.extend(this.state.filter, this.state.filter);
             filter[label] = val;
             this.setState({ filter});
             copyFilter[label] = val;
             filters.set(copyFilter);
-            console.log('filters get ...', filters.get());
-        }
-
     }
 
-    resetDateFilter(){
-        this.setState({ dateFilter: '' });
-        let copyFilter = filters.get();
-        delete copyFilter.startAt;
-        filters.set(copyFilter);
-    }
 
     /*************** create and update project method  ***************/
     createNewProject(event){
@@ -247,13 +225,22 @@ class ProjectPage extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='text' label='Status'
-                       name='status'
-                       maxLength={ 50 }
-                       value={this.state.project.status}
+                <Input type='number' label='Amount'
+                       name='amount'
+                       value={this.state.project.amount}
                        onChange={this.onChange.bind(this)}
-                       required
                     />
+                <Dropdown
+                    auto={true}
+                    source={this.statusFilters()}
+                    name='status'
+                    onChange={this.onChange.bind(this)}
+                    label='Status'
+                    value={this.state.project.status}
+                    template={this.filterItem}
+                    required
+                    />
+
                 <DatePicker
                     label='Start Date'
                     name='startAt'
@@ -312,15 +299,6 @@ class ProjectPage extends Component {
             <div className="projects">
                 <div className="container">
                     <div className="flex">
-                        <div className="date-picker">
-                            <DatePicker
-                                label='Filter Date'
-                                name='startAt'
-                                onChange={this.onChangeFilter.bind(this)}
-                                value={this.state.dateFilter}
-                                />
-                            {(this.state.dateFilter) && <IconButton className="close" icon='clear' onClick={this.resetDateFilter.bind(this)} />}
-                        </div>
                         <div>
                             <Input type='text'
                                    label="Filter by Project Type"
@@ -333,7 +311,7 @@ class ProjectPage extends Component {
                             <Input type='text'
                                    label="Filter by Client Name"
                                    name='type'
-                                   value={this.state.filter.type}
+                                   value={this.state.filter.client.name}
                                    onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>

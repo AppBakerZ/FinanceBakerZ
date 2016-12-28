@@ -44,9 +44,9 @@ Projects.schema = new SimpleSchema({
         label : 'Project start date',
         optional: true
     },
-    milestones : {
-        type: [Object],
-        label : 'Milestones of project',
+    amount : {
+        type: Number,
+        label : 'Amount of project',
         optional: true
     },
     endAt :{
