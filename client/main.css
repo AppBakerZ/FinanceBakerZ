@@ -75,9 +75,19 @@
 }
 
 .pdf-generator {
-    margin-left: auto
+    text-align: right;
+    width: 100%;
 }
 
+.recents {
+    text-align: center;
+    width: 100%;
+}
+.recents div{
+    display: inline-block;
+    padding: 4%;
+    width: 47%;
+}
 .report-btn{
     display: inline-block;
     margin-left: 10px;

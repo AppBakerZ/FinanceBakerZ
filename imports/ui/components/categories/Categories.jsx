@@ -38,15 +38,15 @@ class CategoriesPage extends Component {
         });
     }
 
-    renderSubcategories(children){
+    renderSubcategories(children, id){
         return children.map((cat) => {
-            return <span>
-                    <Link
+            return <span style={{marginRight: '5px', padding: '3px', background: '#fafafa'}}>
+                    <Link style={{display: 'inherit'}}
                         activeClassName='active'
-                        to={`/app/categories/${cat}`}>
+                        to={`/app/categories/${id}/${cat}`}>
                         {cat}
 
-                        <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
+                        <a style={{paddingLeft: '5px', display: 'inherit'}} data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
                             x
                         </a>
 
@@ -70,7 +70,7 @@ class CategoriesPage extends Component {
                     leftIcon={category.icon}
                     rightIcon='mode_edit'
                     caption={category.name}
-                    legend={this.renderSubcategories(category.children || [])}
+                    legend={this.renderSubcategories(category.children || [], category._id)}
                     />
             </Link>
         });

@@ -62,6 +62,8 @@ class ExpensesSideBar extends Component {
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        category = category.split('*-*');
+        category = {_id: category[0], name: category[1]};
 
         Meteor.call('expenses.insert', {
             expense: {
@@ -98,6 +100,8 @@ class ExpensesSideBar extends Component {
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        category = category.split('*-*');
+        category = {_id: category[0], name: category[1]};
         Meteor.call('expenses.update', {
             expense: {
                 _id,
@@ -274,7 +278,7 @@ class ExpensesSideBar extends Component {
 
     categories(){
         return this.props.categories.map((category) => {
-            category.value = category._id;
+            category.value = category._id + '*-*' + category.name;
             return category;
         })
     }

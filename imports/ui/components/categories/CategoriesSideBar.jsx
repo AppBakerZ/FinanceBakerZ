@@ -272,11 +272,17 @@ CategoriesSideBar.propTypes = {
 };
 
 export default createContainer((props) => {
-    const { id } = props.params;
-    const categoryHandle = Meteor.subscribe('categories.single', id);
+    const { id, subcategoryName } = props.params;
     const categoriesHandle = Meteor.subscribe('categories', {});
-    const loading = !categoryHandle.ready();
-    const category = Categories.findOne(id);
+    const loading = !categoriesHandle.ready();
+    let query = {};
+    if(subcategoryName){
+        query.name = subcategoryName;
+    }
+    else{
+        query._id = id;
+    }
+    const category = Categories.findOne(query);
     const categoryExists = !loading && !!category;
     return {
         loading,

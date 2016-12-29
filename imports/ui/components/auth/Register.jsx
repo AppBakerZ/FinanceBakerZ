@@ -23,6 +23,10 @@ export default class Register extends Component {
         this.setState({[e.target.name]: val});
     }
 
+    onClick (){
+        this.props.history.push('/');
+    }
+
     onSubmit(event){
         event.preventDefault();
 
@@ -67,7 +71,10 @@ export default class Register extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="register">
+            <form onSubmit={this.onSubmit.bind(this)} className="login register" autoComplete={'off'}>
+                <div className="logo-with-text text-center">
+                    <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
+                </div>
                 <Input type='text' label='Full Name'
                        name='fullName'
                        maxLength={ 30 }
@@ -89,7 +96,15 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Button type='submit' disabled={this.props.loading} icon='person_add' label='Register' raised primary />
+                <div className="button-group text-center margin-bottom-5">
+                    <Button className="primary-button" type='submit' disabled={this.props.loading} icon='person_add'
+                            label='Register' raised primary/>
+                </div>
+                <div className="button-group text-center">
+                    <Button className="secondary-button" type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)}
+                            icon='lock_open' label='Login' raised />
+                </div>
+
             </form>
         );
     }

@@ -30,6 +30,12 @@ export const insert = new ValidatedMethod({
             type: Date
         },
         'expense.category': {
+            type: Object
+        },
+        'expense.category._id': {
+            type: String
+        },
+        'expense.category.name': {
             type: String
         },
         'expense.billUrl': {
@@ -69,6 +75,12 @@ export const update = new ValidatedMethod({
             type: Date
         },
         'expense.category': {
+            type: Object
+        },
+        'expense.category._id': {
+            type: String
+        },
+        'expense.category.name': {
             type: String
         },
         'expense.billUrl': {
