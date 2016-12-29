@@ -277,19 +277,45 @@ class DashboardPage extends Component {
     }
     renderRecentIncomes(){
         const model = {
+            icon: {type: String},
             type: {type: String},
-            amount: {type: Number}
+            amount: {type: String}
         };
+        let incomes = this.props.incomes.map(function(i){
+            return {
+                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
+                type: i.type == "project" ? i.project.name || i.project : i.type,
+                amount: 'Rs. ' + i.amount
+            }
+        });
         return (
             <div>
-                <h3>RECENT INCOMES</h3>
-                <Table heading={false} model={model} source={this.props.incomes}/>
-                View More
+                <h3>Recent Incomes</h3>
+                <Table selectable={false} heading={false} model={model} source={incomes}/>
+                <a href='#'>View All</a>
             </div>
         )
     }
     renderRecentExpenses(){
-
+        const model = {
+            icon: {type: String},
+            category: {type: String},
+            amount: {type: String}
+        };
+        let expenses = this.props.expenses.map(function(i){
+            return {
+                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
+                category: i.category.name || i.category,
+                amount: 'Rs. ' + i.amount
+            }
+        });
+        return (
+            <div>
+                <h3>Recent Expenses</h3>
+                <Table selectable={false} heading={false} model={model} source={expenses}/>
+                <a href='#'>View All</a>
+            </div>
+        )
     }
     render() {
         return (
@@ -377,6 +403,7 @@ export default createContainer(() => {
 
     return {
         accounts: Accounts.find({}).fetch(),
-        incomes: Incomes.find({}, {fields: {amount: 1, type: 1}}).fetch()
+        incomes: Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch(),
+        expenses: Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch()
     };
 }, DashboardPage);

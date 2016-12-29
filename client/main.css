@@ -82,7 +82,11 @@
 .recents {
     text-align: center;
     width: 100%;
-    padding: 0px 32%;
+}
+.recents div{
+    display: inline-block;
+    padding: 4%;
+    width: 47%;
 }
 .report-btn{
     display: inline-block;
