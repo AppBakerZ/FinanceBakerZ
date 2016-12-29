@@ -54,17 +54,12 @@ export default class IncomesSideBar extends Component {
     }
 
     createIncome(){
-        let {account, amount, receivedAt, receivedTime, type, project} = this.state;
+        let {account, amount, receivedAt, receivedTime, type, project, projectName} = this.state;
 
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
-        console.log(receivedAt)
-        console.log(receivedTime)
-        console.log('--------------------')
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        console.log(receivedAt)
-        project = project.split('*-*');
-        project = {_id: project[0], name: project[1]};
+        project = {_id: project, name: projectName};
         type != "project" && (project = null);
 
         Meteor.call('incomes.insert', {
@@ -97,13 +92,12 @@ export default class IncomesSideBar extends Component {
     }
 
     updateIncome(){
-        let {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
+        let {_id, account, amount, receivedAt, receivedTime, type, project, projectName} = this.state;
 
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = project.split('*-*');
-        project = {_id: project[0], name: project[1]};
+        project = {_id: project, name: projectName};
         type != "project" && (project = null);
 
         Meteor.call('incomes.update', {
@@ -163,6 +157,7 @@ export default class IncomesSideBar extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
+        e.target.name == 'project' && this.setState({['projectName']: e.target.textContent});
     }
 
     handleBarClick (event, instance) {
@@ -179,6 +174,7 @@ export default class IncomesSideBar extends Component {
 
     componentWillReceiveProps (p){
         p.income.receivedTime = p.income.receivedAt;
+        p.income.type == "project" && (p.income.project = p.income.project._id);
         this.setState(p.income);
         this.setCurrentRoute();
         if(this.state.isNewRoute){
@@ -261,7 +257,7 @@ export default class IncomesSideBar extends Component {
 
     projects(){
         return this.props.projects.map((project) => {
-            project.value = project._id + '*-*' + project.name;
+            project.value = project._id;
             project.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
             return project;
         })
