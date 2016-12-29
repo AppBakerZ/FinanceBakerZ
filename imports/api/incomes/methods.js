@@ -33,7 +33,16 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'income.project': {
-            type: String
+            type: Object,
+            optional: true
+        },
+        'income.project._id': {
+            type: String,
+            optional: true
+        },
+        'income.project.name': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ income }) {
@@ -69,6 +78,12 @@ export const update = new ValidatedMethod({
             type: String
         },
         'income.project': {
+            type: Object
+        },
+        'income.project._id': {
+            type: String
+        },
+        'income.project.name': {
             type: String
         }
     }).validator(),

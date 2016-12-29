@@ -1,58 +1,62 @@
-// definition of the Income collection
+// definition of the Project collection
 
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-class IncomeCollection extends Mongo.Collection {}
+class ProjectCollection extends Mongo.Collection {}
 
-export const Incomes = new IncomeCollection('incomes');
+export const Projects = new ProjectCollection('project');
 
 // Deny all client-side updates since we will be using methods to manage this collection
-Incomes.deny({
+Projects.deny({
     insert() { return true; },
     update() { return true; },
     remove() { return true; }
 });
 
-Incomes.schema = new SimpleSchema({
-    owner: {
+Projects.schema = new SimpleSchema({
+    owner : {
+        type : String,
+        label : 'Project owner id'
+    },
+    name : {
+      type : String,
+      label : 'Project name'
+    },
+    type:{
         type: String,
-        label: 'Owner of income'
+        label : 'Project type'
     },
-    account: {
-        type: String,
-        label: 'Account of income'
-    },
-    amount: {
-        type: Number,
-        label: 'Amount of income'
-    },
-    type: {
-        type: String,
-        label: 'Type of income'
-    },
-    project: {
+    client :{
         type: Object,
-        label: 'Project of income',
-        optional: true
+        label : 'Client details'
     },
-    'project._id': {
+    'client.name' : {
         type: String,
-        label: "Project's id of income",
-        optional: true
+        label : 'Client name'
     },
-    'project.name': {
+    status :{
         type: String,
-        label: "Project's name of income",
-        optional: true
+        label : 'Status'
     },
-    receivedAt: {
+    startAt :{
         type: Date,
-        label: 'received At income'
+        label : 'Project start date',
+        optional: true
+    },
+    amount : {
+        type: Number,
+        label : 'Amount of project',
+        optional: true
+    },
+    endAt :{
+        type: Date,
+        label : 'Project end date',
+        optional: true
     },
     createdAt: {
         type: Date,
-        label: 'Created At income',
+        label: 'Created At Project',
         denyUpdate: true,
         autoValue: function() {
             if (this.isInsert) {
@@ -66,7 +70,7 @@ Incomes.schema = new SimpleSchema({
     },
     updatedAt: {
         type: Date,
-        label: 'Updated At income',
+        label: 'Updated At Project',
         autoValue: function() {
             if (this.isUpdate) {
                 return new Date();
@@ -77,16 +81,16 @@ Incomes.schema = new SimpleSchema({
     }
 });
 
-Incomes.attachSchema(Incomes.schema);
+Projects.attachSchema(Projects.schema);
 
 // This represents the keys from Lists objects that should be published
 // to the client. If we add secret properties to List objects, don't list
 // them here to keep them private to the server.
-Incomes.publicFields = {
+Projects.publicFields = {
     owner: 1
 };
 
 
-Incomes.helpers({
+Projects.helpers({
 
 });

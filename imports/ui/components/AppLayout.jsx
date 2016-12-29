@@ -60,6 +60,10 @@ export default class AppLayout extends Component {
                                 to={`/app/dashboard`}>
                                 <ListItem caption='Dashboard' leftIcon='dashboard' />
                             </Link>
+                            <Link
+                                to={`/app/projects`}>
+                                <ListItem caption='Project' leftIcon='content_cut' />
+                            </Link>
                             <Link className={this.props.location.pathname == '/app/expenses/new' && 'active'}
                                 to={`/app/expenses/new`}>
                                 <ListItem caption='Expenses' leftIcon='content_cut' />
