@@ -63,7 +63,7 @@ class ExpensesPage extends Component {
                         leftIcon='content_cut'
                         rightIcon='mode_edit'
                         caption={`PKR : ${this.formatNumber(expense.amount)}`}
-                        legend={`CATEGORY : ${this.getCategoryName(expense.category)} - DESCRIPTION: ${expense.description}`}
+                        legend={`CATEGORY : ${this.getCategoryName(expense.category.name || expense.category)} - DESCRIPTION: ${expense.description}`}
                         />
                 </Link>
             });
