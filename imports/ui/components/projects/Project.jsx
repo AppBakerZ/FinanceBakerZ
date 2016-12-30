@@ -363,6 +363,14 @@ class ProjectPage extends Component {
     /*************** table template ***************/
     renderProjectTable() {
         let projects = this.props.projects;
+        let data = _.compact(projects.map((obj)=>{
+            if(obj.client){
+                obj.clientName = obj.client.name;
+                obj.date = obj.startAt ? moment(obj.startAt).format("MMM Do YY") : 'Not Start Yet';
+                return obj;
+            }
+        }));
+        if(!data.length) return;
         let tableModel = {
             date: {type: Date, title: 'Date'},
             name: {type: String, title: 'Project'},
@@ -370,13 +378,6 @@ class ProjectPage extends Component {
             amount: {type: Number, title: 'Amount'},
             status: {type: String, title: 'Status'}
         };
-
-        let data = projects.map((obj)=>{
-            obj.clientName = obj.client.name;
-            obj.date = obj.startAt ? moment(obj.startAt).format("MMM Do YY") : 'Not Start Yet';
-            return obj;
-        });
-
         return ( <Table
                 model={tableModel}
                 onRowClick={this.selectProject.bind(this)}
