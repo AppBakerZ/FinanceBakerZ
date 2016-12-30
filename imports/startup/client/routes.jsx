@@ -28,6 +28,7 @@ import SettingsPage from '../../ui/components/settings/Settings.jsx';
 import SettingsSideBar from '../../ui/components/settings/SettingsSideBar.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
+import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
 
 
 
@@ -81,6 +82,8 @@ Meteor.startup( () => {
                     <Route path=":id" />
                 </Route>
                 <Route path="projects" components={{ content: ProjectPage}}>
+                </Route>
+                <Route path="transactions" components={{ content: TransactionPage}}>
                 </Route>
             </Route>
             <Route path="/" component={AuthLayout}>

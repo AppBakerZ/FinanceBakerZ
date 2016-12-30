@@ -18,6 +18,10 @@
     width: 100%;
 }
 
+.header-buttons{
+    color: white;
+}
+
 .page-title{
     padding: 30px 50px;
     background-color: #008142;
