@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, FontIcon, Autocomplete } from 'react-toolbox';
+import { Button, Table, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -25,7 +25,12 @@ class TransactionPage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            filterBy: ''
+        };
+        this.months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
         this.props.toggleSidebar(false);
     }
 
@@ -46,6 +51,83 @@ class TransactionPage extends Component {
         query.set(copyQuery);
     }
 
+    /*************** Filter by dates ***************/
+    filters(){
+        return [
+            {
+                name: 'Today',
+                value: 'day'
+            },
+            {
+                name: 'This Week',
+                value: 'week'
+            },
+            {
+                name: 'This Month',
+                value: 'month'
+            },
+            {
+                name: 'Last Month',
+                value: 'months'
+            },
+            {
+                name: 'This Year',
+                value: 'year'
+            },
+            {
+                name: 'Date Range',
+                value: 'range'
+            }
+        ];
+    }
+
+
+    filterItem (account) {
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2
+        };
+
+        return (
+            <div style={containerStyle}>
+                <div style={contentStyle}>
+                    <strong>{account.name}</strong>
+                </div>
+            </div>
+        );
+    }
+
+    filterByDate(filter, range){
+        let date = {};
+        if(filter == 'months'){
+            date.start = moment().subtract(1, 'months').startOf('month').format();
+            date.end = moment().subtract(1, 'months').endOf('month').format();
+        }
+        else if(filter == 'range'){
+            date.start = moment(range.dateFrom || this.state.dateFrom).startOf('day').format();
+            date.end = moment(range.dateTo || this.state.dateTo).endOf('day').format();
+        }
+        else{
+            date.start = moment().startOf(filter).format();
+            date.end = moment().endOf(filter).format();
+        }
+        return date
+    }
+
+    onChange (val, e) {
+        this.setState({[e.target.name]: val});
+        if( e.target.name == 'filterBy'){
+            let copyQuery = query.get();
+            copyQuery['dateFilter'] = this.filterByDate(val, null);
+            query.set(copyQuery);
+        }
+    }
 
     /*************** Infinite scroll ***************/
     handleScroll(event) {
@@ -98,6 +180,19 @@ class TransactionPage extends Component {
                             label='Filter By Account'
                             source={this.accounts()}
                             value={this.state.multiple}
+                            />
+                    </div>
+                    <div className='flex'>
+                        <Dropdown
+                            className='dashboard-dropdown'
+                            auto={false}
+                            source={this.filters()}
+                            name='filterBy'
+                            onChange={this.onChange.bind(this)}
+                            label='Filter By'
+                            value={this.state.filterBy}
+                            template={this.filterItem}
+                            required
                             />
                     </div>
                     <div className="page-title">

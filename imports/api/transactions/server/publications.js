@@ -5,6 +5,10 @@ import { Expenses } from '../../expences/expenses.js';
 Meteor.publish('transactions', function(options) {
     let query = {owner: this.userId};
     options.accounts.length && (query['account'] = {$in: options.accounts});
+    if(options.dateFilter){
+        let dateQuery = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)};
+        query.$or = [{receivedAt: dateQuery}, {spentAt: dateQuery}];
+    }
     let limits,
     incomes = Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit}).fetch(),
     expenses = Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit}).fetch(),
