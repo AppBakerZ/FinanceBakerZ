@@ -6,7 +6,7 @@ import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox
 
 import { Meteor } from 'meteor/meteor';
 
-export default class SettingsSideBar extends Component {
+class SettingsSideBar extends Component {
 
     constructor(props) {
         super(props);

@@ -9,7 +9,7 @@ import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Projects } from '../../../api/projects/projects.js';
 
-export default class IncomesSideBar extends Component {
+class IncomesSideBar extends Component {
 
     constructor(props) {
         super(props);

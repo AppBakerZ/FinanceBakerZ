@@ -82,6 +82,9 @@ input:-webkit-autofill {
 .text-center{
     text-align: center;
 }
+.text-right{
+    text-align: right;
+}
 /*margin from top css*/
 .margin-top-5{margin-top: 5px}
 .margin-top-10{margin-top: 10px}
@@ -107,3 +110,18 @@ input:-webkit-autofill {
 .margin-right-5{margin-right: 5px}
 .margin-right-10{margin-right: 10px}
 .margin-right-15{margin-right: 15px}
+
+
+/*header-right-login-user-info css*/
+.header-right-login-user-info{
+    margin-left: auto;
+}
+.header-right-login-user-info span{
+    color: #008142;
+}
+
+.page-content-wrapper{
+    background: url("../assets/images/pages-bg.png") no-repeat;
+    background-size: 50%;
+    background-position: center center;
+}
