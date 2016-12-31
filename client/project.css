@@ -70,3 +70,12 @@
  {
      background-color: #cccccc;
 }
+
+.forward-icon{
+    color: green;
+}
+
+.backward-icon{
+    transform: rotate(180deg);
+    color: #d80000;
+}

@@ -2,17 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../incomes/incomes.js';
 import { Expenses } from '../../expences/expenses.js';
 
-Meteor.publishComposite('transactions', function(limit) {
-    return {
-        find: function() {
-            return Incomes.find({owner: this.userId}, {sort: {receivedAt: -1}, limit: limit});
-        },
-        children: [
-            {
-                find: function(income) {
-                    return Expenses.find({owner: this.userId, spentAt: {$gte: income.receivedAt}}, {sort: {spentAt: -1}, limit: limit});
-                }
-            }
-        ]
-    }
+Meteor.publish('transactions', function(options) {
+    let query = {owner: this.userId};
+    options.accounts.length && (query['account'] = {$in: options.accounts});
+    let limits,
+    incomes = Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit}).fetch(),
+    expenses = Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit}).fetch(),
+    transactions = _.sortBy(incomes.concat(expenses), function(obj){return obj.receivedAt || obj.spentAt;}).reverse();
+    transactions.length = options.limit;
+    limits = _.countBy(transactions, function(obj) {return obj.receivedAt ? 'incomes': 'expenses';});
+    return [
+        Incomes.find(query, {sort: {receivedAt: -1}, limit: limits.incomes}),
+        Expenses.find(query, {sort: {spentAt: -1}, limit: limits.expenses})
+    ]
 });
