@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker } from 'react-toolbox';
+import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -12,6 +12,8 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
+import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
+import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
 
 const RECORDS_PER_PAGE = 8;
 
@@ -28,7 +30,8 @@ class TransactionPage extends Component {
         super(props);
         this.state = {
             filterBy: '',
-            type: this.props.routes[2] ? this.props.routes[2].path : ''
+            type: this.props.routes[2] ? this.props.routes[2].path : '',
+            openDialog: false
         };
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -36,9 +39,9 @@ class TransactionPage extends Component {
         if(this.props.routes[2]){
             let copyQuery = query.get();
             copyQuery['type'] = this.props.routes[2].path;
+            copyQuery['dateFilters'] = '';
             query.set(copyQuery);
         }
-        this.props.toggleSidebar(false);
     }
 
     /*************** Filter by accounts ***************/
@@ -132,6 +135,52 @@ class TransactionPage extends Component {
             </div>
         );
     }
+
+    /*************** add/edit incomes popup ***************/
+    openedPopup (showForm, e) {
+        this.setState({showForm, model: e.target.name, openDialog: true, deleteConfirmMessage: false});
+    }
+
+    closePopup () {
+        this.setState({openDialog:false, updateForm : false});
+    }
+
+    popupTemplate(){
+        return(
+            <Dialog
+                className='dialog-box tiny-scroll'
+                active={this.state.openDialog}
+                onEscKeyDown={this.closePopup.bind(this)}
+                onOverlayClick={this.closePopup.bind(this)}
+                >
+                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                {this.templateRender()}
+            </Dialog>
+        )
+    }
+
+    progressBarToggle (){
+        return  this.state.loading ? 'progress-bar' : 'progress-bar hide';
+    }
+
+    templateRender(){
+        return this.state.showForm ? this.renderAddForm() : '';
+    }
+
+    /*************** form template ***************/
+    renderAddForm(){
+        let {updateForm, model} = this.state;
+
+        return(
+            <div>
+                <h4>{'Add New ' + model}</h4>
+                {model == 'Income' ?
+                    <IncomesSideBar params="" isNewRoute={!updateForm}/> :
+                    <ExpensesSideBar params="" isNewRoute={!updateForm}/>}
+            </div>
+        )
+    }
+
 
     /*************** on dropdown options change ***************/
     onChange (val, e) {
@@ -251,8 +300,21 @@ class TransactionPage extends Component {
                     <div className="page-title">
                         <h3>Transactions</h3>
                         <div>
-                            <Button className='header-buttons' icon='add' label='INCOME' flat />
-                            <Button className='header-buttons' icon='add' label='EXPENSE' flat />
+                            <Button
+                                className='header-buttons'
+                                icon='add'
+                                label='INCOME'
+                                name='Income'
+                                onClick={this.openedPopup.bind(this, true)}
+                                flat />
+                            <Button
+                                className='header-buttons'
+                                icon='add'
+                                label='EXPENSE'
+                                name='Expense'
+                                onClick={this.openedPopup.bind(this, true)}
+                                flat />
+                            {this.popupTemplate()}
                         </div>
                     </div>
                     {this.renderProjectTable()}
