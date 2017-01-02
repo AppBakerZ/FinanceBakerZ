@@ -27,7 +27,8 @@ class TransactionPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterBy: ''
+            filterBy: '',
+            type: ''
         };
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -51,6 +52,25 @@ class TransactionPage extends Component {
         copyQuery['accounts'] = value;
         query.set(copyQuery);
     }
+
+    /*************** Filter by type ***************/
+    type(){
+        return [
+            {
+                name: 'Both',
+                value: ''
+            },
+            {
+                name: 'Incomes',
+                value: 'incomes'
+            },
+            {
+                name: 'Expenses',
+                value: 'expenses'
+            }
+        ];
+    }
+
 
     /*************** Filter by dates ***************/
     filters(){
@@ -108,12 +128,16 @@ class TransactionPage extends Component {
         );
     }
 
-
+    /*************** on dropdown options change ***************/
     onChange (val, e) {
         this.setState({[e.target.name]: val});
+        let copyQuery = query.get();
         if(['filterBy', 'dateFrom', 'dateTo'].includes(e.target.name)){
-            let copyQuery = query.get();
             copyQuery['dateFilter'] = val ? dateHelpers.filterByDate(e.target.name == "filterBy" ? val : this.state.filterBy, {[e.target.name]: val}, this) : '';
+            query.set(copyQuery);
+        }
+        else if(e.target.name == "type"){
+            copyQuery['type'] = val;
             query.set(copyQuery);
         }
     }
@@ -185,7 +209,7 @@ class TransactionPage extends Component {
         return (
             <div className="projects" onScroll={this.handleScroll}>
                 <div className="container">
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <div className='flex'>
                         <Autocomplete
                             className='dashboard-autocomplete'
                             direction='down'
@@ -200,13 +224,22 @@ class TransactionPage extends Component {
                         <Dropdown
                             className='dashboard-dropdown'
                             auto={false}
+                            source={this.type()}
+                            name='type'
+                            onChange={this.onChange.bind(this)}
+                            label='Filter By Type'
+                            value={this.state.type}
+                            template={this.filterItem}
+                            />
+                        <Dropdown
+                            className='dashboard-dropdown'
+                            auto={false}
                             source={this.filters()}
                             name='filterBy'
                             onChange={this.onChange.bind(this)}
                             label='Filter By'
                             value={this.state.filterBy}
                             template={this.filterItem}
-                            required
                             />
                         {this.renderDateRange()}
                     </div>

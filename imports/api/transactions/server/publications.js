@@ -9,6 +9,10 @@ Meteor.publish('transactions', function(options) {
         let dateQuery = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)};
         query.$or = [{receivedAt: dateQuery}, {spentAt: dateQuery}];
     }
+    if(options.type == 'incomes') return Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit});
+    if(options.type == 'expenses') return Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit});
+
+    //computing 'Transactions' below
     let limits,
     incomes = Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit}).fetch(),
     expenses = Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit}).fetch(),
