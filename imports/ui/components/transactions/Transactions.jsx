@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
+import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -11,6 +11,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { dateHelpers } from '../../../helpers/dateHelpers.js'
 
 const RECORDS_PER_PAGE = 8;
 
@@ -54,6 +55,10 @@ class TransactionPage extends Component {
     /*************** Filter by dates ***************/
     filters(){
         return [
+            {
+                name: 'All',
+                value: ''
+            },
             {
                 name: 'Today',
                 value: 'day'
@@ -103,28 +108,12 @@ class TransactionPage extends Component {
         );
     }
 
-    filterByDate(filter, range){
-        let date = {};
-        if(filter == 'months'){
-            date.start = moment().subtract(1, 'months').startOf('month').format();
-            date.end = moment().subtract(1, 'months').endOf('month').format();
-        }
-        else if(filter == 'range'){
-            date.start = moment(range.dateFrom || this.state.dateFrom).startOf('day').format();
-            date.end = moment(range.dateTo || this.state.dateTo).endOf('day').format();
-        }
-        else{
-            date.start = moment().startOf(filter).format();
-            date.end = moment().endOf(filter).format();
-        }
-        return date
-    }
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        if( e.target.name == 'filterBy'){
+        if(['filterBy', 'dateFrom', 'dateTo'].includes(e.target.name)){
             let copyQuery = query.get();
-            copyQuery['dateFilter'] = this.filterByDate(val, null);
+            copyQuery['dateFilter'] = val ? dateHelpers.filterByDate(e.target.name == "filterBy" ? val : this.state.filterBy, {[e.target.name]: val}, this) : '';
             query.set(copyQuery);
         }
     }
@@ -138,6 +127,31 @@ class TransactionPage extends Component {
             copyQuery.limit  = RECORDS_PER_PAGE * pageNumber;
             query.set(copyQuery);
         }
+    }
+
+    /*************** table DateRange ***************/
+
+    renderDateRange(){
+        let dropDowns = (
+            <div className='dashboard-dropdown'>
+                <DatePicker
+                    label='Date From'
+                    name='dateFrom'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.dateFrom}
+                    />
+
+                <DatePicker
+                    label='Date To'
+                    name='dateTo'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.dateTo}
+                    />
+            </div>
+        );
+        return (
+            this.state.filterBy == 'range' ?  dropDowns : null
+        )
     }
 
     /*************** table template ***************/
@@ -194,6 +208,7 @@ class TransactionPage extends Component {
                             template={this.filterItem}
                             required
                             />
+                        {this.renderDateRange()}
                     </div>
                     <div className="page-title">
                         <h3>Transactions</h3>
