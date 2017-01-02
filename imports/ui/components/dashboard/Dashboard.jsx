@@ -276,7 +276,10 @@ class DashboardPage extends Component {
             <div>
                 <h3>Recent Incomes</h3>
                 <Table selectable={false} heading={false} model={model} source={incomes}/>
-                <a href='#'>View All</a>
+                <Link
+                    to={`/app/transactions/incomes`}>
+                    View All
+                </Link>
             </div>
         )
     }
@@ -297,7 +300,10 @@ class DashboardPage extends Component {
             <div>
                 <h3>Recent Expenses</h3>
                 <Table selectable={false} heading={false} model={model} source={expenses}/>
-                <a href='#'>View All</a>
+                <Link
+                    to={`/app/transactions/expenses`}>
+                    View All
+                </Link>
             </div>
         )
     }

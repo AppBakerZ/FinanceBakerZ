@@ -84,6 +84,8 @@ Meteor.startup( () => {
                 <Route path="projects" components={{ content: ProjectPage}}>
                 </Route>
                 <Route path="transactions" components={{ content: TransactionPage}}>
+                    <Route path="incomes" />
+                    <Route path="expenses" />
                 </Route>
             </Route>
             <Route path="/" component={AuthLayout}>

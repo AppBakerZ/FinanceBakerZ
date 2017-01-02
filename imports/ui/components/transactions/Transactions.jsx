@@ -28,11 +28,16 @@ class TransactionPage extends Component {
         super(props);
         this.state = {
             filterBy: '',
-            type: ''
+            type: this.props.routes[2] ? this.props.routes[2].path : ''
         };
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
+        if(this.props.routes[2]){
+            let copyQuery = query.get();
+            copyQuery['type'] = this.props.routes[2].path;
+            query.set(copyQuery);
+        }
         this.props.toggleSidebar(false);
     }
 
