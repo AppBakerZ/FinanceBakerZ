@@ -7,7 +7,7 @@ import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
-export default class AccountsSideBar extends Component {
+class AccountsSideBar extends Component {
 
     constructor(props) {
         super(props);

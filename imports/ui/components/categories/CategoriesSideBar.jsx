@@ -8,7 +8,7 @@ import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
-export default class CategoriesSideBar extends Component {
+class CategoriesSideBar extends Component {
 
     constructor(props) {
         super(props);

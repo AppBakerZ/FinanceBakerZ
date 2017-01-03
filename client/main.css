@@ -31,9 +31,17 @@
 .float-right{
     float: right;
 }
-
+.float-left{
+    float: left;
+}
+.margin-left{
+    margin-left: auto;
+}
+.margin-right{
+    margin-right: auto;
+}
 .dashboard-card-group{
-  margin: 0 0 25px 25px;
+  margin:0px 0 25px 0px;
   display: flex;
   width: 100%;
 }
@@ -48,16 +56,20 @@
 }
 
 .dashboard-card{
-    margin: 0 0 25px 25px;
+    margin: 0 0 25px 0px;
 }
 
 .dashboard-dropdown{
-  margin: 0 0 25px 25px;
-  width: 100%;
+    /*margin: 0 0 25px 25px;*/
+    margin:0;
+    padding: 2% 5%;
+    width: 100%
 }
 
 .dashboard-autocomplete {
-    margin: 25px 0 0 25px;
+    /*margin: 25px 0 0 25px;*/
+    margin:0;
+    padding: 0% 5%;
     width: 100%
 }
 .dashboard-card-icon {
@@ -79,18 +91,8 @@
     width: 100%;
 }
 
-.recents {
-    text-align: center;
-    width: 100%;
-}
-.recents div{
-    display: inline-block;
-    padding: 4%;
-    width: 47%;
-}
 .report-btn{
     display: inline-block;
-    margin-left: 10px;
 }
 
 .expenses-bill {

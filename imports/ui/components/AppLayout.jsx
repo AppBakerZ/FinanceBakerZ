@@ -56,44 +56,46 @@ export default class AppLayout extends Component {
                                 />
                         </Card>
                         <List selectable ripple>
-                            <Link className={this.props.location.pathname == '/app/dashboard' && 'active'}
+                            <Link className={this.props.location.pathname == '/app/dashboard' ? 'active' : ''}
                                 to={`/app/dashboard`}>
                                 <ListItem caption='Dashboard' leftIcon='dashboard' />
                             </Link>
-                            <Link
+                            <Link className={this.props.location.pathname == '/app/projects' ? 'active' : ''}
                                 to={`/app/projects`}>
                                 <ListItem caption='Project' leftIcon='content_cut' />
                             </Link>
-                            <Link className={this.props.location.pathname == '/app/expenses/new' && 'active'}
+                            <Link className={this.props.location.pathname == '/app/expenses/new' ? 'active' : ''}
                                 to={`/app/expenses/new`}>
                                 <ListItem caption='Expenses' leftIcon='content_cut' />
                             </Link>
-                            <Link className={this.props.location.pathname == '/app/incomes/new' && 'active'}
+                            <Link className={this.props.location.pathname == '/app/incomes/new' ? 'active' : ''}
                                 to={`/app/incomes/new`}>
                                 <ListItem caption='Income' leftIcon='monetization_on' />
                             </Link>
-                            <Link className={this.props.location.pathname == '/app/accounts/new' && 'active'}
+                            <Link className={this.props.location.pathname == '/app/accounts/new' ? 'active' : ''}
                                 to={`/app/accounts/new`}>
                                 <ListItem caption='Accounts' leftIcon='account_balance' />
                             </Link>
-                            <Link className={this.props.location.pathname == '/app/categories/new' && 'active'}
+                            <Link className={this.props.location.pathname == '/app/categories/new' ? 'active' : ''}
                                 to={`/app/categories/new`}>
                                 <ListItem caption='Categories' leftIcon='border_all' />
                             </Link>
-                            <Link className={this.props.location.pathname == '/app/settings/new' && 'active'}
+                            <Link className={this.props.location.pathname == '/app/settings/new' ? 'active' : ''}
                                 to={`/app/settings/new`}>
                                 <ListItem caption='Settings' leftIcon='settings' />
                             </Link>
-                            <ListItem className={this.props.location.pathname == '/login' && 'active'}
-                                      caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
+                            <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
                         </List>
                     </div>
                 </NavDrawer>
                 <Panel>
                     <AppBar>
                         <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
+                        <div className="header-right-login-user-info">
+                            <span>Welcome <b>{this.name()}</b></span>
+                        </div>
                     </AppBar>
-                    <div style={{ flex: 1, display: 'flex' }}>
+                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
                 </Panel>

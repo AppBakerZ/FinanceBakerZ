@@ -217,33 +217,36 @@ class DashboardPage extends Component {
 
     renderAreaChart(){
         let chart = (
-            <div className="area-chart">
-                <ResponsiveContainer>
-                    <AreaChart data={this.state.graph}
-                               margin={{top: 10, right: 0, left: 40, bottom: 0}}>
-                        <defs>
-                            <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#008148" stopOpacity={0.8}/>
-                                <stop offset="95%" stopColor="#008148" stopOpacity={0.2}/>
-                            </linearGradient>
-                            <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#e0b255" stopOpacity={0.8}/>
-                                <stop offset="95%" stopColor="#e0b255" stopOpacity={0.2}/>
-                            </linearGradient>
-                        </defs>
-                        <XAxis dataKey="_id" tickFormatter={(tick) => {
-                        return `${this.months[tick - 1]}`;
-                        }}/>
-                        <YAxis tickFormatter={(tick) => {
-                        return `Rs${tick}K`;
-                        }}/>
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <Tooltip/>
-                        <Area type='monotone' dataKey='income' stroke="#008148" fill="url(#colorIncome)" fillOpacity={1} />
-                        <Area type='monotone' dataKey='expense' stroke='#e0b255' fill="url(#colorExpense)" fillOpacity={1} />
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
+            <Card className="card">
+                <h3>Income Overview</h3>
+                <div className="area-chart">
+                    <ResponsiveContainer>
+                        <AreaChart data={this.state.graph}
+                                   margin={{top: 10, right: 0, left: 40, bottom: 0}}>
+                            <defs>
+                                <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#008148" stopOpacity={1}/>
+                                    <stop offset="95%" stopColor="#008148" stopOpacity={0.6}/>
+                                </linearGradient>
+                                <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#e0b255" stopOpacity={1}/>
+                                    <stop offset="95%" stopColor="#e0b255" stopOpacity={0.6}/>
+                                </linearGradient>
+                            </defs>
+                            <XAxis dataKey="_id" tickFormatter={(tick) => {
+                            return `${this.months[tick - 1]}`;
+                            }}/>
+                            <YAxis tickFormatter={(tick) => {
+                            return `Rs${tick}K`;
+                            }}/>
+                            <CartesianGrid strokeDasharray="3 3"/>
+                            <Tooltip/>
+                            <Area type='monotone' dataKey='income' stroke="#008148" fill="url(#colorIncome)" fillOpacity={1} />
+                            <Area type='monotone' dataKey='expense' stroke='#e0b255' fill="url(#colorExpense)" fillOpacity={1} />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+            </Card>
         );
         return this.state.graph ? chart : null
     }
@@ -271,8 +274,15 @@ class DashboardPage extends Component {
     }
     renderRecents(){
         return (
-            <div className='recents'>{this.renderRecentIncomes()}
-                {this.renderRecentExpenses()}</div>
+            <div className='dashboard-card-group'>
+                <div className="recent-incomes-wrapper margin-right">
+                    {this.renderRecentIncomes()}
+                </div>
+
+                <div className="recent-expenses-wrapper margin-left">
+                    {this.renderRecentExpenses()}
+                </div>
+            </div>
         )
     }
     renderRecentIncomes(){
@@ -289,11 +299,11 @@ class DashboardPage extends Component {
             }
         });
         return (
-            <div>
+            <Card className='card'>
                 <h3>Recent Incomes</h3>
                 <Table selectable={false} heading={false} model={model} source={incomes}/>
-                <a href='#'>View All</a>
-            </div>
+                <a className="text-right" href='#'>View All > </a>
+            </Card>
         )
     }
     renderRecentExpenses(){
@@ -310,82 +320,98 @@ class DashboardPage extends Component {
             }
         });
         return (
-            <div>
+            <Card className='card'>
                 <h3>Recent Expenses</h3>
                 <Table selectable={false} heading={false} model={model} source={expenses}/>
-                <a href='#'>View All</a>
-            </div>
+                <a className="text-right" href='#'>View All > </a>
+            </Card>
         )
     }
     render() {
         return (
-            <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <Autocomplete
-                        className='dashboard-autocomplete'
-                        direction='down'
-                        name='multiple'
-                        onChange={this.handleMultipleChange.bind(this)}
-                        label='Filter By Account'
-                        source={this.accounts()}
-                        value={this.state.multiple}
-                        />
-                    <Card className='dashboard-card'>
-                        <CardTitle
-                            title={'' + this.formatNumber(this.state.availableBalance)}
-                            subtitle='Available Balance'
-                            />
-                    </Card>
-                    <Dropdown
-                        className='dashboard-dropdown'
-                        auto={false}
-                        source={this.filters()}
-                        name='filterBy'
-                        onChange={this.onChange.bind(this)}
-                        label='Filter By'
-                        value={this.state.filterBy}
-                        template={this.filterItem}
-                        required
-                        />
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
+                    <div className="dashboard-section">
+                        <Card className="card-box">
+                            <div className='dashboard-card-group'>
+                                <Card className='card'>
+                                    <Autocomplete
+                                        className='dashboard-autocomplete'
+                                        direction='down'
+                                        name='multiple'
+                                        onChange={this.handleMultipleChange.bind(this)}
+                                        label='Filter By Account'
+                                        source={this.accounts()}
+                                        value={this.state.multiple}
+                                        />
 
-                    {this.renderDateRange()}
-
-                    <div className='dashboard-card-group'>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalIncomes)}
-                                subtitle='Total Incomes'
-                                />
-                        </Card>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalExpenses)}
-                                subtitle='Total Expenses'
-                                />
-                        </Card>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
-                                subtitle='Remaining Amount'
-                                />
+                                    <Dropdown
+                                        className='dashboard-dropdown'
+                                        auto={false}
+                                        source={this.filters()}
+                                        name='filterBy'
+                                        onChange={this.onChange.bind(this)}
+                                        label='Filter By'
+                                        value={this.state.filterBy}
+                                        template={this.filterItem}
+                                        required
+                                        />
+                                </Card>
+                                <Card className='card income-card'>
+                                    <div style={{margin: "0 auto"}}>
+                                        <div className="income-title">Your Total Incomes are</div>
+                                        <h2 className="income-amount">
+                                            {' Rs ' + this.formatNumber(this.state.totalIncomes)}
+                                            <i className="material-icons">arrow_upward</i>
+                                        </h2>
+                                        {(!this.state.totalIncomes ||
+                                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                                                <Button icon='description' label='Income Report' flat />
+                                            </div>
+                                        )}
+                                    </div>
+                                </Card>
+                                <Card className='card expenses-card'>
+                                    <div style={{margin: "0 auto"}}>
+                                        <div className="expenses-title">Your Total Expenses are</div>
+                                        <h2 className="expenses-amount">
+                                            {' Rs ' + this.formatNumber(this.state.totalExpenses)}
+                                            <i className="material-icons">arrow_upward</i>
+                                        </h2>
+                                        {(!this.state.totalExpenses ||
+                                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                                                <Button icon='description' label='Expences Report' flat />
+                                            </div>
+                                        )}
+                                    </div>
+                                </Card>
+                            </div>
                         </Card>
                     </div>
-                    <div className='pdf-generator'>
-                        {(!this.state.totalIncomes ||
-                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
-                                <Button icon='add' label='Income Report' raised primary />
+                    <div className="dashboard-section available-section">
+                        <Card className="card-box">
+                            <div className='dashboard-card-group'>
+                                <Card className='card available-card'>
+                                    <div style={{margin: "0 auto"}}>
+                                        <div className="available-title"> Your Available Balance is</div>
+                                        <h2 className="available-amount">
+                                            {' Rs ' + this.formatNumber(this.state.availableBalance)}
+                                            <i className="material-icons">arrow_upward</i>
+                                        </h2>
+                                    </div>
+                                </Card>
                             </div>
-                        )}
-                        {(!this.state.totalExpenses ||
-                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
-                                <Button icon='add' label='Expences Report' raised primary />
-                            </div>
-                        )}
+                        </Card>
                     </div>
-
-                    {this.renderRecents()}
-                    {this.renderAreaChart()}
-
+                    <div className="date-range-wrapper">
+                        {this.renderDateRange()}
+                    </div>
+                    <div className="recent-activities-wrapper">
+                        {this.renderRecents()}
+                    </div>
+                    <div className="income-overview-wrapper">
+                        {this.renderAreaChart()}
+                    </div>
                 </div>
             </div>
         );
