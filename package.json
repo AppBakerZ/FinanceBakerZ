@@ -7,6 +7,7 @@
     "cordova": "meteor run ios-device --settings settings.json --mobile-server https://financebakerz.herokuapp.com"
   },
   "dependencies": {
+    "babel-runtime": "^6.20.0",
     "bcrypt": "^0.8.7",
     "fibers": "^1.0.14",
     "immutability-helper": "^2.0.0",
