@@ -15,7 +15,7 @@ export default class AppLayout extends Component {
 
         this.state = {
             drawerActive: false,
-            sidebarPinned: true
+            sidebarPinned: false
         };
 
     }
@@ -63,6 +63,10 @@ export default class AppLayout extends Component {
                             <Link className={this.props.location.pathname == '/app/projects' ? 'active' : ''}
                                 to={`/app/projects`}>
                                 <ListItem caption='Project' leftIcon='content_cut' />
+                            </Link>
+                            <Link
+                                to={`/app/transactions`}>
+                                <ListItem caption='Transactions' leftIcon='content_cut' />
                             </Link>
                             <Link className={this.props.location.pathname == '/app/expenses/new' ? 'active' : ''}
                                 to={`/app/expenses/new`}>

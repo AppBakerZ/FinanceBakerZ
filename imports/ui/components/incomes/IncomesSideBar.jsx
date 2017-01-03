@@ -28,9 +28,9 @@ class IncomesSideBar extends Component {
         };
     }
 
-    setCurrentRoute(){
+    setCurrentRoute(value){
         this.setState({
-            isNewRoute: this.props.history.isActive('app/incomes/new')
+            isNewRoute: value
         })
     }
 
@@ -176,7 +176,7 @@ class IncomesSideBar extends Component {
         p.income.receivedTime = p.income.receivedAt;
         p.income.type == "project" && (p.income.project = p.income.project._id);
         this.setState(p.income);
-        this.setCurrentRoute();
+        this.setCurrentRoute(p.isNewRoute);
         if(this.state.isNewRoute){
             this.resetIncome()
         }

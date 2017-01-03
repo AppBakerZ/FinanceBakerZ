@@ -32,9 +32,9 @@ class ExpensesSideBar extends Component {
         };
     }
 
-    setCurrentRoute(){
+    setCurrentRoute(value){
         this.setState({
-            isNewRoute: this.props.history.isActive('app/expenses/new')
+            isNewRoute: value
         })
     }
 
@@ -178,7 +178,7 @@ class ExpensesSideBar extends Component {
         p.expense.billUrl = p.expense.billUrl || '';
         p.expense.receivedTime = p.expense.receivedAt;
         this.setState(p.expense);
-        this.setCurrentRoute();
+        this.setCurrentRoute(p.isNewRoute);
         if(this.state.isNewRoute){
             this.resetExpense()
         }

@@ -9,6 +9,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Expenses } from '../../../api/expences/expenses.js';
+import { dateHelpers } from '../../../helpers/dateHelpers.js'
 
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 
@@ -38,23 +39,6 @@ class DashboardPage extends Component {
 
     formatNumber(num){
         return new Intl.NumberFormat().format(num);
-    }
-
-    filterByDate(filter, range){
-        let date = {};
-        if(filter == 'months'){
-            date.start = moment().subtract(1, 'months').startOf('month').format();
-            date.end = moment().subtract(1, 'months').endOf('month').format();
-        }
-        else if(filter == 'range'){
-            date.start = moment(range.dateFrom || this.state.dateFrom).startOf('day').format();
-            date.end = moment(range.dateTo || this.state.dateTo).endOf('day').format();
-        }
-        else{
-            date.start = moment().startOf(filter).format();
-            date.end = moment().endOf(filter).format();
-        }
-        return date
     }
 
     toggleSidebar(event){
@@ -111,7 +95,7 @@ class DashboardPage extends Component {
     }
 
     getTotalIncomesAndExpenses (accounts, filterBy, range){
-        let date = this.filterByDate(filterBy || this.state.filterBy, range);
+        let date = dateHelpers.filterByDate(filterBy || this.state.filterBy, range || {}, this);
         Meteor.call('statistics.totalIncomesAndExpenses', {accounts, date}, (err, totals) => {
             if(totals){
                 this.setState({
@@ -202,7 +186,7 @@ class DashboardPage extends Component {
         let params = {
             multiple : this.state.multiple,
             filterBy : this.state.filterBy,
-            date : this.filterByDate(this.state.filterBy, {}),
+            date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
             report : report
         };
 
@@ -302,7 +286,10 @@ class DashboardPage extends Component {
             <Card className='card'>
                 <h3>Recent Incomes</h3>
                 <Table selectable={false} heading={false} model={model} source={incomes}/>
-                <a className="text-right" href='#'>View All > </a>
+                <Link
+                    to={`/app/transactions/incomes`}>
+                    View All
+                </Link>            
             </Card>
         )
     }
@@ -323,7 +310,10 @@ class DashboardPage extends Component {
             <Card className='card'>
                 <h3>Recent Expenses</h3>
                 <Table selectable={false} heading={false} model={model} source={expenses}/>
-                <a className="text-right" href='#'>View All > </a>
+                <Link
+                    to={`/app/transactions/expenses`}>
+                    View All
+                </Link>
             </Card>
         )
     }

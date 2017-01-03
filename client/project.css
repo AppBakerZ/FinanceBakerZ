@@ -18,6 +18,10 @@
     width: 100%;
 }
 
+.header-buttons{
+    color: white;
+}
+
 .page-title{
     padding: 30px 50px;
     background-color: #008142;
@@ -65,4 +69,13 @@
 .tiny-scroll:hover::-webkit-scrollbar-thumb
  {
      background-color: #cccccc;
+}
+
+.forward-icon{
+    color: green;
+}
+
+.backward-icon{
+    transform: rotate(180deg);
+    color: #d80000;
 }
