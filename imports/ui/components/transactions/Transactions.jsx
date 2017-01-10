@@ -179,7 +179,10 @@ class TransactionPage extends Component {
                 <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID :</span><span>{selectedProject._id}</span></div>
                 {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
 
-                <h4>{selectedProject.receivedAt ? (selectedProject.project ? (selectedProject.project.name || selectedProject.project) : selectedProject.type) : (selectedProject.category.name || selectedProject.category)}</h4>
+                <h4>{selectedProject.receivedAt ?
+                    (selectedProject.type == "project" ?
+                        (selectedProject.project && selectedProject.project.name || selectedProject.project) : selectedProject.type) :
+                    (selectedProject.category.name || selectedProject.category)}</h4>
 
                 {this.selectedProjectDetails()}
             </div>
@@ -215,10 +218,16 @@ class TransactionPage extends Component {
                 <div> <span>Transaction Type:</span><span> {selectedProject.receivedAt ? "Income" : "Expense"}</span></div>
                 <div> <span>Transaction Amount:</span><span> Rs. {selectedProject.amount}</span></div>
 
-                <Button label='Edit Information' raised primary  />
+                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
                 <Button label='Delete Transaction' raised primary onClick={this.deleteTransactionToggle.bind(this)}/>
             </div>
         )
+    }
+
+    /*************** edit project popup ***************/
+    editPopup(){
+        let transaction = this.state.selectedProject;
+        this.setState({showForm : true, updateForm : true, transaction});
     }
 
     deleteTransactionToggle(){
@@ -227,14 +236,14 @@ class TransactionPage extends Component {
 
     /*************** form template ***************/
     renderAddForm(){
-        let {updateForm, model} = this.state;
+        let {updateForm, model, transaction} = this.state;
 
         return(
             <div>
-                <h4>{'Add New ' + model}</h4>
-                {model == 'Income' ?
-                    <IncomesSideBar params="" isNewRoute={!updateForm}/> :
-                    <ExpensesSideBar params="" isNewRoute={!updateForm}/>}
+                <h4>{(updateForm ? 'Update ' : 'Add New ') + model}</h4>
+                {model == 'Income' || transaction && transaction.receivedAt ?
+                    <IncomesSideBar params={transaction ? {id: transaction._id}: ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/> :
+                    <ExpensesSideBar params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
             </div>
         )
     }
@@ -247,7 +256,6 @@ class TransactionPage extends Component {
         this.setState({loading : true});
         let param = {};
         param[selectedProject.receivedAt ? "income" : "expense"] = {_id : selectedProject._id};
-        console.log(param);
         Meteor.call(selectedProject.receivedAt ? "incomes.remove" : "expenses.remove", param
             , (err, response) => {
                 if(err){
@@ -342,7 +350,10 @@ class TransactionPage extends Component {
             return {
                 type: transaction.receivedAt ? <FontIcon className='forward-icon' value='forward' /> : <FontIcon className='backward-icon' value='forward' />,
                 date: moment(transaction.receivedAt || transaction.spentAt).format("DD-MMM-YY"),
-                category: transaction.receivedAt ? (transaction.project ? (transaction.project.name || transaction.project) : transaction.type) : (transaction.category.name || transaction.category),
+                category: transaction.receivedAt ?
+                    (transaction.type == "project" ?
+                        (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
+                    (transaction.category.name || transaction.category),
                 amount: 'Rs. ' + transaction.amount
             }
         });

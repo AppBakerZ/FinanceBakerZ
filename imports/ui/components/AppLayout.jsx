@@ -68,14 +68,6 @@ export default class AppLayout extends Component {
                                 to={`/app/transactions`}>
                                 <ListItem caption='Transactions' leftIcon='content_cut' />
                             </Link>
-                            <Link className={this.props.location.pathname == '/app/expenses/new' ? 'active' : ''}
-                                to={`/app/expenses/new`}>
-                                <ListItem caption='Expenses' leftIcon='content_cut' />
-                            </Link>
-                            <Link className={this.props.location.pathname == '/app/incomes/new' ? 'active' : ''}
-                                to={`/app/incomes/new`}>
-                                <ListItem caption='Income' leftIcon='monetization_on' />
-                            </Link>
                             <Link className={this.props.location.pathname == '/app/accounts/new' ? 'active' : ''}
                                 to={`/app/accounts/new`}>
                                 <ListItem caption='Accounts' leftIcon='account_balance' />
