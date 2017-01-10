@@ -62,8 +62,7 @@ class ExpensesSideBar extends Component {
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
-        category = category.split('*-*');
-        category = {_id: category[0], name: category[1]};
+        category = category && {_id: category};
 
         Meteor.call('expenses.insert', {
             expense: {
@@ -82,6 +81,7 @@ class ExpensesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.props.closePopup();
                 this.resetExpense();
             }else{
                 this.setState({
@@ -100,8 +100,7 @@ class ExpensesSideBar extends Component {
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
-        category = category.split('*-*');
-        category = {_id: category[0], name: category[1]};
+        category = category && {_id: category};
         Meteor.call('expenses.update', {
             expense: {
                 _id,
@@ -127,6 +126,7 @@ class ExpensesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.props.closePopup();
             }
             this.setState({loading: false})
         });
@@ -177,9 +177,10 @@ class ExpensesSideBar extends Component {
     componentWillReceiveProps (p){
         p.expense.billUrl = p.expense.billUrl || '';
         p.expense.receivedTime = p.expense.receivedAt;
+        p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
         this.setCurrentRoute(p.isNewRoute);
-        if(this.state.isNewRoute){
+        if(p.isNewRoute){
             this.resetExpense()
         }
     }
@@ -278,7 +279,7 @@ class ExpensesSideBar extends Component {
 
     categories(){
         return this.props.categories.map((category) => {
-            category.value = category._id + '*-*' + category.name;
+            category.value = category._id;
             return category;
         })
     }

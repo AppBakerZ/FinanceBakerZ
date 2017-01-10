@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar } from 'react-toolbox';
+import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -31,7 +31,8 @@ class TransactionPage extends Component {
         this.state = {
             filterBy: '',
             type: this.props.routes[2] ? this.props.routes[2].path : '',
-            openDialog: false
+            openDialog: false,
+            barActive : false
         };
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -138,7 +139,7 @@ class TransactionPage extends Component {
 
     /*************** add/edit incomes popup ***************/
     openedPopup (showForm, e) {
-        this.setState({showForm, model: e.target.name, openDialog: true, deleteConfirmMessage: false});
+        this.setState({showForm, model: e.target ? e.target.name : e.spentAt ? 'Expense' : 'Income', openDialog: true, deleteConfirmMessage: false});
     }
 
     closePopup () {
@@ -164,21 +165,127 @@ class TransactionPage extends Component {
     }
 
     templateRender(){
-        return this.state.showForm ? this.renderAddForm() : '';
+        return this.state.showForm ? this.renderAddForm() : this.renderSelectedProject();
+    }
+
+    /*************** Select single project in table row click ***************/
+    renderSelectedProject(){
+        let selectedProject = this.state.selectedProject ;
+        if(!selectedProject){
+            return false;
+        };
+        return(
+            <div>
+                <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID :</span><span>{selectedProject._id}</span></div>
+                {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
+
+                <h4>{selectedProject.receivedAt ?
+                    (selectedProject.type == "project" ?
+                        (selectedProject.project && selectedProject.project.name || selectedProject.project) : selectedProject.type) :
+                    (selectedProject.category.name || selectedProject.category)}</h4>
+
+                {this.selectedProjectDetails()}
+            </div>
+        )
+    }
+
+    selectedProjectDetails(){
+        return this.state.deleteConfirmMessage ? this.renderConfirmationMessage() : this.renderProjectDetails();
+    }
+
+    renderConfirmationMessage(){
+        let selectedProject = this.state.selectedProject ;
+        if(!selectedProject){
+            return false;
+        };
+        return (
+            <div>
+                <div><p>Are you sure to delete this project?</p></div>
+
+                <Button label='Yes' raised primary onClick={this.deleteTransaction.bind(this)} />
+                <Button label='No' raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+            </div>
+        )
+    }
+
+    renderProjectDetails(){
+        let selectedProject = this.state.selectedProject ;
+        if(!selectedProject){
+            return false;
+        };
+        return (
+            <div>
+                <div> <span>Transaction Type:</span><span> {selectedProject.receivedAt ? "Income" : "Expense"}</span></div>
+                <div> <span>Transaction Amount:</span><span> Rs. {selectedProject.amount}</span></div>
+
+                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
+                <Button label='Delete Transaction' raised primary onClick={this.deleteTransactionToggle.bind(this)}/>
+            </div>
+        )
+    }
+
+    /*************** edit project popup ***************/
+    editPopup(){
+        let transaction = this.state.selectedProject;
+        this.setState({showForm : true, updateForm : true, transaction});
+    }
+
+    deleteTransactionToggle(){
+        this.setState({deleteConfirmMessage : !this.state.deleteConfirmMessage});
     }
 
     /*************** form template ***************/
     renderAddForm(){
-        let {updateForm, model} = this.state;
+        let {updateForm, model, transaction} = this.state;
 
         return(
             <div>
-                <h4>{'Add New ' + model}</h4>
-                {model == 'Income' ?
-                    <IncomesSideBar params="" isNewRoute={!updateForm}/> :
-                    <ExpensesSideBar params="" isNewRoute={!updateForm}/>}
+                <h4>{(updateForm ? 'Update ' : 'Add New ') + model}</h4>
+                {model == 'Income' || transaction && transaction.receivedAt ?
+                    <IncomesSideBar params={transaction ? {id: transaction._id}: ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/> :
+                    <ExpensesSideBar params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
             </div>
         )
+    }
+
+    deleteTransaction(){
+        let selectedProject = this.state.selectedProject;
+        if(!selectedProject){
+            return false;
+        };
+        this.setState({loading : true});
+        let param = {};
+        param[selectedProject.receivedAt ? "income" : "expense"] = {_id : selectedProject._id};
+        Meteor.call(selectedProject.receivedAt ? "incomes.remove" : "expenses.remove", param
+            , (err, response) => {
+                if(err){
+                    this.setState({
+                        barActive: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel',
+                        loading : false
+                    });
+                }else{
+                    this.setState({
+                        barActive: true,
+                        barMessage:  (selectedProject.receivedAt ? 'Income' : 'Expense') + ' Removed Successfully!',
+                        barIcon: 'done',
+                        barType: 'accept',
+                        loading : false
+                    });
+                    this.closePopup();
+                    this.setState({selectedProject : false });
+
+                }
+            });
+    }
+
+    /*************** Select single item in table row click ***************/
+    selectItem(index){
+        let selectedProject =  this.props.transactions[index] ;
+        this.setState({selectedProject});
+        this.openedPopup(false, selectedProject);
     }
 
 
@@ -232,6 +339,10 @@ class TransactionPage extends Component {
         )
     }
 
+    barClick () {
+        this.setState({ barActive: false });
+    }
+
     /*************** table template ***************/
     renderProjectTable() {
         let transactions = this.props.transactions;
@@ -239,7 +350,10 @@ class TransactionPage extends Component {
             return {
                 type: transaction.receivedAt ? <FontIcon className='forward-icon' value='forward' /> : <FontIcon className='backward-icon' value='forward' />,
                 date: moment(transaction.receivedAt || transaction.spentAt).format("DD-MMM-YY"),
-                category: transaction.receivedAt ? (transaction.project ? (transaction.project.name || transaction.project) : transaction.type) : (transaction.category.name || transaction.category),
+                category: transaction.receivedAt ?
+                    (transaction.type == "project" ?
+                        (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
+                    (transaction.category.name || transaction.category),
                 amount: 'Rs. ' + transaction.amount
             }
         });
@@ -252,6 +366,7 @@ class TransactionPage extends Component {
         return ( <Table
                 model={tableModel}
                 source={data}
+                onRowClick={this.selectItem.bind(this)}
                 selectable={false}
                 heading={false}
                 />
@@ -318,6 +433,17 @@ class TransactionPage extends Component {
                         </div>
                     </div>
                     {this.renderProjectTable()}
+
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.barActive}
+                        icon={this.state.barIcon}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.barClick.bind(this)}
+                        onTimeout={this.barClick.bind(this)}
+                        type={this.state.barType}
+                        />
                 </div>
             </div>
 

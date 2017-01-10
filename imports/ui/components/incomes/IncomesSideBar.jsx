@@ -54,13 +54,12 @@ class IncomesSideBar extends Component {
     }
 
     createIncome(){
-        let {account, amount, receivedAt, receivedTime, type, project, projectName} = this.state;
+        let {account, amount, receivedAt, receivedTime, type, project} = this.state;
 
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = {_id: project, name: projectName};
-        type != "project" && (project = null);
+        project = (project && type == "project" && {_id: project}) || {};
 
         Meteor.call('incomes.insert', {
             income: {
@@ -79,6 +78,7 @@ class IncomesSideBar extends Component {
                     barType: 'accept'
                 });
                 this.resetIncome();
+                this.props.closePopup();
             }else{
                 this.setState({
                     active: true,
@@ -92,13 +92,12 @@ class IncomesSideBar extends Component {
     }
 
     updateIncome(){
-        let {_id, account, amount, receivedAt, receivedTime, type, project, projectName} = this.state;
+        let {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
 
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = {_id: project, name: projectName};
-        type != "project" && (project = null);
+        project = (project && type == "project" && {_id: project}) || {};
 
         Meteor.call('incomes.update', {
             income: {
@@ -124,6 +123,7 @@ class IncomesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.props.closePopup();
             }
             this.setState({loading: false})
         });
@@ -174,10 +174,10 @@ class IncomesSideBar extends Component {
 
     componentWillReceiveProps (p){
         p.income.receivedTime = p.income.receivedAt;
-        p.income.type == "project" && (p.income.project = p.income.project._id);
+        p.income.type == "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
         this.setState(p.income);
         this.setCurrentRoute(p.isNewRoute);
-        if(this.state.isNewRoute){
+        if(p.isNewRoute){
             this.resetIncome()
         }
     }
@@ -340,7 +340,7 @@ class IncomesSideBar extends Component {
                     label='Select project'
                     value={this.state.project}
                     template={this.projectItem}
-                    />
+                    required/>
                 }
                 {this.renderButton()}
             </form>
