@@ -22,7 +22,7 @@
                     <th>{{accountName account}}</th>
                     <th> {{type}}</th>
                     <th> {{dateFormat receivedAt}}</th>
-                    <th> {{project}}</th>
+                    <th> {{#if project.name}}{{project.name}}{{/if}}</th>
                     <th>{{amount}}</th>
                 </tr>
             {{/each}}

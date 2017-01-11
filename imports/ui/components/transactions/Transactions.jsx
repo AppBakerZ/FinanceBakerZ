@@ -37,12 +37,10 @@ class TransactionPage extends Component {
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
-        if(this.props.routes[2]){
-            let copyQuery = query.get();
-            copyQuery['type'] = this.props.routes[2].path;
-            copyQuery['dateFilters'] = '';
-            query.set(copyQuery);
-        }
+        let copyQuery = query.get();
+        copyQuery['dateFilter'] = '';
+        copyQuery['type'] = this.props.routes[2] ? this.props.routes[2].path : '';
+        query.set(copyQuery);
     }
 
     /*************** Filter by accounts ***************/
