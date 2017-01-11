@@ -8,6 +8,6 @@
 .side-menu-wrapper ul a.active li ._node_modules_react_toolbox_lib_list__theme__itemText{
     color: #fff !important;
 }
-.side-menu-wrapper ul a{
+.side-menu-wrapper ul a.active{
     background-color: #deb342 !important;
 }
