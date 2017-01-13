@@ -88,9 +88,8 @@
 
 .recent-activities-wrapper .recent-incomes-wrapper h3,
 .recent-activities-wrapper .recent-expenses-wrapper h3,
-.income-overview-wrapper h3{
+.income-overview-wrapper .header{
     padding: 2% 5%;
-    color: #fff;
     background: #008142;
 }
 .recent-activities-wrapper .recent-expenses-wrapper h3{

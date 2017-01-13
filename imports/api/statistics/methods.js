@@ -25,23 +25,49 @@ export const incomesGroupByMonth = new ValidatedMethod({
         error: 'notLogged',
         message: 'You need to be logged in to get Available Balance'
     },
-    validate: new SimpleSchema({}).validator(),
-    run({accounts}) {
+    validate: new SimpleSchema({
+        year: {
+            type: Number,
+            optional: true
+        }
+    }).validator(),
+    run({year}) {
 
-        const sumOfIncomesByMonth = Incomes.aggregate([
-            { "$match": {
+        let match = {"$match": {
                 owner: this.userId
-            }},
+            }};
+
+        const getYears = Incomes.aggregate([
+            match,
+            { "$group": {
+                "_id": null,
+                "years": { $addToSet:  {$year: "$receivedAt"} }
+            }}
+        ]);
+
+
+        if(getYears.length){
+            year = year || getYears[0].years[0]
+        }
+
+        const yearQuery = {
+            $gte: new Date(moment([year]).startOf('year').format()),
+            $lte: new Date(moment([year]).endOf('year').format())
+        };
+
+        match.$match.receivedAt = yearQuery;
+        const sumOfIncomesByMonth = Incomes.aggregate([
+            match,
             { "$group": {
                 "_id": { "$month": "$receivedAt" },
                 "income": { "$sum": "$amount" }
             }}
         ]);
 
+        delete match.$match.receivedAt;
+        match.$match.spentAt = yearQuery;
         const sumOfExpensesByMonth = Expenses.aggregate([
-            { "$match": {
-                owner: this.userId
-            }},
+            match,
             { "$group": {
                 "_id": { "$month": "$spentAt" },
                 "expense": { "$sum": "$amount" }
@@ -50,7 +76,7 @@ export const incomesGroupByMonth = new ValidatedMethod({
 
         const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
 
-        return _.map(incomeAndExpensesArray, (arrayGroup) => {
+         let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
             let item = {};
             if(arrayGroup.length > 1){
                 item = _.extend(arrayGroup[0], arrayGroup[1]);
@@ -63,6 +89,8 @@ export const incomesGroupByMonth = new ValidatedMethod({
 
             return item
         });
+
+        return {years: getYears[0].years, result: groupedByMonths}
     }
 });
 

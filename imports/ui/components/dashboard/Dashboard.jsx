@@ -11,7 +11,7 @@ import { Incomes } from '../../../api/incomes/incomes.js';
 import { Expenses } from '../../../api/expences/expenses.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 
-import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
+import Graph from './Graph.jsx';
 
 class DashboardPage extends Component {
 
@@ -28,13 +28,8 @@ class DashboardPage extends Component {
             multiple: [],
             filterBy: 'month',
             dateFrom: datetime,
-            dateTo: datetime,
-            graph: null
+            dateTo: datetime
         };
-
-        this.months = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ];
     }
 
     formatNumber(num){
@@ -53,16 +48,8 @@ class DashboardPage extends Component {
     componentWillMount(){
         this.toggleSidebar();
         this.setDefaultAccounts(this.props);
-        this.getGraphData()
     }
 
-    getGraphData(){
-        Meteor.call('statistics.incomesGroupByMonth', {}, (error, res) => {
-            if(!error){
-                this.setState({graph: res})
-            }
-        })
-    }
     setDefaultAccounts (props){
         let multiple = [];
         props.accounts.forEach((account) => {
@@ -199,41 +186,6 @@ class DashboardPage extends Component {
         })
     }
 
-    renderAreaChart(){
-        let chart = (
-            <Card className="card">
-                <h3>Income Overview</h3>
-                <div className="area-chart">
-                    <ResponsiveContainer>
-                        <AreaChart data={this.state.graph}
-                                   margin={{top: 10, right: 0, left: 40, bottom: 0}}>
-                            <defs>
-                                <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#008148" stopOpacity={1}/>
-                                    <stop offset="95%" stopColor="#008148" stopOpacity={0.6}/>
-                                </linearGradient>
-                                <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#e0b255" stopOpacity={1}/>
-                                    <stop offset="95%" stopColor="#e0b255" stopOpacity={0.6}/>
-                                </linearGradient>
-                            </defs>
-                            <XAxis dataKey="_id" tickFormatter={(tick) => {
-                            return `${this.months[tick - 1]}`;
-                            }}/>
-                            <YAxis tickFormatter={(tick) => {
-                            return `Rs${tick}K`;
-                            }}/>
-                            <CartesianGrid strokeDasharray="3 3"/>
-                            <Tooltip/>
-                            <Area type='monotone' dataKey='income' stroke="#008148" fill="url(#colorIncome)" fillOpacity={1} />
-                            <Area type='monotone' dataKey='expense' stroke='#e0b255' fill="url(#colorExpense)" fillOpacity={1} />
-                        </AreaChart>
-                    </ResponsiveContainer>
-                </div>
-            </Card>
-        );
-        return this.state.graph ? chart : null
-    }
     renderDateRange(){
         let dropDowns = (
             <div className='dashboard-dropdown'>
@@ -400,7 +352,7 @@ class DashboardPage extends Component {
                         {this.renderRecents()}
                     </div>
                     <div className="income-overview-wrapper">
-                        {this.renderAreaChart()}
+                        <Graph />
                     </div>
                 </div>
             </div>
@@ -409,7 +361,9 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
-    accounts: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired,
+    incomes: PropTypes.array.isRequired,
+    expenses: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
