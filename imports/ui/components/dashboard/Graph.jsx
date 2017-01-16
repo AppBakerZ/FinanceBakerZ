@@ -112,7 +112,7 @@ export default class Graph extends Component {
                             return `${this.months[tick - 1]}`;
                             }}/>
                         <YAxis tickFormatter={(tick) => {
-                            return `${userCurrencyHelpers.loggedUserCurrency()} ${currencyFormatHelpers.currencyWithUnits(tick)}`;
+                            return `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}`;
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <Tooltip/>
