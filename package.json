@@ -15,6 +15,7 @@
     "moment": "^2.15.1",
     "node-sass": "3.6.0",
     "normalize.css": "^4.2.0",
+    "numeral": "^2.0.4",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-addons-pure-render-mixin": "^15.4.1",

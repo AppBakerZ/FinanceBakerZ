@@ -6,6 +6,7 @@ import { Dropdown, Card } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
+import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
 export default class Graph extends Component {
 
@@ -111,7 +112,7 @@ export default class Graph extends Component {
                             return `${this.months[tick - 1]}`;
                             }}/>
                         <YAxis tickFormatter={(tick) => {
-                            return `Rs${tick}K`;
+                            return `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}`;
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <Tooltip/>

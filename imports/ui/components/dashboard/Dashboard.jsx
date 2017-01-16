@@ -10,6 +10,7 @@ import { Accounts } from '../../../api/accounts/accounts.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Expenses } from '../../../api/expences/expenses.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
+import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
 import Graph from './Graph.jsx';
 
@@ -30,10 +31,6 @@ class DashboardPage extends Component {
             dateFrom: datetime,
             dateTo: datetime
         };
-    }
-
-    formatNumber(num){
-        return new Intl.NumberFormat().format(num);
     }
 
     toggleSidebar(event){
@@ -231,7 +228,7 @@ class DashboardPage extends Component {
             return {
                 icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
                 type: i.type == "project" ? i.project.name || i.project : i.type,
-                amount: 'Rs. ' + i.amount
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
             }
         });
         return (
@@ -255,7 +252,7 @@ class DashboardPage extends Component {
             return {
                 icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
                 category: i.category.name || i.category,
-                amount: 'Rs. ' + i.amount
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
             }
         });
         return (
@@ -303,7 +300,7 @@ class DashboardPage extends Component {
                                     <div style={{margin: "0 auto"}}>
                                         <div className="income-title">Your Total Incomes are</div>
                                         <h2 className="income-amount">
-                                            {' Rs ' + this.formatNumber(this.state.totalIncomes)}
+                                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
                                             <i className="material-icons">arrow_upward</i>
                                         </h2>
                                         {(!this.state.totalIncomes ||
@@ -317,7 +314,7 @@ class DashboardPage extends Component {
                                     <div style={{margin: "0 auto"}}>
                                         <div className="expenses-title">Your Total Expenses are</div>
                                         <h2 className="expenses-amount">
-                                            {' Rs ' + this.formatNumber(this.state.totalExpenses)}
+                                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
                                             <i className="material-icons">arrow_upward</i>
                                         </h2>
                                         {(!this.state.totalExpenses ||
@@ -337,7 +334,7 @@ class DashboardPage extends Component {
                                     <div style={{margin: "0 auto"}}>
                                         <div className="available-title"> Your Available Balance is</div>
                                         <h2 className="available-amount">
-                                            {' Rs ' + this.formatNumber(this.state.availableBalance)}
+                                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
                                             <i className="material-icons">arrow_upward</i>
                                         </h2>
                                     </div>
