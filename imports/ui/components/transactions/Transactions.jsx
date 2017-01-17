@@ -11,6 +11,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { Categories } from '../../../api/categories/categories.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
@@ -296,8 +297,8 @@ class TransactionPage extends Component {
             copyQuery['dateFilter'] = val ? dateHelpers.filterByDate(e.target.name == "filterBy" ? val : this.state.filterBy, {[e.target.name]: val}, this) : '';
             query.set(copyQuery);
         }
-        else if(e.target.name == "type"){
-            copyQuery['type'] = val;
+        else if(['type', 'filterByCategory', 'filterByProduct'].includes(e.target.name)){
+            copyQuery[e.target.name] = val;
             query.set(copyQuery);
         }
     }
@@ -336,6 +337,69 @@ class TransactionPage extends Component {
         return (
             this.state.filterBy == 'range' ?  dropDowns : null
         )
+    }
+
+    categoryOrProjectFilter(){
+        if(this.state.type == "") return;
+        return this.state.type == "incomes" ? this.projectFilter() : this.categoryFilter()
+    }
+
+    categories(){
+        return this.props.categories.map((category) => {
+            category.value = category._id;
+            return category;
+        })
+    }
+
+    categoryItem(category){
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const imageStyle = {
+            display: 'flex',
+            width: '22px',
+            height: '22px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2,
+            paddingTop: '4px'
+        };
+
+        return (
+            <div style={containerStyle}>
+                <FontIcon value={category.icon} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{category.name}</strong>
+                </div>
+            </div>
+        );
+    }
+
+    categoryFilter(){
+        return (
+            <Dropdown
+            className='dashboard-dropdown'
+            auto={false}
+            source={this.categories()}
+            name='filterByCategory'
+            onChange={this.onChange.bind(this)}
+            label='Filter By Category'
+            value={this.state.filterByCategory}
+            template={this.categoryItem}
+            />
+        )
+    }
+
+    projectFilter(){
+        console.log('expenses----------')
+
     }
 
     barClick () {
@@ -410,6 +474,7 @@ class TransactionPage extends Component {
                             template={this.filterItem}
                             />
                         {this.renderDateRange()}
+                        {this.categoryOrProjectFilter()}
                     </div>
                     <div className="page-title">
                         <h3>Transactions</h3>
@@ -457,10 +522,12 @@ TransactionPage.propTypes = {
 export default createContainer(() => {
     Meteor.subscribe('transactions', query.get());
     Meteor.subscribe('accounts');
+    Meteor.subscribe('categories');
     let expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
     return {
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
-        accounts: Accounts.find({}).fetch()
+        accounts: Accounts.find({}).fetch(),
+        categories: Categories.find().fetch()
     };
 }, TransactionPage);

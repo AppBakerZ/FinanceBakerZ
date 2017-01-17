@@ -5,10 +5,21 @@ import { Expenses } from '../../expences/expenses.js';
 Meteor.publish('transactions', function(options) {
     let query = {owner: this.userId};
     options.accounts.length && (query['account'] = {$in: options.accounts});
+
+    query.$or = [];
+
     if(options.dateFilter){
         let dateQuery = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)};
-        query.$or = [{receivedAt: dateQuery}, {spentAt: dateQuery}];
+        query.$or.push({receivedAt: dateQuery}, {spentAt: dateQuery});
     }
+
+    if(options.filterByCategory){
+        query.$or.push({category: options.filterByCategory});
+        query.$or.push({'category._id': options.filterByCategory});
+    }
+
+    if(!query.$or.length) delete query.$or;
+
     if(options.type == 'incomes') return Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit});
     if(options.type == 'expenses') return Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit});
 
