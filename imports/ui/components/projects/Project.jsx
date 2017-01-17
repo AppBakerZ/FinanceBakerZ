@@ -9,6 +9,7 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var'
 
 import { Projects } from '../../../api/projects/projects.js';
+import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
 const RECORDS_PER_PAGE = 8;
 
@@ -367,6 +368,7 @@ class ProjectPage extends Component {
             if(obj.client){
                 obj.clientName = obj.client.name;
                 obj.date = obj.startAt ? moment(obj.startAt).format("MMM Do YY") : 'Not Start Yet';
+                obj.amount = userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(obj.amount);
                 return obj;
             }
         }));

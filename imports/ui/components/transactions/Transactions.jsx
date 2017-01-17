@@ -14,6 +14,7 @@ import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
+import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
 const RECORDS_PER_PAGE = 8;
 
@@ -214,7 +215,7 @@ class TransactionPage extends Component {
         return (
             <div>
                 <div> <span>Transaction Type:</span><span> {selectedProject.receivedAt ? "Income" : "Expense"}</span></div>
-                <div> <span>Transaction Amount:</span><span> Rs. {selectedProject.amount}</span></div>
+                <div> <span>Transaction Amount:</span><span> {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></div>
 
                 <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
                 <Button label='Delete Transaction' raised primary onClick={this.deleteTransactionToggle.bind(this)}/>
@@ -352,7 +353,7 @@ class TransactionPage extends Component {
                     (transaction.type == "project" ?
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
-                amount: 'Rs. ' + transaction.amount
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount)
             }
         });
         let tableModel = {
