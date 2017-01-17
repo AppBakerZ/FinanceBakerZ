@@ -1,0 +1,10 @@
+.customized-tooltip-content{
+    border: 1px solid lightgray;
+    background: white;
+    padding: 20px;
+}
+
+.customized-tooltip-content p, .customized-tooltip-content li{
+    padding: 3px 0 3px 0;
+    border: none;
+}

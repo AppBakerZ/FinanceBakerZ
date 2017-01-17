@@ -72,6 +72,23 @@ export default class Graph extends Component {
         this.getGraphData(val)
     }
 
+    renderTooltipContent (o){
+        const { payload, label } = o;
+        return (
+            <div className="customized-tooltip-content">
+                <p className="total">{`${this.months[label-1]}`}</p>
+                <ul>
+                    {
+                        payload.map((entry, index) => (
+                            <li key={`item-${index}`} style={{color: entry.color}}>
+                                {`${entry.name}: ${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyStandardFormat(entry.value)}`}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        );
+    };
 
     render() {
         let yearDropdown = null;
@@ -115,7 +132,7 @@ export default class Graph extends Component {
                             return `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}`;
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
-                        <Tooltip/>
+                        <Tooltip content={this.renderTooltipContent.bind(this)}/>
                         <Area type='monotone' dataKey='income' stroke="#008148" fill="url(#colorIncome)" fillOpacity={1} />
                         <Area type='monotone' dataKey='expense' stroke='#e0b255' fill="url(#colorExpense)" fillOpacity={1} />
                     </AreaChart>
