@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import { AppBar } from 'react-toolbox';
 import { Layout, Panel, Input, Card, Button, Snackbar, ProgressBar } from 'react-toolbox';
-
+import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Link } from 'react-router'
+
+import theme from './theme';
 
 // App component - represents the whole app
 export default class AuthLayout extends Component {
@@ -45,14 +46,14 @@ export default class AuthLayout extends Component {
         return (
             <Layout>
                 <Panel>
-                    <AppBar className="header-wrapper">
+                    <AppBarExtended>
                         <Link
                             to={`/`}>
                             //FinanceBakerZ
                             <img src={'../assets/images/logo.png'} alt="Logo" className="header-logo"/>
                         </Link>
-                    </AppBar>
-                    <div className="app-body" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
+                    </AppBarExtended>
+                    <div className={theme.appBody}>
                         <ProgressBar type='circular' mode='indeterminate' multicolor className={this.progressBarToggle()} />
                         <Snackbar
                             action='Dismiss'

@@ -29,6 +29,12 @@
   "cssModules": {
     "extensions": [
       "scss"
+    ],
+    "globalVariables": [
+      "node_modules/react-toolbox/lib/_colors.scss",
+      {
+        "theme-building": true
+      }
     ]
   },
   "devDependencies": {

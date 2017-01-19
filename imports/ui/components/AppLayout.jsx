@@ -2,10 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router'
 
-import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
+import { IconButton, List, ListItem, Sidebar } from 'react-toolbox';
 import { Layout, NavDrawer, Panel, Card, CardTitle, Button, FontIcon } from 'react-toolbox';
+import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 
 import { Meteor } from 'meteor/meteor'
+
+import theme from './theme';
+import menuButtonTheme from './menuButtonTheme';
 
 // App component - represents the whole app
 export default class AppLayout extends Component {
@@ -85,12 +89,12 @@ export default class AppLayout extends Component {
                     </div>
                 </NavDrawer>
                 <Panel>
-                    <AppBar>
-                        <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
-                        <div className="header-right-login-user-info">
+                    <AppBarExtended>
+                        <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) } theme={menuButtonTheme}/>
+                        <div className={theme.headerGreeting}>
                             <span>Welcome <b>{this.name()}</b></span>
                         </div>
-                    </AppBar>
+                    </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
