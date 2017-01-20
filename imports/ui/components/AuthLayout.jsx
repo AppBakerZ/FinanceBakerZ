@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Layout, Panel, Input, Card, Button, Snackbar, ProgressBar } from 'react-toolbox';
+import Footer from './footer/Footer.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Link } from 'react-router'
 
@@ -73,9 +74,7 @@ export default class AuthLayout extends Component {
                             })}
                         </Card>
                     </div>
-                    <div className="app-footer text-center">
-                        <span className="margin-top-5 margin-bottom-5">A Product of AppBakerz</span>
-                    </div>
+                    <Footer />
                 </Panel>
             </Layout>
         );

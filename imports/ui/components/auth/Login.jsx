@@ -7,6 +7,9 @@ import { Link } from 'react-router'
 
 import { Accounts } from 'meteor/accounts-base'
 
+import theme from './theme';
+import authButtonTheme from './authButtonTheme';
+
 // App component - represents the whole app
 export default class Register extends Component {
 
@@ -68,7 +71,7 @@ export default class Register extends Component {
     render() {
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="login" autoComplete={'off'}>
-                <div className="logo-with-text text-center">
+                <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
                 </div>
                 <Input type='text' label='Username or Email'
@@ -85,13 +88,13 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <div className="button-group text-center margin-bottom-5">
-                    <Button className="primary-button" type='submit' disabled={this.props.loading} icon='lock_open'
-                            label='Login' raised primary />
+                <div className={theme.buttonGroup}>
+                    <Button type='submit' disabled={this.props.loading} icon='lock_open'
+                            label='Login' raised primary theme={authButtonTheme}/>
                 </div>
-                <div className="button-group text-center">
-                    <Button className="secondary-button" type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
-                            label='Register' raised />
+                <div className={theme.buttonGroup}>
+                    <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
+                            label='Register' raised theme={authButtonTheme}/>
                 </div>
             </form>
         );
