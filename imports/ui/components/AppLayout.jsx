@@ -3,7 +3,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router'
 
 import { IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Button, FontIcon } from 'react-toolbox';
+import { Layout, Panel, Card, CardTitle, Button, FontIcon } from 'react-toolbox';
+import LeftMenu from './leftMenu/LeftMenu.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 
 import { Meteor } from 'meteor/meteor'
@@ -17,28 +18,20 @@ export default class AppLayout extends Component {
         super(props);
 
         this.state = {
-            drawerActive: false,
-            sidebarPinned: false
+            sidebarPinned: false,
+            drawerActive: false
         };
 
     }
-
-    toggleDrawerActive() {
+    toggleDrawerActive(){
         this.setState({
             drawerActive: !this.state.drawerActive
         });
     }
-
     toggleSidebar (stopToggle) {
         this.setState({
             sidebarPinned: stopToggle
         });
-    }
-
-    logout(){
-        Meteor.logout(() => {
-            this.props.history.push('/login')
-        })
     }
 
     name(){
@@ -48,45 +41,11 @@ export default class AppLayout extends Component {
     }
 
     render() {
+        let {props} = this;
+        props = {...props, name: this.name, drawerActive: this.state.drawerActive};
         return (
             <Layout>
-                <NavDrawer className="side-menu-wrapper" active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
-                    <div>
-                        <Card style={{width: '350px'}}>
-                            <CardTitle
-                                avatar={<FontIcon className='dashboard-card-icon' value='account_balance_wallet'/>}
-                                title={this.name()}
-                                />
-                        </Card>
-                        <List selectable ripple>
-                            <Link className={this.props.location.pathname == '/app/dashboard' ? 'active' : ''}
-                                to={`/app/dashboard`}>
-                                <ListItem caption='Dashboard' leftIcon='dashboard' />
-                            </Link>
-                            <Link className={this.props.location.pathname == '/app/projects' ? 'active' : ''}
-                                to={`/app/projects`}>
-                                <ListItem caption='Project' leftIcon='content_cut' />
-                            </Link>
-                            <Link className={this.props.location.pathname == '/app/transactions' ? 'active' : ''}
-                                to={`/app/transactions`}>
-                                <ListItem caption='Transactions' leftIcon='swap_horiz' />
-                            </Link>
-                            <Link className={this.props.location.pathname == '/app/accounts/new' ? 'active' : ''}
-                                to={`/app/accounts/new`}>
-                                <ListItem caption='Accounts' leftIcon='account_balance' />
-                            </Link>
-                            <Link className={this.props.location.pathname == '/app/categories/new' ? 'active' : ''}
-                                to={`/app/categories/new`}>
-                                <ListItem caption='Categories' leftIcon='border_all' />
-                            </Link>
-                            <Link className={this.props.location.pathname == '/app/settings/new' ? 'active' : ''}
-                                to={`/app/settings/new`}>
-                                <ListItem caption='Settings' leftIcon='settings' />
-                            </Link>
-                            <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
-                        </List>
-                    </div>
-                </NavDrawer>
+                <LeftMenu {...props}/>
                 <Panel>
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
