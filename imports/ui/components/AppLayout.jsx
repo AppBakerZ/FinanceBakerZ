@@ -9,7 +9,6 @@ import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Meteor } from 'meteor/meteor'
 
 import theme from './theme';
-import menuButtonTheme from './menuButtonTheme';
 
 // App component - represents the whole app
 export default class AppLayout extends Component {
@@ -90,7 +89,7 @@ export default class AppLayout extends Component {
                 </NavDrawer>
                 <Panel>
                     <AppBarExtended>
-                        <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) } theme={menuButtonTheme}/>
+                        <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
                             <span>Welcome <b>{this.name()}</b></span>
                         </div>

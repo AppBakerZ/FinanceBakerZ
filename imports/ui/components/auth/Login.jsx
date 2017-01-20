@@ -8,7 +8,6 @@ import { Link } from 'react-router'
 import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
-import authButtonTheme from './authButtonTheme';
 
 // App component - represents the whole app
 export default class Register extends Component {
@@ -90,11 +89,11 @@ export default class Register extends Component {
                     />
                 <div className={theme.buttonGroup}>
                     <Button type='submit' disabled={this.props.loading} icon='lock_open'
-                            label='Login' raised primary theme={authButtonTheme}/>
+                            label='Login' raised primary />
                 </div>
                 <div className={theme.buttonGroup}>
                     <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
-                            label='Register' raised theme={authButtonTheme}/>
+                            label='Register' raised accent />
                 </div>
             </form>
         );

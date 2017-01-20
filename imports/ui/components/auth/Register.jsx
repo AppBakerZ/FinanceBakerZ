@@ -6,7 +6,6 @@ import { IconButton, Input, Button } from 'react-toolbox';
 import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
-import authButtonTheme from './authButtonTheme';
 
 // App component - represents the whole app
 export default class Register extends Component {
@@ -100,12 +99,10 @@ export default class Register extends Component {
                        required
                     />
                 <div className={theme.buttonGroup}>
-                    <Button className={theme.primaryButton} type='submit' disabled={this.props.loading} icon='person_add'
-                            label='Register' raised primary theme={authButtonTheme}/>
+                    <Button type='submit' disabled={this.props.loading} icon='person_add' label='Register' raised primary />
                 </div>
-                <div className="button-group text-center">
-                    <Button className="secondary-button" type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)}
-                            icon='lock_open' label='Login' raised theme={authButtonTheme}/>
+                <div className={theme.buttonGroup}>
+                    <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='lock_open' label='Login' raised accent />
                 </div>
 
             </form>

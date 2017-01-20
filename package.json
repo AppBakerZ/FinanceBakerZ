@@ -34,7 +34,8 @@
       "node_modules/react-toolbox/lib/_colors.scss",
       {
         "theme-building": true
-      }
+      },
+      "client/toolbox-theme.scss"
     ]
   },
   "devDependencies": {
