@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router'
 
-import { IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, Panel, Card, CardTitle, Button, FontIcon } from 'react-toolbox';
+import { Layout, Panel, IconButton, Sidebar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 
