@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor'
 
 import theme from './theme';
+import listItemTheme from './listItemTheme';
 
 export default class LeftMenu extends Component {
     constructor(props) {
@@ -41,29 +42,29 @@ export default class LeftMenu extends Component {
                     <List selectable ripple>
                         <Link className={this.props.location.pathname == '/app/dashboard' ? 'active' : ''}
                               to={`/app/dashboard`}>
-                            <ListItem caption='Dashboard' leftIcon='dashboard' />
+                            <ListItem caption='Dashboard' leftIcon='dashboard' theme={listItemTheme}/>
                         </Link>
                         <Link className={this.props.location.pathname == '/app/projects' ? 'active' : ''}
                               to={`/app/projects`}>
-                            <ListItem caption='Project' leftIcon='content_cut' />
+                            <ListItem caption='Project' leftIcon='timeline' theme={listItemTheme}/>
                         </Link>
                         <Link className={this.props.location.pathname == '/app/transactions' ? 'active' : ''}
                               to={`/app/transactions`}>
-                            <ListItem caption='Transactions' leftIcon='swap_horiz' />
+                            <ListItem caption='Transactions' leftIcon='monetization_on' theme={listItemTheme}/>
                         </Link>
                         <Link className={this.props.location.pathname == '/app/accounts/new' ? 'active' : ''}
                               to={`/app/accounts/new`}>
-                            <ListItem caption='Accounts' leftIcon='account_balance' />
+                            <ListItem caption='Accounts' leftIcon='account_balance' theme={listItemTheme}/>
                         </Link>
                         <Link className={this.props.location.pathname == '/app/categories/new' ? 'active' : ''}
                               to={`/app/categories/new`}>
-                            <ListItem caption='Categories' leftIcon='border_all' />
+                            <ListItem caption='Categories' leftIcon='view_module' theme={listItemTheme}/>
                         </Link>
                         <Link className={this.props.location.pathname == '/app/settings/new' ? 'active' : ''}
                               to={`/app/settings/new`}>
-                            <ListItem caption='Settings' leftIcon='settings' />
+                            <ListItem caption='Settings' leftIcon='settings' theme={listItemTheme}/>
                         </Link>
-                        <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
+                        <ListItem caption='Logout' leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
                     </List>
                 </div>
             </NavDrawer>

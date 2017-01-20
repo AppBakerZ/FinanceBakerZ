@@ -9,3 +9,27 @@ $color-danger: #c71111 !default;
 $color-text: #333333 !default;
 
 //$preferred-font: "Roboto", "Helvetica", "Arial", sans-serif !default;
+
+$-font-family-nexa_bold: 'nexa_boldregular';
+$-font-family-nexa_light: 'nexa_lightregular';
+
+@font-face {
+  font-family: 'nexa_lightregular';
+  src: url('/fonts/nexa_light-webfont.woff2') format('woff2'),
+  url('/fonts/nexa_light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'nexa_boldregular';
+  src: url('/fonts/nexa_bold-webfont.woff2') format('woff2'),
+  url('/fonts/nexa_bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
