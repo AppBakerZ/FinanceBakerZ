@@ -23,7 +23,6 @@ class DashboardPage extends Component {
         let datetime = new Date();
 
         this.state = {
-            index: 0,
             totalIncomes: null,
             totalExpenses: null,
             availableBalance: null,
@@ -34,17 +33,7 @@ class DashboardPage extends Component {
         };
     }
 
-    toggleSidebar(event){
-        this.props.toggleSidebar(false);
-    }
-
-
-    componentWillReceiveProps (p){
-        this.setDefaultAccounts(p);
-    }
-
-    componentWillMount(){
-        this.toggleSidebar();
+    componentDidMount(){
         this.setDefaultAccounts(this.props);
     }
 
@@ -103,6 +92,7 @@ class DashboardPage extends Component {
     }
 
     handleMultipleChange (value) {
+        console.log('handleMultipleChange ', value)
         this.setState({multiple: value});
         this.updateByAccount(value)
     }
