@@ -13,6 +13,7 @@ import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
 import Graph from './Graph.jsx';
+import Loader from '../loader/Loader.jsx';
 
 class DashboardPage extends Component {
 
@@ -23,9 +24,9 @@ class DashboardPage extends Component {
 
         this.state = {
             index: 0,
-            totalIncomes: 0,
-            totalExpenses: 0,
-            availableBalance: 0,
+            totalIncomes: null,
+            totalExpenses: null,
+            availableBalance: null,
             multiple: [],
             filterBy: 'month',
             dateFrom: datetime,
@@ -80,6 +81,10 @@ class DashboardPage extends Component {
 
     getTotalIncomesAndExpenses (accounts, filterBy, range){
         let date = dateHelpers.filterByDate(filterBy || this.state.filterBy, range || {}, this);
+        this.setState({
+            totalIncomes: null,
+            totalExpenses: null
+        });
         Meteor.call('statistics.totalIncomesAndExpenses', {accounts, date}, (err, totals) => {
             if(totals){
                 this.setState({
@@ -266,6 +271,53 @@ class DashboardPage extends Component {
             </Card>
         )
     }
+    renderTotalIncomes(){
+        return (
+            <div style={{margin: "0 auto"}} >
+                <div className="income-title">Your Total Incomes are</div>
+                <h2 className="income-amount">
+                    {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                    <i className="material-icons">arrow_upward</i>
+                </h2>
+                {(!this.state.totalIncomes ||
+                    <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                        <Button icon='description' label='Income Report' flat />
+                    </div>
+                )}
+            </div>
+        )
+    }
+    renderTotalExpenses(){
+        return (
+            <div style={{margin: "0 auto"}}>
+                <div className="expenses-title">Your Total Expenses are</div>
+                <h2 className="expenses-amount">
+                    {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                    <i className="material-icons">arrow_upward</i>
+                </h2>
+                {(!this.state.totalExpenses ||
+                    <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                        <Button icon='description' label='Expences Report' flat />
+                    </div>
+                )}
+            </div>
+        )
+    }
+    availableBalance(){
+        return (
+            <div className='dashboard-card-group'>
+                <Card className='card available-card'>
+                    <div style={{margin: "0 auto"}}>
+                        <div className="available-title"> Your Available Balance is</div>
+                        <h2 className="available-amount">
+                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                            <i className="material-icons">arrow_upward</i>
+                        </h2>
+                    </div>
+                </Card>
+            </div>
+        )
+    }
     render() {
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -297,49 +349,17 @@ class DashboardPage extends Component {
                                         />
                                 </Card>
                                 <Card className='card income-card'>
-                                    <div style={{margin: "0 auto"}}>
-                                        <div className="income-title">Your Total Incomes are</div>
-                                        <h2 className="income-amount">
-                                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                                            <i className="material-icons">arrow_upward</i>
-                                        </h2>
-                                        {(!this.state.totalIncomes ||
-                                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
-                                                <Button icon='description' label='Income Report' flat />
-                                            </div>
-                                        )}
-                                    </div>
+                                    {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
                                 <Card className='card expenses-card'>
-                                    <div style={{margin: "0 auto"}}>
-                                        <div className="expenses-title">Your Total Expenses are</div>
-                                        <h2 className="expenses-amount">
-                                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
-                                            <i className="material-icons">arrow_upward</i>
-                                        </h2>
-                                        {(!this.state.totalExpenses ||
-                                            <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
-                                                <Button icon='description' label='Expences Report' flat />
-                                            </div>
-                                        )}
-                                    </div>
+                                    {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
                     </div>
                     <div className="dashboard-section available-section">
                         <Card className="card-box">
-                            <div className='dashboard-card-group'>
-                                <Card className='card available-card'>
-                                    <div style={{margin: "0 auto"}}>
-                                        <div className="available-title"> Your Available Balance is</div>
-                                        <h2 className="available-amount">
-                                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
-                                            <i className="material-icons">arrow_upward</i>
-                                        </h2>
-                                    </div>
-                                </Card>
-                            </div>
+                            {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
                         </Card>
                     </div>
                     <div className="date-range-wrapper">
