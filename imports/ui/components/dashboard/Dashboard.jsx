@@ -15,6 +15,8 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/cur
 import Graph from './Graph.jsx';
 import Loader from '../loader/Loader.jsx';
 
+import theme from './theme';
+
 class DashboardPage extends Component {
 
     constructor(props) {
@@ -322,7 +324,7 @@ class DashboardPage extends Component {
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
-                    <div className="dashboard-section">
+                    <div className={theme.dashboardSection}>
                         <Card className="card-box">
                             <div className='dashboard-card-group'>
                                 <Card className='card'>
