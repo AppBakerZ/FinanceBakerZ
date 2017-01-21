@@ -4,13 +4,13 @@
 .listItem{
   //background: $color-primary-dark;
   .item {
-    padding: 0 5.5rem;
+    padding: 0 $unit * 5.5;
     .itemText{
-      font-size: 1.4rem;
+      font-size: $font-size-small;
       font-weight: 600;
     }
     .itemAction{
-      margin: 0.8rem 0 0.8rem 0;
+      margin: 0.8rem 0;
     }
   }
 }
