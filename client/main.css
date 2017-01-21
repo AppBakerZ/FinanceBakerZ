@@ -25,7 +25,7 @@
 
 .active{
     display: list-item;
-    background: #eee;
+    /*background: #eee;*/
 }
 
 .float-right{

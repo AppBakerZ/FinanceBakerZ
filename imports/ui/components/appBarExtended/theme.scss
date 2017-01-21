@@ -5,7 +5,7 @@
   overflow: hidden;
   z-index: 301;
   &:not(.flat) {
-    z-index: $z-index-highest;
+    z-index: $z-index-highest + 1;
   }
   a {
     img {

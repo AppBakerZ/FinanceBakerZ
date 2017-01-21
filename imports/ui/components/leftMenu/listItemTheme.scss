@@ -1,16 +1,39 @@
 @import "~react-toolbox/lib/globals";
 @import "~react-toolbox/lib/list/config";
 
+
+
 .listItem{
-  //background: $color-primary-dark;
+  &.active{
+    background: $color-accent;
+    .item {
+      .itemText{
+        color: $color-primary-dark;
+      }
+      .itemAction{
+        span{
+          color: $color-primary-dark;
+        }
+      }
+    }
+  }
   .item {
-    padding: 0 $unit * 5.5;
+    padding: $unit - 0.9 $unit * 5.5 0;
     .itemText{
       font-size: $font-size-small;
-      font-weight: 600;
+      font-family: $preferred-font;
+      color: $color-accent;
+      margin-top: $unit - 0.8;
     }
     .itemAction{
       margin: 0.8rem 0;
+      span{
+        color: $color-primary;
+      }
     }
   }
+}
+
+.active{
+
 }
