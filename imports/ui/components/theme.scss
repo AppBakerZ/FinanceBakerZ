@@ -1,0 +1,16 @@
+.appBody{
+  background: url("../assets/images/login-bg.png") no-repeat center;
+  background-size: 80%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.headerGreeting{
+  margin-left: auto;
+  span{
+    color: #008142;
+  }
+}
