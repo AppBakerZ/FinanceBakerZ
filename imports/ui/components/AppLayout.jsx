@@ -41,7 +41,11 @@ export default class AppLayout extends Component {
 
     render() {
         let {props} = this;
-        props = {...props, name: this.name, drawerActive: this.state.drawerActive};
+        props = {...props,
+            name: this.name,
+            toggleDrawerActive: this.toggleDrawerActive.bind(this),
+            drawerActive: this.state.drawerActive
+        };
         return (
             <Layout>
                 <LeftMenu {...props}/>
