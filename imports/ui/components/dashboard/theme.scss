@@ -8,6 +8,16 @@
     overflow: visible;
   }
 }
+
+.dashboardDropdown{
+  > div{
+    display: inline-block;
+    &:last-of-type{
+      margin-left: 4.3rem;
+    }
+  }
+}
+
 //.availableSection{
 //  background: url("../assets/images/dollars.png") #008142 no-repeat;
 //  background-position: 130% 50%;

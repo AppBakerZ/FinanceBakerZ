@@ -19,6 +19,7 @@ import theme from './theme';
 import autocompleteTheme from './autocompleteTheme';
 import cardTheme from './cardTheme';
 import datePickerTheme from './datePickerTheme';
+import dropdownTheme from './dropdownTheme';
 
 class DashboardPage extends Component {
 
@@ -186,7 +187,7 @@ class DashboardPage extends Component {
     renderDateRange(){
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
-                <DatePicker theme={datePickerTheme}
+                <DatePicker className='demo' theme={datePickerTheme}
                     label='Date From'
                     name='dateFrom'
                     onChange={this.onChange.bind(this)}
@@ -330,7 +331,7 @@ class DashboardPage extends Component {
                                         value={this.state.multiple}
                                         />
 
-                                    <Dropdown
+                                    <Dropdown theme={dropdownTheme}
                                         auto={false}
                                         source={this.filters()}
                                         name='filterBy'
