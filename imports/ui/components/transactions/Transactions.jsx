@@ -12,6 +12,7 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
+import { Projects } from '../../../api/projects/projects.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
@@ -297,7 +298,7 @@ class TransactionPage extends Component {
             copyQuery['dateFilter'] = val ? dateHelpers.filterByDate(e.target.name == "filterBy" ? val : this.state.filterBy, {[e.target.name]: val}, this) : '';
             query.set(copyQuery);
         }
-        else if(['type', 'filterByCategory', 'filterByProduct'].includes(e.target.name)){
+        else if(['type', 'filterByCategory', 'filterByProjects'].includes(e.target.name)){
             copyQuery[e.target.name] = val;
             query.set(copyQuery);
         }
@@ -350,6 +351,12 @@ class TransactionPage extends Component {
             return category;
         })
     }
+    projects(){
+        return this.props.projects.map((project) => {
+            project.value = project._id;
+            return project;
+        })
+    }
 
     categoryItem(category){
         const containerStyle = {
@@ -381,6 +388,36 @@ class TransactionPage extends Component {
             </div>
         );
     }
+    projectItem(project){
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const imageStyle = {
+            display: 'flex',
+            width: '22px',
+            height: '22px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2,
+            paddingTop: '4px'
+        };
+
+        return (
+            <div style={containerStyle}>
+                <FontIcon value={project.icon} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{project.name}</strong>
+                </div>
+            </div>
+        );
+    }
 
     categoryFilter(){
         return (
@@ -398,7 +435,19 @@ class TransactionPage extends Component {
     }
 
     projectFilter(){
-        console.log('expenses----------')
+
+        return (
+            <Dropdown
+                className='dashboard-dropdown'
+                auto={false}
+                source={this.projects()}
+                name='filterByProjects'
+                onChange={this.onChange.bind(this)}
+                label='Filter By Projects'
+                value={this.state.filterByProjects}
+                template={this.projectItem}
+                />
+        )
 
     }
 
@@ -523,11 +572,13 @@ export default createContainer(() => {
     Meteor.subscribe('transactions', query.get());
     Meteor.subscribe('accounts');
     Meteor.subscribe('categories');
+    Meteor.subscribe('projects.all');
     let expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
     return {
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
         accounts: Accounts.find({}).fetch(),
-        categories: Categories.find().fetch()
+        categories: Categories.find().fetch(),
+        projects: Projects.find().fetch()
     };
 }, TransactionPage);

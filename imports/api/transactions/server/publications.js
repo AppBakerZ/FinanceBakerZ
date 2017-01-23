@@ -17,6 +17,10 @@ Meteor.publish('transactions', function(options) {
         query.$or.push({category: options.filterByCategory});
         query.$or.push({'category._id': options.filterByCategory});
     }
+    if(options.filterByProjects){
+        query.$or.push({project: options.filterByProjects});
+        query.$or.push({'project._id': options.filterByProjects});
+    }
 
     if(!query.$or.length) delete query.$or;
 
