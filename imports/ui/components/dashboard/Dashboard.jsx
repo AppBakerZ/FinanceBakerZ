@@ -16,6 +16,9 @@ import Graph from './Graph.jsx';
 import Loader from '../loader/Loader.jsx';
 
 import theme from './theme';
+import autocompleteTheme from './autocompleteTheme';
+import cardTheme from './cardTheme';
+import datePickerTheme from './datePickerTheme';
 
 class DashboardPage extends Component {
 
@@ -182,15 +185,15 @@ class DashboardPage extends Component {
 
     renderDateRange(){
         let dropDowns = (
-            <div className='dashboard-dropdown'>
-                <DatePicker
+            <div className={theme.dashboardDropdown}>
+                <DatePicker theme={datePickerTheme}
                     label='Date From'
                     name='dateFrom'
                     onChange={this.onChange.bind(this)}
                     value={this.state.dateFrom}
                     />
 
-                <DatePicker
+                <DatePicker theme={datePickerTheme}
                     label='Date To'
                     name='dateTo'
                     onChange={this.onChange.bind(this)}
@@ -314,12 +317,11 @@ class DashboardPage extends Component {
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
-                    <div className='dashboard-section'>
-                        <Card className="card-box">
+                    <div className={theme.dashboardSection}>
+                        <Card className={theme.cardBox}>
                             <div className='dashboard-card-group'>
-                                <Card className='card'>
-                                    <Autocomplete
-                                        className='dashboard-autocomplete'
+                                <Card theme={cardTheme}>
+                                    <Autocomplete theme={autocompleteTheme}
                                         direction='down'
                                         name='multiple'
                                         onChange={this.handleMultipleChange.bind(this)}
@@ -329,7 +331,6 @@ class DashboardPage extends Component {
                                         />
 
                                     <Dropdown
-                                        className='dashboard-dropdown'
                                         auto={false}
                                         source={this.filters()}
                                         name='filterBy'
@@ -339,6 +340,7 @@ class DashboardPage extends Component {
                                         template={this.filterItem}
                                         required
                                         />
+                                        {this.renderDateRange()}
                                 </Card>
                                 <Card className='card income-card'>
                                     {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
@@ -354,9 +356,7 @@ class DashboardPage extends Component {
                             {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
                         </Card>
                     </div>
-                    <div className="date-range-wrapper">
-                        {this.renderDateRange()}
-                    </div>
+
                     <div className="recent-activities-wrapper">
                         {this.renderRecents()}
                     </div>

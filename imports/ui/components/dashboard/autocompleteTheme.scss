@@ -1,0 +1,11 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/list/config";
+
+.autocomplete {
+  position: relative;
+  padding: 0 0 $unit 0;
+}
+
+.input {
+  padding: 2rem 0 0;
+}
