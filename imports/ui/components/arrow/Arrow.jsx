@@ -29,7 +29,7 @@ export default class Arrow extends Component {
     render() {
         return (
             <svg className={`${theme.arrow} ${theme[this.getType()]}`}
-                 width="65.016px" height="70.434px" viewBox="0 0 65.016 70.434" enableBackground="new 0 0 65.016 70.434">
+                 width={this.props.width || '65.016px'} height={this.props.height || '70.434px'} viewBox="0 0 65.016 70.434" enableBackground="new 0 0 65.016 70.434">
                 <path fill="#fff" d={this.isDown() ? this.down : this.up}/>
             </svg>
         );

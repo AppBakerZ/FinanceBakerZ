@@ -275,7 +275,7 @@ class DashboardPage extends Component {
                 <div>Your Total Incomes are</div>
                 <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                    <Arrow primary />
+                    <Arrow primary width='35px' height='40px' />
                 </h2>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
