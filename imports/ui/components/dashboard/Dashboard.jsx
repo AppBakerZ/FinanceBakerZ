@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table } from 'react-toolbox';
+import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -269,14 +269,14 @@ class DashboardPage extends Component {
     }
     renderTotalIncomes(){
         return (
-            <div style={{margin: "0 auto"}} >
-                <div className="income-title">Your Total Incomes are</div>
-                <h2 className="income-amount">
+            <div className={theme.incomeBox}>
+                <div>Your Total Incomes are</div>
+                <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                    <i className="material-icons">arrow_upward</i>
+                    <img src="../assets/images/arrow.svg" />
                 </h2>
                 {(!this.state.totalIncomes ||
-                    <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                    <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
                         <Button icon='description' label='Income Report' flat />
                     </div>
                 )}
@@ -285,14 +285,14 @@ class DashboardPage extends Component {
     }
     renderTotalExpenses(){
         return (
-            <div style={{margin: "0 auto"}}>
-                <div className="expenses-title">Your Total Expenses are</div>
-                <h2 className="expenses-amount">
+            <div className={theme.expensesBox}>
+                <div>Your Total Expenses are</div>
+                <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
                     <i className="material-icons">arrow_upward</i>
                 </h2>
                 {(!this.state.totalExpenses ||
-                    <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                    <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
                         <Button icon='description' label='Expences Report' flat />
                     </div>
                 )}
@@ -343,16 +343,16 @@ class DashboardPage extends Component {
                                         />
                                         {this.renderDateRange()}
                                 </Card>
-                                <Card className='card income-card'>
+                                <Card theme={theme}>
                                     {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
-                                <Card className='card expenses-card'>
+                                <Card theme={theme}>
                                     {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
                     </div>
-                    <div className="dashboard-section available-section">
+                    <div className={theme.availableSection}>
                         <Card className="card-box">
                             {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
                         </Card>

@@ -7,6 +7,9 @@ $color-accent-dark: #deb342 !default;
 $color-danger: #c71111 !default;
 
 $color-text: #333333 !default;
+$color-text-light: #666666 !default;
+//$color-text-light: lighten(saturate(adjust-hue($color-text, 0.0000), 0.0000), 20.0000);
+
 
 $normal-font: 'Nexa Light Regular';
 $preferred-font: 'Nexa Bold Regular', 'Arial', sans-serif !default;

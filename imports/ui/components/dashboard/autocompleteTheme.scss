@@ -3,9 +3,34 @@
 
 .autocomplete {
   position: relative;
-  padding: 0 0 $unit 0;
+  padding: 0 0 $unit - 0.5 0;
+  .value{
+    position: absolute;
+    line-height: 2.5rem;
+    padding: 0.2rem 3rem 0 1rem;
+    background: $color-accent;
+    color: $color-primary-dark;
+    span{
+      margin: 0 0.4rem 0;
+      svg{
+        background: $color-primary-dark;
+        path{
+          stroke: #8e8585;
+        }
+      }
+    }
+  }
+  .values{
+    padding: 0;
+  }
 }
 
 .input {
   padding: 2rem 0 0;
+  label{
+    color: $color-text-light;
+  }
+  &:after{
+    top: 60%;
+  }
 }
