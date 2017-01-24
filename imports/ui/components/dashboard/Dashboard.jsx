@@ -21,6 +21,7 @@ import autocompleteTheme from './autocompleteTheme';
 import cardTheme from './cardTheme';
 import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
+import cardBackgroundTheme from './cardBackgroundTheme';
 
 class DashboardPage extends Component {
 
@@ -302,10 +303,10 @@ class DashboardPage extends Component {
     }
     availableBalance(){
         return (
-            <div className='dashboard-card-group'>
-                <Card className='card available-card'>
+            <div>
+                <Card theme={cardBackgroundTheme}>
                     <div style={{margin: "0 auto"}}>
-                        <div className="available-title"> Your Available Balance is</div>
+                        <div className={theme.availableTitle}> Your Available Balance is</div>
                         <h2 className="available-amount">
                             {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
                             <Arrow />
@@ -353,17 +354,19 @@ class DashboardPage extends Component {
                             </div>
                         </Card>
                     </div>
-                    <div className={theme.availableSection}>
-                        <Card className="card-box">
-                            {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
-                        </Card>
-                    </div>
+                    <div className={theme.bg}>
+                        <div className={theme.availableSection}>
+                            <Card className="card-box">
+                                {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                            </Card>
+                        </div>
 
-                    <div className="recent-activities-wrapper">
-                        {this.renderRecents()}
-                    </div>
-                    <div className="income-overview-wrapper">
-                        <Graph />
+                        <div className="recent-activities-wrapper">
+                            {this.renderRecents()}
+                        </div>
+                        <div className="income-overview-wrapper">
+                            <Graph />
+                        </div>
                     </div>
                 </div>
             </div>
