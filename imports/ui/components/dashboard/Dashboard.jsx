@@ -273,7 +273,7 @@ class DashboardPage extends Component {
                 <div>Your Total Incomes are</div>
                 <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                    <img src="../assets/images/arrow.svg" />
+                    <img src="../assets/images/up-arrow1.svg" />
                 </h2>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
@@ -289,7 +289,7 @@ class DashboardPage extends Component {
                 <div>Your Total Expenses are</div>
                 <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
-                    <i className="material-icons">arrow_upward</i>
+                    <img src="../assets/images/up-arrow1.svg" />
                 </h2>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
