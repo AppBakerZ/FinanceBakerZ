@@ -188,17 +188,17 @@ class DashboardPage extends Component {
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
                 <DatePicker className='demo' theme={datePickerTheme}
-                    label='Date From'
-                    name='dateFrom'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.dateFrom}
+                            label='Date From'
+                            name='dateFrom'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.dateFrom}
                     />
 
                 <DatePicker theme={datePickerTheme}
-                    label='Date To'
-                    name='dateTo'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.dateTo}
+                            label='Date To'
+                            name='dateTo'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.dateTo}
                     />
             </div>
         );
@@ -268,25 +268,25 @@ class DashboardPage extends Component {
                             <div className='dashboard-card-group'>
                                 <Card theme={cardTheme}>
                                     <Autocomplete theme={autocompleteTheme}
-                                        direction='down'
-                                        name='multiple'
-                                        onChange={this.handleMultipleChange.bind(this)}
-                                        label='Filter By Account'
-                                        source={this.accounts()}
-                                        value={this.state.multiple}
+                                                  direction='down'
+                                                  name='multiple'
+                                                  onChange={this.handleMultipleChange.bind(this)}
+                                                  label='Filter By Account'
+                                                  source={this.accounts()}
+                                                  value={this.state.multiple}
                                         />
 
                                     <Dropdown theme={dropdownTheme}
-                                        auto={false}
-                                        source={this.filters()}
-                                        name='filterBy'
-                                        onChange={this.onChange.bind(this)}
-                                        label='Filter By'
-                                        value={this.state.filterBy}
-                                        template={this.filterItem}
-                                        required
+                                              auto={false}
+                                              source={this.filters()}
+                                              name='filterBy'
+                                              onChange={this.onChange.bind(this)}
+                                              label='Filter By'
+                                              value={this.state.filterBy}
+                                              template={this.filterItem}
+                                              required
                                         />
-                                        {this.renderDateRange()}
+                                    {this.renderDateRange()}
                                 </Card>
                                 <Card theme={theme}>
                                     {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
@@ -303,7 +303,7 @@ class DashboardPage extends Component {
                                 {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
                             </Card>
                         </div>
-
+                    </div>
                     <div className="recent-activities-wrapper">
                         <RecentActivities />
                     </div>
