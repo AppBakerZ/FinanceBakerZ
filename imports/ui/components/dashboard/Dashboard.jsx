@@ -20,6 +20,7 @@ import autocompleteTheme from './autocompleteTheme';
 import cardTheme from './cardTheme';
 import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
+import cardBackgroundTheme from './cardBackgroundTheme';
 
 class DashboardPage extends Component {
 
@@ -208,11 +209,13 @@ class DashboardPage extends Component {
     renderTotalIncomes(){
         return (
             <div className={theme.incomeBox}>
-                <div>Your Total Incomes are</div>
-                <h2>
-                    {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                    <Arrow primary width='35px' height='40px' />
-                </h2>
+                <div className={theme.divTitle}>Your Total Incomes are</div>
+                <div className={theme.title}>
+                    <h2>
+                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                    </h2>
+                    <Arrow primary width='30px' height='35px' />
+                </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
                         <Button icon='description' label='Income Report' flat />
@@ -224,11 +227,13 @@ class DashboardPage extends Component {
     renderTotalExpenses(){
         return (
             <div className={theme.expensesBox}>
-                <div>Your Total Expenses are</div>
-                <h2>
-                    {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
-                    <Arrow down danger/>
-                </h2>
+                <div className={theme.divTitle}>Your Total Expenses are</div>
+                <div className={theme.title}>
+                    <h2>
+                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                    </h2>
+                    <Arrow down danger width='30px' height='35px' />
+                </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
                         <Button icon='description' label='Expences Report' flat />
@@ -239,14 +244,16 @@ class DashboardPage extends Component {
     }
     availableBalance(){
         return (
-            <div className='dashboard-card-group'>
-                <Card className='card available-card'>
+            <div className={theme.availableSection}>
+                <Card theme={cardBackgroundTheme}>
                     <div style={{margin: "0 auto"}}>
-                        <div className="available-title"> Your Available Balance is</div>
-                        <h2 className="available-amount">
-                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
-                            <Arrow />
-                        </h2>
+                        <div className={theme.availableTitle}> Your Available Balance is</div>
+                        <div className={theme.divTitle}>
+                            <h2 className="available-amount">
+                                {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                            </h2>
+                            <Arrow width='48px' height='50px' />
+                        </div>
                     </div>
                 </Card>
             </div>
@@ -290,11 +297,12 @@ class DashboardPage extends Component {
                             </div>
                         </Card>
                     </div>
-                    <div className={theme.availableSection}>
-                        <Card className="card-box">
-                            {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
-                        </Card>
-                    </div>
+                    <div className={theme.bg}>
+                        <div>
+                            <Card className="card-box">
+                                {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                            </Card>
+                        </div>
 
                     <div className="recent-activities-wrapper">
                         <RecentActivities />
