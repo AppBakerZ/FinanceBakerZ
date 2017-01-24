@@ -10,12 +10,19 @@
     padding: 0.2rem 3rem 0 1rem;
     background: $color-accent;
     color: $color-primary-dark;
+    z-index: $z-index-highest;
     span{
       margin: 0 0.4rem 0;
       svg{
         background: $color-primary-dark;
         path{
           stroke: #8e8585;
+        }
+        &:hover{
+          background: $color-primary-dark;
+          path{
+            stroke: #8e8585;
+          }
         }
       }
     }

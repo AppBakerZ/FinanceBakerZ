@@ -23,10 +23,14 @@
     font-size: $font-size-tiny * 2.1;
     margin: 0 0 $unit - 0.5 0;
   }
-  h2{
-    color: $color-primary-dark;
-    font-size: $font-size-small * 3.5;
-    letter-spacing: $unit - 0.7;
+  .divTitle{
+    h2{
+      color: $color-primary-dark;
+      font-size: $font-size-small * 3.5;
+      letter-spacing: $unit - 0.7;
+      display: inline-block;
+      margin: 0 $unit * 2.8 0 0;
+    }
   }
 }
 
@@ -45,20 +49,20 @@
 
 .incomeBox{
   margin: 0 auto;
-  div{
+  .divTitle{
     margin: $unit * 2.5 0 $unit - 0.5 0;
     font-size: $font-size-big - 0.1;
     color: $color-text;
-  }
-  h2{
-    margin: 0 0 $unit *2.1 0;
-    color: $color-primary;
-    font-size: $font-size-big * 2;
     letter-spacing: $unit - 0.9;
-    //img{
-    //  width: $unit * 3;
-    //  margin-left: $unit * 3;
-    //}
+  }
+  .title{
+    h2{
+      margin: 0 $unit * 2.5 $unit *2.1 0;
+      color: $color-primary;
+      font-size: $font-size-big * 2;
+      letter-spacing: $unit - 0.8;
+      display: inline-block;
+    }
   }
   .reportBtn{
     width: 100%;
@@ -72,25 +76,20 @@
 }
 .expensesBox{
   margin: 0 auto;
-  div{
+  .divTitle{
     margin: $unit * 2.5 0 $unit - 0.5 0;
     font-size: $font-size-big - 0.1;
     color: $color-text;
-  }
-  h2{
-    margin: 0 0 $unit *2.1 0;
-    color: $color-danger;
-    font-size: $font-size-big * 2;
     letter-spacing: $unit - 0.9;
-    //img{
-    //  width: $unit * 3;
-    //  margin-left: $unit * 3;
-    //}
-    //svg{
-    //  width: $unit * 2.5;
-    //  height: $unit * 3.5;
-    //  margin: 0 0 0 $unit * 2.5;
-    //}
+  }
+  .title{
+    h2{
+      margin: 0 $unit * 2.5 $unit *2.1 0;
+      color: $color-danger;
+      font-size: $font-size-big * 2;
+      letter-spacing: $unit - 0.8;
+      display: inline-block;
+    }
   }
   .reportBtn{
     width: 100%;
@@ -104,5 +103,9 @@
 }
 .bg{
   width: 100%;
-  background: url("../assets/images/pages-bg.png") no-repeat center right;
+  //background: url("../assets/images/dollars.png") no-repeat center right;
+}
+.availableSection{
+  background: url("../assets/images/dollars.png") $color-primary no-repeat;
+  background-position: 130% 50%;
 }
