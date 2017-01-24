@@ -7,11 +7,10 @@ import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
-import { Incomes } from '../../../api/incomes/incomes.js';
-import { Expenses } from '../../../api/expences/expenses.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
+import RecentActivities from './recentActivities/RecentActivities.jsx';
 import Graph from './Graph.jsx';
 import Loader from '../loader/Loader.jsx';
 import Arrow from '../arrow/Arrow.jsx';
@@ -99,7 +98,6 @@ class DashboardPage extends Component {
     }
 
     handleMultipleChange (value) {
-        console.log('handleMultipleChange ', value)
         this.setState({multiple: value});
         this.updateByAccount(value)
     }
@@ -207,67 +205,6 @@ class DashboardPage extends Component {
             this.state.filterBy == 'range' ?  dropDowns : null
         )
     }
-    renderRecents(){
-        return (
-            <div className='dashboard-card-group'>
-                <div className="recent-incomes-wrapper margin-right">
-                    {this.renderRecentIncomes()}
-                </div>
-
-                <div className="recent-expenses-wrapper margin-left">
-                    {this.renderRecentExpenses()}
-                </div>
-            </div>
-        )
-    }
-    renderRecentIncomes(){
-        const model = {
-            icon: {type: String},
-            type: {type: String},
-            amount: {type: String}
-        };
-        let incomes = this.props.incomes.map(function(i){
-            return {
-                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
-                type: i.type == "project" ? i.project.name || i.project : i.type,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
-            }
-        });
-        return (
-            <Card className='card'>
-                <h3>Recent Incomes</h3>
-                <Table selectable={false} heading={false} model={model} source={incomes}/>
-                <Link
-                    to={`/app/transactions/incomes`}>
-                    View All
-                </Link>            
-            </Card>
-        )
-    }
-    renderRecentExpenses(){
-        const model = {
-            icon: {type: String},
-            category: {type: String},
-            amount: {type: String}
-        };
-        let expenses = this.props.expenses.map(function(i){
-            return {
-                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
-                category: i.category.name || i.category,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
-            }
-        });
-        return (
-            <Card className='card'>
-                <h3>Recent Expenses</h3>
-                <Table selectable={false} heading={false} model={model} source={expenses}/>
-                <Link
-                    to={`/app/transactions/expenses`}>
-                    View All
-                </Link>
-            </Card>
-        )
-    }
     renderTotalIncomes(){
         return (
             <div className={theme.incomeBox}>
@@ -360,7 +297,7 @@ class DashboardPage extends Component {
                     </div>
 
                     <div className="recent-activities-wrapper">
-                        {this.renderRecents()}
+                        <RecentActivities />
                     </div>
                     <div className="income-overview-wrapper">
                         <Graph />
@@ -372,19 +309,13 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
-    accounts: PropTypes.array.isRequired,
-    incomes: PropTypes.array.isRequired,
-    expenses: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
     Meteor.subscribe('accounts');
-    Meteor.subscribe('incomes', 5);
-    Meteor.subscribe('expenses', 5);
 
     return {
-        accounts: Accounts.find({}).fetch(),
-        incomes: Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch(),
-        expenses: Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch()
+        accounts: Accounts.find({}).fetch()
     };
 }, DashboardPage);
