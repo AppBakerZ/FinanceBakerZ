@@ -33,6 +33,8 @@ class TransactionPage extends Component {
         super(props);
         this.state = {
             filterBy: '',
+            filterByProjects:'',
+            filterByCategory:'',
             type: this.props.routes[2] ? this.props.routes[2].path : '',
             openDialog: false,
             barActive : false
@@ -346,16 +348,30 @@ class TransactionPage extends Component {
     }
 
     categories(){
-        return this.props.categories.map((category) => {
+         this.props.categories.map((category) => {
             category.value = category._id;
             return category;
-        })
+        });
+        this.props.categories.unshift({
+            icon:'',
+            name:'All',
+            value:''
+        });
+        return this.props.categories;
+
     }
+
     projects(){
-        return this.props.projects.map((project) => {
+         this.props.projects.map((project) => {
             project.value = project._id;
             return project;
-        })
+        });
+        this.props.projects.unshift({
+            icon:'',
+            name:'All',
+            value:''
+        });
+        return this.props.projects;
     }
 
     categoryItem(category){
