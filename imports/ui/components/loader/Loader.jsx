@@ -10,7 +10,7 @@ export default class Loader extends Component {
         let type;
         _.find(this.props, (val, key) => {
             type = key;
-            return _.contains(['primary', 'accent', 'danger']);
+            return _.contains(['primary', 'accent', 'danger'], key);
         });
         return type;
     }

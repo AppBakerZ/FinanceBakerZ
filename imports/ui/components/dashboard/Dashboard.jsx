@@ -14,6 +14,7 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/cur
 
 import Graph from './Graph.jsx';
 import Loader from '../loader/Loader.jsx';
+import Arrow from '../arrow/Arrow.jsx';
 
 import theme from './theme';
 import autocompleteTheme from './autocompleteTheme';
@@ -273,7 +274,7 @@ class DashboardPage extends Component {
                 <div>Your Total Incomes are</div>
                 <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                    <img src="../assets/images/up-arrow1.svg" />
+                    <Arrow primary />
                 </h2>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
@@ -289,7 +290,7 @@ class DashboardPage extends Component {
                 <div>Your Total Expenses are</div>
                 <h2>
                     {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
-                    <img src="../assets/images/up-arrow1.svg" />
+                    <Arrow down danger/>
                 </h2>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
@@ -307,7 +308,7 @@ class DashboardPage extends Component {
                         <div className="available-title"> Your Available Balance is</div>
                         <h2 className="available-amount">
                             {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
-                            <i className="material-icons">arrow_upward</i>
+                            <Arrow />
                         </h2>
                     </div>
                 </Card>
