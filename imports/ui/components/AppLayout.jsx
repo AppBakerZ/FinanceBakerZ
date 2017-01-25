@@ -53,7 +53,7 @@ export default class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b></span>
+                            <span>Welcome <b>{this.name()}</b> <img src="../assets/images/HQ3YU7n.gif" width="45" height="45" /></span>
                         </div>
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>

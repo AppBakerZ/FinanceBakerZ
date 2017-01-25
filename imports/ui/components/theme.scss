@@ -12,5 +12,13 @@
   margin-left: auto;
   span{
     color: #008142;
+    position: relative;
+    top: -15px;
+    img{
+      border-radius: 50%;
+      position: relative;
+      top: 17px;
+      left: 8px;
+    }
   }
 }
