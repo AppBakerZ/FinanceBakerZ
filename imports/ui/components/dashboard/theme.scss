@@ -108,4 +108,9 @@
 .availableSection{
   background: url("../assets/images/dollars.png") $color-primary no-repeat;
   background-position: 130% 50%;
+  height: $unit * 17;
+}
+.recentActivitiesWrapper{
+  width: 100%;
+  margin-top: $unit * 3;
 }

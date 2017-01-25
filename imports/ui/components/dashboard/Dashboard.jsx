@@ -304,7 +304,7 @@ class DashboardPage extends Component {
                             </Card>
                         </div>
                     </div>
-                    <div className="recent-activities-wrapper">
+                    <div className={theme.recentActivitiesWrapper}>
                         <RecentActivities />
                     </div>
                     <div className="income-overview-wrapper">

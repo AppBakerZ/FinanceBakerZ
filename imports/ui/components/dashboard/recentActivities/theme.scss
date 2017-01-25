@@ -1,2 +1,38 @@
 @import "~react-toolbox/lib/globals";
 @import "~react-toolbox/lib/list/config";
+
+.dashboardTable{
+  width: 100%;
+  float: left;
+}
+.recentIncomeWrapper{
+  width: 50%;
+  float: left;
+  margin-right: $unit * 1.5;
+  .card{
+    border-radius: 0;
+    margin-bottom: $unit * 2;
+    h3{
+      background: $color-primary;
+      padding: $unit * 3 0 $unit * 2.5 $unit * 5;
+      color: $color-primary-dark;
+      letter-spacing: $unit - 0.9;
+      font-size: $font-size-small * 1.8;
+    }
+  }
+}
+.recentExpensesWrapper{
+  width: 50%;
+  float: left;
+  .card{
+    border-radius: 0;
+    margin-bottom: $unit * 2;
+    h3{
+      background: $color-accent;
+      padding: $unit * 3 0 $unit * 2.5 $unit * 5;
+      color: $color-primary-dark;
+      letter-spacing: $unit - 0.9;
+      font-size: $font-size-small * 1.8;
+    }
+  }
+}
