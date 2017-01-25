@@ -34,8 +34,8 @@ class DashboardPage extends Component {
             totalExpenses: null,
             availableBalance: null,
             multiple: [],
-            filterBy: 'month',
-            dateFrom: datetime,
+            filterBy: 'range',
+            dateFrom: new Date(moment(datetime).startOf('month').format()),
             dateTo: datetime
         };
     }
@@ -244,19 +244,15 @@ class DashboardPage extends Component {
     }
     availableBalance(){
         return (
-            <div className={theme.availableSection}>
-                <Card theme={cardBackgroundTheme}>
-                    <div style={{margin: "0 auto"}}>
-                        <div className={theme.availableTitle}> Your Available Balance is</div>
-                        <div className={theme.divTitle}>
-                            <h2 className="available-amount">
-                                {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
-                            </h2>
-                            <Arrow width='48px' height='50px' />
-                        </div>
+                <div style={{margin: "0 auto"}}>
+                    <div className={theme.availableTitle}> Your Available Balance is</div>
+                    <div className={theme.divTitle}>
+                        <h2 className="available-amount">
+                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                        </h2>
+                        <Arrow width='48px' height='50px' />
                     </div>
-                </Card>
-            </div>
+                </div>
         )
     }
     render() {
@@ -300,7 +296,11 @@ class DashboardPage extends Component {
                     <div className={theme.bg}>
                         <div>
                             <Card className="card-box">
-                                {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                <div className={theme.availableSection}>
+                                    <Card theme={cardBackgroundTheme}>
+                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                    </Card>
+                                </div>
                             </Card>
                         </div>
                     </div>
