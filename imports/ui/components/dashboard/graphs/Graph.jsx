@@ -116,7 +116,7 @@ export default class Graph extends Component {
             <div className={theme.areaChart}>
                 <ResponsiveContainer>
                     <AreaChart data={this.state.graph}
-                               margin={{top: 10, right: 0, left: 0, bottom: 0}}>
+                               margin={{top: 15, right: 30, left: 50, bottom: 10}}>
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#008148" stopOpacity={1}/>

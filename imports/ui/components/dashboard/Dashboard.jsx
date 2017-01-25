@@ -258,7 +258,7 @@ class DashboardPage extends Component {
     render() {
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
+                <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
                     <div className={theme.dashboardSection}>
                         <Card className={theme.cardBox}>
                             <div className='dashboard-card-group'>
