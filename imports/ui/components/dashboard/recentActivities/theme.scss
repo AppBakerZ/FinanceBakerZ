@@ -14,7 +14,7 @@
     margin-bottom: $unit * 2;
     h3{
       background: $color-primary;
-      padding: $unit * 3 0 $unit * 2.5 $unit * 5;
+      padding: $unit * 2.2 0 $unit * 1.8 $unit * 5;
       color: $color-primary-dark;
       letter-spacing: $unit - 0.9;
       font-size: $font-size-small * 1.8;
@@ -29,10 +29,20 @@
     margin-bottom: $unit * 2;
     h3{
       background: $color-accent;
-      padding: $unit * 3 0 $unit * 2.5 $unit * 5;
+      padding: $unit * 2.2 0 $unit * 1.8 $unit * 5;
       color: $color-primary-dark;
       letter-spacing: $unit - 0.9;
       font-size: $font-size-small * 1.8;
     }
+  }
+}
+.tableLink{
+  text-align: right;
+  margin-right: $unit * 5;
+  a{
+    color: $color-text;
+    font-size: $font-size;
+    text-transform: uppercase;
+    font-family: $preferred-font;
   }
 }

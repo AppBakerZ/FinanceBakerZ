@@ -11,7 +11,7 @@ import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
-import Graph from './Graph.jsx';
+import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
 import Loader from '../loader/Loader.jsx';
 import Arrow from '../arrow/Arrow.jsx';
 
@@ -307,7 +307,7 @@ class DashboardPage extends Component {
                     <div className={theme.recentActivitiesWrapper}>
                         <RecentActivities />
                     </div>
-                    <div className="income-overview-wrapper">
+                    <div className={theme.incomeOverviewWrapper}>
                         <Graph />
                     </div>
                 </div>

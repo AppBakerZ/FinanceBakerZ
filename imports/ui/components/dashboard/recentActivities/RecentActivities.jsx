@@ -60,7 +60,7 @@ class RecentActivities extends Component {
                     <h3>Recent Incomes</h3>
                     <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
                 </Card>
-                <div>
+                <div className={theme.tableLink}>
                     <Link to={`/app/transactions/incomes`}> View All </Link>
                 </div>
             </div>
@@ -87,7 +87,7 @@ class RecentActivities extends Component {
                     <h3>Recent Expenses</h3>
                     <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
                 </Card>
-                <div>
+                <div className={theme.tableLink}>
                     <Link to={`/app/transactions/expenses`}> View All </Link>
                 </div>
             </div>

@@ -6,7 +6,9 @@ import { Dropdown, Card } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { currencyFormatHelpers, userCurrencyHelpers } from '../../../../helpers/currencyHelpers.js'
+
+import theme from './theme';
 
 export default class Graph extends Component {
 
@@ -94,7 +96,7 @@ export default class Graph extends Component {
         let yearDropdown = null;
         if(this.state.graphSelectedYear){
             yearDropdown = <Dropdown
-                className='dashboard-dropdown'
+                className={theme.dashboardDropdown}
                 auto={false}
                 source={this.graphYears()}
                 name='graphSelectedYear'
@@ -106,8 +108,8 @@ export default class Graph extends Component {
                 />
         }
 
-        const chart = <Card className='card'>
-            <div className='header'>
+        const chart = <Card className='card' theme={theme}>
+            <div className={theme.graphHeader}>
                 <h3>Income Overview</h3>
                 {yearDropdown}
             </div>
