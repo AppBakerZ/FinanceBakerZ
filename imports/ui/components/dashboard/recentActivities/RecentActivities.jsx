@@ -14,6 +14,8 @@ import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 
 import theme from './theme';
+import tableTheme from './tableTheme';
+import tableRightTheme from './tableRightTheme';
 
 class RecentActivities extends Component {
 
@@ -27,11 +29,11 @@ class RecentActivities extends Component {
     renderRecents(){
         return (
             <div className='dashboard-card-group'>
-                <div className="recent-incomes-wrapper margin-right">
+                <div className={theme.recentIncomeWrapper}>
                     {this.renderRecentIncomes()}
                 </div>
 
-                <div className="recent-expenses-wrapper margin-left">
+                <div className={theme.recentExpensesWrapper}>
                     {this.renderRecentExpenses()}
                 </div>
             </div>
@@ -41,48 +43,54 @@ class RecentActivities extends Component {
         const model = {
             icon: {type: String},
             type: {type: String},
-            amount: {type: String}
+            amount: {type: String},
+            iconLast: {type: String}
         };
         let incomes = this.props.incomes.map(function(i){
             return {
-                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
+                icon: <Arrow primary width='16px' height='16px' />,
                 type: i.type == "project" ? i.project.name || i.project : i.type,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount),
+                iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
         return (
-            <Card className='card'>
-                <h3>Recent Incomes</h3>
-                <Table selectable={false} heading={false} model={model} source={incomes}/>
-                <Link
-                    to={`/app/transactions/incomes`}>
-                    View All
-                </Link>
-            </Card>
+            <div>
+                <Card className='card' theme={theme}>
+                    <h3>Recent Incomes</h3>
+                    <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
+                </Card>
+                <div>
+                    <Link to={`/app/transactions/incomes`}> View All </Link>
+                </div>
+            </div>
         )
     }
     renderRecentExpenses(){
         const model = {
             icon: {type: String},
             category: {type: String},
-            amount: {type: String}
+            amount: {type: String},
+            iconLeft: {type: String}
         };
         let expenses = this.props.expenses.map(function(i){
             return {
                 icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
                 category: i.category.name || i.category,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount),
+                iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
         return (
-            <Card className='card'>
-                <h3>Recent Expenses</h3>
-                <Table selectable={false} heading={false} model={model} source={expenses}/>
-                <Link
-                    to={`/app/transactions/expenses`}>
-                    View All
-                </Link>
-            </Card>
+            <div>
+                <Card className='card' theme={theme}>
+                    <h3>Recent Expenses</h3>
+                    <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
+                </Card>
+                <div>
+                    <Link to={`/app/transactions/expenses`}> View All </Link>
+                </div>
+            </div>
         )
     }
     render() {
