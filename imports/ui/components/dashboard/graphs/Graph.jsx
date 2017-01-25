@@ -101,7 +101,7 @@ export default class Graph extends Component {
                 source={this.graphYears()}
                 name='graphSelectedYear'
                 onChange={this.onChangeGraphYear.bind(this)}
-                label='Filter By Year'
+                //label='Filter By Year'
                 value={this.state.graphSelectedYear}
                 template={this.yearItem}
                 required
@@ -116,7 +116,7 @@ export default class Graph extends Component {
             <div className="area-chart">
                 <ResponsiveContainer>
                     <AreaChart data={this.state.graph}
-                               margin={{top: 10, right: 0, left: 40, bottom: 0}}>
+                               margin={{top: 10, right: 0, left: 0, bottom: 0}}>
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#008148" stopOpacity={1}/>

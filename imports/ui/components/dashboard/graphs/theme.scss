@@ -3,6 +3,7 @@
 
 .card{
   border-radius: 0;
+  margin-top: $unit * 1.5;
   .graphHeader{
     background: $color-primary;
     padding: 0 $unit * 3 0 $unit * 5;
@@ -18,9 +19,6 @@
       width: 15%;
       float: right;
       strong{
-        color: $color-primary-dark;
-      }
-      label{
         color: $color-primary-dark;
       }
       ul{
