@@ -127,11 +127,11 @@ export default class Graph extends Component {
                                 <stop offset="95%" stopColor="#e0b255" stopOpacity={0.6}/>
                             </linearGradient>
                         </defs>
-                        <XAxis dataKey="_id" tickFormatter={(tick) => {
+                        <XAxis tickLine={false} tickSize={15} dataKey="_id" tickFormatter={(tick) => {
                             return `${this.months[tick - 1]}`;
                             }}/>
-                        <YAxis tickFormatter={(tick) => {
-                            return `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}`;
+                        <YAxis tickLine={false} tickSize={15} tickFormatter={(tick) => {
+                            return tick ? `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}` : '';
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <Tooltip content={this.renderTooltipContent.bind(this)}/>
