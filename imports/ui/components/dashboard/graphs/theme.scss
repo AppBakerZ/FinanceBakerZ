@@ -31,3 +31,12 @@
     }
   }
 }
+.areaChart{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: $unit;
+  width: 100%;
+  height: $unit * 40;
+  background-color: $color-primary-dark;
+}

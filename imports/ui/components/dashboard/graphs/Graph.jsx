@@ -113,7 +113,7 @@ export default class Graph extends Component {
                 <h3>Income Overview</h3>
                 {yearDropdown}
             </div>
-            <div className="area-chart">
+            <div className={theme.areaChart}>
                 <ResponsiveContainer>
                     <AreaChart data={this.state.graph}
                                margin={{top: 10, right: 0, left: 0, bottom: 0}}>
