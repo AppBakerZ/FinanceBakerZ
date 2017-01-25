@@ -58,7 +58,7 @@ class RecentActivities extends Component {
             <div>
                 <Card className='card' theme={theme}>
                     <h3>Recent Incomes</h3>
-                    <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
+                    {this.props.incomes.length ? <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/> : <Loader primary />}
                 </Card>
                 <div>
                     <Link to={`/app/transactions/incomes`}> View All </Link>
@@ -81,11 +81,12 @@ class RecentActivities extends Component {
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
+        console.log('this.props.expenses', this.props.expenses);
         return (
             <div>
                 <Card className='card' theme={theme}>
                     <h3>Recent Expenses</h3>
-                    <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
+                    {this.props.expenses.length ? <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/> : <Loader accent />}
                 </Card>
                 <div>
                     <Link to={`/app/transactions/expenses`}> View All </Link>
