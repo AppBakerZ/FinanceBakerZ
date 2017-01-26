@@ -11,6 +11,10 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Projects } from '../../../api/projects/projects.js';
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
+import theme from './theme';
+import dialogTheme from './dialogTheme';
+import tableTheme from './tableTheme';
+
 const RECORDS_PER_PAGE = 8;
 
 let pageNumber = 1,
@@ -349,8 +353,8 @@ class ProjectPage extends Component {
     /*************** popup ***************/
     popupTemplate(){
         return(
-            <Dialog
-                className='dialog-box tiny-scroll'
+            <Dialog theme={dialogTheme}
+                className={theme.dialogBox}
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
@@ -380,7 +384,8 @@ class ProjectPage extends Component {
             amount: {type: Number, title: 'Amount'},
             status: {type: String, title: 'Status'}
         };
-        return ( <Table
+        return ( <Table theme={tableTheme} className={theme.table}
+                heading={false}
                 model={tableModel}
                 onRowClick={this.selectProject.bind(this)}
                 selectable={false}
@@ -394,8 +399,8 @@ class ProjectPage extends Component {
         return (
             <div className="projects"  onScroll={this.handleScroll}>
                 <div className="container">
-                    <div className="flex">
-                        <div>
+                    <div>
+                        <div className={theme.inputField}>
                             <Input type='text'
                                    label="Filter by Project Name"
                                    name='name'
@@ -403,7 +408,7 @@ class ProjectPage extends Component {
                                    onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>
-                        <div>
+                        <div className={theme.inputField}>
                             <Input type='text'
                                    label="Filter by Client Name"
                                    name='client.name'
@@ -411,7 +416,7 @@ class ProjectPage extends Component {
                                    onChange={this.onChangeFilter.bind(this)}
                                 />
                         </div>
-                        <div className="drop-down-select">
+                        <div className={theme.inputDropdown}>
                             <Dropdown
                                 auto={true}
                                 source={statusFilters}
@@ -425,9 +430,9 @@ class ProjectPage extends Component {
                         </div>
                     </div>
 
-                    <div className="page-title">
+                    <div className={theme.pageTitle}>
                         <h3>Projects</h3>
-                        <Button icon='add' label='Add New' flat onClick={this.openedPopup.bind(this, true)} />
+                        <Button className={theme.button} icon='add' label='Add New' flat onClick={this.openedPopup.bind(this, true)} theme={theme}/>
                         {this.popupTemplate()}
                     </div>
                     {this.renderProjectTable()}

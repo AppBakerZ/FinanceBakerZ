@@ -1,0 +1,66 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.inputField{
+  width: 25%;
+  display: inline-block;
+  margin: 0 $unit * 3.5 $unit * 2 0;
+  > div{
+    input{
+      border-bottom: $unit - 0.8 solid rgba(0, 0, 0, 0.12);
+    }
+    label{
+      color: $color-text;
+      font-size: $font-size-small + 0.1;
+    }
+  }
+}
+.inputDropdown{
+  width: 25%;
+  display: inline-block;
+  > div{
+    > div{
+      input{
+        border-bottom: $unit - 0.8 solid rgba(0, 0, 0, 0.12);
+      }
+      label{
+        color: $color-text;
+        font-size: $font-size-small + 0.1;
+      }
+    }
+  }
+  button{
+    float: right;
+    margin-top: - $unit * 5.5;
+  }
+}
+.pageTitle{
+  background: $color-primary;
+  padding: $unit * 2.7 $unit * 4 $unit * 2.3 $unit * 5;
+  h3{
+    font-size: $font-size-big + 0.7;
+    color: $color-primary-dark;
+    letter-spacing: $unit - 0.9;
+    display: inline-block;
+    line-height: $unit * 3;
+  }
+  .button{
+    float: right;
+    font-size: $font-size-big + 0.2;
+    span{
+      line-height: $unit * 3.2;
+    }
+    &:hover{
+      background: none;
+    }
+  }
+}
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+  &.flat:hover {
+    background: none;
+  }
+}
