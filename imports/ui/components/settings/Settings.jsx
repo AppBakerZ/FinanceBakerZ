@@ -14,7 +14,7 @@ class SettingsPage extends Component {
         super(props);
 
         this.state = {
-            userCurrency: Meteor.user().profile.currency.symbol,
+            userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
             currencies: []
         }
 
@@ -41,7 +41,7 @@ class SettingsPage extends Component {
         Meteor.call('setUserCurrency', {currency}, (err, res) => {
             if(res){
                 this.setState({
-                    userCurrency : Meteor.user().profile.currency.symbol
+                    userCurrency : Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : ''
                 })
             }
         });

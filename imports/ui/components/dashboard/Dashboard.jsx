@@ -2,20 +2,25 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table } from 'react-toolbox';
+import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
-import { Incomes } from '../../../api/incomes/incomes.js';
-import { Expenses } from '../../../api/expences/expenses.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
-import Graph from './Graph.jsx';
+import RecentActivities from './recentActivities/RecentActivities.jsx';
+import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
 import Loader from '../loader/Loader.jsx';
+import Arrow from '../arrow/Arrow.jsx';
 
 import theme from './theme';
+import autocompleteTheme from './autocompleteTheme';
+import cardTheme from './cardTheme';
+import datePickerTheme from './datePickerTheme';
+import dropdownTheme from './dropdownTheme';
+import cardBackgroundTheme from './cardBackgroundTheme';
 
 class DashboardPage extends Component {
 
@@ -29,8 +34,8 @@ class DashboardPage extends Component {
             totalExpenses: null,
             availableBalance: null,
             multiple: [],
-            filterBy: 'month',
-            dateFrom: datetime,
+            filterBy: 'range',
+            dateFrom: new Date(moment(datetime).startOf('month').format()),
             dateTo: datetime
         };
     }
@@ -94,7 +99,6 @@ class DashboardPage extends Component {
     }
 
     handleMultipleChange (value) {
-        console.log('handleMultipleChange ', value)
         this.setState({multiple: value});
         this.updateByAccount(value)
     }
@@ -182,19 +186,19 @@ class DashboardPage extends Component {
 
     renderDateRange(){
         let dropDowns = (
-            <div className='dashboard-dropdown'>
-                <DatePicker
-                    label='Date From'
-                    name='dateFrom'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.dateFrom}
+            <div className={theme.dashboardDropdown}>
+                <DatePicker className='demo' theme={datePickerTheme}
+                            label='Date From'
+                            name='dateFrom'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.dateFrom}
                     />
 
-                <DatePicker
-                    label='Date To'
-                    name='dateTo'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.dateTo}
+                <DatePicker theme={datePickerTheme}
+                            label='Date To'
+                            name='dateTo'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.dateTo}
                     />
             </div>
         );
@@ -202,77 +206,18 @@ class DashboardPage extends Component {
             this.state.filterBy == 'range' ?  dropDowns : null
         )
     }
-    renderRecents(){
-        return (
-            <div className='dashboard-card-group'>
-                <div className="recent-incomes-wrapper margin-right">
-                    {this.renderRecentIncomes()}
-                </div>
-
-                <div className="recent-expenses-wrapper margin-left">
-                    {this.renderRecentExpenses()}
-                </div>
-            </div>
-        )
-    }
-    renderRecentIncomes(){
-        const model = {
-            icon: {type: String},
-            type: {type: String},
-            amount: {type: String}
-        };
-        let incomes = this.props.incomes.map(function(i){
-            return {
-                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
-                type: i.type == "project" ? i.project.name || i.project : i.type,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
-            }
-        });
-        return (
-            <Card className='card'>
-                <h3>Recent Incomes</h3>
-                <Table selectable={false} heading={false} model={model} source={incomes}/>
-                <Link
-                    to={`/app/transactions/incomes`}>
-                    View All
-                </Link>            
-            </Card>
-        )
-    }
-    renderRecentExpenses(){
-        const model = {
-            icon: {type: String},
-            category: {type: String},
-            amount: {type: String}
-        };
-        let expenses = this.props.expenses.map(function(i){
-            return {
-                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
-                category: i.category.name || i.category,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount)
-            }
-        });
-        return (
-            <Card className='card'>
-                <h3>Recent Expenses</h3>
-                <Table selectable={false} heading={false} model={model} source={expenses}/>
-                <Link
-                    to={`/app/transactions/expenses`}>
-                    View All
-                </Link>
-            </Card>
-        )
-    }
     renderTotalIncomes(){
         return (
-            <div style={{margin: "0 auto"}} >
-                <div className="income-title">Your Total Incomes are</div>
-                <h2 className="income-amount">
-                    {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
-                    <i className="material-icons">arrow_upward</i>
-                </h2>
+            <div className={theme.incomeBox}>
+                <div className={theme.divTitle}>Your Total Incomes are</div>
+                <div className={theme.title}>
+                    <h2>
+                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                    </h2>
+                    <Arrow primary width='30px' height='35px' />
+                </div>
                 {(!this.state.totalIncomes ||
-                    <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
+                    <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
                         <Button icon='description' label='Income Report' flat />
                     </div>
                 )}
@@ -281,14 +226,16 @@ class DashboardPage extends Component {
     }
     renderTotalExpenses(){
         return (
-            <div style={{margin: "0 auto"}}>
-                <div className="expenses-title">Your Total Expenses are</div>
-                <h2 className="expenses-amount">
-                    {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
-                    <i className="material-icons">arrow_upward</i>
-                </h2>
+            <div className={theme.expensesBox}>
+                <div className={theme.divTitle}>Your Total Expenses are</div>
+                <div className={theme.title}>
+                    <h2>
+                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                    </h2>
+                    <Arrow down danger width='30px' height='35px' />
+                </div>
                 {(!this.state.totalExpenses ||
-                    <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
+                    <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
                         <Button icon='description' label='Expences Report' flat />
                     </div>
                 )}
@@ -297,70 +244,70 @@ class DashboardPage extends Component {
     }
     availableBalance(){
         return (
-            <div className='dashboard-card-group'>
-                <Card className='card available-card'>
-                    <div style={{margin: "0 auto"}}>
-                        <div className="available-title"> Your Available Balance is</div>
+                <div style={{margin: "0 auto"}}>
+                    <div className={theme.availableTitle}> Your Available Balance is</div>
+                    <div className={theme.divTitle}>
                         <h2 className="available-amount">
                             {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
-                            <i className="material-icons">arrow_upward</i>
                         </h2>
+                        <Arrow width='48px' height='50px' />
                     </div>
-                </Card>
-            </div>
+                </div>
         )
     }
     render() {
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
-                    <div className='dashboard-section'>
-                        <Card className="card-box">
+                <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
+                    <div className={theme.dashboardSection}>
+                        <Card className={theme.cardBox}>
                             <div className='dashboard-card-group'>
-                                <Card className='card'>
-                                    <Autocomplete
-                                        className='dashboard-autocomplete'
-                                        direction='down'
-                                        name='multiple'
-                                        onChange={this.handleMultipleChange.bind(this)}
-                                        label='Filter By Account'
-                                        source={this.accounts()}
-                                        value={this.state.multiple}
+                                <Card theme={cardTheme}>
+                                    <Autocomplete theme={autocompleteTheme}
+                                                  direction='down'
+                                                  name='multiple'
+                                                  onChange={this.handleMultipleChange.bind(this)}
+                                                  label='Filter By Account'
+                                                  source={this.accounts()}
+                                                  value={this.state.multiple}
                                         />
 
-                                    <Dropdown
-                                        className='dashboard-dropdown'
-                                        auto={false}
-                                        source={this.filters()}
-                                        name='filterBy'
-                                        onChange={this.onChange.bind(this)}
-                                        label='Filter By'
-                                        value={this.state.filterBy}
-                                        template={this.filterItem}
-                                        required
+                                    <Dropdown theme={dropdownTheme}
+                                              auto={false}
+                                              source={this.filters()}
+                                              name='filterBy'
+                                              onChange={this.onChange.bind(this)}
+                                              label='Filter By'
+                                              value={this.state.filterBy}
+                                              template={this.filterItem}
+                                              required
                                         />
+                                    {this.renderDateRange()}
                                 </Card>
-                                <Card className='card income-card'>
+                                <Card theme={theme}>
                                     {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
-                                <Card className='card expenses-card'>
+                                <Card theme={theme}>
                                     {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
                     </div>
-                    <div className="dashboard-section available-section">
-                        <Card className="card-box">
-                            {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
-                        </Card>
+                    <div className={theme.bg}>
+                        <div>
+                            <Card className="card-box">
+                                <div className={theme.availableSection}>
+                                    <Card theme={cardBackgroundTheme}>
+                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                    </Card>
+                                </div>
+                            </Card>
+                        </div>
                     </div>
-                    <div className="date-range-wrapper">
-                        {this.renderDateRange()}
+                    <div className={theme.recentActivitiesWrapper}>
+                        <RecentActivities />
                     </div>
-                    <div className="recent-activities-wrapper">
-                        {this.renderRecents()}
-                    </div>
-                    <div className="income-overview-wrapper">
+                    <div className={theme.incomeOverviewWrapper}>
                         <Graph />
                     </div>
                 </div>
@@ -370,19 +317,13 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
-    accounts: PropTypes.array.isRequired,
-    incomes: PropTypes.array.isRequired,
-    expenses: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired
 };
 
 export default createContainer(() => {
     Meteor.subscribe('accounts');
-    Meteor.subscribe('incomes', 5);
-    Meteor.subscribe('expenses', 5);
 
     return {
-        accounts: Accounts.find({}).fetch(),
-        incomes: Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch(),
-        expenses: Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch()
+        accounts: Accounts.find({}).fetch()
     };
 }, DashboardPage);

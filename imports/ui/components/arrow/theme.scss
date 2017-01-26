@@ -1,0 +1,29 @@
+.arrow{
+  &.primary {
+    path{
+      fill: $color-primary;
+    }
+  }
+  &.accent {
+    path{
+      fill: $color-accent;
+    }
+  }
+  &.danger {
+    path{
+      fill: $color-danger;
+    }
+  }
+}
+
+.primary {
+  @extend .arrow
+}
+
+.accent {
+  @extend .arrow
+}
+
+.danger {
+  @extend .arrow
+}

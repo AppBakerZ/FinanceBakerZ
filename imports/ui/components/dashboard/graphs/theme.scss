@@ -1,0 +1,44 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/list/config";
+
+.card{
+  border-radius: 0;
+  margin-top: $unit * 1.5;
+  .graphHeader{
+    background: $color-primary;
+    padding: 0 $unit * 3 0 $unit * 5;
+    h3{
+      padding: $unit * 2.2 0 $unit * 1.8 0;
+      color: $color-primary-dark;
+      letter-spacing: $unit - 0.9;
+      font-size: $font-size-small * 1.8;
+      width: 85%;
+      float: left;
+    }
+    .dashboardDropdown{
+      width: 15%;
+      float: right;
+      strong{
+        color: $color-primary-dark;
+      }
+      ul{
+        li{
+          strong{
+            color: $color-text;
+          }
+        }
+      }
+    }
+  }
+}
+.areaChart{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: $unit;
+  width: 100%;
+  height: $unit * 40;
+  background-color: $color-primary-dark;
+  font-size: $font-size-small + 0.6;
+  text-transform: uppercase;
+}

@@ -6,7 +6,9 @@ import { Dropdown, Card } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { currencyFormatHelpers, userCurrencyHelpers } from '../../../../helpers/currencyHelpers.js'
+
+import theme from './theme';
 
 export default class Graph extends Component {
 
@@ -94,27 +96,27 @@ export default class Graph extends Component {
         let yearDropdown = null;
         if(this.state.graphSelectedYear){
             yearDropdown = <Dropdown
-                className='dashboard-dropdown'
+                className={theme.dashboardDropdown}
                 auto={false}
                 source={this.graphYears()}
                 name='graphSelectedYear'
                 onChange={this.onChangeGraphYear.bind(this)}
-                label='Filter By Year'
+                //label='Filter By Year'
                 value={this.state.graphSelectedYear}
                 template={this.yearItem}
                 required
                 />
         }
 
-        const chart = <Card className='card'>
-            <div className='header'>
+        const chart = <Card className='card' theme={theme}>
+            <div className={theme.graphHeader}>
                 <h3>Income Overview</h3>
                 {yearDropdown}
             </div>
-            <div className="area-chart">
+            <div className={theme.areaChart}>
                 <ResponsiveContainer>
                     <AreaChart data={this.state.graph}
-                               margin={{top: 10, right: 0, left: 40, bottom: 0}}>
+                               margin={{top: 15, right: 30, left: 50, bottom: 10}}>
                         <defs>
                             <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#008148" stopOpacity={1}/>
@@ -125,11 +127,11 @@ export default class Graph extends Component {
                                 <stop offset="95%" stopColor="#e0b255" stopOpacity={0.6}/>
                             </linearGradient>
                         </defs>
-                        <XAxis dataKey="_id" tickFormatter={(tick) => {
+                        <XAxis tickLine={false} tickSize={15} dataKey="_id" tickFormatter={(tick) => {
                             return `${this.months[tick - 1]}`;
                             }}/>
-                        <YAxis tickFormatter={(tick) => {
-                            return `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}`;
+                        <YAxis tickLine={false} tickSize={15} tickFormatter={(tick) => {
+                            return tick ? `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}` : '';
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <Tooltip content={this.renderTooltipContent.bind(this)}/>
