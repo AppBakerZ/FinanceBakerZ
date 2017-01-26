@@ -300,7 +300,13 @@ class TransactionPage extends Component {
             copyQuery['dateFilter'] = val ? dateHelpers.filterByDate(e.target.name == "filterBy" ? val : this.state.filterBy, {[e.target.name]: val}, this) : '';
             query.set(copyQuery);
         }
-        else if(['type', 'filterByCategory', 'filterByProjects'].includes(e.target.name)){
+        else if(['type', 'filterByCategory', 'filterByProjects'].includes(e.target.name)) {
+            if (e.target.name == 'type'){
+                this.setState({filterByProjects: ''});
+                this.setState({filterByCategory: ''});
+            }
+            copyQuery['filterByProjects'] = '';
+            copyQuery['filterByCategory'] = '';
             copyQuery[e.target.name] = val;
             query.set(copyQuery);
         }
