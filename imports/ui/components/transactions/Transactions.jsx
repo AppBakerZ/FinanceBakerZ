@@ -11,6 +11,8 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { Categories } from '../../../api/categories/categories.js';
+import { Projects } from '../../../api/projects/projects.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
@@ -31,6 +33,8 @@ class TransactionPage extends Component {
         super(props);
         this.state = {
             filterBy: '',
+            filterByProjects:'',
+            filterByCategory:'',
             type: this.props.routes[2] ? this.props.routes[2].path : '',
             openDialog: false,
             barActive : false
@@ -296,8 +300,14 @@ class TransactionPage extends Component {
             copyQuery['dateFilter'] = val ? dateHelpers.filterByDate(e.target.name == "filterBy" ? val : this.state.filterBy, {[e.target.name]: val}, this) : '';
             query.set(copyQuery);
         }
-        else if(e.target.name == "type"){
-            copyQuery['type'] = val;
+        else if(['type', 'filterByCategory', 'filterByProjects'].includes(e.target.name)) {
+            if (e.target.name == 'type'){
+                this.setState({filterByProjects: ''});
+                this.setState({filterByCategory: ''});
+            }
+            copyQuery['filterByProjects'] = '';
+            copyQuery['filterByCategory'] = '';
+            copyQuery[e.target.name] = val;
             query.set(copyQuery);
         }
     }
@@ -336,6 +346,131 @@ class TransactionPage extends Component {
         return (
             this.state.filterBy == 'range' ?  dropDowns : null
         )
+    }
+
+    categoryOrProjectFilter(){
+        if(this.state.type == "") return;
+        return this.state.type == "incomes" ? this.projectFilter() : this.categoryFilter()
+    }
+
+    categories(){
+         this.props.categories.map((category) => {
+            category.value = category._id;
+            return category;
+        });
+        this.props.categories.unshift({
+            icon:'',
+            name:'All',
+            value:''
+        });
+        return this.props.categories;
+
+    }
+
+    projects(){
+         this.props.projects.map((project) => {
+            project.value = project._id;
+            return project;
+        });
+        this.props.projects.unshift({
+            icon:'',
+            name:'All',
+            value:''
+        });
+        return this.props.projects;
+    }
+
+    categoryItem(category){
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const imageStyle = {
+            display: 'flex',
+            width: '22px',
+            height: '22px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2,
+            paddingTop: '4px'
+        };
+
+        return (
+            <div style={containerStyle}>
+                <FontIcon value={category.icon} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{category.name}</strong>
+                </div>
+            </div>
+        );
+    }
+    projectItem(project){
+        const containerStyle = {
+            display: 'flex',
+            flexDirection: 'row'
+        };
+
+        const imageStyle = {
+            display: 'flex',
+            width: '22px',
+            height: '22px',
+            flexGrow: 0,
+            marginRight: '8px'
+        };
+
+        const contentStyle = {
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 2,
+            paddingTop: '4px'
+        };
+
+        return (
+            <div style={containerStyle}>
+                <FontIcon value={project.icon} style={imageStyle}/>
+                <div style={contentStyle}>
+                    <strong>{project.name}</strong>
+                </div>
+            </div>
+        );
+    }
+
+    categoryFilter(){
+        return (
+            <Dropdown
+            className='dashboard-dropdown'
+            auto={false}
+            source={this.categories()}
+            name='filterByCategory'
+            onChange={this.onChange.bind(this)}
+            label='Filter By Category'
+            value={this.state.filterByCategory}
+            template={this.categoryItem}
+            />
+        )
+    }
+
+    projectFilter(){
+
+        return (
+            <Dropdown
+                className='dashboard-dropdown'
+                auto={false}
+                source={this.projects()}
+                name='filterByProjects'
+                onChange={this.onChange.bind(this)}
+                label='Filter By Projects'
+                value={this.state.filterByProjects}
+                template={this.projectItem}
+                />
+        )
+
     }
 
     barClick () {
@@ -410,6 +545,7 @@ class TransactionPage extends Component {
                             template={this.filterItem}
                             />
                         {this.renderDateRange()}
+                        {this.categoryOrProjectFilter()}
                     </div>
                     <div className="page-title">
                         <h3>Transactions</h3>
@@ -457,10 +593,14 @@ TransactionPage.propTypes = {
 export default createContainer(() => {
     Meteor.subscribe('transactions', query.get());
     Meteor.subscribe('accounts');
+    Meteor.subscribe('categories');
+    Meteor.subscribe('projects.all');
     let expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
     return {
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
-        accounts: Accounts.find({}).fetch()
+        accounts: Accounts.find({}).fetch(),
+        categories: Categories.find().fetch(),
+        projects: Projects.find().fetch()
     };
 }, TransactionPage);
