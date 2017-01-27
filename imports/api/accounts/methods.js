@@ -67,6 +67,16 @@ export const update = new ValidatedMethod({
     }
 });
 
+Meteor.methods({
+    'insertAccountOnSignUp': function(userId){
+        if(!userId){
+            throw new Meteor.Error("not-logged-in", "You're not logged-in.");
+        }
+        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+    }
+});
+
+
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
     mixins : [LoggedInMixin],
