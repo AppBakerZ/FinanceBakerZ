@@ -21,6 +21,7 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/cur
 
 import theme from './theme';
 import tableTheme from './tableTheme';
+import dialogTheme from './dialogTheme';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -155,7 +156,7 @@ class TransactionPage extends Component {
 
     popupTemplate(){
         return(
-            <Dialog
+            <Dialog theme={dialogTheme}
                 className='dialog-box tiny-scroll'
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
@@ -183,7 +184,7 @@ class TransactionPage extends Component {
         };
         return(
             <div>
-                <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID :</span><span>{selectedProject._id}</span></div>
+                <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID : </span><span>{selectedProject._id}</span></div>
                 {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
 
                 <h4>{selectedProject.receivedAt ?
@@ -222,8 +223,8 @@ class TransactionPage extends Component {
         };
         return (
             <div>
-                <div> <span>Transaction Type:</span><span> {selectedProject.receivedAt ? "Income" : "Expense"}</span></div>
-                <div> <span>Transaction Amount:</span><span> {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></div>
+                <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
+                <div> <p>Transaction Amount :</p> <p> {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</p></div>
 
                 <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
                 <Button label='Delete Transaction' raised primary onClick={this.deleteTransactionToggle.bind(this)}/>
