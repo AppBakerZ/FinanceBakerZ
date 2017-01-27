@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
+import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var'
@@ -485,20 +486,22 @@ class TransactionPage extends Component {
         let transactions = this.props.transactions;
         let data = transactions.map(function(transaction){
             return {
-                type: transaction.receivedAt ? <FontIcon className='forward-icon' value='forward' /> : <FontIcon className='backward-icon' value='forward' />,
+                leftIcon: transaction.receivedAt ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
                 date: moment(transaction.receivedAt || transaction.spentAt).format("DD-MMM-YY"),
                 category: transaction.receivedAt ?
                     (transaction.type == "project" ?
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount)
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount),
+                rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
         let tableModel = {
-            type: {type: String},
+            leftIcon: {type: String},
             date: {type: Date},
             category:{type: String},
-            amount: {type: String}
+            amount: {type: String},
+            rightIcon: {type: String}
         };
         return ( <Table theme={tableTheme} className={theme.table}
                 model={tableModel}

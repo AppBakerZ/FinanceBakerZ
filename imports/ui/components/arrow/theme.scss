@@ -1,4 +1,5 @@
 .arrow{
+  //Type
   &.primary {
     path{
       fill: $color-primary;
@@ -14,16 +15,45 @@
       fill: $color-danger;
     }
   }
+  // Direction
+  &.up {
+
+  }
+  &.down {
+    transform: rotate(180deg);
+  }
+  &.left {
+    transform: rotate(270deg);
+  }
+  &.right {
+    transform: rotate(90deg);
+  }
 }
 
+//Type
 .primary {
   @extend .arrow
 }
-
 .accent {
   @extend .arrow
 }
-
 .danger {
+  @extend .arrow
+}
+
+// Direction
+.up {
+  @extend .arrow
+}
+
+.down {
+  @extend .arrow
+}
+
+.left {
+  @extend .arrow
+}
+
+.right {
   @extend .arrow
 }
