@@ -1,0 +1,30 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/list/config";
+
+.table{
+  padding: $unit $unit * 2;
+  box-shadow: $zdepth-shadow-1;
+  tr{
+    td{
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      color: $color-text;
+      border-bottom: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+      padding: $unit - 0.8 $unit * 2 0 $unit * 3.5;
+      &:first-child{
+        padding: $unit - 0.7 $unit * 2 0 $unit * 3;
+        width: $unit * 8;
+        line-height: 0;
+        border-right: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+      }
+      &:nth-child(2){
+        width: $unit * 18.5;
+        padding: $unit - 0.6 0 0 $unit * 3;
+        border-right: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+      }
+      &:last-of-type{
+        text-align: right;
+      }
+    }
+  }
+}

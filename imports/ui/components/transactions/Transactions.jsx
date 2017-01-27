@@ -18,6 +18,9 @@ import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 
+import theme from './theme';
+import tableTheme from './tableTheme';
+
 const RECORDS_PER_PAGE = 8;
 
 let pageNumber = 1,
@@ -327,7 +330,7 @@ class TransactionPage extends Component {
 
     renderDateRange(){
         let dropDowns = (
-            <div className='dashboard-dropdown'>
+            <div className={theme.dashboardDatePicker}>
                 <DatePicker
                     label='Date From'
                     name='dateFrom'
@@ -444,7 +447,7 @@ class TransactionPage extends Component {
     categoryFilter(){
         return (
             <Dropdown
-            className='dashboard-dropdown'
+            className={theme.dashboardAutocompleteLast}
             auto={false}
             source={this.categories()}
             name='filterByCategory'
@@ -460,7 +463,7 @@ class TransactionPage extends Component {
 
         return (
             <Dropdown
-                className='dashboard-dropdown'
+                className={theme.dashboardAutocompleteLast}
                 auto={false}
                 source={this.projects()}
                 name='filterByProjects'
@@ -497,7 +500,7 @@ class TransactionPage extends Component {
             category:{type: String},
             amount: {type: String}
         };
-        return ( <Table
+        return ( <Table theme={tableTheme} className={theme.table}
                 model={tableModel}
                 source={data}
                 onRowClick={this.selectItem.bind(this)}
@@ -512,9 +515,9 @@ class TransactionPage extends Component {
         return (
             <div className="projects" onScroll={this.handleScroll}>
                 <div className="container">
-                    <div className='flex'>
-                        <Autocomplete
-                            className='dashboard-autocomplete'
+                    <div className={theme.dropdownAutocomplete}>
+                        <Autocomplete theme={theme}
+                            className={theme.dashboardAutocomplete}
                             direction='down'
                             name='multiple'
                             onChange={this.filterByAccounts.bind(this)}
@@ -523,9 +526,9 @@ class TransactionPage extends Component {
                             value={this.state.multiple}
                             />
                     </div>
-                    <div className='flex'>
+                    <div className={theme.dropdownBox}>
                         <Dropdown
-                            className='dashboard-dropdown'
+                            className={theme.dashboardAutocomplete}
                             auto={false}
                             source={this.type()}
                             name='type'
@@ -535,7 +538,7 @@ class TransactionPage extends Component {
                             template={this.filterItem}
                             />
                         <Dropdown
-                            className='dashboard-dropdown'
+                            className={theme.dashboardAutocomplete}
                             auto={false}
                             source={this.filters()}
                             name='filterBy'
@@ -547,7 +550,8 @@ class TransactionPage extends Component {
                         {this.renderDateRange()}
                         {this.categoryOrProjectFilter()}
                     </div>
-                    <div className="page-title">
+
+                    <div className={theme.pageTitle}>
                         <h3>Transactions</h3>
                         <div>
                             <Button
@@ -556,14 +560,14 @@ class TransactionPage extends Component {
                                 label='INCOME'
                                 name='Income'
                                 onClick={this.openedPopup.bind(this, true)}
-                                flat />
+                                flat theme={theme} />
                             <Button
                                 className='header-buttons'
                                 icon='add'
                                 label='EXPENSE'
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}
-                                flat />
+                                flat theme={theme} />
                             {this.popupTemplate()}
                         </div>
                     </div>
