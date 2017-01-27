@@ -59,6 +59,7 @@ export default class Register extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                Meteor.call('insertAccountOnLogin', Meteor.user()._id);
                 setTimeout(() => {
                     this.props.history.push('/app/dashboard');
                 }, 1000);

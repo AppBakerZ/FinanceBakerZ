@@ -73,7 +73,18 @@ Meteor.methods({
             throw new Meteor.Error("not-logged-in", "You're not logged-in.");
         }
         Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
-    }
+    },
+
+
+    'insertAccountOnLogin': function(userId){
+        if(!userId){
+            throw new Meteor.Error("not-logged-in", "You're not logged-in.");
+        }
+        if(!Accounts.findOne({owner: userId}))
+        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+
+    },
+
 });
 
 
