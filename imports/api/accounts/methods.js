@@ -105,8 +105,7 @@ export const remove = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         const {_id} = account;
-        return Accounts.remove(_id);
-    }
+        return Accounts.remove(_id);}
 });
 
 // Get list of all method names on Companies
