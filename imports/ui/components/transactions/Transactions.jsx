@@ -184,8 +184,10 @@ class TransactionPage extends Component {
         };
         return(
             <div>
-                <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID : </span><span>{selectedProject._id}</span></div>
-                {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
+                <div className={theme.firstRow}>
+                    <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID : </span><span>{selectedProject._id}</span></div>
+                    {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
+                </div>
 
                 <h4>{selectedProject.receivedAt ?
                     (selectedProject.type == "project" ?
@@ -222,12 +224,28 @@ class TransactionPage extends Component {
             return false;
         };
         return (
-            <div>
-                <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
-                <div> <p>Transaction Amount :</p> <p> {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</p></div>
+            <div className={theme.contentParent}>
+                <div className={theme.contentOne}>
+                    <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
+                    <div> <p>Transaction Amount :</p> <p> <span>{userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
+                    <div> <p>deposited in :</p> <p>standard chartered</p></div>
+                    <div> <p>account number :</p> <p>00971322001</p></div>
+                </div>
 
-                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
-                <Button label='Delete Transaction' raised primary onClick={this.deleteTransactionToggle.bind(this)}/>
+                <div className={theme.contentTwo}>
+                    <div> <p>account :</p> <p><span>10,000</span> PKR</p></div>
+                    <div> <p>sender name :</p> <p> saeed anwar</p></div>
+                    <div> <p>sender bank :</p> <p> habib bank</p></div>
+                    <div> <p>account number :</p> <p> 009123455670</p></div>
+                </div>
+
+                <div className={theme.contentThree}>
+                    <div> <p>project :</p> <p> <span>logo design</span></p></div>
+                    <div>
+                        <Button label='Edit Information' raised accent onClick={this.editPopup.bind(this)} />
+                        <Button label='Delete Transaction' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                    </div>
+                </div>
             </div>
         )
     }

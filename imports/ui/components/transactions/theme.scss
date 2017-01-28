@@ -97,3 +97,84 @@
     }
   }
 }
+/////////////////// dialog content styling start here ////////////////////////
+.contentParent{
+  .contentOne{
+    margin-bottom: $unit * 2.5;
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-big;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+      }
+    }
+  }
+  .contentTwo{
+    margin-bottom: $unit * 2.5;
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-big;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+      }
+    }
+  }
+  .contentThree{
+    button{
+      background: $color-accent;
+      font-size: $font-size;
+      padding: $unit - 0.6 $unit * 2 0 $unit * 2;
+      height: $unit * 4.6;
+      &:first-child{
+        margin-right: $unit * 2;
+      }
+    }
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-big;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+      }
+    }
+    > div{
+      &:last-of-type{
+        text-align: center;
+        margin-top: $unit * 2;
+      }
+    }
+  }
+}
+.firstRow{
+  margin-bottom: $unit * 2.5;
+  span{
+    font-size: $font-size;
+    color: $color-text;
+    line-height: $unit * 2.2;
+  }
+}
+
+/////////////////// dialog content styling end here //////////////////////////
