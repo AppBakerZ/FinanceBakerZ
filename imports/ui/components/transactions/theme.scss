@@ -36,8 +36,8 @@
     }
     ul{
       > div{
-        position: relative;
-        top: $unit * 3;
+        position: absolute;
+        top: $unit - 0.5;
         z-index: $z-index-highest + 1;
       }
     }
