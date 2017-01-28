@@ -176,5 +176,25 @@
     line-height: $unit * 2.2;
   }
 }
+.confirmText{
+  margin-bottom: $unit * 2;
+  p{
+    display: inline-block;
+    line-height: $unit * 2.6;
+    color: $color-text;
+    font-size: $font-size-big + 0.2;
+    text-transform: capitalize;
+    letter-spacing: $unit - 0.9;
+  }
+}
+.buttonBox{
+  text-align: center;
+  button{
+    padding: $unit - 0.8 0 0 0;
+    &:last-of-type{
+      margin-left: $unit * 2;
+    }
+  }
+}
 
 /////////////////// dialog content styling end here //////////////////////////

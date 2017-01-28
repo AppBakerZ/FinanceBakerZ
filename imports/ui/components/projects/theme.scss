@@ -101,13 +101,24 @@
     button{
       background: $color-accent;
       font-size: $font-size;
-      padding: $unit - 0.6 $unit * 2 0 $unit * 2;
-      height: $unit * 4.6;
+      padding: $unit - 0.8 $unit * 2 0 $unit * 2;
+      height: $unit * 3.6;
       word-spacing: $unit - 0.6;
       &:first-child{
         margin-right: $unit * 2;
       }
     }
+  }
+}
+.confirmText{
+  margin-bottom: $unit * 2;
+  p{
+    display: inline-block;
+    line-height: $unit * 2.6;
+    color: $color-text;
+    font-size: $font-size-big + 0.2;
+    text-transform: capitalize;
+    letter-spacing: $unit - 0.9;
   }
 }
 /////////////////////////// dialog styling end here /////////////////////////////////

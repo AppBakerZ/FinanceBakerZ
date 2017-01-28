@@ -251,10 +251,12 @@ class ProjectPage extends Component {
 
         return (
             <div>
-                <div><p>Are you sure to delete this project?</p></div>
+                <div className={theme.confirmText}><p>Are you sure to delete this project?</p></div>
 
-                <Button label='Yes' raised primary onClick={this.deleteProject.bind(this)} />
-                <Button label='No' raised primary onClick={this.deleteProjectToggle.bind(this)} />
+                <div className={theme.buttonBox}>
+                    <Button label='Yes' raised accent onClick={this.deleteProject.bind(this)} />
+                    <Button label='No' raised accent onClick={this.deleteProjectToggle.bind(this)} />
+                </div>
             </div>
         )
     }

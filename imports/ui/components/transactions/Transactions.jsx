@@ -210,10 +210,12 @@ class TransactionPage extends Component {
         };
         return (
             <div>
-                <div><p>Are you sure to delete this project?</p></div>
+                <div className={theme.confirmText}><p>Are you sure to delete this project?</p></div>
 
-                <Button label='Yes' raised primary onClick={this.deleteTransaction.bind(this)} />
-                <Button label='No' raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+                <div className={theme.buttonBox}>
+                    <Button label='Yes' raised accent onClick={this.deleteTransaction.bind(this)} />
+                    <Button label='No' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                </div>
             </div>
         )
     }
