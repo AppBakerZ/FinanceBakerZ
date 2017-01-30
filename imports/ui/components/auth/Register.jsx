@@ -7,6 +7,8 @@ import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
 
+import { Meteor } from 'meteor/meteor'
+
 // App component - represents the whole app
 export default class Register extends Component {
 
@@ -62,7 +64,10 @@ export default class Register extends Component {
                     barMessage: 'Successfully Registered',
                     barIcon: 'done',
                     barType: 'accept'
-                });
+                }
+
+                );
+                Meteor.call('insertAccountOnSignUp', Meteor.user()._id);
                 setTimeout(() => {
                     this.props.history.push('/app/dashboard');
                 }, 1000);

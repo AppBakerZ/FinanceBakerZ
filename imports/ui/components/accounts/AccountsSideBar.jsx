@@ -44,7 +44,7 @@ class AccountsSideBar extends Component {
 
     createAccount(){
         const {name, purpose, icon} = this.state;
-        Meteor.call('accounts.insert', {
+            Meteor.call('accounts.insert', {
             account: {
                 name,
                 purpose,
@@ -100,31 +100,35 @@ class AccountsSideBar extends Component {
         });
     }
 
-    removeAccount(){
+    removeAccount() {
         const {_id} = this.state;
-        Meteor.call('accounts.remove', {
-            account: {
-                _id
-            }
-        }, (err, response) => {
-            if(err){
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }else{
-                this.props.history.replace('/app/accounts/new');
-                this.setState({
-                    active: true,
-                    barMessage: 'Account deleted successfully',
-                    barIcon: 'done',
-                    barType: 'accept'
-                });
-            }
-        });
-    }
+            Meteor.call('accounts.remove', {
+                account: {
+                    _id
+                }
+            }, (err, response) => {
+                if (err) {
+                    this.setState({
+                        active: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel'
+                    });
+                }
+
+                else {
+                    this.props.history.replace('/app/accounts/new');
+                    this.setState({
+                        active: true,
+                        barMessage: 'Account deleted successfully',
+                        barIcon: 'done',
+                        barType: 'accept'
+                    });
+                }
+            });
+        }
+
+
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});

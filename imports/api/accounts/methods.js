@@ -67,6 +67,27 @@ export const update = new ValidatedMethod({
     }
 });
 
+Meteor.methods({
+    'insertAccountOnSignUp': function(userId){
+        if(!userId){
+            throw new Meteor.Error("not-logged-in", "You're not logged-in.");
+        }
+        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+    },
+
+
+    'insertAccountOnLogin': function(userId){
+        if(!userId){
+            throw new Meteor.Error("not-logged-in", "You're not logged-in.");
+        }
+        if(!Accounts.findOne({owner: userId}))
+        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+
+    },
+
+});
+
+
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
     mixins : [LoggedInMixin],
@@ -84,7 +105,12 @@ export const remove = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         const {_id} = account;
-        return Accounts.remove(_id);
+        if (Accounts.find({owner: Meteor.userId()}).fetch().length > 1) {
+            return Accounts.remove(_id);
+        }
+        else {
+            throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
+        }
     }
 });
 
