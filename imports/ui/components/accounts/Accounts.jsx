@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { List, ListItem, ListDivider, Button, Card, Table } from 'react-toolbox';
+import { List, ListItem, Button, Card, Table, Dialog } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -17,33 +17,90 @@ class AccountsPage extends Component {
         super(props);
 
         this.state = {
+            removeConfirmMessage: false,
+            openDialog: false
         };
 
     }
-
     toggleSidebar(event){
         this.props.toggleSidebar(true);
     }
+    popupTemplate(){
+        return(
+            <Dialog
+                    active={this.state.openDialog}
+                    onEscKeyDown={this.closePopup.bind(this)}
+                    onOverlayClick={this.closePopup.bind(this)}
+                >
+                {this.renderConfirmationMessage()}
+            </Dialog>
+        )
+    }
+    openPopup (account) {
+        this.setState({
+            openDialog: true,
+            selectedAccount: account
+        });
+    }
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+    renderConfirmationMessage(){
+        return (
+            <div>
+                <div className={theme.confirmText}><p>Are you sure to delete this account?</p></div>
 
-    account() {
+                <div className={theme.buttonBox}>
+                    <Button label='Yes' raised accent onClick={this.removeAccount.bind(this)} />
+                    <Button label='No' raised accent onClick={this.closePopup.bind(this)} />
+                </div>
+            </div>
+        )
+    }
+    removeAccount(){
+        const {_id} = this.state.selectedAccount;
+        Meteor.call('accounts.remove', {
+            account: {
+                _id
+            }
+        }, (err, response) => {
+            if(err){
+
+            }else{
+                this.setState({
+                    openDialog: false
+                });
+            }
+        });
+    }
+    renderAccount() {
         const model = {
             icon: {type: String},
             content: {type: String},
             actions: {type: String}
         };
-        let accounts = this.props.accounts.map(function(i){
+        let accounts = this.props.accounts.map((account) => {
             return {
                 icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
                 content:
                 <div>
-                    <div>bank: <strong>standard chartered</strong></div>
+                    <div>bank: <strong>{account.name}</strong> ({account.purpose})</div>
                     <div>account number: <strong>00971222001</strong></div>
                     <div>available balance: <strong>2,50,000</strong> PKR</div>
                 </div>,
                 actions:
                     <div className={theme.buttonParent}>
-                        <Button label='Edit Info' raised accent />
-                        <Button label='' icon='close' raised theme={buttonTheme} />
+                        <Button
+                            label='Edit Info'
+                            raised accent />
+                        <Button
+                            label=''
+                            icon='close'
+                            raised
+                            onClick={this.openPopup.bind(this, account)}
+                            theme={buttonTheme} />
                     </div>
             }
         });
@@ -53,28 +110,14 @@ class AccountsPage extends Component {
                     <h3>cards and bank accounts</h3>
                 </div>
                 <Card theme={tableTheme}>
-                    <Table selectable={false} heading={false} model={model} source={accounts}/>
+                    <Table
+                        selectable={false}
+                        heading={false}
+                        model={model}
+                        source={accounts}/>
                 </Card>
             </div>
         );
-    }
-
-    renderAccount(){
-        return this.props.accounts.map((account) => {
-            return <Link
-                key={account._id}
-                activeClassName='active'
-                to={`/app/accounts/${account._id}`}>
-                <ListItem
-                    selectable
-                    onClick={ this.toggleSidebar.bind(this) }
-                    caption={account.name}
-                    legend={account.purpose}
-                    leftIcon='account_balance'
-                    rightIcon='mode_edit'
-                    />
-            </Link>
-        })
     }
 
     render() {
@@ -86,10 +129,10 @@ class AccountsPage extends Component {
                 </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
-                        {this.account()}
                         {this.renderAccount()}
                     </List>
                 </div>
+                {this.popupTemplate()}
             </div>
         );
     }
