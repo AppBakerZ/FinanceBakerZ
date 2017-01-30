@@ -102,7 +102,6 @@ class AccountsSideBar extends Component {
 
     removeAccount() {
         const {_id} = this.state;
-        if(Accounts.find({owner: Meteor.userId()}).fetch().length > 1) {
             Meteor.call('accounts.remove', {
                 account: {
                     _id
@@ -128,13 +127,8 @@ class AccountsSideBar extends Component {
                 }
             });
         }
-        else{
-
-            throw new Meteor.Error( 500, 'There was an error processing your request' );
 
 
-        }
-    }
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});

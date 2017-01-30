@@ -105,7 +105,13 @@ export const remove = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         const {_id} = account;
-        return Accounts.remove(_id);}
+        if (Accounts.find({owner: Meteor.userId()}).fetch().length > 1) {
+            return Accounts.remove(_id);
+        }
+        else {
+            throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
+        }
+    }
 });
 
 // Get list of all method names on Companies
