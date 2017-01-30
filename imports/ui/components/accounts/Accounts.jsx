@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { List, ListItem, ListDivider, Button } from 'react-toolbox';
+import { List, ListItem, ListDivider, Button, Card, Table } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
+
+import theme from './theme';
+import tableTheme from './tableTheme';
+import buttonTheme from './buttonTheme';
 
 class AccountsPage extends Component {
 
@@ -19,6 +23,40 @@ class AccountsPage extends Component {
 
     toggleSidebar(event){
         this.props.toggleSidebar(true);
+    }
+
+    account() {
+        const model = {
+            icon: {type: String},
+            content: {type: String},
+            actions: {type: String}
+        };
+        let accounts = this.props.accounts.map(function(i){
+            return {
+                icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
+                content:
+                <div>
+                    <div>bank: <strong>standard chartered</strong></div>
+                    <div>account number: <strong>00971222001</strong></div>
+                    <div>available balance: <strong>2,50,000</strong> PKR</div>
+                </div>,
+                actions:
+                    <div className={theme.buttonParent}>
+                        <Button label='Edit Info' raised accent />
+                        <Button label='' icon='close' raised theme={buttonTheme} />
+                    </div>
+            }
+        });
+        return (
+            <div className={theme.accountContent}>
+                <div className={theme.accountTitle}>
+                    <h3>cards and bank accounts</h3>
+                </div>
+                <Card theme={tableTheme}>
+                    <Table selectable={false} heading={false} model={model} source={accounts}/>
+                </Card>
+            </div>
+        );
     }
 
     renderAccount(){
@@ -48,6 +86,7 @@ class AccountsPage extends Component {
                 </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
+                        {this.account()}
                         {this.renderAccount()}
                     </List>
                 </div>
