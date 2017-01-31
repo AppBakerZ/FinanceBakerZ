@@ -8,6 +8,12 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 
+import theme from './theme';
+import buttonTheme from './buttonTheme';
+import tableTheme from './tableTheme';
+
+
+
 class CategoriesPage extends Component {
 
     constructor(props) {
@@ -40,13 +46,13 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, id){
         return children.map((cat) => {
-            return <span style={{marginRight: '5px', padding: '3px', background: '#fafafa'}}>
-                    <Link style={{display: 'inherit'}}
+            return <span>
+                    <Link
                           activeClassName='active'
                           to={`/app/categories/${id}/${cat}`}>
                         {cat}
 
-                        <a style={{paddingLeft: '5px', display: 'inherit'}} data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
+                        <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
                             x
                         </a>
 
@@ -63,18 +69,22 @@ class CategoriesPage extends Component {
         };
         let categories = this.props.categories.map((category) => {
             return {
-                icon: <FontIcon value={category.icon} />,
+                icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
                 content:
                     <div>
                         <div><strong>{category.name}</strong></div>
                         {this.renderSubcategories(category.children || [], category._id)}
                     </div>,
                 actions:
-                    <div>
+                    <div className={theme.buttonBox}>
+                        <Button
+                            label='Edit Info'
+                            raised accent />
                         <Button
                             label=''
                             icon='close'
-                            raised />
+                            raised
+                            theme={buttonTheme} />
                     </div>
             }
         });
@@ -86,11 +96,12 @@ class CategoriesPage extends Component {
                     <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                 </Link>
 
-                <div>
-                    <div>
+                <div className={theme.categoriesContent}>
+                    <div className={theme.categoriesTitle}>
                         <h3>Categories</h3>
+                        <Button className={theme.button} icon='add' label='CATEGORIES' flat onClick={ this.toggleSidebar.bind(this)} theme={buttonTheme}/>
                     </div>
-                    <Card>
+                    <Card theme={tableTheme}>
                         <Table
                             selectable={false}
                             heading={false}

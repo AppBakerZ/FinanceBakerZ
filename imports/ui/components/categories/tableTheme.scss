@@ -1,0 +1,68 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.card{
+  table{
+    padding: $unit * 2 $unit * 2.5;
+    tr{
+      td{
+        border-bottom: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+        img{
+          width: $unit * 7;
+          height: $unit * 7;
+        }
+        > div{
+          > div{
+            line-height: $unit * 2;
+            margin: $unit * 2.5 0 0 $unit - 0.2;
+            strong{
+              font-size: 20px;
+              color: $color-text;
+              font-family: $preferred-font;
+              letter-spacing: $unit - 0.9;
+              text-transform: capitalize;
+            }
+          }
+          span{
+            a{
+              font-size: $font-size-big;
+              color: $color-text;
+              letter-spacing: $unit - 0.9;
+              line-height: $font-size;
+              padding: 0 $unit - 0.2;
+              border-right: $unit - 0.8 solid $color-text;
+              background: none;
+              display: inline-block;
+              text-transform: capitalize;
+              a{
+                border: 0;
+                padding-right: 0;
+                text-transform: lowercase;
+              }
+            }
+            &:last-of-type{
+              a{
+                &:last-of-type{
+                  border-right: 0;
+                }
+              }
+            }
+          }
+        }
+        &:first-child{
+          width: $unit * 14;
+          padding: $unit * 1.5 $unit * 4 $unit * 1.5 $unit * 3;
+          line-height: 0;
+          border-right: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+        }
+        &:nth-child(2){
+          padding: 0 0 0 $unit * 3.2;
+          width: $unit * 70;
+        }
+        &:last-of-type{
+          text-align: right;
+        }
+      }
+    }
+  }
+}
