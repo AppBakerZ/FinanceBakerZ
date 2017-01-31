@@ -1,0 +1,16 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+    font-size: $font-size-big + 0.2;
+  }
+}
+
+.neutral:not([disabled]) {
+  &.raised, &.floating {
+    color: $color-primary-dark;
+    background-color: $color-danger;
+  }
+}
