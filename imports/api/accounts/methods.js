@@ -67,33 +67,6 @@ export const update = new ValidatedMethod({
     }
 });
 
-Meteor.methods({
-    'insertAccountOnSignUp': function(userId){
-        if(!userId){
-            throw new Meteor.Error("not-logged-in", "You're not logged-in.");
-        }
-        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
-    },
-
-
-    'insertAccountOnLogin': function(userId){
-        if(!userId){
-            throw new Meteor.Error("not-logged-in", "You're not logged-in.");
-        }
-        if(!Accounts.findOne({owner: userId}))
-        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
-
-    },
-
-    'insertDefaultCurrency' : function(id){
-        if(!id){
-            throw new Meteor.Error("not-logged-in", "You are not logged-in.");
-        }
-        if(Meteor.users.findOne( {_id: id , 'profile.currency': { $exists: false } }))
-            Meteor.users.update({ _id: id} ,{ $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}   }});
-
-}}
-);
 
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
@@ -120,6 +93,67 @@ export const remove = new ValidatedMethod({
         }
     }
 });
+
+
+
+export const insertAccountOnSignUp = new ValidatedMethod({
+    name: 'insertAccountOnSignUp',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update account'
+    },
+    validate: new SimpleSchema({
+        'userId': {
+            type: Object
+        }
+    }).validator(),
+    run({ userId }) {
+        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+    }
+});
+
+
+
+export const insertAccountOnLogin = new ValidatedMethod({
+    name: 'insertAccountOnLogin',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update account'
+    },
+    validate: new SimpleSchema({
+        'userId': {
+            type: Object
+        }
+    }).validator(),
+    run({ userId }) {
+        if(!Accounts.findOne({owner: userId}))
+            Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+    }
+});
+
+
+
+export const insertDefaultCurrency = new ValidatedMethod({
+    name: 'insertDefaultCurrency',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update account'
+    },
+    validate: new SimpleSchema({
+        'userId': {
+            type: Object
+        }
+    }).validator(),
+    run({ userId }) {
+        if(Meteor.users.findOne( {_id: id , 'profile.currency': { $exists: false } }))
+            Meteor.users.update({ _id: id} ,{ $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}   }});
+
+    }
+});
+
 
 // Get list of all method names on Companies
 const ACCOUNTS_METHODS = _.pluck([

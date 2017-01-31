@@ -68,7 +68,8 @@ export default class Register extends Component {
                 }
 
                 );
-                Meteor.call('insertAccountOnSignUp', Meteor.user()._id);
+                var userId={id: Meteor.user()._id};
+                Meteor.call('insertAccountOnSignUp', userId);
                 setTimeout(() => {
                     this.props.history.push('/app/settings');
                 }, 1000);
