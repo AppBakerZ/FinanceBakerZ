@@ -6,8 +6,10 @@ import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
 import Form from './Form.jsx';
+import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import theme from './theme';
 import tableTheme from './tableTheme';
@@ -96,20 +98,34 @@ class AccountsPage extends Component {
             openDialog: false
         });
     }
+    getAvailableBalance (accounts, index){
+        Meteor.call('statistics.availableBalance', {accounts}, (err, ab) => {
+            if(ab){
+                this.props.accounts[index].availableBalance = ab;
+                this.setState({index: accounts[0] + index })
+            }else{
+
+            }
+        });
+    }
+    getFormattedCurrency(balance){
+        return userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(balance)
+    }
     renderAccount() {
         const model = {
             icon: {type: String},
             content: {type: String},
             actions: {type: String}
         };
-        let accounts = this.props.accounts.map((account) => {
+        let accounts = this.props.accounts.map((account, index) => {
             return {
                 icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
                 content:
                     <div>
                         <div>Bank: <strong>{account.name}</strong> ({account.purpose})</div>
                         <div>Account number: <strong>{account.number || 'Not Available'}</strong></div>
-                        <div>Available balance: <strong>2,50,000</strong> PKR</div>
+                        {this.getAvailableBalance([account._id], index)}
+                        <div>Available balance: <strong>{this.getFormattedCurrency(account.availableBalance) || 'Loading ...'}</strong></div>
                     </div>,
                 actions:
                     <div className={theme.buttonParent}>
@@ -140,11 +156,12 @@ class AccountsPage extends Component {
                         theme={buttonTheme}/>
                 </div>
                 <Card theme={tableTheme}>
-                    <Table
+                    { this.props.accounts.length ? <Table
                         selectable={false}
                         heading={false}
                         model={model}
-                        source={accounts}/>
+                        source={accounts}/> : <Loader primary />}
+
                 </Card>
             </div>
         );

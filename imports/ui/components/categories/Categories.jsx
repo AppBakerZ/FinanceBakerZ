@@ -90,7 +90,7 @@ class CategoriesPage extends Component {
         });
 
         return (
-            <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
+            <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
                 <Link
                     to={`/app/categories/new`}>
                     <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
