@@ -50,7 +50,7 @@ export default class Register extends Component {
         Accounts.createUser({
             [key]: selector[key],
             password,
-            profile: {fullName,currency}
+            profile: {fullName, currency}
         }, (err) => {
             if(err){
                 this.props.showSnackbar({

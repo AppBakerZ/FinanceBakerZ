@@ -87,7 +87,7 @@ Meteor.methods({
 
     'insertDefaultCurrency' : function(id){
         if(!id){
-            throw new Meteor.Error("no", "no default account");
+            throw new Meteor.Error("not-logged-in", "You are not logged-in.");
         }
         if(Meteor.users.findOne( {_id: id , 'profile.currency': { $exists: false } }))
             Meteor.users.update({ _id: id} ,{ $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}   }});
