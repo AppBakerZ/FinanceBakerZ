@@ -9,3 +9,9 @@
     border-radius: $unit - 0.8;
   }
 }
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+}
