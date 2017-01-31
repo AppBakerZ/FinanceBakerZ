@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, Card, FontIcon } from 'react-toolbox';
+import { Button, Table, Card, FontIcon, Dialog } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -20,12 +20,85 @@ class CategoriesPage extends Component {
         super(props);
 
         this.state = {
+            removeConfirmMessage: false,
+            openDialog: false,
+            selectedCategory: null,
+            action: null
         };
 
     }
 
     toggleSidebar(event){
         this.props.toggleSidebar(true);
+    }
+    popupTemplate(){
+        return(
+            <Dialog
+                active={this.state.openDialog}
+                onEscKeyDown={this.closePopup.bind(this)}
+                onOverlayClick={this.closePopup.bind(this)}
+                >
+                {this.switchPopupTemplate()}
+            </Dialog>
+        )
+    }
+    switchPopupTemplate(){
+        switch (this.state.action){
+            case 'remove':
+                return this.renderConfirmationMessage();
+                break;
+            case 'edit':
+                return <Form account={this.state.selectedAccount} closePopup={this.closePopup.bind(this)} />;
+                break;
+            case 'add':
+                return <Form closePopup={this.closePopup.bind(this)} />;
+                break;
+        }
+
+    }
+    openPopup (action, category) {
+        this.setState({
+            openDialog: true,
+            action,
+            selectedCategory: category || null
+        });
+    }
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+    renderConfirmationMessage(){
+        return (
+            <div>
+                <div><p>Are you sure to delete this category?</p></div>
+
+                <div>
+                    <Button label='Yes' raised accent onClick={this.removeCategory.bind(this)} />
+                    <Button label='No' raised accent onClick={this.closePopup.bind(this)} />
+                </div>
+            </div>
+        )
+    }
+    removeCategory(){
+        const {_id, name, parent} = this.state.selectedCategory;
+        Meteor.call('categories.remove', {
+            category: {
+                _id,
+                name,
+                parent
+            }
+        }, (err, response) => {
+            if(err){
+
+            }else{
+
+            }
+        });
+        // Close Popup
+        this.setState({
+            openDialog: false
+        });
     }
 
     deleteSubcategory(e){
@@ -46,10 +119,10 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, id){
         return children.map((cat) => {
-            return <span>
+            return <span key={cat}>
                     <Link
-                          activeClassName='active'
-                          to={`/app/categories/${id}/${cat}`}>
+                        activeClassName='active'
+                        to={`/app/categories/${id}/${cat}`}>
                         {cat}
 
                         <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
@@ -84,6 +157,7 @@ class CategoriesPage extends Component {
                             label=''
                             icon='close'
                             raised
+                            onClick={this.openPopup.bind(this, 'remove', category)}
                             theme={buttonTheme} />
                     </div>
             }
@@ -109,6 +183,7 @@ class CategoriesPage extends Component {
                             source={categories}/>
                     </Card>
                 </div>
+                {this.popupTemplate()}
             </div>
         );
     }
