@@ -7,6 +7,8 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
+import Form from './Form.jsx';
+
 import theme from './theme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
@@ -18,7 +20,9 @@ class AccountsPage extends Component {
 
         this.state = {
             removeConfirmMessage: false,
-            openDialog: false
+            openDialog: false,
+            selectedAccount: null,
+            action: null
         };
 
     }
@@ -28,18 +32,33 @@ class AccountsPage extends Component {
     popupTemplate(){
         return(
             <Dialog
-                    active={this.state.openDialog}
-                    onEscKeyDown={this.closePopup.bind(this)}
-                    onOverlayClick={this.closePopup.bind(this)}
+                active={this.state.openDialog}
+                onEscKeyDown={this.closePopup.bind(this)}
+                onOverlayClick={this.closePopup.bind(this)}
                 >
-                {this.renderConfirmationMessage()}
+                {this.switchPopupTemplate()}
             </Dialog>
         )
     }
-    openPopup (account) {
+    switchPopupTemplate(){
+        switch (this.state.action){
+            case 'remove':
+                return this.renderConfirmationMessage();
+                break;
+            case 'edit':
+                return <Form account={this.state.selectedAccount} closePopup={this.closePopup.bind(this)} />;
+                break;
+            case 'add':
+                return <Form closePopup={this.closePopup.bind(this)} />;
+                break;
+        }
+
+    }
+    openPopup (action, account) {
         this.setState({
             openDialog: true,
-            selectedAccount: account
+            action,
+            selectedAccount: account || null
         });
     }
     closePopup () {
@@ -69,10 +88,12 @@ class AccountsPage extends Component {
             if(err){
 
             }else{
-                this.setState({
-                    openDialog: false
-                });
+
             }
+        });
+        // Close Popup
+        this.setState({
+            openDialog: false
         });
     }
     renderAccount() {
@@ -85,21 +106,23 @@ class AccountsPage extends Component {
             return {
                 icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
                 content:
-                <div>
-                    <div>bank: <strong>{account.name}</strong> ({account.purpose})</div>
-                    <div>account number: <strong>00971222001</strong></div>
-                    <div>available balance: <strong>2,50,000</strong> PKR</div>
-                </div>,
+                    <div>
+                        <div>Bank: <strong>{account.name}</strong> ({account.purpose})</div>
+                        <div>Account number: <strong>{account.number || 'Not Available'}</strong></div>
+                        <div>Available balance: <strong>2,50,000</strong> PKR</div>
+                    </div>,
                 actions:
                     <div className={theme.buttonParent}>
                         <Button
                             label='Edit Info'
-                            raised accent />
+                            raised
+                            onClick={this.openPopup.bind(this, 'edit', account)}
+                            accent />
                         <Button
                             label=''
                             icon='close'
                             raised
-                            onClick={this.openPopup.bind(this, account)}
+                            onClick={this.openPopup.bind(this, 'remove', account)}
                             theme={buttonTheme} />
                     </div>
             }
@@ -108,7 +131,13 @@ class AccountsPage extends Component {
             <div className={theme.accountContent}>
                 <div className={theme.accountTitle}>
                     <h3>cards and bank accounts</h3>
-                    <Button className={theme.button} icon='add' label='ACCOUNT' flat onClick={ this.toggleSidebar.bind(this)} theme={buttonTheme}/>
+                    <Button
+                        className={theme.button}
+                        icon='add'
+                        label='ACCOUNT'
+                        flat
+                        onClick={this.openPopup.bind(this, 'add')}
+                        theme={buttonTheme}/>
                 </div>
                 <Card theme={tableTheme}>
                     <Table
@@ -124,10 +153,6 @@ class AccountsPage extends Component {
     render() {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <Link
-                    to={`/app/accounts/new`}>
-                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                </Link>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
                         {this.renderAccount()}

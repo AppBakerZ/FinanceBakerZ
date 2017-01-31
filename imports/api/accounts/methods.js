@@ -26,8 +26,13 @@ export const insert = new ValidatedMethod({
         'account.purpose': {
             type: String
         },
+        'account.number': {
+            type: String,
+            optional: true
+        },
         'account.icon': {
-            type: String
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ account }) {
@@ -56,8 +61,13 @@ export const update = new ValidatedMethod({
         'account.purpose': {
             type: String
         },
+        'account.number': {
+            type: String,
+            optional: true
+        },
         'account.icon': {
-            type: String
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ account }) {
