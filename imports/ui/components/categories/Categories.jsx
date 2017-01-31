@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox';
+import { Button, Table, Card, FontIcon } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -42,8 +42,8 @@ class CategoriesPage extends Component {
         return children.map((cat) => {
             return <span style={{marginRight: '5px', padding: '3px', background: '#fafafa'}}>
                     <Link style={{display: 'inherit'}}
-                        activeClassName='active'
-                        to={`/app/categories/${id}/${cat}`}>
+                          activeClassName='active'
+                          to={`/app/categories/${id}/${cat}`}>
                         {cat}
 
                         <a style={{paddingLeft: '5px', display: 'inherit'}} data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
@@ -54,45 +54,49 @@ class CategoriesPage extends Component {
                     </span>
         });
     }
+    render() {
 
-    renderCategory(){
-
-        const { categories } = this.props;
-        let items = categories.map((category) => {
-            return <Link
-                key={category._id}
-                activeClassName='active'
-                to={`/app/categories/${category._id}`}>
-
-                <ListItem
-                    selectable
-                    onClick={ this.toggleSidebar.bind(this) }
-                    leftIcon={category.icon}
-                    rightIcon='mode_edit'
-                    caption={category.name}
-                    legend={this.renderSubcategories(category.children || [], category._id)}
-                    />
-            </Link>
+        const model = {
+            icon: {type: String},
+            content: {type: String},
+            actions: {type: String}
+        };
+        let categories = this.props.categories.map((category) => {
+            return {
+                icon: <FontIcon value={category.icon} />,
+                content:
+                    <div>
+                        <div><strong>{category.name}</strong></div>
+                        {this.renderSubcategories(category.children || [], category._id)}
+                    </div>,
+                actions:
+                    <div>
+                        <Button
+                            label=''
+                            icon='close'
+                            raised />
+                    </div>
+            }
         });
 
-        return (
-            <section>
-                {items}
-            </section>
-        )
-    }
-
-    render() {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <Link
                     to={`/app/categories/new`}>
                     <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
                 </Link>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
-                    <List ripple className='list'>
-                        {this.renderCategory()}
-                    </List>
+
+                <div>
+                    <div>
+                        <h3>Categories</h3>
+                    </div>
+                    <Card>
+                        <Table
+                            selectable={false}
+                            heading={false}
+                            model={model}
+                            source={categories}/>
+                    </Card>
                 </div>
             </div>
         );
