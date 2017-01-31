@@ -49,7 +49,7 @@ class AccountsPage extends Component {
     }
     renderConfirmationMessage(){
         return (
-            <div>
+            <div className={theme.dialogAccount}>
                 <div className={theme.confirmText}><p>Are you sure to delete this account?</p></div>
 
                 <div className={theme.buttonBox}>
@@ -108,6 +108,7 @@ class AccountsPage extends Component {
             <div className={theme.accountContent}>
                 <div className={theme.accountTitle}>
                     <h3>cards and bank accounts</h3>
+                    <Button label='add account' onClick={ this.toggleSidebar.bind(this) } floating accent className={theme.addAccount} />
                 </div>
                 <Card theme={tableTheme}>
                     <Table
