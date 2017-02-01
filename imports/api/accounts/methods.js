@@ -38,7 +38,7 @@ export const insert = new ValidatedMethod({
 
 export const update = new ValidatedMethod({
     name: 'accounts.update',
-    mixins : [LoggedInMixin],
+    mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
         message: 'You need to be logged in to update account'
@@ -112,7 +112,7 @@ export const insertAccountOnSignUp = new ValidatedMethod({
         }
     }).validator(),
     run({ account }) {
-        Accounts.insert({owner :account.owner , name: 'Default' , purpose: 'Bank Account' , icon: 'abc'  });
+        Accounts.insert({owner :account.owner, name: 'Default', purpose: 'Bank Account', icon: 'abc' });
     }
 });
 
@@ -135,7 +135,7 @@ export const insertAccountOnLogin = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         if(!Accounts.findOne({owner: account.owner}))
-            Accounts.insert({owner :account.owner, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+            Accounts.insert({owner :account.owner, name: 'Default', purpose: 'Bank Account', icon:'abc' });
     }
 });
 
@@ -157,8 +157,8 @@ export const insertDefaultCurrency = new ValidatedMethod({
         }
     }).validator(),
     run({ account }) {
-        if(Meteor.users.findOne( {_id: account.owner  , 'profile.currency': { $exists: false } }))
-            Meteor.users.update({ _id: account.owner} , { $set: { 'profile.currency': {symbol: "$" , name: "Dollar" , symbol_native: "$" , decimal_digits: 2 , rounding: 0}   }});
+        if(Meteor.users.findOne( {_id: account.owner, 'profile.currency': { $exists: false } }))
+            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}  }});
 
     }
 });
