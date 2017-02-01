@@ -104,12 +104,15 @@ export const insertAccountOnSignUp = new ValidatedMethod({
         message: 'You need to be logged in to update account'
     },
     validate: new SimpleSchema({
-        'userId': {
+        'account': {
             type: Object
+        },
+        'account.owner': {
+            type: String
         }
     }).validator(),
-    run({ userId }) {
-        Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+    run({ account }) {
+        Accounts.insert({owner :account.owner , name: 'Default' , purpose: 'Bank Account' , icon: 'abc'  });
     }
 });
 
@@ -117,19 +120,22 @@ export const insertAccountOnSignUp = new ValidatedMethod({
 
 export const insertAccountOnLogin = new ValidatedMethod({
     name: 'insertAccountOnLogin',
-    mixins : [LoggedInMixin],
+    mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
         message: 'You need to be logged in to update account'
     },
     validate: new SimpleSchema({
-        'userId': {
+        'account': {
             type: Object
+        },
+        'account.owner': {
+            type: String
         }
     }).validator(),
-    run({ userId }) {
-        if(!Accounts.findOne({owner: userId}))
-            Accounts.insert({owner :userId, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
+    run({ account }) {
+        if(!Accounts.findOne({owner: account.owner}))
+            Accounts.insert({owner :account.owner, name :'Default' , purpose:'Bank Account' , icon:'abc'  });
     }
 });
 
@@ -137,19 +143,22 @@ export const insertAccountOnLogin = new ValidatedMethod({
 
 export const insertDefaultCurrency = new ValidatedMethod({
     name: 'insertDefaultCurrency',
-    mixins : [LoggedInMixin],
+    mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
         message: 'You need to be logged in to update account'
     },
     validate: new SimpleSchema({
-        'userId': {
+        'account': {
             type: Object
+        },
+        'account.owner': {
+            type: String
         }
     }).validator(),
-    run({ userId }) {
-        if(Meteor.users.findOne( {_id: id , 'profile.currency': { $exists: false } }))
-            Meteor.users.update({ _id: id} ,{ $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}   }});
+    run({ account }) {
+        if(Meteor.users.findOne( {_id: account.owner  , 'profile.currency': { $exists: false } }))
+            Meteor.users.update({ _id: account.owner} , { $set: { 'profile.currency': {symbol: "$" , name: "Dollar" , symbol_native: "$" , decimal_digits: 2 , rounding: 0}   }});
 
     }
 });

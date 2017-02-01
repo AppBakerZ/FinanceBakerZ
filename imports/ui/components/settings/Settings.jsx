@@ -38,7 +38,7 @@ class SettingsPage extends Component {
     setCurrency(currency){
         currency = _.findWhere(this.state.currencies, {symbol: currency});
         delete currency.value;
-        Meteor.call('setUserCurrency', {currency}, (err, res) => {
+        Meteor.call('setUserCurrency' , {currency} , (err, res) => {
             if(res){
                 this.setState({
                     userCurrency : Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : ''
