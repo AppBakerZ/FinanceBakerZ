@@ -64,3 +64,61 @@
     background: none;
   }
 }
+/////////////////////////// dialog styling start here ///////////////////////////////
+.contentParent{
+  .contentOne{
+    margin-bottom: $unit * 2;
+    > div{
+      span{
+        font-size: $font-size;
+        color: $color-text;
+        line-height: $unit * 2.2;
+      }
+    }
+  }
+  .contentTwo{
+    margin-bottom: $unit * 2;
+    > div{
+      p{
+        display: inline-block;
+        line-height: $unit * 2.6;
+        color: $color-text;
+        font-size: $font-size-big + 0.2;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+        span{
+          color: $color-primary;
+          font-weight: 600;
+          font-size: $font-size-big;
+          text-transform: capitalize;
+          letter-spacing: $unit - 0.9;
+        }
+      }
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    button{
+      background: $color-accent;
+      font-size: $font-size;
+      padding: $unit - 0.8 $unit * 2 0 $unit * 2;
+      height: $unit * 3.6;
+      word-spacing: $unit - 0.6;
+      &:first-child{
+        margin-right: $unit * 2;
+      }
+    }
+  }
+}
+.confirmText{
+  margin-bottom: $unit * 2;
+  p{
+    display: inline-block;
+    line-height: $unit * 2.6;
+    color: $color-text;
+    font-size: $font-size-big + 0.2;
+    text-transform: capitalize;
+    letter-spacing: $unit - 0.9;
+  }
+}
+/////////////////////////// dialog styling end here /////////////////////////////////

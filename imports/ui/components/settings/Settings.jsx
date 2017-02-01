@@ -2,11 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
+
+import theme from './theme';
+import cardTheme from './cardTheme';
+import checkboxTheme from './checkboxTheme';
+import buttonTheme from './buttonTheme';
 
 class SettingsPage extends Component {
 
@@ -15,9 +20,14 @@ class SettingsPage extends Component {
 
         this.state = {
             userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
-            currencies: []
+            currencies: [],
+            check1: true,
+            check2: false
         }
 
+    }
+    handleChange (field, value) {
+        this.setState({[field]: value});
     }
 
     componentWillMount() {
@@ -106,6 +116,60 @@ class SettingsPage extends Component {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                    <div className={theme.settingContent}>
+                        <div className={theme.settingTitle}>
+                            <h3>Settings</h3>
+                        </div>
+                        <Card theme={cardTheme}>
+                            <div className={theme.cardTitle}>
+                                <h5>personal information</h5>
+                            </div>
+                            <div className={theme.cardContent}>
+                                <h6>name: <span>shahid afridi</span></h6>
+                                <h6>contact number: <span>+92-300-32198765</span></h6>
+                                <h6>email: <span>shahidafridi@hotmail.com</span></h6>
+                                <h6>address: <span>house no.10, block j, karachi, pakistan</span></h6>
+                                <div className={theme.settingBtn}>
+                                    <Button label='EDIT INFO' raised accent />
+                                </div>
+                            </div>
+                        </Card>
+                        <Card theme={cardTheme}>
+                            <div className={theme.cardTitle}>
+                                <h5>account settings</h5>
+                            </div>
+                            <div className={theme.cardContent}>
+                                <h6>currency: <span>pakistani rupee (PKR)</span></h6>
+                                <h6>language: <span>english</span></h6>
+                                <h6>password: <span>**********</span></h6>
+                                <h6>
+                                    email notification:
+                                    <span>
+                                        <Checkbox theme={checkboxTheme}
+                                            checked={this.state.check1}
+                                            label="On"
+                                            onChange={this.handleChange.bind(this, 'check1')}
+                                            />
+                                         <Checkbox theme={checkboxTheme}
+                                             checked={this.state.check2}
+                                             label="Off"
+                                             onChange={this.handleChange.bind(this, 'check2')}
+                                             />
+                                    </span>
+                                </h6>
+                                <div className={theme.settingBtn}>
+                                    <Button label='EDIT INFO' raised accent />
+                                </div>
+                            </div>
+                        </Card>
+                        <div className={theme.buttonSite}>
+                            <Button
+                                label='REMOVE ACCOUNT'
+                                icon=''
+                                raised
+                                theme={buttonTheme} />
+                        </div>
+                    </div>
                     <List ripple className='list'>
                         {this.renderCategory()}
                     </List>

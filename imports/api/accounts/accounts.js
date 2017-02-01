@@ -30,6 +30,11 @@ Accounts.schema = new SimpleSchema({
         max: 50,
         optional: true
     },
+    number: {
+        type: String,
+        label: 'Number of account',
+        optional: true
+    },
     icon: {
         type: String,
         label: 'Icon of account',

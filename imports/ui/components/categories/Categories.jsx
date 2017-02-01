@@ -2,11 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader } from 'react-toolbox';
+import { Button, Table, Card, FontIcon, Dialog } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
+
+import Form from './Form.jsx';
+import Loader from '/imports/ui/components/loader/Loader.jsx';
+
+import theme from './theme';
+import buttonTheme from './buttonTheme';
+import tableTheme from './tableTheme';
+
+
 
 class CategoriesPage extends Component {
 
@@ -14,12 +23,84 @@ class CategoriesPage extends Component {
         super(props);
 
         this.state = {
+            removeConfirmMessage: false,
+            openDialog: false,
+            selectedCategory: null,
+            action: null
         };
 
     }
 
     toggleSidebar(event){
         this.props.toggleSidebar(true);
+    }
+    popupTemplate(){
+        return(
+            <Dialog
+                active={this.state.openDialog}
+                onEscKeyDown={this.closePopup.bind(this)}
+                onOverlayClick={this.closePopup.bind(this)}
+                >
+                {this.switchPopupTemplate()}
+            </Dialog>
+        )
+    }
+    switchPopupTemplate(){
+        switch (this.state.action){
+            case 'remove':
+                return this.renderConfirmationMessage();
+                break;
+            case 'edit':
+                return <Form categories={this.props.categories} category={this.state.selectedCategory} closePopup={this.closePopup.bind(this)} />;
+                break;
+            case 'add':
+                return <Form categories={this.props.categories} closePopup={this.closePopup.bind(this)} />;
+                break;
+        }
+    }
+    openPopup (action, category) {
+        this.setState({
+            openDialog: true,
+            action,
+            selectedCategory: category || null
+        });
+    }
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+    renderConfirmationMessage(){
+        return (
+            <div className={theme.dialogContent}>
+                <div><p>Are you sure to delete this category?</p></div>
+
+                <div className={theme.buttonBox}>
+                    <Button label='Yes' raised accent onClick={this.removeCategory.bind(this)} />
+                    <Button label='No' raised accent onClick={this.closePopup.bind(this)} />
+                </div>
+            </div>
+        )
+    }
+    removeCategory(){
+        const {_id, name, parent} = this.state.selectedCategory;
+        Meteor.call('categories.remove', {
+            category: {
+                _id,
+                name,
+                parent
+            }
+        }, (err, response) => {
+            if(err){
+
+            }else{
+
+            }
+        });
+        // Close Popup
+        this.setState({
+            openDialog: false
+        });
     }
 
     deleteSubcategory(e){
@@ -40,13 +121,13 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, id){
         return children.map((cat) => {
-            return <span style={{marginRight: '5px', padding: '3px', background: '#fafafa'}}>
-                    <Link style={{display: 'inherit'}}
+            return <span key={cat}>
+                    <Link
                         activeClassName='active'
                         to={`/app/categories/${id}/${cat}`}>
                         {cat}
 
-                        <a style={{paddingLeft: '5px', display: 'inherit'}} data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
+                        <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
                             x
                         </a>
 
@@ -54,46 +135,55 @@ class CategoriesPage extends Component {
                     </span>
         });
     }
+    render() {
 
-    renderCategory(){
-
-        const { categories } = this.props;
-        let items = categories.map((category) => {
-            return <Link
-                key={category._id}
-                activeClassName='active'
-                to={`/app/categories/${category._id}`}>
-
-                <ListItem
-                    selectable
-                    onClick={ this.toggleSidebar.bind(this) }
-                    leftIcon={category.icon}
-                    rightIcon='mode_edit'
-                    caption={category.name}
-                    legend={this.renderSubcategories(category.children || [], category._id)}
-                    />
-            </Link>
+        const model = {
+            icon: {type: String},
+            content: {type: String},
+            actions: {type: String}
+        };
+        let categories = this.props.categories.map((category) => {
+            return {
+                icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
+                content:
+                    <div>
+                        <div><strong onClick={this.openPopup.bind(this, 'edit', category)}>{category.name}</strong></div>
+                        {this.renderSubcategories(category.children || [], category._id)}
+                    </div>,
+                actions:
+                    <div className={theme.buttonBox}>
+                        <Button
+                            label=''
+                            icon='close'
+                            raised
+                            onClick={this.openPopup.bind(this, 'remove', category)}
+                            theme={buttonTheme} />
+                    </div>
+            }
         });
 
         return (
-            <section>
-                {items}
-            </section>
-        )
-    }
-
-    render() {
-        return (
-            <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <Link
-                    to={`/app/categories/new`}>
-                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                </Link>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
-                    <List ripple className='list'>
-                        {this.renderCategory()}
-                    </List>
+            <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
+                <div className={theme.categoriesContent}>
+                    <div className={theme.categoriesTitle}>
+                        <h3>Categories</h3>
+                        <Button
+                            className={theme.button}
+                            icon='add'
+                            label='CATEGORIES'
+                            flat
+                            onClick={this.openPopup.bind(this, 'add')}
+                            theme={buttonTheme}/>
+                    </div>
+                    <Card theme={tableTheme}>
+                        <Table
+                            selectable={false}
+                            heading={false}
+                            model={model}
+                            source={categories}/>
+                    </Card>
                 </div>
+                {this.popupTemplate()}
             </div>
         );
     }

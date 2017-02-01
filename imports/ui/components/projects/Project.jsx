@@ -251,10 +251,12 @@ class ProjectPage extends Component {
 
         return (
             <div>
-                <div><p>Are you sure to delete this project?</p></div>
+                <div className={theme.confirmText}><p>Are you sure to delete this project?</p></div>
 
-                <Button label='Yes' raised primary onClick={this.deleteProject.bind(this)} />
-                <Button label='No' raised primary onClick={this.deleteProjectToggle.bind(this)} />
+                <div className={theme.buttonBox}>
+                    <Button label='Yes' raised accent onClick={this.deleteProject.bind(this)} />
+                    <Button label='No' raised accent onClick={this.deleteProjectToggle.bind(this)} />
+                </div>
             </div>
         )
     }
@@ -265,11 +267,15 @@ class ProjectPage extends Component {
 
         return (
             <div>
-                <div> <span>Client Name:</span><span>{selectedProject.client.name}</span></div>
-                <div> <span>Project Status :</span><span>{selectedProject.status}</span></div>
+                <div className={theme.contentTwo}>
+                    <div> <p>Client Name :</p> <p>{selectedProject.client.name}</p></div>
+                    <div> <p>Project Status :</p> <p>{selectedProject.status}</p></div>
+                </div>
 
-                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
-                <Button label='Delete Project' raised primary onClick={this.deleteProjectToggle.bind(this)} />
+                <div className={theme.buttonBox}>
+                    <Button label='Edit Information' raised accent onClick={this.editPopup.bind(this)} />
+                    <Button label='Delete Project' raised accent onClick={this.deleteProjectToggle.bind(this)} />
+                </div>
             </div>
         )
     }
@@ -277,9 +283,11 @@ class ProjectPage extends Component {
     renderSelectedProject(){
         let selectedProject = this.state.selectedProject ;
         return(
-            <div>
-                <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>
-                {(selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
+            <div className={theme.contentParent}>
+                <div className={theme.contentOne}>
+                    <div> <span>Project ID :</span> <span>{selectedProject._id}</span></div>
+                    {(selectedProject.startAt) && <div> <span>Date :</span> <span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
+                </div>
 
                 <h4>{selectedProject.name}</h4>
 

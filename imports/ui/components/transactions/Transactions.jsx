@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
+import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var'
@@ -17,6 +18,10 @@ import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+
+import theme from './theme';
+import tableTheme from './tableTheme';
+import dialogTheme from './dialogTheme';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -151,7 +156,7 @@ class TransactionPage extends Component {
 
     popupTemplate(){
         return(
-            <Dialog
+            <Dialog theme={dialogTheme}
                 className='dialog-box tiny-scroll'
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
@@ -179,8 +184,10 @@ class TransactionPage extends Component {
         };
         return(
             <div>
-                <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID :</span><span>{selectedProject._id}</span></div>
-                {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
+                <div className={theme.firstRow}>
+                    <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID : </span><span>{selectedProject._id}</span></div>
+                    {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
+                </div>
 
                 <h4>{selectedProject.receivedAt ?
                     (selectedProject.type == "project" ?
@@ -203,10 +210,12 @@ class TransactionPage extends Component {
         };
         return (
             <div>
-                <div><p>Are you sure to delete this project?</p></div>
+                <div className={theme.confirmText}><p>Are you sure to delete this project?</p></div>
 
-                <Button label='Yes' raised primary onClick={this.deleteTransaction.bind(this)} />
-                <Button label='No' raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+                <div className={theme.buttonBox}>
+                    <Button label='Yes' raised accent onClick={this.deleteTransaction.bind(this)} />
+                    <Button label='No' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                </div>
             </div>
         )
     }
@@ -217,12 +226,28 @@ class TransactionPage extends Component {
             return false;
         };
         return (
-            <div>
-                <div> <span>Transaction Type:</span><span> {selectedProject.receivedAt ? "Income" : "Expense"}</span></div>
-                <div> <span>Transaction Amount:</span><span> {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></div>
+            <div className={theme.contentParent}>
+                <div className={theme.contentOne}>
+                    <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
+                    <div> <p>Transaction Amount :</p> <p> <span>{userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
+                    <div> <p>deposited in :</p> <p>standard chartered</p></div>
+                    <div> <p>account number :</p> <p>00971322001</p></div>
+                </div>
 
-                <Button label='Edit Information' raised primary onClick={this.editPopup.bind(this)} />
-                <Button label='Delete Transaction' raised primary onClick={this.deleteTransactionToggle.bind(this)}/>
+                <div className={theme.contentTwo}>
+                    <div> <p>account :</p> <p><span>10,000</span> PKR</p></div>
+                    <div> <p>sender name :</p> <p> saeed anwar</p></div>
+                    <div> <p>sender bank :</p> <p> habib bank</p></div>
+                    <div> <p>account number :</p> <p> 009123455670</p></div>
+                </div>
+
+                <div className={theme.contentThree}>
+                    <div> <p>project :</p> <p> <span>logo design</span></p></div>
+                    <div>
+                        <Button label='Edit Information' raised accent onClick={this.editPopup.bind(this)} />
+                        <Button label='Delete Transaction' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                    </div>
+                </div>
             </div>
         )
     }
@@ -327,7 +352,7 @@ class TransactionPage extends Component {
 
     renderDateRange(){
         let dropDowns = (
-            <div className='dashboard-dropdown'>
+            <div className={theme.dashboardDatePicker}>
                 <DatePicker
                     label='Date From'
                     name='dateFrom'
@@ -444,7 +469,7 @@ class TransactionPage extends Component {
     categoryFilter(){
         return (
             <Dropdown
-            className='dashboard-dropdown'
+            className={theme.dashboardAutocompleteLast}
             auto={false}
             source={this.categories()}
             name='filterByCategory'
@@ -460,7 +485,7 @@ class TransactionPage extends Component {
 
         return (
             <Dropdown
-                className='dashboard-dropdown'
+                className={theme.dashboardAutocompleteLast}
                 auto={false}
                 source={this.projects()}
                 name='filterByProjects'
@@ -482,22 +507,24 @@ class TransactionPage extends Component {
         let transactions = this.props.transactions;
         let data = transactions.map(function(transaction){
             return {
-                type: transaction.receivedAt ? <FontIcon className='forward-icon' value='forward' /> : <FontIcon className='backward-icon' value='forward' />,
+                leftIcon: transaction.receivedAt ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
                 date: moment(transaction.receivedAt || transaction.spentAt).format("DD-MMM-YY"),
                 category: transaction.receivedAt ?
                     (transaction.type == "project" ?
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount)
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount),
+                rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
         let tableModel = {
-            type: {type: String},
+            leftIcon: {type: String},
             date: {type: Date},
             category:{type: String},
-            amount: {type: String}
+            amount: {type: String},
+            rightIcon: {type: String}
         };
-        return ( <Table
+        return ( <Table theme={tableTheme} className={theme.table}
                 model={tableModel}
                 source={data}
                 onRowClick={this.selectItem.bind(this)}
@@ -512,9 +539,9 @@ class TransactionPage extends Component {
         return (
             <div className="projects" onScroll={this.handleScroll}>
                 <div className="container">
-                    <div className='flex'>
-                        <Autocomplete
-                            className='dashboard-autocomplete'
+                    <div className={theme.dropdownAutocomplete}>
+                        <Autocomplete theme={theme}
+                            className={theme.dashboardAutocomplete}
                             direction='down'
                             name='multiple'
                             onChange={this.filterByAccounts.bind(this)}
@@ -523,9 +550,9 @@ class TransactionPage extends Component {
                             value={this.state.multiple}
                             />
                     </div>
-                    <div className='flex'>
+                    <div className={theme.dropdownBox}>
                         <Dropdown
-                            className='dashboard-dropdown'
+                            className={theme.dashboardAutocomplete}
                             auto={false}
                             source={this.type()}
                             name='type'
@@ -535,7 +562,7 @@ class TransactionPage extends Component {
                             template={this.filterItem}
                             />
                         <Dropdown
-                            className='dashboard-dropdown'
+                            className={theme.dashboardAutocomplete}
                             auto={false}
                             source={this.filters()}
                             name='filterBy'
@@ -547,7 +574,8 @@ class TransactionPage extends Component {
                         {this.renderDateRange()}
                         {this.categoryOrProjectFilter()}
                     </div>
-                    <div className="page-title">
+
+                    <div className={theme.pageTitle}>
                         <h3>Transactions</h3>
                         <div>
                             <Button
@@ -556,14 +584,14 @@ class TransactionPage extends Component {
                                 label='INCOME'
                                 name='Income'
                                 onClick={this.openedPopup.bind(this, true)}
-                                flat />
+                                flat theme={theme} />
                             <Button
                                 className='header-buttons'
                                 icon='add'
                                 label='EXPENSE'
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}
-                                flat />
+                                flat theme={theme} />
                             {this.popupTemplate()}
                         </div>
                     </div>

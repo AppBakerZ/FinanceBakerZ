@@ -1,0 +1,75 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.categoriesContent{
+  padding: 0 $unit * 1.8;
+  margin-top: $unit * 4;
+  width: 100%;
+  .categoriesTitle{
+    background: $color-primary;
+    padding: $unit * 2 $unit * 5;
+    h3{
+      color: $color-primary-dark;
+      font-size: $font-size-big + 0.7;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      display: inline-block;
+    }
+    button{
+      border-radius: $unit - 0.5;
+      float: right;
+      width: auto;
+      font-size: $font-size-big + 0.2;
+      padding: $unit - 0.7 $unit * 2.6 0 $unit * 2.6;
+      height: $unit * 4.6;
+    }
+  }
+}
+.buttonBox{
+  margin-top: $unit - 0.2;
+  button{
+    padding: $unit - 0.6 $unit * 5.5 0;
+    font-size: $font-size + 0.1;
+    height: $unit * 4.6;
+    letter-spacing: $unit - 0.9;
+    margin-right: $unit;
+    &:last-of-type{
+      padding: 0;
+      margin-right: 0;
+      min-width: $unit * 4.6;
+      line-height: $unit * 5;
+      height: $unit * 4.6;
+      span{
+        border-right: 0;
+        line-height: $unit * 5;
+        margin: 0;
+        color: $color-danger;
+        font-size: $font-size-big + $unit;
+      }
+    }
+  }
+}
+.dialogContent{
+  > div{
+    margin-bottom: $unit * 2;
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $unit * 2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    button{
+      padding: $unit - 0.8 0 0 0;
+      height: $unit * 3.6;
+      width: $unit * 8;
+      &:last-of-type{
+        line-height: $unit * 3.6;
+      }
+    }
+  }
+}

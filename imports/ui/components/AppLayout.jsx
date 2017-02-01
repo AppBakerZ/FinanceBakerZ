@@ -38,7 +38,11 @@ export default class AppLayout extends Component {
         name = user.profile && user.profile.fullName ? user.profile.fullName : user.username || user.emails[0].address;
         return name;
     }
-
+    logout(){
+        Meteor.logout(() => {
+            this.props.history.push('/login')
+        })
+    }
     render() {
         let {props} = this;
         props = {...props,
@@ -53,7 +57,7 @@ export default class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b> <img src="../assets/images/HQ3YU7n.gif" width="45" height="45" /></span>
+                            <span>Welcome <b>{this.name()}</b> <img src="/assets/images/HQ3YU7n.gif" width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>

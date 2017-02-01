@@ -1,3 +1,6 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
 .appBody{
   background: url("../assets/images/login-bg.png") no-repeat center;
   background-size: 80%;
@@ -17,8 +20,15 @@
     img{
       border-radius: 50%;
       position: relative;
-      top: 17px;
-      left: 8px;
+      top: $unit + 0.7;
+      left: $unit - 0.2;
+      margin-right: $unit * 2;
+    }
+    i{
+      float: right;
+      margin-top: $unit + 0.4;
+      color: $color-text-light;
+      cursor: pointer;
     }
   }
 }
