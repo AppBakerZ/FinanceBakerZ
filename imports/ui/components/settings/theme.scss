@@ -1,0 +1,70 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.settingContent{
+  margin-top: $unit * 2;
+  //box-shadow: $zdepth-shadow-1;
+  .settingTitle{
+    background: $color-primary;
+    padding: $unit * 2.2 $unit * 5 $unit * 1.8;
+    h3{
+      color: $color-primary-dark;
+      font-size: $font-size-big + 0.7;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      display: inline-block;
+    }
+  }
+}
+.cardTitle{
+  padding: $unit * 3.5 $unit * 2 $unit * 1.5 $unit * 2;
+  border-bottom: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+  h5{
+    font-size: $font-size-big + 0.2;
+    text-transform: capitalize;
+    color: $color-text;
+  }
+}
+.cardContent{
+  padding: 0 $unit * 2;
+  margin-bottom: $unit * 4;
+  h6{
+    font-size: $font-size-big;
+    font-family: $normal-font;
+    text-transform: capitalize;
+    margin: $unit * 2 0 0 0;
+    color: $color-text;
+    &:last-of-type{
+      width: 80%;
+      display: inline-block;
+    }
+    span{
+      label{
+        display: inline-block;
+        margin: 0 0 0 $unit * 3;
+        bottom: $unit;
+        span{
+          padding-left: $unit - 0.2;
+          font-size: $font-size-big;
+          margin-top: $unit - 0.5;
+        }
+        div{
+          width: $unit * 2.5;
+          height: $unit * 2.5;
+          border-width: $unit - 0.9;
+        }
+      }
+    }
+  }
+  .settingBtn{
+    width: 20%;
+    display: inline-block;
+    button{
+      float: right;
+      font-size: $font-size + 0.1;
+      padding: $unit - 0.6 $unit * 5.5 0;
+      letter-spacing: $unit - 0.9;
+      height: $unit * 4.6;
+    }
+  }
+}

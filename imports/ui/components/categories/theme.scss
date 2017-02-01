@@ -48,3 +48,27 @@
     }
   }
 }
+.dialogContent{
+  > div{
+    margin-bottom: $unit * 2;
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $unit * 2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    button{
+      padding: $unit - 0.8 0 0 0;
+      height: $unit * 3.6;
+      width: $unit * 8;
+      &:last-of-type{
+        line-height: $unit * 3.6;
+      }
+    }
+  }
+}

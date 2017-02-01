@@ -70,10 +70,10 @@ class CategoriesPage extends Component {
     }
     renderConfirmationMessage(){
         return (
-            <div>
+            <div className={theme.dialogContent}>
                 <div><p>Are you sure to delete this category?</p></div>
 
-                <div>
+                <div className={theme.buttonBox}>
                     <Button label='Yes' raised accent onClick={this.removeCategory.bind(this)} />
                     <Button label='No' raised accent onClick={this.closePopup.bind(this)} />
                 </div>

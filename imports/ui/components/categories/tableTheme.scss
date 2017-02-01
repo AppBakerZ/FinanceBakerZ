@@ -5,6 +5,9 @@
   table{
     padding: $unit * 2 $unit * 2.5;
     tr{
+      &:hover{
+        background: none;
+      }
       td{
         border-bottom: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
         img{
@@ -12,11 +15,13 @@
           height: $unit * 7;
         }
         > div{
+          line-height: $unit * 3.4;
+          margin: 0 0 $unit 0;
           > div{
             line-height: $unit * 2;
-            margin: $unit * 2.5 0 0 $unit - 0.2;
+            margin: $unit * 2.5 0 $unit $unit - 0.2;
             strong{
-              font-size: 20px;
+              font-size: $font-size-big + 0.2;
               color: $color-text;
               font-family: $preferred-font;
               letter-spacing: $unit - 0.9;
@@ -29,15 +34,18 @@
               color: $color-text;
               letter-spacing: $unit - 0.9;
               line-height: $font-size;
-              padding: 0 $unit - 0.2;
-              border-right: $unit - 0.8 solid $color-text;
-              background: none;
+              padding: $unit - 0.8 $unit - 0.2;
+              margin-right: $unit * 1.5;
+              background: $color-primary-dark;
+              box-shadow: 0 $unit - 0.8 $unit - 0.8 0 #b9b9b9;
               display: inline-block;
               text-transform: capitalize;
               a{
                 border: 0;
-                padding-right: 0;
+                padding: 0 0 0 $unit * 1.5;
                 text-transform: lowercase;
+                box-shadow: 0 0 0 0;
+                margin-right: 0;
               }
             }
             &:last-of-type{
