@@ -78,3 +78,37 @@
     height: $unit * 4.6;
   }
 }
+///////////////////////////// dialog styling ///////////////////////////////////////
+.dialogSetting{
+  .confirmText{
+    margin-bottom: $unit * 3;
+    h3{
+      color: $color-primary;
+      font-size: $font-size-big + 0.7;
+      text-transform: uppercase;
+      letter-spacing: $unit - 0.9;
+      word-spacing: $unit - 0.5;
+      margin: 0 0 $unit * 1.2 0;
+    }
+    p{
+      color: $color-text;
+      font-size: $font-size;
+      text-align: center;
+      line-height: $unit * 2;
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    button{
+      padding: $unit - 0.6 $unit * 5.9 0;
+      letter-spacing: $unit - 0.9;
+      height: $unit * 4.6;
+      font-size: $font-size + 0.1;
+      &:last-of-type{
+        padding: $unit - 0.6 $unit * 3.8 0;
+        margin-left: $unit * 1.5;
+      }
+    }
+  }
+}
+///////////////////////////// dialog styling ///////////////////////////////////////
