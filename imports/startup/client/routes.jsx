@@ -15,7 +15,6 @@ import Login from '../../ui/components/auth/Login.jsx';
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
-import CategoriesSideBar from '../../ui/components/categories/CategoriesSideBar.jsx';
 
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
 import SettingsSideBar from '../../ui/components/settings/SettingsSideBar.jsx';
@@ -55,10 +54,7 @@ Meteor.startup( () => {
                 <IndexRoute components={{ content: DashboardPage}} />
                 <Route path="dashboard" components={{ content: DashboardPage}} />
                 <Route path="accounts" components={{ content: AccountsPage }} />
-                <Route path="categories" components={{ content: CategoriesPage, sidebar: CategoriesSideBar }}>
-                    <Route path="new" />
-                    <Route path=":id(/:subcategoryName)" />
-                </Route>
+                <Route path="categories" components={{ content: CategoriesPage }} />
                 <Route path="settings" components={{ content: SettingsPage, sidebar: SettingsSideBar }}>
                     <Route path="new" />
                     <Route path=":id" />

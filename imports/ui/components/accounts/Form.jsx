@@ -100,7 +100,7 @@ export default class Form extends Component {
     progressBarToggle (){
         return this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
-    componentDidMount (props){
+    componentDidMount (){
         this.setState(this.props.account);
     }
     renderButton (){

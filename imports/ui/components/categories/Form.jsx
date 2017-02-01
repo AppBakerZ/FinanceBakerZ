@@ -8,7 +8,7 @@ import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
-class CategoriesSideBar extends Component {
+export default class Form extends Component {
 
     constructor(props) {
         super(props);
@@ -22,22 +22,9 @@ class CategoriesSideBar extends Component {
         };
     }
 
-    setCurrentRoute(){
-        this.setState({
-            isNewRoute: this.props.history.isActive('app/categories/new')
-        })
-    }
-
-    resetCategory(){
-        this.setState({
-            name: '',
-            icon: ''
-        })
-    }
-
     onSubmit(event){
         event.preventDefault();
-        this.state.isNewRoute ? this.createCategory() : this.updateCategory();
+        !this.props.category ? this.createCategory() : this.updateCategory();
         this.setState({loading: true})
     }
 
@@ -58,7 +45,9 @@ class CategoriesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                this.resetCategory();
+                setTimeout(()=> {
+                    this.props.closePopup();
+                }, 1000)
             }else{
                 this.setState({
                     active: true,
@@ -96,36 +85,9 @@ class CategoriesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.props.closePopup();
             }
             this.setState({loading: false})
-        });
-    }
-
-    removeCategory(){
-        const {_id, name, parent} = this.state;
-        Meteor.call('categories.remove', {
-            category: {
-                _id,
-                name,
-                parent
-            }
-        }, (err, response) => {
-            if(err){
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }else{
-                this.props.history.replace('/app/categories/new');
-                this.setState({
-                    active: true,
-                    barMessage: 'Category deleted successfully',
-                    barIcon: 'done',
-                    barType: 'accept'
-                });
-            }
         });
     }
 
@@ -146,42 +108,27 @@ class CategoriesSideBar extends Component {
     }
 
     progressBarToggle (){
-        return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
+        return this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
-    componentWillReceiveProps (p){
-        this.setState(p.category);
-        this.setCurrentRoute();
-        if(this.state.isNewRoute){
-            this.resetCategory()
-        }
+    componentDidMount (){
+        this.setState(this.props.category);
     }
 
     categories(){
         let cats = this.props.categories.map((category) => {
             return {value: category.name, label: category.name};
-        })
+        });
         cats.unshift({value: null, label: 'No Parent'});
         return cats
     }
 
     renderButton (){
         let button;
-        if(this.state.isNewRoute){
-            button = <div className='sidebar-buttons-group'>
-                <Button type='submit' icon='add' label='Add Category' raised primary />
-            </div>
+        if(!this.props.category){
+            button = <Button type='submit' icon='add' label='Add Category' raised primary />
         }else{
-            button = <div className='sidebar-buttons-group'>
-                <Button type='submit' icon='mode_edit' label='Update Category' raised primary />
-                <Button
-                    onClick={this.removeCategory.bind(this)}
-                    type='button'
-                    icon='delete'
-                    label='Remove Category'
-                    className='float-right'
-                    accent />
-            </div>
+            button = <Button type='submit' icon='mode_edit' label='Update Category' raised primary />
         }
         return button;
     }
@@ -264,30 +211,3 @@ class CategoriesSideBar extends Component {
         );
     }
 }
-
-CategoriesSideBar.propTypes = {
-    category: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
-    categoryExists: PropTypes.bool.isRequired
-};
-
-export default createContainer((props) => {
-    const { id, subcategoryName } = props.params;
-    const categoriesHandle = Meteor.subscribe('categories', {});
-    const loading = !categoriesHandle.ready();
-    let query = {};
-    if(subcategoryName){
-        query.name = subcategoryName;
-    }
-    else{
-        query._id = id;
-    }
-    const category = Categories.findOne(query);
-    const categoryExists = !loading && !!category;
-    return {
-        loading,
-        categoryExists,
-        category: categoryExists ? category : {},
-        categories: Categories.find({}).fetch()
-    };
-}, CategoriesSideBar);

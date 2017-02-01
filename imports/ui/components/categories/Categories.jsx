@@ -8,6 +8,9 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 
+import Form from './Form.jsx';
+import Loader from '/imports/ui/components/loader/Loader.jsx';
+
 import theme from './theme';
 import buttonTheme from './buttonTheme';
 import tableTheme from './tableTheme';
@@ -48,13 +51,12 @@ class CategoriesPage extends Component {
                 return this.renderConfirmationMessage();
                 break;
             case 'edit':
-                return <Form account={this.state.selectedAccount} closePopup={this.closePopup.bind(this)} />;
+                return <Form categories={this.props.categories} category={this.state.selectedCategory} closePopup={this.closePopup.bind(this)} />;
                 break;
             case 'add':
-                return <Form closePopup={this.closePopup.bind(this)} />;
+                return <Form categories={this.props.categories} closePopup={this.closePopup.bind(this)} />;
                 break;
         }
-
     }
     openPopup (action, category) {
         this.setState({
@@ -152,7 +154,9 @@ class CategoriesPage extends Component {
                     <div className={theme.buttonBox}>
                         <Button
                             label='Edit Info'
-                            raised accent />
+                            raised
+                            onClick={this.openPopup.bind(this, 'edit', category)}
+                            accent />
                         <Button
                             label=''
                             icon='close'
@@ -165,15 +169,16 @@ class CategoriesPage extends Component {
 
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
-                <Link
-                    to={`/app/categories/new`}>
-                    <Button onClick={ this.toggleSidebar.bind(this) } icon='add' floating accent className='add-button' />
-                </Link>
-
                 <div className={theme.categoriesContent}>
                     <div className={theme.categoriesTitle}>
                         <h3>Categories</h3>
-                        <Button className={theme.button} icon='add' label='CATEGORIES' flat onClick={ this.toggleSidebar.bind(this)} theme={buttonTheme}/>
+                        <Button
+                            className={theme.button}
+                            icon='add'
+                            label='CATEGORIES'
+                            flat
+                            onClick={this.openPopup.bind(this, 'add')}
+                            theme={buttonTheme}/>
                     </div>
                     <Card theme={tableTheme}>
                         <Table
