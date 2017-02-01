@@ -147,16 +147,11 @@ class CategoriesPage extends Component {
                 icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
                 content:
                     <div>
-                        <div><strong>{category.name}</strong></div>
+                        <div><strong onClick={this.openPopup.bind(this, 'edit', category)}>{category.name}</strong></div>
                         {this.renderSubcategories(category.children || [], category._id)}
                     </div>,
                 actions:
                     <div className={theme.buttonBox}>
-                        <Button
-                            label='Edit Info'
-                            raised
-                            onClick={this.openPopup.bind(this, 'edit', category)}
-                            accent />
                         <Button
                             label=''
                             icon='close'

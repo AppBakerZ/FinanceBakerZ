@@ -43,7 +43,8 @@
         border-right: 0;
         line-height: $unit * 5;
         margin: 0;
-        color: $color-primary-dark;
+        color: $color-danger;
+        font-size: $font-size-big + $unit;
       }
     }
   }
