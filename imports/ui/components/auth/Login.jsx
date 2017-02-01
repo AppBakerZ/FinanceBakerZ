@@ -59,8 +59,9 @@ export default class Register extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                Meteor.call('insertAccountOnLogin' , Meteor.user()._id);
-                Meteor.call('insertDefaultCurrency', Meteor.user()._id );
+                var account = {account: {owner: Meteor.user()._id}};
+                Meteor.call('insertAccountOnLogin' , account);
+                Meteor.call('insertDefaultCurrency', account);
                 setTimeout(() => {
                     this.props.history.push('/app/dashboard');
                 }, 1000);
