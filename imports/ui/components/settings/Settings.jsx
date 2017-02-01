@@ -11,6 +11,7 @@ import { Categories } from '../../../api/categories/categories.js';
 import theme from './theme';
 import cardTheme from './cardTheme';
 import checkboxTheme from './checkboxTheme';
+import buttonTheme from './buttonTheme';
 
 class SettingsPage extends Component {
 
@@ -161,6 +162,13 @@ class SettingsPage extends Component {
                                 </div>
                             </div>
                         </Card>
+                        <div className={theme.buttonSite}>
+                            <Button
+                                label='REMOVE ACCOUNT'
+                                icon=''
+                                raised
+                                theme={buttonTheme} />
+                        </div>
                     </div>
                     <List ripple className='list'>
                         {this.renderCategory()}

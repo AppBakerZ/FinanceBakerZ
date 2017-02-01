@@ -68,3 +68,13 @@
     }
   }
 }
+.buttonSite{
+  text-align: right;
+  padding-right: $unit * 4.5;
+  margin-top: $unit * 4;
+  button{
+    font-size: $font-size + 0.1;
+    padding: $unit - 0.6 $unit * 2 0;
+    height: $unit * 4.6;
+  }
+}
