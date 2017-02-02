@@ -130,14 +130,13 @@ class SettingsPage extends Component {
             case 'remove':
                 return this.renderConfirmationMessage();
                 break;
-            case 'edit':
-                return <Form account={this.state.selectedAccount} closePopup={this.closePopup.bind(this)} />;
+            case 'personalInformation':
+                return <div>Hello</div>;
                 break;
-            case 'add':
-                return <Form closePopup={this.closePopup.bind(this)} />;
+            case 'accountSetting':
+                return <div>Testing</div>;
                 break;
         }
-
     }
     openPopup (action, account) {
         this.setState({
@@ -187,7 +186,7 @@ class SettingsPage extends Component {
                                 <h6>email: <span>shahidafridi@hotmail.com</span></h6>
                                 <h6>address: <span>house no.10, block j, karachi, pakistan</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
                                 </div>
                             </div>
                         </Card>
@@ -215,7 +214,7 @@ class SettingsPage extends Component {
                                     </span>
                                 </h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
                                 </div>
                             </div>
                         </Card>

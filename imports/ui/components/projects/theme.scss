@@ -113,12 +113,25 @@
 .confirmText{
   margin-bottom: $unit * 2;
   p{
-    display: inline-block;
     line-height: $unit * 2.6;
     color: $color-text;
-    font-size: $font-size-big + 0.2;
-    text-transform: capitalize;
+    font-size: $font-size-big;
     letter-spacing: $unit - 0.9;
+    text-align: center;
+  }
+}
+.buttonDialog{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 5.9 0;
+    border-radius: $unit - 0.5;
+    &:last-of-type{
+      padding: $unit - 0.6 $unit * 3.8 0;
+      margin-left: $unit * 1.8;
+    }
   }
 }
 /////////////////////////// dialog styling end here /////////////////////////////////

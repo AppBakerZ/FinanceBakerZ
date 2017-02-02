@@ -14,6 +14,8 @@ import Loader from '/imports/ui/components/loader/Loader.jsx';
 import theme from './theme';
 import buttonTheme from './buttonTheme';
 import tableTheme from './tableTheme';
+import dialogButtonTheme from './dialogButtonTheme';
+import dialogTheme from './dialogTheme';
 
 
 
@@ -36,7 +38,7 @@ class CategoriesPage extends Component {
     }
     popupTemplate(){
         return(
-            <Dialog
+            <Dialog theme={dialogTheme}
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
@@ -73,11 +75,15 @@ class CategoriesPage extends Component {
     renderConfirmationMessage(){
         return (
             <div className={theme.dialogContent}>
-                <div><p>Are you sure to delete this category?</p></div>
+                <div>
+                    <h3>remove category</h3>
+                    <p>This will remove your all data</p>
+                    <p>Are you sure to remove your category?</p>
+                </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='Yes' raised accent onClick={this.removeCategory.bind(this)} />
-                    <Button label='No' raised accent onClick={this.closePopup.bind(this)} />
+                    <Button label='GO BACK' raised onClick={this.closePopup.bind(this)} theme={dialogButtonTheme} />
+                    <Button label='YES, REMOVE' raised primary onClick={this.removeCategory.bind(this)} />
                 </div>
             </div>
         )

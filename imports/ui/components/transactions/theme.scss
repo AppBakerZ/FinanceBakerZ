@@ -179,20 +179,24 @@
 .confirmText{
   margin-bottom: $unit * 2;
   p{
-    display: inline-block;
-    line-height: $unit * 2.6;
+    line-height: $unit * 2;
     color: $color-text;
-    font-size: $font-size-big + 0.2;
-    text-transform: capitalize;
+    font-size: $font-size-big;
     letter-spacing: $unit - 0.9;
+    text-align: center;
   }
 }
 .buttonBox{
   text-align: center;
   button{
-    padding: $unit - 0.8 0 0 0;
+    padding: $unit - 0.8 $unit * 5.9 0;
+    height: $unit * 4.6;
+    font-size: $font-size-big - 0.1;
+    letter-spacing: $unit - 0.9;
+    border-radius: $unit - 0.5;
     &:last-of-type{
-      margin-left: $unit * 2;
+      margin-left: $unit * 1.8;
+      padding: $unit - 0.8 $unit * 3.8 0;
     }
   }
 }

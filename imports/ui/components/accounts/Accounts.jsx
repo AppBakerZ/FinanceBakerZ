@@ -14,6 +14,7 @@ import Loader from '/imports/ui/components/loader/Loader.jsx';
 import theme from './theme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
+import dialogTheme from './dialogTheme';
 
 class AccountsPage extends Component {
 
@@ -33,7 +34,7 @@ class AccountsPage extends Component {
     }
     popupTemplate(){
         return(
-            <Dialog
+            <Dialog theme={dialogTheme}
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
@@ -71,11 +72,15 @@ class AccountsPage extends Component {
     renderConfirmationMessage(){
         return (
             <div className={theme.dialogAccount}>
-                <div className={theme.confirmText}><p>Are you sure to delete this account?</p></div>
+                <div className={theme.confirmText}>
+                    <h3>bank account</h3>
+                    <p>This will remove your all data</p>
+                    <p>Are you sure to remove your bank account?</p>
+                </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='Yes' raised accent onClick={this.removeAccount.bind(this)} />
-                    <Button label='No' raised accent onClick={this.closePopup.bind(this)} />
+                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label='YES, REMOVE' raised onClick={this.removeAccount.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )
