@@ -308,7 +308,7 @@ class ProjectPage extends Component {
                 {(updateForm) && <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>}
                 {(updateForm && selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
 
-                <h4>{(updateForm) ? selectedProject.name :   'Add New Project'}</h4>
+                <h4 className={theme.title}>{(updateForm) ? selectedProject.name :   'Add New Project'}</h4>
 
                 <Input type='text' label='Project Name'
                        name='name'

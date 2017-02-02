@@ -111,4 +111,10 @@
     }
   }
 }
+.titleSetting{
+  color: $color-primary;
+  font-size: $font-size-big + 0.7;
+  text-transform: uppercase;
+  letter-spacing: $unit - 0.9;
+}
 ///////////////////////////// dialog styling ///////////////////////////////////////

@@ -131,10 +131,10 @@ class SettingsPage extends Component {
                 return this.renderConfirmationMessage();
                 break;
             case 'personalInformation':
-                return <div>Hello</div>;
+                return <div><h3 className={theme.titleSetting}>edit Personal Information</h3> Hello</div>;
                 break;
             case 'accountSetting':
-                return <div>Testing</div>;
+                return <div><h3 className={theme.titleSetting}>edit Account Settings</h3> Testing</div>;
                 break;
         }
     }
