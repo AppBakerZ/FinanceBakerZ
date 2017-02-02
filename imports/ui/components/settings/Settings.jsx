@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -125,16 +125,93 @@ class SettingsPage extends Component {
             </Dialog>
         )
     }
+
+    onChange (val, e) {
+        this.setState({[e.target.name]: val});
+    }
+
+    onSubmit(event){
+        event.preventDefault();
+        this.props.account ? this.updateAccount() : this.createAccount();
+        this.setState({loading: true})
+    }
+
+    progressBarToggle (){
+        return this.state.loading ? 'progress-bar' : 'progress-bar hide';
+    }
+
     switchPopupTemplate(){
         switch (this.state.action){
             case 'remove':
                 return this.renderConfirmationMessage();
                 break;
             case 'personalInformation':
-                return <div><h3 className={theme.titleSetting}>edit Personal Information</h3> Hello</div>;
+                return (
+                    <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                        <h3 className={theme.titleSetting}>edit Personal Information</h3>
+
+                        <Input type='text' label='Name'
+                               name='name'
+                               maxLength={ 25 }
+                               value={this.state.name}
+                               onChange={this.onChange.bind(this)}
+                               required
+                            />
+                        <Input type='text' label='Contact Number'
+                               name='contact'
+                               maxLength={ 50 }
+                               value={this.state.purpose}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <Input type='text' label='Email'
+                               name='email'
+                               value={this.state.number}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <Input type='text' label='Address'
+                               name='address'
+                               value={this.state.icon}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                    </form>
+                );
                 break;
             case 'accountSetting':
-                return <div><h3 className={theme.titleSetting}>edit Account Settings</h3> Testing</div>;
+                return (
+                    <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                        <h3 className={theme.titleSetting}>edit Account Settings</h3>
+
+                        <Input type='text' label='Name'
+                               name='name'
+                               maxLength={ 25 }
+                               value={this.state.name}
+                               onChange={this.onChange.bind(this)}
+                               required
+                            />
+                        <Input type='text' label='Contact Number'
+                               name='contact'
+                               maxLength={ 50 }
+                               value={this.state.purpose}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <Input type='text' label='Email'
+                               name='email'
+                               value={this.state.number}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <Input type='text' label='Address'
+                               name='address'
+                               value={this.state.icon}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                    </form>
+                );
                 break;
         }
     }
