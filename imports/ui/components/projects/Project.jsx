@@ -14,6 +14,7 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/cur
 import theme from './theme';
 import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
+import buttonTheme from './buttonTheme';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -251,11 +252,14 @@ class ProjectPage extends Component {
 
         return (
             <div>
-                <div className={theme.confirmText}><p>Are you sure to delete this project?</p></div>
+                <div className={theme.confirmText}>
+                    <p>This will remove your all data</p>
+                    <p>Are you sure to remove your project?</p>
+                </div>
 
-                <div className={theme.buttonBox}>
-                    <Button label='Yes' raised accent onClick={this.deleteProject.bind(this)} />
-                    <Button label='No' raised accent onClick={this.deleteProjectToggle.bind(this)} />
+                <div className={theme.buttonDialog}>
+                    <Button label='GO BACK' raised primary onClick={this.deleteProjectToggle.bind(this)} />
+                    <Button label='YES, REMOVE' raised onClick={this.deleteProject.bind(this)} theme={buttonTheme} />
                 </div>
             </div>
         )
@@ -304,7 +308,7 @@ class ProjectPage extends Component {
                 {(updateForm) && <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>}
                 {(updateForm && selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
 
-                <h4>{(updateForm) ? selectedProject.name :   'Add New Project'}</h4>
+                <h4 className={theme.title}>{(updateForm) ? selectedProject.name :   'Add New Project'}</h4>
 
                 <Input type='text' label='Project Name'
                        name='name'

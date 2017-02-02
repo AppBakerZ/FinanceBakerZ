@@ -8,6 +8,8 @@ import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
+import theme from './theme';
+
 export default class Form extends Component {
 
     constructor(props) {
@@ -169,6 +171,8 @@ export default class Form extends Component {
             <form onSubmit={this.onSubmit.bind(this)} className="add-category">
 
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                <h3 className={theme.titleAccount}>add categories</h3>
 
                 <Snackbar
                     action='Dismiss'

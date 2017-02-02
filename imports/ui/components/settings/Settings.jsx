@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -12,6 +12,7 @@ import theme from './theme';
 import cardTheme from './cardTheme';
 import checkboxTheme from './checkboxTheme';
 import buttonTheme from './buttonTheme';
+import dialogTheme from './dialogTheme';
 
 class SettingsPage extends Component {
 
@@ -112,6 +113,61 @@ class SettingsPage extends Component {
         )
     }
 
+
+    popupTemplate(){
+        return(
+            <Dialog theme={dialogTheme}
+                active={this.state.openDialog}
+                onEscKeyDown={this.closePopup.bind(this)}
+                onOverlayClick={this.closePopup.bind(this)}
+                >
+                {this.switchPopupTemplate()}
+            </Dialog>
+        )
+    }
+    switchPopupTemplate(){
+        switch (this.state.action){
+            case 'remove':
+                return this.renderConfirmationMessage();
+                break;
+            case 'personalInformation':
+                return <div><h3 className={theme.titleSetting}>edit Personal Information</h3> Hello</div>;
+                break;
+            case 'accountSetting':
+                return <div><h3 className={theme.titleSetting}>edit Account Settings</h3> Testing</div>;
+                break;
+        }
+    }
+    openPopup (action, account) {
+        this.setState({
+            openDialog: true,
+            action,
+            selectedAccount: account || null
+        });
+    }
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+    renderConfirmationMessage(){
+        return (
+            <div className={theme.dialogSetting}>
+                <div className={theme.confirmText}>
+                    <h3>remove account</h3>
+                    <p>This will remove your all data</p>
+                    <p>Are you sure to remove your account?</p>
+                </div>
+
+                <div className={theme.buttonBox}>
+                    <Button label='GO BACK' raised primary />
+                    <Button label='YES, REMOVE' raised onClick={this.closePopup.bind(this)} theme={buttonTheme}/>
+                </div>
+            </div>
+        )
+    }
+
+
     render() {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
@@ -130,7 +186,7 @@ class SettingsPage extends Component {
                                 <h6>email: <span>shahidafridi@hotmail.com</span></h6>
                                 <h6>address: <span>house no.10, block j, karachi, pakistan</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
                                 </div>
                             </div>
                         </Card>
@@ -158,13 +214,14 @@ class SettingsPage extends Component {
                                     </span>
                                 </h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
                                 </div>
                             </div>
                         </Card>
                         <div className={theme.buttonSite}>
                             <Button
                                 label='REMOVE ACCOUNT'
+                                onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
                                 raised
                                 theme={buttonTheme} />
@@ -172,6 +229,7 @@ class SettingsPage extends Component {
                     </div>
                     <List ripple className='list'>
                         {this.renderCategory()}
+                        {this.popupTemplate()}
                     </List>
                 </div>
             </div>

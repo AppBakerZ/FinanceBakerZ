@@ -7,6 +7,8 @@ import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
+import theme from './theme';
+
 export default class Form extends Component {
 
     constructor(props) {
@@ -116,6 +118,8 @@ export default class Form extends Component {
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="add-account">
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                <h3 className={theme.titleAccount}>add account</h3>
 
                 <Snackbar
                     action='Dismiss'

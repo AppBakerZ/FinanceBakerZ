@@ -22,6 +22,7 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/cur
 import theme from './theme';
 import tableTheme from './tableTheme';
 import dialogTheme from './dialogTheme';
+import buttonTheme from './buttonTheme';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -210,11 +211,14 @@ class TransactionPage extends Component {
         };
         return (
             <div>
-                <div className={theme.confirmText}><p>Are you sure to delete this project?</p></div>
+                <div className={theme.confirmText}>
+                    <p>This will remove your all data</p>
+                    <p>Are you sure to remove your project?</p>
+                </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='Yes' raised accent onClick={this.deleteTransaction.bind(this)} />
-                    <Button label='No' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                    <Button label='GO BACK' raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+                    <Button label='YES, REMOVE' raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
                 </div>
             </div>
         )
