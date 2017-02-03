@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -23,11 +23,18 @@ class SettingsPage extends Component {
             userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
             currencies: [],
             check1: true,
-            check2: false
+            check2: false,
+            languageSelected: 'en'
         }
 
+        this.languages = [
+            { value: 'en', label: 'English' },
+            { value: 'ar', label: 'Arabic'}
+        ]
     }
     handleChange (field, value) {
+        if(field == 'check1') this.setState({'check2': false});
+        else this.setState({'check1': false});
         this.setState({[field]: value});
     }
 
@@ -113,6 +120,11 @@ class SettingsPage extends Component {
             </div>
         );
     }
+
+    handleLanguageChange (value){
+        this.setState({languageSelected: value});
+    }
+
     renderCategory(){
         return (
             <section>
@@ -142,16 +154,99 @@ class SettingsPage extends Component {
             </Dialog>
         )
     }
+
+    onChange (val, e) {
+        this.setState({[e.target.name]: val});
+    }
+
+    onSubmit(event){
+        event.preventDefault();
+        this.props.account ? this.updateAccount() : this.createAccount();
+        this.setState({loading: true})
+    }
+
+    progressBarToggle (){
+        return this.state.loading ? 'progress-bar' : 'progress-bar hide';
+    }
+
     switchPopupTemplate(){
         switch (this.state.action){
             case 'remove':
                 return this.renderConfirmationMessage();
                 break;
             case 'personalInformation':
-                return <div><h3 className={theme.titleSetting}>edit Personal Information</h3> Hello</div>;
+                return (
+                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                        <h3 className={theme.titleSetting}>edit Personal Information</h3>
+
+                        <Input type='text' label='Name'
+                               name='name'
+                               maxLength={ 25 }
+                               value={this.state.name}
+                               onChange={this.onChange.bind(this)}
+                               required
+                            />
+                        <Input type='text' label='Contact Number'
+                               name='contact'
+                               maxLength={ 50 }
+                               value={this.state.purpose}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <Input type='text' label='Email'
+                               name='email'
+                               value={this.state.number}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <Input type='text' label='Address'
+                               name='address'
+                               value={this.state.icon}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <div className={theme.updateBtn}>
+                            <Button label='UPDATE' raised primary />
+                        </div>
+
+                    </form>
+                );
                 break;
             case 'accountSetting':
-                return <div><h3 className={theme.titleSetting}>edit Account Settings</h3> Testing</div>;
+                return (
+                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                        <h3 className={theme.titleSetting}>edit Account Settings</h3>
+
+                        <section>
+                            <Dropdown
+                                auto={false}
+                                source={this.currencies()}
+                                name='userCurrency'
+                                onChange={this.onChange.bind(this)}
+                                label='Select your currency'
+                                value={this.state.userCurrency}
+                                template={this.currencyItem}
+                                required
+                                />
+                        </section>
+
+                        <Dropdown
+                            source={this.languages}
+                            onChange={this.handleLanguageChange.bind(this)}
+                            value={this.state.languageSelected}
+                            />
+
+                        <Input type='password' label='Password'
+                               name='password'
+                               value={this.state.number}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        <div className={theme.updateBtn}>
+                            <Button label='UPDATE' raised primary />
+                        </div>
+                    </form>
+                );
                 break;
         }
     }

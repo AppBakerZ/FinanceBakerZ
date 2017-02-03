@@ -108,15 +108,15 @@ export default class Form extends Component {
     renderButton (){
         let button;
         if(!this.props.account){
-            button = <Button type='submit' icon='add' label='Add Account' raised primary />
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label='Add Account' raised primary /></div>
         }else{
-            button = <Button type='submit' icon='mode_edit' label='Update Account' raised primary />
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label='Update Account' raised primary /></div>
         }
         return button;
     }
     render() {
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+            <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
                 <h3 className={theme.titleAccount}>add account</h3>

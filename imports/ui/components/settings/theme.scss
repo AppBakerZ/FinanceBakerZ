@@ -117,4 +117,22 @@
   text-transform: uppercase;
   letter-spacing: $unit - 0.9;
 }
+.updateBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 6.3 0;
+    letter-spacing: $unit - 0.9;
+    border-radius: $unit - 0.5;
+  }
+}
+.addAccount{
+  label{
+    color: $color-text;
+  }
+  strong{
+    margin-top: $unit - 0.2;
+  }
+}
 ///////////////////////////// dialog styling ///////////////////////////////////////
