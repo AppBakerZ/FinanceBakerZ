@@ -28,6 +28,8 @@ class SettingsPage extends Component {
 
     }
     handleChange (field, value) {
+        if(field == 'check1') this.setState({'check2': false});
+        else this.setState({'check1': false});
         this.setState({[field]: value});
     }
 
@@ -147,7 +149,7 @@ class SettingsPage extends Component {
                 break;
             case 'personalInformation':
                 return (
-                    <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
                         <h3 className={theme.titleSetting}>edit Personal Information</h3>
@@ -175,41 +177,40 @@ class SettingsPage extends Component {
                                value={this.state.icon}
                                onChange={this.onChange.bind(this)}
                             />
+                        <div className={theme.updateBtn}>
+                            <Button label='UPDATE' raised primary />
+                        </div>
 
                     </form>
                 );
                 break;
             case 'accountSetting':
                 return (
-                    <form onSubmit={this.onSubmit.bind(this)} className="add-account">
+                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
                         <h3 className={theme.titleSetting}>edit Account Settings</h3>
 
-                        <Input type='text' label='Name'
-                               name='name'
-                               maxLength={ 25 }
-                               value={this.state.name}
-                               onChange={this.onChange.bind(this)}
-                               required
-                            />
-                        <Input type='text' label='Contact Number'
-                               name='contact'
-                               maxLength={ 50 }
-                               value={this.state.purpose}
-                               onChange={this.onChange.bind(this)}
-                            />
-                        <Input type='text' label='Email'
-                               name='email'
+                        <section>
+                            <Dropdown
+                                auto={false}
+                                source={this.currencies()}
+                                name='userCurrency'
+                                onChange={this.onChange.bind(this)}
+                                label='Select your currency'
+                                value={this.state.userCurrency}
+                                template={this.currencyItem}
+                                required
+                                />
+                        </section>
+                        <Input type='password' label='Password'
+                               name='password'
                                value={this.state.number}
                                onChange={this.onChange.bind(this)}
                             />
-                        <Input type='text' label='Address'
-                               name='address'
-                               value={this.state.icon}
-                               onChange={this.onChange.bind(this)}
-                            />
-
+                        <div className={theme.updateBtn}>
+                            <Button label='UPDATE' raised primary />
+                        </div>
                     </form>
                 );
                 break;
