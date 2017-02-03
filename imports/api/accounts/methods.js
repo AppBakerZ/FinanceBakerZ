@@ -182,7 +182,7 @@ export const userRemove = new ValidatedMethod({
     mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to update account'
+        message: 'You need to be logged in to remove account'
     },
     validate: new SimpleSchema({
         'account': {
@@ -199,7 +199,7 @@ export const userRemove = new ValidatedMethod({
          Incomes.remove({owner: owner});
          Expenses.remove({owner: owner});
          Projects.remove({owner: owner});
-         Meteor.users.remove({_id: Meteor.userId()});
+         Meteor.users.remove({_id: owner});
     }
 });
 

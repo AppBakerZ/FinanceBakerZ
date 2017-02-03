@@ -48,15 +48,11 @@ class SettingsPage extends Component {
 
 
     userRemove () {
-        var user = {account: {owner: Meteor.user()._id}};
+        if(!Meteor.userId()) return;
+        var user = {account: {owner: Meteor.userId()}};
         Meteor.call('userRemove', user, (err, res) => {
             if(err) {
-                this.props.showSnackbar({
-                    activeSnackbar: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
+
             }
              else {
                 this.props.history.push('/login');
