@@ -140,4 +140,18 @@
     }
   }
 }
+.createProjectForm{
+  label{
+    color: $color-text;
+  }
+}
+.addBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 4.3 0;
+  }
+}
 /////////////////////////// dialog styling end here /////////////////////////////////

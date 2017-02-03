@@ -128,9 +128,9 @@ export default class Form extends Component {
     renderButton (){
         let button;
         if(!this.props.category){
-            button = <Button type='submit' icon='add' label='Add Category' raised primary />
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label='Add Category' raised primary /></div>
         }else{
-            button = <Button type='submit' icon='mode_edit' label='Update Category' raised primary />
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label='Update Category' raised primary /></div>
         }
         return button;
     }
@@ -168,7 +168,7 @@ export default class Form extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-category">
+            <form onSubmit={this.onSubmit.bind(this)} className={theme.addCategory}>
 
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 

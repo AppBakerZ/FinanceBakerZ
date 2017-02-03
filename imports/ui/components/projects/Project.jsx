@@ -304,7 +304,7 @@ class ProjectPage extends Component {
     renderAddProjectForm(){
         let {updateForm, selectedProject} = this.state;
         return(
-            <form className="create-project-form"  onSubmit={this.createNewProject.bind(this)} >
+            <form className={theme.createProjectForm} onSubmit={this.createNewProject.bind(this)} >
                 {(updateForm) && <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>}
                 {(updateForm && selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
 
@@ -352,7 +352,9 @@ class ProjectPage extends Component {
                     onChange={this.onChange.bind(this)}
                     value={this.state.project.startAt}
                     />
-                <Button type="submit" icon='add' label={(updateForm) ?'update':   'Add Now'} raised primary />
+                <div className={theme.addBtn}>
+                    <Button type="submit" icon='add' label={(updateForm) ?'update':   'Add New'} raised primary />
+                </div>
             </form>
         )
     }

@@ -23,9 +23,16 @@ class SettingsPage extends Component {
             userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
             currencies: [],
             check1: true,
-            check2: false
+            check2: false,
+            languageSelected: 'ES-es'
         }
 
+        this.languages = [
+            { value: 'EN-gb', label: 'England' },
+            { value: 'ES-es', label: 'Spain'},
+            { value: 'TH-th', label: 'Thailand' },
+            { value: 'EN-en', label: 'USA'}
+        ]
     }
     handleChange (field, value) {
         if(field == 'check1') this.setState({'check2': false});
@@ -98,6 +105,11 @@ class SettingsPage extends Component {
             </div>
         );
     }
+
+    handleLanguageChange (value){
+        this.setState({languageSelected: value});
+    }
+
     renderCategory(){
         return (
             <section>
@@ -203,6 +215,13 @@ class SettingsPage extends Component {
                                 required
                                 />
                         </section>
+
+                        <Dropdown
+                            source={this.languages}
+                            onChange={this.handleLanguageChange.bind(this)}
+                            value={this.state.languageSelected}
+                            />
+
                         <Input type='password' label='Password'
                                name='password'
                                value={this.state.number}
