@@ -46,6 +46,23 @@ class SettingsPage extends Component {
         e.target.name == 'userCurrency' && this.setCurrency(val)
     }
 
+
+    userRemove () {
+        if(!Meteor.userId()) return;
+        var user = {account: {owner: Meteor.userId()}};
+        Meteor.call('userRemove', user, (err, res) => {
+            if(err) {
+
+            }
+             else {
+                this.props.history.push('/login');
+            }
+        });
+
+    }
+
+
+
     setCurrency(currency){
         currency = _.findWhere(this.state.currencies, {symbol: currency});
         delete currency.value;
@@ -160,8 +177,8 @@ class SettingsPage extends Component {
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary />
-                    <Button label='YES, REMOVE' raised onClick={this.closePopup.bind(this)} theme={buttonTheme}/>
+                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label='YES, REMOVE' raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )

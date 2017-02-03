@@ -8,6 +8,10 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Accounts } from './accounts.js';
+import { Categories } from '../categories/categories.js';
+import { Incomes } from '../incomes/incomes.js';
+import { Expenses } from '../expences/expenses.js';
+import { Projects } from '../projects/projects.js';
 
 export const insert = new ValidatedMethod({
     name: 'accounts.insert',
@@ -172,6 +176,33 @@ export const insertDefaultCurrency = new ValidatedMethod({
 
     }
 });
+
+export const userRemove = new ValidatedMethod({
+    name: 'userRemove',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove account'
+    },
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.owner': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        const {owner} = account;
+         Accounts.remove({owner: owner});
+         Categories.remove({owner: owner});
+         Incomes.remove({owner: owner});
+         Expenses.remove({owner: owner});
+         Projects.remove({owner: owner});
+         Meteor.users.remove({_id: owner});
+    }
+});
+
 
 
 // Get list of all method names on Companies
