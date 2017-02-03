@@ -24,14 +24,12 @@ class SettingsPage extends Component {
             currencies: [],
             check1: true,
             check2: false,
-            languageSelected: 'ES-es'
+            languageSelected: 'en'
         }
 
         this.languages = [
-            { value: 'EN-gb', label: 'England' },
-            { value: 'ES-es', label: 'Spain'},
-            { value: 'TH-th', label: 'Thailand' },
-            { value: 'EN-en', label: 'USA'}
+            { value: 'en', label: 'English' },
+            { value: 'ar', label: 'Arabic'}
         ]
     }
     handleChange (field, value) {
