@@ -24,7 +24,12 @@ class SettingsPage extends Component {
             currencies: [],
             check1: true,
             check2: false,
-            languageSelected: 'en'
+            languageSelected: 'en',
+            name: Meteor.user().profile.fullName,
+            number: Meteor.user().profile.contactNumber || '' ,
+            username: Meteor.user().username || '',
+            email: Meteor.user().emails ? Meteor.user().emails[0].address : '',
+            address: Meteor.user().profile.address
         }
 
         this.languages = [
@@ -159,6 +164,11 @@ class SettingsPage extends Component {
         this.setState({[e.target.name]: val});
     }
 
+    updateProfile (info){
+
+        //Meteor.call('',info);
+    }
+
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
@@ -189,23 +199,32 @@ class SettingsPage extends Component {
                                required
                             />
                         <Input type='text' label='Contact Number'
-                               name='contact'
+                               name='number'
                                maxLength={ 50 }
-                               value={this.state.purpose}
-                               onChange={this.onChange.bind(this)}
-                            />
-                        <Input type='text' label='Email'
-                               name='email'
                                value={this.state.number}
                                onChange={this.onChange.bind(this)}
                             />
+                        {Meteor.user().username ?
+
+                        <Input type='text' label='Username'
+                               name= 'username'
+                               value={this.state.username}
+                               onChange={this.onChange.bind(this)}
+                            />
+                            :
+                        <Input type='text' label='Email'
+                               name= 'email'
+                               value={this.state.email}
+                               onChange={this.onChange.bind(this)}
+                            />
+                        }
                         <Input type='text' label='Address'
                                name='address'
-                               value={this.state.icon}
+                               value={this.state.address}
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button label='UPDATE' raised primary />
+                            <Button label='UPDATE' raised primary onClick={this.updateProfile.bind(this)} />
                         </div>
 
                     </form>
@@ -293,10 +312,10 @@ class SettingsPage extends Component {
                                 <h5>personal information</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>name: <span>shahid afridi</span></h6>
-                                <h6>contact number: <span>+92-300-32198765</span></h6>
-                                <h6>email: <span>shahidafridi@hotmail.com</span></h6>
-                                <h6>address: <span>house no.10, block j, karachi, pakistan</span></h6>
+                                <h6>name: <span>{Meteor.user().profile.fullName}</span></h6>
+                                <h6>Contact Number: <span> Not Available</span></h6>
+                                <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
+                                <h6>Address: <span> Not Available</span></h6>
                                 <div className={theme.settingBtn}>
                                     <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
                                 </div>
