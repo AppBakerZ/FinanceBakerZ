@@ -1,10 +1,13 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/list/config";
+
 .appFooter{
   text-align: center;
-  padding: 5px 0 3px 0;
+  padding: $unit - 0.5 0 $unit - 0.7 0;
   background: $color-primary;
   span{
-    margin: 5px 0 5px 0;
-    color: white;
-    font-size: 14px;
+    margin: $unit - 0.5 0 $unit - 0.5 0;
+    color: $color-primary-dark;
+    font-size: $font-size-small;
   }
 }

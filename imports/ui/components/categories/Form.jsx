@@ -9,6 +9,9 @@ import { Categories } from '../../../api/categories/categories.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
 import theme from './theme';
+import dropdownTheme from './dropdownTheme';
+
+import fonts from '/imports/ui/fonts.js';
 
 export default class Form extends Component {
 
@@ -20,8 +23,10 @@ export default class Form extends Component {
             icon: '',
             active: false,
             loading: false,
-            parent: null
+            parent: null,
+            iconSelected: 'en'
         };
+        this.icons = fonts
     }
 
     onSubmit(event){
@@ -166,6 +171,18 @@ export default class Form extends Component {
         );
     }
 
+    categoryIcons(icon){
+        return (
+            <div className={icon.last ? dropdownTheme.last : ''}>
+                <i className={icon.value}/>
+            </div>
+        );
+    }
+
+    handleIconChange (value){
+        this.setState({iconSelected: value});
+    }
+
     render() {
         return (
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addCategory}>
@@ -198,6 +215,13 @@ export default class Form extends Component {
                        value={this.state.icon}
                        onChange={this.onChange.bind(this)}
                        required
+                    />
+
+                <Dropdown theme={dropdownTheme}
+                    source={this.icons}
+                    onChange={this.handleIconChange.bind(this)}
+                    value={this.state.iconSelected}
+                    template={this.categoryIcons}
                     />
 
                 <Dropdown

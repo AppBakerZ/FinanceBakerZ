@@ -5,7 +5,7 @@ $drawer-width: 26 * $unit !default;
 
 .drawer {
   background-color: $color-primary-dark;
-  padding-top: 8.5rem;
+  padding-top: $unit * 8.5;
   width: $drawer-width;
 }
 

@@ -5,8 +5,7 @@
   position: relative;
   padding: 0 0 $unit - 0.5 0;
   .value{
-    //position: absolute;
-    line-height: $unit * 2.5;
+    line-height: $unit * 2;
     padding: $unit - 0.8 $unit * 3 0 $unit;
     background: $color-accent;
     color: $color-primary-dark;
@@ -15,6 +14,7 @@
     float: left;
     span{
       margin: 0 $unit - 0.6 0;
+      top: -1px;
       svg{
         background: $color-primary-dark;
         path{

@@ -85,7 +85,7 @@
 .dashboardDatePicker{
   width: 38%;
   position: relative;
-  top: 3px;
+  top: $unit - 0.7;
   display: inline-block;
   > div{
     width: 44.6%;
