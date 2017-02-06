@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('/fonts/icomoon.eot?od2g5i');
-  src:  url('/fonts/icomoon.eot?od2g5i#iefix') format('embedded-opentype'),
-  url('/fonts/icomoon.ttf?od2g5i') format('truetype'),
-  url('/fonts/icomoon.woff?od2g5i') format('woff'),
-  url('/fonts/icomoon.svg?od2g5i#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?5hpzgf');
+  src:  url('fonts/icomoon.eot?5hpzgf#iefix') format('embedded-opentype'),
+  url('fonts/icomoon.ttf?5hpzgf') format('truetype'),
+  url('fonts/icomoon.woff?5hpzgf') format('woff'),
+  url('fonts/icomoon.svg?5hpzgf#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,6 +25,156 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  .icon-icons_bbq .path1:before {
+    content: "\e90e";
+    color: rgb(255, 255, 255);
+  }
+  .icon-icons_bbq .path2:before {
+    content: "\e915";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_bbq .path3:before {
+    content: "\e91a";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_bbq .path4:before {
+    content: "\e91b";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_bbq .path5:before {
+    content: "\e92c";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_bbq .path6:before {
+    content: "\e92d";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_bbq .path7:before {
+    content: "\e92e";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_bbq .path8:before {
+    content: "\e92f";
+    margin-left: -1em;
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_beef:before {
+    content: "\e930";
+  }
+  .icon-icons_calling-card:before {
+    content: "\e931";
+  }
+  .icon-icons_camera:before {
+    content: "\e932";
+  }
+  .icon-icons_charity:before {
+    content: "\e933";
+  }
+  .icon-icons_chicken:before {
+    content: "\e934";
+  }
+  .icon-icons_doctor:before {
+    content: "\e935";
+  }
+  .icon-icons_donation:before {
+    content: "\e936";
+  }
+  .icon-icons_electricity-bill:before {
+    content: "\e937";
+  }
+  .icon-icons_engagement:before {
+    content: "\e938";
+  }
+  .icon-icons_fish:before {
+    content: "\e939";
+  }
+  .icon-icons_fishing:before {
+    content: "\e93a";
+  }
+  .icon-icons_fruits:before {
+    content: "\e93b";
+  }
+  .icon-icons_game:before {
+    content: "\e93c";
+  }
+  .icon-icons_gift:before {
+    content: "\e93d";
+  }
+  .icon-icons_groceries:before {
+    content: "\e93e";
+  }
+  .icon-icons_gym:before {
+    content: "\e93f";
+  }
+  .icon-icons_home-rent:before {
+    content: "\e940";
+  }
+  .icon-icons_hospital:before {
+    content: "\e941";
+  }
+  .icon-icons_hunting:before {
+    content: "\e942";
+  }
+  .icon-icons_labor:before {
+    content: "\e943";
+  }
+  .icon-icons_laundry:before {
+    content: "\e944";
+  }
+  .icon-icons_lawyer:before {
+    content: "\e945";
+  }
+  .icon-icons_net-cable:before {
+    content: "\e946";
+  }
+  .icon-icons_painting:before {
+    content: "\e947";
+  }
+  .icon-icons_pets:before {
+    content: "\e948";
+  }
+  .icon-icons_plants:before {
+    content: "\e949";
+  }
+  .icon-icons_restaurant:before {
+    content: "\e94a";
+  }
+  .icon-icons_shipping:before {
+    content: "\e94b";
+  }
+  .icon-icons_sports:before {
+    content: "\e94c";
+  }
+  .icon-icons_sweeper:before {
+    content: "\e94d";
+  }
+  .icon-icons_swimming:before {
+    content: "\e94e";
+  }
+  .icon-icons_train:before {
+    content: "\e94f";
+  }
+  .icon-icons_travel:before {
+    content: "\e950";
+  }
+  .icon-icons_tv-cable:before {
+    content: "\e951";
+  }
+  .icon-icons_vegetable:before {
+    content: "\e952";
+  }
+  .icon-icons_wedding:before {
+    content: "\e953";
+  }
+  .icon-icons_zakaat:before {
+    content: "\e954";
+  }
   .icon-icons_baby-sit:before {
     content: "\e90a";
   }
@@ -36,9 +186,6 @@
   }
   .icon-icons_breakfast:before {
     content: "\e90d";
-  }
-  .icon-icons_camra:before {
-    content: "\e90e";
   }
   .icon-icons_car-wash:before {
     content: "\e90f";
@@ -58,9 +205,6 @@
   .icon-icons_dinner:before {
     content: "\e914";
   }
-  .icon-icons_Doctor:before {
-    content: "\e915";
-  }
   .icon-icons_drink:before {
     content: "\e916";
   }
@@ -72,12 +216,6 @@
   }
   .icon-icons_furniture:before {
     content: "\e919";
-  }
-  .icon-icons_grocries:before {
-    content: "\e91a";
-  }
-  .icon-icons_hosptal:before {
-    content: "\e91b";
   }
   .icon-icons_laptop:before {
     content: "\e91c";
