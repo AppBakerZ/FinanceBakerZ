@@ -19,12 +19,10 @@
       i{
         font-size: $unit * 4.8;
       }
-      &.last{
+      &.removeBottomBorder{
         border-bottom: 0;
       }
-    }
-    &:nth-child(5){
-      div{
+      &.removeRightBorder{
         border-right: 0;
       }
     }
@@ -39,5 +37,16 @@
   }
   .selected{
     color: black;
+  }
+}
+.dropdown{
+  .field{
+    .value{
+      > div{
+        i{
+          font-size: $font-size-big + 0.7;
+        }
+      }
+    }
   }
 }

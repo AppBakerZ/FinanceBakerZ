@@ -4,4 +4,6 @@
 .dialog{
   width: $unit * 52.5;
   border-radius: 0;
+  overflow: auto;
+  height: auto;
 }

@@ -26,7 +26,20 @@ export default class Form extends Component {
             parent: null,
             iconSelected: 'en'
         };
-        this.icons = fonts
+
+        this.icons = fonts.map((font, index) => {
+            index++;
+            if(index % 5 == 0){
+                font.removeRightBorder = true
+            }
+            let lastItems = fonts.length % 5 == 0 ? 5 : fonts.length % 5;
+            console.log(lastItems);
+            if(index > fonts.length - lastItems){
+                font.removeBottomBorder = true
+            }
+            return font
+        });
+
     }
 
     onSubmit(event){
@@ -172,15 +185,20 @@ export default class Form extends Component {
     }
 
     categoryIcons(icon){
+        let parentClass = '';
+        if(icon.removeRightBorder){
+            parentClass = dropdownTheme['removeRightBorder']
+        }
+
+        if(icon.removeBottomBorder){
+            parentClass = dropdownTheme['removeBottomBorder']
+        }
+
         return (
-            <div className={icon.last ? dropdownTheme.last : ''}>
+            <div className={parentClass}>
                 <i className={icon.value}/>
             </div>
         );
-    }
-
-    handleIconChange (value){
-        this.setState({iconSelected: value});
     }
 
     render() {
@@ -209,19 +227,14 @@ export default class Form extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='text' label='Icon'
-                       name='icon'
-                       maxLength={ 50 }
-                       value={this.state.icon}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
 
                 <Dropdown theme={dropdownTheme}
                     source={this.icons}
-                    onChange={this.handleIconChange.bind(this)}
-                    value={this.state.iconSelected}
+                    name='icon'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.icon}
                     template={this.categoryIcons}
+                    required
                     />
 
                 <Dropdown

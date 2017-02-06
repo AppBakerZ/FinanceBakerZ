@@ -1,0 +1,163 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('/fonts/icomoon.eot?od2g5i');
+  src:  url('/fonts/icomoon.eot?od2g5i#iefix') format('embedded-opentype'),
+  url('/fonts/icomoon.ttf?od2g5i') format('truetype'),
+  url('/fonts/icomoon.woff?od2g5i') format('woff'),
+  url('/fonts/icomoon.svg?od2g5i#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:global {
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .icon-icons_baby-sit:before {
+    content: "\e90a";
+  }
+  .icon-icons_bike:before {
+    content: "\e90b";
+  }
+  .icon-icons_book-charges:before {
+    content: "\e90c";
+  }
+  .icon-icons_breakfast:before {
+    content: "\e90d";
+  }
+  .icon-icons_camra:before {
+    content: "\e90e";
+  }
+  .icon-icons_car-wash:before {
+    content: "\e90f";
+  }
+  .icon-icons_chocolate:before {
+    content: "\e910";
+  }
+  .icon-icons_cigarette:before {
+    content: "\e911";
+  }
+  .icon-icons_coffee:before {
+    content: "\e912";
+  }
+  .icon-icons_curtain:before {
+    content: "\e913";
+  }
+  .icon-icons_dinner:before {
+    content: "\e914";
+  }
+  .icon-icons_Doctor:before {
+    content: "\e915";
+  }
+  .icon-icons_drink:before {
+    content: "\e916";
+  }
+  .icon-icons_flight-ticket:before {
+    content: "\e917";
+  }
+  .icon-icons_formal:before {
+    content: "\e918";
+  }
+  .icon-icons_furniture:before {
+    content: "\e919";
+  }
+  .icon-icons_grocries:before {
+    content: "\e91a";
+  }
+  .icon-icons_hosptal:before {
+    content: "\e91b";
+  }
+  .icon-icons_laptop:before {
+    content: "\e91c";
+  }
+  .icon-icons_led:before {
+    content: "\e91d";
+  }
+  .icon-icons_loan:before {
+    content: "\e91e";
+  }
+  .icon-icons_lunch:before {
+    content: "\e91f";
+  }
+  .icon-icons_medicine .path1:before {
+    content: "\e920";
+    color: rgb(0, 0, 0);
+  }
+  .icon-icons_medicine .path2:before {
+    content: "\e921";
+    margin-left: -1em;
+    color: rgb(1, 1, 1);
+  }
+  .icon-icons_meeting:before {
+    content: "\e922";
+  }
+  .icon-icons_mobile:before {
+    content: "\e923";
+  }
+  .icon-icons_park:before {
+    content: "\e924";
+  }
+  .icon-icons_repairing:before {
+    content: "\e925";
+  }
+  .icon-icons_saloon:before {
+    content: "\e926";
+  }
+  .icon-icons_shopping:before {
+    content: "\e927";
+  }
+  .icon-icons_sport-wear:before {
+    content: "\e928";
+  }
+  .icon-icons_ticket:before {
+    content: "\e929";
+  }
+  .icon-icons_trip:before {
+    content: "\e92a";
+  }
+  .icon-icons_tution-fee:before {
+    content: "\e92b";
+  }
+  .icon-icons_automobile:before {
+    content: "\e900";
+  }
+  .icon-icons_casual-shirt:before {
+    content: "\e901";
+  }
+  .icon-icons_child-care:before {
+    content: "\e902";
+  }
+  .icon-icons_currency:before {
+    content: "\e903";
+  }
+  .icon-icons_edu:before {
+    content: "\e904";
+  }
+  .icon-icons_food:before {
+    content: "\e905";
+  }
+  .icon-icons_fuel-pump:before {
+    content: "\e906";
+  }
+  .icon-icons_health-care:before {
+    content: "\e907";
+  }
+  .icon-icons_home:before {
+    content: "\e908";
+  }
+  .icon-icons_petrol:before {
+    content: "\e909";
+  }
+}
