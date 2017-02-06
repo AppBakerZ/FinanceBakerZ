@@ -131,6 +131,45 @@ export const insertAccountOnSignUp = new ValidatedMethod({
 });
 
 
+export const updateProfile = new ValidatedMethod({
+    name: 'updateProfile',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update profile'
+    },
+    validate: new SimpleSchema({
+        'users.name': {
+            type: String
+        },
+        'users.username': {
+            type: String
+        },
+        'users.number': {
+            type: String
+        },
+        'users.email': {
+            type: String
+        },
+        'users.address': {
+            type: String
+        }
+    }).validator(),
+    run({ users }) {
+        Meteor.users.update(
+            {
+                _id: Meteor.user()._id} ,
+            {$set: {
+                'profile.fullName': users.name ,
+                'emails.0.address':  users.email ,
+                'profile.address': users.address ,
+                'username': users.username ,
+                'profile.contactNumber': users.number
+            } });
+    }
+});
+
+
 
 export const insertAccountOnLogin = new ValidatedMethod({
     name: 'insertAccountOnLogin',

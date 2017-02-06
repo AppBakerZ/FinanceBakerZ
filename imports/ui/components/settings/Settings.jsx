@@ -29,7 +29,7 @@ class SettingsPage extends Component {
             number: Meteor.user().profile.contactNumber || '' ,
             username: Meteor.user().username || '',
             email: Meteor.user().emails ? Meteor.user().emails[0].address : '',
-            address: Meteor.user().profile.address
+            address: Meteor.user().profile.address || ''
         }
 
         this.languages = [
@@ -164,9 +164,14 @@ class SettingsPage extends Component {
         this.setState({[e.target.name]: val});
     }
 
-    updateProfile (info){
-
-        //Meteor.call('',info);
+    updateProfile (){
+        name = this.state.name;
+        number = this.state.number;
+        email = this.state.email;
+        address = this.state.address;
+        username = this.state.username;
+        var info = {users: {name , number , email , address, username}};
+        Meteor.call('updateProfile',info);
     }
 
     onSubmit(event){
@@ -313,9 +318,9 @@ class SettingsPage extends Component {
                             </div>
                             <div className={theme.cardContent}>
                                 <h6>name: <span>{Meteor.user().profile.fullName}</span></h6>
-                                <h6>Contact Number: <span> Not Available</span></h6>
+                                <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
                                 <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
-                                <h6>Address: <span> Not Available</span></h6>
+                                <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
                                     <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
                                 </div>
