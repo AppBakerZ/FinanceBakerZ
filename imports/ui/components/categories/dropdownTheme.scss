@@ -2,9 +2,9 @@
 @import "~react-toolbox/lib/button/config";
 
 .values{
-  padding: $unit - 0.3;
+  padding: 0 $unit - 0.3 0;
   position: static;
-  margin-bottom: $unit * 2;
+  margin-bottom: $unit;
   li{
     width: 20%;
     float: left;
