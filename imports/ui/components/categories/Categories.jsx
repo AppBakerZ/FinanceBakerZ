@@ -82,8 +82,8 @@ class CategoriesPage extends Component {
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised onClick={this.closePopup.bind(this)} theme={dialogButtonTheme} />
-                    <Button label='YES, REMOVE' raised primary onClick={this.removeCategory.bind(this)} />
+                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label='YES, REMOVE' raised onClick={this.removeCategory.bind(this)} theme={dialogButtonTheme} />
                 </div>
             </div>
         )

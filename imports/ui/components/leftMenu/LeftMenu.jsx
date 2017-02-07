@@ -37,27 +37,27 @@ export default class LeftMenu extends Component {
     render() {
         return (
             <Drawer  theme={drawerTheme} active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
-                    <List className={theme.list} selectable ripple>
-                        <Link to={`/app/dashboard`}>
-                            <ListItem className={this.isActive('dashboard')} caption='Dashboard' leftIcon='dashboard' theme={listItemTheme}/>
-                        </Link>
-                        <Link to={`/app/projects`}>
-                            <ListItem className={this.isActive('projects')} caption='Project' leftIcon='timeline' theme={listItemTheme}/>
-                        </Link>
-                        <Link to={`/app/transactions`}>
-                            <ListItem className={this.isActive('transactions')} caption='Transactions' leftIcon='monetization_on' theme={listItemTheme}/>
-                        </Link>
-                        <Link to={`/app/accounts`}>
-                            <ListItem className={this.isActive('accounts')} caption='Accounts' leftIcon='account_balance' theme={listItemTheme}/>
-                        </Link>
-                        <Link to={`/app/categories`}>
-                            <ListItem className={this.isActive('categories')} caption='Categories' leftIcon='view_module' theme={listItemTheme}/>
-                        </Link>
-                        <Link to={`/app/settings/new`}>
-                            <ListItem className={this.isActive('settings/new')} caption='Settings' leftIcon='settings' theme={listItemTheme}/>
-                        </Link>
-                        <ListItem caption='Logout' leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
-                    </List>
+                <List className={theme.list} selectable ripple>
+                    <Link to={`/app/dashboard`}>
+                        <ListItem className={this.isActive('dashboard')} caption='Dashboard' leftIcon='dashboard' theme={listItemTheme}/>
+                    </Link>
+                    <Link to={`/app/projects`}>
+                        <ListItem className={this.isActive('projects')} caption='Project' leftIcon='timeline' theme={listItemTheme}/>
+                    </Link>
+                    <Link to={`/app/transactions`}>
+                        <ListItem className={this.isActive('transactions')} caption='Transactions' leftIcon='monetization_on' theme={listItemTheme}/>
+                    </Link>
+                    <Link to={`/app/accounts`}>
+                        <ListItem className={this.isActive('accounts')} caption='Accounts' leftIcon='account_balance' theme={listItemTheme}/>
+                    </Link>
+                    <Link to={`/app/categories`}>
+                        <ListItem className={this.isActive('categories')} caption='Categories' leftIcon='view_module' theme={listItemTheme}/>
+                    </Link>
+                    <Link to={`/app/settings/new`}>
+                        <ListItem className={this.isActive('settings/new')} caption='Settings' leftIcon='settings' theme={listItemTheme}/>
+                    </Link>
+                    <ListItem caption='Logout' leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
+                </List>
             </Drawer>
         );
     }

@@ -137,7 +137,7 @@ export default class Form extends Component {
 
     categories(){
         let cats = this.props.categories.map((category) => {
-            return {value: category.name, label: category.name};
+            return {value: category.name, label: category.name, icon: category.icon};
         });
         cats.unshift({value: null, label: 'No Parent'});
         return cats
@@ -159,25 +159,17 @@ export default class Form extends Component {
             flexDirection: 'row'
         };
 
-        const imageStyle = {
-            display: 'flex',
-            width: '22px',
-            height: '22px',
-            flexGrow: 0,
-            marginRight: '8px'
-        };
-
         const contentStyle = {
             display: 'flex',
             flexDirection: 'column',
             flexGrow: 2,
             paddingTop: '4px'
         };
-
+        console.log(category.icon);
         return (
             <div style={containerStyle}>
-                <FontIcon value={category.icon} style={imageStyle}/>
-                <div style={contentStyle}>
+                <div className={theme.selectParent}>
+                    <i className={category.icon}/>
                     <strong>{category.label}</strong>
                 </div>
             </div>
@@ -233,6 +225,7 @@ export default class Form extends Component {
                     name='icon'
                     onChange={this.onChange.bind(this)}
                     value={this.state.icon}
+                    label='Select Icon'
                     template={this.categoryIcons}
                     required
                     />

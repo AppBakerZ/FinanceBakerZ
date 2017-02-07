@@ -103,3 +103,14 @@
     padding: $unit - 0.6 $unit * 2 0;
   }
 }
+.selectParent{
+  display: block;
+  width: 100%;
+  i{
+    display: inline-block;
+    margin: 0 $unit 0 0;
+  }
+  strong{
+    display: inline-block;
+  }
+}
