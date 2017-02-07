@@ -156,16 +156,12 @@ export const updateProfile = new ValidatedMethod({
         }
     }).validator(),
     run({ users }) {
-        Meteor.users.update(
-            {
-                _id: Meteor.user()._id} ,
-            {$set: {
-                'profile.fullName': users.name ,
-                'emails.0.address':  users.email ,
-                'profile.address': users.address ,
-                'username': users.username ,
-                'profile.contactNumber': users.number
-            } });
+        if(!users.username && !users.email){
+            throw new Meteor.Error(500, 'You cannot empty the username/email.');
+        }
+        let update = {'profile.fullName': users.name, 'profile.address': users.address , 'profile.contactNumber': users.number};
+        users.username ? update['username'] = users.username : update['emails.0.address'] = users.email;
+        Meteor.users.update({_id: Meteor.user()._id} , {$set: update});
     }
 });
 

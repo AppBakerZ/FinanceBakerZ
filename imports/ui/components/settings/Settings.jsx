@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -18,18 +18,20 @@ class SettingsPage extends Component {
 
     constructor(props) {
         super(props);
-
+          let userinfo = Meteor.user();
         this.state = {
             userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
             currencies: [],
             check1: true,
             check2: false,
             languageSelected: 'en',
-            name: Meteor.user().profile.fullName,
-            number: Meteor.user().profile.contactNumber || '' ,
-            username: Meteor.user().username || '',
-            email: Meteor.user().emails ? Meteor.user().emails[0].address : '',
-            address: Meteor.user().profile.address || ''
+            name: userinfo.profile.fullName,
+            active: true,
+            loading: false,
+            number: userinfo.profile.contactNumber || '' ,
+            username: userinfo.username || '',
+            email: userinfo.emails && userinfo.emails.length ? Meteor.user().emails[0].address : '',
+            address: userinfo.profile.address || ''
         }
 
         this.languages = [
@@ -164,16 +166,13 @@ class SettingsPage extends Component {
         this.setState({[e.target.name]: val});
     }
 
-    updateProfile (){
-        name = this.state.name;
-        number = this.state.number;
-        email = this.state.email;
-        address = this.state.address;
-        username = this.state.username;
-        var info = {users: {name , number , email , address, username}};
-        Meteor.call('updateProfile',info);
+    updateProfile (event) {
+        event.preventDefault();
+        const {name, number, email, address, username} = this.state;
+        let info = {users: {name, number, email, address, username}};
+        Meteor.call('updateProfile', info);
+        this.closePopup();
     }
-
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
@@ -191,7 +190,7 @@ class SettingsPage extends Component {
                 break;
             case 'personalInformation':
                 return (
-                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
+                    <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
                         <h3 className={theme.titleSetting}>edit Personal Information</h3>
@@ -217,10 +216,11 @@ class SettingsPage extends Component {
                                onChange={this.onChange.bind(this)}
                             />
                             :
-                        <Input type='text' label='Email'
+                        <Input type='email' label='Email'
                                name= 'email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
+                               required
                             />
                         }
                         <Input type='text' label='Address'
@@ -229,7 +229,7 @@ class SettingsPage extends Component {
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button label='UPDATE' raised primary onClick={this.updateProfile.bind(this)} />
+                            <Button type='submit' label='UPDATE' raised primary />
                         </div>
 
                     </form>
@@ -317,7 +317,7 @@ class SettingsPage extends Component {
                                 <h5>personal information</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>name: <span>{Meteor.user().profile.fullName}</span></h6>
+                                <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
                                 <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
                                 <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
                                 <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
