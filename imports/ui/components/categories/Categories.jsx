@@ -150,7 +150,7 @@ class CategoriesPage extends Component {
         };
         let categories = this.props.categories.map((category) => {
             return {
-                icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
+                icon: <i className={category.icon}/>,
                 content:
                     <div>
                         <div><strong onClick={this.openPopup.bind(this, 'edit', category)}>{category.name}</strong></div>

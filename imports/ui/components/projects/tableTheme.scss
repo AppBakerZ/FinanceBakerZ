@@ -4,14 +4,8 @@
 .table{
   box-shadow: $zdepth-shadow-1;
   padding: $unit $unit * 2;
-  //thead{
-  //  display: none;
-  //}
   tbody{
     tr{
-      //&:hover{
-      //  background: none;
-      //}
       td{
         font-size: $font-size-big + 0.2;
         text-transform: capitalize;

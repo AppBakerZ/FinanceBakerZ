@@ -25,14 +25,10 @@
       margin-top: $unit - 0.8;
     }
     .itemAction{
-      margin: 0.8rem 0;
+      margin: $unit - 0.2 0;
       span{
         color: $color-primary;
       }
     }
   }
-}
-
-.active{
-
 }

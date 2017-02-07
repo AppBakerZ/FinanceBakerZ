@@ -9,6 +9,9 @@ import { Categories } from '../../../api/categories/categories.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
 import theme from './theme';
+import dropdownTheme from './dropdownTheme';
+
+import fonts from '/imports/ui/fonts.js';
 
 export default class Form extends Component {
 
@@ -20,8 +23,23 @@ export default class Form extends Component {
             icon: '',
             active: false,
             loading: false,
-            parent: null
+            parent: null,
+            iconSelected: 'en'
         };
+
+        this.icons = fonts.map((font, index) => {
+            index++;
+            if(index % 5 == 0){
+                font.removeRightBorder = true
+            }
+            let lastItems = fonts.length % 5 == 0 ? 5 : fonts.length % 5;
+            console.log(lastItems);
+            if(index > fonts.length - lastItems){
+                font.removeBottomBorder = true
+            }
+            return font
+        });
+
     }
 
     onSubmit(event){
@@ -166,6 +184,23 @@ export default class Form extends Component {
         );
     }
 
+    categoryIcons(icon){
+        let parentClass = '';
+        if(icon.removeRightBorder){
+            parentClass = dropdownTheme['removeRightBorder']
+        }
+
+        if(icon.removeBottomBorder){
+            parentClass = dropdownTheme['removeBottomBorder']
+        }
+
+        return (
+            <div className={parentClass}>
+                <i className={icon.value}/>
+            </div>
+        );
+    }
+
     render() {
         return (
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addCategory}>
@@ -192,12 +227,14 @@ export default class Form extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='text' label='Icon'
-                       name='icon'
-                       maxLength={ 50 }
-                       value={this.state.icon}
-                       onChange={this.onChange.bind(this)}
-                       required
+
+                <Dropdown theme={dropdownTheme}
+                    source={this.icons}
+                    name='icon'
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.icon}
+                    template={this.categoryIcons}
+                    required
                     />
 
                 <Dropdown
