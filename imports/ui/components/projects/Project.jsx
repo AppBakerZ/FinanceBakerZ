@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar} from 'react-toolbox';
+import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -113,7 +113,7 @@ class ProjectPage extends Component {
                     <p>Are you sure to remove your bank project?</p>
                 </div>
 
-                <div className={theme.buttonBox}>
+                <div className={theme.buttonArea}>
                     <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
                     <Button label='YES, REMOVE' raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
                 </div>
@@ -208,13 +208,15 @@ class ProjectPage extends Component {
         };
 
         return (
-            <Table theme={tableTheme} className={theme.table}
-                   heading={false}
-                   model={projectModel}
-                   onRowClick={this.onRowClick.bind(this)}
-                   selectable={false}
-                   source={projects}
-                />
+            <Card theme={tableTheme}>
+                <Table className={theme.table} theme={tableTheme}
+                       heading={false}
+                       model={projectModel}
+                       onRowClick={this.onRowClick.bind(this)}
+                       selectable={false}
+                       source={projects}
+                    />
+            </Card>
         )
     }
 
