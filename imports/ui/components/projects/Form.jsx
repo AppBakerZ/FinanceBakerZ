@@ -133,7 +133,9 @@ export default class Form extends Component {
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addProject}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <h4 className={theme.titleProject}>add project</h4>
+                <h4 className={theme.titleProject}>
+                    {!this.props.project ? 'Add Project' : 'Update Project'}
+                </h4>
 
                 <Snackbar
                     action='Dismiss'
