@@ -128,16 +128,15 @@ class CategoriesPage extends Component {
     renderSubcategories(children, id){
         return children.map((cat) => {
             return <span key={cat}>
-                    <Link
-                        activeClassName='active'
-                        to={`/app/categories/${id}/${cat}`}>
+                    <div>
+
                         {cat}
 
-                        <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
+                        <a data-text={cat} onClick={this.deleteSubcategory.bind(this)}>
                             x
                         </a>
 
-                    </Link>
+                    </div>
                     </span>
         });
     }
