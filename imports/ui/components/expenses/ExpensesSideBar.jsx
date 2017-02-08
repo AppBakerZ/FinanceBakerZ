@@ -11,6 +11,8 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
 
+import theme from './theme';
+
 class ExpensesSideBar extends Component {
 
     constructor(props) {
@@ -269,8 +271,8 @@ class ExpensesSideBar extends Component {
 
         return (
             <div style={containerStyle}>
-                <FontIcon value={category.icon} style={imageStyle}/>
-                <div style={contentStyle}>
+                <div className={theme.iconsBox}>
+                    <i className={category.icon}/>
                     <strong>{category.name}</strong>
                 </div>
             </div>
