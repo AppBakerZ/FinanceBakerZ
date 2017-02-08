@@ -170,10 +170,9 @@ class SettingsPage extends Component {
         event.preventDefault();
         const {name, number, email, address, username} = this.state;
         let info = {users: {name, number, email, address, username}};
-        Meteor.call('updateProfile', info,(err) => {
+        Meteor.call('updateProfile', info, (err) => {
             this.closePopup();
         })
-
     }
     onSubmit(event){
         event.preventDefault();
@@ -192,11 +191,9 @@ class SettingsPage extends Component {
                 break;
             case 'personalInformation':
                 return (
-                    <form  onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
+                    <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-
                         <h3 className={theme.titleSetting}>edit Personal Information</h3>
-
                         <Input type='text' label='Name'
                                name='name'
                                maxLength={ 25 }
@@ -216,6 +213,7 @@ class SettingsPage extends Component {
                                name= 'username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
+                               required
                             />
                             :
                         <Input type='email' label='Email'
@@ -241,10 +239,7 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-
-                        <h3 className={theme.titleSetting}>edit Account S
-                            ettings</h3>
-
+                        <h3 className={theme.titleSetting}>edit Account Settings</h3>
                         <section>
                             <Dropdown
                                 auto={false}
