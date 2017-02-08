@@ -125,17 +125,12 @@ class CategoriesPage extends Component {
         });
     }
 
-    renderSubcategories(children, id){
-        return children.map((cat) => {
-            return <span key={cat}>
-                    <div>
-
-                        {cat}
-
-                        <a data-text={cat} onClick={this.deleteSubcategory.bind(this)}>
-                            x
-                        </a>
-
+    renderSubcategories(children, parent){
+        return children.map((name) => {
+            return <span key={name}>
+                    <div onClick={this.openPopup.bind(this, 'edit', Categories.findOne({name, parent}))}>
+                        {name}
+                        <a data-text={name} onClick={this.deleteSubcategory.bind(this)}> x </a>
                     </div>
                     </span>
         });
@@ -153,7 +148,7 @@ class CategoriesPage extends Component {
                 content:
                     <div>
                         <div><strong onClick={this.openPopup.bind(this, 'edit', category)}>{category.name}</strong></div>
-                        {this.renderSubcategories(category.children || [], category._id)}
+                        {this.renderSubcategories(category.children || [], category.name)}
                     </div>,
                 actions:
                     <div className={theme.buttonBox}>
