@@ -10,11 +10,11 @@
   a {
     img {
       margin-top: -3px;
-      width: 85px;
+      width: $unit * 8.5;
       float: left;
     }
   }
   button {
-    color: #deb342;
+    color: $color-accent;
   }
 }

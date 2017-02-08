@@ -1,13 +1,16 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
 .logoWithText{
   text-align: center;
   img{
-    width: 150px;
+    width: $unit * 15;
   }
 }
 .buttonGroup{
-  margin-bottom: 5px;
+  margin-bottom: $unit - 0.5;
   text-align: center;
   button{
-    min-width: 120px;
+    min-width: $unit * 12;
   }
 }

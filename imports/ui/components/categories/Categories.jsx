@@ -49,6 +49,9 @@ class CategoriesPage extends Component {
     }
     switchPopupTemplate(){
         switch (this.state.action){
+            case 'removeSubcategory':
+                return this.renderConfirmationMessage('removeSubcategory');
+                break;
             case 'remove':
                 return this.renderConfirmationMessage();
                 break;
@@ -60,7 +63,11 @@ class CategoriesPage extends Component {
                 break;
         }
     }
-    openPopup (action, category) {
+    openPopup (action, category, e) {
+        if(e){
+            e.stopPropagation();
+            e.preventDefault();
+        }
         this.setState({
             openDialog: true,
             action,
@@ -72,7 +79,7 @@ class CategoriesPage extends Component {
             openDialog: false
         });
     }
-    renderConfirmationMessage(){
+    renderConfirmationMessage(isRemoveSubcategory){
         return (
             <div className={theme.dialogContent}>
                 <div>
@@ -83,7 +90,7 @@ class CategoriesPage extends Component {
 
                 <div className={theme.buttonBox}>
                     <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.removeCategory.bind(this)} theme={dialogButtonTheme} />
+                    <Button label='YES, REMOVE' raised onClick={!isRemoveSubcategory ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
                 </div>
             </div>
         )
@@ -109,35 +116,34 @@ class CategoriesPage extends Component {
         });
     }
 
-    deleteSubcategory(e){
-        e.stopPropagation();
-        e.preventDefault();
+    removeSubcategory(e){
+        //e.stopPropagation();
+        //e.preventDefault();
         Meteor.call('categories.removeFromParent', {
             category: {
-                name: e.currentTarget.dataset.text
+                name: this.state.selectedCategory.name
             }
         }, (err, response) => {
             if(err){
-                console.log(err)
+
             }else{
 
             }
         });
+        // Close Popup
+        this.setState({
+            openDialog: false
+        });
     }
 
-    renderSubcategories(children, id){
-        return children.map((cat) => {
-            return <span key={cat}>
-                    <Link
-                        activeClassName='active'
-                        to={`/app/categories/${id}/${cat}`}>
-                        {cat}
-
-                        <a data-text={cat} href='#' onClick={this.deleteSubcategory.bind(this)}>
-                            x
-                        </a>
-
-                    </Link>
+    renderSubcategories(children, parent){
+        return children.map((name) => {
+            const category = Categories.findOne({name, parent});
+            return <span key={name}>
+                    <div onClick={this.openPopup.bind(this, 'edit', category)}>
+                        {name}
+                        <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
+                    </div>
                     </span>
         });
     }
@@ -154,7 +160,7 @@ class CategoriesPage extends Component {
                 content:
                     <div>
                         <div><strong onClick={this.openPopup.bind(this, 'edit', category)}>{category.name}</strong></div>
-                        {this.renderSubcategories(category.children || [], category._id)}
+                        {this.renderSubcategories(category.children || [], category.name)}
                     </div>,
                 actions:
                     <div className={theme.buttonBox}>

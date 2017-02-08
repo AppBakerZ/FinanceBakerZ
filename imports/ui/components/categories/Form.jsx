@@ -33,7 +33,6 @@ export default class Form extends Component {
                 font.removeRightBorder = true
             }
             let lastItems = fonts.length % 5 == 0 ? 5 : fonts.length % 5;
-            console.log(lastItems);
             if(index > fonts.length - lastItems){
                 font.removeBottomBorder = true
             }
@@ -165,7 +164,7 @@ export default class Form extends Component {
             flexGrow: 2,
             paddingTop: '4px'
         };
-        console.log(category.icon);
+
         return (
             <div style={containerStyle}>
                 <div className={theme.selectParent}>

@@ -306,5 +306,172 @@ export default [
   {
     label: 'bbq',
     value: 'icon-icons_bbq'
+  },
+  {
+    label: 'bag',
+    value: 'icon-icons-2_bag'
+  },
+  {
+    label: 'bird',
+    value: 'icon-icons-2_bird'
+  },{
+    label: 'birthday',
+    value: 'icon-icons-2_birthday'
+  },{
+    label: 'camel',
+    value: 'icon-icons-2_camel'
+  },{
+    label: 'cow',
+    value: 'icon-icons-2_cow'
+  },{
+    label: 'eye-glasses',
+    value: 'icon-icons-2_eye-glasses'
+  },{
+    label: 'foot-wear',
+    value: 'icon-icons-2_foot-wear'
+  },{
+    label: 'generator',
+    value: 'icon-icons-2_generator'
+  },{
+    label: 'goat',
+    value: 'icon-icons-2_goat'
+  },{
+    label: 'jewelry',
+    value: 'icon-icons-2_jewelry'
+  },{
+    label: 'motherboard',
+    value: 'icon-icons-2_motherboard'
+  },
+  {
+    label: 'motor',
+    value: 'icon-icons-2_motor'
+  },
+  {
+    label: 'online-shopping',
+    value: 'icon-icons-2_online-shopping'
+  },
+  {
+    label: 'sheep',
+    value: 'icon-icons-2_sheep'
+  },
+  {
+    label: 'solar-panel',
+    value: 'icon-icons-2_solar-panel'
+  },
+  {
+    label: 'tap',
+    value: 'icon-icons-2_tap'
+  },
+  {
+    label: 'tie',
+    value: 'icon-icons-2_tie'
+  },
+  {
+    label: 'ups',
+    value: 'icon-icons-2_ups'
+  },
+  {
+    label: 'wrist-watch',
+    value: 'icon-icons-2_wrist-watch'
+  },
+  {
+    label: 'air-conditioner',
+    value: 'icon-icons_air-conditioner'
+  },
+  {
+    label: 'bath-tub',
+    value: 'icon-icons_bath-tub'
+  },
+  {
+    label: 'bell',
+    value: 'icon-icons_bell'
+  },
+  {
+    label: 'cd',
+    value: 'icon-icons_cd'
+  },
+  {
+    label: 'chair',
+    value: 'icon-icons_chair'
+  },
+  {
+    label: 'clock',
+    value: 'icon-icons_clock'
+  },
+  {
+    label: 'crockery',
+    value: 'icon-icons_crockery'
+  },
+  {
+    label: 'dustbin',
+    value: 'icon-icons_dustbin'
+  },
+  {
+    label: 'extension-wire',
+    value: 'icon-icons_extension-wire'
+  },
+  {
+    label: 'flight-ticket2',
+    value: 'icon-icons_flight-ticket2'
+  },
+  {
+    label: 'hand-wash-liquid',
+    value: 'icon-icons_hand-wash-liquid'
+  },
+  {
+    label: 'hard-disk',
+    value: 'icon-icons_hard-disk'
+  },
+  {
+    label: 'head-phone',
+    value: 'icon-icons_head-phone'
+  },
+  {
+    label: 'keyboard',
+    value: 'icon-icons_keyboard'
+  },
+  {
+    label: 'mouse',
+    value: 'icon-icons_mouse'
+  },
+  {
+    label: 'net-cable2',
+    value: 'icon-icons_net-cable2'
+  },
+  {
+    label: 'news-paper',
+    value: 'icon-icons_news-paper'
+  },
+  {
+    label: 'paper',
+    value: 'icon-icons_paper'
+  },
+  {
+    label: 'power-cable',
+    value: 'icon-icons_power-cable'
+  },
+  {
+    label: 'printer',
+    value: 'icon-icons_printer'
+  },
+  {
+    label: 'room-spray',
+    value: 'icon-icons_room-spray'
+  },
+  {
+    label: 'tab',
+    value: 'icon-icons_tab'
+  },
+  {
+    label: 'toilet',
+    value: 'icon-icons_toilet'
+  },
+  {
+    label: 'usb',
+    value: 'icon-icons_usb'
+  },
+  {
+    label: 'wash-basin',
+    value: 'icon-icons_wash-basin'
   }
 ]
