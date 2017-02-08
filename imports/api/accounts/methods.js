@@ -45,6 +45,9 @@ export const insert = new ValidatedMethod({
     }
 });
 
+
+
+
 export const update = new ValidatedMethod({
     name: 'accounts.update',
     mixins: [LoggedInMixin],
@@ -82,6 +85,8 @@ export const update = new ValidatedMethod({
 });
 
 
+
+
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
     mixins : [LoggedInMixin],
@@ -110,6 +115,7 @@ export const remove = new ValidatedMethod({
 
 
 
+
 export const insertAccountOnSignUp = new ValidatedMethod({
     name: 'insertAccountOnSignUp',
     mixins : [LoggedInMixin],
@@ -129,6 +135,47 @@ export const insertAccountOnSignUp = new ValidatedMethod({
         Accounts.insert({owner :account.owner, name: 'Default', purpose: 'Bank Account', icon: 'abc' });
     }
 });
+
+
+
+
+export const updateProfile = new ValidatedMethod({
+    name: 'updateProfile',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update profile'
+    },
+    validate: new SimpleSchema({
+        'users': {
+            type: Object
+        },
+        'users.name': {
+            type: String
+        },
+        'users.username': {
+            type: String
+        },
+        'users.number': {
+            type: String
+        },
+        'users.email': {
+            type: String
+        },
+        'users.address': {
+            type: String
+        }
+    }).validator(),
+    run({ users }) {
+        if(!users.username && !users.email){
+            throw new Meteor.Error(500, 'You cannot empty the username/email.');
+        }
+        let update = {'profile.fullName': users.name, 'profile.address': users.address , 'profile.contactNumber': users.number};
+        users.username ? update['username'] = users.username : update['emails.0.address'] = users.email;
+        Meteor.users.update({_id: Meteor.userId()} , {$set: update});
+    }
+});
+
 
 
 
@@ -155,6 +202,7 @@ export const insertAccountOnLogin = new ValidatedMethod({
 
 
 
+
 export const insertDefaultCurrency = new ValidatedMethod({
     name: 'insertDefaultCurrency',
     mixins: [LoggedInMixin],
@@ -176,6 +224,9 @@ export const insertDefaultCurrency = new ValidatedMethod({
 
     }
 });
+
+
+
 
 export const userRemove = new ValidatedMethod({
     name: 'userRemove',

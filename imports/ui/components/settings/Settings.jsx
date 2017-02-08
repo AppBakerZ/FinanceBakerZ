@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input } from 'react-toolbox';
+import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -18,13 +18,20 @@ class SettingsPage extends Component {
 
     constructor(props) {
         super(props);
-
+          let userinfo = Meteor.user();
         this.state = {
             userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
             currencies: [],
             check1: true,
             check2: false,
-            languageSelected: 'en'
+            languageSelected: 'en',
+            name: userinfo.profile.fullName,
+            active: true,
+            loading: false,
+            number: userinfo.profile.contactNumber || '' ,
+            username: userinfo.username || '',
+            email: userinfo.emails && userinfo.emails.length ? Meteor.user().emails[0].address : '',
+            address: userinfo.profile.address || ''
         }
 
         this.languages = [
@@ -159,6 +166,14 @@ class SettingsPage extends Component {
         this.setState({[e.target.name]: val});
     }
 
+    updateProfile (event) {
+        event.preventDefault();
+        const {name, number, email, address, username} = this.state;
+        let info = {users: {name, number, email, address, username}};
+        Meteor.call('updateProfile', info, (err) => {
+            this.closePopup();
+        })
+    }
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
@@ -176,11 +191,9 @@ class SettingsPage extends Component {
                 break;
             case 'personalInformation':
                 return (
-                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
+                    <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-
                         <h3 className={theme.titleSetting}>edit Personal Information</h3>
-
                         <Input type='text' label='Name'
                                name='name'
                                maxLength={ 25 }
@@ -189,23 +202,34 @@ class SettingsPage extends Component {
                                required
                             />
                         <Input type='text' label='Contact Number'
-                               name='contact'
+                               name='number'
                                maxLength={ 50 }
-                               value={this.state.purpose}
-                               onChange={this.onChange.bind(this)}
-                            />
-                        <Input type='text' label='Email'
-                               name='email'
                                value={this.state.number}
                                onChange={this.onChange.bind(this)}
                             />
+                        {Meteor.user().username ?
+
+                        <Input type='text' label='Username'
+                               name= 'username'
+                               value={this.state.username}
+                               onChange={this.onChange.bind(this)}
+                               required
+                            />
+                            :
+                        <Input type='email' label='Email'
+                               name= 'email'
+                               value={this.state.email}
+                               onChange={this.onChange.bind(this)}
+                               required
+                            />
+                        }
                         <Input type='text' label='Address'
                                name='address'
-                               value={this.state.icon}
+                               value={this.state.address}
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button label='UPDATE' raised primary />
+                            <Button type='submit' label='UPDATE' raised primary />
                         </div>
 
                     </form>
@@ -215,9 +239,7 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-
                         <h3 className={theme.titleSetting}>edit Account Settings</h3>
-
                         <section>
                             <Dropdown
                                 auto={false}
@@ -293,10 +315,10 @@ class SettingsPage extends Component {
                                 <h5>personal information</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>name: <span>shahid afridi</span></h6>
-                                <h6>contact number: <span>+92-300-32198765</span></h6>
-                                <h6>email: <span>shahidafridi@hotmail.com</span></h6>
-                                <h6>address: <span>house no.10, block j, karachi, pakistan</span></h6>
+                                <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
+                                <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
+                                <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
+                                <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
                                     <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
                                 </div>
