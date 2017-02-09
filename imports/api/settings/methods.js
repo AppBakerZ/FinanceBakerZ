@@ -990,40 +990,90 @@ export const get = new ValidatedMethod({
 });
 
 
-export const update = new ValidatedMethod({
-    name: 'setUserCurrency',
+
+export const updateAccountSettings = new ValidatedMethod({
+    name: 'updateAccountSettings',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
         message: 'You need to be logged in to create currency'
     },
     validate: new SimpleSchema({
-        'currency': {
-            type: Object
+        "settings": {
+            type : Object
         },
-        "currency.symbol": {
+        "settings.currencyObj": {
+            type : Object
+        },
+        "settings.languageSelected": {
             type : String
         },
-        "currency.name": {
+        "settings.currencyObj.symbol": {
             type : String
         },
-        "currency.symbol_native": {
+        "settings.currencyObj.name": {
             type : String
         },
-        "currency.decimal_digits": {
+        "settings.currencyObj.symbol_native": {
+            type : String
+        },
+        "settings.currencyObj.decimal_digits": {
             type : Number
         },
-        "currency.rounding": {
+        "settings.currencyObj.rounding": {
             type : Number
         },
-        "currency.code": {
+        "settings.currencyObj.code": {
             type : String
         },
-        "currency.name_plural": {
+        "settings.currencyObj.value": {
+            type : String
+        },
+        "settings.currencyObj.name_plural": {
             type : String
         }
     }).validator(),
-    run({ currency }) {
-     return   Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.currency": currency}});
+    run({ settings }) {
+      Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.currency": settings.currencyObj , "profile.language":settings.languageSelected }});
     }
 });
+
+
+
+export const updateProfile = new ValidatedMethod({
+    name: 'updateProfile',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update profile'
+    },
+    validate: new SimpleSchema({
+        'users': {
+            type: Object
+        },
+        'users.name': {
+            type: String
+        },
+        'users.username': {
+            type: String
+        },
+        'users.number': {
+            type: String
+        },
+        'users.email': {
+            type: String
+        },
+        'users.address': {
+            type: String
+        }
+    }).validator(),
+    run({ users }) {
+        if(!users.username && !users.email){
+            throw new Meteor.Error(500, 'You cannot empty the username/email.');
+        }
+        let update = {'profile.fullName': users.name, 'profile.address': users.address , 'profile.contactNumber': users.number};
+        users.username ? update['username'] = users.username : update['emails.0.address'] = users.email;
+        Meteor.users.update({_id: Meteor.userId()} , {$set: update});
+    }
+});
+
