@@ -21,10 +21,10 @@ class SettingsPage extends Component {
           let userinfo = Meteor.user();
         this.state = {
             userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
+            languageSelected: Meteor.user().profile.language || '',
             currencies: [],
             check1: true,
             check2: false,
-            languageSelected: 'en',
             name: userinfo.profile.fullName,
             active: true,
             loading: false,
@@ -78,10 +78,11 @@ class SettingsPage extends Component {
 
 
     setCurrency(currency){
-        currency = _.findWhere(this.state.currencies, {symbol: currency});
-        delete currency.value;
+        currencyItem = _.findWhere(this.state.currencies, {symbol: currency});
+        delete currencyItem['value'];
+        this.setState({currencyObj:currencyItem});
         Meteor.call('setUserCurrency' , {currency} , (err, res) => {
-            if(res){
+           if(res){
                 this.setState({
                     userCurrency : Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : ''
                 })
@@ -162,10 +163,6 @@ class SettingsPage extends Component {
         )
     }
 
-    onChange (val, e) {
-        this.setState({[e.target.name]: val});
-    }
-
     updateProfile (event) {
         event.preventDefault();
         const {name, number, email, address, username} = this.state;
@@ -174,6 +171,16 @@ class SettingsPage extends Component {
             this.closePopup();
         })
     }
+
+    updateAccountSettings (event) {
+        event.preventDefault();
+        const {currencyObj, languageSelected} = this.state;
+        let accountinfo = {settings: {currencyObj, languageSelected }};
+           Meteor.call('updateAccountSettings', accountinfo, (err) => {
+            this.closePopup();
+        })
+    }
+
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
@@ -237,7 +244,7 @@ class SettingsPage extends Component {
                 break;
             case 'accountSetting':
                 return (
-                    <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
+                    <form onSubmit={this.updateAccountSettings.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                         <h3 className={theme.titleSetting}>edit Account Settings</h3>
                         <section>
@@ -261,11 +268,11 @@ class SettingsPage extends Component {
 
                         <Input type='password' label='Password'
                                name='password'
-                               value={this.state.number}
+                               value={this.state.password}
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button label='UPDATE' raised primary />
+                            <Button type='submit' label='UPDATE' raised primary />
                         </div>
                     </form>
                 );
@@ -329,9 +336,9 @@ class SettingsPage extends Component {
                                 <h5>account settings</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>currency: <span>pakistani rupee (PKR)</span></h6>
-                                <h6>language: <span>english</span></h6>
-                                <h6>password: <span>**********</span></h6>
+                                <h6>currency: <span>{Meteor.user().profile.currency.name || ''} </span></h6>
+                                <h6>language: <span> {Meteor.user().profile.language || ''}</span></h6>
+                                <h6>password: <span> *********</span></h6>
                                 <h6>
                                     email notification:
                                     <span>
