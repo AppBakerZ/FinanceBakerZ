@@ -81,14 +81,9 @@ class SettingsPage extends Component {
         currencyItem = _.findWhere(this.state.currencies, {symbol: currency});
         delete currencyItem['value'];
         this.setState({currencyObj:currencyItem});
-        Meteor.call('setUserCurrency' , {currency} , (err, res) => {
-           if(res){
-                this.setState({
-                    userCurrency : Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : ''
-                })
-            }
-        });
     }
+
+
 
     currencies(){
         return this.state.currencies.map((currency) => {
@@ -336,8 +331,8 @@ class SettingsPage extends Component {
                                 <h5>account settings</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>currency: <span>{Meteor.user().profile.currency.name || ''} </span></h6>
-                                <h6>language: <span> {Meteor.user().profile.language || ''}</span></h6>
+                                <h6>currency: <span>{Meteor.user().profile.currency.name || 'Not Available'} </span></h6>
+                                <h6>language: <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
                                 <h6>password: <span> *********</span></h6>
                                 <h6>
                                     email notification:
@@ -368,10 +363,7 @@ class SettingsPage extends Component {
                                 theme={buttonTheme} />
                         </div>
                     </div>
-                    <List ripple className='list'>
-                        {this.renderCategory()}
                         {this.popupTemplate()}
-                    </List>
                 </div>
             </div>
         );
