@@ -2,12 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
 import theme from './theme';
+import dropdownTheme from './dropdownTheme';
+
+import bankFonts from '/imports/ui/bankFonts.js';
 
 export default class Form extends Component {
 
@@ -22,7 +25,29 @@ export default class Form extends Component {
             active: false,
             loading: false
         };
+        this.countries = [
+            { value: 'EN-gb', label: 'England' },
+            { value: 'ES-es', label: 'Spain'},
+            { value: 'TH-th', label: 'Thailand', disabled: true },
+            { value: 'EN-en', label: 'USA'}
+        ];
+
+        this.icons = bankFonts.map((font, index) => {
+
+            index++;
+            if(index % 3 == 0){
+                font.removeRightBorder = true
+            }
+            let lastItems = bankFonts.length % 3 == 0 ? 3 : bankFonts.length % 3;
+            if(index > bankFonts.length - lastItems){
+                font.removeBottomBorder = true
+            }
+
+            return font
+        });
+
     }
+
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
@@ -92,6 +117,32 @@ export default class Form extends Component {
     onChange (val, e) {
         this.setState({[e.target.name]: val});
     }
+    onChangeParentCategory (val) {
+        this.setState({parent: val});
+    }
+    accounts(){
+        let cats = [{value: 'one', label: 'one', icon: ''}];
+        return cats
+    }
+    categoryIcons(icon){
+        let parentClass = '';
+
+        if(icon.removeRightBorder){
+            parentClass = dropdownTheme['removeRightBorder']
+        }
+
+        if(icon.removeBottomBorder){
+            parentClass = dropdownTheme['removeBottomBorder']
+        }
+
+        return (
+            <div className={parentClass}>
+                <i className={icon.value}/>
+            </div>
+        );
+    }
+
+
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -132,27 +183,25 @@ export default class Form extends Component {
                     type={this.state.barType}
                     />
 
-                <Input type='text' label='Name'
-                       name='name'
-                       maxLength={ 25 }
-                       value={this.state.name}
-                       onChange={this.onChange.bind(this)}
-                       required
+                <Dropdown
+                    source={this.countries}
+                    onChange={this.handleCountryChange}
+                    label='Select Country'
+                    value={this.state.countrySelected}
                     />
-                <Input type='text' label='Purpose'
+                <Dropdown theme={dropdownTheme}
+                          source={this.icons}
+                          name='icon'
+                          onChange={this.onChange.bind(this)}
+                          value={this.state.icon}
+                          label='Select Icon'
+                          template={this.categoryIcons}
+                          required
+                    />
+                <Input type='text' label='Enter Account Number'
                        name='purpose'
                        maxLength={ 50 }
                        value={this.state.purpose}
-                       onChange={this.onChange.bind(this)}
-                    />
-                <Input type='text' label='Number'
-                       name='number'
-                       value={this.state.number}
-                       onChange={this.onChange.bind(this)}
-                    />
-                <Input type='text' label='Icon'
-                       name='icon'
-                       value={this.state.icon}
                        onChange={this.onChange.bind(this)}
                     />
                 {this.renderButton()}

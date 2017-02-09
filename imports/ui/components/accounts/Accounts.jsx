@@ -30,10 +30,6 @@ class AccountsPage extends Component {
             action: null
         };
 
-        this.icons = bankFonts.map((font, index) => {
-            return font
-        });
-
     }
     toggleSidebar(event){
         this.props.toggleSidebar(true);

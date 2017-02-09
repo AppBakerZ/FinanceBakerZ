@@ -1,0 +1,41 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.dropdown{
+  .values{
+    padding: 0 6px 0 8px;
+    position: static;
+    li{
+      width: 33.3%;
+      display: inline-block;
+      padding: 0;
+      margin-top: -4px;
+      div{
+        text-align: center;
+        border-bottom: $unit - 0.8 solid #d3d3d3;
+        border-right: $unit - 0.8 solid #d3d3d3;
+        padding: 15px 0 15px 0;
+        i{
+          font-size: 50px;
+        }
+        &.removeBottomBorder{
+          border-bottom: 0;
+        }
+        &.removeRightBorder{
+          border-right: 0;
+        }
+        &:hover{
+          color: black;
+        }
+      }
+      &:last-child{
+        div{
+          border-right: 0;
+        }
+      }
+    }
+    .selected{
+      color: black;
+    }
+  }
+}
