@@ -16,6 +16,8 @@ import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 
+import bankFonts from '/imports/ui/bankFonts.js';
+
 class AccountsPage extends Component {
 
     constructor(props) {
@@ -27,6 +29,10 @@ class AccountsPage extends Component {
             selectedAccount: null,
             action: null
         };
+
+        this.icons = bankFonts.map((font, index) => {
+            return font
+        });
 
     }
     toggleSidebar(event){
@@ -124,7 +130,7 @@ class AccountsPage extends Component {
         };
         let accounts = this.props.accounts.map((account, index) => {
             return {
-                icon: <img src="/assets/images/Colourful Rose Flower Wallpapers (2).jpg" alt=""/>,
+                icon: <i className="bank-banks_BANK-ISLAMI"></i>,
                 content:
                     <div>
                         <div>Bank: <strong>{account.name}</strong> ({account.purpose})</div>

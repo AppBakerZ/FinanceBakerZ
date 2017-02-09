@@ -10,18 +10,18 @@
       td{
         border-bottom: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
         text-transform: capitalize;
-        img{
-          width: $unit * 16.5;
-          height: $unit * 7.5;
+        i{
+          font-size: $unit * 7;
         }
         &:first-child{
-          padding: $unit * 1 $unit * 2 $unit * 1 $unit * 3;
+          padding: $unit * 2 $unit * 2 $unit * 2 $unit * 3;
           line-height: 0;
           width: $unit * 23;
           border-right: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
         }
         &:nth-child(2){
           width: $unit * 60;
+          padding-top: $unit - 0.6;
         }
         &:last-of-type{
           text-align: right;
