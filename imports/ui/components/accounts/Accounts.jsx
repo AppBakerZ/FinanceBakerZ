@@ -17,6 +17,7 @@ import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 
 import bankFonts from '/imports/ui/bankFonts.js';
+import countries from '/imports/ui/countries.js';
 
 class AccountsPage extends Component {
 

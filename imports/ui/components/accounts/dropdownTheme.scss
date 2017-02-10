@@ -38,4 +38,13 @@
       color: black;
     }
   }
+  .field{
+    .value{
+      > div{
+        i{
+          font-size: $unit * 4;
+        }
+      }
+    }
+  }
 }

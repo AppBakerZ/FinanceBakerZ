@@ -11,6 +11,7 @@ import theme from './theme';
 import dropdownTheme from './dropdownTheme';
 
 import bankFonts from '/imports/ui/bankFonts.js';
+import countries from '/imports/ui/countries.js';
 
 export default class Form extends Component {
 
@@ -26,12 +27,7 @@ export default class Form extends Component {
             loading: false,
             countrySelected: 'EN-gb'
         };
-        this.countries = [
-            { value: 'EN-gb', label: 'England' },
-            { value: 'ES-es', label: 'Spain'},
-            { value: 'TH-th', label: 'Thailand', disabled: true },
-            { value: 'EN-en', label: 'USA'}
-        ];
+        this.countries = countries;
 
         this.icons = bankFonts.map((font, index) => {
 
