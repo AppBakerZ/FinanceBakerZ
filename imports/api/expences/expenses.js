@@ -39,6 +39,10 @@ Expenses.schema = new SimpleSchema({
         type: String,
         label: 'Type of expense'
     },
+    'category.icon': {
+        type: String,
+        label: 'Type of expense'
+    },
     description: {
         type: String,
         label: 'Project of expense',
