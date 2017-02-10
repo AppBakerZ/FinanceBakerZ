@@ -84,7 +84,7 @@ class ExpensesSideBar extends Component {
                     barType: 'accept'
                 });
                 this.resetExpense();
-                this.props.closePopup();
+                this.props.closePopup()
             }else{
                 this.setState({
                     active: true,
