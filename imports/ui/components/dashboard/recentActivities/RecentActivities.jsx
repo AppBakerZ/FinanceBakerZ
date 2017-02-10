@@ -75,7 +75,7 @@ class RecentActivities extends Component {
         };
         let expenses = this.props.expenses.map(function(i){
             return {
-                icon: <img src={'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png'} width={'32'} height={'32'} alt='Logo-with-text' />,
+                icon: i.category._id && <i className={i.category.icon}/>,
                 category: i.category.name || i.category,
                 amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount),
                 iconLeft: <Arrow down danger width='16px' height='16px' />
