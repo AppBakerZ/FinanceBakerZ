@@ -75,7 +75,7 @@ class RecentActivities extends Component {
         };
         let expenses = this.props.expenses.map(function(i){
             return {
-                icon:  <i className={i.category.icon}/> || '',
+                icon:  <i className={i.category.icon || ''}/> ,
                 category: i.category.name || i.category,
                 amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount),
                 iconLeft: <Arrow down danger width='16px' height='16px' />
