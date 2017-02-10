@@ -23,7 +23,8 @@ export default class Form extends Component {
             number: '',
             icon: '',
             active: false,
-            loading: false
+            loading: false,
+            countrySelected: 'EN-gb'
         };
         this.countries = [
             { value: 'EN-gb', label: 'England' },
@@ -156,6 +157,11 @@ export default class Form extends Component {
     componentDidMount (){
         this.setState(this.props.account);
     }
+
+    handleCountryChange (value) {
+        this.setState({countrySelected: value});
+    }
+
     renderButton (){
         let button;
         if(!this.props.account){
@@ -185,7 +191,7 @@ export default class Form extends Component {
 
                 <Dropdown
                     source={this.countries}
-                    onChange={this.handleCountryChange}
+                    onChange={this.handleCountryChange.bind(this)}
                     label='Select Country'
                     value={this.state.countrySelected}
                     />
