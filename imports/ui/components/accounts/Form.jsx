@@ -196,7 +196,7 @@ export default class Form extends Component {
                           name='icon'
                           onChange={this.onChange.bind(this)}
                           value={this.state.icon}
-                          label='Select Icon'
+                          label='Select Bank/Card'
                           template={this.categoryIcons}
                           required
                     />
