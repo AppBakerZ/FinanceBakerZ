@@ -432,8 +432,8 @@ class TransactionPage extends Component {
 
         return (
             <div style={containerStyle}>
-                <FontIcon value={category.icon} style={imageStyle}/>
-                <div style={contentStyle}>
+                <div className={theme.categoryIcon}>
+                    <i className={category.icon}/>
                     <strong>{category.name}</strong>
                 </div>
             </div>
