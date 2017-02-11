@@ -22,14 +22,18 @@ export default class Form extends Component {
             name: '',
             purpose: '',
             number: '',
-            icon: '',
+            bank: '',
             active: false,
             loading: false,
-            countrySelected: 'EN-gb'
+            country: 'PK'
         };
-        this.countries = countries;
 
-        this.icons = bankFonts.map((font, index) => {
+        this.countries = _.sortBy(countries, 'label');
+        this.setBanks()
+    }
+    setBanks(country){
+        let bankIcons = bankFonts[country || this.state.country] || [];
+        this.banks = bankIcons.map((font, index) => {
 
             index++;
             if(index % 3 == 0){
@@ -42,22 +46,20 @@ export default class Form extends Component {
 
             return font
         });
-
     }
-
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
         this.setState({loading: true})
     }
     createAccount(){
-        const {name, purpose, number, icon} = this.state;
+        const {name, purpose, number, bank} = this.state;
         Meteor.call('accounts.insert', {
             account: {
                 name,
                 purpose,
                 number,
-                icon
+                bank
             }
         }, (err, response) => {
             if(response){
@@ -82,14 +84,14 @@ export default class Form extends Component {
         });
     }
     updateAccount(){
-        const {_id, name, purpose, number, icon} = this.state;
+        const {_id, name, purpose, number, bank} = this.state;
         Meteor.call('accounts.update', {
             account: {
                 _id,
                 name,
                 purpose,
                 number,
-                icon
+                bank
             }
         }, (err, response) => {
             if(err){
@@ -113,33 +115,26 @@ export default class Form extends Component {
     }
     onChange (val, e) {
         this.setState({[e.target.name]: val});
+        if(e.target.name == 'country')
+            this.setBanks(val)
     }
-    onChangeParentCategory (val) {
-        this.setState({parent: val});
-    }
-    accounts(){
-        let cats = [{value: 'one', label: 'one', icon: ''}];
-        return cats
-    }
-    categoryIcons(icon){
+    bankIcons(bank){
         let parentClass = '';
 
-        if(icon.removeRightBorder){
+        if(bank.removeRightBorder){
             parentClass = dropdownTheme['removeRightBorder']
         }
 
-        if(icon.removeBottomBorder){
+        if(bank.removeBottomBorder){
             parentClass = dropdownTheme['removeBottomBorder']
         }
 
         return (
             <div className={parentClass}>
-                <i className={icon.value}/>
+                <i className={bank.value}/>
             </div>
         );
     }
-
-
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -153,11 +148,6 @@ export default class Form extends Component {
     componentDidMount (){
         this.setState(this.props.account);
     }
-
-    handleCountryChange (value) {
-        this.setState({countrySelected: value});
-    }
-
     renderButton (){
         let button;
         if(!this.props.account){
@@ -187,17 +177,18 @@ export default class Form extends Component {
 
                 <Dropdown
                     source={this.countries}
-                    onChange={this.handleCountryChange.bind(this)}
+                    name='country'
+                    onChange={this.onChange.bind(this)}
                     label='Select Country'
-                    value={this.state.countrySelected}
+                    value={this.state.country}
                     />
                 <Dropdown theme={dropdownTheme}
-                          source={this.icons}
-                          name='icon'
+                          source={this.banks}
+                          name='bank'
                           onChange={this.onChange.bind(this)}
-                          value={this.state.icon}
+                          value={this.state.bank}
                           label='Select Bank/Card'
-                          template={this.categoryIcons}
+                          template={this.bankIcons}
                           required
                     />
                 <Input type='text' label='Enter Account Number'
