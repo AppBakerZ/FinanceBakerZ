@@ -22,8 +22,12 @@
         line-height: $unit;
         border-right: $unit - 0.8 solid #eeeeee;
         padding: $unit - 0.3  $unit * 1.5;
+        height: $unit * 4.8;
         svg{
           -webkit-transform: rotate(90deg);
+        }
+        i{
+          font-size: $unit * 3.2;
         }
       }
       &:nth-child(3){
