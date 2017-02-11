@@ -3,7 +3,7 @@
 
 .dropdown{
   .values{
-    padding: 0 6px 0 8px;
+    padding: 0 $unit - 0.4 0 $unit - 0.4;
     position: static;
     li{
       width: 33.3%;
@@ -14,9 +14,9 @@
         text-align: center;
         border-bottom: $unit - 0.8 solid #d3d3d3;
         border-right: $unit - 0.8 solid #d3d3d3;
-        padding: 15px 0 15px 0;
+        padding: $unit * 1.5 0 $unit * 1.5 0;
         i{
-          font-size: 50px;
+          font-size: $unit * 5;
         }
         &.removeBottomBorder{
           border-bottom: 0;
