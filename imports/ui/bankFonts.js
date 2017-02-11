@@ -1,106 +1,106 @@
 export default {
     PK: [
         {
-            label: 'AL-BARAKA',
-            value: 'bank-banks_AL-BARAKA'
+            label: 'Al Baraka',
+            value: 'bank-Al-Baraka'
         },
         {
-            label: 'ALLIED-BANK',
-            value: 'bank-banks_ALLIED-BANK'
+            label: 'Allied Bank',
+            value: 'bank-Allied-Bank'
         },
         {
-            label: 'ASKARI-BANK',
-            value: 'bank-banks_ASKARI-BANK'
+            label: 'Askari Bank',
+            value: 'bank-Askari-Bank'
         },
         {
-            label: 'BANK-AL-HABIB',
-            value: 'bank-banks_BANK-AL-HABIB'
+            label: 'Bank Al Habib',
+            value: 'bank-Bank-Al-Habib'
         },
         {
-            label: 'BANK-ALFLAH',
-            value: 'bank-banks_BANK-ALFLAH'
+            label: 'Bank Alfalah',
+            value: 'bank-Bank-Alfalah'
         },
         {
-            label: 'BANK-ISLAMI',
-            value: 'bank-banks_BANK-ISLAMI'
+            label: 'BankIslami',
+            value: 'bank-BankIslami'
         },
         {
-            label: 'BOP-BANk',
-            value: 'bank-banks_BOP-BANk'
+            label: 'Bank of Punjab',
+            value: 'bank-Bank-of-Punjab'
         },
         {
-            label: 'DUBAI-ISLAMIC-BANK',
-            value: 'bank-banks_DUBAI-ISLAMIC-BANK'
+            label: 'Dubai Islamic Bank',
+            value: 'bank-Dubai-Islamic-Bank'
         },
         {
-            label: 'FAISAL-BANK',
-            value: 'bank-banks_FAISAL-BANK'
+            label: 'Faysal Bank',
+            value: 'bank-Faysal-Bank'
         },
         {
             label: 'HBL',
-            value: 'bank-banks_HBL'
+            value: 'bank-HBL'
         },
         {
-            label: 'JS-BANK',
-            value: 'bank-banks_JS-BANK'
+            label: 'JS Bank',
+            value: 'bank-JS-Bank'
         },
         {
-            label: 'MCB',
-            value: 'bank-banks_MCB'
+            label: 'MCB Limited',
+            value: 'bank-MCB-Limited'
         },
         {
-            label: 'MEEZAN-BANK',
-            value: 'bank-banks_MEEZAN-BANK'
+            label: 'Meezan Bank',
+            value: 'bank-Meezan-Bank'
         },
         {
             label: 'NBP',
-            value: 'bank-banks_NBP'
+            value: 'bank-NBP'
         },
         {
-            label: 'NIB-BANK',
-            value: 'bank-banks_NIB-BANK'
+            label: 'NIB Bank',
+            value: 'bank-NIB-Bank'
         },
         {
-            label: 'SAMBA-BANK',
-            value: 'bank-banks_SAMBA-BANK'
+            label: 'Samba-Bank',
+            value: 'bank-Samba-Bank'
         },
         {
-            label: 'SILKBANK',
-            value: 'bank-banks_SILKBANK'
+            label: 'Silk Bank',
+            value: 'bank-Silk-Bank'
         },
         {
-            label: 'SINDH-BANK',
-            value: 'bank-banks_SINDH-BANK'
+            label: 'Sindh Bank',
+            value: 'bank-Sindh-Bank'
         },
         {
-            label: 'SONERI-BANK',
-            value: 'bank-banks_SONERI-BANK'
+            label: 'Soneri Bank',
+            value: 'bank-Soneri-Bank'
         },
         {
-            label: 'STANDARD-CHARTERET',
-            value: 'bank-banks_STANDARD-CHARTERET'
+            label: 'Standard Chartered',
+            value: 'bank-Standard-Chartered'
         },
         {
-            label: 'SUMMIT-BANK',
-            value: 'bank-banks_SUMMIT-BANK'
+            label: 'Summit Bank',
+            value: 'bank-Summit-Bank'
         },
         {
-            label: 'UBL',
-            value: 'bank-banks_UBL'
+            label: 'United Bank',
+            value: 'bank-United-Bank'
         }
     ],
     US: [
         {
-            label: 'payment_payoneer',
-            value: 'bank-online-payment_payoneer'
+            label: 'Payment Payoneer',
+            value: 'bank-Payment-Payoneer'
         },
         {
-            label: 'payment_paypal',
-            value: 'bank-online-payment_paypal'
+            label: 'Payment Paypal',
+            value: 'bank-Payment-Paypal'
         },
         {
-            label: 'payment_Skrill',
-            value: 'bank-online-payment_Skrill'
+            label: 'Payment Skrill',
+            value: 'bank-Payment-Skrill'
         }
     ]
 }
