@@ -39,8 +39,8 @@ export default class Form extends Component {
             if(index % 3 == 0){
                 font.removeRightBorder = true
             }
-            let lastItems = bankFonts.length % 3 == 0 ? 3 : bankFonts.length % 3;
-            if(index > bankFonts.length - lastItems){
+            let lastItems = bankIcons.length % 3 == 0 ? 3 : bankIcons.length % 3;
+            if(index > bankIcons.length - lastItems){
                 font.removeBottomBorder = true
             }
 
