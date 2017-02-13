@@ -231,7 +231,7 @@ class ExpensesSideBar extends Component {
 
         return (
             <div style={containerStyle}>
-                <img src={account.icon} style={imageStyle}/>
+                <i className={account.bank}/>
                 <div style={contentStyle}>
                     <strong>{account.name}</strong>
                     <small>{account.category}</small>
@@ -243,7 +243,7 @@ class ExpensesSideBar extends Component {
     accounts(){
         return this.props.accounts.map((account) => {
             account.value = account._id;
-            account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+            account.icon = account.bank;
             return account;
         })
     }
