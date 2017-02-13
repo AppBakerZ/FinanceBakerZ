@@ -61,7 +61,7 @@
     width: 18%;
     display: inline-block;
     position: relative;
-    top: $unit - 0.3;
+    top: 0;
     label{
       color: $color-text;
       font-size: $font-size-small;
@@ -95,6 +95,14 @@
       color: $color-text;
       font-size: $font-size-small;
     }
+  }
+}
+.categoryIcon{
+  width: 100%;
+  display: inline-block;
+  i{
+    margin: 0 $unit 0 0;
+    float: left;
   }
 }
 /////////////////// dialog content styling start here ////////////////////////

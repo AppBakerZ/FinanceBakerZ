@@ -2,12 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
-import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
+import { Input, Button, ProgressBar, Snackbar, Dropdown } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
 import theme from './theme';
+import dropdownTheme from './dropdownTheme';
+
+import bankFonts from '/imports/ui/bankFonts.js';
+import countries from '/imports/ui/countries.js';
 
 export default class Form extends Component {
 
@@ -15,13 +19,31 @@ export default class Form extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            purpose: '',
+            country: 'PK',
             number: '',
-            icon: '',
+            bank: '',
             active: false,
             loading: false
         };
+
+        this.countries = _.sortBy(countries, 'label');
+        this.setBanks()
+    }
+    setBanks(country){
+        let bankIcons = bankFonts[country || this.state.country] || [];
+        this.banks = bankIcons.map((font, index) => {
+
+            index++;
+            if(index % 3 == 0){
+                font.removeRightBorder = true
+            }
+            let lastItems = bankIcons.length % 3 == 0 ? 3 : bankIcons.length % 3;
+            if(index > bankIcons.length - lastItems){
+                font.removeBottomBorder = true
+            }
+
+            return font
+        });
     }
     onSubmit(event){
         event.preventDefault();
@@ -29,13 +51,12 @@ export default class Form extends Component {
         this.setState({loading: true})
     }
     createAccount(){
-        const {name, purpose, number, icon} = this.state;
+        const {country, number, bank} = this.state;
         Meteor.call('accounts.insert', {
             account: {
-                name,
-                purpose,
+                country,
                 number,
-                icon
+                bank
             }
         }, (err, response) => {
             if(response){
@@ -60,14 +81,13 @@ export default class Form extends Component {
         });
     }
     updateAccount(){
-        const {_id, name, purpose, number, icon} = this.state;
+        const {_id, country, number, bank} = this.state;
         Meteor.call('accounts.update', {
             account: {
                 _id,
-                name,
-                purpose,
+                country,
                 number,
-                icon
+                bank
             }
         }, (err, response) => {
             if(err){
@@ -91,6 +111,25 @@ export default class Form extends Component {
     }
     onChange (val, e) {
         this.setState({[e.target.name]: val});
+        if(e.target.name == 'country')
+            this.setBanks(val)
+    }
+    bankIcons(bank){
+        let parentClass = '';
+
+        if(bank.removeRightBorder){
+            parentClass = dropdownTheme['removeRightBorder']
+        }
+
+        if(bank.removeBottomBorder){
+            parentClass = dropdownTheme['removeBottomBorder']
+        }
+
+        return (
+            <div className={parentClass}>
+                <i className={bank.value}/>
+            </div>
+        );
     }
     handleBarClick (event, instance) {
         this.setState({ active: false });
@@ -132,27 +171,25 @@ export default class Form extends Component {
                     type={this.state.barType}
                     />
 
-                <Input type='text' label='Name'
-                       name='name'
-                       maxLength={ 25 }
-                       value={this.state.name}
-                       onChange={this.onChange.bind(this)}
-                       required
+                <Dropdown
+                    source={this.countries}
+                    name='country'
+                    onChange={this.onChange.bind(this)}
+                    label='Select Country'
+                    value={this.state.country}
                     />
-                <Input type='text' label='Purpose'
-                       name='purpose'
-                       maxLength={ 50 }
-                       value={this.state.purpose}
-                       onChange={this.onChange.bind(this)}
+                <Dropdown theme={dropdownTheme}
+                          source={this.banks}
+                          name='bank'
+                          onChange={this.onChange.bind(this)}
+                          value={this.state.bank}
+                          label='Select Bank/Card'
+                          template={this.bankIcons}
+                          required
                     />
-                <Input type='text' label='Number'
+                <Input type='text' label='Enter Account Number'
                        name='number'
                        value={this.state.number}
-                       onChange={this.onChange.bind(this)}
-                    />
-                <Input type='text' label='Icon'
-                       name='icon'
-                       value={this.state.icon}
                        onChange={this.onChange.bind(this)}
                     />
                 {this.renderButton()}

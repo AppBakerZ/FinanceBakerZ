@@ -17,6 +17,7 @@ import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 
 import bankFonts from '/imports/ui/bankFonts.js';
+import countries from '/imports/ui/countries.js';
 
 class AccountsPage extends Component {
 
@@ -29,10 +30,6 @@ class AccountsPage extends Component {
             selectedAccount: null,
             action: null
         };
-
-        this.icons = bankFonts.map((font, index) => {
-            return font
-        });
 
     }
     popupTemplate(){
@@ -127,7 +124,7 @@ class AccountsPage extends Component {
         };
         let accounts = this.props.accounts.map((account, index) => {
             return {
-                icon: <i className="bank-banks_BANK-ISLAMI"></i>,
+                icon: <i className={account.bank}></i>,
                 content:
                     <div>
                         <div>Bank: <strong>{account.name}</strong> ({account.purpose})</div>

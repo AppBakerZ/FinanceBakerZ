@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'Bank-fonts';
-  src:  url('fonts/Bank-fonts.eot?aqk8ud');
-  src:  url('fonts/Bank-fonts.eot?aqk8ud#iefix') format('embedded-opentype'),
-  url('fonts/Bank-fonts.ttf?aqk8ud') format('truetype'),
-  url('fonts/Bank-fonts.woff?aqk8ud') format('woff'),
-  url('fonts/Bank-fonts.svg?aqk8ud#Bank-fonts') format('svg');
+  font-family: 'Bank-Fonts';
+  src:  url('fonts/Bank-Fonts.eot?olv7ra');
+  src:  url('fonts/Bank-Fonts.eot?olv7ra#iefix') format('embedded-opentype'),
+  url('fonts/Bank-Fonts.ttf?olv7ra') format('truetype'),
+  url('fonts/Bank-Fonts.woff?olv7ra') format('woff'),
+  url('fonts/Bank-Fonts.svg?olv7ra#Bank-Fonts') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,7 +12,7 @@
 :global {
   [class^="bank-"], [class*=" bank-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'Bank-fonts' !important;
+    font-family: 'Bank-Fonts' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -25,187 +25,79 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .icon-banks_AL-BARAKA:before {
+  .bank-Al-Baraka:before {
     content: "\e900";
   }
-  .bank-banks_ALLIED-BANK .path1:before {
+  .bank-Allied-Bank:before {
     content: "\e901";
-    color: rgb(0, 0, 0);
-    opacity: 0.5;
   }
-  .bank-banks_ALLIED-BANK .path2:before {
+  .bank-Askari-Bank:before {
     content: "\e902";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path3:before {
+  .bank-Bank-Al-Habib:before {
     content: "\e903";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path4:before {
+  .bank-Bank-Alfalah:before {
     content: "\e904";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path5:before {
+  .bank-Bank-of-Punjab:before {
     content: "\e905";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path6:before {
+  .bank-BankIslami:before {
     content: "\e906";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path7:before {
+  .bank-Dubai-Islamic-Bank:before {
     content: "\e907";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path8:before {
+  .bank-Faysal-Bank:before {
     content: "\e908";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path9:before {
+  .bank-HBL:before {
     content: "\e909";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path10:before {
+  .bank-JS-Bank:before {
     content: "\e90a";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path11:before {
+  .bank-MCB-Limited:before {
     content: "\e90b";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path12:before {
+  .bank-Meezan-Bank:before {
     content: "\e90c";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-    opacity: 0.5;
   }
-  .bank-banks_ALLIED-BANK .path13:before {
+  .bank-NBP:before {
     content: "\e90d";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ALLIED-BANK .path14:before {
+  .bank-NIB-Bank:before {
     content: "\e90e";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
   }
-  .bank-banks_ASKARI-BANK:before {
+  .bank-Payment-Payoneer:before {
     content: "\e90f";
   }
-  .bank-banks_BANK-AL-HABIB:before {
+  .bank-Payment-Paypal:before {
     content: "\e910";
   }
-  .bank-banks_BANK-ALFLAH:before {
+  .bank-Payment-Skrill:before {
     content: "\e911";
   }
-  .bank-banks_BANK-ISLAMI:before {
+  .bank-Samba-Bank:before {
     content: "\e912";
   }
-  .bank-banks_BOP-BANk:before {
+  .bank-Silk-Bank:before {
     content: "\e913";
   }
-  .bank-banks_DUBAI-ISLAMIC-BANK:before {
+  .bank-Sindh-Bank:before {
     content: "\e914";
   }
-  .bank-banks_FAISAL-BANK:before {
+  .bank-Soneri-Bank:before {
     content: "\e915";
   }
-  .bank-banks_HBL:before {
+  .bank-Standard-Chartered:before {
     content: "\e916";
   }
-  .bank-banks_JS-BANK:before {
+  .bank-Summit-Bank:before {
     content: "\e917";
   }
-  .bank-banks_MCB:before {
+  .bank-United-Bank:before {
     content: "\e918";
-  }
-  .bank-banks_MEEZAN-BANK:before {
-    content: "\e919";
-  }
-  .bank-banks_NBP:before {
-    content: "\e91a";
-  }
-  .bank-banks_NIB-BANK:before {
-    content: "\e91b";
-  }
-  .bank-banks_SAMBA-BANK:before {
-    content: "\e91c";
-  }
-  .bank-banks_SILKBANK:before {
-    content: "\e91d";
-  }
-  .bank-banks_SINDH-BANK:before {
-    content: "\e91e";
-  }
-  .bank-banks_SONERI-BANK:before {
-    content: "\e91f";
-  }
-  .bank-banks_STANDARD-CHARTERET:before {
-    content: "\e920";
-  }
-  .bank-banks_SUMMIT-BANK:before {
-    content: "\e921";
-  }
-  .bank-banks_UBL:before {
-    content: "\e922";
-  }
-  .bank-online-payment_payoneer:before {
-    content: "\e923";
-  }
-  .bank-online-payment_paypal .path1:before {
-    content: "\e924";
-    color: rgb(0, 0, 0);
-    opacity: 0.8;
-  }
-  .bank-online-payment_paypal .path2:before {
-    content: "\e925";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-  }
-  .bank-online-payment_paypal .path3:before {
-    content: "\e926";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-  }
-  .bank-online-payment_paypal .path4:before {
-    content: "\e927";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-    opacity: 0.8;
-  }
-  .bank-online-payment_paypal .path5:before {
-    content: "\e928";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-    opacity: 0.8;
-  }
-  .bank-online-payment_paypal .path6:before {
-    content: "\e929";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-  }
-  .bank-online-payment_paypal .path7:before {
-    content: "\e92a";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-    opacity: 0.8;
-  }
-  .bank-online-payment_paypal .path8:before {
-    content: "\e92b";
-    margin-left: -2.1337890625em;
-    color: rgb(0, 0, 0);
-  }
-  .bank-online-payment_Skrill:before {
-    content: "\e92c";
   }
 }
