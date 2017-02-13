@@ -132,7 +132,7 @@ class DashboardPage extends Component {
     accounts(){
         let accounts = {};
         this.props.accounts.forEach((account) => {
-            accounts[account._id] = account.name;
+            accounts[account._id] = account.bank;
         });
         return accounts;
     }
