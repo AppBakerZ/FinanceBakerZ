@@ -24,19 +24,15 @@ export const insert = new ValidatedMethod({
         'account': {
             type: Object
         },
-        'account.name': {
-            type: String
-        },
-        'account.purpose': {
+        'account.country': {
             type: String
         },
         'account.number': {
             type: String,
             optional: true
         },
-        'account.icon': {
-            type: String,
-            optional: true
+        'account.bank': {
+            type: String
         }
     }).validator(),
     run({ account }) {
@@ -59,19 +55,15 @@ export const update = new ValidatedMethod({
         'account._id': {
             type: String
         },
-        'account.name': {
-            type: String
-        },
-        'account.purpose': {
+        'account.country': {
             type: String
         },
         'account.number': {
             type: String,
             optional: true
         },
-        'account.icon': {
-            type: String,
-            optional: true
+        'account.bank': {
+            type: String
         }
     }).validator(),
     run({ account }) {

@@ -19,13 +19,11 @@ export default class Form extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            purpose: '',
+            country: 'PK',
             number: '',
             bank: '',
             active: false,
-            loading: false,
-            country: 'PK'
+            loading: false
         };
 
         this.countries = _.sortBy(countries, 'label');
@@ -53,11 +51,10 @@ export default class Form extends Component {
         this.setState({loading: true})
     }
     createAccount(){
-        const {name, purpose, number, bank} = this.state;
+        const {country, number, bank} = this.state;
         Meteor.call('accounts.insert', {
             account: {
-                name,
-                purpose,
+                country,
                 number,
                 bank
             }
@@ -84,12 +81,11 @@ export default class Form extends Component {
         });
     }
     updateAccount(){
-        const {_id, name, purpose, number, bank} = this.state;
+        const {_id, country, number, bank} = this.state;
         Meteor.call('accounts.update', {
             account: {
                 _id,
-                name,
-                purpose,
+                country,
                 number,
                 bank
             }
@@ -192,9 +188,8 @@ export default class Form extends Component {
                           required
                     />
                 <Input type='text' label='Enter Account Number'
-                       name='purpose'
-                       maxLength={ 50 }
-                       value={this.state.purpose}
+                       name='number'
+                       value={this.state.number}
                        onChange={this.onChange.bind(this)}
                     />
                 {this.renderButton()}

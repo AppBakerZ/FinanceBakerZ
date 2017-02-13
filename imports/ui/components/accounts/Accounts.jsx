@@ -127,7 +127,7 @@ class AccountsPage extends Component {
         };
         let accounts = this.props.accounts.map((account, index) => {
             return {
-                icon: <i className="bank-BankIslami"></i>,
+                icon: <i className={account.bank}></i>,
                 content:
                     <div>
                         <div>Bank: <strong>{account.name}</strong> ({account.purpose})</div>

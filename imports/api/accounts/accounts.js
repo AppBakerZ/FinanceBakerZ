@@ -19,23 +19,16 @@ Accounts.schema = new SimpleSchema({
         type: String,
         label: 'Owner of account'
     },
-    name: {
+    country: {
         type: String,
-        label: 'Name of account',
-        max: 50
-    },
-    purpose: {
-        type: String,
-        label: 'Purpose of account',
-        max: 50,
-        optional: true
+        label: 'Name of country'
     },
     number: {
         type: String,
         label: 'Number of account',
         optional: true
     },
-    icon: {
+    bank: {
         type: String,
         label: 'Icon of account',
         optional: true
