@@ -96,17 +96,17 @@
       }
     }
   }
-  .buttonBox{
-    text-align: center;
-    button{
-      background: $color-accent;
-      font-size: $font-size;
-      padding: $unit - 0.8 $unit * 2 0 $unit * 2;
-      height: $unit * 3.6;
-      word-spacing: $unit - 0.6;
-      &:first-child{
-        margin-right: $unit * 2;
-      }
+}
+.buttonBox{
+  text-align: center;
+  button{
+    background: $color-accent;
+    font-size: $font-size;
+    padding: $unit - 0.8 $unit * 2 0 $unit * 2;
+    height: $unit * 3.6;
+    word-spacing: $unit - 0.6;
+    &:first-child{
+      margin-right: $unit * 2;
     }
   }
 }
@@ -118,6 +118,13 @@
 }
 .confirmText{
   margin-bottom: $unit * 2;
+  h3{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: #008142;
+    margin: 0 0 2rem 0;
+  }
   p{
     line-height: $unit * 2.6;
     color: $color-text;
@@ -152,6 +159,20 @@
     letter-spacing: $unit - 0.9;
     height: $unit * 4.6;
     padding: $unit - 0.6 $unit * 4.3 0;
+  }
+}
+.buttonArea{
+  text-align: center;
+  button{
+    background: $color-accent;
+    font-size: $font-size;
+    padding: $unit - 0.8 $unit * 4.5 0;
+    height: $unit * 4.6;
+    word-spacing: $unit - 0.6;
+    &:first-child{
+      margin-right: $unit * 1.8;
+      padding: $unit - 0.8 $unit * 6.3 0;
+    }
   }
 }
 /////////////////////////// dialog styling end here /////////////////////////////////

@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar} from 'react-toolbox';
+import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var'
+
+import Form from './Form.jsx';
+import ProjectDetail from './ProjectDetail.jsx';
+import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
@@ -19,24 +23,6 @@ import buttonTheme from './buttonTheme';
 const RECORDS_PER_PAGE = 8;
 
 let pageNumber = 1,
-    statusFilters = [
-        {
-            name: 'Working',
-            value: 'working'
-        },
-        {
-            name: 'Progress',
-            value: 'progress'
-        },
-        {
-            name: 'Waiting',
-            value: 'waiting'
-        },
-        {
-            name: 'Completed',
-            value: 'completed'
-        }
-    ],
     query = new ReactiveVar({
         limit : RECORDS_PER_PAGE * pageNumber
     });
@@ -51,19 +37,108 @@ class ProjectPage extends Component {
             filter : {
                 client : {}
             },
-            openDialog : false,
-            barActive : false,
-            showForm : true,
-            updateForm : false,
-            loading : false,
-            deleteConfirmMessage : false,
-            selectedProject : {},
-            project : {
-                client : {}
-            }
+
+            removeConfirmMessage: false,
+            openDialog: false,
+            selectedProject: null,
+            action: null,
+            loading : false
         };
-        this.props.toggleSidebar(false);
+
+        this.statuses = [
+            {
+                label: 'In Progress',
+                value: 'progress'
+            },
+            {
+                label: 'Waiting for Feedback',
+                value: 'waiting'
+            },
+            {
+                label: 'Completed',
+                value: 'completed'
+            }
+        ];
     }
+    onRowClick(index){
+        console.log('this.props.projects[index] ', this.props.projects[index]);
+        this.openPopup('show', this.props.projects[index])
+    }
+    popupTemplate(){
+        return(
+            <Dialog theme={dialogTheme}
+                    active={this.state.openDialog}
+                    onEscKeyDown={this.closePopup.bind(this)}
+                    onOverlayClick={this.closePopup.bind(this)}
+                >
+                {this.switchPopupTemplate()}
+            </Dialog>
+        )
+    }
+    switchPopupTemplate(){
+        switch (this.state.action){
+            case 'show':
+                return <ProjectDetail openPopup={this.openPopup.bind(this)} closePopup={this.closePopup.bind(this)} project={this.state.selectedProject} />;
+                break;
+            case 'remove':
+                return this.renderConfirmationMessage();
+                break;
+            case 'edit':
+                return <Form statuses={this.statuses} project={this.state.selectedProject} closePopup={this.closePopup.bind(this)} />;
+                break;
+            case 'add':
+                return <Form statuses={this.statuses} closePopup={this.closePopup.bind(this)} />;
+                break;
+        }
+
+    }
+    openPopup (action, project) {
+        this.setState({
+            openDialog: true,
+            action,
+            selectedProject: project || null
+        });
+    }
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+    renderConfirmationMessage(){
+        return (
+            <div className={theme.dialogAccount}>
+                <div className={theme.confirmText}>
+                    <h3>bank project</h3>
+                    <p>This will remove your all data</p>
+                    <p>Are you sure to remove your bank project?</p>
+                </div>
+
+                <div className={theme.buttonArea}>
+                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label='YES, REMOVE' raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
+                </div>
+            </div>
+        )
+    }
+    removeProject(){
+        const {_id} = this.state.selectedProject;
+        Meteor.call('projects.remove', {
+            project: {
+                _id
+            }
+        }, (err, response) => {
+            if(err){
+
+            }else{
+
+            }
+        });
+        // Close Popup
+        this.closePopup()
+    }
+
+
+
 
 
     /*************** Infinite scroll ***************/
@@ -74,87 +149,6 @@ class ProjectPage extends Component {
             copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber + 1);
             query.set(copyQuery);
         }
-    }
-
-
-    /*************** open popup ***************/
-    openedPopup (showForm) {
-        this.setState({showForm, openDialog: true, deleteConfirmMessage: false});
-    }
-
-    /*************** close popup ***************/
-    closePopup () {
-        this.setState({openDialog:false, updateForm : false});
-    }
-
-    /*************** edit project popup ***************/
-    editPopup(){
-        let project = JSON.parse(JSON.stringify(this.state.selectedProject));
-        delete project.createdAt;
-        delete project.clientName;
-        delete project.date;
-        delete project.updatedAt;
-        delete project.owner;
-        delete project.test;
-        if(project.startAt){
-            project.startAt = new Date(project.startAt);
-        }
-        this.setState({showForm : true, updateForm : true, project});
-    }
-
-    deleteProjectToggle(){
-        this.setState({deleteConfirmMessage : !this.state.deleteConfirmMessage});
-    }
-
-    deleteProject(){
-        let selectedProject = this.state.selectedProject;
-        this.setState({loading : true});
-        Meteor.call('project.remove', {project : {_id : selectedProject._id}}
-            , (err, response) => {
-                if(err){
-                    this.setState({
-                        barActive: true,
-                        barMessage: err.reason,
-                        barIcon: 'error_outline',
-                        barType: 'cancel',
-                        loading : false
-                    });
-                }else{
-                    this.setState({
-                        barActive: true,
-                        barMessage:   'Remove' + this.state.selectedProject.name + 'Successfully!',
-                        barIcon: 'done',
-                        barType: 'accept',
-                        loading : false
-                    });
-                    this.closePopup();
-                    this.setState({project :   {client : {}} });
-
-                }
-            });
-    }
-
-    progressBarToggle (){
-        return  this.state.loading ? 'progress-bar' : 'progress-bar hide';
-    }
-
-    /*************** onChange value in popup form ***************/
-    onChange (val, e) {
-        let newProject = _.extend(this.state.project, this.state.project),
-            label = e.target.name;
-
-        if(label == 'client.name'){
-            newProject['client']['name'] = val;
-        }
-        else if(label == 'amount'){
-            newProject[label] = +val;
-
-        }
-        else{
-            newProject[label] = val;
-
-        }
-        this.setState({ project: newProject });
     }
 
     /*************** onChange filter value***************/
@@ -180,7 +174,6 @@ class ProjectPage extends Component {
         query.set(copyQuery);
     }
 
-    /*************** reset status filter ***************/
     resetStatusFilter(){
         let copyQuery = query.get(),
             filter = _.extend(this.state.filter, this.state.filter);
@@ -191,224 +184,42 @@ class ProjectPage extends Component {
         query.set(copyQuery);
     }
 
-    /*************** create and update project method  ***************/
-    createNewProject(event){
-        event.preventDefault();
-        const {project} = this.state;
-        this.setState({loading : true});
-        Meteor.call('project.insert', {project}
-            , (err, response) => {
-                if(err){
-                    this.setState({
-                        barActive: true,
-                        barMessage: err.reason,
-                        barIcon: 'error_outline',
-                        barType: 'cancel',
-                        loading : false
-                    });
-                }else{
-                    this.setState({
-                        barActive: true,
-                        barMessage: this.state.updateForm ? 'Update Successfully!' : 'Add new Project successfully',
-                        barIcon: 'done',
-                        barType: 'accept',
-                        loading : false
-                    });
-                    this.closePopup();
-                    this.setState({project :   {client : {}} });
-
-                }
-            });
-    }
-
-    barClick () {
-        this.setState({ barActive: false });
-    }
-
-    /*************** Select single project in table row click ***************/
-    selectProject(index){
-        let selectedProject =  this.props.projects[index] ;
-        this.setState({selectedProject});
-        this.openedPopup();
-    }
-
-    /********************************************* Templates *********************************************/
-
-    /*************** Dropdown select option template ***************/
-    dropDownSelectedTemplate (account) {
-        return (
-            <span>
-                <strong>{account.name}</strong>
-            </span>
-        );
-    }
-
-    selectedProjectDetails(){
-        return this.state.deleteConfirmMessage ? this.renderConfirmationMessage() : this.renderProjectDetails();
-    }
-
-    renderConfirmationMessage(){
-        let selectedProject = this.state.selectedProject ;
-
-        return (
-            <div>
-                <div className={theme.confirmText}>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your project?</p>
-                </div>
-
-                <div className={theme.buttonDialog}>
-                    <Button label='GO BACK' raised primary onClick={this.deleteProjectToggle.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.deleteProject.bind(this)} theme={buttonTheme} />
-                </div>
-            </div>
-        )
-    }
-
-
-    renderProjectDetails(){
-        let selectedProject = this.state.selectedProject ;
-
-        return (
-            <div>
-                <div className={theme.contentTwo}>
-                    <div> <p>Client Name :</p> <p>{selectedProject.client.name}</p></div>
-                    <div> <p>Project Status :</p> <p>{selectedProject.status}</p></div>
-                </div>
-
-                <div className={theme.buttonBox}>
-                    <Button label='Edit Information' raised accent onClick={this.editPopup.bind(this)} />
-                    <Button label='Delete Project' raised accent onClick={this.deleteProjectToggle.bind(this)} />
-                </div>
-            </div>
-        )
-    }
-    /*************** Select single project in table row click ***************/
-    renderSelectedProject(){
-        let selectedProject = this.state.selectedProject ;
-        return(
-            <div className={theme.contentParent}>
-                <div className={theme.contentOne}>
-                    <div> <span>Project ID :</span> <span>{selectedProject._id}</span></div>
-                    {(selectedProject.startAt) && <div> <span>Date :</span> <span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
-                </div>
-
-                <h4>{selectedProject.name}</h4>
-
-                {this.selectedProjectDetails()}
-            </div>
-        )
-    }
-
-    /*************** form template ***************/
-    renderAddProjectForm(){
-        let {updateForm, selectedProject} = this.state;
-        return(
-            <form className={theme.createProjectForm} onSubmit={this.createNewProject.bind(this)} >
-                {(updateForm) && <div> <span>Project ID :</span><span>{selectedProject._id}</span></div>}
-                {(updateForm && selectedProject.startAt) && <div> <span>Date :</span><span>{moment(selectedProject.startAt).format('MMM Do YY')}</span></div>}
-
-                <h4 className={theme.title}>{(updateForm) ? selectedProject.name :   'Add New Project'}</h4>
-
-                <Input type='text' label='Project Name'
-                       name='name'
-                       maxLength={ 50 }
-                       value={this.state.project.name}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Input type='text' label='Client Name'
-                       name='client.name'
-                       maxLength={ 50 }
-                       value={this.state.project.client.name}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Input type='text' label='Type'
-                       name='type'
-                       maxLength={ 50 }
-                       value={this.state.project.type}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Input type='number' label='Amount'
-                       name='amount'
-                       value={this.state.project.amount}
-                       onChange={this.onChange.bind(this)}
-                    />
-                <Dropdown
-                    auto={true}
-                    source={statusFilters}
-                    name='status'
-                    onChange={this.onChange.bind(this)}
-                    label='Status'
-                    value={this.state.project.status}
-                    template={this.dropDownSelectedTemplate}
-                    required
-                    />
-                <DatePicker
-                    label='Start Date'
-                    name='startAt'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.project.startAt}
-                    />
-                <div className={theme.addBtn}>
-                    <Button type="submit" icon='add' label={(updateForm) ?'update':   'Add New'} raised primary />
-                </div>
-            </form>
-        )
-    }
-
-    /*************** choose template which show on popup ***************/
-    templateRender(){
-        return this.state.showForm ? this.renderAddProjectForm() : this.renderSelectedProject();
-    }
-
-    /*************** popup ***************/
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                className={theme.dialogBox}
-                active={this.state.openDialog}
-                onEscKeyDown={this.closePopup.bind(this)}
-                onOverlayClick={this.closePopup.bind(this)}
-                >
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                {this.templateRender()}
-            </Dialog>
-        )
-    }
-
-    /*************** table template ***************/
     renderProjectTable() {
-        let projects = this.props.projects;
-        let data = _.compact(projects.map((obj)=>{
-            if(obj.client){
-                obj.clientName = obj.client.name;
-                obj.date = obj.startAt ? moment(obj.startAt).format("MMM Do YY") : 'Not Start Yet';
-                obj.amount = userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(obj.amount);
-                return obj;
-            }
-        }));
-        if(!data.length) return;
-        let tableModel = {
-            date: {type: Date, title: 'Date'},
+
+        let projects = this.props.projects.map((project) => {
+            let { name, status, client, startAt, amount } = project;
+            return {
+                name,
+                status,
+                clientName: client && client.name,
+                startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
+                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(amount)
+            };
+        });
+
+        if(!projects.length) return;
+
+        let projectModel = {
+            startAt: {type: Date, title: 'Date'},
             name: {type: String, title: 'Project'},
             clientName: {type: String, title: 'Client'},
             amount: {type: Number, title: 'Amount'},
             status: {type: String, title: 'Status'}
         };
-        return ( <Table theme={tableTheme} className={theme.table}
-                heading={false}
-                model={tableModel}
-                onRowClick={this.selectProject.bind(this)}
-                selectable={false}
-                source={data}
-                />
+
+        return (
+            <Card theme={tableTheme}>
+                <Table className={theme.table} theme={tableTheme}
+                       heading={false}
+                       model={projectModel}
+                       onRowClick={this.onRowClick.bind(this)}
+                       selectable={false}
+                       source={projects}
+                    />
+            </Card>
         )
     }
 
-    /*************** template render ***************/
     render() {
         return (
             <div className="projects"  onScroll={this.handleScroll}>
@@ -433,12 +244,11 @@ class ProjectPage extends Component {
                         <div className={theme.inputDropdown}>
                             <Dropdown
                                 auto={true}
-                                source={statusFilters}
+                                source={this.statuses}
                                 name='status'
                                 onChange={this.onChangeFilter.bind(this)}
                                 label='Filter By Status'
                                 value={this.state.filter.status}
-                                template={this.dropDownSelectedTemplate}
                                 />
                             {(this.state.filter.status) && <IconButton className="close" icon='clear' onClick={this.resetStatusFilter.bind(this)} />}
                         </div>
@@ -446,21 +256,18 @@ class ProjectPage extends Component {
 
                     <div className={theme.pageTitle}>
                         <h3>Projects</h3>
-                        <Button className={theme.button} icon='add' label='Add New' flat onClick={this.openedPopup.bind(this, true)} theme={theme}/>
-                        {this.popupTemplate()}
+                        <Button
+                            className={theme.button}
+                            icon='add'
+                            label='Add New'
+                            flat
+                            onClick={this.openPopup.bind(this, 'add')}
+                            theme={theme}
+                            />
                     </div>
                     {this.renderProjectTable()}
+                    {this.popupTemplate()}
 
-                    <Snackbar
-                        action='Dismiss'
-                        active={this.state.barActive}
-                        icon={this.state.barIcon}
-                        label={this.state.barMessage}
-                        timeout={2000}
-                        onClick={this.barClick.bind(this)}
-                        onTimeout={this.barClick.bind(this)}
-                        type={this.state.barType}
-                        />
                 </div>
             </div>
         );

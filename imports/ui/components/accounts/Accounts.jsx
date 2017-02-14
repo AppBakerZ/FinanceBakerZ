@@ -32,9 +32,6 @@ class AccountsPage extends Component {
         };
 
     }
-    toggleSidebar(event){
-        this.props.toggleSidebar(true);
-    }
     popupTemplate(){
         return(
             <Dialog theme={dialogTheme}

@@ -41,6 +41,9 @@ export const insert = new ValidatedMethod({
     }
 });
 
+
+
+
 export const update = new ValidatedMethod({
     name: 'accounts.update',
     mixins: [LoggedInMixin],
@@ -74,6 +77,8 @@ export const update = new ValidatedMethod({
 });
 
 
+
+
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
     mixins : [LoggedInMixin],
@@ -99,6 +104,7 @@ export const remove = new ValidatedMethod({
         }
     }
 });
+
 
 
 
@@ -147,6 +153,7 @@ export const insertAccountOnLogin = new ValidatedMethod({
 
 
 
+
 export const insertDefaultCurrency = new ValidatedMethod({
     name: 'insertDefaultCurrency',
     mixins: [LoggedInMixin],
@@ -168,6 +175,9 @@ export const insertDefaultCurrency = new ValidatedMethod({
 
     }
 });
+
+
+
 
 export const userRemove = new ValidatedMethod({
     name: 'userRemove',

@@ -45,7 +45,11 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ expense }) {
         expense.owner = this.userId;
-        expense.category && (expense.category.name = Categories.findOne(expense.category._id).name);
+        if(expense.category){
+            let category = Categories.findOne(expense.category._id);
+            expense.category.name = category.name;
+            expense.category.icon = category.icon;
+        }
         return Expenses.insert(expense);
     }
 });
@@ -89,7 +93,11 @@ export const update = new ValidatedMethod({
     run({ expense }) {
         const {_id} = expense;
         delete expense._id;
-        expense.category && (expense.category.name = Categories.findOne(expense.category._id).name);
+        if(expense.category){
+            let category = Categories.findOne(expense.category._id);
+            expense.category.name = category.name;
+            expense.category.icon = category.icon;
+        }
         return Expenses.update(_id, {$set: expense});
     }
 });
