@@ -233,7 +233,7 @@ class ExpensesSideBar extends Component {
             <div style={containerStyle}>
                 <div className={theme.iconBox}>
                     <i className={account.bank}/>
-                    <strong>{account.name}</strong>
+                    <strong>{account.bank}</strong>
                     <small>{account.category}</small>
                 </div>
             </div>
