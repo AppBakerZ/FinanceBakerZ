@@ -229,13 +229,13 @@ class IncomesSideBar extends Component {
         return (
             <div style={containerStyle}>
                 <div className={theme.iconsiconBox}>
-                <i className={account.bank}/>
-                <div style={contentStyle}>
-                    <strong>{account.name}</strong>
-                    <small>{account.purpose}</small>
+                    <i className={account.bank}/>
+                    <div style={contentStyle}>
+                        <strong>{account.name}</strong>
+                        <small>{account.purpose}</small>
+                    </div>
                 </div>
-                </div>
-                 </div>
+            </div>
         );
     }
 
