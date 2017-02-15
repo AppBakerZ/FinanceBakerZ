@@ -8,9 +8,33 @@
     margin-right: $unit;
   }
 }
-.iconBox{
-  i{
-    font-size: $unit * 4;
+.values{
+  padding: 1.3rem 1rem 0.5rem 1rem;
+  position: static;
+  li{
+    width: 33.3%;
+    display: inline-block;
+    padding: 0;
+    margin-top: -4px;
+    div{
+      text-align: center;
+      border-bottom: 0.2rem solid #d3d3d3;
+      border-right: 0.2rem solid #d3d3d3;
+      padding: 1.5rem 0 1.5rem 0;
+      i{
+        font-size: $unit * 5;
+      }
+      &.removeBottomBorder{
+        border-bottom: 0;
+      }
+      &.removeRightBorder{
+        border-right: 0;
+      }
+    }
+    &:last-child{
+      div{
+        border-right: 0;
+      }
+    }
   }
 }
-
