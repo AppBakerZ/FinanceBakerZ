@@ -124,7 +124,7 @@ export const insertAccountOnSignUp = new ValidatedMethod({
         }
     }).validator(),
     run({ account }) {
-        Accounts.insert({owner :account.owner, name: 'Default', purpose: 'Bank Account', icon: 'abc' });
+        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
     }
 });
 
@@ -147,7 +147,7 @@ export const insertAccountOnLogin = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         if(!Accounts.findOne({owner: account.owner}))
-            Accounts.insert({owner :account.owner, name: 'Default', purpose: 'Bank Account', icon:'abc' });
+            Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
     }
 });
 

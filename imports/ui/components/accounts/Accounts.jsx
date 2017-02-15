@@ -7,6 +7,7 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import Form from './Form.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
@@ -127,7 +128,7 @@ class AccountsPage extends Component {
                 icon: <i className={account.bank}></i>,
                 content:
                     <div>
-                        <div>Bank: <strong>{account.name}</strong> ({account.purpose})</div>
+                        <div>Bank: <strong>{accountHelpers.alterName(account.bank)}</strong></div>
                         <div>Account number: <strong>{account.number || 'Not Available'}</strong></div>
                         {this.getAvailableBalance([account._id], index)}
                         <div>Available balance: <strong>{this.getFormattedCurrency(account.availableBalance) || 'Loading ...'}</strong></div>
