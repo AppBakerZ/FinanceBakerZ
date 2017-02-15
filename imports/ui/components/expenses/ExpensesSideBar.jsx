@@ -10,7 +10,7 @@ import { Slingshot } from 'meteor/edgee:slingshot'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
-import { accountHelpers } from '/imports/helpers/accountHelpers.js';
+
 
 import theme from './theme';
 
