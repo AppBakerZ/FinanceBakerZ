@@ -209,41 +209,37 @@ class ExpensesSideBar extends Component {
     }
 
     accountItem (account) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
 
-        const imageStyle = {
-            display: 'flex',
-            width: '32px',
-            height: '32px',
-            flexGrow: 0,
-            marginRight: '8px',
-            backgroundColor: '#ccc'
-        };
+        let parentClass = '';
 
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
+        if(account.removeRightBorder){
+            parentClass = theme['removeRightBorder']
+        }
+
+        if(account.removeBottomBorder){
+            parentClass = theme['removeBottomBorder']
+        }
 
         return (
-            <div style={containerStyle}>
-                <img src={account.icon} style={imageStyle}/>
-                <div style={contentStyle}>
-                    <strong>{account.name}</strong>
-                    <small>{account.category}</small>
-                </div>
+            <div className={parentClass}>
+                <i className={account.bank}/>
             </div>
         );
     }
 
     accounts(){
-        return this.props.accounts.map((account) => {
+        return this.props.accounts.map((account, index) => {
             account.value = account._id;
-            account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+
+            index++;
+            if(index % 3 == 0){
+                account.removeRightBorder = true
+            }
+            let lastItems = this.props.accounts.length % 3 == 0 ? 3 : this.props.accounts.length % 3;
+            if(index > this.props.accounts.length - lastItems){
+                account.removeBottomBorder = true
+            }
+
             return account;
         })
     }
@@ -380,7 +376,7 @@ class ExpensesSideBar extends Component {
                     type={this.state.barType}
                     />
 
-                <Dropdown
+                <Dropdown theme={theme}
                     auto={false}
                     source={this.accounts()}
                     name='account'

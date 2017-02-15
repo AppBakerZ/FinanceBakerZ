@@ -9,6 +9,8 @@ import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Projects } from '../../../api/projects/projects.js';
 
+import theme from './theme';
+
 class IncomesSideBar extends Component {
 
     constructor(props) {
@@ -226,10 +228,12 @@ class IncomesSideBar extends Component {
 
         return (
             <div style={containerStyle}>
-                <img src={account.icon} style={imageStyle}/>
-                <div style={contentStyle}>
-                    <strong>{account.name}</strong>
-                    <small>{account.purpose}</small>
+                <div className={theme.iconsiconBox}>
+                    <i className={account.bank}/>
+                    <div style={contentStyle}>
+                        <strong>{account.name}</strong>
+                        <small>{account.purpose}</small>
+                    </div>
                 </div>
             </div>
         );
@@ -250,7 +254,7 @@ class IncomesSideBar extends Component {
     accounts(){
         return this.props.accounts.map((account) => {
             account.value = account._id;
-            account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+            account.icon = account.bank;
             return account;
         })
     }

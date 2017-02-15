@@ -1,0 +1,16 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/list/config";
+
+.iconsBox{
+  display: inline-block;
+  width: 100%;
+  i{
+    margin-right: $unit;
+  }
+}
+.iconsiconBox{
+  i{
+    font-size: $unit * 4;
+  }
+}
+
