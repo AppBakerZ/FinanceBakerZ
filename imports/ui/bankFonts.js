@@ -88,6 +88,7 @@ export default {
             label: 'United Bank',
             value: 'bank-United-Bank'
         }
+        ////////// 22 //////////
     ],
     US: [
         {
@@ -101,7 +102,116 @@ export default {
         {
             label: 'Payment Skrill',
             value: 'bank-Payment-Skrill'
+        },
+        {
+            label: 'Ally Financial',
+            value: 'bank-Ally-Financial'
+        },
+        {
+            label: 'American Express',
+            value: 'bank-American-Express'
+        },
+        {
+            label: 'Bank of America',
+            value: 'bank-Bank-of-America'
+        },
+        {
+            label: 'Bank of New York Mellon',
+            value: 'bank-Bank-of-New-York-Mellon'
+        },
+        {
+            label: 'BBnT',
+            value: 'bank-BBnT'
+        },
+        {
+            label: 'Capital One',
+            value: 'bank-Capital-One'
+        },
+        {
+            label: 'Charles Schwab Corporation',
+            value: 'bank-Charles-Schwab-Corporation'
+        },
+        {
+            label: 'Citizens',
+            value: 'bank-Citizens'
+        },
+        {
+            label: 'Fifth Third Bank',
+            value: 'bank-Fifth-Third-Bank'
+        },
+        {
+            label: 'Goldman Sachs',
+            value: 'bank-Goldman-Sachs'
+        },
+        {
+            label: 'Huntington',
+            value: 'bank-Huntington'
+        },
+        {
+            label: 'J.P.Morgan',
+            value: 'bank-J.P.Morgan'
+        },
+        {
+            label: 'Key Bank',
+            value: 'bank-Key-Bank'
+        },
+        {
+            label: 'MnT Bank',
+            value: 'bank-MnT-Bank'
+        },
+        {
+            label: 'Morgan Stanley',
+            value: 'bank-Morgan-Stanley'
+        },
+        {
+            label: 'MUFG Union Bank',
+            value: 'bank-MUFG-Union-Bank'
+        },
+        {
+            label: 'Northern Trust',
+            value: 'bank-Northern-Trust'
+        },
+        {
+            label: 'PNC Financial Services',
+            value: 'bank-PNC-Financial-Services'
+        },
+        {
+            label: 'Regions Financial Corporation',
+            value: 'bank-Regions-Financial-Corporation'
+        },
+        {
+            label: 'Royal Bank of Canada',
+            value: 'bank-Royal-Bank-of-Canada'
+        },
+        {
+            label: 'Santander Bank',
+            value: 'bank-Santander-Bank'
+        },
+        {
+            label: 'State Street Corporation',
+            value: 'bank-State-Street-Corporation'
+        },
+        {
+            label: 'Trust Banks',
+            value: 'bank-Trust-Banks'
+        },
+        {
+            label: 'USAA',
+            value: 'bank-USAA'
+        },
+        {
+            label: 'US Bank',
+            value: 'bank-US-Bank'
+        },
+        {
+            label: 'Wells Fargo',
+            value: 'bank-Wells-Fargo'
+        },
+        {
+            label: 'A and T Bank',
+            value: 'bank-A-and-T-Bank'
         }
+        ////////// 30 //////////
     ],
     AE: [
         {
@@ -168,6 +278,7 @@ export default {
             label: 'Emirates Investment Bank',
             value: 'bank-Emirates-Investment-Bank'
         }
+        ////////// 16 //////////
     ],
     QA: [
         {
@@ -194,6 +305,7 @@ export default {
             label: 'Qatar National Bank',
             value: 'bank-Qatar-National-Bank'
         }
+        ////////// 6 //////////
     ],
     SA: [
         {
@@ -220,6 +332,7 @@ export default {
             label: 'Saudi Hollandi Bank',
             value: 'bank-Saudi-Hollandi-Bank'
         }
+        ////////// 6 //////////
     ],
     TR: [
         {
@@ -326,5 +439,261 @@ export default {
             label: 'AnT Bank',
             value: 'bank-AnT-Bank'
         }
+        ////////// 26 //////////
+    ],
+    GB: [
+        {
+            label: 'HSBC Bank',
+            value: 'bank-HSBC-Bank'
+        },
+        {
+            label: 'Lloyds Banking Group',
+            value: 'bank-Lloyds-Banking-Group'
+        },
+        {
+            label: 'Royal Bank of Scotland',
+            value: 'bank-Royal-Bank-of-Scotland'
+        },
+        {
+            label: 'Barclays',
+            value: 'bank-Barclays'
+        }
+        ////////// 4 //////////
+    ],
+    MY: [
+        {
+            label: 'Ambank',
+            value: 'bank-Ambank'
+        },
+        {
+            label: 'May Bank',
+            value: 'bank-May-Bank'
+        },
+        {
+            label: 'OCBC Bank',
+            value: 'bank-OCBC-Bank'
+        },
+        {
+            label: 'Hong Leong Bank',
+            value: 'bank-Hong-Leong-Bank'
+        },
+        {
+            label: 'CIMB Bank',
+            value: 'bank-CIMB-Bank'
+        },
+        {
+            label: 'Public Bank Berhad',
+            value: 'bank-Public-Bank-Berhad'
+        },
+        {
+            label: 'RHB Bank',
+            value: 'bank-RHB-Bank'
+        },
+        {
+            label: 'United Overseas Bank',
+            value: 'bank-United-Overseas-Bank'
+        }
+        ////////// 8 //////////
+    ],
+    CN: [
+        {
+            label: 'Agricultural Development Bank of China',
+            value: 'bank-Agricultural-Development-Bank-of-China'
+        },
+        {
+            label: 'Bank of Beijing',
+            value: 'bank-Bank-of-Beijing'
+        },
+        {
+            label: 'Bank of China1',
+            value: 'bank-Bank-of-China1'
+        },
+        {
+            label: 'China CITIC Bank',
+            value: 'bank-China-CITIC-Bank'
+        },
+        {
+            label: 'China Construction Bank',
+            value: 'bank-China-Construction-Bank'
+        },
+        {
+            label: 'China Development Bank',
+            value: 'bank-China-Development-Bank'
+        },
+        {
+            label: 'China Everbright Bank',
+            value: 'bank-China-Everbright-Bank'
+        },
+        {
+            label: 'China Guangfa Bank',
+            value: 'bank-China-Guangfa-Bank'
+        },
+        {
+            label: 'Exim Bank of China',
+            value: 'bank-Exim-Bank-of-China'
+        },
+        {
+            label: 'Harbin Bank',
+            value: 'bank-Harbin-Bank'
+        },
+        {
+            label: 'Hua Xia Bank',
+            value: 'bank-Hua-Xia-Bank'
+        },
+        {
+            label: 'Industrial Bank China',
+            value: 'bank-Industrial-Bank-China'
+        },
+        {
+            label: 'Peoples Bank of China',
+            value: 'bank-Peoples-Bank-of-China'
+        },
+        {
+            label: 'Shanghai Pudong Development Bank',
+            value: 'bank-Shanghai-Pudong-Development-Bank'
+        }
+        ////////// 14 //////////
+    ],
+    CA: [
+        {
+            label: 'Alterna Savings',
+            value: 'bank-Alterna-Savings'
+        },
+        {
+            label: 'B2B Bank',
+            value: 'bank-B2B-Bank'
+        },
+        {
+            label: 'Bank of Montreal',
+            value: 'bank-Bank-of-Montreal'
+        },
+        {
+            label: 'Bridgewater Bank',
+            value: 'bank-Bridgewater-Bank'
+        },
+        {
+            label: 'Canadian Imperial Bank of Commerce',
+            value: 'bank-Canadian-Imperial-Bank-of-Commerce'
+        },
+        {
+            label: 'Canadian Western Bank',
+            value: 'bank-Canadian-Western-Bank'
+        },
+        {
+            label: 'Laurentian Bank of Canada',
+            value: 'bank-Laurentian-Bank-of-Canada'
+        },
+        {
+            label: 'National Bank of Canada',
+            value: 'bank-National-Bank-of-Canada'
+        },
+        {
+            label: 'Scotiabank',
+            value: 'bank-Scotiabank'
+        },
+        {
+            label: 'Tangerine Bank',
+            value: 'bank-Tangerine-Bank'
+        },
+        {
+            label: 'Royal Bank of Canada',
+            value: 'bank-Royal-Bank-of-Canada'
+        },
+        {
+            label: 'Dominion Bank',
+            value: 'bank-Dominion-Bank'
+        }
+        ////////// 12 //////////
+    ],
+    AU: [
+        {
+            label: 'AMP Limited',
+            value: 'bank-AMP-Limited'
+        },
+        {
+            label: 'Australia and NewZealand Banking Group',
+            value: 'bank-Australia-and-New-Zealand-Banking-Group'
+        },
+        {
+            label: 'Bank Australia',
+            value: 'bank-Bank-Australia'
+        },
+        {
+            label: 'Bank of Melbourne',
+            value: 'bank-Bank-of-Melbourne'
+        },
+        {
+            label: 'Bank of Queensland',
+            value: 'bank-Bank-of-Queensland'
+        },
+        {
+            label: 'Bank of South Australia',
+            value: 'bank-Bank-of-South-Australia'
+        },
+        {
+            label: 'Bank Vic',
+            value: 'bank-Bank-Vic'
+        },
+        {
+            label: 'Bankwest',
+            value: 'bank-Bankwest'
+        },
+        {
+            label: 'Bendigo and Adelaide Bank',
+            value: 'bank-Bendigo-and-Adelaide-Bank'
+        },
+        {
+            label: 'Beyond Bank Australia',
+            value: 'bank-Beyond-Bank-Australia'
+        },
+        {
+            label: 'Commonwealth Bank',
+            value: 'bank-Commonwealth-Bank'
+        },
+        {
+            label: 'Greater Bank',
+            value: 'bank-Greater-Bank'
+        },
+        {
+            label: 'Heritage Bank',
+            value: 'bank-Heritage-Bank'
+        },
+        {
+            label: 'Hume Bank',
+            value: 'bank-Hume-Bank'
+        },
+        {
+            label: 'Macquarie Group',
+            value: 'bank-Macquarie-Group'
+        },
+        {
+            label: 'National Australia Bank',
+            value: 'bank-National-Australia-Bank'
+        },
+        {
+            label: 'P and N Bank',
+            value: 'bank-P-and-N-Bank'
+        },
+        {
+            label: 'Police Bank',
+            value: 'bank-Police-Bank'
+        },
+        {
+            label: 'St.George Bank',
+            value: 'bank-St.George-Bank'
+        },
+        {
+            label: 'Suncorp Group',
+            value: 'bank-Suncorp-Group'
+        },
+        {
+            label: 'Teachers Mutuat Bank',
+            value: 'bank-Teachers-Mutuat-Bank'
+        },
+        {
+            label: 'Westpac',
+            value: 'bank-Westpac'
+        }
+        ////////// 22 //////////
     ]
 }

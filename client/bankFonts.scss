@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'Bank-Fonts';
-  src:  url('fonts/Bank-Fonts.eot?rwmypu');
-  src:  url('fonts/Bank-Fonts.eot?rwmypu#iefix') format('embedded-opentype'),
-  url('fonts/Bank-Fonts.ttf?rwmypu') format('truetype'),
-  url('fonts/Bank-Fonts.woff?rwmypu') format('woff'),
-  url('fonts/Bank-Fonts.svg?rwmypu#Bank-Fonts') format('svg');
+  src:  url('fonts/Bank-Fonts.eot?djyiey');
+  src:  url('fonts/Bank-Fonts.eot?djyiey#iefix') format('embedded-opentype'),
+  url('fonts/Bank-Fonts.ttf?djyiey') format('truetype'),
+  url('fonts/Bank-Fonts.woff?djyiey') format('woff'),
+  url('fonts/Bank-Fonts.svg?djyiey#Bank-Fonts') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,7 +25,256 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .bank-AnT-Bank:before {
+  .bank-Barclays:before {
+    content: "\e96c";
+  }
+  .bank-Lloyds-Banking-Group:before {
+    content: "\e96d";
+  }
+  .bank-Ambank:before {
+    content: "\e96e";
+  }
+  .bank-CIMB-Bank:before {
+    content: "\e96f";
+  }
+  .bank-Hong-Leong-Bank:before {
+    content: "\e970";
+  }
+  .bank-May-Bank:before {
+    content: "\e971";
+  }
+  .bank-OCBC-Bank:before {
+    content: "\e972";
+  }
+  .bank-Public-Bank-Berhad:before {
+    content: "\e973";
+  }
+  .bank-RHB-Bank:before {
+    content: "\e974";
+  }
+  .bank-United-Overseas-Bank:before {
+    content: "\e975";
+  }
+  .bank-Agricultural-Development-Bank-of-China:before {
+    content: "\e976";
+  }
+  .bank-Bank-of-Beijing:before {
+    content: "\e977";
+  }
+  .bank-Bank-of-China1:before {
+    content: "\e978";
+  }
+  .bank-China-CITIC-Bank:before {
+    content: "\e979";
+  }
+  .bank-China-Construction-Bank:before {
+    content: "\e97a";
+  }
+  .bank-China-Development-Bank:before {
+    content: "\e97b";
+  }
+  .bank-China-Everbright-Bank:before {
+    content: "\e97c";
+  }
+  .bank-China-Guangfa-Bank:before {
+    content: "\e97d";
+  }
+  .bank-Exim-Bank-of-China:before {
+    content: "\e97e";
+  }
+  .bank-Harbin-Bank:before {
+    content: "\e97f";
+  }
+  .bank-Hua-Xia-Bank:before {
+    content: "\e980";
+  }
+  .bank-Industrial-Bank-China:before {
+  content: "\e981";
+  }
+  .bank-Peoples-Bank-of-China:before {
+    content: "\e982";
+  }
+  .bank-Shanghai-Pudong-Development-Bank:before {
+    content: "\e983";
+  }
+  .bank-Alterna-Savings:before {
+    content: "\e984";
+  }
+  .bank-B2B-Bank:before {
+    content: "\e985";
+  }
+  .bank-Bank-of-Montreal:before {
+    content: "\e986";
+  }
+  .bank-Bridgewater-Bank:before {
+    content: "\e987";
+  }
+  .bank-Canadian-Imperial-Bank-of-Commerce:before {
+    content: "\e988";
+  }
+  .bank-Canadian-Western-Bank:before {
+    content: "\e989";
+  }
+  .bank-Laurentian-Bank-of-Canada:before {
+    content: "\e98a";
+  }
+  .bank-National-Bank-of-Canada:before {
+    content: "\e98b";
+  }
+  .bank-Scotiabank:before {
+    content: "\e98c";
+  }
+  .bank-Tangerine-Bank:before {
+    content: "\e98d";
+  }
+  .bank-AMP-Limited:before {
+    content: "\e98e";
+  }
+  .bank-Australia-and-New-Zealand-Banking-Group:before {
+    content: "\e98f";
+  }
+  .bank-Bank-Australia:before {
+    content: "\e990";
+  }
+  .bank-Bank-of-Melbourne:before {
+    content: "\e991";
+  }
+  .bank-Bank-of-Queensland:before {
+    content: "\e992";
+  }
+  .bank-Bank-of-South-Australia:before {
+    content: "\e993";
+  }
+  .bank-Bank-Vic:before {
+    content: "\e994";
+  }
+  .bank-Bankwest:before {
+    content: "\e995";
+  }
+  .bank-Bendigo-and-Adelaide-Bank:before {
+    content: "\e996";
+  }
+  .bank-Beyond-Bank-Australia:before {
+    content: "\e997";
+  }
+  .bank-Commonwealth-Bank:before {
+    content: "\e998";
+  }
+  .bank-Greater-Bank:before {
+    content: "\e999";
+  }
+  .bank-Heritage-Bank:before {
+    content: "\e99a";
+  }
+  .bank-Hume-Bank:before {
+    content: "\e99b";
+  }
+  .bank-Macquarie-Group:before {
+    content: "\e99c";
+  }
+  .bank-National-Australia-Bank:before {
+    content: "\e99d";
+  }
+  .bank-P-and-N-Bank:before {
+    content: "\e99e";
+  }
+  .bank-Police-Bank:before {
+    content: "\e99f";
+  }
+  .bank-St.George-Bank:before {
+    content: "\e9a0";
+  }
+  .bank-Suncorp-Group:before {
+    content: "\e9a1";
+  }
+  .bank-Teachers-Mutuat-Bank:before {
+    content: "\e9a2";
+  }
+  .bank-Westpac:before {
+    content: "\e9a3";
+  }
+  .bank-Ally-Financial:before {
+    content: "\e951";
+  }
+  .bank-American-Express:before {
+    content: "\e952";
+  }
+  .bank-Bank-of-America:before {
+    content: "\e953";
+  }
+  .bank-Bank-of-New-York-Mellon:before {
+    content: "\e954";
+  }
+  .bank-BBnT:before {
+    content: "\e955";
+  }
+  .bank-Capital-One:before {
+    content: "\e956";
+  }
+  .bank-Charles-Schwab-Corporation:before {
+    content: "\e957";
+  }
+  .bank-Citizens:before {
+    content: "\e958";
+  }
+  .bank-Dominion-Bank:before {
+    content: "\e959";
+  }
+  .bank-Fifth-Third-Bank:before {
+    content: "\e95a";
+  }
+  .bank-Goldman-Sachs:before {
+    content: "\e95b";
+  }
+  .bank-Huntington:before {
+    content: "\e95c";
+  }
+  .bank-J.P.Morgan:before {
+    content: "\e95d";
+  }
+  .bank-Key-Bank:before {
+    content: "\e95e";
+  }
+  .bank-MnT-Bank:before {
+    content: "\e95f";
+  }
+  .bank-Morgan-Stanley:before {
+    content: "\e960";
+  }
+  .bank-MUFG-Union-Bank:before {
+    content: "\e961";
+  }
+  .bank-Northern-Trust:before {
+    content: "\e962";
+  }
+  .bank-PNC-Financial-Services:before {
+    content: "\e963";
+  }
+  .bank-Regions-Financial-Corporation:before {
+    content: "\e964";
+  }
+  .bank-Royal-Bank-of-Canada:before {
+    content: "\e965";
+  }
+  .bank-Santander-Bank:before {
+    content: "\e966";
+  }
+  .bank-State-Street-Corporation:before {
+    content: "\e967";
+  }
+  .bank-Trust-Banks:before {
+    content: "\e968";
+  }
+  .bank-USAA:before {
+    content: "\e969";
+  }
+  .bank-US-Bank:before {
+    content: "\e96a";
+  }
+  .bank-Wells-Fargo:before {
+    content: "\e96b";
+  }
+  .bank-A-and-T-Bank:before {
     content: "\e92f";
   }
   .bank-Adabank:before {
