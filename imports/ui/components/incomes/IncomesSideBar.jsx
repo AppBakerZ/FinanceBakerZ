@@ -8,6 +8,7 @@ import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Projects } from '../../../api/projects/projects.js';
+import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import theme from './theme';
 
@@ -230,12 +231,10 @@ class IncomesSideBar extends Component {
             <div style={containerStyle}>
                 <div className={theme.iconsiconBox}>
                     <i className={account.bank}/>
-                    <div style={contentStyle}>
-                        <strong>{account.bank}</strong>
+                        <strong>{accountHelpers.alterName(account.bank)}</strong>
                         <small>{account.purpose}</small>
                     </div>
                 </div>
-            </div>
         );
     }
 

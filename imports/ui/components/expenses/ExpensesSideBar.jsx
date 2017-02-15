@@ -10,6 +10,7 @@ import { Slingshot } from 'meteor/edgee:slingshot'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
+import { accountHelpers } from '/imports/helpers/accountHelpers.js';
 
 import theme from './theme';
 
@@ -233,7 +234,7 @@ class ExpensesSideBar extends Component {
             <div style={containerStyle}>
                 <div className={theme.iconBox}>
                     <i className={account.bank}/>
-                    <strong>{account.bank}</strong>
+                    <strong>{accountHelpers.alterName(account.bank)}</strong>
                     <small>{account.category}</small>
                 </div>
             </div>
