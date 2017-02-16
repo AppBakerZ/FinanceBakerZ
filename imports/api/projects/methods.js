@@ -7,7 +7,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
-
+import { Incomes } from '../incomes/incomes.js';
 import { Projects } from './projects.js';
 
 export const insert = new ValidatedMethod({
@@ -109,10 +109,10 @@ export const remove = new ValidatedMethod({
         message: 'You need to be logged in to remove category'
     },
     validate: new SimpleSchema({
-        'project' : {
+        'project': {
             type: Object
         },
-        'project._id' : {
+        'project._id': {
             type: String
         }
     }).validator(),
@@ -121,6 +121,25 @@ export const remove = new ValidatedMethod({
     }
 });
 
+export const addition = new ValidatedMethod({
+    name: 'calculateIncome',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove category'
+    },
+    validate: new SimpleSchema({
+        'project': {
+            type: Object
+        },
+        'project._id': {
+            type: String
+        }
+    }).validator(),
+    run({ project }) {
+        return Incomes.aggregate([{$match: {"project._id": project._id } }, {$group: {_id: "project._id", total:{$sum: '$amount'} }}])
+    }
+});
 
 const PROJECTS_METHODS = _.pluck([
     insert,
