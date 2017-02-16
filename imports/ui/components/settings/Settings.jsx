@@ -354,6 +354,19 @@ class SettingsPage extends Component {
                                 </div>
                             </div>
                         </Card>
+
+                        <Card theme={cardTheme}>
+                            <div className={theme.cardTitle}>
+                                <h5>Change Password</h5>
+                            </div>
+                            <div className={theme.cardContent}>
+                                <h6>Password: <span>*********</span></h6>
+                                <div className={theme.editBtn}>
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
+                                </div>
+                            </div>
+                        </Card>
+
                         <div className={theme.buttonSite}>
                             <Button
                                 label='REMOVE ACCOUNT'
