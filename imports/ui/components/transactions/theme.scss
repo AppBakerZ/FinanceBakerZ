@@ -73,6 +73,27 @@
     }
   }
 }
+.dashboardAutocompleteLastOne{
+  width: 18%;
+  display: inline-block;
+  position: relative;
+  top: $unit - 0.7;
+  label{
+    color: $color-text;
+    font-size: $font-size-small;
+  }
+  input{
+    font-weight: 600;
+  }
+  li{
+    font-weight: 600;
+  }
+  .value{
+    .material-icons{
+      display: none;
+    }
+  }
+}
 
 .neutral:not([disabled]) {
   &.flat, &.toggle {

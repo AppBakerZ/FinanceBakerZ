@@ -149,7 +149,7 @@ export default {
         },
         {
             label: 'J.P.Morgan',
-            value: 'bank-J.P.Morgan'
+            value: 'bank-J-P-Morgan'
         },
         {
             label: 'Key Bank',
@@ -157,7 +157,7 @@ export default {
         },
         {
             label: 'MnT Bank',
-            value: 'bank-MnT-Bank'
+            value: 'bank-M-and-T-Bank'
         },
         {
             label: 'Morgan Stanley',
@@ -209,7 +209,7 @@ export default {
         },
         {
             label: 'A and T Bank',
-            value: 'bank-A-and-T-Bank'
+            value: 'bank-AnT-Bank'
         }
         ////////// 30 //////////
     ],
@@ -680,7 +680,7 @@ export default {
         },
         {
             label: 'St.George Bank',
-            value: 'bank-St.George-Bank'
+            value: 'bank-St-George-Bank'
         },
         {
             label: 'Suncorp Group',
