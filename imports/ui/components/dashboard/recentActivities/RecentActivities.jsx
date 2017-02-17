@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { Card, Table } from 'react-toolbox';
+import { Card, Table, Button } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
@@ -59,6 +59,10 @@ class RecentActivities extends Component {
                 <Card className='card' theme={theme}>
                     <h3>Recent Incomes</h3>
                     {this.props.incomes.length ? <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/> : <Loader primary />}
+                    <div className={theme.errorShowIncomes}>
+                        <Button type='button' icon='add' raised primary />
+                        <p>add something to show</p>
+                    </div>
                 </Card>
                 <div className={theme.tableLink}>
                     <Link to={`/app/transactions/incomes`}> View All </Link>
@@ -87,6 +91,10 @@ class RecentActivities extends Component {
                 <Card className='card' theme={theme}>
                     <h3>Recent Expenses</h3>
                     {this.props.expenses.length ? <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/> : <Loader accent />}
+                    <div className={theme.errorShowExpenses}>
+                        <Button type='button' icon='add' raised accent />
+                        <p>add something to show</p>
+                    </div>
                 </Card>
                 <div className={theme.tableLink}>
                     <Link to={`/app/transactions/expenses`}> View All </Link>

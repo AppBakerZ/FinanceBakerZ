@@ -48,3 +48,47 @@
     font-family: $preferred-font;
   }
 }
+.errorShowIncomes{
+  text-align: center;
+  margin-top: $unit * 5;
+  button{
+    width: $unit * 7.5;
+    min-width: $unit * 7.5;
+    height: $unit * 7.5;
+    border-radius: 50%;
+    font-size: $unit * 4.5;
+    padding: 0 $unit * 1.2 0 $unit * 1.1;
+    margin-bottom: $unit * 2.5;
+    span{
+      margin: 0;
+    }
+  }
+  p{
+    font-size: $font-size-big + 0.2;
+    text-transform: uppercase;
+    color: $color-text;
+    letter-spacing: $unit - 0.9;
+  }
+}
+.errorShowExpenses{
+  text-align: center;
+  margin-top: $unit * 5;
+  button{
+    width: $unit * 7.5;
+    min-width: $unit * 7.5;
+    height: $unit * 7.5;
+    border-radius: 50%;
+    font-size: $unit * 4.5;
+    padding: 0 $unit * 1.2 0 $unit * 1.1;
+    margin-bottom: $unit * 2.5;
+    span{
+      margin: 0;
+    }
+  }
+  p{
+    font-size: $font-size-big + 0.2;
+    text-transform: uppercase;
+    color: $color-text;
+    letter-spacing: $unit - 0.9;
+  }
+}
