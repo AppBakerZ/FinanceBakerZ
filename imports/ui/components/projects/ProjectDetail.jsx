@@ -28,9 +28,7 @@ export default class ProjectDetail extends Component {
 
 }
     render() {
-        console.log('this.props :', this.props);
         let {project} = this.props;
-        console.log('project :', project);
         return (
             <div className={theme.contentParent}>
                 <h4>{project.name}</h4>

@@ -121,12 +121,12 @@ export const remove = new ValidatedMethod({
     }
 });
 
-export const addition = new ValidatedMethod({
+export const calculateIncome = new ValidatedMethod({
     name: 'calculateIncome',
     mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to remove category'
+        message: 'You need to be logged in to display project information'
     },
     validate: new SimpleSchema({
         'project': {
@@ -137,7 +137,7 @@ export const addition = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
-        return Incomes.aggregate([{$match: {"project._id": project._id } }, {$group: {_id: "project._id", total:{$sum: '$amount'} }}])
+        return Incomes.aggregate([{$match: {"project._id": project._id } }, {$group: {_id: "project._id", total: {$sum: '$amount'} }}])
     }
 });
 
