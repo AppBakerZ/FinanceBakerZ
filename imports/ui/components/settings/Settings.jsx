@@ -257,21 +257,46 @@ class SettingsPage extends Component {
 
                         <Dropdown
                             source={this.languages}
+                            label='Select Language'
                             onChange={this.handleLanguageChange.bind(this)}
                             value={this.state.languageSelected}
                             />
 
-                        <Input type='password' label='Password'
-                               name='password'
-                               value={this.state.password}
-                               onChange={this.onChange.bind(this)}
-                            />
                         <div className={theme.updateBtn}>
                             <Button type='submit' label='UPDATE' raised primary />
                         </div>
                     </form>
                 );
                 break;
+            case 'changePassword':
+                return (
+                    <form onSubmit={this.updateAccountSettings.bind(this)} className={theme.addAccount}>
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                        <h3 className={theme.titleSetting}>change password</h3>
+
+                        <Input type='password' label='Enter Your Current Password'
+                               name='password'
+                               value={this.state.password}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                        <Input type='password' label='Enter Your New Password'
+                               name='password'
+                               value={this.state.password}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                        <Input type='password' label='Repeat Your New Password'
+                               name='password'
+                               value={this.state.password}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                        <div className={theme.saveBtn}>
+                            <Button type='submit' label='SAVE' raised primary />
+                        </div>
+                    </form>
+                );
         }
     }
     openPopup (action, account) {
@@ -333,7 +358,6 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6>currency: <span>{Meteor.user().profile.currency.name || 'Not Available'} </span></h6>
                                 <h6>language: <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
-                                <h6>password: <span> *********</span></h6>
                                 <h6>
                                     email notification:
                                     <span>
@@ -362,7 +386,7 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6>Password: <span>*********</span></h6>
                                 <div className={theme.editBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
                                 </div>
                             </div>
                         </Card>
