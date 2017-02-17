@@ -400,11 +400,11 @@ class TransactionPage extends Component {
     projects(){
          this.props.projects.map((project) => {
             project.value = project._id;
+            project.label = project.name;
             return project;
         });
         this.props.projects.unshift({
-            icon:'',
-            name:'All',
+            label:'All',
             value:''
         });
         return this.props.projects;
@@ -440,36 +440,6 @@ class TransactionPage extends Component {
             </div>
         );
     }
-    projectItem(project){
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
-
-        const imageStyle = {
-            display: 'flex',
-            width: '22px',
-            height: '22px',
-            flexGrow: 0,
-            marginRight: '8px'
-        };
-
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2,
-            paddingTop: '4px'
-        };
-
-        return (
-            <div style={containerStyle}>
-                <FontIcon value={project.icon} style={imageStyle}/>
-                <div style={contentStyle}>
-                    <strong>{project.name}</strong>
-                </div>
-            </div>
-        );
-    }
 
     categoryFilter(){
         return (
@@ -490,14 +460,13 @@ class TransactionPage extends Component {
 
         return (
             <Dropdown
-                className={theme.dashboardAutocompleteLast}
+                className={theme.dashboardAutocompleteLastOne}
                 auto={false}
                 source={this.projects()}
                 name='filterByProjects'
                 onChange={this.onChange.bind(this)}
                 label='Filter By Projects'
                 value={this.state.filterByProjects}
-                template={this.projectItem}
                 />
         )
 

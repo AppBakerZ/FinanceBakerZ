@@ -67,6 +67,18 @@
     }
   }
 }
+.editBtn{
+  width: 20%;
+  float: right;
+  margin-top: $unit * 2.5;
+  button{
+    float: right;
+    font-size: $font-size + 0.1;
+    padding: $unit - 0.6 $unit * 5.5 0;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+  }
+}
 .buttonSite{
   text-align: right;
   padding-right: $unit * 4.5;
