@@ -19,21 +19,24 @@ class SettingsPage extends Component {
 
     constructor(props) {
         super(props);
-          let userinfo = Meteor.user();
+          let userInfo = Meteor.user();
         this.state = {
-            userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
-            languageSelected: Meteor.user().profile.language || '',
+            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.symbol : '',
+            languageSelected: userInfo.profile.language || '',
             currencies: [],
-            check1: true,
-            check2: false,
-            name: userinfo.profile.fullName,
+            check1: userInfo.profile.emailNotification,
+            check2: !userInfo.profile.emailNotification,
+            name: userInfo.profile.fullName,
             active: true,
             loading: false,
-            number: userinfo.profile.contactNumber || '' ,
-            username: userinfo.username || '',
-            email: userinfo.emails && userinfo.emails.length ? Meteor.user().emails[0].address : '',
-            address: userinfo.profile.address || ''
+            number: userInfo.profile.contactNumber || '' ,
+            username: userInfo.username || '',
+            email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
+            address: userInfo.profile.address || ''
         }
+
+        this.emailNotify = this.emailNotify.bind(this);
+
 
         this.languages = [
             { value: 'en', label: 'English' },
@@ -44,6 +47,17 @@ class SettingsPage extends Component {
         if(field == 'check1') this.setState({'check2': false});
         else this.setState({'check1': false});
         this.setState({[field]: value});
+        this.emailNotify();
+    }
+
+    emailNotify(){
+        const {check1, check2} = this.state;
+        var useraccount = {account: {check1, check2, owner: Meteor.user()._id}};
+        Meteor.call('emailNotificaton', useraccount, (err) => {
+            if(err){
+                console.log(err);
+            }
+        });
     }
 
     componentWillMount() {

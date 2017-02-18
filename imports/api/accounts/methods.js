@@ -178,6 +178,34 @@ export const insertDefaultCurrency = new ValidatedMethod({
 
 
 
+export const emailNotificaton = new ValidatedMethod({
+    name: 'emailNotificaton',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to see email notification'
+    },
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.owner': {
+            type: String
+        },
+        'account.check1': {
+            type: Boolean
+        },
+        'account.check2': {
+            type: Boolean
+        }
+    }).validator(),
+    run({ account }) {
+            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.emailNotification': account.check2}});
+
+    }
+});
+
+
 
 export const userRemove = new ValidatedMethod({
     name: 'userRemove',
