@@ -1120,7 +1120,111 @@ export default {
             value: 'bank-Citi-Bank'
         }
         ////////// 6 //////////
-    ]  ///////// 26 ////////////
+    ], ///////// 26 ////////////
+    BR: [
+        {
+            label: 'Itau',
+            value: 'bank-Itau'
+        },
+        {
+            label: 'Banco Bradesco',
+            value: 'bank-Banco-Bradesco'
+        },
+        {
+            label: 'Banco Safra',
+            value: 'bank-Banco-Safra'
+        },
+        {
+            label: 'HSBC Bank',
+            value: 'bank-HSBC-Bank'
+        },
+        {
+            label: 'Banco do Brasil',
+            value: 'bank-Banco-do-Brasil'
+        },
+        {
+            label: 'Banrisul',
+            value: 'bank-Banrisul'
+        },
+        {
+            label: 'Caixa',
+            value: 'bank-Caixa'
+        }
+        ////////// 7 //////////
+    ], ///////// 27 ////////////
+    CO: [
+        {
+            label: 'Banco-de Bogota',
+            value: 'bank-Banco-de-Bogota'
+        },
+        {
+            label: 'Banco de Occidente Credencial',
+            value: 'bank-Banco-de-Occidente-Credencial'
+        },
+        {
+            label: 'Bancolombia',
+            value: 'bank-Bancolombia'
+        }
+        ////////// 3 //////////
+    ], ///////// 28 ////////////
+    MX: [
+        {
+            label: 'Bank of Mexico',
+            value: 'bank-Bank-of-Mexico'
+        },
+        {
+            label: 'Banca Mifel',
+            value: 'bank-Banca-Mifel'
+        },
+        {
+            label: 'Banco Azteca',
+            value: 'bank-Banco-Azteca'
+        },
+        {
+            label: 'Banregio',
+            value: 'bank-Banregio'
+        }
+        ////////// 4 //////////
+    ], ///////// 29 ////////////
+    AR: [
+        {
+            label: 'Banco Credicoop',
+            value: 'bank-Banco-Credicoop'
+        },
+        {
+            label: 'Bank of the Argentine Nation',
+            value: 'bank-Bank-of-the-Argentine-Nation'
+        },
+        {
+            label: 'Banco Hipotecario',
+            value: 'bank-Banco-Hipotecario'
+        },
+        {
+            label: 'Itau',
+            value: 'bank-Itau'
+        },
+        {
+            label: 'Banco Macro',
+            value: 'bank-Banco-Macro'
+        },
+        {
+            label: 'Banco Patagonia',
+            value: 'bank-Banco-Patagonia'
+        },
+        {
+            label: 'Central Bank of Argentina',
+            value: 'bank-Central-Bank-of-Argentina'
+        },
+        {
+            label: 'Citi Bank',
+            value: 'bank-Citi-Bank'
+        },
+        {
+            label: 'HSBC Bank',
+            value: 'bank-HSBC-Bank'
+        }
+        ////////// 9 //////////
+    ]  ///////// 30 ////////////
 }
 
-////////////// Total 261 icons /////////////////////////////
+////////////// Total 284 icons /////////////////////////////

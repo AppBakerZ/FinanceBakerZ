@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'Bank-Fonts';
-  src:  url('fonts/Bank-Fonts.eot?fy6iby');
-  src:  url('fonts/Bank-Fonts.eot?fy6iby#iefix') format('embedded-opentype'),
-  url('fonts/Bank-Fonts.ttf?fy6iby') format('truetype'),
-  url('fonts/Bank-Fonts.woff?fy6iby') format('woff'),
-  url('fonts/Bank-Fonts.svg?fy6iby#Bank-Fonts') format('svg');
+  src:  url('fonts/Bank-Fonts.eot?hrxmss');
+  src:  url('fonts/Bank-Fonts.eot?hrxmss#iefix') format('embedded-opentype'),
+  url('fonts/Bank-Fonts.ttf?hrxmss') format('truetype'),
+  url('fonts/Bank-Fonts.woff?hrxmss') format('woff'),
+  url('fonts/Bank-Fonts.svg?hrxmss#Bank-Fonts') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,6 +25,69 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  .bank-Banca-Mifel:before {
+    content: "\e9fc";
+  }
+  .bank-Banco-Azteca:before {
+    content: "\e9fd";
+  }
+  .bank-Bank-of-Mexico:before {
+    content: "\e9fe";
+  }
+  .bank-Banregio:before {
+    content: "\e9ff";
+  }
+  .bank-Compartamos-Banco:before {
+    content: "\ea00";
+  }
+  .bank-Banco-de-Bogota:before {
+    content: "\ea01";
+  }
+  .bank-Banco-de-Occidente-Credencial:before {
+    content: "\ea02";
+  }
+  .bank-Bancolombia:before {
+    content: "\ea03";
+  }
+  .bank-Daviviendaa:before {
+    content: "\ea04";
+  }
+  .bank-Banco-Bradesco:before {
+    content: "\ea05";
+  }
+  .bank-Banco-do-Brasil:before {
+    content: "\ea06";
+  }
+  .bank-Banco-Safra:before {
+    content: "\ea07";
+  }
+  .bank-Banrisul:before {
+    content: "\ea08";
+  }
+  .bank-Caixa:before {
+    content: "\ea09";
+  }
+  .bank-Itau:before {
+    content: "\ea0a";
+  }
+  .bank-Banco-Credicoop:before {
+    content: "\ea0b";
+  }
+  .bank-Banco-Hipotecario:before {
+    content: "\ea0c";
+  }
+  .bank-Banco-Macro:before {
+    content: "\ea0d";
+  }
+  .bank-Banco-Patagonia:before {
+    content: "\ea0e";
+  }
+  .bank-Bank-of-the-Argentine-Nation:before {
+    content: "\ea0f";
+  }
+  .bank-Central-Bank-of-Argentina:before {
+    content: "\ea10";
+  }
   .bank-HSH-Nordbank:before {
     content: "\e9b9";
   }
