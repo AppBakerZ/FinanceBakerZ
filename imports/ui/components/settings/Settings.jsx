@@ -35,8 +35,6 @@ class SettingsPage extends Component {
             address: userInfo.profile.address || ''
         }
 
-        this.emailNotify = this.emailNotify.bind(this);
-
 
         this.languages = [
             { value: 'en', label: 'English' },
@@ -51,8 +49,8 @@ class SettingsPage extends Component {
     }
 
     emailNotify(){
-        const {check1, check2} = this.state;
-        var useraccount = {account: {check1, check2, owner: Meteor.user()._id}};
+        const {check2} = this.state;
+        let useraccount = {account: {check2, owner: Meteor.user()._id}};
         Meteor.call('emailNotificaton', useraccount, (err) => {
             if(err){
                 console.log(err);
@@ -176,14 +174,14 @@ class SettingsPage extends Component {
 
     changePassword(event){
         event.preventDefault();
-             if(this.state.newpassword != this.state.alterpassword){
-                 console.log(" you have entered the wrong password");
-             }
-            else if(this.state.newpassword == this.state.alterpassword )
-        {
-            Accounts.changePassword(this.state.oldpassword, this.state.newpassword, (err)=> {
+        const {oldPassword, newPassword, alterPassword} = this.state;
+        if(newPassword != alterPassword){
+            console.log("you have entered the wrong password");
+        }
+        else{
+            Accounts.changePassword(oldPassword, newPassword, (err)=> {
                     if(!err){
-                        this.setState({oldpassword: '', newpassword: '', alterpassword: ''});
+                        this.setState({oldPassword: '', newPassword: '', alterPassword: ''});
                         this.closePopup();
                     }
                 }
@@ -309,25 +307,25 @@ class SettingsPage extends Component {
                         <h3 className={theme.titleSetting}>change password</h3>
 
                         <Input type='password' label='Enter Your Current Password'
-                               name='oldpassword'
-                               value={this.state.oldpassword}
+                               name='oldPassword'
+                               value={this.state.oldPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                         <Input type='password' label='Enter Your New Password'
-                               name='newpassword'
-                               value={this.state.newpassword}
+                               name='newPassword'
+                               value={this.state.newPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                         <Input type='password' label='Repeat Your New Password'
-                               name='alterpassword'
-                               value={this.state.alterpassword}
+                               name='alterPassword'
+                               value={this.state.alterPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                             <div className={theme.saveBtn}>
-                                <Button type='submit' label='SAVE' raised primary disabled={!(this.state.oldpassword && this.state.newpassword && this.state.alterpassword)}/>
+                                <Button type='submit' label='SAVE' raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
                             </div>
                     </form>
                 );

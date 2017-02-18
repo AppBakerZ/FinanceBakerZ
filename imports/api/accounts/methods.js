@@ -192,9 +192,6 @@ export const emailNotificaton = new ValidatedMethod({
         'account.owner': {
             type: String
         },
-        'account.check1': {
-            type: Boolean
-        },
         'account.check2': {
             type: Boolean
         }
