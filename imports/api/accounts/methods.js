@@ -130,8 +130,8 @@ export const insertAccountOnSignUp = new ValidatedMethod({
 
 
 
-export const global = new ValidatedMethod({
-    name: 'global',
+export const profileAssets = new ValidatedMethod({
+    name: 'profileAssets',
     mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
