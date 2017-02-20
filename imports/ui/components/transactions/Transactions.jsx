@@ -182,7 +182,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
-        };
+        }
         return(
             <div>
                 <div className={theme.firstRow}>
@@ -208,7 +208,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
-        };
+        }
         return (
             <div>
                 <div className={theme.confirmText}>
@@ -228,7 +228,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
-        };
+        }
         return (
             <div className={theme.contentParent}>
                 <div className={theme.contentOne}>
@@ -284,7 +284,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject;
         if(!selectedProject){
             return false;
-        };
+        }
         this.setState({loading : true});
         let param = {};
         param[selectedProject.receivedAt ? "income" : "expense"] = {_id : selectedProject._id};

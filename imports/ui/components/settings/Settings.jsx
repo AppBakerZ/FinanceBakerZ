@@ -14,6 +14,8 @@ import checkboxTheme from './checkboxTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 
+import currencyIcon from '/imports/ui/currencyIcon.js';
+
 class SettingsPage extends Component {
 
     constructor(props) {

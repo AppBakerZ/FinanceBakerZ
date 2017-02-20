@@ -11,6 +11,28 @@
   margin-bottom: $unit - 0.5;
   text-align: center;
   button{
-    min-width: $unit * 12;
+    min-width: $unit * 21;
+    font-size: $font-size-small + 0.3;
+    height: $unit * 4;
+    padding: $unit - 0.6 $unit * 2 $unit - 0.5 $unit * 2;
+    margin-bottom: $unit * 3;
+  }
+  a{
+    font-size: $font-size-small;
+    text-transform: capitalize;
+    color: $color-text;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+}
+.buttonGroupLogin{
+  margin-bottom: $unit - 0.5;
+  text-align: center;
+  button{
+    min-width: $unit * 21;
+    font-size: $font-size-small + 0.3;
+    height: $unit * 4;
+    padding: $unit - 0.6 $unit * 2 $unit - 0.5 $unit * 2;
+    margin: $unit * 3 0 $unit - 0.5 0;
   }
 }
