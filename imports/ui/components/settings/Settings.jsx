@@ -35,7 +35,6 @@ class SettingsPage extends Component {
             address: userInfo.profile.address || ''
         }
 
-
         this.languages = [
             { value: 'en', label: 'English' },
             { value: 'ar', label: 'Arabic'}
