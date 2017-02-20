@@ -34,6 +34,8 @@ class SettingsPage extends Component {
             address: userinfo.profile.address || ''
         }
 
+        this.emailNotify = this.emailNotify.bind(this);
+
         this.languages = [
             { value: 'en', label: 'English' },
             { value: 'ar', label: 'Arabic'}
@@ -43,8 +45,19 @@ class SettingsPage extends Component {
         if(field == 'check1') this.setState({'check2': false});
         else this.setState({'check1': false});
         this.setState({[field]: value});
+        this.emailNotify();
     }
 
+    emailNotify() {
+        const {check2} = this.state;
+        var useraccount = {account: {check2, owner: Meteor.user()._id}};
+        Meteor.call('emailNotificaton', useraccount, (err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
+
+    }
     componentWillMount() {
         Meteor.call("get.currencies",{}, (error, currencies) => {
             if(error) {
