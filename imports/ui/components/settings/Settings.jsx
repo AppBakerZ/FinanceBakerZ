@@ -13,25 +13,26 @@ import cardTheme from './cardTheme';
 import checkboxTheme from './checkboxTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
+import { Accounts } from 'meteor/accounts-base';
 
 class SettingsPage extends Component {
 
     constructor(props) {
         super(props);
-          let userinfo = Meteor.user();
+          let userInfo = Meteor.user();
         this.state = {
-            userCurrency: Meteor.user().profile.currency ? Meteor.user().profile.currency.symbol : '',
-            languageSelected: Meteor.user().profile.language || '',
+            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.symbol : '',
+            languageSelected: userInfo.profile.language || '',
             currencies: [],
-            check1: true,
-            check2: false,
-            name: userinfo.profile.fullName,
+            check1: userInfo.profile.emailNotification,
+            check2: !userInfo.profile.emailNotification,
+            name: userInfo.profile.fullName,
             active: true,
             loading: false,
-            number: userinfo.profile.contactNumber || '' ,
-            username: userinfo.username || '',
-            email: userinfo.emails && userinfo.emails.length ? Meteor.user().emails[0].address : '',
-            address: userinfo.profile.address || ''
+            number: userInfo.profile.contactNumber || '' ,
+            username: userInfo.username || '',
+            email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
+            address: userInfo.profile.address || ''
         }
 
         this.languages = [
@@ -43,6 +44,17 @@ class SettingsPage extends Component {
         if(field == 'check1') this.setState({'check2': false});
         else this.setState({'check1': false});
         this.setState({[field]: value});
+        this.emailNotify();
+    }
+
+    emailNotify(){
+        const {check2} = this.state;
+        let useraccount = {account: {check2, owner: Meteor.user()._id}};
+        Meteor.call('emailNotificaton', useraccount, (err) => {
+            if(err){
+                console.log(err);
+            }
+        });
     }
 
     componentWillMount() {
@@ -158,6 +170,25 @@ class SettingsPage extends Component {
         )
     }
 
+
+    changePassword(event){
+        event.preventDefault();
+        const {oldPassword, newPassword, alterPassword} = this.state;
+        if(newPassword != alterPassword){
+            console.log("you have entered the wrong password");
+        }
+        else{
+            Accounts.changePassword(oldPassword, newPassword, (err)=> {
+                    if(!err){
+                        this.setState({oldPassword: '', newPassword: '', alterPassword: ''});
+                        this.closePopup();
+                    }
+                }
+            )
+        }
+
+    }
+
     updateProfile (event) {
         event.preventDefault();
         const {name, number, email, address, username} = this.state;
@@ -270,31 +301,31 @@ class SettingsPage extends Component {
                 break;
             case 'changePassword':
                 return (
-                    <form onSubmit={this.updateAccountSettings.bind(this)} className={theme.addAccount}>
+                    <form onSubmit={this.changePassword.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                         <h3 className={theme.titleSetting}>change password</h3>
 
                         <Input type='password' label='Enter Your Current Password'
-                               name='password'
-                               value={this.state.password}
+                               name='oldPassword'
+                               value={this.state.oldPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                         <Input type='password' label='Enter Your New Password'
-                               name='password'
-                               value={this.state.password}
+                               name='newPassword'
+                               value={this.state.newPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                         <Input type='password' label='Repeat Your New Password'
-                               name='password'
-                               value={this.state.password}
+                               name='alterPassword'
+                               value={this.state.alterPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <div className={theme.saveBtn}>
-                            <Button type='submit' label='SAVE' raised primary />
-                        </div>
+                            <div className={theme.saveBtn}>
+                                <Button type='submit' label='SAVE' raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
+                            </div>
                     </form>
                 );
         }
