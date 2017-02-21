@@ -177,7 +177,7 @@ class SettingsPage extends Component {
         if(newPassword != alterPassword){
             this.setState({
                 active: true,
-                barMessage: 'you have enter the wrong password',
+                barMessage: 'Passwords do not match',
                 barIcon: 'error_outline',
                 barType: 'cancel'
             });
