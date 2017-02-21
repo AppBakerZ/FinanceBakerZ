@@ -95,31 +95,11 @@ class SettingsPage extends Component {
     }
 
     currencyItem (currency) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
-
-        const imageStyle = {
-            width: '40px',
-            height: '32px',
-            textAlign: 'center',
-            paddingTop: '8px',
-            flexGrow: 0,
-            marginRight: '8px',
-            backgroundColor: '#ccc'
-        };
-
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
 
         return (
-            <div style={containerStyle}>
-                <span style={imageStyle}>{currency.symbol}</span>
-                <div style={contentStyle}>
+            <div className={theme.currencyIcons}>
+                <i className='currency-Pakistani-Rupee'></i>
+                <div>
                     <strong>{currency.name}</strong>
                 </div>
             </div>

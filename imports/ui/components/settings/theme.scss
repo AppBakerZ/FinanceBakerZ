@@ -89,6 +89,19 @@
     height: $unit * 4.6;
   }
 }
+.currencyIcons{
+  width: 100%;
+  display: inline-block;
+  i{
+    font-size: $font-size-big + 2.2;
+    float: left;
+    margin: 0 $unit 0 0;
+  }
+  div{
+    display: inline-block;
+    margin-top: $unit + 0.1;
+  }
+}
 ///////////////////////////// dialog styling ///////////////////////////////////////
 .dialogSetting{
   .confirmText{
