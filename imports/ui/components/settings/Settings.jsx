@@ -195,6 +195,14 @@ class SettingsPage extends Component {
                         this.setState({loading: false});
                         this.closePopup();
                     }
+                    else{
+                        this.setState({
+                            active: true,
+                            barMessage: err.reason,
+                            barIcon: 'done',
+                            barType: 'accept'
+                        });
+                    }
                 }
             )
         }
@@ -207,7 +215,7 @@ class SettingsPage extends Component {
         event.preventDefault();
         const {name, number, email, address, username} = this.state;
         let info = {users: {name, number, email, address, username}};
-        Meteor.call('updateProfile', info, (err, response) => {
+        Meteor.call('updateProfile', info, (err) => {
             if(err){
                 this.setState({
                     active: true,
@@ -223,9 +231,9 @@ class SettingsPage extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.closePopup();
             }
             this.setState({loading: false});
-            this.closePopup();
         });
     }
 
@@ -233,7 +241,7 @@ class SettingsPage extends Component {
         event.preventDefault();
         const {currencyObj, languageSelected} = this.state;
         let accountinfo = {settings: {currencyObj, languageSelected }};
-           Meteor.call('updateAccountSettings', accountinfo, (err, response) => {
+           Meteor.call('updateAccountSettings', accountinfo, (err) => {
                if(err){
                    this.setState({
                        active: true,
@@ -249,9 +257,9 @@ class SettingsPage extends Component {
                        barIcon: 'done',
                        barType: 'accept'
                    });
+                   this.closePopup();
                }
                this.setState({loading: false});
-               this.closePopup();
            });
     }
 
