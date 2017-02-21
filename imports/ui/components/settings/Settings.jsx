@@ -95,10 +95,9 @@ class SettingsPage extends Component {
     }
 
     currencyItem (currency) {
-
         return (
             <div className={theme.currencyIcons}>
-                <i className='currency-Pakistani-Rupee'></i>
+                <i className= {"currency-" + currency.name.replace(" ", "-") }></i>
                 <div>
                     <strong>{currency.name}</strong>
                 </div>
