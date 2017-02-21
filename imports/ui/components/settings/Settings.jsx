@@ -27,7 +27,7 @@ class SettingsPage extends Component {
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
             name: userInfo.profile.fullName,
-            active: true,
+            active: false,
             loading: false,
             number: userInfo.profile.contactNumber || '' ,
             username: userInfo.username || '',
@@ -175,12 +175,24 @@ class SettingsPage extends Component {
         event.preventDefault();
         const {oldPassword, newPassword, alterPassword} = this.state;
         if(newPassword != alterPassword){
-            console.log("you have entered the wrong password");
+            this.setState({
+                active: true,
+                barMessage: 'you have enter the wrong password',
+                barIcon: 'error_outline',
+                barType: 'cancel'
+            });
         }
         else{
             Accounts.changePassword(oldPassword, newPassword, (err)=> {
                     if(!err){
                         this.setState({oldPassword: '', newPassword: '', alterPassword: ''});
+                            this.setState({
+                                active: true,
+                                barMessage: 'Password changed successfully',
+                                barIcon: 'done',
+                                barType: 'accept'
+                            });
+                        this.setState({loading: false});
                         this.closePopup();
                     }
                 }
@@ -189,28 +201,72 @@ class SettingsPage extends Component {
 
     }
 
+
+
     updateProfile (event) {
         event.preventDefault();
         const {name, number, email, address, username} = this.state;
         let info = {users: {name, number, email, address, username}};
-        Meteor.call('updateProfile', info, (err) => {
+        Meteor.call('updateProfile', info, (err, response) => {
+            if(err){
+                this.setState({
+                    active: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
+            }
+            else{
+                this.setState({
+                    active: true,
+                    barMessage: 'Profile updated successfully',
+                    barIcon: 'done',
+                    barType: 'accept'
+                });
+            }
+            this.setState({loading: false});
             this.closePopup();
-        })
+        });
     }
 
     updateAccountSettings (event) {
         event.preventDefault();
         const {currencyObj, languageSelected} = this.state;
         let accountinfo = {settings: {currencyObj, languageSelected }};
-           Meteor.call('updateAccountSettings', accountinfo, (err) => {
-            this.closePopup();
-        })
+           Meteor.call('updateAccountSettings', accountinfo, (err, response) => {
+               if(err){
+                   this.setState({
+                       active: true,
+                       barMessage: err.reason,
+                       barIcon: 'error_outline',
+                       barType: 'cancel'
+                   });
+               }
+               else{
+                   this.setState({
+                       active: true,
+                       barMessage: 'Account updated successfully',
+                       barIcon: 'done',
+                       barType: 'accept'
+                   });
+               }
+               this.setState({loading: false});
+               this.closePopup();
+           });
     }
 
     onSubmit(event){
         event.preventDefault();
         this.props.account ? this.updateAccount() : this.createAccount();
         this.setState({loading: true})
+    }
+
+    handleBarClick (event, instance) {
+        this.setState({ active: false });
+    }
+
+    handleBarTimeout (event, instance) {
+        this.setState({ active: false });
     }
 
     progressBarToggle (){
@@ -367,6 +423,16 @@ class SettingsPage extends Component {
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
                             <h3>Settings</h3>
+                            <Snackbar
+                                action='Dismiss'
+                                active={this.state.active}
+                                icon={this.state.barIcon}
+                                label={this.state.barMessage}
+                                timeout={2000}
+                                onClick={this.handleBarClick.bind(this)}
+                                onTimeout={this.handleBarTimeout.bind(this)}
+                                type={this.state.barType}
+                                />
                         </div>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
