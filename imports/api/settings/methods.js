@@ -1003,38 +1003,54 @@ export const updateAccountSettings = new ValidatedMethod({
             type : Object
         },
         "settings.currencyObj": {
-            type : Object
+            type : Object,
+            label: 'Change',
+            optional: true
         },
         "settings.languageSelected": {
-            type : String
+            type : String,
+            optional: true
         },
         "settings.currencyObj.symbol": {
-            type : String
+            type : String,
+            optional: true
         },
         "settings.currencyObj.name": {
-            type : String
+            type : String,
+            optional: true
         },
         "settings.currencyObj.symbol_native": {
-            type : String
+            type : String,
+            optional: true
         },
         "settings.currencyObj.decimal_digits": {
-            type : Number
+            type : Number,
+            optional: true
         },
         "settings.currencyObj.rounding": {
-            type : Number
+            type : Number,
+            optional: true
         },
         "settings.currencyObj.code": {
-            type : String
+            type : String,
+            optional: true
         },
         "settings.currencyObj.value": {
-            type : String
+            type : String,
+            optional: true
         },
         "settings.currencyObj.name_plural": {
-            type : String
+            type : String,
+            optional: true
         }
     }).validator(),
     run({ settings }) {
-      Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.currency": settings.currencyObj , "profile.language":settings.languageSelected }});
+        if(settings.currencyObj){
+            Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.currency": settings.currencyObj}});
+        }
+        if(settings.languageSelected){
+            Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.language": settings.languageSelected}});
+        }
     }
 });
 
