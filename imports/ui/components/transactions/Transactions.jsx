@@ -18,6 +18,7 @@ import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
 import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import theme from './theme';
 import tableTheme from './tableTheme';
@@ -58,7 +59,7 @@ class TransactionPage extends Component {
     accounts(){
         let accounts = {};
         this.props.accounts.forEach((account) => {
-            accounts[account._id] = account.bank;
+            accounts[account._id] = accountHelpers.alterName(account.bank);
         });
         return accounts;
     }

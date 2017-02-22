@@ -45,12 +45,13 @@ export default class Register extends Component {
         const key = Object.keys(selector)[0];
 
         this.props.progressBarUpdate(true);
-        let currency={symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0};
+        let currency = {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0},
+        emailNotification = true;
 
         Accounts.createUser({
             [key]: selector[key],
             password,
-            profile: {fullName, currency}
+            profile: {fullName, currency, emailNotification }
         }, (err) => {
             if(err){
                 this.props.showSnackbar({

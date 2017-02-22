@@ -21,6 +21,7 @@ import cardTheme from './cardTheme';
 import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
 import cardBackgroundTheme from './cardBackgroundTheme';
+import { accountHelpers } from '/imports/helpers/accountHelpers.js';
 
 class DashboardPage extends Component {
 
@@ -132,7 +133,7 @@ class DashboardPage extends Component {
     accounts(){
         let accounts = {};
         this.props.accounts.forEach((account) => {
-            accounts[account._id] = account.bank;
+            accounts[account._id] = accountHelpers.alterName(account.bank);
         });
         return accounts;
     }
