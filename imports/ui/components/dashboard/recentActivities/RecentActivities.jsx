@@ -39,7 +39,7 @@ class RecentActivities extends Component {
             </div>
         )
     }
-    renderRecentIncomes(){
+    getIncomesOrAdd(){
         const model = {
             icon: {type: String},
             type: {type: String},
@@ -54,15 +54,21 @@ class RecentActivities extends Component {
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
+        const table = <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
+        const add =
+            <div className={theme.errorShowIncomes}>
+                <Button type='button' icon='add' raised primary />
+                <p>add something to show</p>
+            </div>;
+        return this.props.incomesExists ? table : add
+    }
+
+    renderRecentIncomes(){
         return (
             <div>
                 <Card className='card' theme={theme}>
                     <h3>Recent Incomes</h3>
-                    {this.props.incomes.length ? <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/> : <Loader primary />}
-                    <div className={theme.errorShowIncomes}>
-                        <Button type='button' icon='add' raised primary />
-                        <p>add something to show</p>
-                    </div>
+                    {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
                     <Link to={`/app/transactions/incomes`}> View All </Link>
@@ -70,14 +76,14 @@ class RecentActivities extends Component {
             </div>
         )
     }
-    renderRecentExpenses(){
+    getExpensesOrAdd(){
         const model = {
             icon: {type: String},
             category: {type: String},
             amount: {type: String},
             iconLeft: {type: String}
         };
-        let expenses = this.props.expenses.map(function(i){
+        const expenses = this.props.expenses.map(function(i){
             return {
                 icon:  <i className={i.category.icon || ''}/> ,
                 category: i.category.name || i.category,
@@ -85,16 +91,20 @@ class RecentActivities extends Component {
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
-        console.log('this.props.expenses', this.props.expenses);
+        const table = <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
+        const add =
+            <div className={theme.errorShowExpenses}>
+                <Button type='button' icon='add' raised accent />
+                <p>add something to show</p>
+            </div>
+        return this.props.expensesExists ? table : add
+    }
+    renderRecentExpenses(){
         return (
             <div>
                 <Card className='card' theme={theme}>
                     <h3>Recent Expenses</h3>
-                    {this.props.expenses.length ? <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/> : <Loader accent />}
-                    <div className={theme.errorShowExpenses}>
-                        <Button type='button' icon='add' raised accent />
-                        <p>add something to show</p>
-                    </div>
+                    {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
                     <Link to={`/app/transactions/expenses`}> View All </Link>
@@ -113,11 +123,24 @@ RecentActivities.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('incomes', 5);
-    Meteor.subscribe('expenses', 5);
+    const incomesHandle = Meteor.subscribe('incomes', 5);
+    const incomesLoading = !incomesHandle.ready();
+    const incomes = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const incomesExists = !incomesLoading && !!incomes.length;
+
+
+    const expensesHandle = Meteor.subscribe('expenses', 5);
+    const expensesLoading = !expensesHandle.ready();
+    const expenses = Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch();
+    const expensesExists = !expensesLoading && !!expenses.length;
 
     return {
-        incomes: Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch(),
-        expenses: Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch()
+        incomesLoading,
+        incomes,
+        incomesExists,
+
+        expensesLoading,
+        expenses,
+        expensesExists
     };
 }, RecentActivities);

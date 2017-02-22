@@ -34,11 +34,15 @@ class SettingsPage extends Component {
             username: userInfo.username || '',
             email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || ''
-        }
+        };
 
         this.languages = [
             { value: 'en', label: 'English' },
-            { value: 'ar', label: 'Arabic'}
+            { value: 'ar', label: 'Arabic'},
+            { value: 'ch', label: 'Chinese'},
+            { value: 'fr', label: 'French'},
+            { value: 'hi', label: 'Hindi'},
+            { value: 'sp', label: 'Spanish'}
         ]
     }
     handleChange (field, value) {

@@ -61,18 +61,9 @@ class DashboardPage extends Component {
 
     getAvailableBalance (accounts){
         Meteor.call('statistics.availableBalance', {accounts}, (err, ab) => {
-            if(ab){
-                this.setState({
-                    availableBalance: ab
-                })
-            }else{
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }
+            this.setState({
+                availableBalance: ab
+            })
         });
     }
 
