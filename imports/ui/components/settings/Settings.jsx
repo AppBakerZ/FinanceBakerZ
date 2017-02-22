@@ -25,7 +25,6 @@ class SettingsPage extends Component {
         this.state = {
             userCurrency: userInfo.profile.currency ? userInfo.profile.currency.symbol : '',
             languageSelected: userInfo.profile.language || '',
-            currencies: [],
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
             name: userInfo.profile.fullName,
@@ -59,15 +58,6 @@ class SettingsPage extends Component {
         });
     }
 
-    componentWillMount() {
-        Meteor.call("get.currencies",{}, (error, currencies) => {
-            if(error) {
-                // handle error
-            } else {
-                this.setState({ currencies });
-            }
-        });
-    }
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
@@ -99,19 +89,12 @@ class SettingsPage extends Component {
 
 
 
-    currencies(){
-        return this.state.currencies.map((currency) => {
-            currency.value = currency.symbol;
-            return currency;
-        })
-    }
-
     currencyItem (currency) {
         return (
             <div className={theme.currencyIcons}>
-                <i className= {"currency-" + currency.name.replace(" ", "-") }></i>
+                <i className= {currency.value}></i>
                 <div>
-                    <strong>{currency.name}</strong>
+                    <strong>{currency.label}</strong>
                 </div>
             </div>
         );
@@ -257,7 +240,7 @@ class SettingsPage extends Component {
                         <section>
                             <Dropdown
                                 auto={false}
-                                source={this.currencies()}
+                                source={currencyIcon}
                                 name='userCurrency'
                                 onChange={this.onChange.bind(this)}
                                 label='Select your currency'
