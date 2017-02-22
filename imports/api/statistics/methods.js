@@ -46,8 +46,10 @@ export const incomesGroupByMonth = new ValidatedMethod({
         ]);
 
 
+        let years = [];
         if(getYears.length){
-            year = year || getYears[0].years[0]
+            year = year || getYears[0].years[0];
+            years = getYears[0].years;
         }
 
         const yearQuery = {
@@ -90,7 +92,7 @@ export const incomesGroupByMonth = new ValidatedMethod({
             return item
         });
 
-        return {years: getYears[0].years, result: groupedByMonths}
+        return {years: years, result: groupedByMonths}
     }
 });
 
@@ -124,7 +126,11 @@ export const availableBalance = new ValidatedMethod({
         },{
             $group: { _id: null, total: { $sum: '$amount' } }
         });
-        return sumOfIncomes[0].total - sumOfExpenses[0].total;
+
+        const totalIncomes = sumOfIncomes.length ? sumOfIncomes[0].total : 0;
+        const totalExpenses = sumOfExpenses.length ? sumOfExpenses[0].total : 0;
+
+        return totalIncomes - totalExpenses;
     }
 });
 
