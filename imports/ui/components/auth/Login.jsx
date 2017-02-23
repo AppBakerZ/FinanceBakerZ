@@ -89,15 +89,17 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <div className={theme.buttonGroupLogin}>
-                    <Button type='submit' disabled={this.props.loading} icon='lock_open'
-                            label='Login' raised primary />
+                <div className={theme.buttonParents}>
+                    <div className={theme.buttonGroup}>
+                        <Button type='submit' disabled={this.props.loading} icon='lock_open'
+                                label='Login' raised primary />
+                    </div>
+                    <div className={theme.buttonGroup}>
+                        <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
+                                label='Register' raised accent />
+                    </div>
                 </div>
-                <div className={theme.buttonGroup}>
-                    <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
-                            label='Register' raised accent />
-                </div>
-                <div className={theme.buttonGroup}>
+                <div className={theme.forgotGroup}>
                     <a href="">forgot password?</a>
                 </div>
             </form>
