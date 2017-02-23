@@ -50,7 +50,8 @@ class RecentActivities extends Component {
             return {
                 icon: <Arrow primary width='16px' height='16px' />,
                 type: i.type == "project" ? i.project.name || i.project : i.type,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount),
+                amount: (<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(i.amount)}</span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
@@ -87,7 +88,8 @@ class RecentActivities extends Component {
             return {
                 icon:  <i className={i.category.icon || ''}/> ,
                 category: i.category.name || i.category,
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(i.amount),
+                amount:(<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>  {currencyFormatHelpers.currencyStandardFormat(i.amount)}</span>),
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });

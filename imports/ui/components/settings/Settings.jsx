@@ -86,8 +86,7 @@ class SettingsPage extends Component {
 
 
     setCurrency(currency){
-        currencyItem = _.findWhere(this.state.currencies, {symbol: currency});
-        delete currencyItem['value'];
+        currencyItem = _.findWhere(currencyIcon, {value: currency});
         this.setState({currencyObj:currencyItem});
     }
 
@@ -429,7 +428,7 @@ class SettingsPage extends Component {
                                 <h5>account settings</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>currency: <span>{Meteor.user().profile.currency.name || 'Not Available'} </span></h6>
+                                <h6>currency: <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
                                 <h6>language: <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
                                 <h6>
                                     email notification:

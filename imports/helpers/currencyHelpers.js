@@ -14,6 +14,6 @@ export const currencyFormatHelpers = {
 
 export const userCurrencyHelpers = {
     loggedUserCurrency(){
-        return Meteor.user().profile.currency && Meteor.user().profile.currency.symbol_native
+        return Meteor.user().profile.currency && Meteor.user().profile.currency.value;
     }
 };

@@ -27,35 +27,11 @@ export const updateAccountSettings = new ValidatedMethod({
             type : String,
             optional: true
         },
-        "settings.currencyObj.symbol": {
-            type : String,
-            optional: true
-        },
-        "settings.currencyObj.name": {
-            type : String,
-            optional: true
-        },
-        "settings.currencyObj.symbol_native": {
-            type : String,
-            optional: true
-        },
-        "settings.currencyObj.decimal_digits": {
-            type : Number,
-            optional: true
-        },
-        "settings.currencyObj.rounding": {
-            type : Number,
-            optional: true
-        },
-        "settings.currencyObj.code": {
-            type : String,
-            optional: true
-        },
         "settings.currencyObj.value": {
             type : String,
             optional: true
         },
-        "settings.currencyObj.name_plural": {
+        "settings.currencyObj.label": {
             type : String,
             optional: true
         }

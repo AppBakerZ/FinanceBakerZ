@@ -83,7 +83,7 @@ export default class Graph extends Component {
                     {
                         payload.map((entry, index) => (
                             <li key={`item-${index}`} style={{color: entry.color}}>
-                                {`${entry.name}: ${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyStandardFormat(entry.value)}`}
+                                `{entry.name}: <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(entry.value)}`
                             </li>
                         ))
                     }

@@ -193,7 +193,8 @@ class ProjectPage extends Component {
                 status,
                 clientName: client && client.name,
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(amount)
+                amount: (<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(amount)}</span>)
             };
         });
 

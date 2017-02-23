@@ -234,7 +234,7 @@ class TransactionPage extends Component {
             <div className={theme.contentParent}>
                 <div className={theme.contentOne}>
                     <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
-                    <div> <p>Transaction Amount :</p> <p> <span>{userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
+                    <div> <p>Transaction Amount :</p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
                     <div> <p>deposited in :</p> <p>standard chartered</p></div>
                     <div> <p>account number :</p> <p>00971322001</p></div>
                 </div>
@@ -487,7 +487,8 @@ class TransactionPage extends Component {
                     (transaction.type == "project" ?
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount),
+                amount: (<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(transaction.amount)}</span>),
                 rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
