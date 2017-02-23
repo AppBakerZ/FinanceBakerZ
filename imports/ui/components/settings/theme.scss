@@ -93,9 +93,9 @@
   width: 100%;
   display: inline-block;
   i{
-    font-size: $font-size-big + 1.2;
+    font-size: $font-size-big + 0.2;
     float: left;
-    margin: 0 $unit 0 0;
+    margin: $unit - 0.2 $unit 0 0;
   }
   div{
     display: inline-block;
