@@ -191,11 +191,11 @@ class ExpensesSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <div className='sidebar-buttons-group'>
+            button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
             </div>
         }else{
-            button = <div className='sidebar-buttons-group'>
+            button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}

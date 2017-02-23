@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar } from 'react-toolbox';
+import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar, Card } from 'react-toolbox';
 import { Link } from 'react-router'
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 
@@ -498,13 +498,23 @@ class TransactionPage extends Component {
             amount: {type: String},
             rightIcon: {type: String}
         };
-        return ( <Table theme={tableTheme} className={theme.table}
-                model={tableModel}
-                source={data}
-                onRowClick={this.selectItem.bind(this)}
-                selectable={false}
-                heading={false}
-                />
+        return (
+            <Card theme={tableTheme}>
+                <Table theme={tableTheme} className={theme.table}
+                    model={tableModel}
+                    source={data}
+                    onRowClick={this.selectItem.bind(this)}
+                    selectable={false}
+                    heading={false}
+                    />
+                <div className={theme.transactionNothing}>
+                    <span className={theme.errorShow}>you do not have any INCOME and EXPENSE</span>
+                    <div className={theme.addProjectBtn}>
+                        <Button type='button' icon='add' raised primary />
+                    </div>
+                    <span className={theme.errorShow}>add some to show</span>
+                </div>
+            </Card>
         )
     }
 

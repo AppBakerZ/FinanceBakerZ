@@ -216,6 +216,13 @@ class ProjectPage extends Component {
                        selectable={false}
                        source={projects}
                     />
+                <div className={theme.projectNothing}>
+                    <span className={theme.errorShow}>you do not have any projects</span>
+                    <div className={theme.addProjectBtn}>
+                        <Button type='button' icon='add' raised primary />
+                    </div>
+                    <span className={theme.errorShow}>add some to show</span>
+                </div>
             </Card>
         )
     }
