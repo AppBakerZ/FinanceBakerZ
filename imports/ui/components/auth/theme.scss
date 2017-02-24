@@ -9,6 +9,13 @@
 }
 .forgotBtn{
   text-align: center;
+  button{
+    padding: $unit - 0.7 0 0 0;
+    min-width: $unit * 18;
+    height: $unit * 4;
+    margin-top: $unit * 2;
+    font-size: $font-size + 0.1;
+  }
 }
 .buttonParents{
   margin-top: $unit * 2;
