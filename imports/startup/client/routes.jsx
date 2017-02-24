@@ -11,6 +11,7 @@ import DashboardPage from '../../ui/components/dashboard/Dashboard.jsx';
 
 import Register from '../../ui/components/auth/Register.jsx';
 import Login from '../../ui/components/auth/Login.jsx';
+import ForgotPassword from '../../ui/components/auth/ForgotPassword.jsx';
 
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 
@@ -70,6 +71,7 @@ Meteor.startup( () => {
                 <IndexRoute component={ Login} />
                 <Route path="register" component={ Register} />
                 <Route path="login" component={ Login} />
+                <Route path="forgotPassword" component={ ForgotPassword} />
             </Route>
             </Router>,
         document.getElementById( 'render-root' )
