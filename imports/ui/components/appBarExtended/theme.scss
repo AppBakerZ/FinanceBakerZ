@@ -1,9 +1,9 @@
 @import "~react-toolbox/lib/globals";
 
 .appBar {
-  background: #fff;
+  background: $color-primary-dark;
   overflow: hidden;
-  z-index: 301;
+  z-index: $z-index-highest + 1;
   &:not(.flat) {
     z-index: $z-index-highest + 1;
   }
