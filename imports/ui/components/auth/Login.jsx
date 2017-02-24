@@ -31,6 +31,10 @@ export default class Register extends Component {
         this.props.history.push('/register');
     }
 
+    forgotPassword (){
+        this.props.history.push('/forgotPassword');
+    }
+
     onSubmit(event){
         event.preventDefault();
 
@@ -100,7 +104,7 @@ export default class Register extends Component {
                     </div>
                 </div>
                 <div className={theme.forgotGroup}>
-                    <a href="">forgot password?</a>
+                    <a onClick={this.forgotPassword.bind(this)} >forgot password?</a>
                 </div>
             </form>
         );
