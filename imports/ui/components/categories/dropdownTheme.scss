@@ -17,7 +17,7 @@
       border-bottom: $unit - 0.8 solid #d3d3d3;
       border-right: $unit - 0.8 solid #d3d3d3;
       i{
-        font-size: $unit * 4.8;
+        font-size: $font-size + 3.2;
       }
       &.removeBottomBorder{
         border-bottom: 0;

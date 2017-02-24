@@ -61,7 +61,7 @@
     width: 18%;
     display: inline-block;
     position: relative;
-    top: 7px;
+    top: $unit - 0.3;
     label{
       color: $color-text;
       font-size: $font-size-small;

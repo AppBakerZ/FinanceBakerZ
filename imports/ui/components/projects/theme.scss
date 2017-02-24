@@ -151,11 +151,11 @@
 .confirmText{
   margin-bottom: $unit * 2;
   h3{
-    font-size: 2.5rem;
+    font-size: $font-size-big + 0.7;
     text-transform: uppercase;
-    letter-spacing: 0.1rem;
+    letter-spacing: $unit - 0.9;
     color: #008142;
-    margin: 0 0 2rem 0;
+    margin: 0 0 $unit * 2 0;
   }
   p{
     line-height: $unit * 2.6;
