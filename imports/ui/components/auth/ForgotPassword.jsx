@@ -20,13 +20,18 @@ export default class ForgotPassword extends Component {
     showEmail(){
         return(
             <form  onSubmit={this.onSubmit.bind(this)}  className="login" autoComplete={'off'}>
-            <Input type='text' label='Enter your email'
-                   name='EnterEmail'
-                   maxLength={ 30 }
-                   required
-                />
-                <Button type='submit' disabled={this.props.loading} icon='lock_open'
-                        label='submit' raised primary />
+                <div className={theme.logoWithText}>
+                    <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
+                </div>
+                <Input type='text' label='Enter your email'
+                       name='EnterEmail'
+                       maxLength={ 30 }
+                       required
+                    />
+                <div className={theme.forgotBtn}>
+                    <Button type='submit' disabled={this.props.loading}
+                            label='submit' raised primary />
+                </div>
             </form>
 
         )
