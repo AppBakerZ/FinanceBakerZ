@@ -131,8 +131,7 @@ export default class Graph extends Component {
                             return `${this.months[tick - 1]}`;
                             }}/>
                         <YAxis tickLine={false} tickSize={15} tickFormatter={(tick) => {
-                            return tick ? (
-                            <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyWithUnits(tick)}`</span>) : '' ;
+                            return tick ? `${currencyFormatHelpers.currencyWithUnits(tick)}` : '';
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <Tooltip content={this.renderTooltipContent.bind(this)}/>
@@ -141,7 +140,7 @@ export default class Graph extends Component {
                     </AreaChart>
                 </ResponsiveContainer>
             </div>
-        </Card>;
+        </Card>
 
         return this.state.graph ? chart : null;
     }
