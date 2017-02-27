@@ -58,8 +58,9 @@ class RecentActivities extends Component {
         const table = <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
         const add =
             <div className={theme.errorShowIncomes}>
-                <Button type='button' icon='add' raised primary />
-                <p>add something to show</p>
+                <Link to={ `/app/transactions/incomes/new`}>
+                <Button type='button' icon='add' raised primary  />
+                <p>add something to show</p> </Link>
             </div>;
         return this.props.incomesExists ? table : add
     }
@@ -96,9 +97,10 @@ class RecentActivities extends Component {
         const table = <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
         const add =
             <div className={theme.errorShowExpenses}>
+                <Link to={`/app/transactions/expenses/new`}>
                 <Button type='button' icon='add' raised accent />
-                <p>add something to show</p>
-            </div>
+                <p>add something to show</p> </Link>
+            </div>;
         return this.props.expensesExists ? table : add
     }
     renderRecentExpenses(){

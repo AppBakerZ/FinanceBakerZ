@@ -46,6 +46,14 @@ class TransactionPage extends Component {
             openDialog: false,
             barActive : false
         };
+
+        if(this.props.routes[3]) {
+            this.state.model = this.props.routes[2].path == 'expenses' ? 'Expense' : 'Income';
+            this.state.showForm = true;
+            this.state.openDialog = true;
+        }
+
+
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
