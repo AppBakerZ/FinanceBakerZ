@@ -10,12 +10,10 @@ export default class ForgotPassword extends Component {
         super(props);
 
         this.state = {
-                isPassword: false,
-                loading: false
+            isPassword: false,
+            loading: false
         }
     }
-
-
 
     showEmail(){
         return(
@@ -33,10 +31,8 @@ export default class ForgotPassword extends Component {
                             label='submit' raised primary />
                 </div>
             </form>
-
         )
     }
-
 
     showPassword(){
         return(
@@ -62,20 +58,18 @@ export default class ForgotPassword extends Component {
         )
     }
 
-
     onSubmit(event){
         event.preventDefault();
         this.setState({isPassword: true});
     }
 
-
     render()
     {
-    return (
-      <div>
-          {this.state.isPassword == false ? this.showEmail() : this.showPassword()}
-      </div>
-    )
-}
+        return (
+            <div>
+                {this.state.isPassword == false ? this.showEmail() : this.showPassword()}
+            </div>
+        )
+    }
 
 }

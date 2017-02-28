@@ -137,10 +137,6 @@ class ProjectPage extends Component {
         this.closePopup()
     }
 
-
-
-
-
     /*************** Infinite scroll ***************/
     handleScroll(event) {
         let infiniteState = event.nativeEvent;
