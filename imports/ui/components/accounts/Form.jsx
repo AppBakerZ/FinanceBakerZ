@@ -26,7 +26,16 @@ export default class Form extends Component {
             loading: false
         };
 
-        this.countries = _.sortBy(countries, 'label');
+        //get all countries that have banks.
+        let availableBankCountries = Object.keys(bankFonts);
+
+        //filter country according to availableBankCountries.
+        let bankCountries = countries.filter((obj) => {
+           return availableBankCountries.includes(obj.value)
+        });
+
+        //sort countries in alphabetically order.
+        this.countries = _.sortBy(bankCountries, 'label');
         this.setBanks()
     }
     setBanks(country){
