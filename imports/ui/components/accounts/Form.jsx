@@ -19,7 +19,7 @@ export default class Form extends Component {
         super(props);
 
         this.state = {
-            country: 'PK',
+            country: 'All',
             number: '',
             bank: '',
             active: false,
@@ -36,10 +36,12 @@ export default class Form extends Component {
 
         //sort countries in alphabetically order.
         this.countries = _.sortBy(bankCountries, 'label');
-        this.setBanks()
+        this.countries = [{value: 'All', label: 'All Countries'}, ...this.countries];
+        this.setBanks(this.state.country)
     }
     setBanks(country){
-        let bankIcons = bankFonts[country || this.state.country] || [];
+
+        let bankIcons = country == 'All' ? Object.values(bankFonts).reduce((prev, curr) => [...prev, ...curr]) : bankFonts[country];
         this.banks = bankIcons.map((font, index) => {
 
             index++;
