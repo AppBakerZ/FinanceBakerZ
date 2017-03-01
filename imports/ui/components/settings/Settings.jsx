@@ -23,7 +23,7 @@ class SettingsPage extends Component {
         super(props);
           let userInfo = Meteor.user();
         this.state = {
-            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.symbol : '',
+            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.value : '',
             languageSelected: userInfo.profile.language || '',
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
