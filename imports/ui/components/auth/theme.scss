@@ -15,6 +15,9 @@
     height: $unit * 4;
     margin-top: $unit * 2;
     font-size: $font-size + 0.1;
+    &:last-of-type{
+      margin-top: $unit;
+    }
   }
 }
 .buttonParents{
@@ -40,5 +43,6 @@
     color: $color-text;
     font-weight: 600;
     letter-spacing: 0.5px;
+    cursor: pointer;
   }
 }

@@ -29,6 +29,8 @@ export default class ForgotPassword extends Component {
                 <div className={theme.forgotBtn}>
                     <Button type='submit' disabled={this.props.loading}
                             label='submit' raised primary />
+                    <Button type='button' disabled={this.props.loading}
+                            label='back' raised accent />
                 </div>
             </form>
         )
