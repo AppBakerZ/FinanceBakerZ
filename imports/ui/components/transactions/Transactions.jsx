@@ -24,6 +24,7 @@ import theme from './theme';
 import tableTheme from './tableTheme';
 import dialogTheme from './dialogTheme';
 import buttonTheme from './buttonTheme';
+import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -507,22 +508,25 @@ class TransactionPage extends Component {
             amount: {type: String},
             rightIcon: {type: String}
         };
-        return (
-            <Card theme={tableTheme}>
+            const table =
                 <Table theme={tableTheme} className={theme.table}
-                    model={tableModel}
-                    source={data}
-                    onRowClick={this.selectItem.bind(this)}
-                    selectable={false}
-                    heading={false}
-                    />
+                       model={tableModel}
+                       source={data}
+                       onRowClick={this.selectItem.bind(this)}
+                       selectable={false}
+                       heading={false}
+                    />;
+            const something =
                 <div className={theme.transactionNothing}>
                     <span className={theme.errorShow}>you do not have any INCOME and EXPENSE</span>
                     <div className={theme.addProjectBtn}>
                         <Button type='button' icon='add' raised primary />
                     </div>
                     <span className={theme.errorShow}>add some to show</span>
-                </div>
+                </div>;
+        return (
+            <Card theme={tableTheme}>
+                {this.props.transactionsExists ? table : something}
             </Card>
         )
     }
@@ -581,6 +585,7 @@ class TransactionPage extends Component {
                             <Button
                                 className='header-buttons'
                                 icon='add'
+                                icon='add'
                                 label='EXPENSE'
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}
@@ -588,8 +593,7 @@ class TransactionPage extends Component {
                             {this.popupTemplate()}
                         </div>
                     </div>
-                    {this.renderProjectTable()}
-
+                    { this.props.transactionsLoading ? <Loader accent /> :this.renderProjectTable()}
                     <Snackbar
                         action='Dismiss'
                         active={this.state.barActive}
@@ -612,13 +616,21 @@ TransactionPage.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('transactions', query.get());
+    const transactionsHandle = Meteor.subscribe('transactions', query.get());
+    const transactionsLoading = !transactionsHandle.ready();
+    const incomesField = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const expenseField = Expenses.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const transactions = !!incomesField.length || !!expenseField.length;
+    const transactionsExists = !transactionsLoading && !!transactions;
     Meteor.subscribe('accounts');
     Meteor.subscribe('categories');
     Meteor.subscribe('projects.all');
     let expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
     return {
+        transactionsLoading,
+        transactions,
+        transactionsExists,
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
         accounts: Accounts.find({}).fetch(),
         categories: Categories.find().fetch(),
