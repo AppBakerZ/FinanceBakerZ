@@ -1,6 +1,16 @@
 @import "~react-toolbox/lib/globals";
 @import "~react-toolbox/lib/list/config";
 
+.value {
+  > div {
+    i{
+      font-size: 40px;
+    }
+  }
+}
+.field{
+  padding: $unit * 2 0 0;
+}
 .iconsBox{
   display: inline-block;
   width: 100%;
