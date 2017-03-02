@@ -4,7 +4,7 @@
 .value {
   > div {
     i{
-      font-size: 40px;
+      font-size: $font-size-big + 2.2;
     }
   }
 }
@@ -20,7 +20,7 @@
 }
 .iconsiconBox{
   i{
-    font-size: $unit * 4;
+    font-size: $font-size-big + 2.2;
   }
 }
 .addIncomeBtn{
@@ -41,7 +41,7 @@
         border-right: $unit - 0.8 solid #d3d3d3;
         padding: $unit * 1.5 0 $unit * 1.5 0;
         i{
-          font-size: $unit * 5;
+          font-size: $font-size-big + 3.2;
         }
         &.removeBottomBorder{
           border-bottom: 0;
