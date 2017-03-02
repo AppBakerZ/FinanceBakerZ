@@ -8,6 +8,11 @@
     }
   }
 }
+.boxShadowNone{
+  textarea{
+    box-shadow: 0 0 0 0;
+  }
+}
 .field{
   padding: $unit * 2 0 0;
 }
