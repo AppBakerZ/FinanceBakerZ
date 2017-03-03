@@ -15,6 +15,10 @@ export default class ForgotPassword extends Component {
         }
     }
 
+    onClick (){
+        this.props.history.push('/');
+    }
+
     showEmail(){
         return(
             <form  onSubmit={this.onSubmit.bind(this)}  className="login" autoComplete={'off'}>
@@ -29,7 +33,7 @@ export default class ForgotPassword extends Component {
                 <div className={theme.forgotBtn}>
                     <Button type='submit' disabled={this.props.loading}
                             label='submit' raised primary />
-                    <Button type='button' disabled={this.props.loading}
+                    <Button type='button' onClick={this.onClick.bind(this)}
                             label='back' raised accent />
                 </div>
             </form>
