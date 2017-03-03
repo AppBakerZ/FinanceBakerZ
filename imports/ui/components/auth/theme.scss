@@ -20,6 +20,13 @@
     }
   }
 }
+
+.link {
+  &:not(.active) {
+    opacity: 1;
+  }
+}
+
 .buttonParents{
   margin-top: $unit * 2;
   .buttonGroup{
