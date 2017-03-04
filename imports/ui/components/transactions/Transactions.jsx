@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar } from 'react-toolbox';
+import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar, Card } from 'react-toolbox';
 import { Link } from 'react-router'
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 
@@ -24,6 +24,7 @@ import theme from './theme';
 import tableTheme from './tableTheme';
 import dialogTheme from './dialogTheme';
 import buttonTheme from './buttonTheme';
+import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -46,6 +47,14 @@ class TransactionPage extends Component {
             openDialog: false,
             barActive : false
         };
+
+        if(this.props.routes[3]) {
+            this.state.model = this.props.routes[2].path == 'expenses' ? 'Expense' : 'Income';
+            this.state.showForm = true;
+            this.state.openDialog = true;
+        }
+
+
         this.months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
@@ -183,7 +192,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
-        };
+        }
         return(
             <div>
                 <div className={theme.firstRow}>
@@ -209,7 +218,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
-        };
+        }
         return (
             <div>
                 <div className={theme.confirmText}>
@@ -229,12 +238,12 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
-        };
+        }
         return (
             <div className={theme.contentParent}>
                 <div className={theme.contentOne}>
                     <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
-                    <div> <p>Transaction Amount :</p> <p> <span>{userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
+                    <div> <p>Transaction Amount :</p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
                     <div> <p>deposited in :</p> <p>standard chartered</p></div>
                     <div> <p>account number :</p> <p>00971322001</p></div>
                 </div>
@@ -285,7 +294,7 @@ class TransactionPage extends Component {
         let selectedProject = this.state.selectedProject;
         if(!selectedProject){
             return false;
-        };
+        }
         this.setState({loading : true});
         let param = {};
         param[selectedProject.receivedAt ? "income" : "expense"] = {_id : selectedProject._id};
@@ -487,7 +496,8 @@ class TransactionPage extends Component {
                     (transaction.type == "project" ?
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(transaction.amount),
+                amount: (<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(transaction.amount)}</span>),
                 rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
@@ -498,13 +508,26 @@ class TransactionPage extends Component {
             amount: {type: String},
             rightIcon: {type: String}
         };
-        return ( <Table theme={tableTheme} className={theme.table}
-                model={tableModel}
-                source={data}
-                onRowClick={this.selectItem.bind(this)}
-                selectable={false}
-                heading={false}
-                />
+            const table =
+                <Table theme={tableTheme} className={theme.table}
+                       model={tableModel}
+                       source={data}
+                       onRowClick={this.selectItem.bind(this)}
+                       selectable={false}
+                       heading={false}
+                    />;
+            const something =
+                <div className={theme.transactionNothing}>
+                    <span className={theme.errorShow}>you do not have any INCOME and EXPENSE</span>
+                    <div className={theme.addProjectBtn}>
+                        <Button type='button' icon='add' raised primary />
+                    </div>
+                    <span className={theme.errorShow}>add some to show</span>
+                </div>;
+        return (
+            <Card theme={tableTheme}>
+                {this.props.transactionsExists ? table : something}
+            </Card>
         )
     }
 
@@ -562,6 +585,7 @@ class TransactionPage extends Component {
                             <Button
                                 className='header-buttons'
                                 icon='add'
+                                icon='add'
                                 label='EXPENSE'
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}
@@ -569,8 +593,7 @@ class TransactionPage extends Component {
                             {this.popupTemplate()}
                         </div>
                     </div>
-                    {this.renderProjectTable()}
-
+                    { this.props.transactionsLoading ? <Loader accent /> :this.renderProjectTable()}
                     <Snackbar
                         action='Dismiss'
                         active={this.state.barActive}
@@ -593,13 +616,21 @@ TransactionPage.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('transactions', query.get());
+    const transactionsHandle = Meteor.subscribe('transactions', query.get());
+    const transactionsLoading = !transactionsHandle.ready();
+    const incomesField = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const expenseField = Expenses.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const transactions = !!incomesField.length || !!expenseField.length;
+    const transactionsExists = !transactionsLoading && !!transactions;
     Meteor.subscribe('accounts');
     Meteor.subscribe('categories');
     Meteor.subscribe('projects.all');
     let expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
     return {
+        transactionsLoading,
+        transactions,
+        transactionsExists,
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
         accounts: Accounts.find({}).fetch(),
         categories: Categories.find().fetch(),

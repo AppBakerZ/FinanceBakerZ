@@ -115,7 +115,9 @@ class AccountsPage extends Component {
         });
     }
     getFormattedCurrency(balance){
-        return userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(balance)
+        return  (<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(balance)} </span>
+        )
     }
     renderAccount() {
         const model = {

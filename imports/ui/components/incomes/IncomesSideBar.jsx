@@ -188,11 +188,11 @@ class IncomesSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <div className='sidebar-buttons-group'>
+            button = <div className={theme.addIncomeBtn}>
                 <Button type='submit' icon='add' label='Add Income' raised primary />
             </div>
         }else{
-            button = <div className='sidebar-buttons-group'>
+            button = <div className={theme.addIncomeBtn}>
                 <Button type='submit' icon='mode_edit' label='Update Income' raised primary />
                 <Button
                     onClick={this.removeIncome.bind(this)}
@@ -207,35 +207,39 @@ class IncomesSideBar extends Component {
     }
 
     accountItem (account) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
 
-        const imageStyle = {
-            display: 'flex',
-            width: '32px',
-            height: '32px',
-            flexGrow: 0,
-            marginRight: '8px',
-            backgroundColor: '#ccc'
-        };
+        let parentClass = '';
 
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
+        if(account.removeRightBorder){
+            parentClass = theme['removeRightBorder']
+        }
+
+        if(account.removeBottomBorder){
+            parentClass = theme['removeBottomBorder']
+        }
 
         return (
-            <div style={containerStyle}>
-                <div className={theme.iconsiconBox}>
-                    <i className={account.bank}/>
-                        <strong>{accountHelpers.alterName(account.bank)}</strong>
-                        <small>{account.purpose}</small>
-                    </div>
-                </div>
+            <div className={parentClass}>
+                <i className={account.bank}/>
+            </div>
         );
+    }
+
+    accounts(){
+        return this.props.accounts.map((account, index) => {
+            account.value = account._id;
+
+            index++;
+            if(index % 3 == 0){
+                account.removeRightBorder = true
+            }
+            let lastItems = this.props.accounts.length % 3 == 0 ? 3 : this.props.accounts.length % 3;
+            if(index > this.props.accounts.length - lastItems){
+                account.removeBottomBorder = true
+            }
+
+            return account;
+        })
     }
 
     typeItem (type) {
@@ -248,14 +252,6 @@ class IncomesSideBar extends Component {
         return (
             <strong>{project.name}</strong>
         );
-    }
-
-    accounts(){
-        return this.props.accounts.map((account) => {
-            account.value = account._id;
-            account.icon = account.bank;
-            return account;
-        })
     }
 
     projects(){
@@ -296,7 +292,8 @@ class IncomesSideBar extends Component {
                     type={this.state.barType}
                     />
 
-                <Dropdown
+                <Dropdown theme={theme}
+                    className={theme.bankFonts}
                     auto={false}
                     source={this.accounts()}
                     name='account'

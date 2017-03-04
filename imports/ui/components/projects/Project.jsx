@@ -137,10 +137,6 @@ class ProjectPage extends Component {
         this.closePopup()
     }
 
-
-
-
-
     /*************** Infinite scroll ***************/
     handleScroll(event) {
         let infiniteState = event.nativeEvent;
@@ -193,11 +189,11 @@ class ProjectPage extends Component {
                 status,
                 clientName: client && client.name,
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
-                amount: userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(amount)
+                amount: (<span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(amount)}</span>)
             };
         });
 
-        if(!projects.length) return;
 
         let projectModel = {
             startAt: {type: Date, title: 'Date'},
@@ -206,16 +202,24 @@ class ProjectPage extends Component {
             amount: {type: Number, title: 'Amount'},
             status: {type: String, title: 'Status'}
         };
-
+       const table = <Table className={theme.table} theme={tableTheme}
+                            heading={false}
+                            model={projectModel}
+                            onRowClick={this.onRowClick.bind(this)}
+                            selectable={false}
+                            source={projects}
+           />;
+      const something =
+            <div className={theme.projectNothing}>
+                <span className={theme.errorShow}>you do not have any projects</span>
+                <div className={theme.addProjectBtn}>
+                    <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
+                </div>
+                <span className={theme.errorShow}>add some to show</span>
+            </div>;
         return (
             <Card theme={tableTheme}>
-                <Table className={theme.table} theme={tableTheme}
-                       heading={false}
-                       model={projectModel}
-                       onRowClick={this.onRowClick.bind(this)}
-                       selectable={false}
-                       source={projects}
-                    />
+                { this.props.projectsExists ? table : something}
             </Card>
         )
     }
@@ -265,9 +269,8 @@ class ProjectPage extends Component {
                             theme={theme}
                             />
                     </div>
-                    {this.renderProjectTable()}
+                    {this.props.projectsLoading ? <Loader accent /> : this.renderProjectTable()}
                     {this.popupTemplate()}
-
                 </div>
             </div>
         );
@@ -279,8 +282,14 @@ ProjectPage.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('projects', query.get());
+    const projectsHandle = Meteor.subscribe('projects', query.get());
+    const projectsLoading = !projectsHandle.ready();
+    const projects = Projects.find({}, {fields: {amount: 1, type: 1, project: 1, name: 1, client: 1, status: 1}}).fetch();
+    const projectsExists = !projectsLoading && !!projects.length;
     return {
-        projects: Projects.find().fetch()
+        projects: Projects.find().fetch(),
+        projectsLoading,
+        projects,
+        projectsExists
     };
 }, ProjectPage);

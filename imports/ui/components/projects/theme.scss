@@ -18,6 +18,7 @@
 .inputDropdown{
   width: 25%;
   display: inline-block;
+  margin-bottom: $unit * 2;
   > div{
     > div{
       input{
@@ -64,6 +65,38 @@
     background: none;
   }
 }
+.projectNothing{
+  margin: $unit * 5 0 $unit * 5 0;
+  .errorShow{
+    display: block;
+    text-align: center;
+    font-size: $font-size-big + 0.2;
+    text-transform: uppercase;
+    color: $color-text;
+    &:first-child{
+      margin-bottom: $unit * 3;
+    }
+  }
+  .addProjectBtn{
+    text-align: center;
+    button{
+      border-radius: 50%;
+      width: $unit * 7.5;
+      height: $unit * 7.5;
+      padding: 0;
+      min-width: $unit * 7.5;
+      text-align: center;
+      margin-bottom: $unit * 2.5;
+      font-size: $font-size-big + 2.7;
+      span{
+        color: $color-primary-dark;
+        text-transform: lowercase;
+        padding-left: $unit - 0.1;
+      }
+    }
+  }
+}
+
 /////////////////////////// dialog styling start here ///////////////////////////////
 .contentParent{
   .contentOne{
@@ -119,11 +152,11 @@
 .confirmText{
   margin-bottom: $unit * 2;
   h3{
-    font-size: 2.5rem;
+    font-size: $font-size-big + 0.7;
     text-transform: uppercase;
-    letter-spacing: 0.1rem;
+    letter-spacing: $unit - 0.9;
     color: #008142;
-    margin: 0 0 2rem 0;
+    margin: 0 0 $unit * 2 0;
   }
   p{
     line-height: $unit * 2.6;

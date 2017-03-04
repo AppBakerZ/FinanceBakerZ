@@ -61,18 +61,9 @@ class DashboardPage extends Component {
 
     getAvailableBalance (accounts){
         Meteor.call('statistics.availableBalance', {accounts}, (err, ab) => {
-            if(ab){
-                this.setState({
-                    availableBalance: ab
-                })
-            }else{
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }
+            this.setState({
+                availableBalance: ab
+            })
         });
     }
 
@@ -213,7 +204,7 @@ class DashboardPage extends Component {
                 <div className={theme.divTitle}>Your Total Incomes are</div>
                 <div className={theme.title}>
                     <h2>
-                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
                     </h2>
                     <Arrow primary width='30px' height='35px' />
                 </div>
@@ -231,7 +222,7 @@ class DashboardPage extends Component {
                 <div className={theme.divTitle}>Your Total Expenses are</div>
                 <div className={theme.title}>
                     <h2>
-                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
                     </h2>
                     <Arrow down danger width='30px' height='35px' />
                 </div>
@@ -249,7 +240,7 @@ class DashboardPage extends Component {
                     <div className={theme.availableTitle}> Your Available Balance is</div>
                     <div className={theme.divTitle}>
                         <h2 className="available-amount">
-                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
                         </h2>
                         <Arrow width='48px' height='50px' />
                     </div>

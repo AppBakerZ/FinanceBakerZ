@@ -191,11 +191,11 @@ class ExpensesSideBar extends Component {
     renderButton (){
         let button;
         if(this.state.isNewRoute){
-            button = <div className='sidebar-buttons-group'>
+            button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
             </div>
         }else{
-            button = <div className='sidebar-buttons-group'>
+            button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
@@ -249,21 +249,6 @@ class ExpensesSideBar extends Component {
         const containerStyle = {
             display: 'flex',
             flexDirection: 'row'
-        };
-
-        const imageStyle = {
-            display: 'flex',
-            width: '22px',
-            height: '22px',
-            flexGrow: 0,
-            marginRight: '8px'
-        };
-
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2,
-            paddingTop: '4px'
         };
 
         return (
@@ -404,7 +389,7 @@ class ExpensesSideBar extends Component {
                     template={this.categoryItem}
                     required
                     />
-                <Input type='text' label='Description'
+                <Input type='text' label='Description' className={theme.boxShadowNone}
                        name='description'
                        multiline
                        value={this.state.description}

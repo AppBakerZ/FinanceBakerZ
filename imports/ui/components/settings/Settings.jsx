@@ -15,15 +15,16 @@ import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 import { Accounts } from 'meteor/accounts-base';
 
+import currencyIcon from '/imports/ui/currencyIcon.js';
+
 class SettingsPage extends Component {
 
     constructor(props) {
         super(props);
           let userInfo = Meteor.user();
         this.state = {
-            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.symbol : '',
+            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.value : '',
             languageSelected: userInfo.profile.language || '',
-            currencies: [],
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
             name: userInfo.profile.fullName,
@@ -33,11 +34,15 @@ class SettingsPage extends Component {
             username: userInfo.username || '',
             email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || ''
-        }
+        };
 
         this.languages = [
             { value: 'en', label: 'English' },
-            { value: 'ar', label: 'Arabic'}
+            { value: 'ar', label: 'Arabic'},
+            { value: 'ch', label: 'Chinese'},
+            { value: 'fr', label: 'French'},
+            { value: 'hi', label: 'Hindi'},
+            { value: 'sp', label: 'Spanish'}
         ]
     }
     handleChange (field, value) {
@@ -57,15 +62,6 @@ class SettingsPage extends Component {
         });
     }
 
-    componentWillMount() {
-        Meteor.call("get.currencies",{}, (error, currencies) => {
-            if(error) {
-                // handle error
-            } else {
-                this.setState({ currencies });
-            }
-        });
-    }
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
@@ -90,47 +86,18 @@ class SettingsPage extends Component {
 
 
     setCurrency(currency){
-        currencyItem = _.findWhere(this.state.currencies, {symbol: currency});
-        delete currencyItem['value'];
+        currencyItem = _.findWhere(currencyIcon, {value: currency});
         this.setState({currencyObj:currencyItem});
     }
 
 
 
-    currencies(){
-        return this.state.currencies.map((currency) => {
-            currency.value = currency.symbol;
-            return currency;
-        })
-    }
-
     currencyItem (currency) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
-
-        const imageStyle = {
-            width: '40px',
-            height: '32px',
-            textAlign: 'center',
-            paddingTop: '8px',
-            flexGrow: 0,
-            marginRight: '8px',
-            backgroundColor: '#ccc'
-        };
-
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
-
         return (
-            <div style={containerStyle}>
-                <span style={imageStyle}>{currency.symbol}</span>
-                <div style={contentStyle}>
-                    <strong>{currency.name}</strong>
+            <div className={theme.currencyIcons}>
+                <i className= {currency.value}></i>
+                <div>
+                    <strong>{currency.label}</strong>
                 </div>
             </div>
         );
@@ -340,7 +307,7 @@ class SettingsPage extends Component {
                         <section>
                             <Dropdown
                                 auto={false}
-                                source={this.currencies()}
+                                source={currencyIcon}
                                 name='userCurrency'
                                 onChange={this.onChange.bind(this)}
                                 label='Select your currency'
@@ -461,7 +428,7 @@ class SettingsPage extends Component {
                                 <h5>account settings</h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>currency: <span>{Meteor.user().profile.currency.name || 'Not Available'} </span></h6>
+                                <h6>currency: <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
                                 <h6>language: <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
                                 <h6>
                                     email notification:
