@@ -594,7 +594,7 @@ class TransactionPage extends Component {
                         </div>
                     </div>
                     <Card theme={tableTheme}>
-                        { this.props.transactionsLoading ? <Loader accent /> :this.renderProjectTable()}
+                        { this.props.transactionsLoading ? <Loader primary /> :this.renderProjectTable()}
                     </Card>
                     <Snackbar
                         action='Dismiss'

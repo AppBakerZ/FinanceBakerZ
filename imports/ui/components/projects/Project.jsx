@@ -270,7 +270,7 @@ class ProjectPage extends Component {
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.projectsLoading ? <Loader accent /> : this.renderProjectTable()}
+                        {this.props.projectsLoading ? <Loader primary /> : this.renderProjectTable()}
                     </Card>
                     {this.popupTemplate()}
                 </div>
