@@ -593,7 +593,7 @@ class TransactionPage extends Component {
                             {this.popupTemplate()}
                         </div>
                     </div>
-                    <Card className={theme.tableTheme}>
+                    <Card theme={tableTheme}>
                         { this.props.transactionsLoading ? <Loader accent /> :this.renderProjectTable()}
                     </Card>
                     <Snackbar
