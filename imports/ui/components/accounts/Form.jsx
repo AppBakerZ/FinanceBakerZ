@@ -45,6 +45,9 @@ export default class Form extends Component {
         this.banks = bankIcons.map((font, index) => {
 
             index++;
+            //delete pre keys if attach.
+            delete font.removeRightBorder;
+            delete font.removeBottomBorder;
             if(index % 3 == 0){
                 font.removeRightBorder = true
             }
