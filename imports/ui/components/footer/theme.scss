@@ -5,6 +5,10 @@
   text-align: center;
   padding: $unit - 0.5 0 $unit - 0.7 0;
   background: $color-primary;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   span{
     margin: $unit - 0.5 0 $unit - 0.5 0;
     color: $color-primary-dark;

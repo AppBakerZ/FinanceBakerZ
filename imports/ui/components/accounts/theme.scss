@@ -5,16 +5,17 @@
   .accountTitle{
     background: $color-primary;
     padding: $unit * 2.3 $unit * 5 $unit * 1.7 $unit * 5;
+    text-align: right;
     h3{
       color: $color-primary-dark;
       font-size: $font-size-big + 0.7;
       text-transform: capitalize;
       letter-spacing: $unit - 0.9;
       display: inline-block;
+      float: left;
     }
     button{
       border-radius: $unit - 0.5;
-      float: right;
       width: auto;
       font-size: $font-size-big + 0.2;
       padding: $unit - 0.3 $unit * 2.6 0 $unit * 2.6;

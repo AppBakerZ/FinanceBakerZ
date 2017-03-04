@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { Input, Button } from 'react-toolbox';
+import { Link } from 'react-router'
 
 import theme from './theme';
 
@@ -29,8 +30,10 @@ export default class ForgotPassword extends Component {
                 <div className={theme.forgotBtn}>
                     <Button type='submit' disabled={this.props.loading}
                             label='submit' raised primary />
-                    <Button type='button' disabled={this.props.loading}
-                            label='back' raised accent />
+                    <Link to={`/`}>
+                        <Button type='button'
+                                label='back' raised accent />
+                    </Link>
                 </div>
             </form>
         )

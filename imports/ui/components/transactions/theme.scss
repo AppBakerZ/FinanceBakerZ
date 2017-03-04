@@ -15,8 +15,9 @@
     float: right;
     button{
       font-size: $font-size-big + 0.2;
-      padding: 0 $unit 0 $unit;
-      line-height: $unit * 4.6;
+      padding: $unit - 0.6 $unit 0 $unit;
+      line-height: $unit * 4;
+      height: $unit * 4;
       .icon{
         line-height: $unit * 4;
       }

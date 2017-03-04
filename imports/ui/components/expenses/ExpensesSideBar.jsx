@@ -251,21 +251,6 @@ class ExpensesSideBar extends Component {
             flexDirection: 'row'
         };
 
-        const imageStyle = {
-            display: 'flex',
-            width: '22px',
-            height: '22px',
-            flexGrow: 0,
-            marginRight: '8px'
-        };
-
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2,
-            paddingTop: '4px'
-        };
-
         return (
             <div style={containerStyle}>
                 <div className={theme.iconsBox}>
@@ -404,7 +389,7 @@ class ExpensesSideBar extends Component {
                     template={this.categoryItem}
                     required
                     />
-                <Input type='text' label='Description'
+                <Input type='text' label='Description' className={theme.boxShadowNone}
                        name='description'
                        multiline
                        value={this.state.description}
