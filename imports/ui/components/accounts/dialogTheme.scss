@@ -1,0 +1,8 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.dialog{
+  width: $unit * 52.5;
+  border-radius: 0;
+  overflow-y: auto;
+}

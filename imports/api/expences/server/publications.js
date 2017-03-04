@@ -14,7 +14,7 @@ Meteor.publish('expenses', function(limit){
         {
             limit: limit,
             sort: {
-                spentAt: 1
+                spentAt: -1
             }
         });
 });

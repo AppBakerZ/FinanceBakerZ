@@ -1,0 +1,20 @@
+@import "~react-toolbox/lib/globals";
+
+.appBar {
+  background: #fff;
+  overflow: hidden;
+  z-index: 301;
+  &:not(.flat) {
+    z-index: $z-index-highest + 1;
+  }
+  a {
+    img {
+      margin-top: -3px;
+      width: $unit * 8.5;
+      float: left;
+    }
+  }
+  button {
+    color: $color-accent;
+  }
+}

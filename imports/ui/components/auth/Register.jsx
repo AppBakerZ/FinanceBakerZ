@@ -5,6 +5,10 @@ import { IconButton, Input, Button } from 'react-toolbox';
 
 import { Accounts } from 'meteor/accounts-base'
 
+import theme from './theme';
+
+import { Meteor } from 'meteor/meteor'
+
 // App component - represents the whole app
 export default class Register extends Component {
 
@@ -23,6 +27,10 @@ export default class Register extends Component {
         this.setState({[e.target.name]: val});
     }
 
+    onClick (){
+        this.props.history.push('/');
+    }
+
     onSubmit(event){
         event.preventDefault();
 
@@ -37,11 +45,13 @@ export default class Register extends Component {
         const key = Object.keys(selector)[0];
 
         this.props.progressBarUpdate(true);
+        let currency = {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0},
+        emailNotification = true;
 
         Accounts.createUser({
             [key]: selector[key],
             password,
-            profile: {fullName}
+            profile: {fullName, currency, emailNotification }
         }, (err) => {
             if(err){
                 this.props.showSnackbar({
@@ -56,9 +66,13 @@ export default class Register extends Component {
                     barMessage: 'Successfully Registered',
                     barIcon: 'done',
                     barType: 'accept'
-                });
+                }
+
+                );
+                var account = {account: {owner: Meteor.user()._id}};
+                Meteor.call('insertAccountOnSignUp', account);
                 setTimeout(() => {
-                    this.props.history.push('/app/dashboard');
+                    this.props.history.push('/app/settings');
                 }, 1000);
             }
             this.props.progressBarUpdate(false);
@@ -67,7 +81,10 @@ export default class Register extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="register">
+            <form onSubmit={this.onSubmit.bind(this)} className="login register" autoComplete={'off'}>
+                <div className={theme.logoWithText}>
+                    <img src={'../assets/images/logo-withText.png'} alt="Logo With Text" />
+                </div>
                 <Input type='text' label='Full Name'
                        name='fullName'
                        maxLength={ 30 }
@@ -89,7 +106,13 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Button disabled={this.props.loading} icon='person_add' label='Register' raised primary />
+                <div className={theme.buttonGroup}>
+                    <Button type='submit' disabled={this.props.loading} icon='person_add' label='Register' raised primary />
+                </div>
+                <div className={theme.buttonGroup}>
+                    <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='lock_open' label='Login' raised accent />
+                </div>
+
             </form>
         );
     }

@@ -11,7 +11,10 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
 
-export default class ExpensesSideBar extends Component {
+
+import theme from './theme';
+
+class ExpensesSideBar extends Component {
 
     constructor(props) {
         super(props);
@@ -32,9 +35,9 @@ export default class ExpensesSideBar extends Component {
         };
     }
 
-    setCurrentRoute(){
+    setCurrentRoute(value){
         this.setState({
-            isNewRoute: this.props.history.isActive('app/expenses/new')
+            isNewRoute: value
         })
     }
 
@@ -62,6 +65,7 @@ export default class ExpensesSideBar extends Component {
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        category = category && {_id: category};
 
         Meteor.call('expenses.insert', {
             expense: {
@@ -81,6 +85,7 @@ export default class ExpensesSideBar extends Component {
                     barType: 'accept'
                 });
                 this.resetExpense();
+                this.props.closePopup();
             }else{
                 this.setState({
                     active: true,
@@ -98,6 +103,7 @@ export default class ExpensesSideBar extends Component {
         spentAt = new Date(spentAt);
         spentTime = new Date(spentTime);
         spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        category = category && {_id: category};
         Meteor.call('expenses.update', {
             expense: {
                 _id,
@@ -123,6 +129,7 @@ export default class ExpensesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.props.closePopup();
             }
             this.setState({loading: false})
         });
@@ -173,9 +180,10 @@ export default class ExpensesSideBar extends Component {
     componentWillReceiveProps (p){
         p.expense.billUrl = p.expense.billUrl || '';
         p.expense.receivedTime = p.expense.receivedAt;
+        p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
-        this.setCurrentRoute();
-        if(this.state.isNewRoute){
+        this.setCurrentRoute(p.isNewRoute);
+        if(p.isNewRoute){
             this.resetExpense()
         }
     }
@@ -184,11 +192,11 @@ export default class ExpensesSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
-                </div>
+                <Button type='submit' disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
                     type='button'
@@ -202,41 +210,37 @@ export default class ExpensesSideBar extends Component {
     }
 
     accountItem (account) {
-        const containerStyle = {
-            display: 'flex',
-            flexDirection: 'row'
-        };
 
-        const imageStyle = {
-            display: 'flex',
-            width: '32px',
-            height: '32px',
-            flexGrow: 0,
-            marginRight: '8px',
-            backgroundColor: '#ccc'
-        };
+        let parentClass = '';
 
-        const contentStyle = {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 2
-        };
+        if(account.removeRightBorder){
+            parentClass = theme['removeRightBorder']
+        }
+
+        if(account.removeBottomBorder){
+            parentClass = theme['removeBottomBorder']
+        }
 
         return (
-            <div style={containerStyle}>
-                <img src={account.icon} style={imageStyle}/>
-                <div style={contentStyle}>
-                    <strong>{account.name}</strong>
-                    <small>{account.category}</small>
-                </div>
+            <div className={parentClass}>
+                <i className={account.bank}/>
             </div>
         );
     }
 
     accounts(){
-        return this.props.accounts.map((account) => {
+        return this.props.accounts.map((account, index) => {
             account.value = account._id;
-            account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+
+            index++;
+            if(index % 3 == 0){
+                account.removeRightBorder = true
+            }
+            let lastItems = this.props.accounts.length % 3 == 0 ? 3 : this.props.accounts.length % 3;
+            if(index > this.props.accounts.length - lastItems){
+                account.removeBottomBorder = true
+            }
+
             return account;
         })
     }
@@ -264,8 +268,8 @@ export default class ExpensesSideBar extends Component {
 
         return (
             <div style={containerStyle}>
-                <FontIcon value={category.icon} style={imageStyle}/>
-                <div style={contentStyle}>
+                <div className={theme.iconsBox}>
+                    <i className={category.icon}/>
                     <strong>{category.name}</strong>
                 </div>
             </div>
@@ -280,7 +284,7 @@ export default class ExpensesSideBar extends Component {
     }
 
     componentWillMount(){
-         //we create this rule both on client and server
+        //we create this rule both on client and server
         Slingshot.fileRestrictions('imageUploader', {
             allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
             maxSize: 4 * 1024 * 1024 // 4 MB (use null for unlimited).
@@ -349,7 +353,7 @@ export default class ExpensesSideBar extends Component {
                     onClick={this.resetBillUpload.bind(this)}
                     />
                 <img className='expenses-bill' src={this.state.billUrl || this.state.data_uri} />
-                </div>
+            </div>
         }else{
             //Enable upload bill option
             var billUpload = <Input
@@ -373,7 +377,7 @@ export default class ExpensesSideBar extends Component {
                     type={this.state.barType}
                     />
 
-                <Dropdown
+                <Dropdown theme={theme}
                     auto={false}
                     source={this.accounts()}
                     name='account'
@@ -412,14 +416,14 @@ export default class ExpensesSideBar extends Component {
                     name='spentAt'
                     onChange={this.onChange.bind(this)}
                     value={this.state.spentAt}
-                />
+                    />
                 <TimePicker
                     label='Creation time'
                     name='spentTime'
                     onChange={this.onChange.bind(this)}
                     value={this.state.spentTime}
                     format='ampm'
-                />
+                    />
 
                 {billUpload}
                 {uploadedBill}

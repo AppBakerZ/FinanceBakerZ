@@ -8,6 +8,7 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Incomes } from './incomes.js';
+import { Projects } from '../projects/projects.js';
 
 export const insert = new ValidatedMethod({
     name: 'incomes.insert',
@@ -33,11 +34,17 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'income.project': {
-            type: String
+            type: Object,
+            optional: true
+        },
+        'income.project._id': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ income }) {
         income.owner = this.userId;
+        income.project._id && (income.project.name = Projects.findOne(income.project._id).name);
         return Incomes.insert(income);
     }
 });
@@ -69,12 +76,18 @@ export const update = new ValidatedMethod({
             type: String
         },
         'income.project': {
-            type: String
+            type: Object,
+            optional: true
+        },
+        'income.project._id': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ income }) {
         const {_id} = income;
         delete income._id;
+        income.project._id && (income.project.name = Projects.findOne(income.project._id).name);
         return Incomes.update(_id, {$set: income});
     }
 });

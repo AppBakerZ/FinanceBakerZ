@@ -1,0 +1,178 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.inputField{
+  width: 25%;
+  display: inline-block;
+  margin: 0 $unit * 3.5 $unit * 2 0;
+  > div{
+    input{
+      border-bottom: $unit - 0.8 solid rgba(0, 0, 0, 0.12);
+    }
+    label{
+      color: $color-text;
+      font-size: $font-size-small + 0.1;
+    }
+  }
+}
+.inputDropdown{
+  width: 25%;
+  display: inline-block;
+  > div{
+    > div{
+      input{
+        border-bottom: $unit - 0.8 solid rgba(0, 0, 0, 0.12);
+      }
+      label{
+        color: $color-text;
+        font-size: $font-size-small + 0.1;
+      }
+    }
+  }
+  button{
+    float: right;
+    margin-top: - $unit * 5.5;
+  }
+}
+.pageTitle{
+  background: $color-primary;
+  padding: $unit * 2.7 $unit * 4 $unit * 2.3 $unit * 5;
+  h3{
+    font-size: $font-size-big + 0.7;
+    color: $color-primary-dark;
+    letter-spacing: $unit - 0.9;
+    display: inline-block;
+    line-height: $unit * 3;
+  }
+  .button{
+    float: right;
+    font-size: $font-size-big + 0.2;
+    span{
+      line-height: $unit * 3.2;
+    }
+    &:hover{
+      background: none;
+    }
+  }
+}
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+  &.flat:hover {
+    background: none;
+  }
+}
+/////////////////////////// dialog styling start here ///////////////////////////////
+.contentParent{
+  .contentOne{
+    margin-bottom: $unit * 2;
+    > div{
+      span{
+        font-size: $font-size;
+        color: $color-text;
+        line-height: $unit * 2.2;
+      }
+    }
+  }
+  .contentTwo{
+    margin-bottom: $unit * 2;
+    > div{
+      p{
+        display: inline-block;
+        line-height: $unit * 2.6;
+        color: $color-text;
+        font-size: $font-size-big + 0.2;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+        span{
+          color: $color-primary;
+          font-weight: 600;
+          font-size: $font-size-big;
+          text-transform: capitalize;
+          letter-spacing: $unit - 0.9;
+        }
+      }
+    }
+  }
+}
+.buttonBox{
+  text-align: center;
+  button{
+    background: $color-accent;
+    font-size: $font-size;
+    padding: $unit - 0.8 $unit * 2 0 $unit * 2;
+    height: $unit * 3.6;
+    word-spacing: $unit - 0.6;
+    &:first-child{
+      margin-right: $unit * 2;
+    }
+  }
+}
+.title{
+  color: $color-primary;
+  font-size: $font-size-big + 0.7;
+  text-transform: uppercase;
+  letter-spacing: $unit - 0.9;
+}
+.confirmText{
+  margin-bottom: $unit * 2;
+  h3{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: #008142;
+    margin: 0 0 2rem 0;
+  }
+  p{
+    line-height: $unit * 2.6;
+    color: $color-text;
+    font-size: $font-size-big;
+    letter-spacing: $unit - 0.9;
+    text-align: center;
+  }
+}
+.buttonDialog{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 5.9 0;
+    border-radius: $unit - 0.5;
+    &:last-of-type{
+      padding: $unit - 0.6 $unit * 3.8 0;
+      margin-left: $unit * 1.8;
+    }
+  }
+}
+.createProjectForm{
+  label{
+    color: $color-text;
+  }
+}
+.addBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 4.3 0;
+  }
+}
+.buttonArea{
+  text-align: center;
+  button{
+    background: $color-accent;
+    font-size: $font-size;
+    padding: $unit - 0.8 $unit * 4.5 0;
+    height: $unit * 4.6;
+    word-spacing: $unit - 0.6;
+    &:first-child{
+      margin-right: $unit * 1.8;
+      padding: $unit - 0.8 $unit * 6.3 0;
+    }
+  }
+}
+/////////////////////////// dialog styling end here /////////////////////////////////

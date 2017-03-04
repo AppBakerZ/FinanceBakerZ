@@ -7,7 +7,7 @@ import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 
-export default class AccountsSideBar extends Component {
+class AccountsSideBar extends Component {
 
     constructor(props) {
         super(props);
@@ -44,7 +44,7 @@ export default class AccountsSideBar extends Component {
 
     createAccount(){
         const {name, purpose, icon} = this.state;
-        Meteor.call('accounts.insert', {
+            Meteor.call('accounts.insert', {
             account: {
                 name,
                 purpose,
@@ -100,31 +100,35 @@ export default class AccountsSideBar extends Component {
         });
     }
 
-    removeAccount(){
+    removeAccount() {
         const {_id} = this.state;
-        Meteor.call('accounts.remove', {
-            account: {
-                _id
-            }
-        }, (err, response) => {
-            if(err){
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }else{
-                this.props.history.replace('/app/accounts/new');
-                this.setState({
-                    active: true,
-                    barMessage: 'Account deleted successfully',
-                    barIcon: 'done',
-                    barType: 'accept'
-                });
-            }
-        });
-    }
+            Meteor.call('accounts.remove', {
+                account: {
+                    _id
+                }
+            }, (err, response) => {
+                if (err) {
+                    this.setState({
+                        active: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel'
+                    });
+                }
+
+                else {
+                    this.props.history.replace('/app/accounts/new');
+                    this.setState({
+                        active: true,
+                        barMessage: 'Account deleted successfully',
+                        barIcon: 'done',
+                        barType: 'accept'
+                    });
+                }
+            });
+        }
+
+
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
@@ -154,11 +158,11 @@ export default class AccountsSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button icon='add' label='Add Account' raised primary />
-                </div>
+                <Button type='submit' icon='add' label='Add Account' raised primary />
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button icon='mode_edit' label='Update Account' raised primary />
+                <Button type='submit' icon='mode_edit' label='Update Account' raised primary />
                 <Button
                     onClick={this.removeAccount.bind(this)}
                     type='button'
@@ -174,7 +178,6 @@ export default class AccountsSideBar extends Component {
     render() {
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="add-account">
-
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
                 <Snackbar

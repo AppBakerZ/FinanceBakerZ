@@ -2,9 +2,12 @@
   "name": "finance",
   "private": true,
   "scripts": {
-    "start": "meteor --settings settings.json"
+    "start": "export MONGO_URL=mongodb://heroku_xkqbxgwq:13i39o50l8fo8pv9ort7tvt2q5@ds161505.mlab.com:61505/heroku_xkqbxgwq&& meteor --settings settings.json",
+    "start-local": "meteor --settings settings.json",
+    "cordova": "meteor run ios-device --settings settings.json --mobile-server https://financebakerz.herokuapp.com"
   },
   "dependencies": {
+    "babel-runtime": "^6.20.0",
     "bcrypt": "^0.8.7",
     "fibers": "^1.0.14",
     "immutability-helper": "^2.0.0",
@@ -12,18 +15,27 @@
     "moment": "^2.15.1",
     "node-sass": "3.6.0",
     "normalize.css": "^4.2.0",
-    "react": "^15.3.2",
-    "react-addons-css-transition-group": "^15.3.0",
-    "react-addons-pure-render-mixin": "^15.2.1",
-    "react-addons-update": "^15.3.0",
-    "react-dom": "^15.3.2",
+    "numeral": "^2.0.4",
+    "react": "^15.4.1",
+    "react-addons-css-transition-group": "^15.4.1",
+    "react-addons-pure-render-mixin": "^15.4.1",
+    "react-addons-update": "^15.4.1",
+    "react-dom": "^15.4.1",
     "react-router": "^2.8.1",
-    "react-toolbox": "^1.2.1",
+    "react-toolbox": "^1.3.3",
+    "recharts": "^0.19.1",
     "webshot": "^0.18.0"
   },
   "cssModules": {
     "extensions": [
       "scss"
+    ],
+    "globalVariables": [
+      "node_modules/react-toolbox/lib/_colors.scss",
+      {
+        "theme-building": true
+      },
+      "client/toolbox-theme.scss"
     ]
   },
   "devDependencies": {

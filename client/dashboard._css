@@ -1,0 +1,122 @@
+.dashboard-section{
+    margin: 0px 0 20px 0px;
+    width: 100%;
+    overflow: visible;
+}
+.dashboard-section .card-box{
+    padding: 1% 1.8% 1.5% 0.5%;
+    width: 100%;
+    overflow: visible;
+}
+.dashboard-section .card-box .dashboard-card-group{
+    margin: 0;
+    overflow: visible;
+}
+.dashboard-section .card-box .dashboard-card-group .card, .available-card{
+    justify-content: center;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card:first-child{
+    box-shadow: none;
+    overflow: visible;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card:first-child .dashboard-autocomplete
+._node_modules_react_toolbox_lib_autocomplete__theme__values ._node_modules_react_toolbox_lib_chip__theme__deletable{
+    line-height: 2.5rem;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card:first-child .dashboard-autocomplete
+._node_modules_react_toolbox_lib_autocomplete__theme__values ._node_modules_react_toolbox_lib_chip__theme__delete{
+    margin: 0;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card:first-child .dashboard-autocomplete
+._node_modules_react_toolbox_lib_autocomplete__theme__input, .dashboard-section .card-box .dashboard-card-group
+.card:first-child .dashboard-dropdown ._node_modules_react_toolbox_lib_dropdown__theme__field {
+    padding-bottom: 0 !important;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card:first-child .dashboard-autocomplete
+._node_modules_react_toolbox_lib_autocomplete__theme__input label, .dashboard-section .card-box .dashboard-card-group
+.card:first-child .dashboard-dropdown ._node_modules_react_toolbox_lib_dropdown__theme__field label{
+    color: #000 !important;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card .material-icons{
+    margin-left: 0px;
+    font-size: 20px;
+}
+
+.dashboard-section .card-box .dashboard-card-group .card .income-amount{
+    color: #008142;
+}
+.dashboard-section .card-box .dashboard-card-group .card .expenses-amount{
+    color: #c91a1a;
+}
+.available-section{
+    background: url("../assets/images/dollars.png") #008142 no-repeat;
+    background-position: 130% 50%;
+}
+.available-section .card-box, .available-section .card-box .dashboard-card-group,
+.available-section .card-box .dashboard-card-group .card{
+    background: transparent !important;
+}
+.available-section .card-box{
+    color: #fff;
+    padding: 2% 1.8% 2% 0.5% !important;
+    background: rgba(0, 129, 66, 0.85) !important;
+}
+.available-section .card-box .material-icons{
+    font-size: 30px !important;
+}
+.recent-activities-wrapper{
+    width: 100%;
+    position: relative;
+}
+.recent-activities-wrapper .recent-incomes-wrapper,
+.recent-activities-wrapper .recent-expenses-wrapper{
+    margin-bottom: 3%;
+    width: 49%;
+    display: flex;
+    position: relative;
+}
+.recent-activities-wrapper .recent-incomes-wrapper .card,
+.recent-activities-wrapper .recent-expenses-wrapper .card{
+    justify-content: flex-start;
+}
+
+.recent-activities-wrapper .recent-incomes-wrapper h3,
+.recent-activities-wrapper .recent-expenses-wrapper h3,
+.income-overview-wrapper .header{
+    padding: 2% 5%;
+    background: #008142;
+}
+.recent-activities-wrapper .recent-expenses-wrapper h3{
+    background: #deb342;
+}
+.recent-activities-wrapper .recent-incomes-wrapper table,
+.recent-activities-wrapper .recent-expenses-wrapper table{
+    padding:1% 5%;
+}
+.recent-activities-wrapper .recent-incomes-wrapper table img,
+.recent-activities-wrapper .recent-expenses-wrapper table img{
+    vertical-align: middle;
+}
+.recent-activities-wrapper .recent-incomes-wrapper a,
+.recent-activities-wrapper .recent-expenses-wrapper a{
+    width: 100%;
+    position: absolute;
+    top: 105%;
+    color: #000;
+}
+
+.income-overview-wrapper{
+    width: 100%;
+    position: relative;
+}
+.income-overview-wrapper .area-chart{
+    padding:1% 2% 1% 1%;
+    width: 100%;
+    position: relative;
+}

@@ -7,8 +7,12 @@ import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker 
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { Projects } from '../../../api/projects/projects.js';
+import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
-export default class IncomesSideBar extends Component {
+import theme from './theme';
+
+class IncomesSideBar extends Component {
 
     constructor(props) {
         super(props);
@@ -27,9 +31,9 @@ export default class IncomesSideBar extends Component {
         };
     }
 
-    setCurrentRoute(){
+    setCurrentRoute(value){
         this.setState({
-            isNewRoute: this.props.history.isActive('app/incomes/new')
+            isNewRoute: value
         })
     }
 
@@ -57,11 +61,8 @@ export default class IncomesSideBar extends Component {
 
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
-        console.log(receivedAt)
-        console.log(receivedTime)
-        console.log('--------------------')
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        console.log(receivedAt)
+        project = (project && type == "project" && {_id: project}) || {};
 
         Meteor.call('incomes.insert', {
             income: {
@@ -80,6 +81,7 @@ export default class IncomesSideBar extends Component {
                     barType: 'accept'
                 });
                 this.resetIncome();
+                this.props.closePopup();
             }else{
                 this.setState({
                     active: true,
@@ -98,6 +100,7 @@ export default class IncomesSideBar extends Component {
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        project = (project && type == "project" && {_id: project}) || {};
 
         Meteor.call('incomes.update', {
             income: {
@@ -123,6 +126,7 @@ export default class IncomesSideBar extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
+                this.props.closePopup();
             }
             this.setState({loading: false})
         });
@@ -156,6 +160,7 @@ export default class IncomesSideBar extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
+        e.target.name == 'project' && this.setState({['projectName']: e.target.textContent});
     }
 
     handleBarClick (event, instance) {
@@ -172,9 +177,10 @@ export default class IncomesSideBar extends Component {
 
     componentWillReceiveProps (p){
         p.income.receivedTime = p.income.receivedAt;
+        p.income.type == "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
         this.setState(p.income);
-        this.setCurrentRoute();
-        if(this.state.isNewRoute){
+        this.setCurrentRoute(p.isNewRoute);
+        if(p.isNewRoute){
             this.resetIncome()
         }
     }
@@ -183,11 +189,11 @@ export default class IncomesSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button icon='add' label='Add Income' raised primary />
-                </div>
+                <Button type='submit' icon='add' label='Add Income' raised primary />
+            </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button icon='mode_edit' label='Update Income' raised primary />
+                <Button type='submit' icon='mode_edit' label='Update Income' raised primary />
                 <Button
                     onClick={this.removeIncome.bind(this)}
                     type='button'
@@ -223,12 +229,12 @@ export default class IncomesSideBar extends Component {
 
         return (
             <div style={containerStyle}>
-                <img src={account.icon} style={imageStyle}/>
-                <div style={contentStyle}>
-                    <strong>{account.name}</strong>
-                    <small>{account.purpose}</small>
+                <div className={theme.iconsiconBox}>
+                    <i className={account.bank}/>
+                        <strong>{accountHelpers.alterName(account.bank)}</strong>
+                        <small>{account.purpose}</small>
+                    </div>
                 </div>
-            </div>
         );
     }
 
@@ -238,11 +244,25 @@ export default class IncomesSideBar extends Component {
         );
     }
 
+    projectItem (project) {
+        return (
+            <strong>{project.name}</strong>
+        );
+    }
+
     accounts(){
         return this.props.accounts.map((account) => {
             account.value = account._id;
-            account.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+            account.icon = account.bank;
             return account;
+        })
+    }
+
+    projects(){
+        return this.props.projects.map((project) => {
+            project.value = project._id;
+            project.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
+            return project;
         })
     }
 
@@ -309,18 +329,22 @@ export default class IncomesSideBar extends Component {
                 <Dropdown
                     source={this.types()}
                     name='type'
+                    label='Select type'
                     onChange={this.onChange.bind(this)}
                     value={this.state.type}
                     template={this.typeItem}
                     required
                     />
-                <Input type='text' label='Project'
-                       name='project'
-                       maxLength={ 50 }
-                       value={this.state.project}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
+                {this.state.type == 'project' &&
+                <Dropdown
+                    source={this.projects()}
+                    name='project'
+                    onChange={this.onChange.bind(this)}
+                    label='Select project'
+                    value={this.state.project}
+                    template={this.projectItem}
+                    required/>
+                }
                 {this.renderButton()}
             </form>
         );
@@ -336,14 +360,16 @@ IncomesSideBar.propTypes = {
 export default createContainer((props) => {
     const { id } = props.params;
     const incomeHandle = Meteor.subscribe('incomes.single', id);
-    const accountsHandle = Meteor.subscribe('accounts');
     const loading = !incomeHandle.ready();
     const income = Incomes.findOne(id);
     const incomeExists = !loading && !!income;
+    Meteor.subscribe('accounts');
+    Meteor.subscribe('projects.all');
     return {
         loading,
         incomeExists,
         income: incomeExists ? income : {},
-        accounts: Accounts.find({}).fetch()
+        accounts: Accounts.find({}).fetch(),
+        projects: Projects.find({}).fetch()
     };
 }, IncomesSideBar);

@@ -2,77 +2,46 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { Card, CardTitle, Button, FontIcon, Autocomplete, Dropdown } from 'react-toolbox';
+import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import { dateHelpers } from '../../../helpers/dateHelpers.js'
+import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+
+import RecentActivities from './recentActivities/RecentActivities.jsx';
+import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
+import Loader from '../loader/Loader.jsx';
+import Arrow from '../arrow/Arrow.jsx';
+
+import theme from './theme';
+import autocompleteTheme from './autocompleteTheme';
+import cardTheme from './cardTheme';
+import datePickerTheme from './datePickerTheme';
+import dropdownTheme from './dropdownTheme';
+import cardBackgroundTheme from './cardBackgroundTheme';
+import { accountHelpers } from '/imports/helpers/accountHelpers.js';
 
 class DashboardPage extends Component {
 
     constructor(props) {
         super(props);
 
+        let datetime = new Date();
+
         this.state = {
-            index: 0,
-            totalIncomes: 0,
-            totalExpenses: 0,
-            availableBalance: 0,
+            totalIncomes: null,
+            totalExpenses: null,
+            availableBalance: null,
             multiple: [],
-            filterBy: 'month'
+            filterBy: 'range',
+            dateFrom: new Date(moment(datetime).startOf('month').format()),
+            dateTo: datetime
         };
     }
 
-    formatNumber(num){
-        return new Intl.NumberFormat().format(num);
-    }
-
-    filterByDate(filter){
-
-        let date = {};
-        if(filter == 'months'){
-            date.start = moment().subtract(1, 'months').startOf('month').format();
-            date.end = moment().subtract(1, 'months').endOf('month').format();
-        }
-        else{
-            date.start = moment().startOf(filter).format();
-            date.end = moment().endOf(filter).format();
-        }
-      /*  switch (filter){
-            case 'today':
-                date.start = moment().startOf('day').format();
-                date.end = moment().endOf('day').format();
-                break;
-            case 'this_week':
-                date.start = moment().startOf('week').format();
-                date.end = moment().endOf('week').format();
-                break;
-            case 'this_month':
-                date.start = moment().startOf('month').format();
-                date.end = moment().endOf('month').format();
-                break;
-            case 'last_month':
-                date.start = moment().subtract(1, 'months').startOf('month').format();
-                date.end = moment().subtract(1, 'months').endOf('month').format();
-                break;
-            case 'this_year':
-                date.start = moment().startOf('year').format();
-                date.end = moment().endOf('year').format();
-                break;
-        }*/
-        return date
-    }
-
-    toggleSidebar(event){
-        this.props.toggleSidebar(false);
-    }
-
-
-    componentWillReceiveProps (p){
-        this.setDefaultAccounts(p);
-    }
-
-    componentWillMount(){
+    componentDidMount(){
         this.setDefaultAccounts(this.props);
     }
 
@@ -107,8 +76,12 @@ class DashboardPage extends Component {
         });
     }
 
-    getTotalIncomesAndExpenses (accounts, filterBy){
-        let date = this.filterByDate(filterBy || this.state.filterBy);
+    getTotalIncomesAndExpenses (accounts, filterBy, range){
+        let date = dateHelpers.filterByDate(filterBy || this.state.filterBy, range || {}, this);
+        this.setState({
+            totalIncomes: null,
+            totalExpenses: null
+        });
         Meteor.call('statistics.totalIncomesAndExpenses', {accounts, date}, (err, totals) => {
             if(totals){
                 this.setState({
@@ -154,51 +127,56 @@ class DashboardPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        this.getTotalIncomesAndExpenses(this.state.multiple, val);
+        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name == 'filterBy' ? val : null, {[e.target.name]: val});
     }
 
     accounts(){
         let accounts = {};
         this.props.accounts.forEach((account) => {
-            accounts[account._id] = account.name;
+            accounts[account._id] = accountHelpers.alterName(account.bank);
         });
         return accounts;
     }
 
     filters(){
-      return [
-        {
-          name: 'Today',
-          value: 'day'
-        },
-        {
-          name: 'This Week',
-          value: 'week'
-        },
-        {
-          name: 'This Month',
-          value: 'month'
-        },
-        {
-          name: 'Last Month',
-          value: 'months'
-        },
-        {
-          name: 'This Year',
-          value: 'year'
-        }
-      ];
+        return [
+            {
+                name: 'Today',
+                value: 'day'
+            },
+            {
+                name: 'This Week',
+                value: 'week'
+            },
+            {
+                name: 'This Month',
+                value: 'month'
+            },
+            {
+                name: 'Last Month',
+                value: 'months'
+            },
+            {
+                name: 'This Year',
+                value: 'year'
+            },
+            {
+                name: 'Date Range',
+                value: 'range'
+            }
+        ];
     }
-
-
-
 
     generatePdf(report){
 
-    let filterBy = this.state.filterBy,
-        date = this.filterByDate(this.state.filterBy);
+        let params = {
+            multiple : this.state.multiple,
+            filterBy : this.state.filterBy,
+            date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
+            report : report
+        };
 
-    Meteor.call('statistics.generateReport', {report, date, filterBy } , function(err, res){
+        Meteor.call('statistics.generateReport', {params } , function(err, res){
             if (err) {
                 console.error(err);
             } else if (res) {
@@ -207,64 +185,132 @@ class DashboardPage extends Component {
         })
     }
 
+    renderDateRange(){
+        let dropDowns = (
+            <div className={theme.dashboardDropdown}>
+                <DatePicker className='demo' theme={datePickerTheme}
+                            label='Date From'
+                            name='dateFrom'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.dateFrom}
+                    />
+
+                <DatePicker theme={datePickerTheme}
+                            label='Date To'
+                            name='dateTo'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.dateTo}
+                    />
+            </div>
+        );
+        return (
+            this.state.filterBy == 'range' ?  dropDowns : null
+        )
+    }
+    renderTotalIncomes(){
+        return (
+            <div className={theme.incomeBox}>
+                <div className={theme.divTitle}>Your Total Incomes are</div>
+                <div className={theme.title}>
+                    <h2>
+                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                    </h2>
+                    <Arrow primary width='30px' height='35px' />
+                </div>
+                {(!this.state.totalIncomes ||
+                    <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
+                        <Button icon='description' label='Income Report' flat />
+                    </div>
+                )}
+            </div>
+        )
+    }
+    renderTotalExpenses(){
+        return (
+            <div className={theme.expensesBox}>
+                <div className={theme.divTitle}>Your Total Expenses are</div>
+                <div className={theme.title}>
+                    <h2>
+                        {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                    </h2>
+                    <Arrow down danger width='30px' height='35px' />
+                </div>
+                {(!this.state.totalExpenses ||
+                    <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
+                        <Button icon='description' label='Expences Report' flat />
+                    </div>
+                )}
+            </div>
+        )
+    }
+    availableBalance(){
+        return (
+                <div style={{margin: "0 auto"}}>
+                    <div className={theme.availableTitle}> Your Available Balance is</div>
+                    <div className={theme.divTitle}>
+                        <h2 className="available-amount">
+                            {userCurrencyHelpers.loggedUserCurrency() + currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                        </h2>
+                        <Arrow width='48px' height='50px' />
+                    </div>
+                </div>
+        )
+    }
     render() {
         return (
-            <div style={{ flex: 1, padding: '0 1.8rem 1.8rem 0', overflowY: 'auto' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <Autocomplete
-                        className='dashboard-autocomplete'
-                        direction='down'
-                        name='multiple'
-                        onChange={this.handleMultipleChange.bind(this)}
-                        label='Filter By Account'
-                        source={this.accounts()}
-                        value={this.state.multiple}
-                        />
-                    <Card className='dashboard-card'>
-                        <CardTitle
-                            title={'' + this.formatNumber(this.state.availableBalance)}
-                            subtitle='Available Balance'
-                            />
-                    </Card>
-                    <Dropdown
-                        className='dashboard-dropdown'
-                        auto={false}
-                        source={this.filters()}
-                        name='filterBy'
-                        onChange={this.onChange.bind(this)}
-                        label='Filter By'
-                        value={this.state.filterBy}
-                        template={this.filterItem}
-                        required
-                        />
-                      <div className='dashboard-card-group'>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalIncomes)}
-                                subtitle='Total Incomes'
-                                />
-                        </Card>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalExpenses)}
-                                subtitle='Total Expenses'
-                                />
-                        </Card>
-                        <Card className='card'>
-                            <CardTitle
-                                title={'' + this.formatNumber(this.state.totalIncomes  - this.state.totalExpenses)}
-                                subtitle='Remaining Amount'
-                                />
-                        </Card>
-                      </div>
-                        <div className='pdf-generator'>
-                           <div className='report-btn' onClick={this.generatePdf.bind(this, 'incomes')}>
-                               <Button icon='add' label='Income Report' raised primary />
-                           </div>
-                           <div className='report-btn' onClick={this.generatePdf.bind(this, 'expenses')}>
-                                <Button icon='add' label='Expences Report' raised primary />
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+                <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
+                    <div className={theme.dashboardSection}>
+                        <Card className={theme.cardBox}>
+                            <div className='dashboard-card-group'>
+                                <Card theme={cardTheme}>
+                                    <Autocomplete theme={autocompleteTheme}
+                                                  direction='down'
+                                                  name='multiple'
+                                                  onChange={this.handleMultipleChange.bind(this)}
+                                                  label='Filter By Account'
+                                                  source={this.accounts()}
+                                                  value={this.state.multiple}
+                                        />
+
+                                    <Dropdown theme={dropdownTheme}
+                                              auto={false}
+                                              source={this.filters()}
+                                              name='filterBy'
+                                              onChange={this.onChange.bind(this)}
+                                              label='Filter By'
+                                              value={this.state.filterBy}
+                                              template={this.filterItem}
+                                              required
+                                        />
+                                    {this.renderDateRange()}
+                                </Card>
+                                <Card theme={theme}>
+                                    {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
+                                </Card>
+                                <Card theme={theme}>
+                                    {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
+                                </Card>
                             </div>
+                        </Card>
+                    </div>
+                    <div className={theme.bg}>
+                        <div>
+                            <Card className="card-box">
+                                <div className={theme.availableSection}>
+                                    <Card theme={cardBackgroundTheme}>
+                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                    </Card>
+                                </div>
+                            </Card>
                         </div>
+                    </div>
+                    <div className={theme.recentActivitiesWrapper}>
+                        <RecentActivities />
+                    </div>
+                    <div className={theme.incomeOverviewWrapper}>
+                        <Graph />
+                    </div>
                 </div>
             </div>
         );

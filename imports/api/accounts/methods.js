@@ -8,6 +8,10 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Accounts } from './accounts.js';
+import { Categories } from '../categories/categories.js';
+import { Incomes } from '../incomes/incomes.js';
+import { Expenses } from '../expences/expenses.js';
+import { Projects } from '../projects/projects.js';
 
 export const insert = new ValidatedMethod({
     name: 'accounts.insert',
@@ -20,13 +24,14 @@ export const insert = new ValidatedMethod({
         'account': {
             type: Object
         },
-        'account.name': {
+        'account.country': {
             type: String
         },
-        'account.purpose': {
-            type: String
+        'account.number': {
+            type: String,
+            optional: true
         },
-        'account.icon': {
+        'account.bank': {
             type: String
         }
     }).validator(),
@@ -36,9 +41,12 @@ export const insert = new ValidatedMethod({
     }
 });
 
+
+
+
 export const update = new ValidatedMethod({
     name: 'accounts.update',
-    mixins : [LoggedInMixin],
+    mixins: [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
         message: 'You need to be logged in to update account'
@@ -50,13 +58,14 @@ export const update = new ValidatedMethod({
         'account._id': {
             type: String
         },
-        'account.name': {
+        'account.country': {
             type: String
         },
-        'account.purpose': {
-            type: String
+        'account.number': {
+            type: String,
+            optional: true
         },
-        'account.icon': {
+        'account.bank': {
             type: String
         }
     }).validator(),
@@ -66,6 +75,9 @@ export const update = new ValidatedMethod({
         return Accounts.update(_id, {$set: account});
     }
 });
+
+
+
 
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
@@ -84,9 +96,122 @@ export const remove = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         const {_id} = account;
-        return Accounts.remove(_id);
+        if (Accounts.find({owner: Meteor.userId()}).fetch().length > 1) {
+            return Accounts.remove(_id);
+        }
+        else {
+            throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
+        }
     }
 });
+
+
+
+
+export const insertAccountOnSignUp = new ValidatedMethod({
+    name: 'insertAccountOnSignUp',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update account'
+    },
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.owner': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+    }
+});
+
+
+
+export const profileAssets = new ValidatedMethod({
+    name: 'profileAssets',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to insert account,currency and see email notification'
+    },
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.owner': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        if(!Accounts.findOne({owner: account.owner}))
+            Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+
+        if(Meteor.users.findOne( {_id: account.owner, 'profile.currency': { $exists: false } }))
+            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}  }});
+
+        if(Meteor.users.findOne( {_id: account.owner, 'profile.emailNotificaton': { $exists: false } }))
+            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.emailNotification': true}});
+    }
+});
+
+
+
+export const emailNotificaton = new ValidatedMethod({
+    name: 'emailNotificaton',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to see email notification'
+    },
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.owner': {
+            type: String
+        },
+        'account.check2': {
+            type: Boolean
+        }
+    }).validator(),
+    run({ account }) {
+        Meteor.users.update({ _id: account.owner}, { $set: { 'profile.emailNotification': account.check2}});
+
+    }
+});
+
+
+
+export const userRemove = new ValidatedMethod({
+    name: 'userRemove',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove account'
+    },
+    validate: new SimpleSchema({
+        'account': {
+            type: Object
+        },
+        'account.owner': {
+            type: String
+        }
+    }).validator(),
+    run({ account }) {
+        const {owner} = account;
+         Accounts.remove({owner: owner});
+         Categories.remove({owner: owner});
+         Incomes.remove({owner: owner});
+         Expenses.remove({owner: owner});
+         Projects.remove({owner: owner});
+         Meteor.users.remove({_id: owner});
+    }
+});
+
+
 
 // Get list of all method names on Companies
 const ACCOUNTS_METHODS = _.pluck([

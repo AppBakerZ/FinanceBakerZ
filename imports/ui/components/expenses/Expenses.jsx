@@ -13,6 +13,7 @@ import { Categories } from '../../../api/categories/categories.js';
 const RECORDS_PER_PAGE = 8;
 let pageNumber = new ReactiveVar(1);
 
+let heightOfScroll ;
 
 class ExpensesPage extends Component {
 
@@ -31,7 +32,7 @@ class ExpensesPage extends Component {
     handleScroll(event) {
         let infiniteState = event.nativeEvent;
         if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
-          pageNumber.set(pageNumber.get() + 1)
+            pageNumber.set(pageNumber.get() + 1)
         }
     }
 
@@ -46,11 +47,10 @@ class ExpensesPage extends Component {
 
     renderExpense(){
         const { expenses } = this.props;
-    
+
         let groupedExpenses = _.groupBy(expenses, (result) => moment(result['spentAt'], 'DD/MM/YYYY').format("YYYY-MM-DD"));
 
         return _.map(groupedExpenses, (expenses, date) => {
-
             let items = expenses.map((expense) => {
                 return <Link
                     key={expense._id}
@@ -63,13 +63,13 @@ class ExpensesPage extends Component {
                         leftIcon='content_cut'
                         rightIcon='mode_edit'
                         caption={`PKR : ${this.formatNumber(expense.amount)}`}
-                        legend={`CATEGORY : ${this.getCategoryName(expense.category)} - DESCRIPTION: ${expense.description}`}
-                    />
+                        legend={`CATEGORY : ${this.getCategoryName(expense.category.name || expense.category)} - DESCRIPTION: ${expense.description}`}
+                        />
                 </Link>
             });
 
             return (
-                <section>
+                <section key={date}>
                     <ListSubHeader caption={moment(date).format('ll')} />
                     {items}
                 </section>
@@ -79,6 +79,7 @@ class ExpensesPage extends Component {
 
     render() {
         return (
+
             <div style={{ flex: 1, display: 'flex', position: 'relative' }} >
                 <Link
                     to={`/app/expenses/new`}>
@@ -104,7 +105,7 @@ export default createContainer(() => {
     const accountsHandle = Meteor.subscribe('categories');
 
     return {
-        expenses: Expenses.find({}).fetch(),
+        expenses: Expenses.find({}, {sort: { spentAt: -1 }}).fetch(),
         categories: Categories.find({}).fetch()
     };
 }, ExpensesPage);

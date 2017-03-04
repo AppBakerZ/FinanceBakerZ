@@ -1,12 +1,16 @@
-<div class="">
-    <h3 class="text-center">{{heading}}</h3>
+<div class="report">
+    <h3 class="text-center">
+        <span>{{heading}}</span>
+    </h3>
 
     <table class="table table-striped">
         <thead>
         <tr>
             <th>#</th>
-            <th>Account Id</th>
-            <th>{{#if income}}Type{{else}} Category{{/if}}</th>
+            <th>Account</th>
+            <th>{{#if income}} Type {{else}} Category {{/if}}</th>
+            <th>Date</th>
+            <th>{{#if income}} Project {{else}} Description {{/if}}</th>
             <th>Amount</th>
         </tr>
         </thead>
@@ -15,22 +19,30 @@
             {{#each record}}
                 <tr>
                     <th>{{@index}}</th>
-                    <td>{{account}}</td>
+                    <th>{{accountName account}}</th>
                     <th> {{type}}</th>
-                    <td class="text-center">{{amount}}</td>
+                    <th> {{dateFormat receivedAt}}</th>
+                    <th> {{#if project.name}}{{project.name}}{{/if}}</th>
+                    <th>{{amount}}</th>
                 </tr>
             {{/each}}
         {{else}}
             {{#each record}}
                 <tr>
                     <th>{{@index}}</th>
-                    <td>{{account}}</td>
-                    <th>{{category}}</th>
-                    <td class="text-center">{{amount}}</td>
+                    <td>{{accountName account}}</td>
+                    <td>{{categoryName category}}</td>
+                    <td> {{dateFormat spentAt}}</td>
+                    <th> {{description}}</th>
+                    <td>{{amount}}</td>
                 </tr>
             {{/each}}
         {{/if}}
-
+        <tr class="total">
+            <td colspan="4"></td>
+            <td >Total</td>
+            <td>{{#if income}} {{totalIncome}} {{else}} {{totalExpenses}} {{/if}}</td>
+        </tr>
         </tbody>
     </table>
 </div>

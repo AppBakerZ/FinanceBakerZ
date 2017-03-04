@@ -25,10 +25,19 @@ export const insert = new ValidatedMethod({
         },
         'category.icon': {
             type: String
+        },
+        'category.parent': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ category }) {
+        // Set Owner of category
         category.owner = this.userId;
+        // Add as children to parent if parent is set ?
+        if(category.parent)
+            Categories.update({name: category.parent, owner: this.userId}, {$addToSet : {children: category.name}});
+        // Insert as new category
         return Categories.insert(category);
     }
 });
@@ -52,12 +61,44 @@ export const update = new ValidatedMethod({
         },
         'category.icon': {
             type: String
+        },
+        'category.parent': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ category }) {
-        const {_id} = category;
-        delete category._id;
-        return Categories.update(_id, {$set: category});
+        const {_id, name, icon, parent} = category;
+        const oldCategory = Categories.findOne(_id);
+
+        if(oldCategory.parent != parent || oldCategory.name != name){
+            Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
+            Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
+        }
+
+        return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent}});
+    }
+});
+
+export const removeFromParent = new ValidatedMethod({
+    name: 'categories.removeFromParent',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove category'
+    },
+    validate: new SimpleSchema({
+        'category': {
+            type: Object
+        },
+        'category.name': {
+            type: String
+        }
+    }).validator(),
+    run({ category }) {
+        const {name} = category;
+        Categories.update({name: name, owner: this.userId}, {$set: {parent: null}});
+        Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
     }
 });
 
@@ -74,10 +115,22 @@ export const remove = new ValidatedMethod({
         },
         'category._id': {
             type: String
+        },
+        'category.name': {
+            type: String
+        },
+        'category.parent': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ category }) {
-        const {_id} = category;
+        const {_id, parent, name} = category;
+
+        if(parent){
+            Categories.update({name: parent, owner: this.userId}, {$pull: {children: name}});
+        }
+
         return Categories.remove(_id);
     }
 });

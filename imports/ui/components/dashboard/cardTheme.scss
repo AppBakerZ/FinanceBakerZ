@@ -1,0 +1,11 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/card/config";
+
+.card{
+  overflow: visible;
+  &:first-child{
+    box-shadow: 0 0 0 0;
+    border-radius: 0;
+    padding: 0 $unit 0 $unit * 2;
+  }
+}
