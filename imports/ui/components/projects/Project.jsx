@@ -284,10 +284,9 @@ ProjectPage.propTypes = {
 export default createContainer(() => {
     const projectsHandle = Meteor.subscribe('projects', query.get());
     const projectsLoading = !projectsHandle.ready();
-    const projects = Projects.find({}, {fields: {amount: 1, type: 1, project: 1, name: 1, client: 1, status: 1}}).fetch();
+    const projects = Projects.find().fetch();
     const projectsExists = !projectsLoading && !!projects.length;
     return {
-        projects: Projects.find().fetch(),
         projectsLoading,
         projects,
         projectsExists
