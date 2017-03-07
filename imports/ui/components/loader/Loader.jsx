@@ -14,18 +14,22 @@ export default class Loader extends Component {
         });
         return type;
     }
+    getSpinner(){
+        return <div className={`${theme.spinner} ${theme[this.getType()]}`}></div>
+    }
+    getLoader(){
+        return <div className={`${theme.loader} ${theme[this.getType()]}`}>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    }
     render() {
-        return (
-            <div className={`${theme.loader} ${theme[this.getType()]}`}>
-                <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-        );
+        return this.props.spinner ? this.getSpinner() : this.getLoader();
     }
 }

@@ -141,6 +141,7 @@ class ProjectPage extends Component {
     handleScroll(event) {
         let infiniteState = event.nativeEvent;
         if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
+            console.log('handleScroll');
             let copyQuery = query.get();
             copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber + 1);
             query.set(copyQuery);
@@ -219,7 +220,8 @@ class ProjectPage extends Component {
             </div>;
         return (
             <Card theme={tableTheme}>
-                { this.props.projectsExists ? table : something}
+                { this.props.projectsExists ||  projects.length ? table : something}
+                { this.props.projectsLoading ? <Loader primary spinner /> : ''}
             </Card>
         )
     }
@@ -270,7 +272,7 @@ class ProjectPage extends Component {
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.projectsLoading ? <Loader primary /> : this.renderProjectTable()}
+                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}
                     </Card>
                     {this.popupTemplate()}
                 </div>
