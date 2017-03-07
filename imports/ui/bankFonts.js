@@ -157,7 +157,7 @@ export default {
         },
         {
             label: 'MnT Bank',
-            value: 'bank-M-and-T-Bank'
+            value: 'bank-MnT-Bank'
         },
         {
             label: 'Morgan Stanley',
@@ -331,8 +331,12 @@ export default {
         {
             label: 'Saudi Hollandi Bank',
             value: 'bank-Saudi-Hollandi-Bank'
+        },
+        {
+            label: 'Banque Saudi Fransi',
+            value: 'bank-Banque-Saudi-Fransi'
         }
-        ////////// 6 //////////
+        ////////// 7 //////////
     ], ///////// 5 /////////////
     TR: [
         {
@@ -707,7 +711,7 @@ export default {
         },
         {
             label: 'Graubundner Kantonalbank',
-            value: 'bank-Graubundner-Kantonalbank'
+            value: 'bank-Graubündner-Kantonalbank'
         },
         {
             label: 'ICB Banking Group',
@@ -903,12 +907,12 @@ export default {
             value: 'bank-Vietin-Bank'
         },
         {
-            label: 'Vietcombank',
-            value: 'bank-Vietcombank'
+            label: 'Daviviendaa',
+            value: 'bank-Daviviendaa'
         },
         {
-            label: 'Asia Commercial Bank',
-            value: 'bank-Asia-Commercial-Bank'
+            label: ' Siam Commercial Bank',
+            value: 'bank-Siam-Commercial-Bank'
         }
         ////////// 3 //////////
     ], ///////// 19 ////////////
@@ -1227,4 +1231,4 @@ export default {
     ]  ///////// 30 ////////////
 }
 
-////////////// Total 284 icons /////////////////////////////
+////////////// Total 285 icons /////////////////////////////
