@@ -359,8 +359,6 @@ class TransactionPage extends Component {
             pageNumber = pageNumber + 1;
             copyQuery.limit  = RECORDS_PER_PAGE * pageNumber;
             query.set(copyQuery);
-            let $container = $(".container");
-            $container.animate({ scrollTop: $container[0].scrollHeight});
         }
     }
 
