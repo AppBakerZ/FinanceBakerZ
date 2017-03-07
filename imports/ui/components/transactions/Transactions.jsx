@@ -527,7 +527,7 @@ class TransactionPage extends Component {
         return (
             <Card theme={tableTheme}>
                 {this.props.transactionsExists ||  data.length ? table : something}
-                { this.props.transactionsLoading ? <Loader primary spinner /> : ''}
+                { this.props.transactionsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
             </Card>
         )
     }

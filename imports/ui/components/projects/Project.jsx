@@ -221,7 +221,7 @@ class ProjectPage extends Component {
         return (
             <Card theme={tableTheme}>
                 { this.props.projectsExists ||  projects.length ? table : something}
-                { this.props.projectsLoading ? <Loader primary spinner /> : ''}
+                { this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
             </Card>
         )
     }
