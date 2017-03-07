@@ -526,7 +526,8 @@ class TransactionPage extends Component {
                 </div>;
         return (
             <Card theme={tableTheme}>
-                {this.props.transactionsExists ? table : something}
+                {this.props.transactionsExists ||  data.length ? table : something}
+                { this.props.transactionsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
             </Card>
         )
     }
@@ -594,7 +595,7 @@ class TransactionPage extends Component {
                         </div>
                     </div>
                     <Card theme={tableTheme}>
-                        { this.props.transactionsLoading ? <Loader primary /> :this.renderProjectTable()}
+                        { this.props.transactionsLoading && this.props.transactions.length < RECORDS_PER_PAGE ? <Loader primary /> :this.renderProjectTable()}
                     </Card>
                     <Snackbar
                         action='Dismiss'
