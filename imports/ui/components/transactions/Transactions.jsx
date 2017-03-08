@@ -631,7 +631,7 @@ export default createContainer(() => {
     incomes = Incomes.find().fetch();
     return {
         transactionsLoading,
-        transactions,
+       // transactions,
         transactionsExists,
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
         accounts: Accounts.find({}).fetch(),
