@@ -6,7 +6,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
-
+import { Accounts } from '../../api/accounts/accounts.js';
 import { Categories } from './categories.js';
 
 export const insert = new ValidatedMethod({
@@ -101,6 +101,35 @@ export const removeFromParent = new ValidatedMethod({
         Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
     }
 });
+
+
+
+export const removeDefaultFromParent = new ValidatedMethod({
+    name: 'categories.removeDefaultFromParent',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to remove category'
+    },
+    validate: new SimpleSchema({
+        'category': {
+            type: Object
+        },
+        'category.name': {
+            type: String
+        }
+    }).validator(),
+    run({ category }) {
+        const {name} = category;
+        var parent = Categories.findOne({name: name, owner: {$exists: false}}), children = Categories.find({parent: name, owner: {$exists: false}}).fetch(), categoryIds = _.pluck(children, "_id");
+        categoryIds.push(parent._id);
+
+        Meteor.users.update({ _id: Meteor.user()._id }, { $addToSet: {excluded_categories: { $each: categoryIds } }});
+
+       }
+});
+
+
 
 export const remove = new ValidatedMethod({
     name: 'categories.remove',

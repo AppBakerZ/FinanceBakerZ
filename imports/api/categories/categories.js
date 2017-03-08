@@ -36,7 +36,8 @@ Categories.schema = new SimpleSchema({
     },
     owner: {
         type: String,
-        label: 'Owner of category'
+        label: 'Owner of category',
+        optional: true
     },
     createdAt: {
         type: Date,
