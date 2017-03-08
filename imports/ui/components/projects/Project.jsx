@@ -203,14 +203,14 @@ class ProjectPage extends Component {
             amount: {type: Number, title: 'Amount'},
             status: {type: String, title: 'Status'}
         };
-       const table = <Table className={theme.table} theme={tableTheme}
+        const table = <Table className={theme.table} theme={tableTheme}
                             heading={false}
                             model={projectModel}
                             onRowClick={this.onRowClick.bind(this)}
                             selectable={false}
                             source={projects}
            />;
-      const something =
+        const something =
             <div className={theme.projectNothing}>
                 <span className={theme.errorShow}>you do not have any projects</span>
                 <div className={theme.addProjectBtn}>
@@ -218,12 +218,12 @@ class ProjectPage extends Component {
                 </div>
                 <span className={theme.errorShow}>add some to show</span>
             </div>;
-        return (
-            <Card theme={tableTheme}>
-                { this.props.projectsExists ||  projects.length ? table : something}
-                { this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
-            </Card>
-        )
+            return (
+                <Card theme={tableTheme}>
+                    { this.props.projectsExists ||  projects.length ? table : something}
+                    { this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
+                </Card>
+            )
     }
 
     render() {

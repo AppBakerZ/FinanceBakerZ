@@ -166,9 +166,10 @@ class TransactionPage extends Component {
     }
 
     popupTemplate(){
+        console.log("this.state.model............", this.state.model);
         return(
             <Dialog theme={dialogTheme}
-                className='dialog-box tiny-scroll'
+                className={this.state.model == 'Expense' ? theme.expensePopup : ''}
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
