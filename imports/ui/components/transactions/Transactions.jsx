@@ -263,6 +263,9 @@ class TransactionPage extends Component {
                         <Button label='Delete Transaction' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
                     </div>
                 </div>
+
+                <div className={theme.imageBox} style={{backgroundImage: `url(${selectedProject.billUrl})`}}></div>
+
             </div>
         )
     }
