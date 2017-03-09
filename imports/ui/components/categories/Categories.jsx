@@ -66,6 +66,9 @@ class CategoriesPage extends Component {
         }
     }
     openPopup (action, category, e) {
+        console.log("category**********");
+        console.log(category);
+
         if(e){
             e.stopPropagation();
             e.preventDefault();
@@ -75,6 +78,8 @@ class CategoriesPage extends Component {
             action,
             selectedCategory: category || null
         });
+        console.log("this.state.selectedCategory********");
+        console.log(this.state.selectedCategory);
     }
     closePopup () {
         this.setState({
@@ -152,7 +157,7 @@ class CategoriesPage extends Component {
     removeDefaultCategory(){
         //e.stopPropagation();
         //e.preventDefault();
-        Meteor.call('categories.removeDefaultFromParent', {
+        Meteor.call('categories.removeDefault', {
             category: {
                 name: this.state.selectedCategory.name
             }
@@ -172,7 +177,15 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, parent){
         return children.map((name) => {
+            //console.log("this.props.children***********");
+            //console.log(this.props.children);
             const category = _.findWhere(this.props.children, {name, parent});
+            console.log(name);
+            console.log(parent);
+
+            console.log("category******");
+            console.log(category);
+
             if (!category) return false;
             return <span key={name}>
                     <div onClick={this.openPopup.bind(this, 'edit', category)}>

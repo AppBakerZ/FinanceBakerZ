@@ -104,8 +104,8 @@ export const removeFromParent = new ValidatedMethod({
 
 
 
-export const removeDefaultFromParent = new ValidatedMethod({
-    name: 'categories.removeDefaultFromParent',
+export const removeDefaultCategories = new ValidatedMethod({
+    name: 'categories.removeDefault',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
@@ -121,11 +121,14 @@ export const removeDefaultFromParent = new ValidatedMethod({
     }).validator(),
     run({ category }) {
         const {name} = category;
-        var parent = Categories.findOne({name: name, owner: {$exists: false}}), children = Categories.find({parent: name, owner: {$exists: false}}).fetch(), categoryIds = _.pluck(children, "_id");
+
+        let parent = Categories.findOne({name: name, owner: {$exists: false}}),
+            children = Categories.find({parent: name, owner: {$exists: false}}).fetch(),
+            categoryIds = _.pluck(children, "_id");
+
         categoryIds.push(parent._id);
 
-        Meteor.users.update({ _id: Meteor.user()._id }, { $addToSet: {excluded_categories: { $each: categoryIds } }});
-
+        Meteor.users.update({ _id: this.userId }, { $addToSet: {excluded_categories: { $each: categoryIds } }});
        }
 });
 
