@@ -75,7 +75,7 @@ export default class Form extends Component {
                     barType: 'cancel'
                 });
             }
-            this.setState({loading: false})
+            this.setState({loading: false});
         });
     }
 

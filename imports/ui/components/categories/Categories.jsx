@@ -177,15 +177,7 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, parent){
         return children.map((name) => {
-            //console.log("this.props.children***********");
-            //console.log(this.props.children);
             const category = _.findWhere(this.props.children, {name, parent});
-            console.log(name);
-            console.log(parent);
-
-            console.log("category******");
-            console.log(category);
-
             if (!category) return false;
             return <span key={name}>
                     <div onClick={this.openPopup.bind(this, 'edit', category)}>
