@@ -268,26 +268,8 @@
 .expensePopup{
   width: $unit * 100 !important;
   form{
-    > div{
-      width: 51%;
-      float: left;
-      &:nth-child(8){
-        width: 48%;
-        float: right;
-        position: absolute;
-        right: 0;
-        top: 11.6%;
-        img{
-          position: absolute;
-          top: $unit * 4.5;
-          height: 70vh;
-        }
-      }
-      &:last-of-type{
-        width: 51%;
-        float: left;
-      }
-    }
+    width: 50%;
+    display: inline-block;
   }
 }
 

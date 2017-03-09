@@ -347,74 +347,79 @@ class ExpensesSideBar extends Component {
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
+            <div>
+                <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
 
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                    <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.active}
-                    icon={this.state.barIcon}
-                    label={this.state.barMessage}
-                    timeout={2000}
-                    onClick={this.handleBarClick.bind(this)}
-                    onTimeout={this.handleBarTimeout.bind(this)}
-                    type={this.state.barType}
-                    />
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.active}
+                        icon={this.state.barIcon}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.handleBarClick.bind(this)}
+                        onTimeout={this.handleBarTimeout.bind(this)}
+                        type={this.state.barType}
+                        />
 
-                <Dropdown theme={theme}
-                    auto={false}
-                    source={this.accounts()}
-                    name='account'
-                    onChange={this.onChange.bind(this)}
-                    label='Select your account'
-                    value={this.state.account}
-                    template={this.accountItem}
-                    required
-                    />
+                    <Dropdown theme={theme}
+                        auto={false}
+                        source={this.accounts()}
+                        name='account'
+                        onChange={this.onChange.bind(this)}
+                        label='Select your account'
+                        value={this.state.account}
+                        template={this.accountItem}
+                        required
+                        />
 
-                <Input type='number' label='Amount'
-                       name='amount'
-                       value={this.state.amount}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <Dropdown
-                    auto={false}
-                    source={this.categories()}
-                    name='category'
-                    onChange={this.onChange.bind(this)}
-                    label='Select your category'
-                    value={this.state.category}
-                    template={this.categoryItem}
-                    required
-                    />
-                <Input type='text' label='Description' className={theme.boxShadowNone}
-                       name='description'
-                       multiline
-                       value={this.state.description}
-                       onChange={this.onChange.bind(this)}
-                       required
-                    />
-                <DatePicker
-                    label='Creation Date'
-                    name='spentAt'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.spentAt}
-                    />
-                <TimePicker
-                    label='Creation time'
-                    name='spentTime'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.spentTime}
-                    format='ampm'
-                    />
+                    <Input type='number' label='Amount'
+                           name='amount'
+                           value={this.state.amount}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    <Dropdown
+                        auto={false}
+                        source={this.categories()}
+                        name='category'
+                        onChange={this.onChange.bind(this)}
+                        label='Select your category'
+                        value={this.state.category}
+                        template={this.categoryItem}
+                        required
+                        />
+                    <Input type='text' label='Description' className={theme.boxShadowNone}
+                           name='description'
+                           multiline
+                           value={this.state.description}
+                           onChange={this.onChange.bind(this)}
+                           required
+                        />
+                    <DatePicker
+                        label='Creation Date'
+                        name='spentAt'
+                        onChange={this.onChange.bind(this)}
+                        value={this.state.spentAt}
+                        />
+                    <TimePicker
+                        label='Creation time'
+                        name='spentTime'
+                        onChange={this.onChange.bind(this)}
+                        value={this.state.spentTime}
+                        format='ampm'
+                        />
 
-                {billUpload}
-                {uploadedBill}
+                    {billUpload}
 
-                {this.renderButton()}
-            </form>
+
+                    {this.renderButton()}
+                </form>
+                <div className={theme.uploadImage}>
+                    {uploadedBill}
+                </div>
+            </div>
         );
     }
 }
