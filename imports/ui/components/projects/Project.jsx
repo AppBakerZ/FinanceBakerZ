@@ -141,7 +141,6 @@ class ProjectPage extends Component {
     handleScroll(event) {
         let infiniteState = event.nativeEvent;
         if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
-            console.log('handleScroll');
             let copyQuery = query.get();
             copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber + 1);
             query.set(copyQuery);
@@ -210,7 +209,7 @@ class ProjectPage extends Component {
                             selectable={false}
                             source={projects}
            />;
-      const something =
+      const addProject =
             <div className={theme.projectNothing}>
                 <span className={theme.errorShow}>you do not have any projects</span>
                 <div className={theme.addProjectBtn}>
@@ -220,8 +219,7 @@ class ProjectPage extends Component {
             </div>;
         return (
             <Card theme={tableTheme}>
-                { this.props.projectsExists ||  projects.length ? table : something}
-                { this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
+                { this.props.projectsExists ? table : addProject}
             </Card>
         )
     }
@@ -271,9 +269,7 @@ class ProjectPage extends Component {
                             theme={theme}
                             />
                     </div>
-                    <Card theme={tableTheme}>
-                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}
-                    </Card>
+                    {this.props.projectsLoading ? <Loader accent /> : this.renderProjectTable()}
                     {this.popupTemplate()}
                 </div>
             </div>
