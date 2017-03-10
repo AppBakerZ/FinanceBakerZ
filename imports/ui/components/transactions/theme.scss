@@ -166,8 +166,6 @@
 .contentParent{
   .contentOne{
     margin-bottom: $unit * 2.5;
-    width: 51%;
-    display: inline-block;
     p{
       display: inline-block;
       line-height: $unit * 2.6;
@@ -186,8 +184,6 @@
   }
   .contentTwo{
     margin-bottom: $unit * 2.5;
-    width: 51%;
-    display: inline-block;
     p{
       display: inline-block;
       line-height: $unit * 2.6;
@@ -204,19 +200,7 @@
       }
     }
   }
-  .imageBox{
-    width: 48%;
-    float: right;
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 519px;
-    background-size: cover;
-    background-position: 100%;
-  }
   .contentThree{
-    width: 51%;
-    display: inline-block;
     button{
       background: $color-accent;
       font-size: $font-size;
@@ -251,8 +235,6 @@
 }
 .firstRow{
   margin-bottom: $unit * 2.5;
-  width: 51%;
-  display: inline-block;
   span{
     font-size: $font-size;
     color: $color-text;
@@ -288,6 +270,36 @@
   form{
     width: 50%;
     display: inline-block;
+  }
+  h4{
+    width: 51%;
+    display: inline-block;
+  }
+  .firstRow{
+    width: 51%;
+    display: inline-block;
+  }
+  .contentThree {
+    width: 51%;
+    display: inline-block;
+  }
+  .contentTwo {
+    width: 51%;
+    display: inline-block;
+  }
+  .contentOne {
+    width: 51%;
+    display: inline-block;
+  }
+  .imageBox{
+    width: 48%;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 519px;
+    background-size: cover;
+    background-position: 100%;
   }
 }
 
