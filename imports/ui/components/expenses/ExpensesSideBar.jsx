@@ -330,14 +330,13 @@ class ExpensesSideBar extends Component {
     render() {
         //Show bill if added
         if(this.state.billUrl || this.state.data_uri){
-            var uploadedBill = <div className='bill-group'>
+            var uploadedBill = <div className={theme.backgroundUpload} style={{backgroundImage: `url(${this.state.billUrl || this.state.data_uri})`}}>
                 <Button
                     className='bill-change-button'
                     label='Change Bill'
                     type='button'
                     onClick={this.resetBillUpload.bind(this)}
                     />
-                <img className='expenses-bill' src={this.state.billUrl || this.state.data_uri} />
             </div>
         }else{
             //Enable upload bill option

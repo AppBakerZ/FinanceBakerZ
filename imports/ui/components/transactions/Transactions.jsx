@@ -162,14 +162,14 @@ class TransactionPage extends Component {
     }
 
     closePopup () {
-        this.setState({openDialog:false, updateForm : false});
+        this.setState({openDialog:false, updateForm : false, selectedProject: null});
     }
 
     popupTemplate(){
         console.log("this.state.model............", this.state.model);
         return(
             <Dialog theme={dialogTheme}
-                className={this.state.model == 'Expense' ? theme.expensePopup : ''}
+                className={this.state.model == 'Expense' && (this.state.selectedProject && this.state.selectedProject.billUrl) ? theme.expensePopup : ''}
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}

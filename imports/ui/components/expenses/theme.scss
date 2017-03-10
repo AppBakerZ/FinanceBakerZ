@@ -57,9 +57,14 @@
   text-align: center;
 }
 .uploadImage{
-  width: 48%;
-  float: right;
-  img{
-    height: 60vh;
+  .backgroundUpload{
+    width: 48%;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 610px;
+    background-size: cover;
+    background-position: 95%;
   }
 }
