@@ -307,8 +307,10 @@ class ExpensesSideBar extends Component {
             };
 
             let uploader = new Slingshot.Upload('imageUploader', metaContext);
+            this.props.handler(true);
             uploader.send(e.target.files[0],  (error, downloadUrl) => { // you can use refs if you like
                 if (error) {
+                    this.props.handler(false);
                     // Log service detailed response
                     console.error('Error uploading', uploader.xhr.response);
                     alert (error); // you may want to fancy this up when you're ready instead of a popup.

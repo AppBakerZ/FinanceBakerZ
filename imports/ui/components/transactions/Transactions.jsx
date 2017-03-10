@@ -45,7 +45,8 @@ class TransactionPage extends Component {
             filterByCategory:'',
             type: this.props.routes[2] ? this.props.routes[2].path : '',
             openDialog: false,
-            barActive : false
+            barActive : false,
+            handler: this.handler.bind(this)
         };
 
         if(this.props.routes[3]) {
@@ -62,6 +63,12 @@ class TransactionPage extends Component {
         copyQuery['dateFilter'] = '';
         copyQuery['type'] = this.props.routes[2] ? this.props.routes[2].path : '';
         query.set(copyQuery);
+    }
+
+    handler(option){
+        //e.preventDefault();
+        console.log("handler----------------", option);
+        this.setState({setImage: option})
     }
 
     /*************** Filter by accounts ***************/
@@ -162,14 +169,14 @@ class TransactionPage extends Component {
     }
 
     closePopup () {
-        this.setState({openDialog:false, updateForm : false, selectedProject: null});
+        this.setState({setImage: false, openDialog:false, updateForm : false, selectedProject: null});
     }
 
     popupTemplate(){
         console.log("this.state.model............", this.state.model);
         return(
             <Dialog theme={dialogTheme}
-                className={this.state.model == 'Expense' && (this.state.selectedProject && this.state.selectedProject.billUrl) ? theme.expensePopup : ''}
+                className={this.state.setImage ? theme.expensePopup :this.state.model == 'Expense' && (this.state.selectedProject && this.state.selectedProject.billUrl) ? theme.expensePopup : ''}
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
@@ -286,10 +293,10 @@ class TransactionPage extends Component {
 
         return(
             <div>
-                <h4>{(updateForm ? 'Update ' : 'Add New ') + model}</h4>
+                <h4 className={!updateForm && theme.addNew}>{(updateForm ? 'Update ' : 'Add New ') + model}</h4>
                 {model == 'Income' || transaction && transaction.receivedAt ?
                     <IncomesSideBar params={transaction ? {id: transaction._id}: ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/> :
-                    <ExpensesSideBar params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
+                    <ExpensesSideBar handler={this.state.handler} params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
             </div>
         )
     }
