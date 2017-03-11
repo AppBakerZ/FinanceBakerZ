@@ -7,6 +7,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
+import { Accounts as MeteorAccounts} from 'meteor/accounts-base'
 import { Accounts } from './accounts.js';
 import { Categories } from '../categories/categories.js';
 import { Incomes } from '../incomes/incomes.js';
@@ -108,23 +109,46 @@ export const remove = new ValidatedMethod({
 
 
 
-export const insertAccountOnSignUp = new ValidatedMethod({
-    name: 'insertAccountOnSignUp',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to update account'
-    },
+export const registerUser = new ValidatedMethod({
+    name: 'registerUser',
     validate: new SimpleSchema({
         'account': {
             type: Object
         },
-        'account.owner': {
+        'account.password': {
             type: String
+        },
+        'account.fullName': {
+            type: String
+        },
+        'account.selector': {
+            type: Object
+        },
+        'account.selector.username': {
+            type: String,
+            optional: true
+        },
+        'account.selector.email': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ account }) {
-        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+        const {selector, password, fullName} = account;
+        let currency = {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0};
+        emailNotification = true;
+        const key = Object.keys(selector)[0];
+        try {
+           let userId = MeteorAccounts.createUser({
+                [key]: selector[key],
+                password,
+                profile: {fullName, currency, emailNotification}
+            });
+            Accounts.insert({owner: userId, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc'});
+        }
+        catch(e){
+            throw e;
+        }
     }
 });
 
