@@ -88,8 +88,8 @@ export default {
             label: 'United Bank',
             value: 'bank-United-Bank'
         }
-        ////////// 22 //////////
-    ], ///////// 1 /////////////
+        ////////// Total Banks 22 //////////
+    ], ///////// Country Number 1 /////////////
     US: [
         {
             label: 'Payment Payoneer',
@@ -211,8 +211,8 @@ export default {
             label: 'A and T Bank',
             value: 'bank-AnT-Bank'
         }
-        ////////// 30 //////////
-    ], ///////// 2 /////////////
+        ////////// Total Banks 30 //////////
+    ], ///////// Country Number 2 /////////////
     AE: [
         {
             label: 'Abu Dhabi Commercial Bank',
@@ -278,8 +278,8 @@ export default {
             label: 'Emirates Investment Bank',
             value: 'bank-Emirates-Investment-Bank'
         }
-        ////////// 16 //////////
-    ], ///////// 3 /////////////
+        ////////// Total Banks 16 //////////
+    ], ///////// Country Number 3 /////////////
     QA: [
         {
             label: 'Ahli Bank',
@@ -305,8 +305,8 @@ export default {
             label: 'Qatar National Bank',
             value: 'bank-Qatar-National-Bank'
         }
-        ////////// 6 //////////
-    ], ///////// 4 /////////////
+        ////////// Total Banks 6 //////////
+    ], ///////// Country Number 4 /////////////
     SA: [
         {
             label: 'Alinma Bank',
@@ -336,8 +336,8 @@ export default {
             label: 'Banque Saudi Fransi',
             value: 'bank-Banque-Saudi-Fransi'
         }
-        ////////// 7 //////////
-    ], ///////// 5 /////////////
+        ////////// Total Banks 7 //////////
+    ], ///////// Country Number 5 /////////////
     TR: [
         {
             label: 'Adabank',
@@ -443,8 +443,8 @@ export default {
             label: 'AnT Bank',
             value: 'bank-AnT-Bank'
         }
-        ////////// 26 //////////
-    ], ///////// 6 /////////////
+        ////////// Total Banks 26 //////////
+    ], ///////// Country Number 6 /////////////
     GB: [
         {
             label: 'HSBC Bank',
@@ -462,8 +462,8 @@ export default {
             label: 'Barclays',
             value: 'bank-Barclays'
         }
-        ////////// 4 //////////
-    ], ///////// 7 /////////////
+        ////////// Total Banks 4 //////////
+    ], ///////// Country Number 7 /////////////
     MY: [
         {
             label: 'Ambank',
@@ -497,8 +497,8 @@ export default {
             label: 'United Overseas Bank',
             value: 'bank-United-Overseas-Bank'
         }
-        ////////// 8 //////////
-    ], ///////// 8 /////////////
+        ////////// Total Banks 8 //////////
+    ], ///////// Country Number 8 /////////////
     CN: [
         {
             label: 'Agricultural Development Bank of China',
@@ -556,8 +556,8 @@ export default {
             label: 'Shanghai Pudong Development Bank',
             value: 'bank-Shanghai-Pudong-Development-Bank'
         }
-        ////////// 14 //////////
-    ], ///////// 9 /////////////
+        ////////// Total Banks 14 //////////
+    ], ///////// Country Number 9 /////////////
     CA: [
         {
             label: 'Alterna Savings',
@@ -607,8 +607,8 @@ export default {
             label: 'Dominion Bank',
             value: 'bank-Dominion-Bank'
         }
-        ////////// 12 //////////
-    ], ///////// 10 ////////////
+        ////////// Total Banks 12 //////////
+    ], ///////// Country Number 10 ////////////
     AU: [
         {
             label: 'AMP Limited',
@@ -698,8 +698,8 @@ export default {
             label: 'Westpac',
             value: 'bank-Westpac'
         }
-        ////////// 22 //////////
-    ], ///////// 11 ////////////
+        ////////// Total Banks 22 //////////
+    ], ///////// Country Number 11 ////////////
     CH: [
         {
             label: 'Alternative Bank Schweiz',
@@ -733,8 +733,8 @@ export default {
             label: 'WIR Bank',
             value: 'bank-WIR-Bank'
         }
-        ////////// 8 //////////
-    ], ///////// 12 ////////////
+        ////////// Total Banks 8 //////////
+    ], ///////// Country Number 12 ////////////
     KW: [
         {
             label: 'Gulf Bank of Kuwait',
@@ -744,8 +744,8 @@ export default {
             label: 'National Bank of Kuwait',
             value: 'bank-National-Bank-of-Kuwait'
         }
-        ////////// 2 //////////
-    ], ///////// 13 ////////////
+        ////////// Total Banks 2 //////////
+    ], ///////// Country Number 13 ////////////
     LK: [
         {
             label: 'Central Bank of Srilanka',
@@ -783,8 +783,8 @@ export default {
             label: 'Seylan Bank',
             value: 'bank-Seylan-Bank'
         }
-        ////////// 9 //////////
-    ], ///////// 14 ////////////
+        ////////// Total Banks 9 //////////
+    ], ///////// Country Number 14 ////////////
     IN: [
         {
             label: 'State Bank of India',
@@ -818,8 +818,8 @@ export default {
             label: 'UCO Bank',
             value: 'bank-UCO-Bank'
         }
-        ////////// 8 //////////
-    ], ///////// 15 ////////////
+        ////////// Total Banks 8 //////////
+    ], ///////// Country Number 15 ////////////
     SG: [
         {
             label: 'Banks of Singapore',
@@ -841,8 +841,8 @@ export default {
             label: 'OCBC Bank',
             value: 'bank-OCBC-Bank'
         }
-        ////////// 5 //////////
-    ], ///////// 16 ////////////
+        ////////// Total Banks 5 //////////
+    ], ///////// Country Number 16 ////////////
     JO: [
         {
             label: 'Bank of Jordan',
@@ -864,8 +864,8 @@ export default {
             label: 'Bank Audi',
             value: 'bank-Bank-Audi'
         }
-        ////////// 5 //////////
-    ], ///////// 17 ////////////
+        ////////// Total Banks 5 //////////
+    ], ///////// Country Number 17 ////////////
     BH: [
         {
             label: 'Bank of Bahrain and Kuwait',
@@ -899,8 +899,8 @@ export default {
             label: 'HBL',
             value: 'bank-HBL'
         }
-        ////////// 8 //////////
-    ], ///////// 18 ////////////
+        ////////// Total Banks 8 //////////
+    ], ///////// Country Number 18 ////////////
     VN: [
         {
             label: 'Vietin Bank',
@@ -914,8 +914,8 @@ export default {
             label: ' Siam Commercial Bank',
             value: 'bank-Siam-Commercial-Bank'
         }
-        ////////// 3 //////////
-    ], ///////// 19 ////////////
+        ////////// Total Banks 3 //////////
+    ], ///////// Country Number 19 ////////////
     TH: [
         {
             label: 'Bankok Bank',
@@ -945,8 +945,8 @@ export default {
             label: 'Tisco Bank',
             value: 'bank-Tisco-Bank'
         }
-        ////////// 7 //////////
-    ], ///////// 20 ////////////
+        ////////// Total Banks 7 //////////
+    ], ///////// Country Number 20 ////////////
     DE: [
         {
             label: 'Deutsche Bank',
@@ -992,8 +992,8 @@ export default {
             label: 'Wirecard',
             value: 'bank-Wirecard'
         }
-        ////////// 11 //////////
-    ], ///////// 21 ////////////
+        ////////// Total Banks 11 //////////
+    ], ///////// Country Number 21 ////////////
     IT: [
         {
             label: 'Unicredit',
@@ -1023,8 +1023,8 @@ export default {
             label: 'Banca Carige',
             value: 'bank-Banca-Carige'
         }
-        ////////// 7 //////////
-    ], ///////// 22 ////////////
+        ////////// Total Banks 7 //////////
+    ], ///////// Country Number 22 ////////////
     GR: [
         {
             label: 'Alpha Bank',
@@ -1046,8 +1046,8 @@ export default {
             label: 'Bank of Greece',
             value: 'bank-Bank-of-Greece'
         }
-        ////////// 5 //////////
-    ], ///////// 23 ////////////
+        ////////// Total Banks 5 //////////
+    ], ///////// Country Number 23 ////////////
     DK: [
         {
             label: 'Danske Bank',
@@ -1077,8 +1077,8 @@ export default {
             label: 'Alm Brand',
             value: 'bank-Alm-Brand'
         }
-        ////////// 7 //////////
-    ], ///////// 24 ////////////
+        ////////// Total Banks 7 //////////
+    ], ///////// Country Number 24 ////////////
     IE: [
         {
             label: 'Allied Irish Banks',
@@ -1096,8 +1096,8 @@ export default {
             label: 'Anglo Irish Bank',
             value: 'bank-Anglo-Irish-Bank'
         }
-        ////////// 4 //////////
-    ], ///////// 25 ////////////
+        ////////// Total Banks 4 //////////
+    ], ///////// Country Number 25 ////////////
     NO: [
         {
             label: 'Bank Norwegian',
@@ -1123,8 +1123,8 @@ export default {
             label: 'Citi Bank',
             value: 'bank-Citi-Bank'
         }
-        ////////// 6 //////////
-    ], ///////// 26 ////////////
+        ////////// Total Banks 6 //////////
+    ], ///////// Country Number 26 ////////////
     BR: [
         {
             label: 'Itau',
@@ -1154,8 +1154,8 @@ export default {
             label: 'Caixa',
             value: 'bank-Caixa'
         }
-        ////////// 7 //////////
-    ], ///////// 27 ////////////
+        ////////// Total Banks 7 //////////
+    ], ///////// Country Number 27 ////////////
     CO: [
         {
             label: 'Banco-de Bogota',
@@ -1169,8 +1169,8 @@ export default {
             label: 'Bancolombia',
             value: 'bank-Bancolombia'
         }
-        ////////// 3 //////////
-    ], ///////// 28 ////////////
+        ////////// Total Banks 3 //////////
+    ], ///////// Country Number 28 ////////////
     MX: [
         {
             label: 'Bank of Mexico',
@@ -1188,8 +1188,8 @@ export default {
             label: 'Banregio',
             value: 'bank-Banregio'
         }
-        ////////// 4 //////////
-    ], ///////// 29 ////////////
+        ////////// Total Banks 4 //////////
+    ], ///////// Country Number 29 ////////////
     AR: [
         {
             label: 'Banco Credicoop',
@@ -1227,8 +1227,8 @@ export default {
             label: 'HSBC Bank',
             value: 'bank-HSBC-Bank'
         }
-        ////////// 9 //////////
-    ]  ///////// 30 ////////////
+        ////////// Total Banks 9 //////////
+    ]  ///////// Country Number 30 ////////////
 }
 
 ////////////// Total 285 icons /////////////////////////////
