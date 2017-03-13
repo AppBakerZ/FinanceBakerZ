@@ -169,7 +169,8 @@ class TransactionPage extends Component {
     }
 
     closePopup () {
-        this.setState({setImage: false, openDialog:false, updateForm : false, selectedProject: null});
+        this.setState({openDialog:false, updateForm : false, selectedProject: null, transaction: null});
+        setTimeout(() => {this.setState({setImage: false})}, 500);
     }
 
     popupTemplate(){
