@@ -7,6 +7,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
+import { Accounts as MeteorAccounts} from 'meteor/accounts-base'
 import { Accounts } from './accounts.js';
 import { Categories } from '../categories/categories.js';
 import { Incomes } from '../incomes/incomes.js';
@@ -107,25 +108,16 @@ export const remove = new ValidatedMethod({
 
 
 
+MeteorAccounts.onCreateUser(function(options, user) {
+    var account = {owner: user._id};
+    //Inserting default bank account on signup
+    Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+    //Reset user object
+    if (options.profile)
+        user.profile = options.profile;
 
-export const insertAccountOnSignUp = new ValidatedMethod({
-    name: 'insertAccountOnSignUp',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to update account'
-    },
-    validate: new SimpleSchema({
-        'account': {
-            type: Object
-        },
-        'account.owner': {
-            type: String
-        }
-    }).validator(),
-    run({ account }) {
-        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
-    }
+    return user;
+
 });
 
 
