@@ -484,3 +484,4 @@ export default [
     value: 'icon-icons_wash-basin'
   }
 ]
+/////////// Total Categories Icon 121 ///////////////
