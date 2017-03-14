@@ -44,7 +44,6 @@ export const insert = new ValidatedMethod({
 
 
 
-
 export const update = new ValidatedMethod({
     name: 'accounts.update',
     mixins: [LoggedInMixin],
@@ -122,31 +121,22 @@ MeteorAccounts.onCreateUser(function(options, user) {
 
 
 
-export const profileAssets = new ValidatedMethod({
-    name: 'profileAssets',
-    mixins: [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to insert account,currency and see email notification'
-    },
-    validate: new SimpleSchema({
-        'account': {
-            type: Object
-        },
-        'account.owner': {
-            type: String
-        }
-    }).validator(),
-    run({ account }) {
-        if(!Accounts.findOne({owner: account.owner}))
-            Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+MeteorAccounts.onLogin(function(){
 
-        if(Meteor.users.findOne( {_id: account.owner, 'profile.currency': { $exists: false } }))
-            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}  }});
+        var userId = Meteor.user()._id;
 
-        if(Meteor.users.findOne( {_id: account.owner, 'profile.emailNotificaton': { $exists: false } }))
-            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.emailNotification': true}});
-    }
+      //Inserting default bank account on login
+        if(!Accounts.findOne({owner: userId}))
+            Accounts.insert({owner: userId, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+
+     //Inserting default currency on login
+        if(Meteor.users.findOne( {_id: userId, 'profile.currency': { $exists: false } }))
+            Meteor.users.update({ _id: userId}, { $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}  }});
+
+     //Setting email Notification to 'true' by default
+        if(Meteor.users.findOne( {_id: userId, 'profile.emailNotificaton': { $exists: false } }))
+            Meteor.users.update({ _id: userId}, { $set: { 'profile.emailNotification': true}});
+
 });
 
 
