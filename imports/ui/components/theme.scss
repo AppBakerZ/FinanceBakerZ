@@ -1,5 +1,4 @@
-@import "~react-toolbox/lib/variables.css";
-@import "~react-toolbox/lib/button/config.css";
+@import "~react-toolbox/components/button/config.css";
 
 .appBody{
   background: url("../assets/images/login-bg.png") no-repeat center;
@@ -22,13 +21,13 @@
     img{
       border-radius: 50%;
       position: relative;
-      top: $unit + 0.7;
-      left: $unit - 0.2;
-      margin-right: $unit * 2;
+      top: calc(0.7 + var(--unit));
+      left: calc( 0.2 - var(--unit));
+      margin-right: calc( 2 * var(--unit));
     }
     i{
       float: right;
-      margin-top: $unit + 0.4;
+      margin-top: calc( 0.4 + var(--unit));
       color: $color-text-light;
       cursor: pointer;
     }

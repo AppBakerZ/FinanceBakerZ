@@ -1,16 +1,14 @@
-@import "~react-toolbox/lib/variables.css";
-
 .appBar {
   background: $color-primary-dark;
   overflow: hidden;
-  z-index: $z-index-highest + 1;
+  z-index: calc(1 + var(--z-index-highest));
   &:not(.flat) {
-    z-index: $z-index-highest + 1;
+    z-index: calc(1 + var(--z-index-highest));
   }
   a {
     img {
       margin-top: -3px;
-      width: $unit * 8.5;
+      width: calc(8.5 * var(--unit));
       float: left;
     }
   }

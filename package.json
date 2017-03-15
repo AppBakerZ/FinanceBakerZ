@@ -28,22 +28,29 @@
     "webshot": "^0.18.0"
   },
   "cssModules": {
-    "extensions": [
-      "scss"
-    ],
-    "globalVariables": [
-      {
-        "theme-building": true
-      },
-      "client/toolbox-theme.scss"
-    ],
     "postcssPlugins": {
+      "postcss-import": {},
+      "postcss-mixins": {},
+      "postcss-each": {},
       "postcss-cssnext": {},
-      "postcss-modules-values": {},
+      "postcss-simple-vars": {},
       "postcss-modules-local-by-default": {},
       "postcss-modules-extract-imports": {},
       "postcss-modules-scope": {}
     },
+    "extensions": [
+      "scss",
+      "css"
+    ],
+    "enableSassCompilation": ["scss"],
+    "globalVariables": [
+      {
+        "theme-building": true
+      },
+      "node_modules/react-toolbox/lib/colors.css",
+      "node_modules/react-toolbox/lib/variables.css",
+      "client/toolbox-theme.scss"
+    ],
     "ignorePaths": [
       "node_modules/postcss-nesting",
       "node_modules/react-toolbox/components"

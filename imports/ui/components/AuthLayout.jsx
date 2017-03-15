@@ -5,7 +5,7 @@ import Footer from './footer/Footer.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Link } from 'react-router'
 
-import theme from './theme';
+import theme from './theme.scss';
 
 // App component - represents the whole app
 export default class AuthLayout extends Component {
