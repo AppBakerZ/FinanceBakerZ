@@ -1,5 +1,5 @@
-@import "~react-toolbox/lib/globals";
-@import "~react-toolbox/lib/list/config";
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/list/config.css";
 
 .card{
   border-radius: 0;
