@@ -1,0 +1,11 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/card/config.css";
+
+.card{
+  overflow: visible;
+  &:first-child{
+    box-shadow: 0 0 0 0;
+    border-radius: 0;
+    padding: 0 $unit 0 $unit * 2;
+  }
+}

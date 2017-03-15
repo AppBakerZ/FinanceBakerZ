@@ -1,0 +1,7 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.card{
+  padding: 0 $unit * 2.5;
+  margin-bottom: $unit - 0.8;
+}

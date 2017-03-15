@@ -1,0 +1,17 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+    font-size: $font-size-big + 0.2;
+  }
+}
+
+.neutral:not([disabled]) {
+  &.raised, &.floating {
+    background-color: $color-primary-dark;
+    box-shadow: 0 0 0 0;
+    border-radius: 0;
+  }
+}

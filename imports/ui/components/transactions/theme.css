@@ -1,0 +1,269 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.pageTitle{
+  background: $color-primary;
+  padding: $unit * 2.2 $unit * 3 $unit * 1.8 $unit * 5;
+  h3{
+    color: $color-primary-dark;
+    letter-spacing: $unit - 0.9;
+    font-size: $font-size-big + 0.7;
+    display: inline-block;
+  }
+  > div{
+    display: inline-block;
+    float: right;
+    button{
+      font-size: $font-size-big + 0.2;
+      padding: $unit - 0.6 $unit 0 $unit;
+      line-height: $unit * 4;
+      height: $unit * 4;
+      .icon{
+        line-height: $unit * 4;
+      }
+      &:first-child{
+        margin-right: $unit * 2;
+      }
+    }
+  }
+}
+.dropdownAutocomplete{
+  width: 19%;
+  display: inline-block;
+  margin-right: $unit * 2;
+  .dashboardAutocomplete{
+    label{
+      color: $color-text;
+    }
+    ul{
+      > div{
+        position: absolute;
+        top: $unit - 0.5;
+        z-index: $z-index-highest + 1;
+      }
+    }
+  }
+}
+.dropdownBox{
+  width: 79%;
+  display: inline-block;
+  position: relative;
+  top: -0.3rem;
+  .dashboardAutocomplete{
+    width: 18%;
+    display: inline-block;
+    margin-right: $unit * 2;
+    label{
+      color: $color-text;
+      font-size: $font-size-small;
+    }
+  }
+  .dashboardAutocompleteLast{
+    width: 18%;
+    display: inline-block;
+    position: relative;
+    top: 0;
+    label{
+      color: $color-text;
+      font-size: $font-size-small;
+    }
+    .value{
+      .material-icons{
+        display: none;
+      }
+    }
+  }
+}
+.dashboardAutocompleteLastOne{
+  width: 18%;
+  display: inline-block;
+  position: relative;
+  top: $unit - 0.7;
+  label{
+    color: $color-text;
+    font-size: $font-size-small;
+  }
+  input{
+    font-weight: 600;
+  }
+  li{
+    font-weight: 600;
+  }
+  .value{
+    .material-icons{
+      display: none;
+    }
+  }
+}
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+  &.flat:hover {
+    background: none;
+  }
+}
+.dashboardDatePicker{
+  width: 38%;
+  position: relative;
+  top: $unit - 0.7;
+  display: inline-block;
+  > div{
+    width: 44.6%;
+    display: inline-block;
+    margin-right: $unit * 2;
+    label{
+      color: $color-text;
+      font-size: $font-size-small;
+    }
+  }
+}
+.categoryIcon{
+  width: 100%;
+  display: inline-block;
+  i{
+    margin: 0 $unit 0 0;
+    float: left;
+  }
+}
+.transactionNothing{
+  margin: $unit * 5 0 $unit * 5 0;
+  .errorShow{
+    display: block;
+    text-align: center;
+    font-size: $font-size-big + 0.2;
+    text-transform: uppercase;
+    color: $color-text;
+    &:first-child{
+      margin-bottom: $unit * 3;
+    }
+  }
+  .addProjectBtn{
+    text-align: center;
+    button{
+      border-radius: 50%;
+      width: $unit * 7.5;
+      height: $unit * 7.5;
+      padding: 0;
+      min-width: $unit * 7.5;
+      text-align: center;
+      margin-bottom: $unit * 2.5;
+      font-size: $font-size-big + 2.7;
+      span{
+        color: $color-primary-dark;
+        text-transform: lowercase;
+        padding-left: $unit - 0.1;
+      }
+    }
+  }
+}
+.loaderParent{
+  margin: $unit * 2 0 $unit * 3 0;
+}
+
+/////////////////// dialog content styling start here ////////////////////////
+.contentParent{
+  .contentOne{
+    margin-bottom: $unit * 2.5;
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-big;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+      }
+    }
+  }
+  .contentTwo{
+    margin-bottom: $unit * 2.5;
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-big;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+      }
+    }
+  }
+  .contentThree{
+    button{
+      background: $color-accent;
+      font-size: $font-size;
+      padding: $unit - 0.6 $unit * 2 0 $unit * 2;
+      height: $unit * 4.6;
+      &:first-child{
+        margin-right: $unit * 2;
+      }
+    }
+    p{
+      display: inline-block;
+      line-height: $unit * 2.6;
+      color: $color-text;
+      font-size: $font-size-big + 0.2;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: $font-size-big;
+        text-transform: capitalize;
+        letter-spacing: $unit - 0.9;
+      }
+    }
+    > div{
+      &:last-of-type{
+        text-align: center;
+        margin-top: $unit * 2;
+      }
+    }
+  }
+}
+.firstRow{
+  margin-bottom: $unit * 2.5;
+  span{
+    font-size: $font-size;
+    color: $color-text;
+    line-height: $unit * 2.2;
+  }
+}
+.confirmText{
+  margin-bottom: $unit * 2;
+  p{
+    line-height: $unit * 2;
+    color: $color-text;
+    font-size: $font-size-big;
+    letter-spacing: $unit - 0.9;
+    text-align: center;
+  }
+}
+.buttonBox{
+  text-align: center;
+  button{
+    padding: $unit - 0.8 $unit * 5.9 0;
+    height: $unit * 4.6;
+    font-size: $font-size-big - 0.1;
+    letter-spacing: $unit - 0.9;
+    border-radius: $unit - 0.5;
+    &:last-of-type{
+      margin-left: $unit * 1.8;
+      padding: $unit - 0.8 $unit * 3.8 0;
+    }
+  }
+}
+
+/////////////////// dialog content styling end here //////////////////////////

@@ -1,0 +1,18 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.neutral:not([disabled]) {
+  &.raised, &.floating {
+    color: $color-primary-dark;
+
+    background-color: $color-danger;
+    margin-left: $unit;
+    border-radius: $unit - 0.8;
+  }
+}
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+}

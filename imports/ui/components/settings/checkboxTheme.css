@@ -1,0 +1,13 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.check {
+  &.checked {
+    background-color: $color-primary-dark;
+    border-color: $color-text;
+    &:after {
+      border-color: $color-text;
+      margin: $unit - 0.5 0 0 $unit - 0.6;
+    }
+  }
+}

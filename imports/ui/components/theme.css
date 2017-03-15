@@ -1,0 +1,36 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.appBody{
+  background: url("../assets/images/login-bg.png") no-repeat center;
+  background-size: 80%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  height: 80vh;
+  min-height: 80vh;
+}
+
+.headerGreeting{
+  margin-left: auto;
+  span{
+    color: $color-primary;
+    position: relative;
+    top: -15px;
+    img{
+      border-radius: 50%;
+      position: relative;
+      top: $unit + 0.7;
+      left: $unit - 0.2;
+      margin-right: $unit * 2;
+    }
+    i{
+      float: right;
+      margin-top: $unit + 0.4;
+      color: $color-text-light;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,116 @@
+@import "~react-toolbox/lib/variables.css";
+@import "~react-toolbox/lib/button/config.css";
+
+.categoriesContent{
+  padding: 0 $unit * 1.8;
+  margin-top: $unit * 4;
+  width: 100%;
+  .categoriesTitle{
+    background: $color-primary;
+    padding: $unit * 2 $unit * 5;
+    h3{
+      color: $color-primary-dark;
+      font-size: $font-size-big + 0.7;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      display: inline-block;
+    }
+    button{
+      border-radius: $unit - 0.5;
+      float: right;
+      width: auto;
+      font-size: $font-size-big + 0.2;
+      padding: $unit - 0.7 $unit * 2.6 0 $unit * 2.6;
+      height: $unit * 4.6;
+    }
+  }
+}
+.buttonBox{
+  margin-top: $unit - 0.2;
+  button{
+    padding: $unit - 0.6 $unit * 5.5 0;
+    font-size: $font-size + 0.1;
+    height: $unit * 4.6;
+    letter-spacing: $unit - 0.9;
+    margin-right: $unit;
+    &:last-of-type{
+      padding: 0;
+      margin-right: 0;
+      min-width: $unit * 4.6;
+      line-height: $unit * 5;
+      height: $unit * 4.6;
+      span{
+        border-right: 0;
+        line-height: $unit * 5;
+        margin: 0;
+        color: $color-danger;
+        font-size: $font-size-big + $unit;
+      }
+    }
+  }
+}
+.dialogContent{
+  > div{
+    margin-bottom: $unit * 2;
+    h3{
+      color: $color-primary;
+      font-size: $font-size-big + 0.7;
+      text-transform: uppercase;
+      letter-spacing: $unit - 0.9;
+      word-spacing: $unit - 0.5;
+      margin: 0 0 $unit * 1.2 0;
+    }
+    p{
+      line-height: $unit * 2;
+      color: $color-text;
+      font-size: $font-size-big;
+      letter-spacing: $unit - 0.9;
+      text-align: center;
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    margin: 0;
+    button{
+      padding: $unit - 0.8 $unit * 5.9 0;
+      height: $unit * 4.6;
+      border-radius: $unit - 0.5;
+      &:last-of-type{
+        line-height: $unit * 3.6;
+        padding: $unit - 0.8 $unit * 3.8 0;
+        margin-left: $unit - 0.2;
+      }
+    }
+  }
+}
+.titleAccount{
+  color: $color-primary;
+  font-size: $font-size-big + 0.7;
+  text-transform: uppercase;
+  letter-spacing: $unit - 0.9;
+}
+.addCategory{
+  label{
+    color: $color-text;
+  }
+}
+.addBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 2 0;
+  }
+}
+.selectParent{
+  display: block;
+  width: 100%;
+  i{
+    display: inline-block;
+    margin: 0 $unit 0 0;
+  }
+  strong{
+    display: inline-block;
+  }
+}
