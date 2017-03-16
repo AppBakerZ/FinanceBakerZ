@@ -1,0 +1,54 @@
+@import "~react-toolbox/lib/button/config.css";
+
+.logoWithText{
+  text-align: center;
+  img{
+    width: calc(15 * var(--unit));
+  }
+}
+.forgotBtn{
+  text-align: center;
+  button{
+    padding: calc(0.7 - var(--unit)) 0 0 0;
+    min-width: calc(18 * var(--unit));
+    height: calc(4 * var(--unit));
+    margin-top: calc(2 * var(--unit));
+    font-size: var(--font-size) + 0.1;
+    &:last-of-type{
+      margin-top: var(--unit);
+    }
+  }
+}
+
+.link {
+  &:not(.active) {
+    opacity: 1;
+  }
+}
+
+.buttonParents{
+  margin-top: calc(2 * var(--unit));
+  .buttonGroup{
+    margin-bottom: var(--unit);
+    text-align: center;
+    button{
+      min-width: calc(21 * var(--unit));
+      font-size: var(font-size-small) + 0.3;
+      height: calc(4 * var(--unit));
+      padding: calc(0.6 - var(--unit)) calc(2 * var(--unit)) calc(0.5 - var(--unit)) calc(2 * var(--unit));
+      margin-bottom: 0;
+    }
+  }
+}
+.forgotGroup{
+  text-align: center;
+  margin-top: calc(3 * var(--unit));
+  a{
+    font-size: var(--font-size-small);
+    text-transform: capitalize;
+    color: $color-text;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+}

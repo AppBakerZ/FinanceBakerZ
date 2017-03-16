@@ -29,11 +29,8 @@
   },
   "cssModules": {
     "postcssPlugins": {
-      "postcss-import": {},
-      "postcss-mixins": {},
-      "postcss-each": {},
       "postcss-cssnext": {},
-      "postcss-simple-vars": {},
+      "postcss-modules-values": {},
       "postcss-modules-local-by-default": {},
       "postcss-modules-extract-imports": {},
       "postcss-modules-scope": {}

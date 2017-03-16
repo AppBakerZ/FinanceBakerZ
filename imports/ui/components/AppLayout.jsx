@@ -8,7 +8,7 @@ import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 
 import { Meteor } from 'meteor/meteor'
 
-import theme from './theme';
+import theme from './theme.scss';
 
 // App component - represents the whole app
 export default class AppLayout extends Component {

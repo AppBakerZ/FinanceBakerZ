@@ -33,3 +33,7 @@ $preferred-font: 'Nexa Bold Regular', 'Arial', sans-serif !default;
 body {
   font-family: $normal-font;
 }
+
+:root {
+  --color-primary: #008142;
+}

@@ -1,17 +1,16 @@
-@import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/list/config.css";
 
 .appFooter{
   text-align: center;
-  padding: $unit - 0.5 0 $unit - 0.7 0;
+  padding: calc(0.5 - var(--unit)) 0 calc(0.7 - var(--unit)) 0;
   background: $color-primary;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   span{
-    margin: $unit - 0.5 0 $unit - 0.5 0;
+    margin: calc(0.5 - var(--unit)) 0 calc(0.5 - var(--unit)) 0;
     color: $color-primary-dark;
-    font-size: $font-size-small;
+    font-size: var(--font-size-small);
   }
 }
