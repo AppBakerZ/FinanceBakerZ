@@ -6,7 +6,7 @@
 }
 
 .dashboardSection{
-  margin: 0 0 calc(2 * var(--unit)) 0;
+  margin: 0 0 calc(var(--unit) * 2) 0;
   width: 100%;
   overflow: visible;
   .cardBox{
@@ -14,9 +14,9 @@
     width: 100%;
     overflow: visible;
     .card{
-      height: calc(17.5 * var(--unit));
-      margin-top: calc(2 * var(--unit));
-      margin-left: calc(3 * var(--unit));
+      height: calc(var(--unit) * 17.5);
+      margin-top: calc(var(--unit) * 2);
+      margin-left: calc(var(--unit) * 3);
     }
   }
 }
@@ -24,16 +24,16 @@
   width: 100%;
   .availableTitle{
     color: $color-primary-dark;
-    font-size: calc(2.1 * var(--font-size-small));
-    margin: 0 0 calc(0.5 - var(--unit)) 0;
+    font-size: calc(var(--font-size-small) * 2.1);
+    margin: 0 0 calc(var(--unit) - 5) 0;
   }
   .divTitle{
     h2{
       color: $color-primary-dark;
-      font-size: calc(3.5 * var(--font-size-small));
-      letter-spacing: calc(0.7 - var(--unit));
+      font-size: calc(var(--font-size-small) * 3.5);
+      letter-spacing: calc(var(--unit) - 7);
       display: inline-block;
-      margin: 0 calc(2.8 * var(--unit)) 0 0;
+      margin: 0 calc(var(--unit) * 2.8) 0 0;
     }
   }
 }
@@ -55,7 +55,7 @@
       color: $color-text-light;
     }
     > div{
-      padding: calc(2 * var(--unit)) 0 0;
+      padding: calc(var(--unit) * 2) 0 0;
     }
   }
 }
@@ -63,17 +63,17 @@
 .incomeBox{
   margin: 0 auto;
   .divTitle{
-    margin: calc(2.5 * var(--unit)) 0 calc(0.5 - var(--unit)) 0;
+    margin: calc(var(--unit) * 2.5) 0 calc(var(--unit) - 5) 0;
     font-size: var(--font-size-big) - 0.1;
     color: $color-text;
-    letter-spacing: calc(0.9 - var(--unit));
+    letter-spacing: calc(var(--unit) - 9);
   }
   .title{
     h2{
-      margin: 0 calc(2.5 * var(--unit)) calc(2.1 * var(--unit)) 0;
+      margin: 0 calc(var(--unit) * 2.5) calc(var(--unit) * 2.1) 0;
       color: $color-primary;
-      font-size: calc( 2 * var(--font-size-big));
-      letter-spacing: calc(0.8 - var(--unit));
+      font-size: calc(var(--font-size-big) * 2);
+      letter-spacing: calc(var(--unit) - 8);
       display: inline-block;
     }
   }
@@ -83,24 +83,24 @@
     margin: 0;
     button{
       color: $color-text;
-      font-size: var(font-size-big) - 0.1;
+      font-size: var(font-size-big) - 1;
     }
   }
 }
 .expensesBox{
   margin: 0 auto;
   .divTitle{
-    margin: calc(2.5 * var(--unit)) 0 calc(0.5 - var(--unit)) 0;
-    font-size: var(font-size-big) - 0.1;
+    margin: calc(var(--unit) * 2.5) 0 calc(var(--unit) - 5) 0;
+    font-size: var(font-size-big) - 1;
     color: $color-text;
-    letter-spacing: calc(0.9 - var(--unit));
+    letter-spacing: calc(var(--unit) - 9);
   }
   .title{
     h2{
-      margin: 0 calc(2.5 * var(--unit)) calc(2.1 * var(--unit)) 0;
+      margin: 0 calc(var(--unit) * 2.5) calc(var(--unit) * 2.1) 0;
       color: $color-danger;
-      font-size: calc(2 * var(font-size-big));
-      letter-spacing: calc(0.8 - var(--unit));
+      font-size: calc(var(font-size-big) * 2);
+      letter-spacing: calc(var(--unit) - 8);
       display: inline-block;
     }
   }
@@ -110,7 +110,7 @@
     margin: 0;
     button{
       color: $color-text;
-      font-size: calc(0.1 - var(--font-size-big));
+      font-size: calc(var(--font-size-big) - 1);
     }
   }
 }
@@ -120,11 +120,11 @@
 .availableSection{
   background: url("../assets/images/dollars.png") $color-primary no-repeat;
   background-position: 130% 50%;
-  height: calc(17 * var(--unit));
+  height: calc(var(--unit) * 17);
 }
 .recentActivitiesWrapper{
   width: 100%;
-  margin-top: calc(3 * var(--unit));
+  margin-top: calc(var(--unit) * 3);
 }
 .incomeOverviewWrapper{
   width: 100%;
