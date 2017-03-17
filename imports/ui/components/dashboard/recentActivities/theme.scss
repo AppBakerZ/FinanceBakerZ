@@ -5,41 +5,41 @@
   float: left;
 }
 .recentIncomeWrapper{
-  width: 50%;
+  width: 49%;
   float: left;
-  margin-right: calc(1.5 * var(--unit));
+  margin-right: calc(var(--unit) * 1.5);
   .card{
     border-radius: 0;
-    margin-bottom: calc(2 * var(--unit));
-    min-height: calc(34 * var(--unit));
+    margin-bottom: calc(var(--unit) * 2);
+    min-height: calc(var(--unit) * 34);
     h3{
       background: $color-primary;
-      padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) calc(5 * var(--unit));
+      padding: calc(var(--unit) * 2.2) 0 calc(var(--unit) * 1.8) calc(var(--unit) * 5);
       color: $color-primary-dark;
-      letter-spacing: calc(0.9 - var(--unit));
-      font-size: calc(1.8 * var(--font-size-small));
+      letter-spacing: calc(var(--unit) - 9);
+      font-size: calc(var(--font-size-small) * 1.8);
     }
   }
 }
 .recentExpensesWrapper{
-  width: 50%;
+  width: 49.5%;
   float: left;
   .card{
     border-radius: 0;
-    margin-bottom: calc(2 * var(--unit));
-    min-height: calc(34 * var(--unit));
+    margin-bottom: calc(var(--unit) * 2);
+    min-height: calc(var(--unit) * 34);
     h3{
       background: $color-accent;
-      padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) calc(5 * var(--unit));
+      padding: calc(var(--unit) * 2.2) 0 calc(var(--unit) * 1.8) calc(var(--unit) * 5);
       color: $color-primary-dark;
-      letter-spacing: calc(0.9 - var(--unit));
-      font-size: calc( 1.8 * var(--font-size-small));
+      letter-spacing: calc(var(--unit) - 9);
+      font-size: calc(var(--font-size-small) * 1.8);
     }
   }
 }
 .tableLink{
   text-align: right;
-  margin-right: calc(5 * var(--unit));
+  margin-right: calc(var(--unit) * 5);
   a{
     color: $color-text;
     font-size: var(--font-size);
@@ -49,45 +49,45 @@
 }
 .errorShowIncomes{
   text-align: center;
-  margin-top: calc(5 * var(--unit));
+  margin-top: calc(var(--unit) * 5);
   button{
-    width: calc(7.5 * var(--unit));
-    min-width: calc(7.5 * var(--unit));
-    height: calc(7.5 * var(--unit));
+    width: calc(var(--unit) * 7.5);
+    min-width: calc(var(--unit) * 7.5);
+    height: calc(var(--unit) * 7.5);
     border-radius: 50%;
-    font-size: calc(3.3 * var(--font-size-small));
-    padding: 0 calc(1.2 * var(--unit)) 0 calc(1.1 * var(--unit));
-    margin-bottom: calc(2.5 * var(--unit));
+    font-size: calc(var(--font-size-small) * 3.3);
+    padding: 0 calc(var(--unit) * 1.2) 0 calc(var(--unit) * 1.1);
+    margin-bottom: calc(var(--unit) * 2.5);
     span{
       margin: 0;
     }
   }
   p{
-    font-size: calc(0.2 + var(--font-size-big));
+    font-size: calc(var(--font-size-big) + 2);
     text-transform: uppercase;
     color: $color-text;
-    letter-spacing: calc(0.9 - var(--unit));
+    letter-spacing: calc(var(--unit) - 9);
   }
 }
 .errorShowExpenses{
   text-align: center;
-  margin-top: calc(5 * var(--unit));
+  margin-top: calc(var(--unit) * 5);
   button{
-    width: calc(7.5 * var(--unit));
-    min-width: calc(7.5 * var(--unit));
-    height: calc(7.5 * var(--unit));
+    width: calc(var(--unit) * 7.5);
+    min-width: calc(var(--unit) * 7.5);
+    height: calc(var(--unit) * 7.5);
     border-radius: 50%;
-    font-size: calc(4.5 * var(--unit));
-    padding: 0 calc(1.2 * var(--unit)) 0 calc(1.1 * var(--unit));
-    margin-bottom: calc(2.5 * var(--unit));
+    font-size: calc(var(--unit) * 4.5);
+    padding: 0 calc(var(--unit) * 1.2) 0 calc(var(--unit) * 1.1);
+    margin-bottom: calc(var(--unit) * 2.5);
     span{
       margin: 0;
     }
   }
   p{
-    font-size: calc(0.2 + var(--font-size-big));
+    font-size: calc(var(--font-size-big) + 2);
     text-transform: uppercase;
     color: $color-text;
-    letter-spacing: calc(0.9 - var(--unit));
+    letter-spacing: calc(var(--unit) - 9);
   }
 }

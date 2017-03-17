@@ -2,17 +2,17 @@
 
 .autocomplete {
   position: relative;
-  padding: 0 0 calc(0.5 - var(--unit)) 0;
+  padding: 0 0 calc(var(--unit) - 5) 0;
   .value{
-    line-height: calc(2 * var(--unit));
-    padding: calc(0.8 - var(--unit)) calc(3 * var(--unit)) 0 var(--unit);
+    line-height: calc(var(--unit) * 2);
+    padding: calc(var(--unit) - 8) calc(var(--unit) * 3) 0 var(--unit);
     background: $color-accent;
     color: $color-primary-dark;
     z-index: var(--z-index-highest);
     margin-top: var(--unit);
     float: left;
     span{
-      margin: 0 calc(0.6 - var(--unit)) 0;
+      margin: 0 calc(var(--unit) - 6) 0;
       top: -1px;
       svg{
         background: $color-primary-dark;
@@ -34,8 +34,8 @@
 }
 
 .input {
-  padding: calc(2 * var(--unit)) 0 0;
-  margin-top: calc(0.7 + var(--unit));
+  padding: calc(var(--unit) * 2) 0 0;
+  margin-top: calc(var(--unit) + 7);
   label{
     color: $color-text-light;
   }

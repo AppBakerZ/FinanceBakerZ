@@ -3,6 +3,6 @@
 
 .card{
   //background: rgba($color-primary, 0.8); //TODO: FIX VAR
-  padding: calc(4.5 * var(--unit)) 0 calc(4 * var(--unit)) 0;
-  height: calc(17 * var(--unit));
+  padding: calc(var(--unit) * 4.5) 0 calc(var(--unit) * 4) 0;
+  height: calc(var(--unit) * 17);
 }
