@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor'
 
 import theme from './theme';
-import listItemTheme from './listItemTheme';
+import listItemTheme from './listItemTheme.scss';
 import drawerTheme from './drawerTheme';
 
 export default class LeftMenu extends Component {

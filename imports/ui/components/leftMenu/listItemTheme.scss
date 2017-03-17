@@ -17,15 +17,15 @@
     }
   }
   .item {
-    padding: $unit - 0.9 $unit * 5.5 0;
+    padding: calc(0.9 - var(--unit)) calc(5.5 * var(--unit)) 0;
     .itemText{
-      font-size: $font-size-small;
+      font-size: var(--font-size-small);
       font-family: $preferred-font;
       color: $color-accent;
-      margin-top: $unit - 0.8;
+      margin-top: calc(0.8 - var(--unit));
     }
     .itemAction{
-      margin: $unit - 0.2 0;
+      margin: calc(0.2 - var(--unit)) 0;
       span{
         color: $color-primary;
       }

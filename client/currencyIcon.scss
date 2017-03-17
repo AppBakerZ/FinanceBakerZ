@@ -1,0 +1,337 @@
+@font-face {
+  font-family: 'Currency';
+  src:  url('fonts/Currency.eot?1oyrup');
+  src:  url('fonts/Currency.eot?1oyrup#iefix') format('embedded-opentype'),
+  url('fonts/Currency.ttf?1oyrup') format('truetype'),
+  url('fonts/Currency.woff?1oyrup') format('woff'),
+  url('fonts/Currency.svg?1oyrup#Currency') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:global {
+  [class^="currency-"], [class*=" currency-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'Currency' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .currency-Afghan-Afghani:before {
+    content: "\e900";
+  }
+  .currency-Albanian-Lek:before {
+    content: "\e901";
+  }
+  .currency-Algerian-Dinar:before {
+    content: "\e902";
+  }
+  .currency-Armenian-Dram:before {
+    content: "\e903";
+  }
+  .currency-Azerbaijani-Manat:before {
+    content: "\e904";
+  }
+  .currency-Bahraini-Dinar:before {
+    content: "\e905";
+  }
+  .currency-Bangladeshi-Taka:before {
+    content: "\e906";
+  }
+  .currency-Belarusian-Ruble:before {
+    content: "\e907";
+  }
+  .currency-Bolivian-Boliviano:before {
+    content: "\e908";
+  }
+  .currency-Bosnia-Herzegovina-Convertible-Mark:before {
+    content: "\e909";
+  }
+  .currency-Botswanan-Pula:before {
+    content: "\e90a";
+  }
+  .currency-Brazilian-Real:before {
+    content: "\e90b";
+  }
+  .currency-British-Pound-Sterling:before {
+    content: "\e90c";
+  }
+  .currency-Bulgarian-Lev:before {
+    content: "\e90d";
+  }
+  .currency-Burundian-Franc:before {
+    content: "\e90e";
+  }
+  .currency-Cambodian-Riel:before {
+    content: "\e90f";
+  }
+  .currency-Cape-Verdean-Escudo:before {
+    content: "\e910";
+  }
+  .currency-CFA-Franc-BCEAO:before {
+    content: "\e911";
+  }
+  .currency-Chilean-Peso:before {
+    content: "\e912";
+  }
+  .currency-Chinese-Yuan:before {
+    content: "\e913";
+  }
+  .currency-Comorian-Franc:before {
+    content: "\e914";
+  }
+  .currency-Costa-Rican-Colón:before {
+    content: "\e915";
+  }
+  .currency-Croatian-Kuna:before {
+    content: "\e916";
+  }
+  .currency-Czech-Republic-Koruna:before {
+    content: "\e917";
+  }
+  .currency-Danish-Krone:before {
+    content: "\e918";
+  }
+  .currency-Djiboutian-Franc:before {
+    content: "\e919";
+  }
+  .currency-Dollar:before {
+    content: "\e91a";
+  }
+  .currency-Dominican-Peso:before {
+    content: "\e91b";
+  }
+  .currency-Egyptian-Pound:before {
+    content: "\e91c";
+  }
+  .currency-Eritrean-Nakfa:before {
+    content: "\e91d";
+  }
+  .currency-Estonian-Kroon:before {
+    content: "\e91e";
+  }
+  .currency-Ethiopian-Birr:before {
+    content: "\e91f";
+  }
+  .currency-Euro:before {
+    content: "\e920";
+  }
+  .currency-Georgian-Lari:before {
+    content: "\e921";
+  }
+  .currency-Ghanaian-Cedi:before {
+    content: "\e922";
+  }
+  .currency-Guatemalan-Quetzal:before {
+    content: "\e923";
+  }
+  .currency-Guinean-Franc:before {
+    content: "\e924";
+  }
+  .currency-Honduran-Lempira:before {
+    content: "\e925";
+  }
+  .currency-Hungarian-Forint:before {
+    content: "\e926";
+  }
+  .currency-Icelandic-Króna:before {
+    content: "\e927";
+  }
+  .currency-Indian-Rupee:before {
+    content: "\e928";
+  }
+  .currency-Indonesian-Rupiah:before {
+    content: "\e929";
+  }
+  .currency-Iranian-Riyal:before {
+    content: "\e92a";
+  }
+  .currency-Iraqi-Dinar:before {
+    content: "\e92b";
+  }
+  .currency-Israeli-New-Sheqel:before {
+    content: "\e92c";
+  }
+  .currency-Japanese-Yen:before {
+    content: "\e92d";
+  }
+  .currency-Jordanian-Dinar:before {
+    content: "\e92e";
+  }
+  .currency-KazakhstaniTenge:before {
+    content: "\e92f";
+  }
+  .currency-Kenyan-Shilling:before {
+    content: "\e930";
+  }
+  .currency-Kuwaiti-Dinar:before {
+    content: "\e931";
+  }
+  .currency-Latvian-Lats:before {
+    content: "\e932";
+  }
+  .currency-Lebanese-Pound:before {
+    content: "\e933";
+  }
+  .currency-Libyan-Dinar:before {
+    content: "\e934";
+  }
+  .currency-Lithuanian-Litas:before {
+    content: "\e935";
+  }
+  .currency-Macanese-Pataca:before {
+    content: "\e936";
+  }
+  .currency-Macedonian-Denar:before {
+    content: "\e937";
+  }
+  .currency-Malagasy-Ariary:before {
+    content: "\e938";
+  }
+  .currency-Malaysian-Ringgit:before {
+    content: "\e939";
+  }
+  .currency-Mauritian-Rupee:before {
+    content: "\e93a";
+  }
+  .currency-Mexican-Peso:before {
+    content: "\e93b";
+  }
+  .currency-Moldovan-Leu:before {
+    content: "\e93c";
+  }
+  .currency-Moroccan-Dirham:before {
+    content: "\e93d";
+  }
+  .currency-Mozambican-Metical:before {
+    content: "\e93e";
+  }
+  .currency-Myanma-Kyat:before {
+    content: "\e93f";
+  }
+  .currency-Nepalese-Rupee:before {
+    content: "\e940";
+  }
+  .currency-Nicaraguan-Córdoba:before {
+    content: "\e941";
+  }
+  .currency-Nigerian-Naira:before {
+    content: "\e942";
+  }
+  .currency-Norwegian-Krone:before {
+    content: "\e943";
+  }
+  .currency-Omani-riyal:before {
+    content: "\e944";
+  }
+  .currency-Pakistani-Rupee:before {
+    content: "\e945";
+  }
+  .currency-Panamanian-Balboa:before {
+    content: "\e946";
+  }
+  .currency-Paraguayan-Guarani:before {
+    content: "\e947";
+  }
+  .currency-Peruvian-Nuevo-Sol:before {
+    content: "\e948";
+  }
+  .currency-Philippine-Peso:before {
+    content: "\e949";
+  }
+  .currency-Polish-Zloty:before {
+    content: "\e94a";
+  }
+  .currency-Qatari-Riyal:before {
+    content: "\e94b";
+  }
+  .currency-Romanian-Leu:before {
+    content: "\e94c";
+  }
+  .currency-Russian-Ruble:before {
+    content: "\e94d";
+  }
+  .currency-Rwandan-Franc:before {
+    content: "\e94e";
+  }
+  .currency-Saudi-Riyal:before {
+    content: "\e94f";
+  }
+  .currency-Serbian-Dinar:before {
+    content: "\e950";
+  }
+  .currency-Somali-Shilling:before {
+    content: "\e951";
+  }
+  .currency-South-African-Rand:before {
+    content: "\e952";
+  }
+  .currency-South-Korean-Won:before {
+    content: "\e953";
+  }
+  .currency-Sri-Lankan-Rupee:before {
+    content: "\e954";
+  }
+  .currency-Sudanese-Pound:before {
+    content: "\e955";
+  }
+  .currency-Swedish-Krona:before {
+    content: "\e956";
+  }
+  .currency-Swiss-Franc:before {
+    content: "\e957";
+  }
+  .currency-Syrian-Pound:before {
+    content: "\e958";
+  }
+  .currency-Tanzanian-Shilling:before {
+    content: "\e959";
+  }
+  .currency-Thai-Baht:before {
+    content: "\e95a";
+  }
+  .currency-Tongan-Paanga:before {
+    content: "\e95b";
+  }
+  .currency-Tunisian-Dinar:before {
+    content: "\e95c";
+  }
+  .currency-Turkish-Lira:before {
+    content: "\e95d";
+  }
+  .currency-Ugandan-Shilling:before {
+    content: "\e95e";
+  }
+  .currency-Ukrainian-Hryvnia:before {
+    content: "\e95f";
+  }
+  .currency-United-Arab-Emirates-Dirham:before {
+    content: "\e960";
+  }
+  .currency-Uruguayan-Peso:before {
+    content: "\e961";
+  }
+  .currency-Uzbekistan-Som:before {
+    content: "\e962";
+  }
+  .currency-Venezuelan-Bolívar:before {
+    content: "\e963";
+  }
+  .currency-Vietnamese-Dong:before {
+    content: "\e964";
+  }
+  .currency-Yemeni-Rial:before {
+    content: "\e965";
+  }
+  .currency-Zambian-Kwacha:before {
+    content: "\e966";
+  }
+}

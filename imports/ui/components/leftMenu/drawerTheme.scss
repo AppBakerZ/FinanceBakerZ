@@ -1,11 +1,10 @@
 @import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/list/config.css";
 
-$drawer-width: 26 * $unit !default;
 
 .drawer {
   background-color: $color-primary-dark;
-  padding-top: $unit * 8.5;
-  width: $drawer-width;
+  padding-top: calc(8.5 * var(--unit));
+  width: calc(26 * var(--unit));
 }
 

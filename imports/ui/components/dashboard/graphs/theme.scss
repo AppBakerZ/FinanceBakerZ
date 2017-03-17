@@ -9,7 +9,7 @@
     h3{
       padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) 0;
       color: $color-primary-dark;
-      letter-spacing: calc(0.9 - var(--unit));
+      letter-spacing: calc(var(--unit) - 9);
       font-size: calc(1.8 * var(--font-size-small));
       width: 85%;
       float: left;

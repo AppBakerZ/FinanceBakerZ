@@ -17,7 +17,7 @@
       padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) calc(5 * var(--unit));
       color: $color-primary-dark;
       letter-spacing: calc(0.9 - var(--unit));
-      //font-size: $font-size-small * 1.8; //TODO: FIX VAR
+      font-size: calc(1.8 * var(--font-size-small));
     }
   }
 }
@@ -33,7 +33,7 @@
       padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) calc(5 * var(--unit));
       color: $color-primary-dark;
       letter-spacing: calc(0.9 - var(--unit));
-      //font-size: var(font-size-small) * 1.8; //TODO: FIX VAR
+      font-size: calc( 1.8 * var(--font-size-small));
     }
   }
 }
@@ -55,7 +55,7 @@
     min-width: calc(7.5 * var(--unit));
     height: calc(7.5 * var(--unit));
     border-radius: 50%;
-    //font-size: var(font-size-small) * 3.3; //TODO: FIX VAR
+    font-size: calc(3.3 * var(--font-size-small));
     padding: 0 calc(1.2 * var(--unit)) 0 calc(1.1 * var(--unit));
     margin-bottom: calc(2.5 * var(--unit));
     span{
@@ -63,7 +63,7 @@
     }
   }
   p{
-    font-size: var(font-size-big) + 0.2;
+    font-size: calc(0.2 + var(--font-size-big));
     text-transform: uppercase;
     color: $color-text;
     letter-spacing: calc(0.9 - var(--unit));
@@ -85,7 +85,7 @@
     }
   }
   p{
-    font-size: var(font-size-big) + 0.2;
+    font-size: calc(0.2 + var(--font-size-big));
     text-transform: uppercase;
     color: $color-text;
     letter-spacing: calc(0.9 - var(--unit));

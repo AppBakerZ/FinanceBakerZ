@@ -24,13 +24,13 @@
   width: 100%;
   .availableTitle{
     color: $color-primary-dark;
-    //font-size: var(font-size-small) * 2.1; //TODO: FIX VAR
+    font-size: calc(2.1 * var(--font-size-small));
     margin: 0 0 calc(0.5 - var(--unit)) 0;
   }
   .divTitle{
     h2{
       color: $color-primary-dark;
-      //font-size: var(font-size-small) * 3.5; //TODO: FIX VAR
+      font-size: calc(3.5 * var(--font-size-small));
       letter-spacing: calc(0.7 - var(--unit));
       display: inline-block;
       margin: 0 calc(2.8 * var(--unit)) 0 0;
