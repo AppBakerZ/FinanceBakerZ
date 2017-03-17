@@ -1,6 +1,8 @@
 @import "~react-toolbox/lib/list/config.css";
 
-
+a{
+  text-decoration: none;
+}
 .listItem{
   &.active{
     background: $color-accent;
