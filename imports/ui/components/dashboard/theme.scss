@@ -62,6 +62,7 @@
 
 .incomeBox{
   margin: 0 auto;
+  width: calc(var(--unit) * 20.3);
   .divTitle{
     margin: calc(var(--unit) * 2.5) 0 calc(var(--unit) - 5) 0;
     font-size: var(--font-size-big) - 0.1;
@@ -83,15 +84,19 @@
     margin: 0;
     button{
       color: $color-text;
-      font-size: var(font-size-big) - 1;
+      font-size: var(--font-size-big) - 1;
+      span{
+        width: calc(var(--unit) * 2);
+      }
     }
   }
 }
 .expensesBox{
   margin: 0 auto;
+  width: calc(var(--unit) * 20.3);
   .divTitle{
     margin: calc(var(--unit) * 2.5) 0 calc(var(--unit) - 5) 0;
-    font-size: var(font-size-big) - 1;
+    font-size: var(--font-size-big) - 0.1;
     color: $color-text;
     letter-spacing: calc(var(--unit) - 9);
   }
@@ -110,7 +115,10 @@
     margin: 0;
     button{
       color: $color-text;
-      font-size: calc(var(--font-size-big) - 1);
+      font-size: var(--font-size-big) - 1;
+      span{
+        width: calc(var(--unit) * 2);
+      }
     }
   }
 }
