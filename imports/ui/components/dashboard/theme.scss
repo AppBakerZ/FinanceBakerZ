@@ -1,4 +1,3 @@
-@import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/list/config.css";
 
 .backgroundImage{
@@ -7,7 +6,7 @@
 }
 
 .dashboardSection{
-  margin: 0 0 $unit * 2 0;
+  margin: 0 0 calc(2 * var(--unit)) 0;
   width: 100%;
   overflow: visible;
   .cardBox{
@@ -15,9 +14,9 @@
     width: 100%;
     overflow: visible;
     .card{
-      height: $unit * 17.5;
-      margin-top: $unit * 2;
-      margin-left: $unit * 3;
+      height: calc(17.5 * var(--unit));
+      margin-top: calc(2 * var(--unit));
+      margin-left: calc(3 * var(--unit));
     }
   }
 }
@@ -25,16 +24,16 @@
   width: 100%;
   .availableTitle{
     color: $color-primary-dark;
-    font-size: $font-size-tiny * 2.1;
-    margin: 0 0 $unit - 0.5 0;
+    //font-size: var(font-size-small) * 2.1; //TODO: FIX VAR
+    margin: 0 0 calc(0.5 - var(--unit)) 0;
   }
   .divTitle{
     h2{
       color: $color-primary-dark;
-      font-size: $font-size-small * 3.5;
-      letter-spacing: $unit - 0.7;
+      //font-size: var(font-size-small) * 3.5; //TODO: FIX VAR
+      letter-spacing: calc(0.7 - var(--unit));
       display: inline-block;
-      margin: 0 $unit * 2.8 0 0;
+      margin: 0 calc(2.8 * var(--unit)) 0 0;
     }
   }
 }
@@ -47,11 +46,12 @@
       float: right;
     }
     label{
-      font-size: $font-size-small;
+      font-size: var(--font-size-small);
+
       color: $color-text-light;
     }
     > div{
-      padding: $unit * 2 0 0;
+      padding: calc(2 * var(--unit)) 0 0;
     }
   }
 }
@@ -59,17 +59,17 @@
 .incomeBox{
   margin: 0 auto;
   .divTitle{
-    margin: $unit * 2.5 0 $unit - 0.5 0;
-    font-size: $font-size-big - 0.1;
+    margin: calc(2.5 * var(--unit)) 0 calc(0.5 - var(--unit)) 0;
+    font-size: var(--font-size-big) - 0.1;
     color: $color-text;
-    letter-spacing: $unit - 0.9;
+    letter-spacing: calc(0.9 - var(--unit));
   }
   .title{
     h2{
-      margin: 0 $unit * 2.5 $unit *2.1 0;
+      margin: 0 calc(2.5 * var(--unit)) calc(2.1 * var(--unit)) 0;
       color: $color-primary;
-      font-size: $font-size-big * 2;
-      letter-spacing: $unit - 0.8;
+      font-size: calc( 2 * var(--font-size-big));
+      letter-spacing: calc(0.8 - var(--unit));
       display: inline-block;
     }
   }
@@ -79,24 +79,24 @@
     margin: 0;
     button{
       color: $color-text;
-      font-size: $font-size-big - 0.1;
+      font-size: var(font-size-big) - 0.1;
     }
   }
 }
 .expensesBox{
   margin: 0 auto;
   .divTitle{
-    margin: $unit * 2.5 0 $unit - 0.5 0;
-    font-size: $font-size-big - 0.1;
+    margin: calc(2.5 * var(--unit)) 0 calc(0.5 - var(--unit)) 0;
+    font-size: var(font-size-big) - 0.1;
     color: $color-text;
-    letter-spacing: $unit - 0.9;
+    letter-spacing: calc(0.9 - var(--unit));
   }
   .title{
     h2{
-      margin: 0 $unit * 2.5 $unit *2.1 0;
+      margin: 0 calc(2.5 * var(--unit)) calc(2.1 * var(--unit)) 0;
       color: $color-danger;
-      font-size: $font-size-big * 2;
-      letter-spacing: $unit - 0.8;
+      font-size: calc(2 * var(font-size-big));
+      letter-spacing: calc(0.8 - var(--unit));
       display: inline-block;
     }
   }
@@ -106,7 +106,7 @@
     margin: 0;
     button{
       color: $color-text;
-      font-size: $font-size-big - 0.1;
+      font-size: calc(0.1 - var(--font-size-big));
     }
   }
 }
@@ -116,11 +116,11 @@
 .availableSection{
   background: url("../assets/images/dollars.png") $color-primary no-repeat;
   background-position: 130% 50%;
-  height: $unit * 17;
+  height: calc(17 * var(--unit));
 }
 .recentActivitiesWrapper{
   width: 100%;
-  margin-top: $unit * 3;
+  margin-top: calc(3 * var(--unit));
 }
 .incomeOverviewWrapper{
   width: 100%;

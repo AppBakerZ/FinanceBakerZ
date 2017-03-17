@@ -1,0 +1,51 @@
+@import "~react-toolbox/lib/list/config.css";
+
+.table{
+  padding: var(--unit) calc(2.5 * var(--unit)) var(--unit);
+  td{
+    border-bottom: calc(0.8 - var(--unit)) solid #f1f1f1;
+    padding: calc(0.3 - var(--unit)) calc(1.5 * var(--unit)) 0 calc(1.5 * var(--unit));
+    font-size: var(font-size-small) + 0.6;
+    color: $color-text;
+    text-transform: capitalize;
+    i{
+      font-size: var(--font-size-big);
+      position: relative;
+      top: calc(0.9 - var(--unit));
+    }
+  }
+  .row {
+    line-height: 0;
+    height: 0;
+    &:hover{
+      background: none;
+    }
+      td{
+        &:first-child{
+          width: calc(5.5 * var(--unit));
+          line-height: var(--unit);
+          border-right: calc(0.8 - var(--unit)) solid #eeeeee;
+          padding: calc(1.6 * var(--unit)) calc(1.5 * var(--unit)) calc(1.4 * var(--unit)) calc(1.8 * var(--unit));
+          svg{
+            -webkit-transform: rotate(90deg);
+          }
+        }
+        &:nth-child(3){
+          text-align: right;
+        }
+        &:last-of-type{
+          text-align: right;
+          width: calc(4.5 * var(--unit));
+          padding: 0 calc(1.5 * var(--unit));
+        }
+      }
+    &:last-child {
+      td {
+        border-color: transparent;
+        &:first-child{
+          border-right: calc(0.8 - var(--unit)) solid #eeeeee;
+        }
+      }
+    }
+  }
+}

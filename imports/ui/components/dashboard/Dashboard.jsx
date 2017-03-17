@@ -19,7 +19,7 @@ import theme from './theme';
 import autocompleteTheme from './autocompleteTheme';
 import cardTheme from './cardTheme';
 import datePickerTheme from './datePickerTheme';
-import dropdownTheme from './dropdownTheme';
+import dropdownTheme from './dropdownTheme.scss';
 import cardBackgroundTheme from './cardBackgroundTheme';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js';
 

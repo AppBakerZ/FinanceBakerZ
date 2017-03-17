@@ -29,7 +29,15 @@
   },
   "cssModules": {
     "postcssPlugins": {
-      "postcss-cssnext": {},
+      "postcss-cssnext": {
+        "features": {
+          "customProperties": {
+            "variables": {
+              "color-primary": "#008142"
+            }
+          }
+        }
+      },
       "postcss-modules-values": {},
       "postcss-modules-local-by-default": {},
       "postcss-modules-extract-imports": {},

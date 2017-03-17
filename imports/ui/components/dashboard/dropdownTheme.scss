@@ -1,0 +1,9 @@
+@import "~react-toolbox/lib/dropdown/config.css";
+
+
+.field {
+  padding: calc(2 * var(--unit)) 0 calc(0.5 - var(--unit));
+  label{
+    color: $color-text-light;
+  }
+}

@@ -1,0 +1,93 @@
+@import "~react-toolbox/lib/list/config.css";
+
+.dashboardTable{
+  width: 100%;
+  float: left;
+}
+.recentIncomeWrapper{
+  width: 50%;
+  float: left;
+  margin-right: calc(1.5 * var(--unit));
+  .card{
+    border-radius: 0;
+    margin-bottom: calc(2 * var(--unit));
+    min-height: calc(34 * var(--unit));
+    h3{
+      background: $color-primary;
+      padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) calc(5 * var(--unit));
+      color: $color-primary-dark;
+      letter-spacing: calc(0.9 - var(--unit));
+      //font-size: $font-size-small * 1.8; //TODO: FIX VAR
+    }
+  }
+}
+.recentExpensesWrapper{
+  width: 50%;
+  float: left;
+  .card{
+    border-radius: 0;
+    margin-bottom: calc(2 * var(--unit));
+    min-height: calc(34 * var(--unit));
+    h3{
+      background: $color-accent;
+      padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) calc(5 * var(--unit));
+      color: $color-primary-dark;
+      letter-spacing: calc(0.9 - var(--unit));
+      //font-size: var(font-size-small) * 1.8; //TODO: FIX VAR
+    }
+  }
+}
+.tableLink{
+  text-align: right;
+  margin-right: calc(5 * var(--unit));
+  a{
+    color: $color-text;
+    font-size: var(--font-size);
+    text-transform: uppercase;
+    font-family: $preferred-font;
+  }
+}
+.errorShowIncomes{
+  text-align: center;
+  margin-top: calc(5 * var(--unit));
+  button{
+    width: calc(7.5 * var(--unit));
+    min-width: calc(7.5 * var(--unit));
+    height: calc(7.5 * var(--unit));
+    border-radius: 50%;
+    //font-size: var(font-size-small) * 3.3; //TODO: FIX VAR
+    padding: 0 calc(1.2 * var(--unit)) 0 calc(1.1 * var(--unit));
+    margin-bottom: calc(2.5 * var(--unit));
+    span{
+      margin: 0;
+    }
+  }
+  p{
+    font-size: var(font-size-big) + 0.2;
+    text-transform: uppercase;
+    color: $color-text;
+    letter-spacing: calc(0.9 - var(--unit));
+  }
+}
+.errorShowExpenses{
+  text-align: center;
+  margin-top: calc(5 * var(--unit));
+  button{
+    width: calc(7.5 * var(--unit));
+    min-width: calc(7.5 * var(--unit));
+    height: calc(7.5 * var(--unit));
+    border-radius: 50%;
+    font-size: calc(4.5 * var(--unit));
+    padding: 0 calc(1.2 * var(--unit)) 0 calc(1.1 * var(--unit));
+    margin-bottom: calc(2.5 * var(--unit));
+    span{
+      margin: 0;
+    }
+  }
+  p{
+    font-size: var(font-size-big) + 0.2;
+    text-transform: uppercase;
+    color: $color-text;
+    letter-spacing: calc(0.9 - var(--unit));
+  }
+}

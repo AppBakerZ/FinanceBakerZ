@@ -1,19 +1,18 @@
-@import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/list/config.css";
 
 .autocomplete {
   position: relative;
-  padding: 0 0 $unit - 0.5 0;
+  padding: 0 0 calc(0.5 - var(--unit)) 0;
   .value{
-    line-height: $unit * 2;
-    padding: $unit - 0.8 $unit * 3 0 $unit;
+    line-height: calc(2 * var(--unit));
+    padding: calc(0.8 - var(--unit)) calc(3 * var(--unit)) 0 var(--unit);
     background: $color-accent;
     color: $color-primary-dark;
-    z-index: $z-index-highest;
-    margin-top: $unit;
+    z-index: var(--z-index-highest);
+    margin-top: var(--unit);
     float: left;
     span{
-      margin: 0 $unit - 0.6 0;
+      margin: 0 calc(0.6 - var(--unit)) 0;
       top: -1px;
       svg{
         background: $color-primary-dark;
@@ -35,8 +34,8 @@
 }
 
 .input {
-  padding: $unit * 2 0 0;
-  margin-top: $unit + 0.7;
+  padding: calc(2 * var(--unit)) 0 0;
+  margin-top: calc(0.7 + var(--unit));
   label{
     color: $color-text-light;
   }
