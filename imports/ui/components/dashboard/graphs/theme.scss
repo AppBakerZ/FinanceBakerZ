@@ -2,15 +2,15 @@
 
 .card{
   border-radius: 0;
-  margin-top: calc(1.5 * var(--unit));
+  margin-top: calc(var(--unit) * 1.5 );
   .graphHeader{
     background: $color-primary;
-    padding: 0 calc(3 * var(--unit)) 0 calc(5 * var(--unit));
+    padding: 0 calc(var(--unit) * 3) 0 calc(var(--unit) * 5);
     h3{
-      padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) 0;
+      padding: calc(var(--unit) * 2.2) 0 calc(var(--unit) * 1.8) 0;
       color: $color-primary-dark;
       letter-spacing: calc(var(--unit) - 9);
-      font-size: calc(1.8 * var(--font-size-small));
+      font-size: calc(var(--font-size-small) * 1.8);
       width: 85%;
       float: left;
     }
@@ -36,8 +36,8 @@
   box-sizing: border-box;
   padding: var(--unit);
   width: 100%;
-  height: calc(40 * var(--unit));
+  height: calc(var(--unit) * 40);
   background-color: $color-primary-dark;
-  font-size: calc(0.6 + var(--font-size-small));
+  font-size: calc(var(--font-size-small) + 6);
   text-transform: uppercase;
 }
