@@ -1,55 +1,54 @@
-@import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/button/config.css";
 
 .inputField{
   width: 25%;
   display: inline-block;
-  margin: 0 $unit * 3.5 $unit * 2 0;
+  margin: 0 calc(3.5 * var(--unit)) calc(2 * var(--unit)) 0;
   > div{
     input{
-      border-bottom: $unit - 0.8 solid rgba(0, 0, 0, 0.12);
+      border-bottom: calc(0.8 - var(--unit)) solid rgba(0, 0, 0, 0.12);
     }
     label{
       color: $color-text;
-      font-size: $font-size-small + 0.1;
+      font-size: calc(0.1 + var(--font-size-small));
     }
   }
 }
 .inputDropdown{
   width: 25%;
   display: inline-block;
-  margin-bottom: $unit * 2;
+  margin-bottom: calc(2 * var(--unit));
   > div{
     > div{
       input{
-        border-bottom: $unit - 0.8 solid rgba(0, 0, 0, 0.12);
+        border-bottom: calc(0.8 - var(--unit)) solid rgba(0, 0, 0, 0.12);
       }
       label{
         color: $color-text;
-        font-size: $font-size-small + 0.1;
+        font-size: calc(0.1 + var(--font-size-small));
       }
     }
   }
   button{
     float: right;
-    margin-top: - $unit * 5.5;
+    margin-top: - calc(5.5 * var(--unit));
   }
 }
 .pageTitle{
   background: $color-primary;
-  padding: $unit * 2.7 $unit * 4 $unit * 2.3 $unit * 5;
+  padding: calc(2.7 * var(--unit)) calc(4 * var(--unit)) calc(2.3 * var(--unit)) calc(5 * var(--unit));
   h3{
-    font-size: $font-size-big + 0.7;
+    font-size: calc(0.7 + var(--font-size-big));
     color: $color-primary-dark;
-    letter-spacing: $unit - 0.9;
+    letter-spacing: calc(0.9 - var(--unit));
     display: inline-block;
-    line-height: $unit * 3;
+    line-height: calc(3 * var(--unit));
   }
   .button{
     float: right;
-    font-size: $font-size-big + 0.2;
+    font-size: calc(0.2 + var(--font-size-big));
     span{
-      line-height: $unit * 3.2;
+      line-height: calc(3.2 * var(--unit));
     }
     &:hover{
       background: none;
@@ -66,60 +65,60 @@
   }
 }
 .projectNothing{
-  margin: $unit * 5 0 $unit * 5 0;
+  margin: calc(5 * var(--unit)) 0 calc(5 * var(--unit)) 0;
   .errorShow{
     display: block;
     text-align: center;
-    font-size: $font-size-big + 0.2;
+    font-size: calc(0.2 + var(--font-size-big));
     text-transform: uppercase;
     color: $color-text;
     &:first-child{
-      margin-bottom: $unit * 3;
+      margin-bottom: calc(3 * var(--unit));
     }
   }
   .addProjectBtn{
     text-align: center;
     button{
       border-radius: 50%;
-      width: $unit * 7.5;
-      height: $unit * 7.5;
+      width: calc(7.5 * var(--unit));
+      height: calc(7.5 * var(--unit));
       padding: 0;
-      min-width: $unit * 7.5;
+      min-width: calc(7.5 * var(--unit));
       text-align: center;
-      margin-bottom: $unit * 2.5;
-      font-size: $font-size-big + 2.7;
+      margin-bottom: calc(2.5 * var(--unit));
+      font-size: calc(2.7 + var(--font-size-big));
       span{
         color: $color-primary-dark;
         text-transform: lowercase;
-        padding-left: $unit - 0.1;
+        padding-left: calc(0.1 - var(--unit));
       }
     }
   }
 }
 .loaderParent{
-  margin: $unit * 2 0 $unit * 3 0;
+  margin: calc(2 * var(--unit)) 0 calc(3 * var(--unit)) 0;
 }
 
 /////////////////////////// dialog styling start here ///////////////////////////////
 .contentParent{
   .contentOne{
-    margin-bottom: $unit * 2;
+    margin-bottom: calc(2 * var(--unit));
     > div{
       span{
         font-size: $font-size;
         color: $color-text;
-        line-height: $unit * 2.2;
+        line-height: calc(2.2 * var(--unit));
       }
     }
   }
   .contentTwo{
-    margin-bottom: $unit * 2;
+    margin-bottom: calc(var(--unit) * 3);
     > div{
       p{
         display: inline-block;
         line-height: $unit * 2.6;
         color: $color-text;
-        font-size: $font-size-big + 0.2;
+        font-size: calc(0.2 + var(--font-size-big));
         text-transform: capitalize;
         letter-spacing: $unit - 0.9;
         span{
@@ -148,14 +147,14 @@
 }
 .title{
   color: $color-primary;
-  font-size: $font-size-big + 0.7;
+  font-size: calc(0.7 + var(--font-size-big));
   text-transform: uppercase;
   letter-spacing: $unit - 0.9;
 }
 .confirmText{
   margin-bottom: $unit * 2;
   h3{
-    font-size: $font-size-big + 0.7;
+    font-size: calc(0.7 + var(--font-size-big));
     text-transform: uppercase;
     letter-spacing: $unit - 0.9;
     color: $color-primary;

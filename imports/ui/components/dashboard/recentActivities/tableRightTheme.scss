@@ -1,11 +1,11 @@
 @import "~react-toolbox/lib/list/config.css";
 
 .table{
-  padding: var(--unit) calc(2.5 * var(--unit)) var(--unit);
+  padding: var(--unit) calc(var(--unit) * 2.5) var(--unit);
   td{
-    border-bottom: calc(0.8 - var(--unit)) solid #f1f1f1;
-    padding: calc(0.3 - var(--unit)) calc(1.5 * var(--unit)) 0 calc(1.5 * var(--unit));
-    font-size: calc(0.6 + var(--font-size-small));
+    border-bottom: calc(var(--unit) - 8) solid #f1f1f1;
+    padding: calc(var(--unit) - 3) calc(var(--unit) * 15) 0 calc(var(--unit) * 15);
+    font-size: calc(var(--font-size-small) + 6);
     color: $color-text;
     text-transform: capitalize;
   }
@@ -17,16 +17,16 @@
     }
     td{
       &:first-child{
-        width: calc(5.5 * var(--unit));
+        width: calc(var(--unit) * 55);
         line-height: var(--unit);
-        border-right: calc(0.8 - var(--unit)) solid #eeeeee;
-        padding: calc(0.3 - var(--unit)) calc(1.5 * var(--unit));
-        height: calc(4.8 * var(--unit));
+        border-right: calc(var(--unit) - 8) solid #eeeeee;
+        padding: calc(var(--unit) - 3) calc(var(--unit) * 15);
+        height: calc(var(--unit) * 48);
         svg{
           -webkit-transform: rotate(90deg);
         }
         i{
-          font-size: calc(2 * var(--font-size));
+          font-size: calc(var(--font-size) * 2);
         }
       }
       &:nth-child(3){
@@ -34,21 +34,21 @@
         i{
           font-size: calc(var(--font-size));
           position: relative;
-          top: calc(0.9 - var(--unit));
-          left: calc(0.5 - var(--unit));
+          top: calc(var(--unit) - 9);
+          left: calc(var(--unit) - 5);
         }
       }
       &:last-of-type{
         text-align: right;
-        width: calc(4.5 * var(--unit));
-        padding: 0 calc(1.5 * var(--unit));
+        width: calc(var(--unit) * 45);
+        padding: 0 calc(var(--unit) * 15);
       }
     }
     &:last-child {
       td {
         border-color: transparent;
         &:first-child{
-          border-right: calc(0.8 - var(--unit)) solid #eeeeee;
+          border-right: calc(var(--unit) - 8) solid #eeeeee;
         }
       }
     }
