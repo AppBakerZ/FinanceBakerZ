@@ -1,17 +1,16 @@
-@import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/list/config.css";
 
 .card{
   border-radius: 0;
-  margin-top: $unit * 1.5;
+  margin-top: calc(1.5 * var(--unit));
   .graphHeader{
     background: $color-primary;
-    padding: 0 $unit * 3 0 $unit * 5;
+    padding: 0 calc(3 * var(--unit)) 0 calc(5 * var(--unit));
     h3{
-      padding: $unit * 2.2 0 $unit * 1.8 0;
+      padding: calc(2.2 * var(--unit)) 0 calc(1.8 * var(--unit)) 0;
       color: $color-primary-dark;
-      letter-spacing: $unit - 0.9;
-      font-size: $font-size-small * 1.8;
+      letter-spacing: calc(0.9 - var(--unit));
+      font-size: calc(1.8 * var(--font-size-small));
       width: 85%;
       float: left;
     }
@@ -35,10 +34,10 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: $unit;
+  padding: var(--unit);
   width: 100%;
-  height: $unit * 40;
+  height: calc(40 * var(--unit));
   background-color: $color-primary-dark;
-  font-size: $font-size-small + 0.6;
+  font-size: calc(0.6 + var(--font-size-small));
   text-transform: uppercase;
 }
