@@ -77,7 +77,7 @@ export default class Graph extends Component {
     renderTooltipContent (o){
         const { payload, label } = o;
         return (
-            <div className="customized-tooltip-content">
+            <div className={theme.customizedTooltip}>
                 <p className="total">{`${this.months[label-1]}`}</p>
                 <ul>
                     {
