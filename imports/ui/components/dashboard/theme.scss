@@ -99,7 +99,7 @@
     h2{
       margin: 0 calc(var(--unit) * 2.5) calc(var(--unit) * 2.1) 0;
       color: $color-danger;
-      font-size: calc(var(font-size-big) * 2);
+      font-size: calc(var(--font-size-big) * 2);
       letter-spacing: calc(var(--unit) - 8);
       display: inline-block;
     }
