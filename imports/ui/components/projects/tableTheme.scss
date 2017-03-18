@@ -1,24 +1,24 @@
 @import "~react-toolbox/lib/list/config.css";
 
 .card{
-  min-height: calc(15 * var(--unit));
+  min-height: calc(var(--unit) * 15);
   .table{
-    padding: var(--unit) calc(2 * var(--unit));
+    padding: var(--unit) calc(var(--unit) * 2);
     tbody{
       tr{
         td{
-          font-size: calc(0.2 + var(--font-size-big));
+          font-size: calc(var(--font-size-big) + 2);
           text-transform: capitalize;
           color: $color-text;
-          border-bottom: solid calc(0.8 - var(--unit)) rgba(0, 0, 0, 0.12);
-          border-right: solid calc(0.8 - var(--unit)) rgba(0, 0, 0, 0.12);
-          padding: 0 calc(2 * var(--unit)) 0 calc(4 * var(--unit));
+          border-bottom: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+          border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+          padding: 0 calc(var(--unit) * 2) 0 calc(var(--unit) * 4);
           i{
             position: relative;
-            top: calc(0.8 - var(--unit));
+            top: calc(var(--unit) - 8);
           }
           &:first-child{
-            padding: 0 calc(3 * var(--unit));
+            padding: 0 calc(var(--unit) * 3);
           }
           &:last-of-type{
             border-right: none;
@@ -27,7 +27,7 @@
         &:last-of-type{
           td{
             border-bottom-color: transparent;
-            border-right: solid calc(0.8 - var(--unit)) rgba(0, 0, 0, 0.12);
+            border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
             &:last-of-type{
               border-right: none;
             }

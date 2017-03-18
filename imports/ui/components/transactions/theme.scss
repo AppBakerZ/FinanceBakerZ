@@ -1,0 +1,279 @@
+@import "~react-toolbox/lib/button/config.css";
+
+.projects{
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: auto;
+  .containerStyle{
+    flex: 1;
+    padding: 1.8rem;
+    overflow-y: auto;
+  }
+}
+.pageTitle{
+  background: $color-primary;
+  padding: calc(var(--unit) * 2.2) calc(var(--unit) * 3) calc(var(--unit) * 1.8) calc(var(--unit) * 5);
+  h3{
+    color: $color-primary-dark;
+    letter-spacing: calc(var(--unit) - 9);
+    font-size: calc(var(--font-size-big) + 7);
+    display: inline-block;
+    margin: calc(var(--unit) - 4) 0 calc(var(--unit) - 4) 0;
+  }
+  > div{
+    display: inline-block;
+    float: right;
+    button{
+      font-size: calc(var(--font-size-big) + 2);
+      padding: calc(var(--unit) - 8) var(--unit) 0 var(--unit);
+      line-height: calc(var(--unit) * 4);
+      height: calc(var(--unit) * 4);
+      font-weight: 600;
+      .icon{
+        line-height: calc(var(--unit) * 4);
+      }
+      &:first-child{
+        margin-right: calc(var(--unit) * 2);
+      }
+    }
+  }
+}
+.dropdownAutocomplete{
+  width: 19%;
+  display: inline-block;
+  margin-right: calc(var(--unit) * 2);
+  .dashboardAutocomplete{
+    label{
+      color: $color-text;
+    }
+    ul{
+      > div{
+        position: absolute;
+        top: calc(var(--unit) - 5);
+        z-index: calc(var(--z-index-highest) + 1);
+      }
+    }
+  }
+}
+.dropdownBox{
+  width: 79.3%;
+  display: inline-block;
+  position: relative;
+  top: -0.3rem;
+  .dashboardAutocomplete{
+    width: 18%;
+    display: inline-block;
+    margin-right: calc(var(--unit) * 2);
+    label{
+      color: $color-text;
+      font-size: var(--font-size-small);
+    }
+  }
+  .dashboardAutocompleteLast{
+    width: 18%;
+    display: inline-block;
+    position: relative;
+    top: 0;
+    label{
+      color: $color-text;
+      font-size: var(--font-size-small);
+    }
+    .value{
+      .material-icons{
+        display: none;
+      }
+    }
+  }
+}
+.dashboardAutocompleteLastOne{
+  width: 18%;
+  display: inline-block;
+  position: relative;
+  top: calc(var(--unit) - 7);
+  label{
+    color: $color-text;
+    font-size: var(--font-size-small);
+  }
+  input{
+    font-weight: 600;
+  }
+  li{
+    font-weight: 600;
+  }
+  .value{
+    .material-icons{
+      display: none;
+    }
+  }
+}
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+  &.flat:hover {
+    background: none;
+  }
+}
+.dashboardDatePicker{
+  width: 38%;
+  position: relative;
+  top: calc(var(--unit) - 7);
+  display: inline-block;
+  > div{
+    width: 44.6%;
+    display: inline-block;
+    margin-right: calc(var(--unit) * 1.9);
+    label{
+      color: $color-text;
+      font-size: var(--font-size-small);
+    }
+  }
+}
+.categoryIcon{
+  width: 100%;
+  display: inline-block;
+  i{
+    margin: 0 var(--unit) 0 0;
+    float: left;
+  }
+}
+.transactionNothing{
+  margin: calc(var(--unit) * 5) 0 calc(var(--unit) * 5) 0;
+  .errorShow{
+    display: block;
+    text-align: center;
+    font-size: calc(var(--font-size-big) + 2);
+    text-transform: uppercase;
+    color: $color-text;
+    &:first-child{
+      margin-bottom: calc(var(--unit) * 3);
+    }
+  }
+  .addProjectBtn{
+    text-align: center;
+    button{
+      border-radius: 50%;
+      width: calc(var(--unit) * 7.5);
+      height: calc(var(--unit) * 7.5);
+      padding: 0;
+      min-width: calc(var(--unit) * 7.5);
+      text-align: center;
+      margin-bottom: calc(var(--unit) * 2.5);
+      font-size: calc(var(--font-size-big) + 2.7);
+      span{
+        color: $color-primary-dark;
+        text-transform: lowercase;
+        padding-left: calc(var(--unit) - 1);
+      }
+    }
+  }
+}
+.loaderParent{
+  margin: calc(var(--unit) * 2) 0 calc(var(--unit) * 3) 0;
+}
+
+/////////////////// dialog content styling start here ////////////////////////
+.contentParent{
+  .contentOne{
+    margin-bottom: calc(var(--unit) * 2.5);
+    p{
+      display: inline-block;
+      line-height: calc(var(--unit) * 2.6);
+      color: $color-text;
+      font-size: calc(var(--font-size-big) + 2);
+      text-transform: capitalize;
+      letter-spacing: calc(var(--unit) - 9);
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: var(--font-size-big);
+        text-transform: capitalize;
+        letter-spacing: calc(var(--unit) - 9);
+      }
+    }
+  }
+  .contentTwo{
+    margin-bottom: calc(var(--unit) * 2.5);
+    p{
+      display: inline-block;
+      line-height: calc(var(--unit) * 2.6);
+      color: $color-text;
+      font-size: calc(var(--font-size-big) + 2);
+      text-transform: capitalize;
+      letter-spacing: calc(var(--unit) - 9);
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: var(--font-size-big);
+        text-transform: capitalize;
+        letter-spacing: calc(var(--unit) - 9);
+      }
+    }
+  }
+  .contentThree{
+    button{
+      background: $color-accent;
+      font-size: var(--font-size);
+      padding: calc(var(--unit) - 6) calc(var(--unit) * 2) 0 calc(var(--unit) * 2);
+      height: calc(var(--unit) * 4.6);
+      &:first-child{
+        margin-right: calc(var(--unit) * 2);
+      }
+    }
+    p{
+      display: inline-block;
+      line-height: calc(var(--unit) * 2.6);
+      color: $color-text;
+      font-size: calc(var(--font-size-big) + 2);
+      text-transform: capitalize;
+      letter-spacing: calc(var(--unit) - 9);
+      span{
+        color: $color-primary;
+        font-weight: 600;
+        font-size: var(--font-size-big);
+        text-transform: capitalize;
+        letter-spacing: calc(var(--unit) - 9);
+      }
+    }
+    > div{
+      &:last-of-type{
+        text-align: center;
+        margin-top: calc(var(--unit) * 2);
+      }
+    }
+  }
+}
+.firstRow{
+  margin-bottom: calc(var(--unit) * 2.5);
+  span{
+    font-size: var(--font-size);
+    color: $color-text;
+    line-height: calc(var(--unit) * 2.2);
+  }
+}
+.confirmText{
+  margin-bottom: calc(var(--unit) * 2);
+  p{
+    line-height: calc(var(--unit) * 2);
+    color: $color-text;
+    font-size: var(--font-size-big);
+    letter-spacing: calc(var(--unit) - 9);
+    text-align: center;
+  }
+}
+.buttonBox{
+  text-align: center;
+  button{
+    padding: calc(var(--unit) - 8) calc(var(--unit) * 5.9) 0;
+    height: calc(var(--unit) * 4.6);
+    font-size: calc(var(--font-size-big) - 1);
+    letter-spacing: calc(var(--unit) - 9);
+    border-radius: calc(var(--unit) - 5);
+    &:last-of-type{
+      margin-left: calc(var(--unit) * 1.8);
+      padding: calc(var(--unit) - 8) calc(var(--unit) * 3.8) 0;
+    }
+  }
+}

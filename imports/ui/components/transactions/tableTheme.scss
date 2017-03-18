@@ -1,0 +1,45 @@
+@import "~react-toolbox/lib/list/config.css";
+
+.card {
+  min-height: calc(var(--unit) * 15);
+  .table {
+    padding: var(--unit) calc(var(--unit) * 2);
+    tr {
+      td {
+        font-size: calc(var(--font-size-big) + 2);
+        text-transform: capitalize;
+        color: $color-text;
+        border-bottom: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+        padding: calc(var(--unit) - 8) calc(var(--unit) * 2) 0 calc(var(--unit) * 3.5);
+        i {
+          position: relative;
+          top: calc(var(--unit) - 8);
+        }
+        &:first-child {
+          padding: calc(var(--unit) - 7) calc(var(--unit) * 2) 0 calc(var(--unit) * 3);
+          width: calc(var(--unit) * 8);
+          line-height: 0;
+          border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+        }
+        &:nth-child(2) {
+          width: calc(var(--unit) * 18.5);
+          padding: calc(var(--unit) - 6) 0 0 calc(var(--unit) * 3);
+          border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+        }
+        &:nth-child(4) {
+          text-align: right;
+        }
+        &:last-of-type {
+          text-align: right;
+          width: calc(var(--unit) * 4);
+          padding: calc(var(--unit) - 6) var(--unit) 0 var(--unit);
+        }
+      }
+      &:last-of-type{
+        td{
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,225 @@
+@import "~react-toolbox/lib/button/config.css";
+
+.inputField{
+  width: 25%;
+  display: inline-block;
+  margin: 0 calc(var(--unit) * 3.5) calc(var(--unit) * 2) 0;
+  > div{
+    input{
+      border-bottom: calc(var(--unit) - 8) solid rgba(0, 0, 0, 0.12);
+    }
+    label{
+      color: $color-text;
+      font-size: calc(var(--font-size-small) + 1);
+    }
+  }
+}
+.projects{
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: auto;
+  .containerStyle{
+    flex: 1;
+    padding: 1.8rem;
+    overflow-y: auto;
+  }
+}
+.inputDropdown{
+  width: 25%;
+  display: inline-block;
+  margin-bottom: calc(var(--unit) * 2);
+  > div{
+    > div{
+      input{
+        border-bottom: calc(var(--unit) - 8) solid rgba(0, 0, 0, 0.12);
+      }
+      label{
+        color: $color-text;
+        font-size: calc(var(--font-size-small) + 1);
+      }
+    }
+  }
+  button{
+    float: right;
+    margin-top: - calc(var(--unit) * 5.5);
+  }
+}
+.pageTitle{
+  background: $color-primary;
+  padding: calc(var(--unit) * 2.7) calc(var(--unit) * 4) calc(var(--unit) * 2.3) calc(var(--unit) * 5);
+  h3{
+    font-size: calc(var(--font-size-big) + 7);
+    color: $color-primary-dark;
+    letter-spacing: calc(var(--unit) - 9);
+    display: inline-block;
+    line-height: calc(var(--unit) * 3);
+    margin: 0;
+  }
+  .button{
+    float: right;
+    font-size: calc(var(--font-size-big) + 2);
+    font-weight: 600;
+    span{
+      line-height: calc(var(--unit) * 3.2);
+    }
+    &:hover{
+      background: none;
+    }
+  }
+}
+
+.neutral:not([disabled]) {
+  &.flat, &.toggle {
+    color: $color-primary-dark;
+  }
+  &.flat:hover {
+    background: none;
+  }
+}
+.projectNothing{
+  margin: calc(var(--unit) * 5) 0 calc(var(--unit) * 5) 0;
+  .errorShow{
+    display: block;
+    text-align: center;
+    font-size: calc(var(--font-size-big) + 2);
+    text-transform: uppercase;
+    color: $color-text;
+    &:first-child{
+      margin-bottom: calc(var(--unit) * 3);
+    }
+  }
+  .addProjectBtn{
+    text-align: center;
+    button{
+      border-radius: 50%;
+      width: calc(var(--unit) * 7.5);
+      height: calc(var(--unit) * 7.5);
+      padding: 0;
+      min-width: calc(var(--unit) * 7.5);
+      text-align: center;
+      margin-bottom: calc(var(--unit) * 2.5);
+      font-size: calc(var(--font-size-big) + 2.7);
+      span{
+        color: $color-primary-dark;
+        text-transform: lowercase;
+        padding-left: calc(var(--unit) - 1);
+      }
+    }
+  }
+}
+.loaderParent{
+  margin: calc(var(--unit) * 2) 0 calc(var(--unit) * 3) 0;
+}
+
+/////////////////////////// dialog styling start here ///////////////////////////////
+.contentParent{
+  .contentOne{
+    margin-bottom: calc(var(--unit) * 2);
+    > div{
+      span{
+        font-size: var(--font-size);
+        color: $color-text;
+        line-height: calc(var(--unit) * 2.2);
+      }
+    }
+  }
+  .contentTwo{
+    margin-bottom: calc(var(--unit) * 3);
+    > div{
+      p{
+        display: inline-block;
+        line-height: calc(var(--unit) * 2.6);
+        color: $color-text;
+        font-size: calc(var(--font-size-big) + 2);
+        text-transform: capitalize;
+        letter-spacing: calc(var(--unit) - 9);
+        span{
+          color: $color-primary;
+          font-weight: 600;
+          font-size: var(--font-size-big);
+          text-transform: capitalize;
+          letter-spacing: calc(var(--unit) - 9);
+        }
+      }
+    }
+  }
+}
+.buttonBox{
+  text-align: center;
+  button{
+    background: $color-accent;
+    font-size: var(--font-size);
+    padding: calc(var(--unit) - 8) calc(var(--unit) * 2) 0 calc(var(--unit) * 2);
+    height: calc(var(--unit) * 3.6);
+    word-spacing: calc(var(--unit) - 6);
+    &:first-child{
+      margin-right: calc(var(--unit) * 2);
+    }
+  }
+}
+.title{
+  color: $color-primary;
+  font-size: calc(var(--font-size-big) + 7);
+  text-transform: uppercase;
+  letter-spacing: calc(var(--unit) - 9);
+}
+.confirmText{
+  margin-bottom: calc(var(--unit) * 2);
+  h3{
+    font-size: calc(var(--font-size-big) + 7);
+    text-transform: uppercase;
+    letter-spacing: calc(var(--unit) - 9);
+    color: $color-primary;
+    margin: 0 0 calc(var(--unit) * 2) 0;
+  }
+  p{
+    line-height: calc(var(--unit) * 2.6);
+    color: $color-text;
+    font-size: var(--font-size-big);
+    letter-spacing: calc(var(--unit) - 9);
+    text-align: center;
+  }
+}
+.buttonDialog{
+  text-align: center;
+  button{
+    font-size: calc(var(--font-size) + 1);
+    letter-spacing: calc(var(--unit) - 9);
+    height: calc(var(--unit) * 4.6);
+    padding: calc(var(--unit) - 6) calc(var(--unit) * 5.9) 0;
+    border-radius: calc(var(--unit) - 5);
+    &:last-of-type{
+      padding: calc(var(--unit) - 6) calc(var(--unit) * 3.8) 0;
+      margin-left: calc(var(--unit) * 1.8);
+    }
+  }
+}
+.createProjectForm{
+  label{
+    color: $color-text;
+  }
+}
+.addBtn{
+  text-align: center;
+  button{
+    font-size: calc(var(--font-size) + 1);
+    letter-spacing: calc(var(--unit) - 9);
+    height: calc(var(--unit) * 4.6);
+    padding: calc(var(--unit) - 6) calc(var(--unit) * 4.3) 0;
+  }
+}
+.buttonArea{
+  text-align: center;
+  button{
+    background: $color-accent;
+    font-size: var(--font-size);
+    padding: calc(var(--unit) - 8) calc(var(--unit) * 4.5) 0;
+    height: calc(var(--unit) * 4.6);
+    word-spacing: calc(var(--unit) - 6);
+    &:first-child{
+      margin-right: calc(var(--unit) * 1.8);
+      padding: calc(var(--unit) - 8) calc(var(--unit) * 6.3) 0;
+    }
+  }
+}

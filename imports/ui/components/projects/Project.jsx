@@ -18,7 +18,7 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/cur
 import theme from './theme';
 import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
-import buttonTheme from './buttonTheme';
+import buttonTheme from './buttonTheme.scss';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -228,8 +228,8 @@ class ProjectPage extends Component {
 
     render() {
         return (
-            <div className="projects"  onScroll={this.handleScroll}>
-                <div className="container">
+            <div className={theme.projects}  onScroll={this.handleScroll}>
+                <div className={theme.containerStyle}>
                     <div>
                         <div className={theme.inputField}>
                             <Input type='text'

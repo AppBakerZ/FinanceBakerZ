@@ -21,13 +21,13 @@
     img{
       border-radius: 50%;
       position: relative;
-      top: calc(0.7 + var(--unit));
-      left: calc( 0.2 - var(--unit));
+      top: calc(var(--unit) * 1.7);
+      left: var(--unit);
       margin-right: calc( 2 * var(--unit));
     }
     i{
       float: right;
-      margin-top: calc( 0.4 + var(--unit));
+      margin-top: calc(var(--unit) * 1.4);
       color: $color-text-light;
       cursor: pointer;
     }

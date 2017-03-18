@@ -22,7 +22,7 @@ import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import theme from './theme';
 import tableTheme from './tableTheme';
-import dialogTheme from './dialogTheme';
+import dialogTheme from './dialogTheme.scss';
 import buttonTheme from './buttonTheme';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 
@@ -535,8 +535,8 @@ class TransactionPage extends Component {
     /*************** template render ***************/
     render() {
         return (
-            <div className="projects" onScroll={this.handleScroll}>
-                <div className="container">
+            <div className={theme.projects} onScroll={this.handleScroll}>
+                <div className={theme.containerStyle}>
                     <div className={theme.dropdownAutocomplete}>
                         <Autocomplete theme={theme}
                             className={theme.dashboardAutocomplete}
