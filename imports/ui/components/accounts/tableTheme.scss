@@ -1,0 +1,53 @@
+@import "~react-toolbox/lib/list/config.css";
+
+.card{
+  min-height: calc(var(--unit) * 15);
+  table{
+    width: 100%;
+    padding: calc(var(--unit) * 2) calc(var(--unit) * 2.5);
+    tr{
+      td{
+        border-bottom: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+        text-transform: capitalize;
+        i{
+          font-size: calc(var(--unit) * 7);
+        }
+        &:first-child{
+          padding: calc(var(--unit) * 2.3) calc(var(--unit) * 2) calc(var(--unit) * 2) calc(var(--unit) * 3);
+          line-height: 0;
+          width: calc(var(--unit) * 23);
+          border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+        }
+        &:nth-child(2){
+          width: calc(var(--unit) * 60);
+          padding-top: calc(var(--unit) - 6);
+        }
+        &:last-of-type{
+          text-align: right;
+        }
+        > div{
+          > div{
+            font-size: calc(var(--font-size) + 4);
+            color: $color-text;
+            line-height: calc(var(--unit) * 2.6);
+            letter-spacing: calc(var(--unit) - 9);
+            margin-left: var(--unit);
+            strong{
+              font-family: $preferred-font;
+              i{
+                font-size: calc(var(--font-size-big) + 2);
+              }
+            }
+          }
+        }
+      }
+      &:last-of-type{
+        td{
+          &:first-child{
+            border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+          }
+        }
+      }
+    }
+  }
+}

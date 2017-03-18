@@ -1,14 +1,14 @@
 .appBar {
   background: $color-primary-dark;
   overflow: hidden;
-  z-index: calc(1 + var(--z-index-highest));
+  z-index: calc(var(--z-index-highest) + 1);
   &:not(.flat) {
-    z-index: calc(1 + var(--z-index-highest));
+    z-index: calc(var(--z-index-highest) + 1);
   }
   a {
     img {
       margin-top: -3px;
-      width: calc(8.5 * var(--unit));
+      width: calc(var(--unit) * 8.5);
       float: left;
     }
   }

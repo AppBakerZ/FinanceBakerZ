@@ -1,0 +1,96 @@
+@import "~react-toolbox/lib/button/config.css";
+
+.accountContent{
+  .accountTitle{
+    background: $color-primary;
+    padding: calc(var(--unit) * 2.3) calc(var(--unit) * 5) calc(var(--unit) * 1.7) calc(var(--unit) * 5);
+    text-align: right;
+    h3{
+      color: $color-primary-dark;
+      font-size: calc(var(--font-size-big) + 7);
+      text-transform: capitalize;
+      letter-spacing: calc(var(--unit) - 9);
+      display: inline-block;
+      float: left;
+    }
+    button{
+      border-radius: calc(var(--unit) - 5);
+      width: auto;
+      font-size: calc(var(--font-size-big) + 2);
+      padding: calc(var(--unit) - 3) calc(var(--unit) * 2.6) 0 calc(var(--unit) * 2.6);
+      height: calc(var(--unit) * 4.6);
+      margin-top: -0.6rem;
+    }
+  }
+}
+.buttonParent{
+  margin-top: calc(var(--unit) - 5);
+  button{
+    font-size: calc(var(--font-size) + 1);
+    padding: calc(var(--unit) - 6) calc(var(--unit) * 6) 0 calc(var(--unit) * 6);
+    height: calc(var(--unit) * 4.6);
+    border-radius: calc(var(--unit) - 5);
+    &:last-of-type{
+      padding: calc(var(--unit) - 6) calc(var(--unit) * 1) 0 calc(var(--unit) * 1);
+      min-width: calc(var(--unit) * 4.6);
+      span{
+        margin: 0;
+      }
+    }
+  }
+}
+.dialogAccount{
+  .confirmText{
+    margin-bottom: calc(var(--unit) * 2);
+    h3{
+      color: $color-primary;
+      font-size: calc(var(--font-size-big) + 7);
+      text-transform: uppercase;
+      letter-spacing: calc(var(--unit) - 9);
+      word-spacing: calc(var(--unit) - 5);
+      margin: 0 0 calc(var(--unit) * 1.2) 0;
+    }
+    p{
+      line-height: calc(var(--unit) * 2);
+      color: $color-text;
+      font-size: var(--font-size-big);
+      letter-spacing: calc(var(--unit) - 9);
+      text-align: center;
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    button{
+      padding: calc(var(--unit) - 8) calc(var(--unit) * 5.9) 0;
+      font-size: calc(var(--font-size-big) - 1);
+      height: calc(var(--unit) * 4.6);
+      letter-spacing: calc(var(--unit) - 9);
+      border-radius: calc(var(--unit) - 5);
+      &:last-of-type{
+        margin-left: calc(var(--unit) * 1.5);
+        padding: calc(var(--unit) - 8) calc(var(--unit) * 3.8) 0;
+        border-radius: calc(var(--unit) - 5);
+      }
+    }
+  }
+}
+.titleAccount{
+  color: $color-primary;
+  font-size: calc(var(--font-size-big) + 7);
+  text-transform: uppercase;
+  letter-spacing: calc(var(--unit) - 9);
+}
+.addAccount{
+  label{
+    color: $color-text;
+  }
+}
+.addBtn{
+  text-align: center;
+  button{
+    font-size: calc(var(--font-size) + 1);
+    letter-spacing: calc(var(--unit) - 9);
+    height: calc(var(--unit) * 4.6);
+    padding: calc(var(--unit) - 6) calc(var(--unit) * 2) 0;
+  }
+}

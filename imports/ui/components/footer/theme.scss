@@ -2,14 +2,14 @@
 
 .appFooter{
   text-align: center;
-  padding: calc(0.5 - var(--unit)) 0 calc(0.7 - var(--unit)) 0;
+  padding: calc(var(--unit) - 5) 0 calc(var(--unit) - 7) 0;
   background: $color-primary;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   span{
-    margin: calc(0.5 - var(--unit)) 0 calc(0.5 - var(--unit)) 0;
+    margin: calc(var(--unit) - 5) 0 calc(var(--unit) - 5) 0;
     color: $color-primary-dark;
     font-size: var(--font-size-small);
   }

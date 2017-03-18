@@ -1,0 +1,6 @@
+@import "~react-toolbox/lib/button/config.css";
+
+.card{
+  padding: 0 calc(var(--unit) * 2.5);
+  margin-bottom: calc(var(--unit) - 8);
+}

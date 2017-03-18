@@ -1,10 +1,9 @@
-@import "~react-toolbox/lib/variables.css";
 @import "~react-toolbox/lib/button/config.css";
 
 .values{
-  padding: 0 $unit - 0.3 0;
+  padding: 0 calc(var(--unit) - 3) 0;
   position: static;
-  margin-bottom: $unit;
+  margin-bottom: var(--unit);
   li{
     width: 20%;
     float: left;
@@ -12,12 +11,12 @@
     div{
       width: 100%;
       text-align: center;
-      height: $unit * 7;
-      padding-top: $unit * 1.2;
-      border-bottom: $unit - 0.8 solid #d3d3d3;
-      border-right: $unit - 0.8 solid #d3d3d3;
+      height: calc(var(--unit) * 7);
+      padding-top: calc(var(--unit) * 1.2);
+      border-bottom: calc(var(--unit) - 8) solid #d3d3d3;
+      border-right: calc(var(--unit) - 8) solid #d3d3d3;
       i{
-        font-size: $font-size + 3.2;
+        font-size: calc(var(--font-size) + 3.2);
       }
       &.removeBottomBorder{
         border-bottom: 0;
@@ -44,7 +43,7 @@
     .value{
       > div{
         i{
-          font-size: $font-size-big + 0.7;
+          font-size: calc(var(--font-size-big) + 7);
         }
       }
     }

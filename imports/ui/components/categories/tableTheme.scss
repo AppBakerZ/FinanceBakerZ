@@ -1,0 +1,82 @@
+@import "~react-toolbox/lib/button/config.css";
+
+.card{
+  table{
+    padding: calc(var(--unit) * 2) calc(var(--unit) * 2.5);
+    tr{
+      &:hover{
+        background: none;
+      }
+      td{
+        border-bottom: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+        img{
+          width: calc(var(--unit) * 7);
+          height: calc(var(--unit) * 7);
+        }
+        > div{
+          line-height: calc(var(--unit) * 3.4);
+          margin: calc(var(--unit) * 1.8) 0 var(--unit) 0;
+          > div{
+            line-height: calc(var(--unit) * 2);
+            margin: calc(var(--unit) * 2.5) 0 var(--unit) calc(var(--unit) - 2);
+            strong{
+              font-size: calc(var(--font-size-big) + 2);
+              color: $color-text;
+              font-family: $preferred-font;
+              letter-spacing: calc(var(--unit) - 9);
+              text-transform: capitalize;
+              cursor: pointer;
+            }
+          }
+          span{
+            div{
+              font-size: var(--font-size-big);
+              color: $color-text;
+              letter-spacing: calc(var(--unit) - 9);
+              line-height: var(--font-size);
+              padding: calc(var(--unit) - 8) calc(var(--unit) - 2);
+              margin-right: calc(var(--unit) * 1.5);
+              background: $color-primary-dark;
+              box-shadow: 0 calc(var(--unit) - 8) calc(var(--unit) - 8) 0 #b9b9b9;
+              display: inline-block;
+              text-transform: capitalize;
+              cursor: pointer;
+              a{
+                border: 0;
+                padding: 0 0 0 calc(var(--unit) * 1.5);
+                text-transform: lowercase;
+                box-shadow: 0 0 0 0;
+                margin-right: 0;
+              }
+            }
+            &:last-of-type{
+              a{
+                &:last-of-type{
+                  border-right: 0;
+                }
+              }
+            }
+          }
+        }
+        &:first-child{
+          width: calc(var(--unit) * 14);
+          padding: calc(var(--unit) * 1.5) calc(var(--unit) * 4) calc(var(--unit) * 1.5) calc(var(--unit) * 3);
+          line-height: 0;
+          border-right: solid calc(var(--unit) - 8) rgba(0, 0, 0, 0.12);
+          text-align: center;
+          i{
+            font-size: calc(var(--font-size-big) * 3);
+            color: $color-text;
+          }
+        }
+        &:nth-child(2){
+          padding: 0 0 0 calc(var(--unit) * 3.2);
+          width: calc(var(--unit) * 100);
+        }
+        &:last-of-type{
+          text-align: right;
+        }
+      }
+    }
+  }
+}

@@ -23,7 +23,7 @@
       position: relative;
       top: calc(var(--unit) * 1.7);
       left: var(--unit);
-      margin-right: calc( 2 * var(--unit));
+      margin-right: calc(var(--unit) * 2);
     }
     i{
       float: right;
