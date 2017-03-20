@@ -271,7 +271,7 @@ class TransactionPage extends Component {
                         <Button label='Delete Transaction' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
                     </div>
                 </div>
-                         {this.addImage(this.state.selectedProject.billUrl)}
+                         {this.state.selectedProject.billUrl && this.addImage(this.state.selectedProject.billUrl)}
             </div>
         )
     }
