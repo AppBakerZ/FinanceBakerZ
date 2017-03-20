@@ -271,9 +271,7 @@ class TransactionPage extends Component {
                         <Button label='Delete Transaction' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
                     </div>
                 </div>
-
-                <div className={theme.imageBox} style={{backgroundImage: `url(${selectedProject.billUrl})`}}></div>
-
+                         {this.addImage(this.state.selectedProject.billUrl)}
             </div>
         )
     }
@@ -288,6 +286,18 @@ class TransactionPage extends Component {
         this.setState({deleteConfirmMessage : !this.state.deleteConfirmMessage});
     }
 
+    addImage(bills){
+        var bill = bills.map(function(elem){
+            return(
+            <div className={theme.imageBox} style={{backgroundImage: `url(${elem})`}}>
+            </div>
+            )
+        });
+        return bill;
+    }
+
+
+
     /*************** form template ***************/
     renderAddForm(){
         let {updateForm, model, transaction} = this.state;
@@ -297,7 +307,7 @@ class TransactionPage extends Component {
                 <h4 className={!updateForm && theme.addNew}>{(updateForm ? 'Update ' : 'Add New ') + model}</h4>
                 {model == 'Income' || transaction && transaction.receivedAt ?
                     <IncomesSideBar params={transaction ? {id: transaction._id}: ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/> :
-                    <ExpensesSideBar handler={this.state.handler} params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
+                    <ExpensesSideBar  addImage={this.addImage} handler={this.state.handler} params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
             </div>
         )
     }
@@ -644,7 +654,6 @@ export default createContainer(() => {
     incomes = Incomes.find().fetch();
     return {
         transactionsLoading,
-        transactions,
         transactionsExists,
         transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
         accounts: Accounts.find({}).fetch(),

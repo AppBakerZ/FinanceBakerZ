@@ -49,7 +49,7 @@ Expenses.schema = new SimpleSchema({
         optional: true
     },
     billUrl: {
-        type: String,
+        type: [String],
         label: 'Bill url of expense',
         optional: true
     },

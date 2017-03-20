@@ -30,7 +30,8 @@ class ExpensesSideBar extends Component {
             category: '',
             active: false,
             loading: false,
-            billUrl: '',
+            billUrl: [],
+            data_uri: [],
             disableButton: false
         };
     }
@@ -178,7 +179,7 @@ class ExpensesSideBar extends Component {
     }
 
     componentWillReceiveProps (p){
-        p.expense.billUrl = p.expense.billUrl || '';
+        p.expense.billUrl = p.expense.billUrl || [];
         p.expense.receivedTime = p.expense.receivedAt;
         p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
@@ -278,9 +279,21 @@ class ExpensesSideBar extends Component {
 
     resetBillUpload(){
         this.setState({
-            data_uri: '',
-            billUrl: ''
+            data_uri: [],
+            billUrl: []
         });
+    }
+
+    fileReader(file){
+        var Reader = new FileReader();
+        Reader.onload = (upload) => {
+            var data = this.state.data_uri;
+            data.push(upload.target.result);
+            this.setState({
+                data_uri: data
+            });
+        }
+        Reader.readAsDataURL(file);
     }
 
     uploadBill(value, e){
@@ -292,38 +305,36 @@ class ExpensesSideBar extends Component {
                 loading: true
             });
 
-            const reader = new FileReader();
-            const file = e.target.files[0];
-            reader.onload = (upload) => {
-                console.log(upload);
-                this.setState({
-                    data_uri: upload.target.result
-                });
-            };
-            reader.readAsDataURL(file);
+            const files = e.target.files;
+            let self = this;
+            for (i = 0; i < files.length; i++) {
+                self.fileReader(files[i]);
+            }
 
             let metaContext = {
                 uploaderId: userId
             };
 
-            let uploader = new Slingshot.Upload('imageUploader', metaContext);
-            this.props.handler(true);
-            uploader.send(e.target.files[0],  (error, downloadUrl) => { // you can use refs if you like
-                if (error) {
-                    this.props.handler(false);
-                    // Log service detailed response
-                    console.error('Error uploading', uploader.xhr.response);
-                    alert (error); // you may want to fancy this up when you're ready instead of a popup.
-                }
-                else {
-                    // we use $set because the user can change their avatar so it overwrites the url :)
-                    //Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
-                    console.log(downloadUrl);
-                    this.setState({billUrl: downloadUrl});
-                }
-                this.setState({
-                    disableButton: false,
-                    loading: false
+            var uploads = _.map(e.target.files, (file) => {
+                let uploader = new Slingshot.Upload('imageUploader', metaContext);
+                this.props.handler(true);
+                uploader.send(file, (error, downloadUrl) => { // you can use refs if you like
+                    if (error) {
+                        this.props.handler(false);
+                        // Log service detailed response
+                        console.error('Error uploading', uploader.xhr.response);
+                        alert(error); // you may want to fancy this up when you're ready instead of a popup.
+                    }
+                    else {
+                        let bill = this.state.billUrl;
+                        bill.push(downloadUrl);
+                        this.setState({billUrl: bill});
+                    }
+                    this.setState({
+                        disableButton: false,
+                        loading: false
+                    });
+                    return uploader;
                 });
             });
         }
@@ -331,20 +342,14 @@ class ExpensesSideBar extends Component {
 
     render() {
         //Show bill if added
-        if(this.state.billUrl || this.state.data_uri){
-            var uploadedBill = <div className={theme.backgroundUpload} style={{backgroundImage: `url(${this.state.billUrl || this.state.data_uri})`}}>
-                <Button
-                    className='bill-change-button'
-                    label='Change Bill'
-                    type='button'
-                    onClick={this.resetBillUpload.bind(this)}
-                    />
-            </div>
+        if(this.state.billUrl.length || this.state.data_uri.length){
+            var uploadedBill = this.props.addImage(this.state.billUrl.length ? this.state.billUrl : this.state.data_uri);
         }else{
             //Enable upload bill option
             var billUpload = <Input
                 type='file'
                 id='input'
+                multiple
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
