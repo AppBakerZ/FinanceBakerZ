@@ -18,7 +18,26 @@ export default class AuthLayout extends Component {
             barMessage: '',
             barType: '',
             loading: false
-        }
+        };
+
+        //check for connection status
+        this.connectionStatus();
+    }
+
+    connectionStatus(){
+        Tracker.autorun(() => {
+            let status = Meteor.status().status;
+
+            if(status != 'connected') {
+                this.setState({
+                    connectionBar: true,
+                    barMessage: "You're not connected to the internet. Trying to reconnect..."
+                });
+            }
+            else {
+                this.setState({ connectionBar: false });
+            }
+        });
     }
 
     showSnackbar(options){
@@ -65,6 +84,10 @@ export default class AuthLayout extends Component {
                             onClick={this.handleBarClick.bind(this)}
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
+                            />
+                        <Snackbar
+                            active={this.state.connectionBar}
+                            label={this.state.barMessage}
                             />
                         <Card className="login-card" style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
                             {React.cloneElement(this.props.children, {
