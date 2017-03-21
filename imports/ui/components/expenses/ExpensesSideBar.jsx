@@ -306,9 +306,8 @@ class ExpensesSideBar extends Component {
             });
 
             const files = e.target.files;
-            let self = this;
             for (i = 0; i < files.length; i++) {
-                self.fileReader(files[i]);
+                this.fileReader(files[i]);
             }
 
             let metaContext = {
