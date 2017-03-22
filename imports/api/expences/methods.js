@@ -84,7 +84,7 @@ export const update = new ValidatedMethod({
             type: String
         },
         'expense.billUrl': {
-            type: String
+            type: [String]
         },
         'expense.description': {
             type: String

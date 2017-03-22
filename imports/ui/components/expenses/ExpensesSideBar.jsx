@@ -181,11 +181,13 @@ class ExpensesSideBar extends Component {
     componentWillReceiveProps (p){
         p.expense.billUrl = p.expense.billUrl || [];
         p.expense.receivedTime = p.expense.receivedAt;
-        p.expense.category = p.expense.category && p.expense.category._id;
+        if(p.expense.category) {
+            p.expense.category = p.expense.category._id;
+        }
         this.setState(p.expense);
         this.setCurrentRoute(p.isNewRoute);
-        if(p.isNewRoute){
-            this.resetExpense()
+        if(p.isNewRoute && !this.state.billUrl.length && !this.state.data_uri.length){
+            this.resetExpense();
         }
     }
 
@@ -292,6 +294,7 @@ class ExpensesSideBar extends Component {
             this.setState({
                 data_uri: data
             });
+            this.props.handler(true);
         }
         Reader.readAsDataURL(file);
     }
@@ -316,7 +319,6 @@ class ExpensesSideBar extends Component {
 
             var uploads = _.map(e.target.files, (file) => {
                 let uploader = new Slingshot.Upload('imageUploader', metaContext);
-                this.props.handler(true);
                 uploader.send(file, (error, downloadUrl) => { // you can use refs if you like
                     if (error) {
                         this.props.handler(false);
@@ -343,6 +345,15 @@ class ExpensesSideBar extends Component {
         //Show bill if added
         if(this.state.billUrl.length || this.state.data_uri.length){
             var uploadedBill = this.props.addImage(this.state.billUrl.length ? this.state.billUrl : this.state.data_uri);
+
+              var billbutton = <div>
+                  <Button
+                    label='Change Bill'
+                    type='button'
+                    onClick={this.resetBillUpload.bind(this)}
+                    />
+                  </div>
+
         }else{
             //Enable upload bill option
             var billUpload = <Input
@@ -418,7 +429,7 @@ class ExpensesSideBar extends Component {
 
                     {billUpload}
 
-
+                    {billbutton}
                     {this.renderButton()}
                 </form>
                 <div className={theme.uploadImage}>
