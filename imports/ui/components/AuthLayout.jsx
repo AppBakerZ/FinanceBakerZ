@@ -4,6 +4,7 @@ import { Layout, Panel, Input, Card, Button, Snackbar, ProgressBar } from 'react
 import Footer from './footer/Footer.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Link } from 'react-router'
+import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import theme from './theme';
 
@@ -20,24 +21,6 @@ export default class AuthLayout extends Component {
             loading: false
         };
 
-        //check for connection status
-        this.connectionStatus();
-    }
-
-    connectionStatus(){
-        Tracker.autorun(() => {
-            let status = Meteor.status().status;
-
-            if(status != 'connected') {
-                this.setState({
-                    connectionBar: true,
-                    barMessage: "You're not connected to the internet. Trying to reconnect..."
-                });
-            }
-            else {
-                this.setState({ connectionBar: false });
-            }
-        });
     }
 
     showSnackbar(options){
@@ -85,10 +68,7 @@ export default class AuthLayout extends Component {
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
                             />
-                        <Snackbar
-                            active={this.state.connectionBar}
-                            label={this.state.barMessage}
-                            />
+                             <ConnectionStatus />
                         <Card className="login-card" style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
                             {React.cloneElement(this.props.children, {
                                 showSnackbar: this.showSnackbar.bind(this),

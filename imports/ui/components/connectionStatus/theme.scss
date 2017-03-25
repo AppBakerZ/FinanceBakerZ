@@ -1,0 +1,10 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.snackbar {
+  top: -14px;
+  width: 100%;
+  height: 65px;
+  z-index: 302;
+  left: 0;
+}

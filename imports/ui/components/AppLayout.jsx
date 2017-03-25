@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
+import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import { Meteor } from 'meteor/meteor'
 
@@ -21,26 +22,8 @@ export default class AppLayout extends Component {
             drawerActive: false
         };
 
-        //check for connection status
-        this.connectionStatus();
-
     }
 
-    connectionStatus(){
-        Tracker.autorun(() => {
-            let status = Meteor.status().status;
-
-            if(status != 'connected') {
-                this.setState({
-                    connectionBar: true,
-                    barMessage: "You're not connected to the internet. Trying to reconnect..."
-                });
-            }
-            else {
-                this.setState({ connectionBar: false });
-            }
-        });
-    }
 
     toggleDrawerActive(){
         this.setState({
@@ -82,10 +65,7 @@ export default class AppLayout extends Component {
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
-                        <Snackbar
-                            active={this.state.connectionBar}
-                            label={this.state.barMessage}
-                            />
+                        <ConnectionStatus />
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>
