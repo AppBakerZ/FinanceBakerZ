@@ -99,6 +99,10 @@
     width: 100%;
 }
 
+.user-image {
+    width: 100%;
+}
+
 .sidebar-buttons-group {
     /*position: absolute;*/
     bottom: 0;
@@ -115,6 +119,16 @@
 }
 
 .bill-change-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.image-group {
+    position: relative;
+}
+
+.image-change-button {
     position: absolute;
     top: 0;
     right: 0;

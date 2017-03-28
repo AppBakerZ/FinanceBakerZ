@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
+import { Slingshot } from 'meteor/edgee:slingshot'
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
@@ -33,7 +34,8 @@ class SettingsPage extends Component {
             number: userInfo.profile.contactNumber || '' ,
             username: userInfo.username || '',
             email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
-            address: userInfo.profile.address || ''
+            address: userInfo.profile.address || '',
+            imageUrl: ''
         };
 
         this.languages = [
@@ -202,6 +204,28 @@ class SettingsPage extends Component {
             }
             this.setState({loading: false});
         });
+
+        let userId = Meteor.user()._id;
+        let metaContext = {
+            uploaderId: userId
+        };
+
+        let uploader = new Slingshot.Upload('imageUploader', metaContext);
+        uploader.send(this.state.target,  (error, downloadUrl) => { // you can use refs if you like
+            if (error) {
+                // Log service detailed response
+                console.error('Error uploading', uploader.xhr.response);
+                alert (error); // you may want to fancy this up when you're ready instead of a popup.
+            }
+            else {
+                this.props.handler(downloadUrl);
+                // we use $set because the user can change their avatar so it overwrites the url :)
+                Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                console.log(downloadUrl);
+                this.setState({imageUrl: downloadUrl});
+            }
+
+        });
     }
 
     updateAccountSettings (event) {
@@ -236,6 +260,34 @@ class SettingsPage extends Component {
         this.setState({loading: true})
     }
 
+    resetImageUpload(){
+        this.setState({
+            data_uri: '',
+            imageUrl: ''
+        });
+    }
+
+
+    userImage(value, e){
+
+        if(e.target.files.length){
+
+            const reader = new FileReader();
+            const file = e.target.files[0];
+            this.setState({
+                target: e.target.files[0]
+            })
+            reader.onload = (upload) => {
+                console.log(upload);
+                this.setState({
+                    data_uri: upload.target.result
+                });
+            };
+            reader.readAsDataURL(file);
+
+        }
+    }
+
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -249,6 +301,26 @@ class SettingsPage extends Component {
     }
 
     switchPopupTemplate(){
+
+        if(this.state.imageUrl || this.state.data_uri){
+            var uploadedImage = <div className='image-group'>
+                <Button
+                    className='image-change-button'
+                    label='Change Image'
+                    type='button'
+                    onClick={this.resetImageUpload.bind(this)}
+                    />
+                <img className='user-image' src={this.state.imageUrl || this.state.data_uri} />
+            </div>
+        }
+        else{
+            // Enable upload bill option
+            var imageUpload = <Input
+                type='file'
+                id='input'
+                onChange={this.userImage.bind(this)} />
+        }
+
         switch (this.state.action){
             case 'remove':
                 return this.renderConfirmationMessage();
@@ -295,6 +367,8 @@ class SettingsPage extends Component {
                         <div className={theme.updateBtn}>
                             <Button type='submit' label='UPDATE' raised primary />
                         </div>
+                        {imageUpload}
+                        {uploadedImage}
 
                     </form>
                 );
@@ -419,7 +493,7 @@ class SettingsPage extends Component {
                                 <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
                                 <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
                                 </div>
                             </div>
                         </Card>
