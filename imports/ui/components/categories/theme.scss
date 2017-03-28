@@ -20,8 +20,9 @@
       float: right;
       width: auto;
       font-size: calc(var(--font-size-big) + 2);
-      padding: calc(var(--unit) - 7) calc(var(--unit) * 2.6) 0 calc(var(--unit) * 2.6);
-      height: calc(var(--unit) * 4.6);
+      font-weight: 600;
+      padding: 0 calc(var(--unit) * 2.6) 0 calc(var(--unit) * 2.6);
+      height: calc(var(--unit) * 3.6);
     }
   }
 }
