@@ -46,6 +46,7 @@ export default class ConnectionStatus extends Component {
         console.log("connection status");
         return (
             <Snackbar
+                theme={theme}
                 active={this.state.connectionBar}
                 label={this.state.barMessage}
                 />
