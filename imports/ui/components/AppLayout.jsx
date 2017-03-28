@@ -56,6 +56,8 @@ export default class AppLayout extends Component {
             toggleDrawerActive: this.toggleDrawerActive.bind(this),
             drawerActive: this.state.drawerActive
         };
+        if(Meteor.user && Meteor.user().profile.md5hash){
+        var gravatar = Gravatar.imageUrl( Meteor.user().profile.md5hash, { secure: true, size: "48", d: 'mm', rating: 'pg' } );}
         return (
             <Layout>
                 <LeftMenu {...props}/>
@@ -63,7 +65,7 @@ export default class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b> <img src = {this.state.avatar} width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
+                            <span>Welcome <b>{this.name()}</b> <img src = {this.state.avatar ? this.state.avatar : gravatar } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
