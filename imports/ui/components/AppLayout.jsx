@@ -50,14 +50,20 @@ export default class AppLayout extends Component {
         })
     }
     render() {
-        let {props} = this;
+        let {props} = this, gravatar, user = Meteor.user();
         props = {...props,
             name: this.name,
             toggleDrawerActive: this.toggleDrawerActive.bind(this),
             drawerActive: this.state.drawerActive
         };
-        if(Meteor.user && Meteor.user().profile.md5hash){
-        var gravatar = Gravatar.imageUrl( Meteor.user().profile.md5hash, { secure: true, size: "48", d: 'mm', rating: 'pg' } );}
+        if(user && user.profile.md5hash) {
+            gravatar = Gravatar.imageUrl(user.profile.md5hash, {
+                secure: true,
+                size: "48",
+                d: 'mm',
+                rating: 'pg'
+            });
+        }
         return (
             <Layout>
                 <LeftMenu {...props}/>
@@ -65,7 +71,7 @@ export default class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b> <img src = {this.state.avatar ? this.state.avatar : gravatar } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
+                            <span>Welcome <b>{this.name()}</b> <img src = {this.state.avatar || gravatar || "/assets/images/HQ3YU7n.gif" } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
