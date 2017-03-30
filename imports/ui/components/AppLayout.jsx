@@ -11,15 +11,14 @@ import { Meteor } from 'meteor/meteor'
 import theme from './theme';
 
 // App component - represents the whole app
-export default class AppLayout extends Component {
+class AppLayout extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             sidebarPinned: false,
-            drawerActive: false,
-            avatar: Meteor.user().profile.avatar
+            drawerActive: false
         };
 
     }
@@ -31,11 +30,6 @@ export default class AppLayout extends Component {
     toggleSidebar (stopToggle) {
         this.setState({
             sidebarPinned: stopToggle
-        });
-    }
-    handler(imgUrl){
-        this.setState({
-            avatar: imgUrl
         });
     }
 
@@ -64,6 +58,7 @@ export default class AppLayout extends Component {
                 rating: 'pg'
             });
         }
+        let profileImage = this.props.user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
         return (
             <Layout>
                 <LeftMenu {...props}/>
@@ -71,11 +66,11 @@ export default class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b> <img src = {this.state.avatar || gravatar || "/assets/images/HQ3YU7n.gif" } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
+                            <span>Welcome <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
-                        {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this), handler: this.handler.bind(this)})}
+                        {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>
@@ -90,3 +85,9 @@ export default class AppLayout extends Component {
         );
     }
 }
+
+export default createContainer(() => {
+    return {
+        user: Meteor.user()
+    };
+}, AppLayout);

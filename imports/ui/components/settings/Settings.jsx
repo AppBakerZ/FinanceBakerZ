@@ -218,7 +218,6 @@ class SettingsPage extends Component {
                 alert (error); // you may want to fancy this up when you're ready instead of a popup.
             }
             else {
-                this.props.handler(downloadUrl);
                 // we use $set because the user can change their avatar so it overwrites the url :)
                 Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
                 console.log(downloadUrl);
