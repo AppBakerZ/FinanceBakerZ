@@ -63,8 +63,6 @@ export default class Register extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                var useraccount = {account: {owner: Meteor.user()._id}};
-                Meteor.call('profileAssets', useraccount);
                 setTimeout(() => {
                     this.props.history.push('/app/dashboard');
                 }, 1000);

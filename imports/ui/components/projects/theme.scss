@@ -96,6 +96,9 @@
     }
   }
 }
+.loaderParent{
+  margin: $unit * 2 0 $unit * 3 0;
+}
 
 /////////////////////////// dialog styling start here ///////////////////////////////
 .contentParent{
@@ -155,7 +158,7 @@
     font-size: $font-size-big + 0.7;
     text-transform: uppercase;
     letter-spacing: $unit - 0.9;
-    color: #008142;
+    color: $color-primary;
     margin: 0 0 $unit * 2 0;
   }
   p{
