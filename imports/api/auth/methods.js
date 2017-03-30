@@ -6,10 +6,10 @@ import { Accounts } from '../accounts/accounts.js';
 
 
 
-MeteorAccounts.onCreateUser(function(options, user) {
-    var account = {owner: user._id};
+MeteorAccounts.onCreateUser((options, user) => {
+    let owner = user._id;
     //Inserting default bank account on signup
-    Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
+    Accounts.insert({owner: owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
     //Reset user object
     if (options.profile)
         user.profile = options.profile;
@@ -20,9 +20,9 @@ MeteorAccounts.onCreateUser(function(options, user) {
 
 
 
-MeteorAccounts.onLogin(function(){
+MeteorAccounts.onLogin(() => {
 
-    var userId = Meteor.user()._id;
+    let userId = Meteor.user()._id;
 
     //Inserting default bank account on login
     if(!Accounts.findOne({owner: userId}))
