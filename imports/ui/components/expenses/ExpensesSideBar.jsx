@@ -303,6 +303,7 @@ class ExpensesSideBar extends Component {
             reader.readAsDataURL(file);
 
             let metaContext = {
+                folder: "bills",
                 uploaderId: userId
             };
 

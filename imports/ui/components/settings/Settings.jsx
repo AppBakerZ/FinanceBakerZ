@@ -207,9 +207,9 @@ class SettingsPage extends Component {
 
         let userId = Meteor.user()._id;
         let metaContext = {
+            folder: "profiles",
             uploaderId: userId
         };
-
         let uploader = new Slingshot.Upload('imageUploader', metaContext);
         uploader.send(this.state.target,  (error, downloadUrl) => { // you can use refs if you like
             if (error) {
@@ -277,7 +277,6 @@ class SettingsPage extends Component {
                 target: e.target.files[0]
             })
             reader.onload = (upload) => {
-                console.log(upload);
                 this.setState({
                     data_uri: upload.target.result
                 });
