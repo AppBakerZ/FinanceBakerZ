@@ -89,7 +89,7 @@ export default {
             value: 'bank-United-Bank'
         }
         ////////// 22 //////////
-    ],
+    ], ///////// 1 /////////////
     US: [
         {
             label: 'Payment Payoneer',
@@ -157,7 +157,7 @@ export default {
         },
         {
             label: 'MnT Bank',
-            value: 'bank-M-and-T-Bank'
+            value: 'bank-MnT-Bank'
         },
         {
             label: 'Morgan Stanley',
@@ -212,7 +212,7 @@ export default {
             value: 'bank-AnT-Bank'
         }
         ////////// 30 //////////
-    ],
+    ], ///////// 2 /////////////
     AE: [
         {
             label: 'Abu Dhabi Commercial Bank',
@@ -279,7 +279,7 @@ export default {
             value: 'bank-Emirates-Investment-Bank'
         }
         ////////// 16 //////////
-    ],
+    ], ///////// 3 /////////////
     QA: [
         {
             label: 'Ahli Bank',
@@ -306,7 +306,7 @@ export default {
             value: 'bank-Qatar-National-Bank'
         }
         ////////// 6 //////////
-    ],
+    ], ///////// 4 /////////////
     SA: [
         {
             label: 'Alinma Bank',
@@ -331,9 +331,13 @@ export default {
         {
             label: 'Saudi Hollandi Bank',
             value: 'bank-Saudi-Hollandi-Bank'
+        },
+        {
+            label: 'Banque Saudi Fransi',
+            value: 'bank-Banque-Saudi-Fransi'
         }
-        ////////// 6 //////////
-    ],
+        ////////// 7 //////////
+    ], ///////// 5 /////////////
     TR: [
         {
             label: 'Adabank',
@@ -440,7 +444,7 @@ export default {
             value: 'bank-AnT-Bank'
         }
         ////////// 26 //////////
-    ],
+    ], ///////// 6 /////////////
     GB: [
         {
             label: 'HSBC Bank',
@@ -459,7 +463,7 @@ export default {
             value: 'bank-Barclays'
         }
         ////////// 4 //////////
-    ],
+    ], ///////// 7 /////////////
     MY: [
         {
             label: 'Ambank',
@@ -494,7 +498,7 @@ export default {
             value: 'bank-United-Overseas-Bank'
         }
         ////////// 8 //////////
-    ],
+    ], ///////// 8 /////////////
     CN: [
         {
             label: 'Agricultural Development Bank of China',
@@ -553,7 +557,7 @@ export default {
             value: 'bank-Shanghai-Pudong-Development-Bank'
         }
         ////////// 14 //////////
-    ],
+    ], ///////// 9 /////////////
     CA: [
         {
             label: 'Alterna Savings',
@@ -604,7 +608,7 @@ export default {
             value: 'bank-Dominion-Bank'
         }
         ////////// 12 //////////
-    ],
+    ], ///////// 10 ////////////
     AU: [
         {
             label: 'AMP Limited',
@@ -695,5 +699,536 @@ export default {
             value: 'bank-Westpac'
         }
         ////////// 22 //////////
-    ]
+    ], ///////// 11 ////////////
+    CH: [
+        {
+            label: 'Alternative Bank Schweiz',
+            value: 'bank-Alternative-Bank-Schweiz'
+        },
+        {
+            label: 'CIM Bank',
+            value: 'bank-CIM-Bank'
+        },
+        {
+            label: 'Graubundner Kantonalbank',
+            value: 'bank-Graubündner-Kantonalbank'
+        },
+        {
+            label: 'ICB Banking Group',
+            value: 'bank-ICB-Banking-Group'
+        },
+        {
+            label: 'Migros Bank',
+            value: 'bank-Migros-Bank'
+        },
+        {
+            label: 'SIX Group',
+            value: 'bank-SIX-Group'
+        },
+        {
+            label: 'Vontobel',
+            value: 'bank-Vontobel'
+        },
+        {
+            label: 'WIR Bank',
+            value: 'bank-WIR-Bank'
+        }
+        ////////// 8 //////////
+    ], ///////// 12 ////////////
+    KW: [
+        {
+            label: 'Gulf Bank of Kuwait',
+            value: 'bank-Gulf-Bank-of-Kuwait'
+        },
+        {
+            label: 'National Bank of Kuwait',
+            value: 'bank-National-Bank-of-Kuwait'
+        }
+        ////////// 2 //////////
+    ], ///////// 13 ////////////
+    LK: [
+        {
+            label: 'Central Bank of Srilanka',
+            value: 'bank-Central-Bank-of-Srilanka'
+        },
+        {
+            label: 'Axis Bank',
+            value: 'bank-Axis-Bank'
+        },
+        {
+            label: 'Bank of Ceylon',
+            value: 'bank-Bank-of-Ceylon'
+        },
+        {
+            label: 'Commercial Bank of Ceylon',
+            value: 'bank-Commercial-Bank-of-Ceylon'
+        },
+        {
+            label: 'Deutsche Bank',
+            value: 'bank-Deutsche-Bank'
+        },
+        {
+            label: 'DFCC Bank',
+            value: 'bank-DFCC-Bank'
+        },
+        {
+            label: 'Hatton National Bank',
+            value: 'bank-Hatton-National-Bank'
+        },
+        {
+            label: 'ICICI Bank',
+            value: 'bank-ICICI-Bank'
+        },
+        {
+            label: 'Seylan Bank',
+            value: 'bank-Seylan-Bank'
+        }
+        ////////// 9 //////////
+    ], ///////// 14 ////////////
+    IN: [
+        {
+            label: 'State Bank of India',
+            value: 'bank-State-Bank-of-India'
+        },
+        {
+            label: 'Allahabad Bank',
+            value: 'bank-Allahabad-Bank'
+        },
+        {
+            label: 'Andhra Bank',
+            value: 'bank-Andhra-Bank'
+        },
+        {
+            label: 'Canara Bank',
+            value: 'bank-Canara-Bank'
+        },
+        {
+            label: 'Oriental Bank of Commerce',
+            value: 'bank-Oriental-Bank-of-Commerce'
+        },
+        {
+            label: 'Punjab n Sind Bank',
+            value: 'bank-Punjab-n-Sind-Bank'
+        },
+        {
+            label: 'Punjab National Bank',
+            value: 'bank-Punjab-National-Bank'
+        },
+        {
+            label: 'UCO Bank',
+            value: 'bank-UCO-Bank'
+        }
+        ////////// 8 //////////
+    ], ///////// 15 ////////////
+    SG: [
+        {
+            label: 'Banks of Singapore',
+            value: 'bank-Banks-of-Singapore'
+        },
+        {
+            label: 'DBS Bank',
+            value: 'bank-DBS-Bank'
+        },
+        {
+            label: 'POSB Bank',
+            value: 'bank-POSB-Bank'
+        },
+        {
+            label: 'United Overseas Bank',
+            value: 'bank-United-Overseas-Bank'
+        },
+        {
+            label: 'OCBC Bank',
+            value: 'bank-OCBC-Bank'
+        }
+        ////////// 5 //////////
+    ], ///////// 16 ////////////
+    JO: [
+        {
+            label: 'Bank of Jordan',
+            value: 'bank-Bank-of-Jordan'
+        },
+        {
+            label: 'Cairo Amman Bank',
+            value: 'bank-Cairo-Amman-Bank'
+        },
+        {
+            label: 'Jordan Kuwait Bank',
+            value: 'bank-Jordan-Kuwait-Bank'
+        },
+        {
+            label: 'Jordan Ahli Bank',
+            value: 'bank-Jordan-Ahli-Bank'
+        },
+        {
+            label: 'Bank Audi',
+            value: 'bank-Bank-Audi'
+        }
+        ////////// 5 //////////
+    ], ///////// 17 ////////////
+    BH: [
+        {
+            label: 'Bank of Bahrain and Kuwait',
+            value: 'bank-Bank-of-Bahrain-and-Kuwait'
+        },
+        {
+            label: 'BNP Paribas',
+            value: 'bank-BNP-Paribas'
+        },
+        {
+            label: 'Citi Bank',
+            value: 'bank-Citi-Bank'
+        },
+        {
+            label: 'HSBC Bank',
+            value: 'bank-HSBC-Bank'
+        },
+        {
+            label: 'ICICI Bank',
+            value: 'bank-ICICI-Bank'
+        },
+        {
+            label: 'Mashreq Bank',
+            value: 'bank-Mashreq-Bank'
+        },
+        {
+            label: 'Standard Chartered',
+            value: 'bank-Standard-Chartered'
+        },
+        {
+            label: 'HBL',
+            value: 'bank-HBL'
+        }
+        ////////// 8 //////////
+    ], ///////// 18 ////////////
+    VN: [
+        {
+            label: 'Vietin Bank',
+            value: 'bank-Vietin-Bank'
+        },
+        {
+            label: 'Daviviendaa',
+            value: 'bank-Daviviendaa'
+        },
+        {
+            label: ' Siam Commercial Bank',
+            value: 'bank-Siam-Commercial-Bank'
+        }
+        ////////// 3 //////////
+    ], ///////// 19 ////////////
+    TH: [
+        {
+            label: 'Bankok Bank',
+            value: 'bank-Bankok-Bank'
+        },
+        {
+            label: 'Krung Thai Bank',
+            value: 'bank-Krung-Thai-Bank'
+        },
+        {
+            label: 'Siam Commercial Bank',
+            value: 'bank-Siam-Commercial-Bank'
+        },
+        {
+            label: 'Kasikornbank',
+            value: 'bank-Kasikornbank'
+        },
+        {
+            label: 'Bank of Ayudhya',
+            value: 'bank-Bank-of-Ayudhya'
+        },
+        {
+            label: 'TMB Bank',
+            value: 'bank-TMB-Bank'
+        },
+        {
+            label: 'Tisco Bank',
+            value: 'bank-Tisco-Bank'
+        }
+        ////////// 7 //////////
+    ], ///////// 20 ////////////
+    DE: [
+        {
+            label: 'Deutsche Bank',
+            value: 'bank-Deutsche-Bank'
+        },
+        {
+            label: 'European Central Bank',
+            value: 'bank-European-Central-Bank'
+        },
+        {
+            label: 'BayernLB',
+            value: 'bank-BayernLB'
+        },
+        {
+            label: 'Commerz Bank',
+            value: 'bank-Commerz-Bank'
+        },
+        {
+            label: 'Dekabank',
+            value: 'bank-Dekabank'
+        },
+        {
+            label: 'Deutsche Postbank',
+            value: 'bank-Deutsche-Postbank'
+        },
+        {
+            label: 'GLS Bank',
+            value: 'bank-GLS-Bank'
+        },
+        {
+            label: 'HSH Nordbank',
+            value: 'bank-HSH-Nordbank'
+        },
+        {
+            label: 'Landesbank Baden Wurttemberg',
+            value: 'bank-Landesbank-Baden-Wurttemberg'
+        },
+        {
+            label: 'NordLB',
+            value: 'bank-NordLB'
+        },
+        {
+            label: 'Wirecard',
+            value: 'bank-Wirecard'
+        }
+        ////////// 11 //////////
+    ], ///////// 21 ////////////
+    IT: [
+        {
+            label: 'Unicredit',
+            value: 'bank-Unicredit'
+        },
+        {
+            label: 'Intesa Sanpaolo',
+            value: 'bank-Intesa-Sanpaolo'
+        },
+        {
+            label: 'Cassa Depositi e Prestiti',
+            value: 'bank-Cassa-Depositi-e-Prestiti'
+        },
+        {
+            label: 'UBI Banca',
+            value: 'bank-UBI-Banca'
+        },
+        {
+            label: 'BPER Banca',
+            value: 'bank-BPER-Banca'
+        },
+        {
+            label: 'Credit Agricole',
+            value: 'bank-Credit-Agricole'
+        },
+        {
+            label: 'Banca Carige',
+            value: 'bank-Banca-Carige'
+        }
+        ////////// 7 //////////
+    ], ///////// 22 ////////////
+    GR: [
+        {
+            label: 'Alpha Bank',
+            value: 'bank-Alpha-Bank'
+        },
+        {
+            label: 'Eurobank Ergasias',
+            value: 'bank-Eurobank-Ergasias'
+        },
+        {
+            label: 'National Bank of Greece',
+            value: 'bank-National-Bank-of-Greece'
+        },
+        {
+            label: 'Piraeus Bank',
+            value: 'bank-Piraeus-Bank'
+        },
+        {
+            label: 'Bank of Greece',
+            value: 'bank-Bank-of-Greece'
+        }
+        ////////// 5 //////////
+    ], ///////// 23 ////////////
+    DK: [
+        {
+            label: 'Danske Bank',
+            value: 'bank-Danske-Bank'
+        },
+        {
+            label: 'JYSKE Bank',
+            value: 'bank-JYSKE-Bank'
+        },
+        {
+            label: 'Nordea Bank Danmark',
+            value: 'bank-Nordea-Bank-Danmark'
+        },
+        {
+            label: 'Nykredit',
+            value: 'bank-Nykredit'
+        },
+        {
+            label: 'Syd Bank',
+            value: 'bank-Syd-Bank'
+        },
+        {
+            label: 'Saxo Bank',
+            value: 'bank-Saxo-Bank'
+        },
+        {
+            label: 'Alm Brand',
+            value: 'bank-Alm-Brand'
+        }
+        ////////// 7 //////////
+    ], ///////// 24 ////////////
+    IE: [
+        {
+            label: 'Allied Irish Banks',
+            value: 'bank-Allied-Irish-Banks'
+        },
+        {
+            label: 'Bank of Irland',
+            value: 'bank-Bank-of-Irland'
+        },
+        {
+            label: 'KBC Bank Irland',
+            value: 'bank-KBC-Bank-Irland'
+        },
+        {
+            label: 'Anglo Irish Bank',
+            value: 'bank-Anglo-Irish-Bank'
+        }
+        ////////// 4 //////////
+    ], ///////// 25 ////////////
+    NO: [
+        {
+            label: 'Bank Norwegian',
+            value: 'bank-Bank-Norwegian'
+        },
+        {
+            label: 'DNB ASA',
+            value: 'bank-DNB-ASA'
+        },
+        {
+            label: 'Nordlandsbanken',
+            value: 'bank-Nordlandsbanken'
+        },
+        {
+            label: 'Banco Santander',
+            value: 'bank-Banco-Santander'
+        },
+        {
+            label: 'YA Bank',
+            value: 'bank-YA-Bank'
+        },
+        {
+            label: 'Citi Bank',
+            value: 'bank-Citi-Bank'
+        }
+        ////////// 6 //////////
+    ], ///////// 26 ////////////
+    BR: [
+        {
+            label: 'Itau',
+            value: 'bank-Itau'
+        },
+        {
+            label: 'Banco Bradesco',
+            value: 'bank-Banco-Bradesco'
+        },
+        {
+            label: 'Banco Safra',
+            value: 'bank-Banco-Safra'
+        },
+        {
+            label: 'HSBC Bank',
+            value: 'bank-HSBC-Bank'
+        },
+        {
+            label: 'Banco do Brasil',
+            value: 'bank-Banco-do-Brasil'
+        },
+        {
+            label: 'Banrisul',
+            value: 'bank-Banrisul'
+        },
+        {
+            label: 'Caixa',
+            value: 'bank-Caixa'
+        }
+        ////////// 7 //////////
+    ], ///////// 27 ////////////
+    CO: [
+        {
+            label: 'Banco-de Bogota',
+            value: 'bank-Banco-de-Bogota'
+        },
+        {
+            label: 'Banco de Occidente Credencial',
+            value: 'bank-Banco-de-Occidente-Credencial'
+        },
+        {
+            label: 'Bancolombia',
+            value: 'bank-Bancolombia'
+        }
+        ////////// 3 //////////
+    ], ///////// 28 ////////////
+    MX: [
+        {
+            label: 'Bank of Mexico',
+            value: 'bank-Bank-of-Mexico'
+        },
+        {
+            label: 'Banca Mifel',
+            value: 'bank-Banca-Mifel'
+        },
+        {
+            label: 'Banco Azteca',
+            value: 'bank-Banco-Azteca'
+        },
+        {
+            label: 'Banregio',
+            value: 'bank-Banregio'
+        }
+        ////////// 4 //////////
+    ], ///////// 29 ////////////
+    AR: [
+        {
+            label: 'Banco Credicoop',
+            value: 'bank-Banco-Credicoop'
+        },
+        {
+            label: 'Bank of the Argentine Nation',
+            value: 'bank-Bank-of-the-Argentine-Nation'
+        },
+        {
+            label: 'Banco Hipotecario',
+            value: 'bank-Banco-Hipotecario'
+        },
+        {
+            label: 'Itau',
+            value: 'bank-Itau'
+        },
+        {
+            label: 'Banco Macro',
+            value: 'bank-Banco-Macro'
+        },
+        {
+            label: 'Banco Patagonia',
+            value: 'bank-Banco-Patagonia'
+        },
+        {
+            label: 'Central Bank of Argentina',
+            value: 'bank-Central-Bank-of-Argentina'
+        },
+        {
+            label: 'Citi Bank',
+            value: 'bank-Citi-Bank'
+        },
+        {
+            label: 'HSBC Bank',
+            value: 'bank-HSBC-Bank'
+        }
+        ////////// 9 //////////
+    ]  ///////// 30 ////////////
 }
+
+////////////// Total 285 icons /////////////////////////////

@@ -19,21 +19,35 @@ export default class Form extends Component {
         super(props);
 
         this.state = {
-            country: 'PK',
+            country: 'All',
             number: '',
             bank: '',
             active: false,
             loading: false
         };
 
-        this.countries = _.sortBy(countries, 'label');
-        this.setBanks()
+        //get all countries that have banks.
+        let availableBankCountries = Object.keys(bankFonts);
+
+        //filter country according to availableBankCountries.
+        let bankCountries = countries.filter((obj) => {
+           return availableBankCountries.includes(obj.value)
+        });
+
+        //sort countries in alphabetically order.
+        this.countries = _.sortBy(bankCountries, 'label');
+        this.countries = [{value: 'All', label: 'All Countries'}, ...this.countries];
+        this.setBanks(this.state.country)
     }
     setBanks(country){
-        let bankIcons = bankFonts[country || this.state.country] || [];
+
+        let bankIcons = country == 'All' ? Object.values(bankFonts).reduce((prev, curr) => [...prev, ...curr]) : bankFonts[country];
         this.banks = bankIcons.map((font, index) => {
 
             index++;
+            //delete pre keys if attach.
+            delete font.removeRightBorder;
+            delete font.removeBottomBorder;
             if(index % 3 == 0){
                 font.removeRightBorder = true
             }

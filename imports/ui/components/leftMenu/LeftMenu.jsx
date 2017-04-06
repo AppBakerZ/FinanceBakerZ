@@ -34,26 +34,27 @@ export default class LeftMenu extends Component {
     isActive(path){
         return this.props.location.pathname == `/app/${path}` ? listItemTheme.active : ''
     }
+
     render() {
         return (
             <Drawer  theme={drawerTheme} active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
                 <List className={theme.list} selectable ripple>
-                    <Link to={`/app/dashboard`}>
+                    <Link to={`/app/dashboard`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('dashboard')} caption='Dashboard' leftIcon='dashboard' theme={listItemTheme}/>
                     </Link>
-                    <Link to={`/app/projects`}>
+                    <Link to={`/app/projects`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('projects')} caption='Project' leftIcon='timeline' theme={listItemTheme}/>
                     </Link>
-                    <Link to={`/app/transactions`}>
-                        <ListItem className={this.isActive('transactions')} caption='Transactions' leftIcon='monetization_on' theme={listItemTheme}/>
+                    <Link to={`/app/transactions`} onClick={this.toggleDrawerActive.bind(this)}>
+                        <ListItem className={this.isActive('transa•••ctions')} caption='Transactions' leftIcon='monetization_on' theme={listItemTheme}/>
                     </Link>
-                    <Link to={`/app/accounts`}>
+                    <Link to={`/app/accounts`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('accounts')} caption='Accounts' leftIcon='account_balance' theme={listItemTheme}/>
                     </Link>
-                    <Link to={`/app/categories`}>
+                    <Link to={`/app/categories`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('categories')} caption='Categories' leftIcon='view_module' theme={listItemTheme}/>
                     </Link>
-                    <Link to={`/app/settings/new`}>
+                    <Link to={`/app/settings/new`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('settings/new')} caption='Settings' leftIcon='settings' theme={listItemTheme}/>
                     </Link>
                     <ListItem caption='Logout' leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>

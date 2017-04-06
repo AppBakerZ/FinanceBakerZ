@@ -9,6 +9,11 @@
     font-size: $font-size-small + 0.6;
     color: $color-text;
     text-transform: capitalize;
+    i{
+      font-size: $font-size-big;
+      position: relative;
+      top: $unit - 0.9;
+    }
   }
   .row {
     line-height: 0;

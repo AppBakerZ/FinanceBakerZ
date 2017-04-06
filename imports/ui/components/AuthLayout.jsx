@@ -4,6 +4,7 @@ import { Layout, Panel, Input, Card, Button, Snackbar, ProgressBar } from 'react
 import Footer from './footer/Footer.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Link } from 'react-router'
+import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import theme from './theme';
 
@@ -18,7 +19,8 @@ export default class AuthLayout extends Component {
             barMessage: '',
             barType: '',
             loading: false
-        }
+        };
+
     }
 
     showSnackbar(options){
@@ -66,6 +68,7 @@ export default class AuthLayout extends Component {
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
                             />
+                             <ConnectionStatus />
                         <Card className="login-card" style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
                             {React.cloneElement(this.props.children, {
                                 showSnackbar: this.showSnackbar.bind(this),

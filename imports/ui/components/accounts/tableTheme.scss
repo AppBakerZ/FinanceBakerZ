@@ -35,6 +35,9 @@
             margin-left: $unit;
             strong{
               font-family: $preferred-font;
+              i{
+                font-size: $font-size-big + 0.2;
+              }
             }
           }
         }

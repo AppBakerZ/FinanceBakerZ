@@ -16,7 +16,7 @@
         border-right: $unit - 0.8 solid #d3d3d3;
         padding: $unit * 1.5 0 $unit * 1.5 0;
         i{
-          font-size: $unit * 5;
+          font-size: $font-size + 3.4;
         }
         &.removeBottomBorder{
           border-bottom: 0;
@@ -42,7 +42,7 @@
     .value{
       > div{
         i{
-          font-size: $unit * 4;
+          font-size: $font-size + 2.4;
         }
       }
     }

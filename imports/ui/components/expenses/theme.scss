@@ -1,6 +1,21 @@
 @import "~react-toolbox/lib/globals";
 @import "~react-toolbox/lib/list/config";
 
+.value {
+  > div {
+    i{
+      font-size: 40px;
+    }
+  }
+}
+.boxShadowNone{
+  textarea{
+    box-shadow: 0 0 0 0;
+  }
+}
+.field{
+  padding: $unit * 2 0 0;
+}
 .iconsBox{
   display: inline-block;
   width: 100%;
@@ -9,7 +24,7 @@
   }
 }
 .values{
-  padding: 1.3rem 1rem 0.5rem 1rem;
+  padding: $unit * 1.3 $unit $unit - 0.5 $unit;
   position: static;
   li{
     width: 33.3%;
@@ -18,9 +33,9 @@
     margin-top: -4px;
     div{
       text-align: center;
-      border-bottom: 0.2rem solid #d3d3d3;
-      border-right: 0.2rem solid #d3d3d3;
-      padding: 1.5rem 0 1.5rem 0;
+      border-bottom: $unit - 0.8 solid #d3d3d3;
+      border-right: $unit - 0.8 solid #d3d3d3;
+      padding: $unit * 1.5 0 $unit * 1.5 0;
       i{
         font-size: $unit * 5;
       }
@@ -37,4 +52,7 @@
       }
     }
   }
+}
+.addExpensesBtn{
+  text-align: center;
 }

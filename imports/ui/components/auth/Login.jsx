@@ -31,6 +31,10 @@ export default class Register extends Component {
         this.props.history.push('/register');
     }
 
+    forgotPassword (){
+        this.props.history.push('/forgotPassword');
+    }
+
     onSubmit(event){
         event.preventDefault();
 
@@ -89,13 +93,18 @@ export default class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <div className={theme.buttonGroup}>
-                    <Button type='submit' disabled={this.props.loading} icon='lock_open'
-                            label='Login' raised primary />
+                <div className={theme.buttonParents}>
+                    <div className={theme.buttonGroup}>
+                        <Button type='submit' disabled={this.props.loading} icon='lock_open'
+                                label='Login' raised primary />
+                    </div>
+                    <div className={theme.buttonGroup}>
+                        <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
+                                label='Register' raised accent />
+                    </div>
                 </div>
-                <div className={theme.buttonGroup}>
-                    <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
-                            label='Register' raised accent />
+                <div className={theme.forgotGroup}>
+                    <a onClick={this.forgotPassword.bind(this)} >forgot password?</a>
                 </div>
             </form>
         );

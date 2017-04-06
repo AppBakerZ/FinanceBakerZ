@@ -129,3 +129,9 @@
     /*height: 400px;*/
     /*background-color: #fff;*/
 /*}*/
+
+
+/*  TODO: Remove when upgrade to toolbox 2.0  */
+.disconnected ._node_modules_react_toolbox_lib_overlay__theme__overlay{
+    z-index: 302 !important;
+}

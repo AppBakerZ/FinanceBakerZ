@@ -94,3 +94,17 @@
   left : 75px;
   animation: sequence2 1s ease infinite 0.5s;
 }
+
+@keyframes spin {
+  100%{ transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  border: 4px double;
+  border-radius: 50%;
+  border-color: transparent $color-primary $color-primary;
+  animation: spin 600ms infinite linear;
+}

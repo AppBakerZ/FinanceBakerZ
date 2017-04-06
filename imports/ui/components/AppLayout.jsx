@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router'
 
-import { Layout, Panel, IconButton, Sidebar } from 'react-toolbox';
+import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
 import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
+import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import { Meteor } from 'meteor/meteor'
 
@@ -22,6 +23,8 @@ export default class AppLayout extends Component {
         };
 
     }
+
+
     toggleDrawerActive(){
         this.setState({
             drawerActive: !this.state.drawerActive
@@ -62,6 +65,7 @@ export default class AppLayout extends Component {
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
+                        <ConnectionStatus />
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>

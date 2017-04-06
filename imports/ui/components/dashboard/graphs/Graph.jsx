@@ -83,7 +83,7 @@ export default class Graph extends Component {
                     {
                         payload.map((entry, index) => (
                             <li key={`item-${index}`} style={{color: entry.color}}>
-                                {`${entry.name}: ${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyStandardFormat(entry.value)}`}
+                                `{entry.name}: <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(entry.value)}`
                             </li>
                         ))
                     }
@@ -131,7 +131,7 @@ export default class Graph extends Component {
                             return `${this.months[tick - 1]}`;
                             }}/>
                         <YAxis tickLine={false} tickSize={15} tickFormatter={(tick) => {
-                            return tick ? `${userCurrencyHelpers.loggedUserCurrency()}${currencyFormatHelpers.currencyWithUnits(tick)}` : '';
+                            return tick ? `${currencyFormatHelpers.currencyWithUnits(tick)}` : '';
                             }}/>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <Tooltip content={this.renderTooltipContent.bind(this)}/>
@@ -140,7 +140,7 @@ export default class Graph extends Component {
                     </AreaChart>
                 </ResponsiveContainer>
             </div>
-        </Card>;
+        </Card>
 
         return this.state.graph ? chart : null;
     }
