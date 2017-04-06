@@ -28,6 +28,18 @@ Expenses.schema = new SimpleSchema({
         label: 'Amount of expense'
     },
     category: {
+        type: Object,
+        label: 'Type of expense'
+    },
+    'category._id': {
+        type: String,
+        label: 'Type of expense'
+    },
+    'category.name': {
+        type: String,
+        label: 'Type of expense'
+    },
+    'category.icon': {
         type: String,
         label: 'Type of expense'
     },

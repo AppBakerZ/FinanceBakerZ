@@ -8,6 +8,7 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Expenses } from './expenses.js';
+import { Categories } from '../categories/categories.js';
 
 export const insert = new ValidatedMethod({
     name: 'expenses.insert',
@@ -30,6 +31,9 @@ export const insert = new ValidatedMethod({
             type: Date
         },
         'expense.category': {
+            type: Object
+        },
+        'expense.category._id': {
             type: String
         },
         'expense.billUrl': {
@@ -41,6 +45,11 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ expense }) {
         expense.owner = this.userId;
+        if(expense.category){
+            let category = Categories.findOne(expense.category._id);
+            expense.category.name = category.name;
+            expense.category.icon = category.icon;
+        }
         return Expenses.insert(expense);
     }
 });
@@ -69,6 +78,9 @@ export const update = new ValidatedMethod({
             type: Date
         },
         'expense.category': {
+            type: Object
+        },
+        'expense.category._id': {
             type: String
         },
         'expense.billUrl': {
@@ -81,6 +93,11 @@ export const update = new ValidatedMethod({
     run({ expense }) {
         const {_id} = expense;
         delete expense._id;
+        if(expense.category){
+            let category = Categories.findOne(expense.category._id);
+            expense.category.name = category.name;
+            expense.category.icon = category.icon;
+        }
         return Expenses.update(_id, {$set: expense});
     }
 });

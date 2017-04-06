@@ -11,18 +11,19 @@ import DashboardPage from '../../ui/components/dashboard/Dashboard.jsx';
 
 import Register from '../../ui/components/auth/Register.jsx';
 import Login from '../../ui/components/auth/Login.jsx';
+import ForgotPassword from '../../ui/components/auth/ForgotPassword.jsx';
 
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
-import AccountsSideBar from '../../ui/components/accounts/AccountsSideBar.jsx';
-
-import IncomesPage from '../../ui/components/incomes/Incomes.jsx';
-import IncomesSideBar from '../../ui/components/incomes/IncomesSideBar.jsx';
-
-import ExpensesPage from '../../ui/components/expenses/Expenses.jsx';
-import ExpensesSideBar from '../../ui/components/expenses/ExpensesSideBar.jsx';
 
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
-import CategoriesSideBar from '../../ui/components/categories/CategoriesSideBar.jsx';
+
+import SettingsPage from '../../ui/components/settings/Settings.jsx';
+import SettingsSideBar from '../../ui/components/settings/SettingsSideBar.jsx';
+
+import ProjectPage from '../../ui/components/projects/Project.jsx';
+import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
+
+
 
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     clearInterval(setIntervalHandel);
@@ -53,27 +54,28 @@ Meteor.startup( () => {
             <Route path="app" component={AppLayout} onEnter={requireAuth}>
                 <IndexRoute components={{ content: DashboardPage}} />
                 <Route path="dashboard" components={{ content: DashboardPage}} />
-                <Route path="accounts" components={{ content: AccountsPage, sidebar: AccountsSideBar }}>
+                <Route path="accounts" components={{ content: AccountsPage }} />
+                <Route path="categories" components={{ content: CategoriesPage }} />
+                <Route path="settings" components={{ content: SettingsPage, sidebar: SettingsSideBar }}>
                     <Route path="new" />
                     <Route path=":id" />
                 </Route>
-                <Route path="incomes" components={{ content: IncomesPage, sidebar: IncomesSideBar }}>
-                    <Route path="new" />
-                    <Route path=":id" />
+                <Route path="projects" components={{ content: ProjectPage}}>
                 </Route>
-                <Route path="expenses" components={{ content: ExpensesPage, sidebar: ExpensesSideBar }}>
-                    <Route path="new" />
-                    <Route path=":id" />
-                </Route>
-                <Route path="categories" components={{ content: CategoriesPage, sidebar: CategoriesSideBar }}>
-                    <Route path="new" />
-                    <Route path=":id" />
-                </Route>
-            </Route>
+                <Route path="transactions" components={{ content: TransactionPage}}>
+                    <Route path="incomes" >
+                         <Route path="new" />
+                         </Route>
+                    <Route path="expenses" >
+                         <Route path="new" />
+                         </Route>
+                 </Route>
+               </Route>
             <Route path="/" component={AuthLayout}>
                 <IndexRoute component={ Login} />
                 <Route path="register" component={ Register} />
                 <Route path="login" component={ Login} />
+                <Route path="forgotPassword" component={ ForgotPassword} />
             </Route>
             </Router>,
         document.getElementById( 'render-root' )

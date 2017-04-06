@@ -2,10 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Link } from 'react-router'
 
-import { AppBar, IconButton, List, ListItem, Sidebar } from 'react-toolbox';
-import { Layout, NavDrawer, Panel, Card, CardTitle, Button, FontIcon } from 'react-toolbox';
+import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
+import LeftMenu from './leftMenu/LeftMenu.jsx'
+import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
+import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import { Meteor } from 'meteor/meteor'
+
+import theme from './theme';
 
 // App component - represents the whole app
 export default class AppLayout extends Component {
@@ -14,27 +18,22 @@ export default class AppLayout extends Component {
         super(props);
 
         this.state = {
-            drawerActive: false,
-            sidebarPinned: true
-        }
+            sidebarPinned: false,
+            drawerActive: false
+        };
+
     }
 
-    toggleDrawerActive() {
+
+    toggleDrawerActive(){
         this.setState({
             drawerActive: !this.state.drawerActive
         });
     }
-
     toggleSidebar (stopToggle) {
         this.setState({
-            sidebarPinned: stopToggle ? true : !this.state.sidebarPinned
+            sidebarPinned: stopToggle
         });
-    }
-
-    logout(){
-        Meteor.logout(() => {
-            this.props.history.push('/login')
-        })
     }
 
     name(){
@@ -42,57 +41,38 @@ export default class AppLayout extends Component {
         name = user.profile && user.profile.fullName ? user.profile.fullName : user.username || user.emails[0].address;
         return name;
     }
-
+    logout(){
+        Meteor.logout(() => {
+            this.props.history.push('/login')
+        })
+    }
     render() {
+        let {props} = this;
+        props = {...props,
+            name: this.name,
+            toggleDrawerActive: this.toggleDrawerActive.bind(this),
+            drawerActive: this.state.drawerActive
+        };
         return (
             <Layout>
-                <NavDrawer active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
-                    <div>
-                        <Card style={{width: '350px'}}>
-                            <CardTitle
-                                avatar={<FontIcon className='dashboard-card-icon' value='account_balance_wallet'/>}
-                                title={this.name()}
-                                />
-                        </Card>
-                        <List selectable ripple>
-                            <Link
-                                to={`/app/dashboard`}>
-                                <ListItem caption='Dashboard' leftIcon='dashboard' />
-                            </Link>
-                            <Link
-                                to={`/app/expenses/new`}>
-                                <ListItem caption='Expenses' leftIcon='content_cut' />
-                            </Link>
-                            <Link
-                                to={`/app/incomes/new`}>
-                                <ListItem caption='Income' leftIcon='monetization_on' />
-                            </Link>
-                            <Link
-                                to={`/app/accounts/new`}>
-                                <ListItem caption='Accounts' leftIcon='account_balance' />
-                            </Link>
-                            <Link
-                                to={`/app/categories/new`}>
-                                <ListItem caption='Categories' leftIcon='border_all' />
-                            </Link>
-                            <ListItem caption='Settings' leftIcon='settings' />
-                            <ListItem caption='Logout' leftIcon='lock' onClick={this.logout.bind(this)} />
-                        </List>
-                    </div>
-                </NavDrawer>
+                <LeftMenu {...props}/>
                 <Panel>
-                    <AppBar>
-                        <IconButton icon='menu' inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
-                    </AppBar>
-                    <div style={{ flex: 1, display: 'flex' }}>
+                    <AppBarExtended>
+                        <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
+                        <div className={theme.headerGreeting}>
+                            <span>Welcome <b>{this.name()}</b> <img src="/assets/images/HQ3YU7n.gif" width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
+                        </div>
+                    </AppBarExtended>
+                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
+                        <ConnectionStatus />
                     </div>
                 </Panel>
                 <Sidebar pinned={this.state.sidebarPinned} width={ 6 }>
                     <div>
                         <IconButton icon='close' onClick={ this.toggleSidebar.bind(this, false) }/>
                     </div>
-                    <div style={{ flex: 1, padding: '1.8rem 1.8rem 5.8rem 1.8rem', overflowY: 'auto' }}>
+                    <div style={{ flex: 1, padding: '1.8rem ', overflowY: 'auto' }}>
                         {this.props.sidebar}
                     </div>
                 </Sidebar>

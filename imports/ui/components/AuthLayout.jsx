@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 
-import { AppBar } from 'react-toolbox';
 import { Layout, Panel, Input, Card, Button, Snackbar, ProgressBar } from 'react-toolbox';
-
+import Footer from './footer/Footer.jsx'
+import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import { Link } from 'react-router'
+import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
+
+import theme from './theme';
 
 // App component - represents the whole app
 export default class AuthLayout extends Component {
@@ -16,7 +19,8 @@ export default class AuthLayout extends Component {
             barMessage: '',
             barType: '',
             loading: false
-        }
+        };
+
     }
 
     showSnackbar(options){
@@ -45,13 +49,14 @@ export default class AuthLayout extends Component {
         return (
             <Layout>
                 <Panel>
-                    <AppBar>
+                    <AppBarExtended>
                         <Link
                             to={`/`}>
-                            FinanceBakerZ
+                            //FinanceBakerZ
+                            <img src={'../assets/images/logo.png'} alt="Logo" className="header-logo"/>
                         </Link>
-                    </AppBar>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
+                    </AppBarExtended>
+                    <div className={theme.appBody}>
                         <ProgressBar type='circular' mode='indeterminate' multicolor className={this.progressBarToggle()} />
                         <Snackbar
                             action='Dismiss'
@@ -63,7 +68,8 @@ export default class AuthLayout extends Component {
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
                             />
-                        <Card style={{width: '350px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
+                             <ConnectionStatus />
+                        <Card className="login-card" style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
                             {React.cloneElement(this.props.children, {
                                 showSnackbar: this.showSnackbar.bind(this),
                                 progressBarUpdate: this.progressBarUpdate.bind(this),
@@ -71,6 +77,7 @@ export default class AuthLayout extends Component {
                             })}
                         </Card>
                     </div>
+                    <Footer />
                 </Panel>
             </Layout>
         );

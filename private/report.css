@@ -1,0 +1,24 @@
+.report h3{
+    margin-top:0 !important;
+    font-size: 14px !important;
+    text-transform: capitalize !important;
+}
+
+.report h3 span{
+    color: #303f9f !important;
+    border-bottom: 1px solid #303f9f;
+}
+
+
+.report table tr th,
+.report table tr td{
+    color: #000 !important;
+    font-weight: normal !important;
+    font-size: 11px !important;
+}
+
+.report table thead tr td,
+.report table tbody tr.total td{
+    font-size: 12px !important;
+    color: #303f9f !important;
+}

@@ -1,0 +1,173 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.settingContent{
+  margin-top: $unit * 2;
+  .settingTitle{
+    background: $color-primary;
+    padding: $unit * 2.2 $unit * 5 $unit * 1.8;
+    h3{
+      color: $color-primary-dark;
+      font-size: $font-size-big + 0.7;
+      text-transform: capitalize;
+      letter-spacing: $unit - 0.9;
+      display: inline-block;
+    }
+  }
+}
+.cardTitle{
+  padding: $unit * 3.5 $unit * 2 $unit * 1.5 $unit * 2;
+  border-bottom: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+  h5{
+    font-size: $font-size-big + 0.2;
+    text-transform: capitalize;
+    color: $color-text;
+  }
+}
+.cardContent{
+  padding: 0 $unit * 2;
+  margin-bottom: $unit * 4;
+  h6{
+    font-size: $font-size-big;
+    font-family: $normal-font;
+    text-transform: capitalize;
+    margin: $unit * 2 0 0 0;
+    color: $color-text;
+    &:last-of-type{
+      width: 80%;
+      display: inline-block;
+    }
+    span{
+      label{
+        display: inline-block;
+        margin: 0 0 0 $unit * 3;
+        bottom: $unit;
+        span{
+          padding-left: $unit - 0.2;
+          font-size: $font-size-big;
+          margin-top: $unit - 0.5;
+        }
+        div{
+          width: $unit * 2.5;
+          height: $unit * 2.5;
+          border-width: $unit - 0.9;
+        }
+      }
+    }
+  }
+  .settingBtn{
+    width: 20%;
+    display: inline-block;
+    button{
+      float: right;
+      font-size: $font-size + 0.1;
+      padding: $unit - 0.6 $unit * 5.5 0;
+      letter-spacing: $unit - 0.9;
+      height: $unit * 4.6;
+    }
+  }
+}
+.editBtn{
+  width: 20%;
+  float: right;
+  margin-top: $unit * 2.5;
+  button{
+    float: right;
+    font-size: $font-size + 0.1;
+    padding: $unit - 0.6 $unit * 5.5 0;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+  }
+}
+.buttonSite{
+  text-align: right;
+  padding-right: $unit * 4.5;
+  margin-top: $unit * 4;
+  button{
+    font-size: $font-size + 0.1;
+    padding: $unit - 0.6 $unit * 2 0;
+    height: $unit * 4.6;
+  }
+}
+.currencyIcons{
+  width: 100%;
+  display: inline-block;
+  i{
+    font-size: $font-size-big + 0.2;
+    float: left;
+    margin: $unit - 0.2 $unit 0 0;
+  }
+  div{
+    display: inline-block;
+    margin-top: $unit;
+  }
+}
+///////////////////////////// dialog styling ///////////////////////////////////////
+.dialogSetting{
+  .confirmText{
+    margin-bottom: $unit * 3;
+    h3{
+      color: $color-primary;
+      font-size: $font-size-big + 0.7;
+      text-transform: uppercase;
+      letter-spacing: $unit - 0.9;
+      word-spacing: $unit - 0.5;
+      margin: 0 0 $unit * 1.2 0;
+    }
+    p{
+      color: $color-text;
+      font-size: $font-size-big;
+      text-align: center;
+      line-height: $unit * 2;
+    }
+  }
+  .buttonBox{
+    text-align: center;
+    button{
+      padding: $unit - 0.6 $unit * 5.9 0;
+      letter-spacing: $unit - 0.9;
+      height: $unit * 4.6;
+      font-size: $font-size + 0.1;
+      &:last-of-type{
+        padding: $unit - 0.6 $unit * 3.8 0;
+        margin-left: $unit * 1.5;
+      }
+    }
+  }
+}
+.titleSetting{
+  color: $color-primary;
+  font-size: $font-size-big + 0.7;
+  text-transform: uppercase;
+  letter-spacing: $unit - 0.9;
+}
+.updateBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 6.3 0;
+    letter-spacing: $unit - 0.9;
+    border-radius: $unit - 0.5;
+  }
+}
+.saveBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 6.3 0;
+    letter-spacing: $unit - 0.9;
+    border-radius: $unit - 0.5;
+    margin: $unit * 1.5 0 $unit 0;
+  }
+}
+.addAccount{
+  label{
+    color: $color-text;
+  }
+  strong{
+    margin-top: $unit - 0.2;
+  }
+}
+///////////////////////////// dialog styling ///////////////////////////////////////
