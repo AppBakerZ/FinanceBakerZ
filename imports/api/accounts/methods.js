@@ -7,6 +7,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
+import { Accounts as MeteorAccounts} from 'meteor/accounts-base'
 import { Accounts } from './accounts.js';
 import { Categories } from '../categories/categories.js';
 import { Incomes } from '../incomes/incomes.js';
@@ -40,7 +41,6 @@ export const insert = new ValidatedMethod({
         return Accounts.insert(account);
     }
 });
-
 
 
 
@@ -102,58 +102,6 @@ export const remove = new ValidatedMethod({
         else {
             throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
         }
-    }
-});
-
-
-
-
-export const insertAccountOnSignUp = new ValidatedMethod({
-    name: 'insertAccountOnSignUp',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to update account'
-    },
-    validate: new SimpleSchema({
-        'account': {
-            type: Object
-        },
-        'account.owner': {
-            type: String
-        }
-    }).validator(),
-    run({ account }) {
-        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
-    }
-});
-
-
-
-export const profileAssets = new ValidatedMethod({
-    name: 'profileAssets',
-    mixins: [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to insert account,currency and see email notification'
-    },
-    validate: new SimpleSchema({
-        'account': {
-            type: Object
-        },
-        'account.owner': {
-            type: String
-        }
-    }).validator(),
-    run({ account }) {
-        if(!Accounts.findOne({owner: account.owner}))
-            Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
-
-        if(Meteor.users.findOne( {_id: account.owner, 'profile.currency': { $exists: false } }))
-            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.currency': {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0}  }});
-
-        if(Meteor.users.findOne( {_id: account.owner, 'profile.emailNotificaton': { $exists: false } }))
-            Meteor.users.update({ _id: account.owner}, { $set: { 'profile.emailNotification': true}});
     }
 });
 
