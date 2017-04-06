@@ -273,19 +273,36 @@ class SettingsPage extends Component {
                             />
                         {Meteor.user().username ?
 
-                        <Input type='text' label='Username'
-                               name= 'username'
+                            (<span><Input type='text' label='Username'
+                               name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                                required
                             />
-                            :
+
                         <Input type='email' label='Email'
-                               name= 'email'
+                               name='email'
+                               value={this.state.email}
+                               onChange={this.onChange.bind(this)}
+                            />
+                                </span>
+                            )
+                            :
+
+                        (<span><Input type='text' label='Username'
+                               name='username'
+                               value={this.state.username}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                        <Input type='email' label='Email'
+                               name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
                                required
                             />
+                                </span>
+                        )
                         }
                         <Input type='text' label='Address'
                                name='address'
