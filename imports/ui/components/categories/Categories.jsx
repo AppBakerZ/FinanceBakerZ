@@ -19,8 +19,6 @@ import dialogButtonTheme from './dialogButtonTheme';
 import dialogTheme from './dialogTheme';
 
 
-
-let query = new ReactiveVar();
 class CategoriesPage extends Component {
 
     constructor(props) {
@@ -162,7 +160,6 @@ class CategoriesPage extends Component {
                 console.log(err);
             }
             else{
-                query.set(Math.random());
             }
         });
         // Close Popup
@@ -257,8 +254,8 @@ CategoriesPage.propTypes = {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('categories', query.get());
-    const categoriesHandle = Meteor.subscribe('categories', query.get());
+    Meteor.subscribe('categories');
+    const categoriesHandle = Meteor.subscribe('categories');
     const categoriesLoading = !categoriesHandle.ready();
     const categories = Categories.find({
         parent: null
