@@ -168,6 +168,7 @@ class DashboardPage extends Component {
         };
       // prevent window popup block
         let win = window.open('');
+        win.document.write("<p> Loading...</p>");
         window.oldOpen = window.open;
         window.open = function(url) {
             win.location = url;
