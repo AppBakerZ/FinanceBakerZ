@@ -433,7 +433,8 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
                                 <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
-                                <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
+                                <h6>Username:<span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
+                                <h6>Email: <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
                                 <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
                                     <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
