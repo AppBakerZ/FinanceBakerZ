@@ -33,3 +33,5 @@ dfischer:phantomjs
 meteorhacks:ssr
 edgee:slingshot
 msavin:mongol
+practicalmeteor:mocha
+xolvio:cleaner
