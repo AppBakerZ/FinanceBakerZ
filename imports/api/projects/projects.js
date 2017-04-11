@@ -5,7 +5,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 class ProjectCollection extends Mongo.Collection {}
 
-export const Projects = new ProjectCollection('project');
+export const Projects = new ProjectCollection('projects');
 
 // Deny all client-side updates since we will be using methods to manage this collection
 Projects.deny({
