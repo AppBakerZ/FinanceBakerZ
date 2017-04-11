@@ -625,20 +625,26 @@ export default createContainer(() => {
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
 
-    const incomesField = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
-    const expenseField = Expenses.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
-    const transactions = !!incomesField.length || !!expenseField.length;
     Meteor.subscribe('accounts');
+    const accounts = Accounts.find({}).fetch();
+
     Meteor.subscribe('categories');
+    const categories = Categories.find().fetch();
+
     Meteor.subscribe('projects.all');
-    let expenses = Expenses.find().fetch(),
+    const projects = Projects.find().fetch();
+
+    const expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
+
+    const transactions = _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse();
+
     return {
         transactionsLoading,
         transactionsExists,
-        transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
-        accounts: Accounts.find({}).fetch(),
-        categories: Categories.find().fetch(),
-        projects: Projects.find().fetch()
+        transactions,
+        accounts,
+        categories,
+        projects
     };
 }, TransactionPage);
