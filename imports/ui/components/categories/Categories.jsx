@@ -233,11 +233,11 @@ class CategoriesPage extends Component {
                     </div>
                     <Card theme={tableTheme}>
                         {this.props.categoriesLoading ? <Loader accent/> : this.props.categoriesExists ?
-                        <Table
-                            selectable={false}
-                            heading={false}
-                            model={model}
-                            source={categories}/>
+                        <Table className={theme.table} theme={tableTheme}
+                               selectable={false}
+                               heading={false}
+                               model={model}
+                               source={categories}/>
 
                             : addCategory
                         }
