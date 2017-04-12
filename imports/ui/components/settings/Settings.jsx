@@ -222,6 +222,7 @@ class SettingsPage extends Component {
                 Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
                 console.log(downloadUrl);
                 this.setState({imageUrl: downloadUrl});
+                this.resetImageUpload();
             }
 
         });
@@ -267,7 +268,7 @@ class SettingsPage extends Component {
     }
 
 
-    userImage(value, e){
+    userImage(e){
 
         if(e.target.files.length){
 
@@ -299,25 +300,27 @@ class SettingsPage extends Component {
     }
 
     switchPopupTemplate(){
-
-        if(this.state.imageUrl || this.state.data_uri){
-            var uploadedImage = <div className='image-group'>
-                <Button
-                    className='image-change-button'
-                    label='Change Image'
-                    type='button'
-                    onClick={this.resetImageUpload.bind(this)}
-                    />
-                <img className='user-image' src={this.state.imageUrl || this.state.data_uri} />
+        let gravatar, user = Meteor.user();
+        if(user && user.profile.md5hash) {
+            gravatar = Gravatar.imageUrl(user.profile.md5hash, {
+                secure: true,
+                size: "48",
+                d: 'mm',
+                rating: 'pg'
+            });
+        }
+        let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
+            let uploadedImage = <div className='image-group'>
+                <div className="fileUpload btn btn-primary">
+                    <span>Edit Image</span>
+                    <input type="file"
+                           id="input"
+                           className="upload"
+                           onChange={this.userImage.bind(this)}/>
+                </div>
+                <img className='user-image' src={profileImage} />
             </div>
-        }
-        else{
-            // Enable upload bill option
-            var imageUpload = <Input
-                type='file'
-                id='input'
-                onChange={this.userImage.bind(this)} />
-        }
+
 
         switch (this.state.action){
             case 'remove':
@@ -328,6 +331,7 @@ class SettingsPage extends Component {
                     <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                         <h3 className={theme.titleSetting}>edit Personal Information</h3>
+                        {uploadedImage}
                         <Input type='text' label='Name'
                                name='name'
                                maxLength={ 25 }
@@ -365,8 +369,6 @@ class SettingsPage extends Component {
                         <div className={theme.updateBtn}>
                             <Button type='submit' label='UPDATE' raised primary />
                         </div>
-                        {imageUpload}
-                        {uploadedImage}
 
                     </form>
                 );
