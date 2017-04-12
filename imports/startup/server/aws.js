@@ -25,7 +25,7 @@ Meteor.startup(() => {
         },
         key: function (file, metaContext) {
             // image url with ._id attached:
-            return metaContext.uploaderId + "/" + Date.now() + "-" + file.name.replace(/\s/g, '_');
+            return metaContext.uploaderId + "/" + metaContext.folder + '/' + Date.now() + "-" + file.name.replace(/\s/g, '_');
         }
     });
 });
