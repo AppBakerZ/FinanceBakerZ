@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import { Button, Table, Card, FontIcon, Dialog } from 'react-toolbox';
 import { Link } from 'react-router'
-import { ReactiveVar } from 'meteor/reactive-var'
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
@@ -19,6 +18,7 @@ import dialogButtonTheme from './dialogButtonTheme';
 import dialogTheme from './dialogTheme';
 
 
+
 class CategoriesPage extends Component {
 
     constructor(props) {
@@ -28,8 +28,7 @@ class CategoriesPage extends Component {
             removeConfirmMessage: false,
             openDialog: false,
             selectedCategory: null,
-            action: null,
-            loading : false
+            action: null
         };
 
     }
@@ -98,24 +97,19 @@ class CategoriesPage extends Component {
     }
     removeCategory(){
         const {_id, name, parent} = this.state.selectedCategory;
-        if(this.state.selectedCategory.owner) {
-            Meteor.call('categories.remove', {
-                category: {
-                    _id,
-                    name,
-                    parent
-                }
-            }, (err, response) => {
-                if (err) {
+        Meteor.call('categories.remove', {
+            category: {
+                _id,
+                name,
+                parent
+            }
+        }, (err, response) => {
+            if(err){
 
-                } else {
+            }else{
 
-                }
-            });
-        }
-        else{
-            this.removeDefaultCategory();
-        }
+            }
+        });
         // Close Popup
         this.setState({
             openDialog: false
@@ -125,41 +119,15 @@ class CategoriesPage extends Component {
     removeSubcategory(e){
         //e.stopPropagation();
         //e.preventDefault();
-        if(this.state.selectedCategory.owner) {
-            Meteor.call('categories.removeFromParent', {
-                category: {
-                    name: this.state.selectedCategory.name
-                }
-            }, (err, response) => {
-                if (err) {
-
-                } else {
-
-                }
-            });
-        }
-        else{
-            this.removeDefaultCategory();
-        }
-        // Close Popup
-        this.setState({
-            openDialog: false
-        });
-    }
-
-
-    removeDefaultCategory(){
-        //e.stopPropagation();
-        //e.preventDefault();
-        Meteor.call('categories.removeDefault', {
+        Meteor.call('categories.removeFromParent', {
             category: {
                 name: this.state.selectedCategory.name
             }
         }, (err, response) => {
             if(err){
-                console.log(err);
-            }
-            else{
+
+            }else{
+
             }
         });
         // Close Popup
@@ -170,8 +138,7 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, parent){
         return children.map((name) => {
-            const category = _.findWhere(this.props.children, {name, parent});
-            if (!category) return false;
+            const category = Categories.findOne({name, parent});
             return <span key={name}>
                     <div onClick={this.openPopup.bind(this, 'edit', category)}>
                         {name}
@@ -207,17 +174,6 @@ class CategoriesPage extends Component {
             }
         });
 
-
-        const addCategory =
-            <div className={theme.categoryNothing}>
-                <span className={theme.errorShow}>you do not have any categories</span>
-                <div className={theme.addCategoryBtn}>
-                    <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
-                </div>
-                <span className={theme.errorShow}>add some to show</span>
-            </div>;
-
-
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
                 <div className={theme.categoriesContent}>
@@ -232,15 +188,11 @@ class CategoriesPage extends Component {
                             theme={buttonTheme}/>
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.categoriesLoading ? <Loader accent/> : this.props.categoriesExists ?
-                        <Table className={theme.table} theme={tableTheme}
-                               selectable={false}
-                               heading={false}
-                               model={model}
-                               source={categories}/>
-
-                            : addCategory
-                        }
+                        <Table
+                            selectable={false}
+                            heading={false}
+                            model={model}
+                            source={categories}/>
                     </Card>
                 </div>
                 {this.popupTemplate()}
@@ -255,20 +207,10 @@ CategoriesPage.propTypes = {
 
 export default createContainer(() => {
     Meteor.subscribe('categories');
-    const categoriesHandle = Meteor.subscribe('categories');
-    const categoriesLoading = !categoriesHandle.ready();
-    const categories = Categories.find({
-        parent: null
-    }, {sort: {createdAt: -1}}).fetch();
-    const children = Categories.find({
-        parent: {$exists: true}
-    }, {sort: {createdAt: -1}}).fetch();
-    const categoriesExists = !categoriesLoading && !!categories.length;
 
     return {
-        categories,
-        children,
-        categoriesLoading,
-        categoriesExists
+        categories: Categories.find({
+            parent: null
+        }, {sort: {createdAt: -1}}).fetch()
     };
 }, CategoriesPage);
