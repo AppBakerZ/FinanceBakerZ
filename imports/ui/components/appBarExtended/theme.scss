@@ -18,3 +18,9 @@
     color: $color-accent;
   }
 }
+
+@media (min-width: 320px) and (max-width: 767px){
+  .appBar{
+    height: 6.5rem;
+  }
+}
