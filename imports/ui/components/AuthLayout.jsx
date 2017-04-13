@@ -69,7 +69,7 @@ export default class AuthLayout extends Component {
                             type={this.state.barType}
                             />
                              <ConnectionStatus />
-                        <Card className="login-card" style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
+                        <Card className={theme.cardLogin} style={{width: '300px', padding: '1.8rem', margin: '25px 0 25px 0'}}>
                             {React.cloneElement(this.props.children, {
                                 showSnackbar: this.showSnackbar.bind(this),
                                 progressBarUpdate: this.progressBarUpdate.bind(this),

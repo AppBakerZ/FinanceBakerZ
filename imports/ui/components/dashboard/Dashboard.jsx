@@ -166,6 +166,15 @@ class DashboardPage extends Component {
             date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
             report : report
         };
+      // prevent window popup block
+        let win = window.open('');
+        win.document.write("<p> Loading...</p>");
+        window.oldOpen = window.open;
+        window.open = function(url) {
+            win.location = url;
+            window.open = oldOpen;
+            win.focus();
+        }
 
         Meteor.call('statistics.generateReport', {params } , function(err, res){
             if (err) {

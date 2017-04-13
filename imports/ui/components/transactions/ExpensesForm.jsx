@@ -14,7 +14,7 @@ import { Categories } from '../../../api/categories/categories.js';
 
 import theme from './theme';
 
-class ExpensesSideBar extends Component {
+class ExpensesForm extends Component {
 
     constructor(props) {
         super(props);
@@ -303,6 +303,7 @@ class ExpensesSideBar extends Component {
             reader.readAsDataURL(file);
 
             let metaContext = {
+                folder: "bills",
                 uploaderId: userId
             };
 
@@ -419,7 +420,7 @@ class ExpensesSideBar extends Component {
     }
 }
 
-ExpensesSideBar.propTypes = {
+ExpensesForm.propTypes = {
     expense: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     expenseExists: PropTypes.bool.isRequired
@@ -440,4 +441,4 @@ export default createContainer((props) => {
         accounts: Accounts.find({}).fetch(),
         categories: Categories.find({}).fetch()
     };
-}, ExpensesSideBar);
+}, ExpensesForm);

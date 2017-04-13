@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input, Snackbar } from 'react-toolbox';
 import { Link } from 'react-router'
+import { Slingshot } from 'meteor/edgee:slingshot'
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
@@ -33,7 +34,8 @@ class SettingsPage extends Component {
             number: userInfo.profile.contactNumber || '' ,
             username: userInfo.username || '',
             email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
-            address: userInfo.profile.address || ''
+            address: userInfo.profile.address || '',
+            imageUrl: ''
         };
 
         this.languages = [
@@ -128,6 +130,7 @@ class SettingsPage extends Component {
     popupTemplate(){
         return(
             <Dialog theme={dialogTheme}
+                type='fullscreen'
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
@@ -202,6 +205,28 @@ class SettingsPage extends Component {
             }
             this.setState({loading: false});
         });
+
+        let userId = Meteor.user()._id;
+        let metaContext = {
+            folder: "profiles",
+            uploaderId: userId
+        };
+        let uploader = new Slingshot.Upload('imageUploader', metaContext);
+        uploader.send(this.state.target,  (error, downloadUrl) => { // you can use refs if you like
+            if (error) {
+                // Log service detailed response
+                console.error('Error uploading', uploader.xhr.response);
+                alert (error); // you may want to fancy this up when you're ready instead of a popup.
+            }
+            else {
+                // we use $set because the user can change their avatar so it overwrites the url :)
+                Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                console.log(downloadUrl);
+                this.setState({imageUrl: downloadUrl});
+                this.resetImageUpload();
+            }
+
+        });
     }
 
     updateAccountSettings (event) {
@@ -236,6 +261,33 @@ class SettingsPage extends Component {
         this.setState({loading: true})
     }
 
+    resetImageUpload(){
+        this.setState({
+            data_uri: '',
+            imageUrl: ''
+        });
+    }
+
+
+    userImage(e){
+
+        if(e.target.files.length){
+
+            const reader = new FileReader();
+            const file = e.target.files[0];
+            this.setState({
+                target: e.target.files[0]
+            })
+            reader.onload = (upload) => {
+                this.setState({
+                    data_uri: upload.target.result
+                });
+            };
+            reader.readAsDataURL(file);
+
+        }
+    }
+
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -249,6 +301,28 @@ class SettingsPage extends Component {
     }
 
     switchPopupTemplate(){
+        let gravatar, user = Meteor.user();
+        if(user && user.profile.md5hash) {
+            gravatar = Gravatar.imageUrl(user.profile.md5hash, {
+                secure: true,
+                size: "48",
+                d: 'mm',
+                rating: 'pg'
+            });
+        }
+        let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
+            let uploadedImage = <div className='image-group'>
+                <div className="fileUpload btn btn-primary">
+                    <span>Edit Image</span>
+                    <input type="file"
+                           id="input"
+                           className="upload"
+                           onChange={this.userImage.bind(this)}/>
+                </div>
+                <img className='user-image' src={profileImage} />
+            </div>
+
+
         switch (this.state.action){
             case 'remove':
                 return this.renderConfirmationMessage();
@@ -258,6 +332,7 @@ class SettingsPage extends Component {
                     <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                         <h3 className={theme.titleSetting}>edit Personal Information</h3>
+                        {uploadedImage}
                         <Input type='text' label='Name'
                                name='name'
                                maxLength={ 25 }
@@ -273,19 +348,36 @@ class SettingsPage extends Component {
                             />
                         {Meteor.user().username ?
 
-                        <Input type='text' label='Username'
-                               name= 'username'
+                            (<span><Input type='text' label='Username'
+                               name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                                required
                             />
-                            :
+
                         <Input type='email' label='Email'
-                               name= 'email'
+                               name='email'
+                               value={this.state.email}
+                               onChange={this.onChange.bind(this)}
+                            />
+                                </span>
+                            )
+                            :
+
+                        (<span><Input type='text' label='Username'
+                               name='username'
+                               value={this.state.username}
+                               onChange={this.onChange.bind(this)}
+                            />
+
+                        <Input type='email' label='Email'
+                               name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
                                required
                             />
+                                </span>
+                        )
                         }
                         <Input type='text' label='Address'
                                name='address'
@@ -416,10 +508,11 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
                                 <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
-                                <h6> <span> {Meteor.user().username ? 'Username:' : 'Email:' } </span> {Meteor.user().username ? Meteor.user().username : Meteor.user().emails[0].address }</h6>
+                                <h6>Username:<span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
+                                <h6>Email: <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
                                 <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')} />
+                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
                                 </div>
                             </div>
                         </Card>
