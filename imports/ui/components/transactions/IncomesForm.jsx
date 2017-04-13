@@ -12,7 +12,7 @@ import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import theme from './theme';
 
-class IncomesSideBar extends Component {
+class IncomesForm extends Component {
 
     constructor(props) {
         super(props);
@@ -348,7 +348,7 @@ class IncomesSideBar extends Component {
     }
 }
 
-IncomesSideBar.propTypes = {
+IncomesForm.propTypes = {
     income: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     incomeExists: PropTypes.bool.isRequired
@@ -369,4 +369,4 @@ export default createContainer((props) => {
         accounts: Accounts.find({}).fetch(),
         projects: Projects.find({}).fetch()
     };
-}, IncomesSideBar);
+}, IncomesForm);

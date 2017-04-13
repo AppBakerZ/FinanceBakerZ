@@ -17,6 +17,8 @@ import { Expenses } from '../expences/expenses.js';
 import { Incomes } from '../incomes/incomes.js';
 import { Accounts } from '../accounts/accounts.js';
 import { Categories } from '../categories/categories.js';
+import { accountHelpers } from '/imports/helpers/accountHelpers.js'
+
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
@@ -256,10 +258,11 @@ export const generateReport = new ValidatedMethod({
         /*Todo use later relation */
         Template.report.helpers({
             accountName : (id) => {
-                return Accounts.findOne({_id : id, owner: this.userId}).name;
+                let account = Accounts.findOne({_id : id, owner: this.userId});
+                return accountHelpers.alterName(account.bank)
             },
-            categoryName : function(id){
-                return Categories.findOne({_id : id}).name;
+            categoryName : function(category){
+                return Categories.findOne({_id : category._id}).name;
             },
             totalIncome : function(){
                 if(params.date){

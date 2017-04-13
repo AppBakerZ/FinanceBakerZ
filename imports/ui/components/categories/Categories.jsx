@@ -174,6 +174,15 @@ class CategoriesPage extends Component {
             }
         });
 
+        const addCategory =
+            <div className={theme.categoryNothing}>
+                <span className={theme.errorShow}>you do not have any categories</span>
+                <div className={theme.addCategoryBtn}>
+                    <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
+                </div>
+                <span className={theme.errorShow}>add some to show</span>
+            </div>;
+
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
                 <div className={theme.categoriesContent}>
@@ -188,11 +197,15 @@ class CategoriesPage extends Component {
                             theme={buttonTheme}/>
                     </div>
                     <Card theme={tableTheme}>
-                        <Table
-                            selectable={false}
-                            heading={false}
-                            model={model}
-                            source={categories}/>
+                        {this.props.categoriesLoading ? <Loader accent/> : this.props.categoriesExists ?
+                            <Table className={theme.table} theme={tableTheme}
+                                   selectable={false}
+                                   heading={false}
+                                   model={model}
+                                   source={categories}/>
+
+                            : addCategory
+                        }
                     </Card>
                 </div>
                 {this.popupTemplate()}
@@ -207,10 +220,21 @@ CategoriesPage.propTypes = {
 
 export default createContainer(() => {
     Meteor.subscribe('categories');
+    const categoriesHandle = Meteor.subscribe('categories');
+    const categoriesLoading = !categoriesHandle.ready();
+    const categories = Categories.find({
+        parent: null
+    }, {sort: {createdAt: -1}}).fetch();
+    const children = Categories.find({
+        parent: {$exists: true}
+    }, {sort: {createdAt: -1}}).fetch();
+    const categoriesExists = !categoriesLoading && !!categories.length;
 
     return {
-        categories: Categories.find({
-            parent: null
-        }, {sort: {createdAt: -1}}).fetch()
+        categories,
+        children,
+        categoriesLoading,
+        categoriesExists
     };
 }, CategoriesPage);
+

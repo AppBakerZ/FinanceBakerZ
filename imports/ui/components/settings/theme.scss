@@ -37,6 +37,12 @@
       width: 80%;
       display: inline-block;
     }
+    &:nth-child(3){
+      text-transform: initial;
+    }
+    &:nth-child(4){
+      text-transform: initial;
+    }
     span{
       label{
         display: inline-block;

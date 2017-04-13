@@ -54,8 +54,8 @@ export default class LeftMenu extends Component {
                     <Link to={`/app/categories`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('categories')} caption='Categories' leftIcon='view_module' theme={listItemTheme}/>
                     </Link>
-                    <Link to={`/app/settings/new`} onClick={this.toggleDrawerActive.bind(this)}>
-                        <ListItem className={this.isActive('settings/new')} caption='Settings' leftIcon='settings' theme={listItemTheme}/>
+                    <Link to={`/app/settings`} onClick={this.toggleDrawerActive.bind(this)}>
+                        <ListItem className={this.isActive('settings')} caption='Settings' leftIcon='settings' theme={listItemTheme}/>
                     </Link>
                     <ListItem caption='Logout' leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
                 </List>

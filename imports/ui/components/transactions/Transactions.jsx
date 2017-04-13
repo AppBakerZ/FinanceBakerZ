@@ -15,8 +15,10 @@ import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
 import { Projects } from '../../../api/projects/projects.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
-import IncomesSideBar from '../incomes/IncomesSideBar.jsx'
-import ExpensesSideBar from '../expenses/ExpensesSideBar.jsx'
+
+import ExpensesForm from './ExpensesForm.jsx';
+import IncomesForm from './IncomesForm.jsx';
+
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
@@ -284,8 +286,8 @@ class TransactionPage extends Component {
             <div>
                 <h4>{(updateForm ? 'Update ' : 'Add New ') + model}</h4>
                 {model == 'Income' || transaction && transaction.receivedAt ?
-                    <IncomesSideBar params={transaction ? {id: transaction._id}: ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/> :
-                    <ExpensesSideBar params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
+                    <IncomesForm params={transaction ? {id: transaction._id}: ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/> :
+                    <ExpensesForm params={transaction ? {id: transaction._id} : ''} isNewRoute={!updateForm} closePopup={this.closePopup.bind(this)}/>}
             </div>
         )
     }
@@ -516,7 +518,7 @@ class TransactionPage extends Component {
                        selectable={false}
                        heading={false}
                     />;
-            const something =
+            const initialMessage =
                 <div className={theme.transactionNothing}>
                     <span className={theme.errorShow}>you do not have any INCOME and EXPENSE</span>
                     <div className={theme.addProjectBtn}>
@@ -526,7 +528,7 @@ class TransactionPage extends Component {
                 </div>;
         return (
             <Card theme={tableTheme}>
-                {this.props.transactionsExists ||  data.length ? table : something}
+                {this.props.transactionsExists ||  data.length ? table : initialMessage}
                 { this.props.transactionsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
             </Card>
         )
@@ -621,22 +623,28 @@ TransactionPage.propTypes = {
 export default createContainer(() => {
     const transactionsHandle = Meteor.subscribe('transactions', query.get());
     const transactionsLoading = !transactionsHandle.ready();
-    const incomesField = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
-    const expenseField = Expenses.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
-    const transactions = !!incomesField.length || !!expenseField.length;
     const transactionsExists = !transactionsLoading && !!transactions;
+
     Meteor.subscribe('accounts');
+    const accounts = Accounts.find({}).fetch();
+
     Meteor.subscribe('categories');
+    const categories = Categories.find().fetch();
+
     Meteor.subscribe('projects.all');
-    let expenses = Expenses.find().fetch(),
+    const projects = Projects.find().fetch();
+
+    const expenses = Expenses.find().fetch(),
     incomes = Incomes.find().fetch();
+
+    const transactions = _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse();
+
     return {
         transactionsLoading,
-        transactions,
         transactionsExists,
-        transactions: _.sortBy(incomes.concat(expenses), function(transaction){return transaction.receivedAt || transaction.spentAt }).reverse(),
-        accounts: Accounts.find({}).fetch(),
-        categories: Categories.find().fetch(),
-        projects: Projects.find().fetch()
+        transactions,
+        accounts,
+        categories,
+        projects
     };
 }, TransactionPage);
