@@ -130,6 +130,7 @@ class SettingsPage extends Component {
     popupTemplate(){
         return(
             <Dialog theme={dialogTheme}
+                type='fullscreen'
                 active={this.state.openDialog}
                 onEscKeyDown={this.closePopup.bind(this)}
                 onOverlayClick={this.closePopup.bind(this)}
