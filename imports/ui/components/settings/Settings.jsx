@@ -211,22 +211,25 @@ class SettingsPage extends Component {
             folder: "profiles",
             uploaderId: userId
         };
-        let uploader = new Slingshot.Upload('imageUploader', metaContext);
-        uploader.send(this.state.target,  (error, downloadUrl) => { // you can use refs if you like
-            if (error) {
-                // Log service detailed response
-                console.error('Error uploading', uploader.xhr.response);
-                alert (error); // you may want to fancy this up when you're ready instead of a popup.
-            }
-            else {
-                // we use $set because the user can change their avatar so it overwrites the url :)
-                Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
-                console.log(downloadUrl);
-                this.setState({imageUrl: downloadUrl});
-                this.resetImageUpload();
-            }
+              if(this.state.target && this.uploadImageName != this.state.target.name) {
+                  this.uploadImageName = this.state.target.name;
 
-        });
+                  let uploader = new Slingshot.Upload('imageUploader', metaContext);
+                  uploader.send(this.state.target, (error, downloadUrl) => { // you can use refs if you like
+                      if (error) {
+                          // Log service detailed response
+                          console.error('Error uploading', uploader.xhr.response);
+                          alert(error); // you may want to fancy this up when you're ready instead of a popup.
+                      }
+                      else {
+                          // we use $set because the user can change their avatar so it overwrites the url :)
+                          Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                          console.log(downloadUrl);
+                          this.setState({imageUrl: downloadUrl});
+                      }
+                      this.resetImageUpload();
+                  });
+              }
     }
 
     updateAccountSettings (event) {
