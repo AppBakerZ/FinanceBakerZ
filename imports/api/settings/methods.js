@@ -89,6 +89,12 @@ export const updateProfile = new ValidatedMethod({
             update['emails.0.address'] = users.email;
         }
         Meteor.users.update({_id: Meteor.userId()} , {$set: update});
+
+        if(users.email){
+            Meteor.users.update( { _id: Meteor.user()._id }, {
+                $set: { "profile.md5hash": Gravatar.hash( users.email ) }
+            });
+        }
     }
 });
 
