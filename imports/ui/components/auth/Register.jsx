@@ -31,7 +31,7 @@ export default class Register extends Component {
         this.props.history.push('/');
     }
 
-    onSubmit(event){
+    onSubmit(event) {
         event.preventDefault();
 
         const {fullName, usernameOrEmail, password} = this.state;
@@ -48,35 +48,41 @@ export default class Register extends Component {
         let currency = {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0},
         emailNotification = true;
 
-        Accounts.createUser({
-            [key]: selector[key],
-            password,
-            profile: {fullName, currency, emailNotification }
-        }, (err) => {
-            if(err){
-                this.props.showSnackbar({
-                    activeSnackbar: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }else{
-                this.props.showSnackbar({
-                    activeSnackbar: true,
-                    barMessage: 'Successfully Registered',
-                    barIcon: 'done',
-                    barType: 'accept'
-                }
+        var account = {account: {password, fullName, selector}};
+        Meteor.call("registerUser", account, (err) => {
+                if (err) {
+                    this.props.showSnackbar({
+                        activeSnackbar: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel'
+                    });
+                } else {
+                    this.props.showSnackbar({
+                        activeSnackbar: true,
+                        barMessage: 'Successfully Registered',
+                        barIcon: 'done',
+                        barType: 'accept'
+                    });
 
-                );
-                var account = {account: {owner: Meteor.user()._id}};
-                Meteor.call('insertAccountOnSignUp', account);
-                setTimeout(() => {
-                    this.props.history.push('/app/settings');
-                }, 1000);
-            }
-            this.props.progressBarUpdate(false);
-        });
+                    Meteor.loginWithPassword(selector, password, (err) => {
+                        if (err) {
+                            this.props.showSnackbar({
+                                activeSnackbar: true,
+                                barMessage: err.reason,
+                                barIcon: 'error_outline',
+                                barType: 'cancel'
+                            });
+                        } else {
+                            setTimeout(() => {
+                                this.props.history.push('/app/settings');
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+
+        this.props.progressBarUpdate(false);
     }
 
     render() {
