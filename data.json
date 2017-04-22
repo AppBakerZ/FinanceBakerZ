@@ -1,0 +1,51 @@
+{
+  "en": {
+    "balance": "Your Available Balance is",
+    "incomes": "Your Total Incomes are",
+    "expenses": "Your Total Expenses are",
+    "recentIncomes": "Recent Incomes",
+    "recentExpenses": "Recent Expenses",
+    "incomeOverview": "Income Overview",
+    "noProjects": "You do not have any projects",
+    "addProjects": "ADD SOME TO SHOW",
+    "projects": "Projects",
+    "transactions": "Transactions",
+    "accounts": "Cards and Bank Accounts",
+    "categories": "Categories",
+    "noCategories": "YOU DO NOT HAVE CATEGORIES",
+    "addCategories": "ADD SOME TO SHOW",
+    "settings": "Settings",
+    "personalInformation": "Personal Information",
+    "accountSettings": "Account Settings",
+    "changePassword": "Change Password",
+    "noIncomeAndExpense": "You do not have Income and Expense ",
+    "addIncomeAndExpense": "ADD SOME TO SHOW"
+
+},
+
+  "ur": {
+    "balance": " آپ کے بینک اکاؤنٹ بیلنس ہے",
+    "incomes": "آپ کی کل آمدنی ہو",
+    "expenses": "آپ کے کل اخراجات ہیں",
+    "recentIncomes": "حالیہ آمدنی",
+    "recentExpenses": "حالیہ اخراجات,",
+    "incomeOverview": "آمدنی کا جائزہ",
+    "noProjects": "آپ کے پاس کوئی منصوبہ ہے",
+    "addProjects": "ظاہر کرنے کے لئے کچھ شامل",
+    "projects": "منصوبہ",
+    "transactions": "لین دین",
+    "accounts": "کارڈ اور بینک اکاؤنٹس",
+    "categories": "اقسام",
+    "noCategories": "آپ کو کوئی زمرے ہو",
+    "addCategories":  "ظاہر کرنے کے لئے کچھ شامل",
+    "settings": "ترتیبات",
+    "personalInformation": "ذاتی معلومات",
+    "accountSettings": "اکاؤنٹ کی ترتیبات",
+    "changePassword": "پاس ورڈ تبدیل کریں",
+    "noIncomeAndExpense": "کوئی آمدنی اور اخراجات ہے ",
+    "addIncomeAndExpense": "ظاہر کرنے کے لئے کچھ شامل"
+
+
+  }
+
+}

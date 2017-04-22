@@ -12,6 +12,7 @@ import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/cur
 
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
+import localeData from '../../../../../data.json'
 
 import theme from './theme';
 import tableTheme from './tableTheme';
@@ -26,15 +27,15 @@ class RecentActivities extends Component {
         };
     }
 
-    renderRecents(){
+    renderRecents(userLanguage){
         return (
             <div className='dashboard-card-group'>
                 <div className={theme.recentIncomeWrapper}>
-                    {this.renderRecentIncomes()}
+                    {this.renderRecentIncomes(userLanguage)}
                 </div>
 
                 <div className={theme.recentExpensesWrapper}>
-                    {this.renderRecentExpenses()}
+                    {this.renderRecentExpenses(userLanguage)}
                 </div>
             </div>
         )
@@ -65,11 +66,11 @@ class RecentActivities extends Component {
         return this.props.incomesExists ? table : add
     }
 
-    renderRecentIncomes(){
+    renderRecentIncomes(userLanguage){
         return (
             <div>
                 <Card className='card' theme={theme}>
-                    <h3>Recent Incomes</h3>
+                    <h3>{localeData[userLanguage].recentIncomes}</h3>
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
@@ -103,11 +104,11 @@ class RecentActivities extends Component {
             </div>;
         return this.props.expensesExists ? table : add
     }
-    renderRecentExpenses(){
+    renderRecentExpenses(userLanguage){
         return (
             <div>
                 <Card className='card' theme={theme}>
-                    <h3>Recent Expenses</h3>
+                    <h3>{localeData[userLanguage].recentExpenses}</h3>
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
@@ -117,7 +118,8 @@ class RecentActivities extends Component {
         )
     }
     render() {
-        return this.renderRecents();
+        const userLanguage = Meteor.user().profile.language;
+        return this.renderRecents(userLanguage);
     }
 }
 

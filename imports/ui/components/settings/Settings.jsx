@@ -15,6 +15,7 @@ import checkboxTheme from './checkboxTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 import { Accounts } from 'meteor/accounts-base';
+import localeData from '../../../../data.json'
 
 import currencyIcon from '/imports/ui/currencyIcon.js';
 
@@ -40,6 +41,7 @@ class SettingsPage extends Component {
 
         this.languages = [
             { value: 'en', label: 'English' },
+            { value: 'ur', label: 'Urdu' },
             { value: 'ar', label: 'Arabic'},
             { value: 'ch', label: 'Chinese'},
             { value: 'fr', label: 'French'},
@@ -484,12 +486,13 @@ class SettingsPage extends Component {
 
 
     render() {
+        const userLanguage = Meteor.user().profile.language;
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
-                            <h3>Settings</h3>
+                            <h3>{localeData[userLanguage].settings}</h3>
                             <Snackbar
                                 action='Dismiss'
                                 active={this.state.active}
@@ -503,7 +506,7 @@ class SettingsPage extends Component {
                         </div>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>personal information</h5>
+                                <h5>{localeData[userLanguage].personalInformation}</h5>
                             </div>
                             <div className={theme.cardContent}>
                                 <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
@@ -518,7 +521,7 @@ class SettingsPage extends Component {
                         </Card>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>account settings</h5>
+                                <h5>{localeData[userLanguage].accountSettings}</h5>
                             </div>
                             <div className={theme.cardContent}>
                                 <h6>currency: <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
@@ -546,7 +549,7 @@ class SettingsPage extends Component {
 
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>Change Password</h5>
+                                <h5>{localeData[userLanguage].changePassword}</h5>
                             </div>
                             <div className={theme.cardContent}>
                                 <h6>Password: <span>*********</span></h6>

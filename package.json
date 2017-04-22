@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^3.10.0"
+    "node-sass": "^3.10.0",
+    "babel-plugin-react-intl": "~2.3.1"
   }
 }

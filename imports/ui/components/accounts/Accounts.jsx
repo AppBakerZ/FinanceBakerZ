@@ -16,6 +16,7 @@ import theme from './theme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
+import localeData from '../../../../data.json'
 
 import bankFonts from '/imports/ui/bankFonts.js';
 import countries from '/imports/ui/countries.js';
@@ -119,7 +120,7 @@ class AccountsPage extends Component {
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(balance)} </span>
         )
     }
-    renderAccount() {
+    renderAccount(userLanguage) {
         const model = {
             icon: {type: String},
             content: {type: String},
@@ -154,7 +155,7 @@ class AccountsPage extends Component {
         return (
             <div className={theme.accountContent}>
                 <div className={theme.accountTitle}>
-                    <h3>cards and bank accounts</h3>
+                    <h3>{localeData[userLanguage].accounts}</h3>
                     <Button
                         className={theme.button}
                         icon='add'
@@ -176,11 +177,13 @@ class AccountsPage extends Component {
     }
 
     render() {
+        const userLanguage = Meteor.user().profile.language;
+
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
-                        {this.renderAccount()}
+                        {this.renderAccount(userLanguage)}
                     </List>
                 </div>
                 {this.popupTemplate()}

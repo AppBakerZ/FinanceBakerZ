@@ -14,7 +14,7 @@ import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
-
+import localeData from '../../../../data.json'
 import theme from './theme';
 import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
@@ -181,7 +181,7 @@ class ProjectPage extends Component {
         query.set(copyQuery);
     }
 
-    renderProjectTable() {
+    renderProjectTable(userLanguage) {
 
         let projects = this.props.projects.map((project) => {
             let { name, status, client, startAt, amount } = project;
@@ -212,11 +212,11 @@ class ProjectPage extends Component {
            />;
       const something =
             <div className={theme.projectNothing}>
-                <span className={theme.errorShow}>you do not have any projects</span>
+                <span className={theme.errorShow}>{localeData[userLanguage].noProjects}</span>
                 <div className={theme.addProjectBtn}>
                     <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
                 </div>
-                <span className={theme.errorShow}>add some to show</span>
+                <span className={theme.errorShow}>{localeData[userLanguage].addProjects}</span>
             </div>;
         return (
             <Card theme={tableTheme}>
@@ -227,6 +227,7 @@ class ProjectPage extends Component {
     }
 
     render() {
+        const userLanguage = Meteor.user().profile.language;
         return (
             <div className="projects"  onScroll={this.handleScroll}>
                 <div className="container">
@@ -261,7 +262,7 @@ class ProjectPage extends Component {
                     </div>
 
                     <div className={theme.pageTitle}>
-                        <h3>Projects</h3>
+                        <h3>{localeData[userLanguage].projects}</h3>
                         <Button
                             className={theme.button}
                             icon='add'
@@ -272,7 +273,7 @@ class ProjectPage extends Component {
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}
+                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable(userLanguage)}
                     </Card>
                     {this.popupTemplate()}
                 </div>

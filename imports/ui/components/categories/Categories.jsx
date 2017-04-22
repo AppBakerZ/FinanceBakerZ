@@ -10,6 +10,7 @@ import { Categories } from '../../../api/categories/categories.js';
 
 import Form from './Form.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
+import localeData from '../../../../data.json'
 
 import theme from './theme';
 import buttonTheme from './buttonTheme';
@@ -148,6 +149,7 @@ class CategoriesPage extends Component {
         });
     }
     render() {
+        const userLanguage = Meteor.user().profile.language;
 
         const model = {
             icon: {type: String},
@@ -176,18 +178,18 @@ class CategoriesPage extends Component {
 
         const addCategory =
             <div className={theme.categoryNothing}>
-                <span className={theme.errorShow}>you do not have any categories</span>
+                <span className={theme.errorShow}>{localeData[userLanguage].addCategories}</span>
                 <div className={theme.addCategoryBtn}>
                     <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
                 </div>
-                <span className={theme.errorShow}>add some to show</span>
+                <span className={theme.errorShow}>{localeData[userLanguage].noCategories}</span>
             </div>;
 
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
                 <div className={theme.categoriesContent}>
                     <div className={theme.categoriesTitle}>
-                        <h3>Categories</h3>
+                        <h3>{localeData[userLanguage].categories}</h3>
                         <Button
                             className={theme.button}
                             icon='add'

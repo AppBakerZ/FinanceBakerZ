@@ -21,9 +21,9 @@ import SettingsPage from '../../ui/components/settings/Settings.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
 import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
-
-
-
+import {addLocaleData} from 'react-intl';
+import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
+import localeData from '../../../data.json'
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     clearInterval(setIntervalHandel);
     if (! Meteor.user() ) {
@@ -36,6 +36,15 @@ let checkAuth = (nextState, replace, next, setIntervalHandel) => {
         next()
     }
 };
+
+
+const language = (navigator.languages && navigator.languages[0]) ||
+    navigator.language ||
+    navigator.userLanguage;
+
+const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
+
+ const messages = localeData[languageWithoutRegionCode] || localeData[language] || localeData.en;
 
 let requireAuth = (nextState, replace, next) => {
     let setIntervalHandel;
@@ -50,6 +59,10 @@ let requireAuth = (nextState, replace, next) => {
 Meteor.startup( () => {
     render(
         <Router history={ browserHistory }>
+            <IntlProvider
+                locale={language}
+                messages={messages}
+                >
             <Route path="app" component={AppLayout} onEnter={requireAuth}>
                 <IndexRoute components={{ content: DashboardPage}} />
                 <Route path="dashboard" components={{ content: DashboardPage}} />
@@ -75,6 +88,7 @@ Meteor.startup( () => {
                 <Route path="login" component={ Login} />
                 <Route path="forgotPassword" component={ ForgotPassword} />
             </Route>
+            </IntlProvider>
             </Router>,
         document.getElementById( 'render-root' )
     );
