@@ -36,7 +36,7 @@ export default class ProjectDetail extends Component {
                     <div> <p>Client Name :</p> <p>{project.client.name}</p></div>
                     <div> <p>Amount Agreed :</p> <p>{project.amount}</p></div>
                     <div> <p>Amount Paid :</p> <p>{this.state.amountPaid || 0} </p></div>
-                    <div> <p>Amount Remaining :</p> <p>{project.amount - this.state.amountPaid || project.amount} </p></div>
+                    <div> <p>Amount Remaining :</p> <p>{ this.state.amountPaid ? project.amount - this.state.amountPaid : project.amount } </p></div>
                     <div> <p>Project Status :</p> <p>{project.status}</p></div>
                 </div>
 
