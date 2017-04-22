@@ -25,7 +25,7 @@ export const incomesGroupByMonth = new ValidatedMethod({
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to get Available Balance'
+        message: 'You need to be logged in to get Incomes Group By Project'
     },
     validate: new SimpleSchema({
         year: {
@@ -97,6 +97,40 @@ export const incomesGroupByMonth = new ValidatedMethod({
         return {years: years, result: groupedByMonths}
     }
 });
+
+
+export const incomesGroupByProject = new ValidatedMethod({
+    name: 'statistics.incomesGroupByProject',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to get Incomes Group By Project'
+    },
+    validate: new SimpleSchema({
+        'project': {
+            type: Object
+        },
+        'project._id': {
+            type: String
+        }
+    }).validator(),
+    run({ project }) {
+        const paidAmountArray = Incomes.aggregate([{
+            $match: {
+                'project._id': project._id
+            }
+        }, {
+            $group: {
+                _id: 'project._id', total: {
+                    $sum: '$amount'
+                }
+            }
+        }]);
+
+        return paidAmountArray.length ? paidAmountArray[0] : {total: 0}
+    }
+});
+
 
 export const availableBalance = new ValidatedMethod({
     name: 'statistics.availableBalance',
@@ -347,6 +381,11 @@ export const generateReport = new ValidatedMethod({
 
 
 const EXPENSES_METHODS = _.pluck([
+    incomesGroupByMonth,
+    incomesGroupByProject,
+    availableBalance,
+    totalIncomesAndExpenses,
+    generateReport
 ], 'name');
 
 if (Meteor.isServer) {
