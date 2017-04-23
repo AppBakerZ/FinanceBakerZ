@@ -58,38 +58,35 @@ let requireAuth = (nextState, replace, next) => {
 
 Meteor.startup( () => {
     render(
-        <Router history={ browserHistory }>
-            <IntlProvider
-                locale={language}
-                messages={messages}
-                >
-            <Route path="app" component={AppLayout} onEnter={requireAuth}>
-                <IndexRoute components={{ content: DashboardPage}} />
-                <Route path="dashboard" components={{ content: DashboardPage}} />
-                <Route path="accounts" components={{ content: AccountsPage }} />
-                <Route path="categories" components={{ content: CategoriesPage }} />
-                <Route path="settings" components={{ content: SettingsPage }}>
-                    <Route path=":id" />
+        <IntlProvider locale={languageWithoutRegionCode} messages={messages} >
+            <Router history={ browserHistory }>
+                <Route path="app" component={AppLayout} onEnter={requireAuth}>
+                    <IndexRoute components={{ content: DashboardPage}} />
+                    <Route path="dashboard" components={{ content: DashboardPage}} />
+                    <Route path="accounts" components={{ content: AccountsPage }} />
+                    <Route path="categories" components={{ content: CategoriesPage }} />
+                    <Route path="settings" components={{ content: SettingsPage }}>
+                        <Route path=":id" />
+                    </Route>
+                    <Route path="projects" components={{ content: ProjectPage}}>
+                    </Route>
+                    <Route path="transactions" components={{ content: TransactionPage}}>
+                        <Route path="incomes" >
+                            <Route path="new" />
+                        </Route>
+                        <Route path="expenses" >
+                            <Route path="new" />
+                        </Route>
+                    </Route>
                 </Route>
-                <Route path="projects" components={{ content: ProjectPage}}>
+                <Route path="/" component={AuthLayout}>
+                    <IndexRoute component={ Login} />
+                    <Route path="register" component={ Register} />
+                    <Route path="login" component={ Login} />
+                    <Route path="forgotPassword" component={ ForgotPassword} />
                 </Route>
-                <Route path="transactions" components={{ content: TransactionPage}}>
-                    <Route path="incomes" >
-                         <Route path="new" />
-                         </Route>
-                    <Route path="expenses" >
-                         <Route path="new" />
-                         </Route>
-                 </Route>
-               </Route>
-            <Route path="/" component={AuthLayout}>
-                <IndexRoute component={ Login} />
-                <Route path="register" component={ Register} />
-                <Route path="login" component={ Login} />
-                <Route path="forgotPassword" component={ ForgotPassword} />
-            </Route>
-            </IntlProvider>
-            </Router>,
+            </Router>
+        </IntlProvider>,
         document.getElementById( 'render-root' )
     );
 });

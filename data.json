@@ -1,8 +1,10 @@
 {
   "en": {
-    "balance": "Your Available Balance is",
-    "incomes": "Your Total Incomes are",
-    "expenses": "Your Total Expenses are",
+    "DASHBOARD.AVAILABLE_BALANCE": "Your Available Balance is",
+    "DASHBOARD.TOTAL_INCOMES": "Your Total Incomes are",
+    "DASHBOARD.TOTAL_INCOMES_BUTTON": "Incomes Report",
+    "DASHBOARD.TOTAL_EXPENSES": "Your Total Expenses are",
+    "DASHBOARD.TOTAL_EXPENSES_BUTTON": "Expenses Report",
     "recentIncomes": "Recent Incomes",
     "recentExpenses": "Recent Expenses",
     "incomeOverview": "Income Overview",
@@ -24,9 +26,11 @@
 },
 
   "ur": {
-    "balance": " آپ کے بینک اکاؤنٹ بیلنس ہے",
-    "incomes": "آپ کی کل آمدنی ہو",
-    "expenses": "آپ کے کل اخراجات ہیں",
+    "DASHBOARD.AVAILABLE_BALANCE": "آپ کا موجودہ بیلنس ہے",
+    "DASHBOARD.TOTAL_INCOMES": "آپ کی کل آمدنی ہے",
+    "DASHBOARD.TOTAL_INCOMES_BUTTON": "آمدنی رپورٹ",
+    "DASHBOARD.TOTAL_EXPENSES": "آپ کے کل اخراجات ہیں",
+    "DASHBOARD.TOTAL_EXPENSES_BUTTON": "اخراجات رپورٹ",
     "recentIncomes": "حالیہ آمدنی",
     "recentExpenses": "حالیہ اخراجات,",
     "incomeOverview": "آمدنی کا جائزہ",
