@@ -226,7 +226,7 @@ class DashboardPage extends Component {
             this.state.filterBy == 'range' ?  dropDowns : null
         )
     }
-    renderTotalIncomes(userLanguage){
+    renderTotalIncomes(){
         return (
             <div className={theme.incomeBox}>
                 <div className={theme.divTitle}>
@@ -247,7 +247,7 @@ class DashboardPage extends Component {
             </div>
         )
     }
-    renderTotalExpenses(userLanguage){
+    renderTotalExpenses(){
         return (
             <div className={theme.expensesBox}>
                 <div className={theme.divTitle}>
@@ -268,7 +268,7 @@ class DashboardPage extends Component {
             </div>
         )
     }
-    availableBalance(userLanguage){
+    availableBalance(){
         return (
                 <div style={{margin: "0 auto"}}>
                     <div className={theme.availableTitle}>
@@ -285,7 +285,6 @@ class DashboardPage extends Component {
         )
     }
     render() {
-        const userLanguage = Meteor.user().profile.language;
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
                 <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
@@ -315,10 +314,10 @@ class DashboardPage extends Component {
                                     {this.renderDateRange()}
                                 </Card>
                                 <Card theme={theme}>
-                                    {this.state.totalIncomes != null ? this.renderTotalIncomes(userLanguage) : <Loader primary />}
+                                    {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
                                 <Card theme={theme}>
-                                    {this.state.totalExpenses != null ? this.renderTotalExpenses(userLanguage) : <Loader danger />}
+                                    {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
@@ -328,7 +327,7 @@ class DashboardPage extends Component {
                             <Card className="card-box">
                                 <div className={theme.availableSection}>
                                     <Card theme={cardBackgroundTheme}>
-                                        {this.state.availableBalance != null ? this.availableBalance(userLanguage) : <Loader />}
+                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
                                     </Card>
                                 </div>
                             </Card>

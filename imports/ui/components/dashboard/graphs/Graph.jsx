@@ -7,8 +7,15 @@ import { Dropdown, Card } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../../helpers/currencyHelpers.js'
-import localeData from '../../../../../data.json'
 import theme from './theme';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    INCOME_OVERVIEW: {
+        id: 'DASHBOARD.INCOME_OVERVIEW'
+    }
+});
+
 
 export default class Graph extends Component {
 
@@ -93,7 +100,6 @@ export default class Graph extends Component {
     };
 
     render() {
-        const userLanguage = Meteor.user().profile.language;
 
         let yearDropdown = null;
         if(this.state.graphSelectedYear){
@@ -112,7 +118,7 @@ export default class Graph extends Component {
 
         const chart = <Card className='card' theme={theme}>
             <div className={theme.graphHeader}>
-                <h3>{localeData[userLanguage].incomeOverview}</h3>
+                <h3> <FormattedMessage {...il8n.INCOME_OVERVIEW} /> </h3>
                 {yearDropdown}
             </div>
             <div className={theme.areaChart}>

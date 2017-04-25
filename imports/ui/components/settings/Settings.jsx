@@ -15,9 +15,85 @@ import checkboxTheme from './checkboxTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 import { Accounts } from 'meteor/accounts-base';
-import localeData from '../../../../data.json'
 
 import currencyIcon from '/imports/ui/currencyIcon.js';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    TITLE: {
+        id: 'SETTINGS.TITLE'
+    },
+    PERSONAL_INFORMATION: {
+        id: 'SETTINGS.PERSONAL_INFORMATION'
+    },
+    ACCOUNT_SETTINGS: {
+        id: 'SETTINGS.ACCOUNT_SETTINGS'
+    },
+    CHANGE_PASSWORD: {
+        id: 'SETTINGS.CHANGE_PASSWORD'
+    },
+    REMOVE_ACCOUNT: {
+        id: 'SETTINGS.REMOVE_ACCOUNT'
+    },
+    INFORM_MESSAGE: {
+        id: 'SETTINGS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'SETTINGS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'SETTINGS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'SETTINGS.REMOVE_BUTTON'
+    },
+    SELECT_CURRENCY:{
+        id: 'SETTINGS.SELECT_CURRENCY'
+    },
+    SELECT_LANGUAGE:{
+        id: 'SETTINGS.SELECT_LANGUAGE'
+    },
+    UPDATE_BUTTON:{
+        id: 'SETTINGS.UPDATE_BUTTON'
+    },
+    NAME:{
+        id: 'SETTINGS.NAME'
+    },
+    CONTACT_NUMBER:{
+        id: 'SETTINGS.CONTACT_NUMBER'
+    },
+    USER_NAME:{
+        id: 'SETTINGS.USER_NAME'
+    },
+    EMAIL:{
+        id: 'SETTINGS.EMAIL'
+    },
+    ADDRESS:{
+        id: 'SETTINGS.ADDRESS'
+    },
+    EDIT_INFO:{
+        id: 'SETTINGS.EDIT_INFO'
+    },
+    CURRENCY:{
+        id: 'SETTINGS.CURRENCY'
+    },
+    LANGUAGE:{
+        id: 'SETTINGS.LANGUAGE'
+    },
+    EMAIL_NOTIFICATION:{
+        id: 'SETTINGS.EMAIL_NOTIFICATION'
+    },
+    REMOVE_ACCOUNT_BUTTON:{
+        id: 'SETTINGS.REMOVE_ACCOUNT'
+    },
+    PASSWORD:{
+        id: 'SETTINGS.PASSWORD'
+    }
+});
+
+
+
 
 class SettingsPage extends Component {
 
@@ -119,7 +195,7 @@ class SettingsPage extends Component {
                     source={this.currencies()}
                     name='userCurrency'
                     onChange={this.onChange.bind(this)}
-                    label='Select your currency'
+                    label={<FormattedMessage {...il8n.SELECT_CURRENCY} />}
                     value={this.state.userCurrency}
                     template={this.currencyItem}
                     required
@@ -387,7 +463,7 @@ class SettingsPage extends Component {
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label='UPDATE' raised primary />
+                            <Button type='submit' label={<FormattedMessage {...il8n.UPDATE_BUTTON} />} raised primary />
                         </div>
 
                     </form>
@@ -404,7 +480,7 @@ class SettingsPage extends Component {
                                 source={currencyIcon}
                                 name='userCurrency'
                                 onChange={this.onChange.bind(this)}
-                                label='Select your currency'
+                                label={<FormattedMessage {...il8n.SELECT_CURRENCY} />}
                                 value={this.state.userCurrency}
                                 template={this.currencyItem}
                                 required
@@ -413,7 +489,7 @@ class SettingsPage extends Component {
 
                         <Dropdown
                             source={this.languages}
-                            label='Select Language'
+                            label={<FormattedMessage {...il8n.SELECT_LANGUAGE} />}
                             onChange={this.handleLanguageChange.bind(this)}
                             value={this.state.languageSelected}
                             />
@@ -471,14 +547,14 @@ class SettingsPage extends Component {
         return (
             <div className={theme.dialogSetting}>
                 <div className={theme.confirmText}>
-                    <h3>remove account</h3>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your account?</p>
+                    <h3><FormattedMessage {...il8n.REMOVE_ACCOUNT} /></h3>
+                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
+                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} /> } raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )
@@ -486,13 +562,12 @@ class SettingsPage extends Component {
 
 
     render() {
-        const userLanguage = Meteor.user().profile.language;
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
-                            <h3>{localeData[userLanguage].settings}</h3>
+                            <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
                             <Snackbar
                                 action='Dismiss'
                                 active={this.state.active}
@@ -506,28 +581,28 @@ class SettingsPage extends Component {
                         </div>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>{localeData[userLanguage].personalInformation}</h5>
+                                <h5><FormattedMessage {...il8n.PERSONAL_INFORMATION} /></h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
-                                <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
-                                <h6>Username:<span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
-                                <h6>Email: <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
-                                <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.NAME} />  <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.CONTACT_NUMBER} />  <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.USER_NAME} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
+                                <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
+                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
                                 </div>
                             </div>
                         </Card>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>{localeData[userLanguage].accountSettings}</h5>
+                                <h5> <FormattedMessage {...il8n.ACCOUNT_SETTINGS} /> </h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>currency: <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
-                                <h6>language: <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
+                                <h6><FormattedMessage {...il8n.CURRENCY} /> <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
+                                <h6><FormattedMessage {...il8n.LANGUAGE} /> <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
                                 <h6>
-                                    email notification:
+                                    <FormattedMessage {...il8n.EMAIL_NOTIFICATION} />
                                     <span>
                                         <Checkbox theme={checkboxTheme}
                                             checked={this.state.check1}
@@ -542,26 +617,26 @@ class SettingsPage extends Component {
                                     </span>
                                 </h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
+                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
                                 </div>
                             </div>
                         </Card>
 
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>{localeData[userLanguage].changePassword}</h5>
+                                <h5> <FormattedMessage {...il8n.CHANGE_PASSWORD} /> </h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>Password: <span>*********</span></h6>
+                                <h6> <FormattedMessage {...il8n.PASSWORD} />  <span>*********</span></h6>
                                 <div className={theme.editBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
+                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
                                 </div>
                             </div>
                         </Card>
 
                         <div className={theme.buttonSite}>
                             <Button
-                                label='REMOVE ACCOUNT'
+                                label={<FormattedMessage {...il8n.REMOVE_ACCOUNT} />}
                                 onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
                                 raised

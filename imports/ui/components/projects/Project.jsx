@@ -13,12 +13,12 @@ import ProjectDetail from './ProjectDetail.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
-import localeData from '../../../../data.json'
+import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import theme from './theme';
 import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -26,6 +26,39 @@ let pageNumber = 1,
     query = new ReactiveVar({
         limit : RECORDS_PER_PAGE * pageNumber
     });
+
+const il8n = defineMessages({
+    NO_PROJECTS_ADDED: {
+        id: 'PROJECTS.NO_PROJECTS_ADDED'
+    },
+    ADD_PROJECTS: {
+        id: 'PROJECTS.ADD_PROJECT_TO_SHOW'
+    },
+    PROJECTS: {
+        id: 'PROJECTS.SHOW_PROJECTS'
+    },
+    BANK_PROJECTS: {
+        id: 'PROJECTS.BANK_PROJECTS'
+    },
+    INFORM_MESSAGE: {
+        id: 'PROJECTS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'PROJECTS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'PROJECTS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'PROJECTS.REMOVE_BUTTON'
+    },
+    ADD_NEW_PROJECTS: {
+        id: 'PROJECTS.ADD_NEW_PROJECTS'
+    }
+});
+
+
+
 
 
 class ProjectPage extends Component {
@@ -108,14 +141,14 @@ class ProjectPage extends Component {
         return (
             <div className={theme.dialogAccount}>
                 <div className={theme.confirmText}>
-                    <h3>bank project</h3>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your bank project?</p>
+                    <h3><FormattedMessage {...il8n.BANK_PROJECTS} /></h3>
+                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
+                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
                 </div>
 
                 <div className={theme.buttonArea}>
-                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
                 </div>
             </div>
         )
@@ -181,7 +214,7 @@ class ProjectPage extends Component {
         query.set(copyQuery);
     }
 
-    renderProjectTable(userLanguage) {
+    renderProjectTable() {
 
         let projects = this.props.projects.map((project) => {
             let { name, status, client, startAt, amount } = project;
@@ -191,7 +224,7 @@ class ProjectPage extends Component {
                 clientName: client && client.name,
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(amount)}</span>)
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount}/> </span>)
             };
         });
 
@@ -212,11 +245,11 @@ class ProjectPage extends Component {
            />;
       const something =
             <div className={theme.projectNothing}>
-                <span className={theme.errorShow}>{localeData[userLanguage].noProjects}</span>
+                <span className={theme.errorShow}><FormattedMessage {...il8n.NO_PROJECTS_ADDED} /></span>
                 <div className={theme.addProjectBtn}>
                     <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
                 </div>
-                <span className={theme.errorShow}>{localeData[userLanguage].addProjects}</span>
+                <span className={theme.errorShow}><FormattedMessage {...il8n.ADD_PROJECTS} /></span>
             </div>;
         return (
             <Card theme={tableTheme}>
@@ -227,7 +260,6 @@ class ProjectPage extends Component {
     }
 
     render() {
-        const userLanguage = Meteor.user().profile.language;
         return (
             <div className="projects"  onScroll={this.handleScroll}>
                 <div className="container">
@@ -262,18 +294,18 @@ class ProjectPage extends Component {
                     </div>
 
                     <div className={theme.pageTitle}>
-                        <h3>{localeData[userLanguage].projects}</h3>
+                        <h3> <FormattedMessage {...il8n.PROJECTS} /> </h3>
                         <Button
                             className={theme.button}
                             icon='add'
-                            label='Add New'
+                            label={<FormattedMessage {...il8n.ADD_NEW_PROJECTS} /> }
                             flat
                             onClick={this.openPopup.bind(this, 'add')}
                             theme={theme}
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable(userLanguage)}
+                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}
                     </Card>
                     {this.popupTemplate()}
                 </div>

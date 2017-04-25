@@ -8,15 +8,30 @@ import { Meteor } from 'meteor/meteor';
 import { Incomes } from '/imports/api/incomes/incomes.js';
 import { Expenses } from '/imports/api/expences/expenses.js';
 
-import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
-import localeData from '../../../../../data.json'
-
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 import theme from './theme';
 import tableTheme from './tableTheme';
 import tableRightTheme from './tableRightTheme';
+
+const il8n = defineMessages({
+    RECENT_INCOMES: {
+        id: 'DASHBOARD.RECENT_INCOMES'
+    },
+    RECENT_EXPENSES: {
+        id: 'DASHBOARD.RECENT_EXPENSES'
+    },
+    ADD_EXPENSE: {
+        id: 'DASHBOARD.ADD_EXPENSE'
+    },
+    ADD_INCOME: {
+        id: 'DASHBOARD.ADD_INCOME'
+    }
+});
+
 
 class RecentActivities extends Component {
 
@@ -27,15 +42,15 @@ class RecentActivities extends Component {
         };
     }
 
-    renderRecents(userLanguage){
+    renderRecents(){
         return (
             <div className='dashboard-card-group'>
                 <div className={theme.recentIncomeWrapper}>
-                    {this.renderRecentIncomes(userLanguage)}
+                    {this.renderRecentIncomes()}
                 </div>
 
                 <div className={theme.recentExpensesWrapper}>
-                    {this.renderRecentExpenses(userLanguage)}
+                    {this.renderRecentExpenses()}
                 </div>
             </div>
         )
@@ -52,7 +67,7 @@ class RecentActivities extends Component {
                 icon: <Arrow primary width='16px' height='16px' />,
                 type: i.type == "project" ? i.project.name || i.project : i.type,
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(i.amount)}</span>),
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
@@ -66,11 +81,11 @@ class RecentActivities extends Component {
         return this.props.incomesExists ? table : add
     }
 
-    renderRecentIncomes(userLanguage){
+    renderRecentIncomes(){
         return (
             <div>
                 <Card className='card' theme={theme}>
-                    <h3>{localeData[userLanguage].recentIncomes}</h3>
+                    <h3> <FormattedMessage {...il8n.RECENT_INCOMES} /> </h3>
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
@@ -91,7 +106,7 @@ class RecentActivities extends Component {
                 icon:  <i className={i.category.icon || ''}/> ,
                 category: i.category.name || i.category,
                 amount:(<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>  {currencyFormatHelpers.currencyStandardFormat(i.amount)}</span>),
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
@@ -104,11 +119,11 @@ class RecentActivities extends Component {
             </div>;
         return this.props.expensesExists ? table : add
     }
-    renderRecentExpenses(userLanguage){
+    renderRecentExpenses(){
         return (
             <div>
                 <Card className='card' theme={theme}>
-                    <h3>{localeData[userLanguage].recentExpenses}</h3>
+                    <h3> <FormattedMessage {...il8n.RECENT_EXPENSES} /> </h3>
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
@@ -118,8 +133,7 @@ class RecentActivities extends Component {
         )
     }
     render() {
-        const userLanguage = Meteor.user().profile.language;
-        return this.renderRecents(userLanguage);
+        return this.renderRecents();
     }
 }
 

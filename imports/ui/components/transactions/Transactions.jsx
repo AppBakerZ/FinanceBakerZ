@@ -19,15 +19,15 @@ import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import ExpensesForm from './ExpensesForm.jsx';
 import IncomesForm from './IncomesForm.jsx';
 
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
-import localeData from '../../../../data.json'
 
 import theme from './theme';
 import tableTheme from './tableTheme';
 import dialogTheme from './dialogTheme';
 import buttonTheme from './buttonTheme';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -36,6 +36,30 @@ let pageNumber = 1,
         limit : RECORDS_PER_PAGE * pageNumber,
         accounts: []
     });
+
+const il8n = defineMessages({
+    NO_TRANSACTIONS_ADDED: {
+        id: 'TRANSACTIONS.NO_INCOMES_EXPENSES_ADDED'
+    },
+    ADD_TRANSACTIONS: {
+        id: 'TRANSACTIONS.ADD_TRANSACTIONS'
+    },
+    TITLE: {
+        id: 'TRANSACTIONS.TITLE'
+    },
+    INFORM_MESSAGE: {
+        id: 'TRANSACTIONS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'TRANSACTIONS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'TRANSACTIONS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'TRANSACTIONS.REMOVE_BUTTON'
+    }
+});
 
 
 class TransactionPage extends Component {
@@ -225,13 +249,13 @@ class TransactionPage extends Component {
         return (
             <div>
                 <div className={theme.confirmText}>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your project?</p>
+                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
+                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary onClick={this.deleteTransactionToggle.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
                 </div>
             </div>
         )
@@ -246,7 +270,7 @@ class TransactionPage extends Component {
             <div className={theme.contentParent}>
                 <div className={theme.contentOne}>
                     <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
-                    <div> <p>Transaction Amount :</p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
+                    <div> <p>Transaction Amount :</p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={selectedProject.amount}/>  </span></p></div>
                     <div> <p>deposited in :</p> <p>standard chartered</p></div>
                     <div> <p>account number :</p> <p>00971322001</p></div>
                 </div>
@@ -489,7 +513,7 @@ class TransactionPage extends Component {
     }
 
     /*************** table template ***************/
-    renderProjectTable(userLanguage) {
+    renderProjectTable() {
         let transactions = this.props.transactions;
         let data = transactions.map(function(transaction){
             return {
@@ -500,7 +524,7 @@ class TransactionPage extends Component {
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(transaction.amount)}</span>),
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={transaction.amount}/>  </span>),
                 rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
@@ -521,11 +545,11 @@ class TransactionPage extends Component {
                     />;
             const initialMessage =
                 <div className={theme.transactionNothing}>
-                    <span className={theme.errorShow}>{localeData[userLanguage].noIncomeAndExpense}</span>
+                    <span className={theme.errorShow}> <FormattedMessage {...il8n.NO_TRANSACTIONS_ADDED} /> </span>
                     <div className={theme.addProjectBtn}>
                         <Button type='button' icon='add' raised primary />
                     </div>
-                    <span className={theme.errorShow}>{localeData[userLanguage].addIncomeAndExpense}</span>
+                    <span className={theme.errorShow}> <FormattedMessage {...il8n.ADD_TRANSACTIONS} /> </span>
                 </div>;
         return (
             <Card theme={tableTheme}>
@@ -537,7 +561,6 @@ class TransactionPage extends Component {
 
     /*************** template render ***************/
     render() {
-        const userLanguage = Meteor.user().profile.language;
         return (
             <div className="projects" onScroll={this.handleScroll}>
                 <div className="container">
@@ -578,7 +601,7 @@ class TransactionPage extends Component {
                     </div>
 
                     <div className={theme.pageTitle}>
-                        <h3>{localeData[userLanguage].transactions}</h3>
+                        <h3><FormattedMessage {...il8n.TITLE} /></h3>
                         <div>
                             <Button
                                 className='header-buttons'
@@ -599,7 +622,7 @@ class TransactionPage extends Component {
                         </div>
                     </div>
                     <Card theme={tableTheme}>
-                        { this.props.transactionsLoading && this.props.transactions.length < RECORDS_PER_PAGE ? <Loader primary /> :this.renderProjectTable(userLanguage)}
+                        { this.props.transactionsLoading && this.props.transactions.length < RECORDS_PER_PAGE ? <Loader primary /> :this.renderProjectTable()}
                     </Card>
                     <Snackbar
                         action='Dismiss'

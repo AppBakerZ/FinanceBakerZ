@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
-import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import Form from './Form.jsx';
@@ -16,10 +16,47 @@ import theme from './theme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
-import localeData from '../../../../data.json'
 
 import bankFonts from '/imports/ui/bankFonts.js';
 import countries from '/imports/ui/countries.js';
+import {FormattedMessage, FormattedNumber ,defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    BANK_ACCOUNTS: {
+        id: 'ACCOUNTS.BANK_ACCOUNTS'
+    },
+    ADD_ACCOUNT_BUTTON: {
+        id: 'ACCOUNTS.ADD_ACCOUNTS_BUTTON'
+    },
+    EDIT_ACCOUNTS_BUTTON: {
+        id: 'ACCOUNTS.EDIT_ACCOUNTS_INFO_BUTTON'
+    },
+    BANK_ACCOUNT: {
+        id: 'ACCOUNTS.BANK_ACCOUNT'
+    },
+    INFORM_MESSAGE: {
+        id: 'ACCOUNTS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'ACCOUNTS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'ACCOUNTS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'ACCOUNTS.REMOVE_BUTTON'
+    },
+    BANK: {
+        id: 'ACCOUNTS.BANK'
+    },
+    ACCOUNT_NUMBER: {
+        id: 'ACCOUNTS.ACCOUNT_NUMBER'
+    },
+    AVAILABLE_BALANCE: {
+        id: 'ACCOUNTS.AVAILABLE_BALANCE'
+    }
+});
 
 class AccountsPage extends Component {
 
@@ -75,14 +112,14 @@ class AccountsPage extends Component {
         return (
             <div className={theme.dialogAccount}>
                 <div className={theme.confirmText}>
-                    <h3>bank account</h3>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your bank account?</p>
+                    <h3> <FormattedMessage {...il8n.BANK_ACCOUNT} /> </h3>
+                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
+                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.removeAccount.bind(this)} theme={buttonTheme}/>
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.removeAccount.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )
@@ -117,10 +154,10 @@ class AccountsPage extends Component {
     }
     getFormattedCurrency(balance){
         return  (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(balance)} </span>
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={balance}/> </span>
         )
     }
-    renderAccount(userLanguage) {
+    renderAccount() {
         const model = {
             icon: {type: String},
             content: {type: String},
@@ -131,15 +168,15 @@ class AccountsPage extends Component {
                 icon: <i className={account.bank}></i>,
                 content:
                     <div>
-                        <div>Bank: <strong>{accountHelpers.alterName(account.bank)}</strong></div>
-                        <div>Account number: <strong>{account.number || 'Not Available'}</strong></div>
+                        <div> <FormattedMessage {...il8n.BANK} />  <strong>{accountHelpers.alterName(account.bank)}</strong></div>
+                        <div> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> <strong>{account.number || 'Not Available'}</strong></div>
                         {this.getAvailableBalance([account._id], index)}
-                        <div>Available balance: <strong>{this.getFormattedCurrency(account.availableBalance) || 'Loading ...'}</strong></div>
+                        <div> <FormattedMessage {...il8n.AVAILABLE_BALANCE} /> <strong>{this.getFormattedCurrency(account.availableBalance) || 'Loading ...'}</strong></div>
                     </div>,
                 actions:
                     <div className={theme.buttonParent}>
                         <Button
-                            label='Edit Info'
+                            label={<FormattedMessage {...il8n.EDIT_ACCOUNTS_BUTTON} />}
                             raised
                             onClick={this.openPopup.bind(this, 'edit', account)}
                             accent />
@@ -155,11 +192,11 @@ class AccountsPage extends Component {
         return (
             <div className={theme.accountContent}>
                 <div className={theme.accountTitle}>
-                    <h3>{localeData[userLanguage].accounts}</h3>
+                    <h3> <FormattedMessage {...il8n.BANK_ACCOUNTS} /> </h3>
                     <Button
                         className={theme.button}
                         icon='add'
-                        label='ACCOUNT'
+                        label={<FormattedMessage {...il8n.ADD_ACCOUNT_BUTTON} />}
                         flat
                         onClick={this.openPopup.bind(this, 'add')}
                         theme={buttonTheme}/>
@@ -177,13 +214,11 @@ class AccountsPage extends Component {
     }
 
     render() {
-        const userLanguage = Meteor.user().profile.language;
-
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
-                        {this.renderAccount(userLanguage)}
+                        {this.renderAccount()}
                     </List>
                 </div>
                 {this.popupTemplate()}

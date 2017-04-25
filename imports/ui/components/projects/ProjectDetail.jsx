@@ -3,6 +3,37 @@ import React, { Component } from 'react';
 import { Button } from 'react-toolbox';
 
 import theme from './theme';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    CLIENT_NAME: {
+        id: 'PROJECTS.CLIENT_NAME'
+    },
+    AMOUNT_AGREED: {
+        id: 'PROJECTS.AMOUNT_AGREED'
+    },
+    AMOUNT_PAID: {
+        id: 'PROJECTS.AMOUNT_PAID'
+    },
+    AMOUNT_REMAINING: {
+        id: 'PROJECTS.AMOUNT_REMAINING'
+    },
+    PROJECT_STATUS: {
+        id: 'PROJECTS.PROJECT_STATUS'
+    },
+    EDIT_INFORMATION: {
+        id: 'PROJECTS.EDIT_INFORMATION'
+    },
+    REMOVE_PROJECT: {
+        id: 'PROJECTS.REMOVE_PROJECT'
+    }
+});
+
+
+
+
+
 
 export default class ProjectDetail extends Component {
 
@@ -33,16 +64,16 @@ export default class ProjectDetail extends Component {
             <div className={theme.contentParent}>
                 <h4>{project.name}</h4>
                 <div className={theme.contentTwo}>
-                    <div> <p>Client Name :</p> <p>{project.client.name}</p></div>
-                    <div> <p>Amount Agreed :</p> <p>{project.amount}</p></div>
-                    <div> <p>Amount Paid :</p> <p>{this.state.amountPaid || 0} </p></div>
-                    <div> <p>Amount Remaining :</p> <p>{project.amount - this.state.amountPaid || project.amount} </p></div>
-                    <div> <p>Project Status :</p> <p>{project.status}</p></div>
+                    <div> <p> <FormattedMessage {...il8n.CLIENT_NAME} /> </p> <p>{project.client.name}</p></div>
+                    <div> <p> <FormattedMessage {...il8n.AMOUNT_AGREED} /></p> <p>{project.amount}</p></div>
+                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid || 0} </p></div>
+                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{project.amount - this.state.amountPaid || project.amount} </p></div>
+                    <div> <p> <FormattedMessage {...il8n.PROJECT_STATUS} /> </p> <p>{project.status}</p></div>
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='Edit Information' raised accent onClick={this.props.openPopup.bind(null, 'edit', project)} />
-                    <Button label='Remove Project' raised accent onClick={this.props.openPopup.bind(null, 'remove', project)} />
+                    <Button label= {<FormattedMessage {...il8n.EDIT_INFORMATION} />} raised accent onClick={this.props.openPopup.bind(null, 'edit', project)} />
+                    <Button label= {<FormattedMessage {...il8n.REMOVE_PROJECT} />} raised accent onClick={this.props.openPopup.bind(null, 'remove', project)} />
                 </div>
             </div>
         );
