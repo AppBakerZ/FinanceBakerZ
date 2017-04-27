@@ -21,9 +21,9 @@ import SettingsPage from '../../ui/components/settings/Settings.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
 import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
-
-
-
+import {addLocaleData} from 'react-intl';
+import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
+import localeData from '../../../data.json'
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     clearInterval(setIntervalHandel);
     if (! Meteor.user() ) {
@@ -37,6 +37,15 @@ let checkAuth = (nextState, replace, next, setIntervalHandel) => {
     }
 };
 
+
+const language = (navigator.languages && navigator.languages[0]) ||
+    navigator.language ||
+    navigator.userLanguage;
+
+let languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
+
+ const messages = localeData[languageWithoutRegionCode] || localeData[language] || localeData.en;
+
 let requireAuth = (nextState, replace, next) => {
     let setIntervalHandel;
     setIntervalHandel = setInterval(() => {
@@ -49,33 +58,35 @@ let requireAuth = (nextState, replace, next) => {
 
 Meteor.startup( () => {
     render(
-        <Router history={ browserHistory }>
-            <Route path="app" component={AppLayout} onEnter={requireAuth}>
-                <IndexRoute components={{ content: DashboardPage}} />
-                <Route path="dashboard" components={{ content: DashboardPage}} />
-                <Route path="accounts" components={{ content: AccountsPage }} />
-                <Route path="categories" components={{ content: CategoriesPage }} />
-                <Route path="settings" components={{ content: SettingsPage }}>
-                    <Route path=":id" />
+        <IntlProvider locale={languageWithoutRegionCode} messages={messages} >
+            <Router history={ browserHistory }>
+                <Route path="app" component={AppLayout} onEnter={requireAuth}>
+                    <IndexRoute components={{ content: DashboardPage}} />
+                    <Route path="dashboard" components={{ content: DashboardPage}} />
+                    <Route path="accounts" components={{ content: AccountsPage }} />
+                    <Route path="categories" components={{ content: CategoriesPage }} />
+                    <Route path="settings" components={{ content: SettingsPage }}>
+                        <Route path=":id" />
+                    </Route>
+                    <Route path="projects" components={{ content: ProjectPage}}>
+                    </Route>
+                    <Route path="transactions" components={{ content: TransactionPage}}>
+                        <Route path="incomes" >
+                            <Route path="new" />
+                        </Route>
+                        <Route path="expenses" >
+                            <Route path="new" />
+                        </Route>
+                    </Route>
                 </Route>
-                <Route path="projects" components={{ content: ProjectPage}}>
+                <Route path="/" component={AuthLayout}>
+                    <IndexRoute component={ Login} />
+                    <Route path="register" component={ Register} />
+                    <Route path="login" component={ Login} />
+                    <Route path="forgotPassword" component={ ForgotPassword} />
                 </Route>
-                <Route path="transactions" components={{ content: TransactionPage}}>
-                    <Route path="incomes" >
-                         <Route path="new" />
-                         </Route>
-                    <Route path="expenses" >
-                         <Route path="new" />
-                         </Route>
-                 </Route>
-               </Route>
-            <Route path="/" component={AuthLayout}>
-                <IndexRoute component={ Login} />
-                <Route path="register" component={ Register} />
-                <Route path="login" component={ Login} />
-                <Route path="forgotPassword" component={ ForgotPassword} />
-            </Route>
-            </Router>,
+            </Router>
+        </IntlProvider>,
         document.getElementById( 'render-root' )
     );
 });

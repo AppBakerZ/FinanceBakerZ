@@ -8,7 +8,7 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
-import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
 import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
@@ -22,6 +22,25 @@ import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
 import cardBackgroundTheme from './cardBackgroundTheme';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    AVAILABLE_BALANCE: {
+        id: 'DASHBOARD.AVAILABLE_BALANCE'
+    },
+    TOTAL_INCOMES: {
+        id: 'DASHBOARD.TOTAL_INCOMES'
+    },
+    TOTAL_INCOMES_BUTTON: {
+        id: 'DASHBOARD.TOTAL_INCOMES_BUTTON'
+    },
+    TOTAL_EXPENSES: {
+        id: 'DASHBOARD.TOTAL_EXPENSES'
+    },
+    TOTAL_EXPENSES_BUTTON: {
+        id: 'DASHBOARD.TOTAL_EXPENSES_BUTTON'
+    }
+});
 
 class DashboardPage extends Component {
 
@@ -211,16 +230,19 @@ class DashboardPage extends Component {
     renderTotalIncomes(){
         return (
             <div className={theme.incomeBox}>
-                <div className={theme.divTitle}>Your Total Incomes are</div>
+                <div className={theme.divTitle}>
+                    <FormattedMessage {...il8n.TOTAL_INCOMES} />
+                </div>
                 <div className={theme.title}>
                     <h2>
-                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                        <FormattedNumber value={this.state.totalIncomes}/>
                     </h2>
                     <Arrow primary width='30px' height='35px' />
                 </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
-                        <Button icon='description' label='Income Report' flat />
+                        <Button icon='description' label={<FormattedMessage {...il8n.TOTAL_INCOMES_BUTTON} />} flat />
                     </div>
                 )}
             </div>
@@ -229,16 +251,19 @@ class DashboardPage extends Component {
     renderTotalExpenses(){
         return (
             <div className={theme.expensesBox}>
-                <div className={theme.divTitle}>Your Total Expenses are</div>
+                <div className={theme.divTitle}>
+                    <FormattedMessage {...il8n.TOTAL_EXPENSES} />
+                </div>
                 <div className={theme.title}>
                     <h2>
-                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                        <FormattedNumber value={this.state.totalExpenses}/>
                     </h2>
                     <Arrow down danger width='30px' height='35px' />
                 </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
-                        <Button icon='description' label='Expences Report' flat />
+                        <Button icon='description' label={<FormattedMessage {...il8n.TOTAL_EXPENSES_BUTTON} />} flat />
                     </div>
                 )}
             </div>
@@ -247,10 +272,13 @@ class DashboardPage extends Component {
     availableBalance(){
         return (
                 <div style={{margin: "0 auto"}}>
-                    <div className={theme.availableTitle}> Your Available Balance is</div>
+                    <div className={theme.availableTitle}>
+                        <FormattedMessage {...il8n.AVAILABLE_BALANCE} />
+                    </div>
                     <div className={theme.divTitle}>
                         <h2 className="available-amount">
-                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                            <FormattedNumber value={this.state.availableBalance}/>
                         </h2>
                         <Arrow width='48px' height='50px' />
                     </div>
