@@ -11,6 +11,7 @@ import { Projects } from '../../../api/projects/projects.js';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import theme from './theme';
+import dropdownTheme from './dropdownTheme';
 
 class IncomesForm extends Component {
 
@@ -211,11 +212,11 @@ class IncomesForm extends Component {
         let parentClass = '';
 
         if(account.removeRightBorder){
-            parentClass = theme['removeRightBorder']
+            parentClass = dropdownTheme['removeRightBorder']
         }
 
         if(account.removeBottomBorder){
-            parentClass = theme['removeBottomBorder']
+            parentClass = dropdownTheme['removeBottomBorder']
         }
 
         return (
@@ -292,7 +293,7 @@ class IncomesForm extends Component {
                     type={this.state.barType}
                     />
 
-                <Dropdown theme={theme}
+                <Dropdown theme={dropdownTheme}
                     className={theme.bankFonts}
                     auto={false}
                     source={this.accounts()}

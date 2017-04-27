@@ -613,7 +613,6 @@ class TransactionPage extends Component {
                             <Button
                                 className='header-buttons'
                                 icon='add'
-                                icon='add'
                                 label='EXPENSE'
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}

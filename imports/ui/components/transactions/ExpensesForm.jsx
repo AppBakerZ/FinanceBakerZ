@@ -13,6 +13,7 @@ import { Categories } from '../../../api/categories/categories.js';
 
 
 import theme from './theme';
+import dropdownTheme from './dropdownTheme';
 
 class ExpensesForm extends Component {
 
@@ -214,11 +215,11 @@ class ExpensesForm extends Component {
         let parentClass = '';
 
         if(account.removeRightBorder){
-            parentClass = theme['removeRightBorder']
+            parentClass = dropdownTheme['removeRightBorder']
         }
 
         if(account.removeBottomBorder){
-            parentClass = theme['removeBottomBorder']
+            parentClass = dropdownTheme['removeBottomBorder']
         }
 
         return (
@@ -363,7 +364,7 @@ class ExpensesForm extends Component {
                     type={this.state.barType}
                     />
 
-                <Dropdown theme={theme}
+                <Dropdown theme={dropdownTheme}
                     auto={false}
                     source={this.accounts()}
                     name='account'
