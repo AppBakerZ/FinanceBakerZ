@@ -85,7 +85,7 @@ const il8n = defineMessages({
         id: 'SETTINGS.EMAIL_NOTIFICATION'
     },
     REMOVE_ACCOUNT_BUTTON:{
-        id: 'SETTINGS.REMOVE_ACCOUNT'
+        id: 'SETTINGS.REMOVE_ACCOUNT_BUTTON'
     },
     PASSWORD:{
         id: 'SETTINGS.PASSWORD'
@@ -636,7 +636,7 @@ class SettingsPage extends Component {
 
                         <div className={theme.buttonSite}>
                             <Button
-                                label={<FormattedMessage {...il8n.REMOVE_ACCOUNT} />}
+                                label={<FormattedMessage {...il8n.REMOVE_ACCOUNT_BUTTON} />}
                                 onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
                                 raised
