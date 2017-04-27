@@ -125,3 +125,55 @@
 .incomeOverviewWrapper{
   width: 100%;
 }
+
+/////////////////////////////////////////////////
+/////// Extra Small Media Query Start Here //////
+/////////////////////////////////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .backgroundImage{
+    padding: 0 !important;
+  }
+  .cardBox{
+    padding: 0 !important;
+    > div{
+      display: block !important;
+      &:first-child{
+        card{
+          padding: 0 1rem;
+        }
+      }
+      .responsiveCardSecond{
+        margin-left: 0 !important;
+      }
+    }
+  }
+  .availableTitle{
+    font-size: 2.3rem !important;
+  }
+  .divTitle{
+    h2{
+      font-size: 3rem !important;
+      float: left;
+      margin: 3px 20px 0 0 !important;
+    }
+    svg{
+      width: 30px;
+    }
+  }
+  .availableSection{
+    background-position: 80% 50%;
+  }
+  .recentActivitiesWrapper{
+    > div{
+      display: block;
+    }
+  }
+  .incomeOverviewWrapper{
+    > div{
+      margin-top: 0;
+    }
+  }
+}
+/////////////////////////////////////////////////
+//////// Extra Small Media Query End Here ///////
+/////////////////////////////////////////////////
