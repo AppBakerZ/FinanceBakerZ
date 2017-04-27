@@ -186,8 +186,9 @@ class DashboardPage extends Component {
             report : report
         };
       // prevent window popup block
+        let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
         let win = window.open('');
-        win.document.write("<p> Loading...</p>");
+        win.document.write(loader);
         window.oldOpen = window.open;
         window.open = function(url) {
             win.location = url;
