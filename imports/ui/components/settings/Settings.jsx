@@ -35,7 +35,8 @@ class SettingsPage extends Component {
             username: userInfo.username || '',
             email: userInfo.emails ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || '',
-            imageUrl: ''
+            imageUrl: '',
+            currencyObj: {label: "Pakistani Rupee", value: "currency-Pakistani-Rupee"}
         };
 
         this.languages = [
