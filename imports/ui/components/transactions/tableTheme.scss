@@ -8,28 +8,28 @@
     thead{
       tr{
         th{
-          font-size: 20px;
+          font-size: $unit * 2;
           color: #333;
-          border-right: solid 2px rgba(0, 0, 0, 0.12);
+          border-right: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
           &:first-child{
-            padding: 0 20px;
+            padding: 0 $unit * 2;
             font-size: 0;
           }
           &:last-child{
             border-right: 0;
             font-size: 0;
-            padding: 0 40px;
-            border-left: solid 2px rgba(0, 0, 0, 0.12);
+            padding: 0 $unit * 4;
+            border-left: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
           }
           &:nth-child(2){
-            padding: 0 30px;
+            padding: 0 $unit * 3;
           }
           &:nth-child(3){
-            padding: 0 35px;
+            padding: 0 $unit * 3.5;
             border-right: 0;
           }
           &:nth-child(4){
-            padding: 0 30px;
+            padding: 0 $unit * 3;
             text-align: right;
             border-right: 0;
           }
@@ -67,7 +67,7 @@
           text-align: center;
           width: $unit * 4;
           padding: $unit - 0.6 $unit 0 $unit;
-          border-left: solid 2px rgba(0, 0, 0, 0.12);
+          border-left: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
         }
       }
       &:last-of-type{
