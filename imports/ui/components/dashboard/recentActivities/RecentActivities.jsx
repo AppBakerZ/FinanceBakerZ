@@ -58,20 +58,20 @@ class RecentActivities extends Component {
     getIncomesOrAdd(){
         const model = {
             icon: {type: String},
-            type: {type: String},
+            projects: {type: String},
             amount: {type: String},
             iconLast: {type: String}
         };
         let incomes = this.props.incomes.map(function(i){
             return {
                 icon: <Arrow primary width='16px' height='16px' />,
-                type: i.type == "project" ? i.project.name || i.project : i.type,
+                projects: i.type == "project" ? i.project.name || i.project : i.type,
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>
         const add =
             <div className={theme.errorShowIncomes}>
                 <Link to={ `/app/transactions/incomes/new`}>
@@ -110,7 +110,7 @@ class RecentActivities extends Component {
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>
         const add =
             <div className={theme.errorShowExpenses}>
                 <Link to={`/app/transactions/expenses/new`}>
