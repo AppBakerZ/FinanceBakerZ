@@ -108,8 +108,13 @@
       border-radius: $unit - 0.5;
       &:last-of-type{
         line-height: $unit * 3.6;
-        padding: $unit - 0.8 $unit * 3.8 0;
+        padding: 0 $unit * 3.8 0;
         margin-left: $unit - 0.2;
+        top: -6px;
+        span{
+          color: white;
+          font-size: $font-size + 0.1;
+        }
       }
     }
   }
