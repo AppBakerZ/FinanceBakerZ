@@ -95,23 +95,7 @@ export default {
         {
             label: 'United Bank',
             value: 'bank-United-Bank'
-        },
-        // {
-        //     label: 'Piggy Bank',
-        //     value: 'bank-bank-Piggy-bank'
-        // },
-        // {
-        //     label: 'Payment Payoneer',
-        //     value: 'bank-Payment-Payoneer'
-        // },
-        // {
-        //     label: 'Payment Paypal',
-        //     value: 'bank-Payment-Paypal'
-        // },
-        // {
-        //     label: 'Payment Skrill',
-        //     value: 'bank-Payment-Skrill'
-        // }
+        }
         ////////// 24 //////////
     ], ///////// 1 /////////////
     US: [
@@ -915,10 +899,6 @@ export default {
             label: 'Mashreq Bank',
             value: 'bank-Mashreq-Bank'
         },
-        // {
-        //     label: 'Standard Chartered',
-        //     value: 'bank-Standard-Chartered'
-        // },
         {
             label: 'HBL',
             value: 'bank-HBL'
