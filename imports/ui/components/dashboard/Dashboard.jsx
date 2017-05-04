@@ -304,7 +304,7 @@ class DashboardPage extends Component {
                     <div className={theme.dashboardSection}>
                         <Card className={theme.cardBox}>
                             <div className='dashboard-card-group'>
-                                <Card theme={cardTheme}>
+                                <Card theme={cardTheme} className={cardTheme.responsiveCardFirst}>
                                     <Autocomplete theme={autocompleteTheme}
                                                   direction='down'
                                                   name='multiple'
@@ -326,10 +326,10 @@ class DashboardPage extends Component {
                                         />
                                     {this.renderDateRange()}
                                 </Card>
-                                <Card theme={theme}>
+                                <Card theme={theme} className={theme.responsiveCardSecond}>
                                     {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
-                                <Card theme={theme}>
+                                <Card theme={theme} className={theme.responsiveCardSecond}>
                                     {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>

@@ -598,7 +598,7 @@ class TransactionPage extends Component {
                        source={data}
                        onRowClick={this.selectItem.bind(this)}
                        selectable={false}
-                       heading={false}
+                       heading={true}
                     />;
             const initialMessage =
                 <div className={theme.transactionNothing}>

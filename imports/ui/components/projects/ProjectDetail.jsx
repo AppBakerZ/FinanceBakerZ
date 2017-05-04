@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-
 import { Button } from 'react-toolbox';
-
 import theme from './theme';
 import {FormattedMessage, defineMessages} from 'react-intl';
 
@@ -40,24 +38,25 @@ export default class ProjectDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            amountPaid: null
+        };
 
-
-        Meteor.call('calculateIncome', {
+        this.getPaidAmountOfProject()
+    }
+    getPaidAmountOfProject(){
+        Meteor.call('statistics.incomesGroupByProject', {
             project: {
-                _id: props.project._id
+                _id: this.props.project._id
             }
-        }, (err, response) => {
-            if (err) {
-
+        }, (err, project) => {
+            if (!err) {
+                this.setState({
+                    amountPaid: project.total
+                });
             }
-            else {
-                this.setState({amountPaid: response[0].total});
-            }
-
         });
-
-}
+    }
     render() {
         let {project} = this.props;
         return (
@@ -66,8 +65,8 @@ export default class ProjectDetail extends Component {
                 <div className={theme.contentTwo}>
                     <div> <p> <FormattedMessage {...il8n.CLIENT_NAME} /> </p> <p>{project.client.name}</p></div>
                     <div> <p> <FormattedMessage {...il8n.AMOUNT_AGREED} /></p> <p>{project.amount}</p></div>
-                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid || 0} </p></div>
-                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{project.amount - this.state.amountPaid || project.amount} </p></div>
+                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid == null ? 'Loading ...' : this.state.amountPaid} </p></div>
+                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{ this.state.amountPaid == null ? 'Loading ...' : project.amount - this.state.amountPaid } </p></div>
                     <div> <p> <FormattedMessage {...il8n.PROJECT_STATUS} /> </p> <p>{project.status}</p></div>
                 </div>
 

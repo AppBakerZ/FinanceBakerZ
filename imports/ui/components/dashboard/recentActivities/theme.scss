@@ -92,3 +92,33 @@
     letter-spacing: $unit - 0.9;
   }
 }
+
+/////////////////////////////////////////////////
+/////// Extra Small Media Query Start Here //////
+/////////////////////////////////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .recentIncomeWrapper{
+    width: 100%;
+    .card {
+      min-height: auto;
+      h3{
+        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+      }
+    }
+  }
+  .recentExpensesWrapper{
+    width: 100%;
+    .card {
+      min-height: auto;
+      h3{
+        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+      }
+    }
+  }
+  .tableLink{
+    margin-bottom: 14px;
+  }
+}
+/////////////////////////////////////////////////
+//////// Extra Small Media Query End Here ///////
+/////////////////////////////////////////////////

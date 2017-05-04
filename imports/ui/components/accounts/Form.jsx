@@ -42,7 +42,7 @@ export default class Form extends Component {
         super(props);
 
         this.state = {
-            country: 'All',
+            country: 'PK',
             number: '',
             bank: '',
             active: false,

@@ -43,7 +43,7 @@ export default class LeftMenu extends Component {
                         <ListItem className={this.isActive('dashboard')} caption='Dashboard' leftIcon='dashboard' theme={listItemTheme}/>
                     </Link>
                     <Link to={`/app/projects`} onClick={this.toggleDrawerActive.bind(this)}>
-                        <ListItem className={this.isActive('projects')} caption='Project' leftIcon='timeline' theme={listItemTheme}/>
+                        <ListItem className={this.isActive('projects')} caption='Projects' leftIcon='timeline' theme={listItemTheme}/>
                     </Link>
                     <Link to={`/app/transactions`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('transa•••ctions')} caption='Transactions' leftIcon='monetization_on' theme={listItemTheme}/>

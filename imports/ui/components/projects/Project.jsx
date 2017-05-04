@@ -246,7 +246,7 @@ class ProjectPage extends Component {
             status: {type: String, title: 'Status'}
         };
        const table = <Table className={theme.table} theme={tableTheme}
-                            heading={false}
+                            heading={true}
                             model={projectModel}
                             onRowClick={this.onRowClick.bind(this)}
                             selectable={false}
