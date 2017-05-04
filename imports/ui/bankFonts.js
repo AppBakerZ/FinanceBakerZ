@@ -1,8 +1,16 @@
 export default {
     PK: [
         {
-            label: 'Al Baraka',
-            value: 'bank-Al-Baraka'
+            label: 'Meezan Bank',
+            value: 'bank-Meezan-Bank'
+        },
+        {
+            label: 'Gullak Bank',
+            value: 'bank-Gullak_BANK'
+        },
+        {
+            label: 'Money box',
+            value: 'bank-Money_box'
         },
         {
             label: 'Allied Bank',
@@ -11,6 +19,10 @@ export default {
         {
             label: 'Askari Bank',
             value: 'bank-Askari-Bank'
+        },
+        {
+            label: 'Al Baraka',
+            value: 'bank-Al-Baraka'
         },
         {
             label: 'Bank Al Habib',
@@ -49,10 +61,6 @@ export default {
             value: 'bank-MCB-Limited'
         },
         {
-            label: 'Meezan Bank',
-            value: 'bank-Meezan-Bank'
-        },
-        {
             label: 'NBP',
             value: 'bank-NBP'
         },
@@ -88,30 +96,22 @@ export default {
             label: 'United Bank',
             value: 'bank-United-Bank'
         },
-        {
-            label: 'Gullak Bank',
-            value: 'bank-Gullak_BANK'
-        },
-        {
-            label: 'Money box',
-            value: 'bank-Money_box'
-        },
         // {
         //     label: 'Piggy Bank',
         //     value: 'bank-bank-Piggy-bank'
         // },
-        {
-            label: 'Payment Payoneer',
-            value: 'bank-Payment-Payoneer'
-        },
-        {
-            label: 'Payment Paypal',
-            value: 'bank-Payment-Paypal'
-        },
-        {
-            label: 'Payment Skrill',
-            value: 'bank-Payment-Skrill'
-        }
+        // {
+        //     label: 'Payment Payoneer',
+        //     value: 'bank-Payment-Payoneer'
+        // },
+        // {
+        //     label: 'Payment Paypal',
+        //     value: 'bank-Payment-Paypal'
+        // },
+        // {
+        //     label: 'Payment Skrill',
+        //     value: 'bank-Payment-Skrill'
+        // }
         ////////// 24 //////////
     ], ///////// 1 /////////////
     US: [
