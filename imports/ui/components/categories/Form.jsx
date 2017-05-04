@@ -23,7 +23,7 @@ const il8n = defineMessages({
         id: 'CATEGORIES.UPDATE_CATEGORY'
     },
     ADD_CATEGORIES: {
-        id: 'CATEGORIES.UPDATE_CATEGORY'
+        id: 'CATEGORIES.ADD_CATEGORIES'
     },
     CATEGORY_NAME: {
         id: 'CATEGORIES.CATEGORY_NAME'

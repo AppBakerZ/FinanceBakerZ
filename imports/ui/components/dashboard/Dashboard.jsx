@@ -39,6 +39,18 @@ const il8n = defineMessages({
     },
     TOTAL_EXPENSES_BUTTON: {
         id: 'DASHBOARD.TOTAL_EXPENSES_BUTTON'
+    },
+    DATE_FROM: {
+        id: 'DASHBOARD.DATE_FROM'
+    },
+    DATE_TO: {
+        id: 'DASHBOARD.DATE_TO'
+    },
+    FILTER_BY: {
+        id: 'DASHBOARD.FILTER'
+    },
+    FILTER_BY_ACCOUNT: {
+        id: 'DASHBOARD.FILTER_BY_ACCOUNT'
     }
 });
 
@@ -209,14 +221,14 @@ class DashboardPage extends Component {
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
                 <DatePicker className='demo' theme={datePickerTheme}
-                            label='Date From'
+                            label={<FormattedMessage {...il8n.DATE_FROM} />}
                             name='dateFrom'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateFrom}
                     />
 
                 <DatePicker theme={datePickerTheme}
-                            label='Date To'
+                            label={<FormattedMessage {...il8n.DATE_TO} />}
                             name='dateTo'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateTo}
@@ -297,7 +309,7 @@ class DashboardPage extends Component {
                                                   direction='down'
                                                   name='multiple'
                                                   onChange={this.handleMultipleChange.bind(this)}
-                                                  label='Filter By Account'
+                                                  label={<FormattedMessage {...il8n.FILTER_BY_ACCOUNT} />}
                                                   source={this.accounts()}
                                                   value={this.state.multiple}
                                         />
@@ -307,7 +319,7 @@ class DashboardPage extends Component {
                                               source={this.filters()}
                                               name='filterBy'
                                               onChange={this.onChange.bind(this)}
-                                              label='Filter By'
+                                              label={<FormattedMessage {...il8n.FILTER_BY} />}
                                               value={this.state.filterBy}
                                               template={this.filterItem}
                                               required

@@ -10,9 +10,45 @@ import { Slingshot } from 'meteor/edgee:slingshot'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
-
+import {FormattedMessage, defineMessages} from 'react-intl';
 
 import theme from './theme';
+
+
+const il8n = defineMessages({
+    ADD_EXPENSE_BUTTON: {
+        id: 'TRANSACTIONS.ADD_EXPENSE_BUTTON'
+    },
+    UPDATE_EXPENSE_BUTTON: {
+        id: 'TRANSACTIONS.UPDATE_EXPENSE_BUTTON'
+    },
+    REMOVE_EXPENSE_BUTTON: {
+        id: 'TRANSACTIONS.REMOVE_EXPENSE_BUTTON'
+    },
+    CHANGE_BILL_BUTTON: {
+        id: 'TRANSACTIONS.CHANGE_BILL_BUTTON'
+    },
+    SELECT_ACCOUNT: {
+        id: 'TRANSACTIONS.SELECT_ACCOUNT'
+    },
+    AMOUNT: {
+        id: 'TRANSACTIONS.AMOUNT'
+    },
+    SELECT_CATEGORY: {
+        id: 'TRANSACTIONS.SELECT_CATEGORY'
+    },
+    CREATION_DATE: {
+        id: 'TRANSACTIONS.CREATION_DATE'
+    },
+    CREATION_TIME: {
+        id: 'TRANSACTIONS.CREATION_TIME'
+    },
+    DESCRIPTION: {
+        id: 'TRANSACTIONS.DESCRIPTION'
+    }
+});
+
+
 
 class ExpensesForm extends Component {
 
@@ -192,16 +228,16 @@ class ExpensesForm extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className={theme.addExpensesBtn}>
-                <Button type='submit' disabled={this.state.disableButton} icon='add' label='Add Expense' raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='add' label={<FormattedMessage {...il8n.ADD_EXPENSE_BUTTON} />} raised primary />
             </div>
         }else{
             button = <div className={theme.addExpensesBtn}>
-                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label='Update Expense' raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_EXPENSE_BUTTON} />} raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
                     type='button'
                     icon='delete'
-                    label='Remove Expense'
+                    label={<FormattedMessage {...il8n.REMOVE_EXPENSE_BUTTON} />}
                     className='float-right'
                     accent />
             </div>
@@ -334,7 +370,7 @@ class ExpensesForm extends Component {
             var uploadedBill = <div className='bill-group'>
                 <Button
                     className='bill-change-button'
-                    label='Change Bill'
+                    label={<FormattedMessage {...il8n.CHANGE_BILL_BUTTON} />}
                     type='button'
                     onClick={this.resetBillUpload.bind(this)}
                     />
@@ -368,13 +404,13 @@ class ExpensesForm extends Component {
                     source={this.accounts()}
                     name='account'
                     onChange={this.onChange.bind(this)}
-                    label='Select your account'
+                    label={<FormattedMessage {...il8n.SELECT_ACCOUNT} />}
                     value={this.state.account}
                     template={this.accountItem}
                     required
                     />
 
-                <Input type='number' label='Amount'
+                <Input type='number' label={<FormattedMessage {...il8n.AMOUNT} />}
                        name='amount'
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
@@ -385,12 +421,12 @@ class ExpensesForm extends Component {
                     source={this.categories()}
                     name='category'
                     onChange={this.onChange.bind(this)}
-                    label='Select your category'
+                    label={<FormattedMessage {...il8n.SELECT_CATEGORY} />}
                     value={this.state.category}
                     template={this.categoryItem}
                     required
                     />
-                <Input type='text' label='Description' className={theme.boxShadowNone}
+                <Input type='text' label={<FormattedMessage {...il8n.DESCRIPTION} />} className={theme.boxShadowNone}
                        name='description'
                        multiline
                        value={this.state.description}
@@ -398,13 +434,13 @@ class ExpensesForm extends Component {
                        required
                     />
                 <DatePicker
-                    label='Creation Date'
+                    label={<FormattedMessage {...il8n.CREATION_DATE} />}
                     name='spentAt'
                     onChange={this.onChange.bind(this)}
                     value={this.state.spentAt}
                     />
                 <TimePicker
-                    label='Creation time'
+                    label={<FormattedMessage {...il8n.CREATION_TIME} />}
                     name='spentTime'
                     onChange={this.onChange.bind(this)}
                     value={this.state.spentTime}

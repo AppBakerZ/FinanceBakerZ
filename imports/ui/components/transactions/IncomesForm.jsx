@@ -9,8 +9,62 @@ import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Projects } from '../../../api/projects/projects.js';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
-
+import {FormattedMessage, defineMessages} from 'react-intl';
 import theme from './theme';
+
+
+const il8n = defineMessages({
+    ADD_INCOME_BUTTON: {
+        id: 'TRANSACTIONS.ADD_INCOME_BUTTON'
+    },
+    UPDATE_INCOME_BUTTON: {
+        id: 'TRANSACTIONS.UPDATE_INCOME_BUTTON'
+    },
+    REMOVE_INCOME_BUTTON: {
+        id: 'TRANSACTIONS.REMOVE_INCOME_BUTTON'
+    },
+    CHANGE_BILL_BUTTON: {
+        id: 'TRANSACTIONS.CHANGE_BILL_BUTTON'
+    },
+    SELECT_ACCOUNT: {
+        id: 'TRANSACTIONS.SELECT_ACCOUNT'
+    },
+    AMOUNT: {
+        id: 'TRANSACTIONS.AMOUNT'
+    },
+    SELECT_CATEGORY: {
+        id: 'TRANSACTIONS.SELECT_CATEGORY'
+    },
+    CREATION_DATE: {
+        id: 'TRANSACTIONS.CREATION_DATE'
+    },
+    CREATION_TIME: {
+        id: 'TRANSACTIONS.CREATION_TIME'
+    },
+    DESCRIPTION: {
+        id: 'TRANSACTIONS.DESCRIPTION'
+    },
+    INCOME_ACCOUNT: {
+        id: 'TRANSACTIONS.INCOME_ACCOUNT'
+    },
+    INCOME_AMOUNT: {
+        id: 'TRANSACTIONS.INCOME_AMOUNT'
+    },
+    RECEIVING_DATE: {
+        id: 'TRANSACTIONS.RECEIVING_DATE'
+    },
+    RECEIVING_TIME: {
+        id: 'TRANSACTIONS.RECEIVING_TIME'
+    },
+    SELECT_TYPE: {
+        id: 'TRANSACTIONS.SELECT_TYPE'
+    },
+    SELECT_PROJECT: {
+        id: 'TRANSACTIONS.SELECT_PROJECT'
+    }
+});
+
+
 
 class IncomesForm extends Component {
 
@@ -189,16 +243,16 @@ class IncomesForm extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className={theme.addIncomeBtn}>
-                <Button type='submit' icon='add' label='Add Income' raised primary />
+                <Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_INCOME_BUTTON} />} raised primary />
             </div>
         }else{
             button = <div className={theme.addIncomeBtn}>
-                <Button type='submit' icon='mode_edit' label='Update Income' raised primary />
+                <Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_INCOME_BUTTON} />} raised primary />
                 <Button
                     onClick={this.removeIncome.bind(this)}
                     type='button'
                     icon='delete'
-                    label='Remove Income'
+                    label={<FormattedMessage {...il8n.REMOVE_INCOME_BUTTON} />}
                     className='float-right'
                     accent />
             </div>
@@ -298,26 +352,26 @@ class IncomesForm extends Component {
                     source={this.accounts()}
                     name='account'
                     onChange={this.onChange.bind(this)}
-                    label='Select your account'
+                    label={<FormattedMessage {...il8n.INCOME_ACCOUNT} />}
                     value={this.state.account}
                     template={this.accountItem}
                     required
                     />
 
-                <Input type='number' label='Amount'
+                <Input type='number' label={<FormattedMessage {...il8n.INCOME_AMOUNT} />}
                        name='amount'
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
                        required
                     />
                 <DatePicker
-                    label='Receiving Date'
+                    label={<FormattedMessage {...il8n.RECEIVING_DATE} />}
                     name='receivedAt'
                     onChange={this.onChange.bind(this)}
                     value={this.state.receivedAt}
                     />
                 <TimePicker
-                    label='Receiving time'
+                    label={<FormattedMessage {...il8n.RECEIVING_TIME} />}
                     name='receivedTime'
                     onChange={this.onChange.bind(this)}
                     value={this.state.receivedTime}
@@ -326,7 +380,7 @@ class IncomesForm extends Component {
                 <Dropdown
                     source={this.types()}
                     name='type'
-                    label='Select type'
+                    label={<FormattedMessage {...il8n.SELECT_TYPE} />}
                     onChange={this.onChange.bind(this)}
                     value={this.state.type}
                     template={this.typeItem}
@@ -337,7 +391,7 @@ class IncomesForm extends Component {
                     source={this.projects()}
                     name='project'
                     onChange={this.onChange.bind(this)}
-                    label='Select project'
+                    label={<FormattedMessage {...il8n.SELECT_PROJECT} />}
                     value={this.state.project}
                     template={this.projectItem}
                     required/>
