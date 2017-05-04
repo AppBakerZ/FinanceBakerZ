@@ -87,8 +87,32 @@ export default {
         {
             label: 'United Bank',
             value: 'bank-United-Bank'
+        },
+        {
+            label: 'Gullak Bank',
+            value: 'bank-Gullak_BANK'
+        },
+        {
+            label: 'Money box',
+            value: 'bank-Money_box'
+        },
+        // {
+        //     label: 'Piggy Bank',
+        //     value: 'bank-bank-Piggy-bank'
+        // },
+        {
+            label: 'Payment Payoneer',
+            value: 'bank-Payment-Payoneer'
+        },
+        {
+            label: 'Payment Paypal',
+            value: 'bank-Payment-Paypal'
+        },
+        {
+            label: 'Payment Skrill',
+            value: 'bank-Payment-Skrill'
         }
-        ////////// 22 //////////
+        ////////// 24 //////////
     ], ///////// 1 /////////////
     US: [
         {
@@ -891,10 +915,10 @@ export default {
             label: 'Mashreq Bank',
             value: 'bank-Mashreq-Bank'
         },
-        {
-            label: 'Standard Chartered',
-            value: 'bank-Standard-Chartered'
-        },
+        // {
+        //     label: 'Standard Chartered',
+        //     value: 'bank-Standard-Chartered'
+        // },
         {
             label: 'HBL',
             value: 'bank-HBL'
@@ -1231,4 +1255,4 @@ export default {
     ]  ///////// 30 ////////////
 }
 
-////////////// Total 285 icons /////////////////////////////
+////////////// Total icons counting /////////////////////////////
