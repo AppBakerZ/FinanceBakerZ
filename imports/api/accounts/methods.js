@@ -78,7 +78,6 @@ export const update = new ValidatedMethod({
 
 
 
-
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
     mixins : [LoggedInMixin],
@@ -102,29 +101,6 @@ export const remove = new ValidatedMethod({
         else {
             throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
         }
-    }
-});
-
-
-
-
-export const insertAccountOnSignUp = new ValidatedMethod({
-    name: 'insertAccountOnSignUp',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to update account'
-    },
-    validate: new SimpleSchema({
-        'account': {
-            type: Object
-        },
-        'account.owner': {
-            type: String
-        }
-    }).validator(),
-    run({ account }) {
-        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
     }
 });
 

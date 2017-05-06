@@ -8,14 +8,36 @@ import { Meteor } from 'meteor/meteor';
 import { Incomes } from '/imports/api/incomes/incomes.js';
 import { Expenses } from '/imports/api/expences/expenses.js';
 
-import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
-
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 import theme from './theme';
 import tableTheme from './tableTheme';
 import tableRightTheme from './tableRightTheme';
+
+const il8n = defineMessages({
+    RECENT_INCOMES: {
+        id: 'DASHBOARD.RECENT_INCOMES'
+    },
+    RECENT_EXPENSES: {
+        id: 'DASHBOARD.RECENT_EXPENSES'
+    },
+    ADD_SOME_EXPENSES: {
+        id: 'DASHBOARD.ADD_SOME_EXPENSES'
+    },
+    ADD_SOME_INCOMES: {
+        id: 'DASHBOARD.ADD_SOME_INCOMES'
+    },
+    VIEW_ALL_INCOMES: {
+        id: 'DASHBOARD.VIEW_ALL_INCOMES'
+    },
+    VIEW_ALL_EXPENSES: {
+        id: 'DASHBOARD.VIEW_ALL_EXPENSES'
+    }
+});
+
 
 class RecentActivities extends Component {
 
@@ -42,25 +64,25 @@ class RecentActivities extends Component {
     getIncomesOrAdd(){
         const model = {
             icon: {type: String},
-            type: {type: String},
+            projects: {type: String},
             amount: {type: String},
             iconLast: {type: String}
         };
         let incomes = this.props.incomes.map(function(i){
             return {
                 icon: <Arrow primary width='16px' height='16px' />,
-                type: i.type == "project" ? i.project.name || i.project : i.type,
+                projects: i.type == "project" ? i.project.name || i.project : i.type,
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(i.amount)}</span>),
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={false} model={model} source={incomes} theme={tableTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>
         const add =
             <div className={theme.errorShowIncomes}>
                 <Link to={ `/app/transactions/incomes/new`}>
                 <Button type='button' icon='add' raised primary  />
-                <p>add something to show</p> </Link>
+                <p> <FormattedMessage {...il8n.ADD_SOME_INCOMES} /> </p> </Link>
             </div>;
         return this.props.incomesExists ? table : add
     }
@@ -69,11 +91,11 @@ class RecentActivities extends Component {
         return (
             <div>
                 <Card className='card' theme={theme}>
-                    <h3>Recent Incomes</h3>
+                    <h3> <FormattedMessage {...il8n.RECENT_INCOMES} /> </h3>
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/incomes`}> View All </Link>
+                    <Link to={`/app/transactions/incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
                 </div>
             </div>
         )
@@ -90,16 +112,16 @@ class RecentActivities extends Component {
                 icon:  <i className={i.category.icon || ''}/> ,
                 category: i.category.name || i.category,
                 amount:(<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>  {currencyFormatHelpers.currencyStandardFormat(i.amount)}</span>),
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={false} model={model} source={expenses} theme={tableRightTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>
         const add =
             <div className={theme.errorShowExpenses}>
                 <Link to={`/app/transactions/expenses/new`}>
                 <Button type='button' icon='add' raised accent />
-                <p>add something to show</p> </Link>
+                <p> <FormattedMessage {...il8n.ADD_SOME_EXPENSES} /> </p> </Link>
             </div>;
         return this.props.expensesExists ? table : add
     }
@@ -107,11 +129,11 @@ class RecentActivities extends Component {
         return (
             <div>
                 <Card className='card' theme={theme}>
-                    <h3>Recent Expenses</h3>
+                    <h3> <FormattedMessage {...il8n.RECENT_EXPENSES} /> </h3>
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/expenses`}> View All </Link>
+                    <Link to={`/app/transactions/expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
                 </div>
             </div>
         )

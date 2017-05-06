@@ -45,13 +45,14 @@ export default class Register extends Component {
         const key = Object.keys(selector)[0];
 
         this.props.progressBarUpdate(true);
-        let currency = {symbol: "$", name: "Dollar", symbol_native: "$", decimal_digits: 2, rounding: 0},
+        let currency = {label: "Pakistani Rupee", value: "currency-Pakistani-Rupee"},
+        language = 'en';
         emailNotification = true;
 
         Accounts.createUser({
             [key]: selector[key],
             password,
-            profile: {fullName, currency, emailNotification }
+            profile: {fullName, currency, emailNotification, language }
         }, (err) => {
             if(err){
                 this.props.showSnackbar({
@@ -70,7 +71,6 @@ export default class Register extends Component {
 
                 );
                 var account = {account: {owner: Meteor.user()._id}};
-                Meteor.call('insertAccountOnSignUp', account);
                 setTimeout(() => {
                     this.props.history.push('/app/settings');
                 }, 1000);

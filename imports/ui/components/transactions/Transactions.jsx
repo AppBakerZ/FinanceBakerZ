@@ -19,7 +19,7 @@ import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import ExpensesForm from './ExpensesForm.jsx';
 import IncomesForm from './IncomesForm.jsx';
 
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 import theme from './theme';
@@ -27,6 +27,7 @@ import tableTheme from './tableTheme';
 import dialogTheme from './dialogTheme';
 import buttonTheme from './buttonTheme';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -35,6 +36,87 @@ let pageNumber = 1,
         limit : RECORDS_PER_PAGE * pageNumber,
         accounts: []
     });
+
+const il8n = defineMessages({
+    NO_TRANSACTIONS_ADDED: {
+        id: 'TRANSACTIONS.NO_INCOMES_EXPENSES_ADDED'
+    },
+    ADD_TRANSACTIONS: {
+        id: 'TRANSACTIONS.ADD_TRANSACTIONS'
+    },
+    TITLE: {
+        id: 'TRANSACTIONS.TITLE'
+    },
+    INFORM_MESSAGE: {
+        id: 'TRANSACTIONS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'TRANSACTIONS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'TRANSACTIONS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'TRANSACTIONS.REMOVE_BUTTON'
+    },
+    TRANSACTION_TYPE: {
+        id: 'TRANSACTIONS.TRANSACTION_TYPE'
+    },
+    TRANSACTION_AMOUNT: {
+        id: 'TRANSACTIONS.TRANSACTION_AMOUNT'
+    },
+    DEPOSITED_BANK: {
+        id: 'TRANSACTIONS.DEPOSITED_BANK'
+    },
+    ACCOUNT_NUMBER: {
+        id: 'TRANSACTIONS.ACCOUNT_NUMBER'
+    },
+    ACCOUNT: {
+        id: 'TRANSACTIONS.ACCOUNT'
+    },
+    SENDER_NAME: {
+        id: 'TRANSACTIONS.SENDER_NAME'
+    },
+    SENDER_BANK: {
+        id: 'TRANSACTIONS.SENDER_BANK'
+    },
+    PROJECT: {
+        id: 'TRANSACTIONS.PROJECT'
+    },
+    EDIT_INFO_BUTTON: {
+        id: 'TRANSACTIONS.EDIT_INFO_BUTTON'
+    },
+    DELETE_TRANSACTION_BUTTON: {
+        id: 'TRANSACTIONS.DELETE_TRANSACTION_BUTTON'
+    },
+    DATE_FROM: {
+        id: 'TRANSACTIONS.DATE_FROM'
+    },
+    DATE_TO: {
+        id: 'TRANSACTIONS.DATE_TO'
+    },
+    FILTER_BY_CATEGORY: {
+        id: 'TRANSACTIONS.FILTER_BY_CATEGORY'
+    },
+    FILTER_BY_PROJECT: {
+        id: 'TRANSACTIONS.FILTER_BY_PROJECT'
+    },
+    FILTER_BY_ACCOUNT: {
+        id: 'TRANSACTIONS.FILTER_BY_ACCOUNT'
+    },
+    FILTER_BY_TYPE: {
+        id: 'TRANSACTIONS.FILTER_BY_TYPE'
+    },
+    FILTER_BY: {
+        id: 'TRANSACTIONS.FILTER_BY'
+    },
+    INCOME_BUTTON: {
+        id: 'TRANSACTIONS.INCOME_BUTTON'
+    },
+    EXPENSE_BUTTON: {
+        id: 'TRANSACTIONS.EXPENSE_BUTTON'
+    }
+});
 
 
 class TransactionPage extends Component {
@@ -224,13 +306,13 @@ class TransactionPage extends Component {
         return (
             <div>
                 <div className={theme.confirmText}>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your project?</p>
+                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
+                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary onClick={this.deleteTransactionToggle.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
                 </div>
             </div>
         )
@@ -244,24 +326,24 @@ class TransactionPage extends Component {
         return (
             <div className={theme.contentParent}>
                 <div className={theme.contentOne}>
-                    <div> <p>Transaction Type :</p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
-                    <div> <p>Transaction Amount :</p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(selectedProject.amount)}</span></p></div>
-                    <div> <p>deposited in :</p> <p>standard chartered</p></div>
-                    <div> <p>account number :</p> <p>00971322001</p></div>
+                    <div> <p> <FormattedMessage {...il8n.TRANSACTION_TYPE} /> </p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
+                    <div> <p> <FormattedMessage {...il8n.TRANSACTION_AMOUNT} /> </p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={selectedProject.amount}/>  </span></p></div>
+                    <div> <p> <FormattedMessage {...il8n.DEPOSITED_BANK} /> </p> <p>standard chartered</p></div>
+                    <div> <p> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> </p> <p>00971322001</p></div>
                 </div>
 
                 <div className={theme.contentTwo}>
-                    <div> <p>account :</p> <p><span>10,000</span> PKR</p></div>
-                    <div> <p>sender name :</p> <p> saeed anwar</p></div>
-                    <div> <p>sender bank :</p> <p> habib bank</p></div>
-                    <div> <p>account number :</p> <p> 009123455670</p></div>
+                    <div> <p> <FormattedMessage {...il8n.ACCOUNT} /> </p> <p><span>10,000</span> PKR</p></div>
+                    <div> <p> <FormattedMessage {...il8n.SENDER_NAME} /> </p> <p> saeed anwar</p></div>
+                    <div> <p> <FormattedMessage {...il8n.SENDER_BANK} /> </p> <p> habib bank</p></div>
+                    <div> <p> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> </p> <p> 009123455670</p></div>
                 </div>
 
                 <div className={theme.contentThree}>
-                    <div> <p>project :</p> <p> <span>logo design</span></p></div>
+                    <div> <p> <FormattedMessage {...il8n.PROJECT} /> </p> <p> <span>logo design</span></p></div>
                     <div>
-                        <Button label='Edit Information' raised accent onClick={this.editPopup.bind(this)} />
-                        <Button label='Delete Transaction' raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                        <Button label={<FormattedMessage {...il8n.EDIT_INFO_BUTTON} />} raised accent onClick={this.editPopup.bind(this)} />
+                        <Button label={<FormattedMessage {...il8n.DELETE_TRANSACTION_BUTTON} />} raised accent onClick={this.deleteTransactionToggle.bind(this)} />
                     </div>
                 </div>
             </div>
@@ -370,14 +452,14 @@ class TransactionPage extends Component {
         let dropDowns = (
             <div className={theme.dashboardDatePicker}>
                 <DatePicker
-                    label='Date From'
+                    label={<FormattedMessage {...il8n.DATE_FROM} />}
                     name='dateFrom'
                     onChange={this.onChange.bind(this)}
                     value={this.state.dateFrom}
                     />
 
                 <DatePicker
-                    label='Date To'
+                    label={<FormattedMessage {...il8n.DATE_TO} />}
                     name='dateTo'
                     onChange={this.onChange.bind(this)}
                     value={this.state.dateTo}
@@ -460,7 +542,7 @@ class TransactionPage extends Component {
             source={this.categories()}
             name='filterByCategory'
             onChange={this.onChange.bind(this)}
-            label='Filter By Category'
+            label={<FormattedMessage {...il8n.FILTER_BY_CATEGORY} />}
             value={this.state.filterByCategory}
             template={this.categoryItem}
             />
@@ -476,7 +558,7 @@ class TransactionPage extends Component {
                 source={this.projects()}
                 name='filterByProjects'
                 onChange={this.onChange.bind(this)}
-                label='Filter By Projects'
+                label={<FormattedMessage {...il8n.FILTER_BY_PROJECT} />}
                 value={this.state.filterByProjects}
                 />
         )
@@ -499,7 +581,7 @@ class TransactionPage extends Component {
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
                     (transaction.category.name || transaction.category),
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(transaction.amount)}</span>),
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={transaction.amount}/>  </span>),
                 rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
@@ -516,15 +598,15 @@ class TransactionPage extends Component {
                        source={data}
                        onRowClick={this.selectItem.bind(this)}
                        selectable={false}
-                       heading={false}
+                       heading={true}
                     />;
             const initialMessage =
                 <div className={theme.transactionNothing}>
-                    <span className={theme.errorShow}>you do not have any INCOME and EXPENSE</span>
+                    <span className={theme.errorShow}> <FormattedMessage {...il8n.NO_TRANSACTIONS_ADDED} /> </span>
                     <div className={theme.addProjectBtn}>
                         <Button type='button' icon='add' raised primary />
                     </div>
-                    <span className={theme.errorShow}>add some to show</span>
+                    <span className={theme.errorShow}> <FormattedMessage {...il8n.ADD_TRANSACTIONS} /> </span>
                 </div>;
         return (
             <Card theme={tableTheme}>
@@ -545,7 +627,7 @@ class TransactionPage extends Component {
                             direction='down'
                             name='multiple'
                             onChange={this.filterByAccounts.bind(this)}
-                            label='Filter By Account'
+                            label={<FormattedMessage {...il8n.FILTER_BY_ACCOUNT} />}
                             source={this.accounts()}
                             value={this.state.multiple}
                             />
@@ -557,7 +639,7 @@ class TransactionPage extends Component {
                             source={this.type()}
                             name='type'
                             onChange={this.onChange.bind(this)}
-                            label='Filter By Type'
+                            label={<FormattedMessage {...il8n.FILTER_BY_TYPE} />}
                             value={this.state.type}
                             template={this.filterItem}
                             />
@@ -567,7 +649,7 @@ class TransactionPage extends Component {
                             source={this.filters()}
                             name='filterBy'
                             onChange={this.onChange.bind(this)}
-                            label='Filter By'
+                            label={<FormattedMessage {...il8n.FILTER_BY} />}
                             value={this.state.filterBy}
                             template={this.filterItem}
                             />
@@ -576,20 +658,19 @@ class TransactionPage extends Component {
                     </div>
 
                     <div className={theme.pageTitle}>
-                        <h3>Transactions</h3>
+                        <h3><FormattedMessage {...il8n.TITLE} /></h3>
                         <div>
                             <Button
                                 className='header-buttons'
                                 icon='add'
-                                label='INCOME'
+                                label={<FormattedMessage {...il8n.INCOME_BUTTON} />}
                                 name='Income'
                                 onClick={this.openedPopup.bind(this, true)}
                                 flat theme={theme} />
                             <Button
                                 className='header-buttons'
                                 icon='add'
-                                icon='add'
-                                label='EXPENSE'
+                                label={<FormattedMessage {...il8n.EXPENSE_BUTTON} />}
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}
                                 flat theme={theme} />

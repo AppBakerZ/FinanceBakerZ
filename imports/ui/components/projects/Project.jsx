@@ -13,12 +13,12 @@ import ProjectDetail from './ProjectDetail.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
-import { currencyFormatHelpers, userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
-
+import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import theme from './theme';
 import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -26,6 +26,48 @@ let pageNumber = 1,
     query = new ReactiveVar({
         limit : RECORDS_PER_PAGE * pageNumber
     });
+
+const il8n = defineMessages({
+    NO_PROJECTS_ADDED: {
+        id: 'PROJECTS.NO_PROJECTS_ADDED'
+    },
+    ADD_PROJECTS: {
+        id: 'PROJECTS.ADD_PROJECT_TO_SHOW'
+    },
+    PROJECTS: {
+        id: 'PROJECTS.SHOW_PROJECTS'
+    },
+    BANK_PROJECTS: {
+        id: 'PROJECTS.BANK_PROJECTS'
+    },
+    INFORM_MESSAGE: {
+        id: 'PROJECTS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'PROJECTS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'PROJECTS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'PROJECTS.REMOVE_BUTTON'
+    },
+    ADD_NEW_PROJECTS: {
+        id: 'PROJECTS.ADD_NEW_PROJECTS'
+    },
+    FILTER_BY_PROJECT_NAME: {
+        id: 'PROJECTS.FILTER_BY_PROJECT_NAME'
+    },
+    FILTER_BY_CLIENT_NAME: {
+        id: 'PROJECTS.FILTER_BY_CLIENT_NAME'
+    },
+    FILTER_BY_STATUS: {
+        id: 'PROJECTS.FILTER_BY_STATUS'
+    }
+});
+
+
+
 
 
 class ProjectPage extends Component {
@@ -108,14 +150,14 @@ class ProjectPage extends Component {
         return (
             <div className={theme.dialogAccount}>
                 <div className={theme.confirmText}>
-                    <h3>bank project</h3>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your bank project?</p>
+                    <h3><FormattedMessage {...il8n.BANK_PROJECTS} /></h3>
+                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
+                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
                 </div>
 
                 <div className={theme.buttonArea}>
-                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
                 </div>
             </div>
         )
@@ -191,7 +233,7 @@ class ProjectPage extends Component {
                 clientName: client && client.name,
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(amount)}</span>)
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount}/> </span>)
             };
         });
 
@@ -204,7 +246,7 @@ class ProjectPage extends Component {
             status: {type: String, title: 'Status'}
         };
        const table = <Table className={theme.table} theme={tableTheme}
-                            heading={false}
+                            heading={true}
                             model={projectModel}
                             onRowClick={this.onRowClick.bind(this)}
                             selectable={false}
@@ -212,11 +254,11 @@ class ProjectPage extends Component {
            />;
       const something =
             <div className={theme.projectNothing}>
-                <span className={theme.errorShow}>you do not have any projects</span>
+                <span className={theme.errorShow}><FormattedMessage {...il8n.NO_PROJECTS_ADDED} /></span>
                 <div className={theme.addProjectBtn}>
                     <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
                 </div>
-                <span className={theme.errorShow}>add some to show</span>
+                <span className={theme.errorShow}><FormattedMessage {...il8n.ADD_PROJECTS} /></span>
             </div>;
         return (
             <Card theme={tableTheme}>
@@ -233,7 +275,7 @@ class ProjectPage extends Component {
                     <div>
                         <div className={theme.inputField}>
                             <Input type='text'
-                                   label="Filter by Project Name"
+                                   label={<FormattedMessage {...il8n.FILTER_BY_PROJECT_NAME} />}
                                    name='name'
                                    value={this.state.filter.name}
                                    onChange={this.onChangeFilter.bind(this)}
@@ -241,7 +283,7 @@ class ProjectPage extends Component {
                         </div>
                         <div className={theme.inputField}>
                             <Input type='text'
-                                   label="Filter by Client Name"
+                                   label={<FormattedMessage {...il8n.FILTER_BY_CLIENT_NAME} />}
                                    name='client.name'
                                    value={this.state.filter.client.name}
                                    onChange={this.onChangeFilter.bind(this)}
@@ -253,7 +295,7 @@ class ProjectPage extends Component {
                                 source={this.statuses}
                                 name='status'
                                 onChange={this.onChangeFilter.bind(this)}
-                                label='Filter By Status'
+                                label={<FormattedMessage {...il8n.FILTER_BY_STATUS} />}
                                 value={this.state.filter.status}
                                 />
                             {(this.state.filter.status) && <IconButton className="close" icon='clear' onClick={this.resetStatusFilter.bind(this)} />}
@@ -261,11 +303,11 @@ class ProjectPage extends Component {
                     </div>
 
                     <div className={theme.pageTitle}>
-                        <h3>Projects</h3>
+                        <h3> <FormattedMessage {...il8n.PROJECTS} /> </h3>
                         <Button
                             className={theme.button}
                             icon='add'
-                            label='Add New'
+                            label={<FormattedMessage {...il8n.ADD_NEW_PROJECTS} /> }
                             flat
                             onClick={this.openPopup.bind(this, 'add')}
                             theme={theme}

@@ -8,6 +8,40 @@ import { Meteor } from 'meteor/meteor';
 import { Projects } from '../../../api/projects/projects.js';
 
 import theme from './theme';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    ADD_PROJECT_BUTTON: {
+        id: 'PROJECTS.ADD_PROJECT_BUTTON'
+    },
+    UPDATE_PROJECT_BUTTON: {
+        id: 'PROJECTS.UPDATE_PROJECT_BUTTON'
+    },
+    PROJECT_NAME: {
+        id: 'PROJECTS.PROJECT_NAME'
+    },
+    CLIENT_NAME: {
+        id: 'PROJECTS.CLIENT_NAME'
+    },
+    PROJECT_TYPE: {
+        id: 'PROJECTS.PROJECT_TYPE'
+    },
+    PROJECT_AMOUNT: {
+        id: 'PROJECTS.PROJECT_AMOUNT'
+    },
+    PROJECT_STATUS: {
+        id: 'PROJECTS.PROJECT_STATUS'
+    },
+    PROJECT_START_DATE: {
+        id: 'PROJECTS.START_DATE'
+    }
+});
+
+
+
+
+
 
 export default class Form extends Component {
 
@@ -122,9 +156,9 @@ export default class Form extends Component {
     renderButton (){
         let button;
         if(!this.props.project){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label='Add Project' raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_PROJECT_BUTTON} />} raised primary /></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label='Update Project' raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_PROJECT_BUTTON} />} raised primary /></div>
         }
         return button;
     }
@@ -148,7 +182,7 @@ export default class Form extends Component {
                     type={this.state.barType}
                     />
 
-                <Input type='text' label='Project Name'
+                <Input type='text' label={<FormattedMessage {...il8n.PROJECT_NAME} />}
                        name='name'
                        maxLength={ 50 }
                        value={this.state.name}
@@ -156,7 +190,7 @@ export default class Form extends Component {
                        required
                     />
 
-                <Input type='text' label='Client Name'
+                <Input type='text' label={<FormattedMessage {...il8n.CLIENT_NAME} />}
                        name='clientName'
                        maxLength={ 50 }
                        value={this.state.clientName}
@@ -164,7 +198,7 @@ export default class Form extends Component {
                        required
                     />
 
-                <Input type='text' label='Type'
+                <Input type='text' label={<FormattedMessage {...il8n.PROJECT_TYPE} />}
                        name='type'
                        maxLength={ 50 }
                        value={this.state.type}
@@ -172,7 +206,7 @@ export default class Form extends Component {
                        required
                     />
 
-                <Input type='number' label='Amount'
+                <Input type='number' label={<FormattedMessage {...il8n.PROJECT_AMOUNT} />}
                        name='amount'
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
@@ -183,13 +217,13 @@ export default class Form extends Component {
                     source={this.props.statuses}
                     name='status'
                     onChange={this.onChange.bind(this)}
-                    label='Status'
+                    label={<FormattedMessage {...il8n.PROJECT_STATUS} />}
                     value={this.state.status}
                     required
                     />
 
                 <DatePicker
-                    label='Start Date'
+                    label={<FormattedMessage {...il8n.PROJECT_START_DATE} />}
                     name='startAt'
                     onChange={this.onChange.bind(this)}
                     value={this.state.startAt}

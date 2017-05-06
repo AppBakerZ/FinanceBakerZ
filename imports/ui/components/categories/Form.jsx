@@ -12,6 +12,30 @@ import theme from './theme';
 import dropdownTheme from './dropdownTheme';
 
 import fonts from '/imports/ui/fonts.js';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    ADD_CATEGORY: {
+        id: 'CATEGORIES.ADD_CATEGORY'
+    },
+    UPDATE_CATEGORIES: {
+        id: 'CATEGORIES.UPDATE_CATEGORY'
+    },
+    ADD_CATEGORIES: {
+        id: 'CATEGORIES.ADD_CATEGORIES'
+    },
+    CATEGORY_NAME: {
+        id: 'CATEGORIES.CATEGORY_NAME'
+    },
+    CATEGORY_ICON: {
+        id: 'CATEGORIES.CATEGORY_ICON'
+    },
+    PARENT_CATEGORY: {
+        id: 'CATEGORIES.PARENT_CATEGORY'
+    }
+});
+
 
 export default class Form extends Component {
 
@@ -145,9 +169,9 @@ export default class Form extends Component {
     renderButton (){
         let button;
         if(!this.props.category){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label='Add Category' raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_CATEGORY} />} raised primary /></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label='Update Category' raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_CATEGORIES} />} raised primary /></div>
         }
         return button;
     }
@@ -198,7 +222,7 @@ export default class Form extends Component {
 
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <h3 className={theme.titleAccount}>add categories</h3>
+                <h3 className={theme.titleAccount}><FormattedMessage {...il8n.ADD_CATEGORIES} /></h3>
 
                 <Snackbar
                     action='Dismiss'
@@ -211,7 +235,7 @@ export default class Form extends Component {
                     type={this.state.barType}
                     />
 
-                <Input type='text' label='Name'
+                <Input type='text' label={<FormattedMessage {...il8n.CATEGORY_NAME} />}
                        name='name'
                        maxLength={ 50 }
                        value={this.state.name}
@@ -224,7 +248,7 @@ export default class Form extends Component {
                     name='icon'
                     onChange={this.onChange.bind(this)}
                     value={this.state.icon}
-                    label='Select Icon'
+                    label={<FormattedMessage {...il8n.CATEGORY_ICON} />}
                     template={this.categoryIcons}
                     required
                     />
@@ -235,7 +259,7 @@ export default class Form extends Component {
                     onChange={this.onChangeParentCategory.bind(this)}
                     source={this.categories()}
                     value={this.state.parent}
-                    label='Select parent category'
+                    label={<FormattedMessage {...il8n.PARENT_CATEGORY} />}
                     template={this.categoryItem}
                     />
 

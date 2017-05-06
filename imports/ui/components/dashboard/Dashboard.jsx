@@ -8,7 +8,7 @@ import { Link } from 'react-router'
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
-import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
 import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
@@ -22,6 +22,37 @@ import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
 import cardBackgroundTheme from './cardBackgroundTheme';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    AVAILABLE_BALANCE: {
+        id: 'DASHBOARD.AVAILABLE_BALANCE'
+    },
+    TOTAL_INCOMES: {
+        id: 'DASHBOARD.TOTAL_INCOMES'
+    },
+    TOTAL_INCOMES_BUTTON: {
+        id: 'DASHBOARD.TOTAL_INCOMES_BUTTON'
+    },
+    TOTAL_EXPENSES: {
+        id: 'DASHBOARD.TOTAL_EXPENSES'
+    },
+    TOTAL_EXPENSES_BUTTON: {
+        id: 'DASHBOARD.TOTAL_EXPENSES_BUTTON'
+    },
+    DATE_FROM: {
+        id: 'DASHBOARD.DATE_FROM'
+    },
+    DATE_TO: {
+        id: 'DASHBOARD.DATE_TO'
+    },
+    FILTER_BY: {
+        id: 'DASHBOARD.FILTER'
+    },
+    FILTER_BY_ACCOUNT: {
+        id: 'DASHBOARD.FILTER_BY_ACCOUNT'
+    }
+});
 
 class DashboardPage extends Component {
 
@@ -167,8 +198,9 @@ class DashboardPage extends Component {
             report : report
         };
       // prevent window popup block
+        let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
         let win = window.open('');
-        win.document.write("<p> Loading...</p>");
+        win.document.write(loader);
         window.oldOpen = window.open;
         window.open = function(url) {
             win.location = url;
@@ -189,14 +221,14 @@ class DashboardPage extends Component {
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
                 <DatePicker className='demo' theme={datePickerTheme}
-                            label='Date From'
+                            label={<FormattedMessage {...il8n.DATE_FROM} />}
                             name='dateFrom'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateFrom}
                     />
 
                 <DatePicker theme={datePickerTheme}
-                            label='Date To'
+                            label={<FormattedMessage {...il8n.DATE_TO} />}
                             name='dateTo'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateTo}
@@ -210,16 +242,19 @@ class DashboardPage extends Component {
     renderTotalIncomes(){
         return (
             <div className={theme.incomeBox}>
-                <div className={theme.divTitle}>Your Total Incomes are</div>
+                <div className={theme.divTitle}>
+                    <FormattedMessage {...il8n.TOTAL_INCOMES} />
+                </div>
                 <div className={theme.title}>
                     <h2>
-                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                        <FormattedNumber value={this.state.totalIncomes}/>
                     </h2>
                     <Arrow primary width='30px' height='35px' />
                 </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
-                        <Button icon='description' label='Income Report' flat />
+                        <Button icon='description' label={<FormattedMessage {...il8n.TOTAL_INCOMES_BUTTON} />} flat />
                     </div>
                 )}
             </div>
@@ -228,16 +263,19 @@ class DashboardPage extends Component {
     renderTotalExpenses(){
         return (
             <div className={theme.expensesBox}>
-                <div className={theme.divTitle}>Your Total Expenses are</div>
+                <div className={theme.divTitle}>
+                    <FormattedMessage {...il8n.TOTAL_EXPENSES} />
+                </div>
                 <div className={theme.title}>
                     <h2>
-                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                        <FormattedNumber value={this.state.totalExpenses}/>
                     </h2>
                     <Arrow down danger width='30px' height='35px' />
                 </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
-                        <Button icon='description' label='Expences Report' flat />
+                        <Button icon='description' label={<FormattedMessage {...il8n.TOTAL_EXPENSES_BUTTON} />} flat />
                     </div>
                 )}
             </div>
@@ -246,10 +284,13 @@ class DashboardPage extends Component {
     availableBalance(){
         return (
                 <div style={{margin: "0 auto"}}>
-                    <div className={theme.availableTitle}> Your Available Balance is</div>
+                    <div className={theme.availableTitle}>
+                        <FormattedMessage {...il8n.AVAILABLE_BALANCE} />
+                    </div>
                     <div className={theme.divTitle}>
                         <h2 className="available-amount">
-                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                            <FormattedNumber value={this.state.availableBalance}/>
                         </h2>
                         <Arrow width='48px' height='50px' />
                     </div>
@@ -263,12 +304,12 @@ class DashboardPage extends Component {
                     <div className={theme.dashboardSection}>
                         <Card className={theme.cardBox}>
                             <div className='dashboard-card-group'>
-                                <Card theme={cardTheme}>
+                                <Card theme={cardTheme} className={cardTheme.responsiveCardFirst}>
                                     <Autocomplete theme={autocompleteTheme}
                                                   direction='down'
                                                   name='multiple'
                                                   onChange={this.handleMultipleChange.bind(this)}
-                                                  label='Filter By Account'
+                                                  label={<FormattedMessage {...il8n.FILTER_BY_ACCOUNT} />}
                                                   source={this.accounts()}
                                                   value={this.state.multiple}
                                         />
@@ -278,17 +319,17 @@ class DashboardPage extends Component {
                                               source={this.filters()}
                                               name='filterBy'
                                               onChange={this.onChange.bind(this)}
-                                              label='Filter By'
+                                              label={<FormattedMessage {...il8n.FILTER_BY} />}
                                               value={this.state.filterBy}
                                               template={this.filterItem}
                                               required
                                         />
                                     {this.renderDateRange()}
                                 </Card>
-                                <Card theme={theme}>
+                                <Card theme={theme} className={theme.responsiveCardSecond}>
                                     {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
-                                <Card theme={theme}>
+                                <Card theme={theme} className={theme.responsiveCardSecond}>
                                     {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>

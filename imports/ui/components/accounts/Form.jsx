@@ -12,6 +12,29 @@ import dropdownTheme from './dropdownTheme';
 
 import bankFonts from '/imports/ui/bankFonts.js';
 import countries from '/imports/ui/countries.js';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    ADD_ACCOUNTS_BUTTON: {
+        id: 'ACCOUNTS.ADD_ACCOUNTS_BUTTON'
+    },
+    UPDATE_ACCOUNTS_BUTTON: {
+        id: 'ACCOUNTS.UPDATE_ACCOUNTS_BUTTON'
+    },
+    ADD_ACCOUNTS: {
+        id: 'ACCOUNTS.ADD_ACCOUNT'
+    },
+    SELECT_COUNTRY: {
+        id: 'ACCOUNTS.SELECT_COUNTRY'
+    },
+    SELECT_BANK: {
+        id: 'ACCOUNTS.SELECT_BANK'
+    },
+    SELECT_ACCOUNT_NUMBER: {
+        id: 'ACCOUNTS.ACCOUNT_NUMBER'
+    }
+});
+
 
 export default class Form extends Component {
 
@@ -19,7 +42,7 @@ export default class Form extends Component {
         super(props);
 
         this.state = {
-            country: 'All',
+            country: 'PK',
             number: '',
             bank: '',
             active: false,
@@ -161,9 +184,9 @@ export default class Form extends Component {
     renderButton (){
         let button;
         if(!this.props.account){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label='Add Account' raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_ACCOUNTS_BUTTON} />} raised primary /></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label='Update Account' raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_ACCOUNTS_BUTTON} />} raised primary /></div>
         }
         return button;
     }
@@ -172,7 +195,7 @@ export default class Form extends Component {
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <h3 className={theme.titleAccount}>add account</h3>
+                <h3 className={theme.titleAccount}> <FormattedMessage {...il8n.ADD_ACCOUNTS} /> </h3>
 
                 <Snackbar
                     action='Dismiss'
@@ -189,7 +212,7 @@ export default class Form extends Component {
                     source={this.countries}
                     name='country'
                     onChange={this.onChange.bind(this)}
-                    label='Select Country'
+                    label={<FormattedMessage {...il8n.SELECT_COUNTRY} />}
                     value={this.state.country}
                     />
                 <Dropdown theme={dropdownTheme}
@@ -197,11 +220,11 @@ export default class Form extends Component {
                           name='bank'
                           onChange={this.onChange.bind(this)}
                           value={this.state.bank}
-                          label='Select Bank/Card'
+                          label={<FormattedMessage {...il8n.SELECT_BANK} />}
                           template={this.bankIcons}
                           required
                     />
-                <Input type='text' label='Enter Account Number'
+                <Input type='text' label={<FormattedMessage {...il8n.SELECT_ACCOUNT_NUMBER} />}
                        name='number'
                        value={this.state.number}
                        onChange={this.onChange.bind(this)}

@@ -17,6 +17,122 @@ import dialogTheme from './dialogTheme';
 import { Accounts } from 'meteor/accounts-base';
 
 import currencyIcon from '/imports/ui/currencyIcon.js';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    TITLE: {
+        id: 'SETTINGS.TITLE'
+    },
+    PERSONAL_INFORMATION: {
+        id: 'SETTINGS.PERSONAL_INFORMATION'
+    },
+    ACCOUNT_SETTINGS: {
+        id: 'SETTINGS.ACCOUNT_SETTINGS'
+    },
+    CHANGE_PASSWORD: {
+        id: 'SETTINGS.CHANGE_PASSWORD'
+    },
+    REMOVE_ACCOUNT: {
+        id: 'SETTINGS.REMOVE_ACCOUNT'
+    },
+    INFORM_MESSAGE: {
+        id: 'SETTINGS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'SETTINGS.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'SETTINGS.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'SETTINGS.REMOVE_BUTTON'
+    },
+    SELECT_CURRENCY:{
+        id: 'SETTINGS.SELECT_CURRENCY'
+    },
+    SELECT_LANGUAGE:{
+        id: 'SETTINGS.SELECT_LANGUAGE'
+    },
+    UPDATE_BUTTON:{
+        id: 'SETTINGS.UPDATE_BUTTON'
+    },
+    NAME:{
+        id: 'SETTINGS.NAME'
+    },
+    CONTACT_NUMBER:{
+        id: 'SETTINGS.CONTACT_NUMBER'
+    },
+    USER:{
+        id: 'SETTINGS.USER_NAME'
+    },
+    EMAIL:{
+        id: 'SETTINGS.EMAIL'
+    },
+    ADDRESS:{
+        id: 'SETTINGS.ADDRESS'
+    },
+    EDIT_INFO:{
+        id: 'SETTINGS.EDIT_INFO'
+    },
+    CURRENCY:{
+        id: 'SETTINGS.CURRENCY'
+    },
+    LANGUAGE:{
+        id: 'SETTINGS.LANGUAGE'
+    },
+    EMAIL_NOTIFICATION:{
+        id: 'SETTINGS.EMAIL_NOTIFICATION'
+    },
+    REMOVE_ACCOUNT_BUTTON:{
+        id: 'SETTINGS.REMOVE_ACCOUNT_BUTTON'
+    },
+    PASSWORD:{
+        id: 'SETTINGS.PASSWORD'
+    },
+    USER_NAME:{
+        id: 'SETTINGS.USERNAME'
+    },
+    USER_CONTACT_NUMBER:{
+        id: 'SETTINGS.USER_CONTACT_NUMBER'
+    },
+    USER_USER_NAME:{
+        id: 'SETTINGS.USER_USER_NAME'
+    },
+    USER_EMAIL:{
+        id: 'SETTINGS.USER_EMAIL'
+    },
+    USER_ADDRESS:{
+        id: 'SETTINGS.USER_ADDRESS'
+    },
+    EDIT_PERSONAL_INFO:{
+        id: 'SETTINGS.EDIT_PERSONAL_INFO'
+    },
+    EDIT_ACCOUNT_SETTINGS:{
+        id: 'SETTINGS.EDIT_ACCOUNT_SETTINGS'
+    },
+    CHANGE_USER_PASSWORD:{
+        id: 'SETTINGS.CHANGE_USER_PASSWORD'
+    },
+    CURRENT_PASSWORD:{
+        id: 'SETTINGS.CURRENT_PASSWORD'
+    },
+    NEW_PASSWORD:{
+        id: 'SETTINGS.NEW_PASSWORD'
+    },
+    REPEAT_NEW_PASSWORD:{
+        id: 'SETTINGS.REPEAT_NEW_PASSWORD'
+    },
+    SAVE_BUTTON:{
+        id: 'SETTINGS.SAVE_BUTTON'
+    },
+    EDIT_IMAGE_BUTTON:{
+        id: 'SETTINGS.EDIT_IMAGE_BUTTON'
+    }
+});
+
+
+
 
 class SettingsPage extends Component {
 
@@ -33,13 +149,14 @@ class SettingsPage extends Component {
             loading: false,
             number: userInfo.profile.contactNumber || '' ,
             username: userInfo.username || '',
-            email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
+            email: userInfo.emails ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || '',
             imageUrl: ''
         };
 
         this.languages = [
             { value: 'en', label: 'English' },
+            { value: 'ur', label: 'Urdu' },
             { value: 'ar', label: 'Arabic'},
             { value: 'ch', label: 'Chinese'},
             { value: 'fr', label: 'French'},
@@ -117,7 +234,7 @@ class SettingsPage extends Component {
                     source={this.currencies()}
                     name='userCurrency'
                     onChange={this.onChange.bind(this)}
-                    label='Select your currency'
+                    label={<FormattedMessage {...il8n.SELECT_CURRENCY} />}
                     value={this.state.userCurrency}
                     template={this.currencyItem}
                     required
@@ -211,22 +328,25 @@ class SettingsPage extends Component {
             folder: "profiles",
             uploaderId: userId
         };
-        let uploader = new Slingshot.Upload('imageUploader', metaContext);
-        uploader.send(this.state.target,  (error, downloadUrl) => { // you can use refs if you like
-            if (error) {
-                // Log service detailed response
-                console.error('Error uploading', uploader.xhr.response);
-                alert (error); // you may want to fancy this up when you're ready instead of a popup.
-            }
-            else {
-                // we use $set because the user can change their avatar so it overwrites the url :)
-                Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
-                console.log(downloadUrl);
-                this.setState({imageUrl: downloadUrl});
-                this.resetImageUpload();
-            }
+              if(this.state.target && this.uploadImageName != this.state.target.name) {
+                  this.uploadImageName = this.state.target.name;
 
-        });
+                  let uploader = new Slingshot.Upload('imageUploader', metaContext);
+                  uploader.send(this.state.target, (error, downloadUrl) => { // you can use refs if you like
+                      if (error) {
+                          // Log service detailed response
+                          console.error('Error uploading', uploader.xhr.response);
+                          alert(error); // you may want to fancy this up when you're ready instead of a popup.
+                      }
+                      else {
+                          // we use $set because the user can change their avatar so it overwrites the url :)
+                          Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                          console.log(downloadUrl);
+                          this.setState({imageUrl: downloadUrl});
+                      }
+                      this.resetImageUpload();
+                  });
+              }
     }
 
     updateAccountSettings (event) {
@@ -313,7 +433,7 @@ class SettingsPage extends Component {
         let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
             let uploadedImage = <div className='image-group'>
                 <div className="fileUpload btn btn-primary">
-                    <span>Edit Image</span>
+                    <span> <FormattedMessage {...il8n.EDIT_IMAGE_BUTTON} /> </span>
                     <input type="file"
                            id="input"
                            className="upload"
@@ -331,16 +451,16 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}>edit Personal Information</h3>
+                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_PERSONAL_INFO} /> </h3>
                         {uploadedImage}
-                        <Input type='text' label='Name'
+                        <Input type='text' label={<FormattedMessage {...il8n.USER_NAME} />}
                                name='name'
                                maxLength={ 25 }
                                value={this.state.name}
                                onChange={this.onChange.bind(this)}
                                required
                             />
-                        <Input type='text' label='Contact Number'
+                        <Input type='text' label={<FormattedMessage {...il8n.USER_CONTACT_NUMBER} />}
                                name='number'
                                maxLength={ 50 }
                                value={this.state.number}
@@ -348,14 +468,14 @@ class SettingsPage extends Component {
                             />
                         {Meteor.user().username ?
 
-                            (<span><Input type='text' label='Username'
+                            (<span><Input type='text' label={<FormattedMessage {...il8n.USER_USER_NAME} />}
                                name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                                required
                             />
 
-                        <Input type='email' label='Email'
+                        <Input type='email' label={<FormattedMessage {...il8n.USER_EMAIL} />}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
@@ -364,13 +484,13 @@ class SettingsPage extends Component {
                             )
                             :
 
-                        (<span><Input type='text' label='Username'
+                        (<span><Input type='text' label={<FormattedMessage {...il8n.USER_USER_NAME} />}
                                name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='email' label='Email'
+                        <Input type='email' label={<FormattedMessage {...il8n.USER_EMAIL} />}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
@@ -379,13 +499,13 @@ class SettingsPage extends Component {
                                 </span>
                         )
                         }
-                        <Input type='text' label='Address'
+                        <Input type='text' label={<FormattedMessage {...il8n.USER_ADDRESS} />}
                                name='address'
                                value={this.state.address}
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label='UPDATE' raised primary />
+                            <Button type='submit' label={<FormattedMessage {...il8n.UPDATE_BUTTON} />} raised primary />
                         </div>
 
                     </form>
@@ -395,14 +515,14 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.updateAccountSettings.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}>edit Account Settings</h3>
+                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_ACCOUNT_SETTINGS} /> </h3>
                         <section>
                             <Dropdown
                                 auto={false}
                                 source={currencyIcon}
                                 name='userCurrency'
                                 onChange={this.onChange.bind(this)}
-                                label='Select your currency'
+                                label={<FormattedMessage {...il8n.SELECT_CURRENCY} />}
                                 value={this.state.userCurrency}
                                 template={this.currencyItem}
                                 required
@@ -411,13 +531,13 @@ class SettingsPage extends Component {
 
                         <Dropdown
                             source={this.languages}
-                            label='Select Language'
+                            label={<FormattedMessage {...il8n.SELECT_LANGUAGE} />}
                             onChange={this.handleLanguageChange.bind(this)}
                             value={this.state.languageSelected}
                             />
 
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label='UPDATE' raised primary />
+                            <Button type='submit' label={<FormattedMessage {...il8n.UPDATE_BUTTON} />} raised primary />
                         </div>
                     </form>
                 );
@@ -426,28 +546,28 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.changePassword.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}>change password</h3>
+                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.CHANGE_USER_PASSWORD} /> </h3>
 
-                        <Input type='password' label='Enter Your Current Password'
+                        <Input type='password' label={<FormattedMessage {...il8n.CURRENT_PASSWORD} />}
                                name='oldPassword'
                                value={this.state.oldPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='password' label='Enter Your New Password'
+                        <Input type='password' label={<FormattedMessage {...il8n.NEW_PASSWORD} />}
                                name='newPassword'
                                value={this.state.newPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='password' label='Repeat Your New Password'
+                        <Input type='password' label={<FormattedMessage {...il8n.REPEAT_NEW_PASSWORD} />}
                                name='alterPassword'
                                value={this.state.alterPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                             <div className={theme.saveBtn}>
-                                <Button type='submit' label='SAVE' raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
+                                <Button type='submit' label={<FormattedMessage {...il8n.SAVE_BUTTON} />} raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
                             </div>
                     </form>
                 );
@@ -469,14 +589,14 @@ class SettingsPage extends Component {
         return (
             <div className={theme.dialogSetting}>
                 <div className={theme.confirmText}>
-                    <h3>remove account</h3>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your account?</p>
+                    <h3><FormattedMessage {...il8n.REMOVE_ACCOUNT} /></h3>
+                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
+                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} /> } raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )
@@ -489,7 +609,7 @@ class SettingsPage extends Component {
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
-                            <h3>Settings</h3>
+                            <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
                             <Snackbar
                                 action='Dismiss'
                                 active={this.state.active}
@@ -503,28 +623,28 @@ class SettingsPage extends Component {
                         </div>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>personal information</h5>
+                                <h5><FormattedMessage {...il8n.PERSONAL_INFORMATION} /></h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>name: <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
-                                <h6>Contact Number: <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
-                                <h6>Username:<span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
-                                <h6>Email: <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
-                                <h6>Address: <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.NAME} />  <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.CONTACT_NUMBER} />  <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.USER} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
+                                <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
+                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
                                 </div>
                             </div>
                         </Card>
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>account settings</h5>
+                                <h5> <FormattedMessage {...il8n.ACCOUNT_SETTINGS} /> </h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>currency: <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
-                                <h6>language: <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
+                                <h6><FormattedMessage {...il8n.CURRENCY} /> <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
+                                <h6><FormattedMessage {...il8n.LANGUAGE} /> <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
                                 <h6>
-                                    email notification:
+                                    <FormattedMessage {...il8n.EMAIL_NOTIFICATION} />
                                     <span>
                                         <Checkbox theme={checkboxTheme}
                                             checked={this.state.check1}
@@ -539,26 +659,26 @@ class SettingsPage extends Component {
                                     </span>
                                 </h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
+                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
                                 </div>
                             </div>
                         </Card>
 
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
-                                <h5>Change Password</h5>
+                                <h5> <FormattedMessage {...il8n.CHANGE_PASSWORD} /> </h5>
                             </div>
                             <div className={theme.cardContent}>
-                                <h6>Password: <span>*********</span></h6>
+                                <h6> <FormattedMessage {...il8n.PASSWORD} />  <span>*********</span></h6>
                                 <div className={theme.editBtn}>
-                                    <Button label='EDIT INFO' raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
+                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
                                 </div>
                             </div>
                         </Card>
 
                         <div className={theme.buttonSite}>
                             <Button
-                                label='REMOVE ACCOUNT'
+                                label={<FormattedMessage {...il8n.REMOVE_ACCOUNT_BUTTON} />}
                                 onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
                                 raised

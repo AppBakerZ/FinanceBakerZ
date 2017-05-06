@@ -16,7 +16,38 @@ import buttonTheme from './buttonTheme';
 import tableTheme from './tableTheme';
 import dialogButtonTheme from './dialogButtonTheme';
 import dialogTheme from './dialogTheme';
+import {FormattedMessage, defineMessages} from 'react-intl';
 
+
+const il8n = defineMessages({
+    ADD_CATEGORIES: {
+        id: 'CATEGORIES.ADD_CATEGORY_TO_SHOW'
+    },
+    NO_CATEGORIES_ADDED: {
+        id: 'CATEGORIES.NO_CATEGORIES_ADDED'
+    },
+    SHOW_CATEGORIES: {
+        id: 'CATEGORIES.SHOW_CATEGORIES'
+    },
+    ADD_CATEGORY_BUTTON: {
+        id: 'CATEGORIES.ADD_CATEGORY_BUTTON'
+    },
+    REMOVE_CATEGORIES: {
+        id: 'CATEGORIES.REMOVE_CATEGORIES'
+    },
+    INFORM_MESSAGE: {
+        id: 'CATEGORIES.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'CATEGORIES.CONFIRMATION_MESSAGE'
+    },
+    BACK_BUTTON: {
+        id: 'CATEGORIES.BACK_BUTTON'
+    },
+    REMOVE_BUTTON: {
+        id: 'CATEGORIES.REMOVE_BUTTON'
+    }
+});
 
 
 class CategoriesPage extends Component {
@@ -83,14 +114,13 @@ class CategoriesPage extends Component {
         return (
             <div className={theme.dialogContent}>
                 <div>
-                    <h3>remove category</h3>
-                    <p>This will remove your all data</p>
-                    <p>Are you sure to remove your category?</p>
+                    <h3> <FormattedMessage {...il8n.REMOVE_CATEGORIES} /> </h3>
+                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
+                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
                 </div>
-
                 <div className={theme.buttonBox}>
-                    <Button label='GO BACK' raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label='YES, REMOVE' raised onClick={!isRemoveSubcategory ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
+                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={!isRemoveSubcategory ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
                 </div>
             </div>
         )
@@ -176,22 +206,22 @@ class CategoriesPage extends Component {
 
         const addCategory =
             <div className={theme.categoryNothing}>
-                <span className={theme.errorShow}>you do not have any categories</span>
+                <span className={theme.errorShow}>  <FormattedMessage {...il8n.NO_CATEGORIES_ADDED} /> </span>
                 <div className={theme.addCategoryBtn}>
                     <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
                 </div>
-                <span className={theme.errorShow}>add some to show</span>
+                <span className={theme.errorShow}> <FormattedMessage {...il8n.ADD_CATEGORIES} /> </span>
             </div>;
 
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
                 <div className={theme.categoriesContent}>
                     <div className={theme.categoriesTitle}>
-                        <h3>Categories</h3>
+                        <h3> <FormattedMessage {...il8n.SHOW_CATEGORIES} /> </h3>
                         <Button
                             className={theme.button}
                             icon='add'
-                            label='CATEGORIES'
+                            label={<FormattedMessage {...il8n.ADD_CATEGORY_BUTTON} />}
                             flat
                             onClick={this.openPopup.bind(this, 'add')}
                             theme={buttonTheme}/>
