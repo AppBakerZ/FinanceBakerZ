@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-toolbox';
 import theme from './theme';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -64,9 +64,9 @@ export default class ProjectDetail extends Component {
                 <h4>{project.name}</h4>
                 <div className={theme.contentTwo}>
                     <div> <p> <FormattedMessage {...il8n.CLIENT_NAME} /> </p> <p>{project.client.name}</p></div>
-                    <div> <p> <FormattedMessage {...il8n.AMOUNT_AGREED} /></p> <p>{project.amount}</p></div>
-                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid == null ? 'Loading ...' : this.state.amountPaid} </p></div>
-                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{ this.state.amountPaid == null ? 'Loading ...' : project.amount - this.state.amountPaid } </p></div>
+                    <div> <p> <FormattedMessage {...il8n.AMOUNT_AGREED} /></p> <p>{<FormattedNumber value={project.amount}/>}</p></div>
+                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid == null ? 'Loading ...' : <FormattedNumber value={this.state.amountPaid}/>} </p></div>
+                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{ this.state.amountPaid == null ? 'Loading ...' : <FormattedNumber value={project.amount - this.state.amountPaid}/> } </p></div>
                     <div> <p> <FormattedMessage {...il8n.PROJECT_STATUS} /> </p> <p>{project.status}</p></div>
                 </div>
 
