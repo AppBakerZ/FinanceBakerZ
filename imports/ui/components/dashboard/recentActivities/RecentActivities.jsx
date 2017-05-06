@@ -24,11 +24,17 @@ const il8n = defineMessages({
     RECENT_EXPENSES: {
         id: 'DASHBOARD.RECENT_EXPENSES'
     },
-    ADD_EXPENSE: {
-        id: 'DASHBOARD.ADD_EXPENSE'
+    ADD_SOME_EXPENSES: {
+        id: 'DASHBOARD.ADD_SOME_EXPENSES'
     },
-    ADD_INCOME: {
-        id: 'DASHBOARD.ADD_INCOME'
+    ADD_SOME_INCOMES: {
+        id: 'DASHBOARD.ADD_SOME_INCOMES'
+    },
+    VIEW_ALL_INCOMES: {
+        id: 'DASHBOARD.VIEW_ALL_INCOMES'
+    },
+    VIEW_ALL_EXPENSES: {
+        id: 'DASHBOARD.VIEW_ALL_EXPENSES'
     }
 });
 
@@ -76,7 +82,7 @@ class RecentActivities extends Component {
             <div className={theme.errorShowIncomes}>
                 <Link to={ `/app/transactions/incomes/new`}>
                 <Button type='button' icon='add' raised primary  />
-                <p>add something to show</p> </Link>
+                <p> <FormattedMessage {...il8n.ADD_SOME_INCOMES} /> </p> </Link>
             </div>;
         return this.props.incomesExists ? table : add
     }
@@ -89,7 +95,7 @@ class RecentActivities extends Component {
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/incomes`}> View All </Link>
+                    <Link to={`/app/transactions/incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
                 </div>
             </div>
         )
@@ -115,7 +121,7 @@ class RecentActivities extends Component {
             <div className={theme.errorShowExpenses}>
                 <Link to={`/app/transactions/expenses/new`}>
                 <Button type='button' icon='add' raised accent />
-                <p>add something to show</p> </Link>
+                <p> <FormattedMessage {...il8n.ADD_SOME_EXPENSES} /> </p> </Link>
             </div>;
         return this.props.expensesExists ? table : add
     }
@@ -127,7 +133,7 @@ class RecentActivities extends Component {
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/expenses`}> View All </Link>
+                    <Link to={`/app/transactions/expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
                 </div>
             </div>
         )

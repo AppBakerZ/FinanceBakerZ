@@ -206,11 +206,11 @@ class CategoriesPage extends Component {
 
         const addCategory =
             <div className={theme.categoryNothing}>
-                <span className={theme.errorShow}> <FormattedMessage {...il8n.ADD_CATEGORIES} /> </span>
+                <span className={theme.errorShow}>  <FormattedMessage {...il8n.NO_CATEGORIES_ADDED} /> </span>
                 <div className={theme.addCategoryBtn}>
                     <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
                 </div>
-                <span className={theme.errorShow}> <FormattedMessage {...il8n.NO_CATEGORIES_ADDED} /> </span>
+                <span className={theme.errorShow}> <FormattedMessage {...il8n.ADD_CATEGORIES} /> </span>
             </div>;
 
         return (

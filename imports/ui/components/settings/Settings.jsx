@@ -63,7 +63,7 @@ const il8n = defineMessages({
     CONTACT_NUMBER:{
         id: 'SETTINGS.CONTACT_NUMBER'
     },
-    USER_NAME:{
+    USER:{
         id: 'SETTINGS.USER_NAME'
     },
     EMAIL:{
@@ -89,6 +89,45 @@ const il8n = defineMessages({
     },
     PASSWORD:{
         id: 'SETTINGS.PASSWORD'
+    },
+    USER_NAME:{
+        id: 'SETTINGS.USERNAME'
+    },
+    USER_CONTACT_NUMBER:{
+        id: 'SETTINGS.USER_CONTACT_NUMBER'
+    },
+    USER_USER_NAME:{
+        id: 'SETTINGS.USER_USER_NAME'
+    },
+    USER_EMAIL:{
+        id: 'SETTINGS.USER_EMAIL'
+    },
+    USER_ADDRESS:{
+        id: 'SETTINGS.USER_ADDRESS'
+    },
+    EDIT_PERSONAL_INFO:{
+        id: 'SETTINGS.EDIT_PERSONAL_INFO'
+    },
+    EDIT_ACCOUNT_SETTINGS:{
+        id: 'SETTINGS.EDIT_ACCOUNT_SETTINGS'
+    },
+    CHANGE_USER_PASSWORD:{
+        id: 'SETTINGS.CHANGE_USER_PASSWORD'
+    },
+    CURRENT_PASSWORD:{
+        id: 'SETTINGS.CURRENT_PASSWORD'
+    },
+    NEW_PASSWORD:{
+        id: 'SETTINGS.NEW_PASSWORD'
+    },
+    REPEAT_NEW_PASSWORD:{
+        id: 'SETTINGS.REPEAT_NEW_PASSWORD'
+    },
+    SAVE_BUTTON:{
+        id: 'SETTINGS.SAVE_BUTTON'
+    },
+    EDIT_IMAGE_BUTTON:{
+        id: 'SETTINGS.EDIT_IMAGE_BUTTON'
     }
 });
 
@@ -394,7 +433,7 @@ class SettingsPage extends Component {
         let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
             let uploadedImage = <div className='image-group'>
                 <div className="fileUpload btn btn-primary">
-                    <span>Edit Image</span>
+                    <span> <FormattedMessage {...il8n.EDIT_IMAGE_BUTTON} /> </span>
                     <input type="file"
                            id="input"
                            className="upload"
@@ -412,16 +451,16 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}>edit Personal Information</h3>
+                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_PERSONAL_INFO} /> </h3>
                         {uploadedImage}
-                        <Input type='text' label='Name'
+                        <Input type='text' label={<FormattedMessage {...il8n.USER_NAME} />}
                                name='name'
                                maxLength={ 25 }
                                value={this.state.name}
                                onChange={this.onChange.bind(this)}
                                required
                             />
-                        <Input type='text' label='Contact Number'
+                        <Input type='text' label={<FormattedMessage {...il8n.USER_CONTACT_NUMBER} />}
                                name='number'
                                maxLength={ 50 }
                                value={this.state.number}
@@ -429,14 +468,14 @@ class SettingsPage extends Component {
                             />
                         {Meteor.user().username ?
 
-                            (<span><Input type='text' label='Username'
+                            (<span><Input type='text' label={<FormattedMessage {...il8n.USER_USER_NAME} />}
                                name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                                required
                             />
 
-                        <Input type='email' label='Email'
+                        <Input type='email' label={<FormattedMessage {...il8n.USER_EMAIL} />}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
@@ -445,13 +484,13 @@ class SettingsPage extends Component {
                             )
                             :
 
-                        (<span><Input type='text' label='Username'
+                        (<span><Input type='text' label={<FormattedMessage {...il8n.USER_USER_NAME} />}
                                name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='email' label='Email'
+                        <Input type='email' label={<FormattedMessage {...il8n.USER_EMAIL} />}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
@@ -460,7 +499,7 @@ class SettingsPage extends Component {
                                 </span>
                         )
                         }
-                        <Input type='text' label='Address'
+                        <Input type='text' label={<FormattedMessage {...il8n.USER_ADDRESS} />}
                                name='address'
                                value={this.state.address}
                                onChange={this.onChange.bind(this)}
@@ -476,7 +515,7 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.updateAccountSettings.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}>edit Account Settings</h3>
+                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_ACCOUNT_SETTINGS} /> </h3>
                         <section>
                             <Dropdown
                                 auto={false}
@@ -498,7 +537,7 @@ class SettingsPage extends Component {
                             />
 
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label='UPDATE' raised primary />
+                            <Button type='submit' label={<FormattedMessage {...il8n.UPDATE_BUTTON} />} raised primary />
                         </div>
                     </form>
                 );
@@ -507,28 +546,28 @@ class SettingsPage extends Component {
                 return (
                     <form onSubmit={this.changePassword.bind(this)} className={theme.addAccount}>
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}>change password</h3>
+                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.CHANGE_USER_PASSWORD} /> </h3>
 
-                        <Input type='password' label='Enter Your Current Password'
+                        <Input type='password' label={<FormattedMessage {...il8n.CURRENT_PASSWORD} />}
                                name='oldPassword'
                                value={this.state.oldPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='password' label='Enter Your New Password'
+                        <Input type='password' label={<FormattedMessage {...il8n.NEW_PASSWORD} />}
                                name='newPassword'
                                value={this.state.newPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='password' label='Repeat Your New Password'
+                        <Input type='password' label={<FormattedMessage {...il8n.REPEAT_NEW_PASSWORD} />}
                                name='alterPassword'
                                value={this.state.alterPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                             <div className={theme.saveBtn}>
-                                <Button type='submit' label='SAVE' raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
+                                <Button type='submit' label={<FormattedMessage {...il8n.SAVE_BUTTON} />} raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
                             </div>
                     </form>
                 );
@@ -589,7 +628,7 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6> <FormattedMessage {...il8n.NAME} />  <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.CONTACT_NUMBER} />  <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
-                                <h6> <FormattedMessage {...il8n.USER_NAME} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
+                                <h6> <FormattedMessage {...il8n.USER} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
                                 <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>

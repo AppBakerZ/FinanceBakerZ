@@ -54,6 +54,15 @@ const il8n = defineMessages({
     },
     ADD_NEW_PROJECTS: {
         id: 'PROJECTS.ADD_NEW_PROJECTS'
+    },
+    FILTER_BY_PROJECT_NAME: {
+        id: 'PROJECTS.FILTER_BY_PROJECT_NAME'
+    },
+    FILTER_BY_CLIENT_NAME: {
+        id: 'PROJECTS.FILTER_BY_CLIENT_NAME'
+    },
+    FILTER_BY_STATUS: {
+        id: 'PROJECTS.FILTER_BY_STATUS'
     }
 });
 
@@ -266,7 +275,7 @@ class ProjectPage extends Component {
                     <div>
                         <div className={theme.inputField}>
                             <Input type='text'
-                                   label="Filter by Project Name"
+                                   label={<FormattedMessage {...il8n.FILTER_BY_PROJECT_NAME} />}
                                    name='name'
                                    value={this.state.filter.name}
                                    onChange={this.onChangeFilter.bind(this)}
@@ -274,7 +283,7 @@ class ProjectPage extends Component {
                         </div>
                         <div className={theme.inputField}>
                             <Input type='text'
-                                   label="Filter by Client Name"
+                                   label={<FormattedMessage {...il8n.FILTER_BY_CLIENT_NAME} />}
                                    name='client.name'
                                    value={this.state.filter.client.name}
                                    onChange={this.onChangeFilter.bind(this)}
@@ -286,7 +295,7 @@ class ProjectPage extends Component {
                                 source={this.statuses}
                                 name='status'
                                 onChange={this.onChangeFilter.bind(this)}
-                                label='Filter By Status'
+                                label={<FormattedMessage {...il8n.FILTER_BY_STATUS} />}
                                 value={this.state.filter.status}
                                 />
                             {(this.state.filter.status) && <IconButton className="close" icon='clear' onClick={this.resetStatusFilter.bind(this)} />}
