@@ -8,6 +8,27 @@ import { Accounts } from 'meteor/accounts-base'
 import theme from './theme';
 
 import { Meteor } from 'meteor/meteor'
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    USERNAME: {
+        id: 'REGISTER.FULLNAME'
+    },
+    USERNAMEOREMAIL: {
+        id: 'REGISTER.USERNAMEOREMAIL'
+    },
+    PASSWORD: {
+        id: 'REGISTER.PASSWORD'
+    },
+    LOGIN_BUTTON: {
+        id: 'REGISTER.LOGIN_BUTTON'
+    },
+    REGISTER_BUTTON: {
+        id: 'REGISTER.REGISTER_BUTTON'
+    }
+});
+
 
 // App component - represents the whole app
 export default class Register extends Component {
@@ -84,21 +105,21 @@ export default class Register extends Component {
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo With Text" />
                 </div>
-                <Input type='text' label='Full Name'
+                <Input type='text' label={<FormattedMessage {...il8n.USERNAME} />}
                        name='fullName'
                        maxLength={ 30 }
                        value={this.state.fullName}
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='text' label='Username or Email'
+                <Input type='text' label={<FormattedMessage {...il8n.USERNAMEOREMAIL} />}
                        name='usernameOrEmail'
                        maxLength={ 30 }
                        value={this.state.usernameOrEmail}
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='password' label='Password'
+                <Input type='password' label={<FormattedMessage {...il8n.PASSWORD} />}
                        name='password'
                        maxLength={ 20 }
                        value={this.state.password}
@@ -107,10 +128,10 @@ export default class Register extends Component {
                     />
                 <div className={theme.buttonParents}>
                     <div className={theme.buttonGroup}>
-                        <Button type='submit' disabled={this.props.loading} icon='person_add' label='Register' raised primary />
+                        <Button type='submit' disabled={this.props.loading} icon='person_add' label={<FormattedMessage {...il8n.REGISTER_BUTTON} />} raised primary />
                     </div>
                     <div className={theme.buttonGroup}>
-                        <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='lock_open' label='Login' raised accent />
+                        <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='lock_open' label={<FormattedMessage {...il8n.LOGIN_BUTTON} />} raised accent />
                     </div>
                 </div>
 
