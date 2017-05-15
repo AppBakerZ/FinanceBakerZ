@@ -140,8 +140,8 @@ class SettingsPage extends Component {
         super(props);
           let userInfo = Meteor.user();
         this.state = {
-            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.value : '',
-            languageSelected: userInfo.profile.language || '',
+            userCurrency: userInfo.profile.currency.value ||  'currency-Pakistani-Rupee',
+            languageSelected: userInfo.profile.language || 'en',
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
             name: userInfo.profile.fullName,
@@ -151,7 +151,8 @@ class SettingsPage extends Component {
             username: userInfo.username || '',
             email: userInfo.emails ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || '',
-            imageUrl: ''
+            imageUrl: '',
+            currencyObj: {label: "Pakistani Rupee", value: "currency-Pakistani-Rupee"}
         };
 
         this.languages = [
