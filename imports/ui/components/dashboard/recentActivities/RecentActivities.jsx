@@ -35,6 +35,18 @@ const il8n = defineMessages({
     },
     VIEW_ALL_EXPENSES: {
         id: 'DASHBOARD.VIEW_ALL_EXPENSES'
+    },
+    PROJECTS: {
+        id: 'DASHBOARD.PROJECTS'
+    },
+    AMOUNT: {
+        id: 'DASHBOARD.AMOUNT'
+    },
+    EXPENSE_CATEGORY: {
+        id: 'DASHBOARD.EXPENSE_CATEGORY'
+    },
+    EXPENSE_AMOUNT: {
+        id: 'DASHBOARD.EXPENSE_AMOUNT'
     }
 });
 
@@ -64,8 +76,8 @@ class RecentActivities extends Component {
     getIncomesOrAdd(){
         const model = {
             icon: {type: String},
-            projects: {type: String},
-            amount: {type: String},
+            projects: {type: String, title: <FormattedMessage {...il8n.PROJECTS} />},
+            amount: {type: Number, title: <FormattedMessage {...il8n.AMOUNT} />},
             iconLast: {type: String}
         };
         let incomes = this.props.incomes.map(function(i){
@@ -103,8 +115,8 @@ class RecentActivities extends Component {
     getExpensesOrAdd(){
         const model = {
             icon: {type: String},
-            category: {type: String},
-            amount: {type: String},
+            category: {type: String, title: <FormattedMessage {...il8n.EXPENSE_CATEGORY} />},
+            amount: {type: String, title: <FormattedMessage {...il8n.EXPENSE_AMOUNT} />},
             iconLeft: {type: String}
         };
         const expenses = this.props.expenses.map(function(i){
