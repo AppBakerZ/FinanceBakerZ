@@ -156,12 +156,7 @@ class SettingsPage extends Component {
 
         this.languages = [
             { value: 'en', label: 'English' },
-            { value: 'ur', label: 'Urdu' },
-            { value: 'ar', label: 'Arabic'},
-            { value: 'ch', label: 'Chinese'},
-            { value: 'fr', label: 'French'},
-            { value: 'hi', label: 'Hindi'},
-            { value: 'sp', label: 'Spanish'}
+            { value: 'ur', label: 'Urdu' }
         ]
     }
     handleChange (field, value) {
