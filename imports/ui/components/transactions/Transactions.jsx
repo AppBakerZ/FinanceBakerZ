@@ -115,6 +115,15 @@ const il8n = defineMessages({
     },
     EXPENSE_BUTTON: {
         id: 'TRANSACTIONS.EXPENSE_BUTTON'
+    },
+    TRANSACTION_DATE: {
+        id: 'TRANSACTIONS.TRANSACTION_DATE'
+    },
+    TRANSACTION_CATEGORY: {
+        id: 'TRANSACTIONS.TRANSACTION_CATEGORY'
+    },
+    AMOUNT_OF_TRANSACTION: {
+        id: 'TRANSACTIONS.AMOUNT_OF_TRANSACTION'
     }
 });
 
@@ -587,9 +596,9 @@ class TransactionPage extends Component {
         });
         let tableModel = {
             leftIcon: {type: String},
-            date: {type: Date},
-            category:{type: String},
-            amount: {type: String},
+            date: {type: Date, title: <FormattedMessage {...il8n.TRANSACTION_DATE} />},
+            category: {type: Date, title: <FormattedMessage {...il8n.TRANSACTION_CATEGORY} />},
+            amount: {type: Date, title: <FormattedMessage {...il8n.AMOUNT_OF_TRANSACTION} />},
             rightIcon: {type: String}
         };
             const table =

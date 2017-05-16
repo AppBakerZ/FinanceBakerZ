@@ -63,10 +63,23 @@ const il8n = defineMessages({
     },
     FILTER_BY_STATUS: {
         id: 'PROJECTS.FILTER_BY_STATUS'
+    },
+    DATE: {
+        id: 'PROJECTS.DATE'
+    },
+    PROJECT: {
+        id: 'PROJECTS.PROJECT'
+    },
+    CLIENT: {
+        id: 'PROJECTS.CLIENT'
+    },
+    AMOUNT: {
+        id: 'PROJECTS.AMOUNT'
+    },
+    STATUS: {
+        id: 'PROJECTS.STATUS_OF_PROJECT'
     }
 });
-
-
 
 
 
@@ -239,11 +252,11 @@ class ProjectPage extends Component {
 
 
         let projectModel = {
-            startAt: {type: Date, title: 'Date'},
-            name: {type: String, title: 'Project'},
-            clientName: {type: String, title: 'Client'},
-            amount: {type: Number, title: 'Amount'},
-            status: {type: String, title: 'Status'}
+            startAt: {type: Date, title: <FormattedMessage {...il8n.DATE} />},
+            name: {type: String, title: <FormattedMessage {...il8n.PROJECT} />},
+            clientName: {type: String, title: <FormattedMessage {...il8n.CLIENT} />},
+            amount: {type: Number, title: <FormattedMessage {...il8n.AMOUNT} />},
+            status: {type: String, title: <FormattedMessage {...il8n.STATUS} />}
         };
        const table = <Table className={theme.table} theme={tableTheme}
                             heading={true}

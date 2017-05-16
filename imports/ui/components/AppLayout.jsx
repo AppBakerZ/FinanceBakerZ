@@ -8,8 +8,16 @@ import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import { Meteor } from 'meteor/meteor'
+import {FormattedMessage, defineMessages} from 'react-intl';
 
 import theme from './theme';
+
+
+const il8n = defineMessages({
+    WELCOME: {
+        id: 'APPLAYOUT.WELCOME_TITLE'
+    }
+    });
 
 // App component - represents the whole app
 class AppLayout extends Component {
@@ -69,7 +77,7 @@ class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
+                            <span> <FormattedMessage {...il8n.WELCOME} />  <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
                     <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>

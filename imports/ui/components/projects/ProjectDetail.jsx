@@ -6,7 +6,7 @@ import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
 
 const il8n = defineMessages({
     CLIENT_NAME: {
-        id: 'PROJECTS.CLIENT'
+        id: 'PROJECTS.CLIENT_NAME'
     },
     AMOUNT_AGREED: {
         id: 'PROJECTS.AMOUNT_AGREED'
