@@ -169,7 +169,7 @@
     "TRANSACTIONS.TRANSACTION_DATE": "Date",
     "TRANSACTIONS.TRANSACTION_CATEGORY": "Category",
     "TRANSACTIONS.AMOUNT_OF_TRANSACTION": "Amount",
-    "FOOTER.MESSAGE": "A Product Of AppBakerz"
+    "FOOTER.MESSAGE": "A Product Of AppBakerz",
     "FORGOTPASSWORD.EMAIL": "Enter your email",
     "FORGOTPASSWORD.SUBMIT_BUTTON": "submit",
     "FORGOTPASSWORD.BACK_BUTTON": "back",
@@ -185,7 +185,7 @@
     "REGISTER.USERNAMEOREMAIL": "Username or Email",
     "REGISTER.PASSWORD": "Password",
     "REGISTER.LOGIN_BUTTON": "Login",
-    "REGISTER.REGISTER_BUTTON": "Register"
+    "REGISTER.REGISTER_BUTTON": "Register",
     "APPLAYOUT.WELCOME_TITLE": "Welcome",
     "LEFTMENU.DASHBOARD": "Dashboard",
     "LEFTMENU.PROJECTS": "Projects",
