@@ -158,6 +158,23 @@
     "TRANSACTIONS.SELECT_TYPE": "Select type",
     "TRANSACTIONS.SELECT_PROJECT": "Select project",
     "FOOTER.MESSAGE": "A Product Of AppBakerz"
+    "FORGOTPASSWORD.EMAIL": "Enter your email",
+    "FORGOTPASSWORD.SUBMIT_BUTTON": "submit",
+    "FORGOTPASSWORD.BACK_BUTTON": "back",
+    "FORGOTPASSWORD.ENTER_PASSWORD": "Enter New Password",
+    "FORGOTPASSWORD.RE_ENTER_PASSWORD": "Re-Enter New Password",
+    "FORGOTPASSWORD.SAVE_BUTTON": "Save",
+    "LOGIN.USERNAMEOREMAIL": "Username or Email",
+    "LOGIN.PASSWORD": "Password",
+    "LOGIN.LOGIN_BUTTON": "Login",
+    "LOGIN.REGISTER_BUTTON": "Register",
+    "LOGIN.FORGOT_PASSWORD": "forgot password?",
+    "REGISTER.FULLNAME": "Full Name",
+    "REGISTER.USERNAMEOREMAIL": "Username or Email",
+    "REGISTER.PASSWORD": "Password",
+    "REGISTER.LOGIN_BUTTON": "Login",
+    "REGISTER.REGISTER_BUTTON": "Register"
+
 },
 
   "ur": {
@@ -319,7 +336,22 @@
     "TRANSACTIONS.SELECT_TYPE": "قسم منتخب کریں",
     "TRANSACTIONS.SELECT_PROJECT": "منتخب منصوبہ",
     "FOOTER.MESSAGE": "appbakerz کی مصنوعات"
-
+    "FORGOTPASSWORD.EMAIL": "آپ کا ای میل درج کریں",
+    "FORGOTPASSWORD.SUBMIT_BUTTON": "جمع",
+    "FORGOTPASSWORD.BACK_BUTTON": "پیچھے",
+    "FORGOTPASSWORD.ENTER_PASSWORD": "نیا پاس ورڈ درج کریں",
+    "FORGOTPASSWORD.RE_ENTER_PASSWORD": "نیا پاس ورڈ دوبارہ درج کریں",
+    "FORGOTPASSWORD.SAVE_BUTTON": "محفوظ کریں",
+    "LOGIN.USERNAMEOREMAIL": "اسم رکنیت یا ای میل",
+    "LOGIN.PASSWORD": "پاس ورڈ",
+    "LOGIN.LOGIN_BUTTON": "لاگ ان",
+    "LOGIN.REGISTER_BUTTON": "رجسٹر",
+    "LOGIN.FORGOT_PASSWORD": "پاسورڈ بھول گے؟",
+    "REGISTER.FULLNAME": "پورا نام",
+    "REGISTER.USERNAMEOREMAIL": "اسم رکنیت یا ای میل",
+    "REGISTER.PASSWORD": "پاس ورڈ",
+    "REGISTER.LOGIN_BUTTON": "لاگ ان",
+    "REGISTER.REGISTER_BUTTON": "رجسٹر"
   }
 
 }
