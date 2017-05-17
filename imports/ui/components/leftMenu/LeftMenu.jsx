@@ -68,7 +68,7 @@ export default class LeftMenu extends Component {
 
     render() {
         return (
-            <Drawer  theme={drawerTheme} active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
+            <Drawer type="right" theme={drawerTheme} active={this.state.drawerActive} onOverlayClick={ this.toggleDrawerActive.bind(this) }>
                 <List className={theme.list} selectable ripple>
                     <Link to={`/app/dashboard`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('dashboard')} caption= {<FormattedMessage {...il8n.DASHBOARD} />} leftIcon='dashboard' theme={listItemTheme}/>

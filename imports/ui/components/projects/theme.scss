@@ -212,3 +212,11 @@
   }
 }
 /////////////////////////// dialog styling end here /////////////////////////////////
+
+body[dir="rtl"] .inputDropdown {
+  margin-right: $unit * 3.5;
+}
+
+body[dir="rtl"] .pageTitle {
+  height: $unit * 8;
+}

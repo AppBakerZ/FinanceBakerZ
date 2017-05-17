@@ -287,3 +287,6 @@
 }
 
 /////////////////// dialog content styling end here //////////////////////////
+body[dir="rtl"] .pageTitle {
+  height: $unit * 8;
+}
