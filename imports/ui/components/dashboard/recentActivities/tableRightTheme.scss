@@ -101,3 +101,40 @@
 /////////////////////////////////////////////////
 //////// Extra Small Media Query End Here ///////
 /////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] th{
+  text-align: right !important;
+}
+body[dir="rtl"] th:last-child {
+  border-right: solid 0.2rem rgba(0, 0, 0, 0.12) !important;
+  border-left: 0 !important;
+}
+body[dir="rtl"] th:first-child {
+  border-right: 0 !important;
+  border-left: solid 0.2rem rgba(0, 0, 0, 0.12) !important;
+}
+body[dir="rtl"] th:nth-child(2){
+  text-align: right;
+}
+
+
+body[dir="rtl"] td{
+  text-align: right !important;
+}
+body[dir="rtl"] td:last-child {
+  border-right: solid 0.2rem rgba(0, 0, 0, 0.12) !important;
+  border-left: 0 !important;
+}
+body[dir="rtl"] td:first-child {
+  border-right: 0 !important;
+  border-left: solid 0.2rem rgba(0, 0, 0, 0.12) !important;
+}
+body[dir="rtl"] td:nth-child(2){
+  text-align: right;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

@@ -43,6 +43,7 @@
   > div{
     display: inline-block;
     width: 45%;
+    float: left;
     &:last-of-type{
       float: right;
     }
