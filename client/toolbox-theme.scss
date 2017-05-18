@@ -9,6 +9,8 @@ $color-danger: #c71111 !default;
 $color-text: #333333 !default;
 $color-text-light: lighten(saturate(adjust-hue($color-text, 0.0000), 0.0000), 20.0000);
 
+@import url(http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css);
+$rtl-font: 'Noto Nastaliq Urdu Draft', serif;
 $normal-font: 'Nexa Light Regular';
 $preferred-font: 'Nexa Bold Regular', 'Arial', sans-serif !default;
 
@@ -32,4 +34,8 @@ $preferred-font: 'Nexa Bold Regular', 'Arial', sans-serif !default;
 
 body {
   font-family: $normal-font;
+}
+
+body[dir='rtl'] {
+  font-family: $rtl-font;
 }
