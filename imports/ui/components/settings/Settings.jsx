@@ -17,8 +17,7 @@ import dialogTheme from './dialogTheme';
 import { Accounts } from 'meteor/accounts-base';
 
 import currencyIcon from '/imports/ui/currencyIcon.js';
-import {FormattedMessage, defineMessages} from 'react-intl';
-
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const il8n = defineMessages({
     TITLE: {
@@ -132,16 +131,14 @@ const il8n = defineMessages({
 });
 
 
-
-
 class SettingsPage extends Component {
 
     constructor(props) {
         super(props);
           let userInfo = Meteor.user();
         this.state = {
-            userCurrency: userInfo.profile.currency ? userInfo.profile.currency.value : '',
-            languageSelected: userInfo.profile.language || '',
+            currency: userInfo.profile.currency || '',
+            language: userInfo.profile.language || '',
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
             name: userInfo.profile.fullName,
@@ -155,8 +152,8 @@ class SettingsPage extends Component {
         };
 
         this.languages = [
-            { value: 'en', label: 'English' },
-            { value: 'ur', label: 'Urdu' }
+            { label: 'English', value: 'en', direction: 'ltr' },
+            { label: 'Urdu', value: 'ur', direction: 'rtl' }
         ]
     }
     handleChange (field, value) {
@@ -179,7 +176,7 @@ class SettingsPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        e.target.name == 'userCurrency' && this.setCurrency(val)
+        e.target.name == 'currency' && this.setCurrency(val)
     }
 
 
@@ -197,14 +194,10 @@ class SettingsPage extends Component {
 
     }
 
-
-
     setCurrency(currency){
         currencyItem = _.findWhere(currencyIcon, {value: currency});
-        this.setState({currencyObj:currencyItem});
+        this.setState({currency: currencyItem});
     }
-
-
 
     currencyItem (currency) {
         return (
@@ -217,25 +210,17 @@ class SettingsPage extends Component {
         );
     }
 
-    handleLanguageChange (value){
-        this.setState({languageSelected: value});
+    setLanguage (value){
+        const language = _.findWhere(this.languages, {value: value});
+        this.setState({language});
     }
 
-    renderCategory(){
+    languageItem (language) {
         return (
-            <section>
-                <Dropdown
-                    auto={false}
-                    source={this.currencies()}
-                    name='userCurrency'
-                    onChange={this.onChange.bind(this)}
-                    label={<FormattedMessage {...il8n.SELECT_CURRENCY} />}
-                    value={this.state.userCurrency}
-                    template={this.currencyItem}
-                    required
-                    />
-            </section>
-        )
+            <div>
+                <strong>{language.label}</strong>
+            </div>
+        );
     }
 
 
@@ -344,11 +329,12 @@ class SettingsPage extends Component {
               }
     }
 
-    updateAccountSettings (event) {
-        event.preventDefault();
-        const {currencyObj, languageSelected} = this.state;
-        let accountinfo = {settings: {currencyObj, languageSelected }};
-           Meteor.call('updateAccountSettings', accountinfo, (err) => {
+    updateAccountSettings (e) {
+        e.preventDefault();
+        const {currency, language} = this.state;
+           Meteor.call('settings.updateAccount', {
+               settings: {currency, language}
+           }, (err) => {
                if(err){
                    this.setState({
                        active: true,
@@ -416,6 +402,7 @@ class SettingsPage extends Component {
     }
 
     switchPopupTemplate(){
+        const { formatMessage } = this.props.intl;
         let gravatar, user = Meteor.user();
         if(user && user.profile.md5hash) {
             gravatar = Gravatar.imageUrl(user.profile.md5hash, {
@@ -515,10 +502,10 @@ class SettingsPage extends Component {
                             <Dropdown
                                 auto={false}
                                 source={currencyIcon}
-                                name='userCurrency'
+                                name='currency'
                                 onChange={this.onChange.bind(this)}
-                                label={<FormattedMessage {...il8n.SELECT_CURRENCY} />}
-                                value={this.state.userCurrency}
+                                label={formatMessage(il8n.SELECT_CURRENCY)}
+                                value={this.state.currency.value}
                                 template={this.currencyItem}
                                 required
                                 />
@@ -526,9 +513,10 @@ class SettingsPage extends Component {
 
                         <Dropdown
                             source={this.languages}
-                            label={<FormattedMessage {...il8n.SELECT_LANGUAGE} />}
-                            onChange={this.handleLanguageChange.bind(this)}
-                            value={this.state.languageSelected}
+                            label={formatMessage(il8n.SELECT_LANGUAGE)}
+                            onChange={this.setLanguage.bind(this)}
+                            value={this.state.language.value}
+                            template={this.languageItem}
                             />
 
                         <div className={theme.updateBtn}>
@@ -637,7 +625,7 @@ class SettingsPage extends Component {
                             </div>
                             <div className={theme.cardContent}>
                                 <h6><FormattedMessage {...il8n.CURRENCY} /> <span>{Meteor.user().profile.currency.label || 'Not Available'} </span></h6>
-                                <h6><FormattedMessage {...il8n.LANGUAGE} /> <span> {Meteor.user().profile.language || 'Not Available'}</span></h6>
+                                <h6><FormattedMessage {...il8n.LANGUAGE} /> <span> {Meteor.user().profile.language.label || 'Not Available'}</span></h6>
                                 <h6>
                                     <FormattedMessage {...il8n.EMAIL_NOTIFICATION} />
                                     <span>
@@ -688,13 +676,16 @@ class SettingsPage extends Component {
 }
 
 SettingsPage.propTypes = {
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    intl: intlShape.isRequired,
 };
 
-export default createContainer(() => {
+SettingsPage = createContainer(() => {
     Meteor.subscribe('categories');
 
     return {
         categories: Categories.find({}).fetch()
     };
 }, SettingsPage);
+
+export default injectIntl(SettingsPage);

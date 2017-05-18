@@ -61,21 +61,23 @@ class Il8n extends Component {
         let languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
         const messages = localeData[languageWithoutRegionCode] || localeData[language] || localeData.en;
 
-
         this.state = {
-            lang: languageWithoutRegionCode,
+            lang: { label: 'English', value: 'en', direction: 'ltr' },
             messages
         };
+    }
+    componentDidUpdate(){
+        $('body').attr('dir', this.getUserLang().direction)
     }
     getUserLang(){
         return this.props.user && this.props.user.profile && this.props.user.profile.language ||this.state.lang;
     }
     getMessages(){
-        return localeData[this.getUserLang()] || this.state.messages;
+        return localeData[this.getUserLang().value] || this.state.messages;
     }
     render() {
         return (
-            <IntlProvider locale={this.getUserLang()} messages={this.getMessages()} >
+            <IntlProvider locale={this.getUserLang().value} messages={this.getMessages()} >
                 <Router history={ browserHistory }>
                     <Route path="app" component={AppLayout} onEnter={requireAuth}>
                         <IndexRoute components={{ content: DashboardPage}} />
