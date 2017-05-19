@@ -282,7 +282,7 @@ class SettingsPage extends Component {
         event.preventDefault();
         const {name, number, email, address, username} = this.state;
         let info = {users: {name, number, email, address, username}};
-        Meteor.call('updateProfile', info, (err) => {
+        Meteor.call('settings.updateProfile', info, (err) => {
             if(err){
                 this.setState({
                     active: true,
