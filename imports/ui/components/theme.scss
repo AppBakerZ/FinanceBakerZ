@@ -19,6 +19,10 @@
     color: $color-primary;
     position: relative;
     top: -15px;
+    span{
+      top: 0;
+      margin: 0 0 0 10px;
+    }
     img{
       border-radius: 50%;
       position: relative;
@@ -55,9 +59,17 @@
 /////////////////////////////////////////////////
 //////////// rtl styling start here /////////////
 /////////////////////////////////////////////////
-body[dir="rtl"] .headerGreeting span {
-  right: 10px;
+body[dir="rtl"] .headerGreeting {
+  position: absolute;
+  left: $unit * 2;
 }
+body[dir="rtl"] .headerGreeting span i {
+  float: left;
+}
+//body[dir="rtl"] .headerGreeting span b {
+//  float: right;
+//  margin: 12px 0 0 10px;
+//}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
