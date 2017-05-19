@@ -67,8 +67,8 @@ export default class Register extends Component {
 
         this.props.progressBarUpdate(true);
         let currency = {label: "Pakistani Rupee", value: "currency-Pakistani-Rupee"},
-        language = 'en';
-        emailNotification = true;
+            language = { label: 'English', value: 'en', direction: 'ltr' };
+            emailNotification = true;
 
         Accounts.createUser({
             [key]: selector[key],
