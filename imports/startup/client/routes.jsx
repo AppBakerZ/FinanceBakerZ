@@ -67,10 +67,10 @@ class Il8n extends Component {
         };
     }
     componentDidUpdate(){
-        $('body').attr('dir', this.getUserLang().direction).attr('lang', this.getUserLang().value)
+        $('body').attr('dir', this.getUserLang().direction)
     }
     getUserLang(){
-        return this.props.user && this.props.user.profile && this.props.user.profile.language ||this.state.lang;
+        return this.props.user && this.props.user.profile && this.props.user.profile.language || this.state.lang;
     }
     getMessages(){
         return localeData[this.getUserLang().value] || this.state.messages;
