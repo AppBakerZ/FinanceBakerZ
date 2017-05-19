@@ -12,7 +12,7 @@ import dropdownTheme from './dropdownTheme';
 
 import bankFonts from '/imports/ui/bankFonts.js';
 import countries from '/imports/ui/countries.js';
-import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const il8n = defineMessages({
     ADD_ACCOUNTS_BUTTON: {
@@ -36,7 +36,7 @@ const il8n = defineMessages({
 });
 
 
-export default class Form extends Component {
+class Form extends Component {
 
     constructor(props) {
         super(props);
@@ -182,15 +182,17 @@ export default class Form extends Component {
         this.setState(this.props.account);
     }
     renderButton (){
+        const { formatMessage } = this.props.intl;
         let button;
         if(!this.props.account){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_ACCOUNTS_BUTTON} />} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_ACCOUNTS_BUTTON)} raised primary /></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_ACCOUNTS_BUTTON} />} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_ACCOUNTS_BUTTON)} raised primary /></div>
         }
         return button;
     }
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addAccount}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -212,7 +214,7 @@ export default class Form extends Component {
                     source={this.countries}
                     name='country'
                     onChange={this.onChange.bind(this)}
-                    label={<FormattedMessage {...il8n.SELECT_COUNTRY} />}
+                    label={formatMessage(il8n.SELECT_COUNTRY)}
                     value={this.state.country}
                     />
                 <Dropdown theme={dropdownTheme}
@@ -220,11 +222,11 @@ export default class Form extends Component {
                           name='bank'
                           onChange={this.onChange.bind(this)}
                           value={this.state.bank}
-                          label={<FormattedMessage {...il8n.SELECT_BANK} />}
+                          label={formatMessage(il8n.SELECT_BANK)}
                           template={this.bankIcons}
                           required
                     />
-                <Input type='text' label={<FormattedMessage {...il8n.SELECT_ACCOUNT_NUMBER} />}
+                <Input type='text' label={formatMessage(il8n.SELECT_ACCOUNT_NUMBER)}
                        name='number'
                        value={this.state.number}
                        onChange={this.onChange.bind(this)}
@@ -234,3 +236,9 @@ export default class Form extends Component {
         );
     }
 }
+
+Form.propTypes = {
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(Form);
