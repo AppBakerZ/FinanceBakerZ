@@ -72,8 +72,8 @@
           }
         }
         &:nth-child(2){
-          padding: 0 0 0 $unit * 3.2;
-          width: $unit * 100;
+          padding: 0 $unit * 3.2 0 $unit * 3.2;
+          width: $unit * 120;
         }
         &:last-of-type{
           text-align: right;
@@ -82,3 +82,15 @@
     }
   }
 }
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] td div span div {
+  padding: 0.2rem 0.8rem 0.8rem !important;
+  margin-right: 0 !important;
+  margin-left: 15px;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////
