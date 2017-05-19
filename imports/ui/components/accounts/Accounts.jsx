@@ -19,7 +19,7 @@ import dialogTheme from './dialogTheme';
 
 import bankFonts from '/imports/ui/bankFonts.js';
 import countries from '/imports/ui/countries.js';
-import {FormattedMessage, FormattedNumber ,defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, FormattedNumber ,defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -109,6 +109,7 @@ class AccountsPage extends Component {
         });
     }
     renderConfirmationMessage(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.dialogAccount}>
                 <div className={theme.confirmText}>
@@ -118,8 +119,8 @@ class AccountsPage extends Component {
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.removeAccount.bind(this)} theme={buttonTheme}/>
+                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={this.removeAccount.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )
@@ -158,6 +159,7 @@ class AccountsPage extends Component {
         )
     }
     renderAccount() {
+        const { formatMessage } = this.props.intl;
         const model = {
             icon: {type: String},
             content: {type: String},
@@ -176,7 +178,7 @@ class AccountsPage extends Component {
                 actions:
                     <div className={theme.buttonParent}>
                         <Button
-                            label={<FormattedMessage {...il8n.EDIT_ACCOUNTS_BUTTON} />}
+                            label={formatMessage(il8n.EDIT_ACCOUNTS_BUTTON)}
                             raised
                             onClick={this.openPopup.bind(this, 'edit', account)}
                             accent />
@@ -196,7 +198,7 @@ class AccountsPage extends Component {
                     <Button
                         className={theme.button}
                         icon='add'
-                        label={<FormattedMessage {...il8n.ADD_ACCOUNT_BUTTON} />}
+                        label={formatMessage(il8n.ADD_ACCOUNT_BUTTON)}
                         flat
                         onClick={this.openPopup.bind(this, 'add')}
                         theme={buttonTheme}/>
@@ -228,13 +230,16 @@ class AccountsPage extends Component {
 }
 
 AccountsPage.propTypes = {
-    accounts: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+AccountsPage =  createContainer(() => {
     Meteor.subscribe('accounts');
 
     return {
         accounts: Accounts.find({}).fetch()
     };
 }, AccountsPage);
+
+export default injectIntl(AccountsPage);

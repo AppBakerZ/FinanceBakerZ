@@ -435,14 +435,14 @@ class SettingsPage extends Component {
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                         <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_PERSONAL_INFO} /> </h3>
                         {uploadedImage}
-                        <Input type='text' label={<FormattedMessage {...il8n.USER_NAME} />}
+                        <Input type='text' label={formatMessage(il8n.USER_NAME)}
                                name='name'
                                maxLength={ 25 }
                                value={this.state.name}
                                onChange={this.onChange.bind(this)}
                                required
                             />
-                        <Input type='text' label={<FormattedMessage {...il8n.USER_CONTACT_NUMBER} />}
+                        <Input type='text' label={formatMessage(il8n.USER_CONTACT_NUMBER)}
                                name='number'
                                maxLength={ 50 }
                                value={this.state.number}
@@ -450,14 +450,14 @@ class SettingsPage extends Component {
                             />
                         {Meteor.user().username ?
 
-                            (<span><Input type='text' label={<FormattedMessage {...il8n.USER_USER_NAME} />}
+                            (<span><Input type='text' label={formatMessage(il8n.USER_USER_NAME)}
                                name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                                required
                             />
 
-                        <Input type='email' label={<FormattedMessage {...il8n.USER_EMAIL} />}
+                        <Input type='email' label={formatMessage(il8n.USER_EMAIL)}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
@@ -466,13 +466,13 @@ class SettingsPage extends Component {
                             )
                             :
 
-                        (<span><Input type='text' label={<FormattedMessage {...il8n.USER_USER_NAME} />}
+                        (<span><Input type='text' label={formatMessage(il8n.USER_USER_NAME)}
                                name='username'
                                value={this.state.username}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='email' label={<FormattedMessage {...il8n.USER_EMAIL} />}
+                        <Input type='email' label={formatMessage(il8n.USER_EMAIL)}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
@@ -481,13 +481,13 @@ class SettingsPage extends Component {
                                 </span>
                         )
                         }
-                        <Input type='text' label={<FormattedMessage {...il8n.USER_ADDRESS} />}
+                        <Input type='text' label={formatMessage(il8n.USER_ADDRESS)}
                                name='address'
                                value={this.state.address}
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label={<FormattedMessage {...il8n.UPDATE_BUTTON} />} raised primary />
+                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary />
                         </div>
 
                     </form>
@@ -520,7 +520,7 @@ class SettingsPage extends Component {
                             />
 
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label={<FormattedMessage {...il8n.UPDATE_BUTTON} />} raised primary />
+                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary />
                         </div>
                     </form>
                 );
@@ -531,26 +531,26 @@ class SettingsPage extends Component {
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
                         <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.CHANGE_USER_PASSWORD} /> </h3>
 
-                        <Input type='password' label={<FormattedMessage {...il8n.CURRENT_PASSWORD} />}
+                        <Input type='password' label={formatMessage(il8n.CURRENT_PASSWORD)}
                                name='oldPassword'
                                value={this.state.oldPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='password' label={<FormattedMessage {...il8n.NEW_PASSWORD} />}
+                        <Input type='password' label={formatMessage(il8n.NEW_PASSWORD)}
                                name='newPassword'
                                value={this.state.newPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
-                        <Input type='password' label={<FormattedMessage {...il8n.REPEAT_NEW_PASSWORD} />}
+                        <Input type='password' label={formatMessage(il8n.REPEAT_NEW_PASSWORD)}
                                name='alterPassword'
                                value={this.state.alterPassword}
                                onChange={this.onChange.bind(this)}
                             />
 
                             <div className={theme.saveBtn}>
-                                <Button type='submit' label={<FormattedMessage {...il8n.SAVE_BUTTON} />} raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
+                                <Button type='submit' label={formatMessage(il8n.SAVE_BUTTON)} raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
                             </div>
                     </form>
                 );
@@ -569,6 +569,7 @@ class SettingsPage extends Component {
         });
     }
     renderConfirmationMessage(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.dialogSetting}>
                 <div className={theme.confirmText}>
@@ -578,8 +579,8 @@ class SettingsPage extends Component {
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} /> } raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
+                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
                 </div>
             </div>
         )
@@ -587,6 +588,7 @@ class SettingsPage extends Component {
 
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
@@ -615,7 +617,7 @@ class SettingsPage extends Component {
                                 <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
+                                    <Button label={formatMessage(il8n.EDIT_INFO)} raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>
                                 </div>
                             </div>
                         </Card>
@@ -642,7 +644,7 @@ class SettingsPage extends Component {
                                     </span>
                                 </h6>
                                 <div className={theme.settingBtn}>
-                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
+                                    <Button label={formatMessage(il8n.EDIT_INFO)} raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />
                                 </div>
                             </div>
                         </Card>
@@ -654,14 +656,14 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6> <FormattedMessage {...il8n.PASSWORD} />  <span>*********</span></h6>
                                 <div className={theme.editBtn}>
-                                    <Button label={<FormattedMessage {...il8n.EDIT_INFO} />} raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
+                                    <Button label={formatMessage(il8n.EDIT_INFO)} raised accent onClick={this.openPopup.bind(this, 'changePassword')} />
                                 </div>
                             </div>
                         </Card>
 
                         <div className={theme.buttonSite}>
                             <Button
-                                label={<FormattedMessage {...il8n.REMOVE_ACCOUNT_BUTTON} />}
+                                label={formatMessage(il8n.REMOVE_ACCOUNT_BUTTON)}
                                 onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
                                 raised
@@ -677,7 +679,7 @@ class SettingsPage extends Component {
 
 SettingsPage.propTypes = {
     categories: PropTypes.array.isRequired,
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
 };
 
 SettingsPage = createContainer(() => {
