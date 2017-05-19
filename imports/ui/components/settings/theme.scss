@@ -189,6 +189,14 @@ body[dir="rtl"] .settingTitle {
 body[dir="rtl"] .editBtn {
   float: left;
 }
+
+body[dir="rtl"] .settingContent h6 span label {
+  margin: $unit * 1.2 $unit * 3 0 0;
+}
+body[dir="rtl"] .settingContent h6 span label span {
+  padding-right: 0.8rem;
+  margin-top: 0;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
