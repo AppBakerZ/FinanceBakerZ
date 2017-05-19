@@ -36,6 +36,12 @@ body {
   font-family: $normal-font;
 }
 
-body[dir='rtl'] {
+:lang(ur) {
   font-family: $rtl-font;
+}
+
+:global {
+  .material-icons {
+    font-family: 'Material Icons' !important;
+  }
 }
