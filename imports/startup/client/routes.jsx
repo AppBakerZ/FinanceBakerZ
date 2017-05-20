@@ -67,7 +67,7 @@ class Il8n extends Component {
         };
     }
     componentDidUpdate(){
-        $('body').attr('dir', this.getUserLang().direction)
+        $('body').attr('dir', this.getUserLang().direction).attr('lang', this.getUserLang().value)
     }
     getUserLang(){
         return this.props.user && this.props.user.profile && this.props.user.profile.language || this.state.lang;
