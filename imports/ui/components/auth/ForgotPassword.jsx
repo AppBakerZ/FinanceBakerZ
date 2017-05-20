@@ -4,7 +4,7 @@ import { Input, Button } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import theme from './theme';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -30,7 +30,7 @@ const il8n = defineMessages({
 
 
 
-export default class ForgotPassword extends Component {
+class ForgotPassword extends Component {
 
     constructor(props) {
         super(props);
@@ -42,22 +42,23 @@ export default class ForgotPassword extends Component {
     }
 
     showEmail(){
+        const { formatMessage } = this.props.intl;
         return(
             <form  onSubmit={this.onSubmit.bind(this)}  className="login" autoComplete={'off'}>
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
                 </div>
-                <Input type='text' label={<FormattedMessage {...il8n.EMAIL} />}
+                <Input type='text' label={formatMessage(il8n.EMAIL)}
                        name='EnterEmail'
                        maxLength={ 30 }
                        required
                     />
                 <div className={theme.forgotBtn}>
                     <Button type='submit' disabled={this.props.loading}
-                            label={<FormattedMessage {...il8n.SUBMIT_BUTTON} />} raised primary />
+                            label={formatMessage(il8n.SUBMIT_BUTTON)} raised primary />
                     <Link to={`/`}>
                         <Button type='button'
-                                label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised accent />
+                                label={formatMessage(il8n.BACK_BUTTON)} raised accent />
                     </Link>
                 </div>
             </form>
@@ -65,24 +66,25 @@ export default class ForgotPassword extends Component {
     }
 
     showPassword(){
+        const { formatMessage } = this.props.intl;
         return(
             <form  onSubmit={this.onSubmit.bind(this)}  className="login" autoComplete={'off'}>
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
                 </div>
-                <Input type='password' label={<FormattedMessage {...il8n.ENTER_PASSWORD} />}
+                <Input type='password' label={formatMessage(il8n.ENTER_PASSWORD)}
                        name='EnterNewPassword'
                        maxLength={ 30 }
                        required
                     />
-                <Input type='password' label={<FormattedMessage {...il8n.RE_ENTER_PASSWORD} />}
+                <Input type='password' label={formatMessage(il8n.RE_ENTER_PASSWORD)}
                        name='Re-Enter New Password'
                        maxLength={ 30 }
                        required
                     />
                 <div className={theme.forgotBtn}>
                     <Button type='button'
-                            label={<FormattedMessage {...il8n.SAVE_BUTTON} />} raised primary />
+                            label={formatMessage(il8n.SAVE_BUTTON)} raised primary />
                 </div>
             </form>
         )
@@ -103,3 +105,9 @@ export default class ForgotPassword extends Component {
     }
 
 }
+
+ForgotPassword.propTypes = {
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(ForgotPassword);
