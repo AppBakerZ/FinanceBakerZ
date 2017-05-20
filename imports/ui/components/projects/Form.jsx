@@ -35,6 +35,12 @@ const il8n = defineMessages({
     },
     PROJECT_START_DATE: {
         id: 'PROJECTS.START_DATE'
+    },
+    ADD_PROJECT: {
+        id: 'PROJECTS.ADD_PROJECT'
+    },
+    UPDATE_PROJECT: {
+        id: 'PROJECTS.UPDATE_PROJECT'
     }
 });
 
@@ -167,7 +173,7 @@ class Form extends Component {
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
                 <h4 className={theme.titleProject}>
-                    {!this.props.project ? 'Add Project' : 'Update Project'}
+                    {!this.props.project ? <FormattedMessage {...il8n.ADD_PROJECT} /> : <FormattedMessage {...il8n.UPDATE_PROJECT} />}
                 </h4>
 
                 <Snackbar
