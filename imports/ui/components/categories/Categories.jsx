@@ -16,7 +16,7 @@ import buttonTheme from './buttonTheme';
 import tableTheme from './tableTheme';
 import dialogButtonTheme from './dialogButtonTheme';
 import dialogTheme from './dialogTheme';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -111,6 +111,7 @@ class CategoriesPage extends Component {
         });
     }
     renderConfirmationMessage(isRemoveSubcategory){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.dialogContent}>
                 <div>
@@ -119,8 +120,8 @@ class CategoriesPage extends Component {
                     <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
                 </div>
                 <div className={theme.buttonBox}>
-                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={!isRemoveSubcategory ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
+                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={!isRemoveSubcategory ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
                 </div>
             </div>
         )
@@ -178,7 +179,7 @@ class CategoriesPage extends Component {
         });
     }
     render() {
-
+        const { formatMessage } = this.props.intl;
         const model = {
             icon: {type: String},
             content: {type: String},
@@ -221,7 +222,7 @@ class CategoriesPage extends Component {
                         <Button
                             className={theme.button}
                             icon='add'
-                            label={<FormattedMessage {...il8n.ADD_CATEGORY_BUTTON} />}
+                            label={formatMessage(il8n.ADD_CATEGORY_BUTTON)}
                             flat
                             onClick={this.openPopup.bind(this, 'add')}
                             theme={buttonTheme}/>
@@ -245,10 +246,11 @@ class CategoriesPage extends Component {
 }
 
 CategoriesPage.propTypes = {
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+CategoriesPage = createContainer(() => {
     Meteor.subscribe('categories');
     const categoriesHandle = Meteor.subscribe('categories');
     const categoriesLoading = !categoriesHandle.ready();
@@ -267,4 +269,6 @@ export default createContainer(() => {
         categoriesExists
     };
 }, CategoriesPage);
+
+export default injectIntl(CategoriesPage);
 
