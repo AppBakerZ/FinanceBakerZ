@@ -27,7 +27,7 @@ import tableTheme from './tableTheme';
 import dialogTheme from './dialogTheme';
 import buttonTheme from './buttonTheme';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
-import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -308,6 +308,7 @@ class TransactionPage extends Component {
     }
 
     renderConfirmationMessage(){
+        const { formatMessage } = this.props.intl;
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
@@ -320,14 +321,15 @@ class TransactionPage extends Component {
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.deleteTransactionToggle.bind(this)} />
-                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
+                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.deleteTransactionToggle.bind(this)} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={this.deleteTransaction.bind(this)} theme={buttonTheme} />
                 </div>
             </div>
         )
     }
 
     renderProjectDetails(){
+        const { formatMessage } = this.props.intl;
         let selectedProject = this.state.selectedProject ;
         if(!selectedProject){
             return false;
@@ -351,8 +353,8 @@ class TransactionPage extends Component {
                 <div className={theme.contentThree}>
                     <div> <p> <FormattedMessage {...il8n.PROJECT} /> </p> <p> <span>logo design</span></p></div>
                     <div>
-                        <Button label={<FormattedMessage {...il8n.EDIT_INFO_BUTTON} />} raised accent onClick={this.editPopup.bind(this)} />
-                        <Button label={<FormattedMessage {...il8n.DELETE_TRANSACTION_BUTTON} />} raised accent onClick={this.deleteTransactionToggle.bind(this)} />
+                        <Button label={formatMessage(il8n.EDIT_INFO_BUTTON)} raised accent onClick={this.editPopup.bind(this)} />
+                        <Button label={formatMessage(il8n.DELETE_TRANSACTION_BUTTON)} raised accent onClick={this.deleteTransactionToggle.bind(this)} />
                     </div>
                 </div>
             </div>
@@ -458,17 +460,18 @@ class TransactionPage extends Component {
     /*************** table DateRange ***************/
 
     renderDateRange(){
+        const { formatMessage } = this.props.intl;
         let dropDowns = (
             <div className={theme.dashboardDatePicker}>
                 <DatePicker
-                    label={<FormattedMessage {...il8n.DATE_FROM} />}
+                    label={formatMessage(il8n.DATE_FROM)}
                     name='dateFrom'
                     onChange={this.onChange.bind(this)}
                     value={this.state.dateFrom}
                     />
 
                 <DatePicker
-                    label={<FormattedMessage {...il8n.DATE_TO} />}
+                    label={formatMessage(il8n.DATE_TO)}
                     name='dateTo'
                     onChange={this.onChange.bind(this)}
                     value={this.state.dateTo}
@@ -544,6 +547,7 @@ class TransactionPage extends Component {
     }
 
     categoryFilter(){
+        const { formatMessage } = this.props.intl;
         return (
             <Dropdown
             className={theme.dashboardAutocompleteLast}
@@ -551,7 +555,7 @@ class TransactionPage extends Component {
             source={this.categories()}
             name='filterByCategory'
             onChange={this.onChange.bind(this)}
-            label={<FormattedMessage {...il8n.FILTER_BY_CATEGORY} />}
+            label={formatMessage(il8n.FILTER_BY_CATEGORY)}
             value={this.state.filterByCategory}
             template={this.categoryItem}
             />
@@ -559,7 +563,7 @@ class TransactionPage extends Component {
     }
 
     projectFilter(){
-
+        const { formatMessage } = this.props.intl;
         return (
             <Dropdown
                 className={theme.dashboardAutocompleteLastOne}
@@ -567,7 +571,7 @@ class TransactionPage extends Component {
                 source={this.projects()}
                 name='filterByProjects'
                 onChange={this.onChange.bind(this)}
-                label={<FormattedMessage {...il8n.FILTER_BY_PROJECT} />}
+                label={formatMessage(il8n.FILTER_BY_PROJECT)}
                 value={this.state.filterByProjects}
                 />
         )
@@ -627,6 +631,7 @@ class TransactionPage extends Component {
 
     /*************** template render ***************/
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div className="projects" onScroll={this.handleScroll}>
                 <div className="container">
@@ -636,7 +641,7 @@ class TransactionPage extends Component {
                             direction='down'
                             name='multiple'
                             onChange={this.filterByAccounts.bind(this)}
-                            label={<FormattedMessage {...il8n.FILTER_BY_ACCOUNT} />}
+                            label={formatMessage(il8n.FILTER_BY_ACCOUNT)}
                             source={this.accounts()}
                             value={this.state.multiple}
                             />
@@ -648,7 +653,7 @@ class TransactionPage extends Component {
                             source={this.type()}
                             name='type'
                             onChange={this.onChange.bind(this)}
-                            label={<FormattedMessage {...il8n.FILTER_BY_TYPE} />}
+                            label={formatMessage(il8n.FILTER_BY_TYPE)}
                             value={this.state.type}
                             template={this.filterItem}
                             />
@@ -658,7 +663,7 @@ class TransactionPage extends Component {
                             source={this.filters()}
                             name='filterBy'
                             onChange={this.onChange.bind(this)}
-                            label={<FormattedMessage {...il8n.FILTER_BY} />}
+                            label={formatMessage(il8n.FILTER_BY)}
                             value={this.state.filterBy}
                             template={this.filterItem}
                             />
@@ -672,14 +677,14 @@ class TransactionPage extends Component {
                             <Button
                                 className='header-buttons'
                                 icon='add'
-                                label={<FormattedMessage {...il8n.INCOME_BUTTON} />}
+                                label={formatMessage(il8n.INCOME_BUTTON)}
                                 name='Income'
                                 onClick={this.openedPopup.bind(this, true)}
                                 flat theme={theme} />
                             <Button
                                 className='header-buttons'
                                 icon='add'
-                                label={<FormattedMessage {...il8n.EXPENSE_BUTTON} />}
+                                label={formatMessage(il8n.EXPENSE_BUTTON)}
                                 name='Expense'
                                 onClick={this.openedPopup.bind(this, true)}
                                 flat theme={theme} />
@@ -707,10 +712,11 @@ class TransactionPage extends Component {
 }
 
 TransactionPage.propTypes = {
-    transactions: PropTypes.array.isRequired
+    transactions: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+TransactionPage = createContainer(() => {
     const transactionsHandle = Meteor.subscribe('transactions', query.get());
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
@@ -738,3 +744,5 @@ export default createContainer(() => {
         projects
     };
 }, TransactionPage);
+
+export default injectIntl(TransactionPage);
