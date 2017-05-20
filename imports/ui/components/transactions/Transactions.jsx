@@ -124,6 +124,15 @@ const il8n = defineMessages({
     },
     AMOUNT_OF_TRANSACTION: {
         id: 'TRANSACTIONS.AMOUNT_OF_TRANSACTION'
+    },
+    INCOME: {
+        id: 'TRANSACTIONS.INCOME'
+    },
+    EXPENSE: {
+        id: 'TRANSACTIONS.EXPENSE'
+    },
+    DATE: {
+        id: 'TRANSACTIONS.DATE'
     }
 });
 
@@ -290,7 +299,7 @@ class TransactionPage extends Component {
             <div>
                 <div className={theme.firstRow}>
                     <div> <span>{selectedProject.receivedAt ? "Income" : "Expense"} ID : </span><span>{selectedProject._id}</span></div>
-                    {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span>Date :</span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
+                    {(selectedProject.receivedAt || selectedProject.spentAt) && <div> <span> <FormattedMessage {...il8n.DATE} /> </span><span> {moment(selectedProject.receivedAt || selectedProject.spentAt).format('MMM Do YY')}</span></div>}
                 </div>
 
                 <h4>{selectedProject.receivedAt ?
@@ -337,7 +346,7 @@ class TransactionPage extends Component {
         return (
             <div className={theme.contentParent}>
                 <div className={theme.contentOne}>
-                    <div> <p> <FormattedMessage {...il8n.TRANSACTION_TYPE} /> </p> <p> {selectedProject.receivedAt ? "Income" : "Expense"}</p></div>
+                    <div> <p> <FormattedMessage {...il8n.TRANSACTION_TYPE} /> </p> <p> {selectedProject.receivedAt ? <FormattedMessage {...il8n.INCOME} /> : <FormattedMessage {...il8n.EXPENSE} />}</p></div>
                     <div> <p> <FormattedMessage {...il8n.TRANSACTION_AMOUNT} /> </p> <p> <span><i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={selectedProject.amount}/>  </span></p></div>
                     <div> <p> <FormattedMessage {...il8n.DEPOSITED_BANK} /> </p> <p>standard chartered</p></div>
                     <div> <p> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> </p> <p>00971322001</p></div>
