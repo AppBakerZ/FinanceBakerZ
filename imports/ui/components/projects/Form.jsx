@@ -8,7 +8,7 @@ import { Meteor } from 'meteor/meteor';
 import { Projects } from '../../../api/projects/projects.js';
 
 import theme from './theme';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -40,10 +40,7 @@ const il8n = defineMessages({
 
 
 
-
-
-
-export default class Form extends Component {
+class Form extends Component {
 
     constructor(props) {
         super(props);
@@ -154,15 +151,17 @@ export default class Form extends Component {
         this.setState(this.props.project);
     }
     renderButton (){
+        const { formatMessage } = this.props.intl;
         let button;
         if(!this.props.project){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_PROJECT_BUTTON} />} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_PROJECT_BUTTON)} raised primary /></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_PROJECT_BUTTON} />} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_PROJECT_BUTTON)} raised primary /></div>
         }
         return button;
     }
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addProject}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -182,7 +181,7 @@ export default class Form extends Component {
                     type={this.state.barType}
                     />
 
-                <Input type='text' label={<FormattedMessage {...il8n.PROJECT_NAME} />}
+                <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
                        name='name'
                        maxLength={ 50 }
                        value={this.state.name}
@@ -190,7 +189,7 @@ export default class Form extends Component {
                        required
                     />
 
-                <Input type='text' label={<FormattedMessage {...il8n.CLIENT_NAME} />}
+                <Input type='text' label={formatMessage(il8n.CLIENT_NAME)}
                        name='clientName'
                        maxLength={ 50 }
                        value={this.state.clientName}
@@ -198,7 +197,7 @@ export default class Form extends Component {
                        required
                     />
 
-                <Input type='text' label={<FormattedMessage {...il8n.PROJECT_TYPE} />}
+                <Input type='text' label={formatMessage(il8n.PROJECT_TYPE)}
                        name='type'
                        maxLength={ 50 }
                        value={this.state.type}
@@ -206,7 +205,7 @@ export default class Form extends Component {
                        required
                     />
 
-                <Input type='number' label={<FormattedMessage {...il8n.PROJECT_AMOUNT} />}
+                <Input type='number' label={formatMessage(il8n.PROJECT_AMOUNT)}
                        name='amount'
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
@@ -217,13 +216,13 @@ export default class Form extends Component {
                     source={this.props.statuses}
                     name='status'
                     onChange={this.onChange.bind(this)}
-                    label={<FormattedMessage {...il8n.PROJECT_STATUS} />}
+                    label={formatMessage(il8n.PROJECT_STATUS)}
                     value={this.state.status}
                     required
                     />
 
                 <DatePicker
-                    label={<FormattedMessage {...il8n.PROJECT_START_DATE} />}
+                    label={formatMessage(il8n.PROJECT_START_DATE)}
                     name='startAt'
                     onChange={this.onChange.bind(this)}
                     value={this.state.startAt}
@@ -234,3 +233,9 @@ export default class Form extends Component {
         );
     }
 }
+
+Form.propTypes = {
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(Form);
