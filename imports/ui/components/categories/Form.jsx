@@ -12,7 +12,7 @@ import theme from './theme';
 import dropdownTheme from './dropdownTheme';
 
 import fonts from '/imports/ui/fonts.js';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -37,7 +37,7 @@ const il8n = defineMessages({
 });
 
 
-export default class Form extends Component {
+class Form extends Component {
 
     constructor(props) {
         super(props);
@@ -167,11 +167,12 @@ export default class Form extends Component {
     }
 
     renderButton (){
+        const { formatMessage } = this.props.intl;
         let button;
         if(!this.props.category){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={<FormattedMessage {...il8n.ADD_CATEGORY} />} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_CATEGORY)} raised primary /></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_CATEGORIES} />} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_CATEGORIES)} raised primary /></div>
         }
         return button;
     }
@@ -217,6 +218,7 @@ export default class Form extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <form onSubmit={this.onSubmit.bind(this)} className={theme.addCategory}>
 
@@ -235,7 +237,7 @@ export default class Form extends Component {
                     type={this.state.barType}
                     />
 
-                <Input type='text' label={<FormattedMessage {...il8n.CATEGORY_NAME} />}
+                <Input type='text' label={formatMessage(il8n.CATEGORY_NAME)}
                        name='name'
                        maxLength={ 50 }
                        value={this.state.name}
@@ -248,7 +250,7 @@ export default class Form extends Component {
                     name='icon'
                     onChange={this.onChange.bind(this)}
                     value={this.state.icon}
-                    label={<FormattedMessage {...il8n.CATEGORY_ICON} />}
+                    label={formatMessage(il8n.CATEGORY_ICON)}
                     template={this.categoryIcons}
                     required
                     />
@@ -259,7 +261,7 @@ export default class Form extends Component {
                     onChange={this.onChangeParentCategory.bind(this)}
                     source={this.categories()}
                     value={this.state.parent}
-                    label={<FormattedMessage {...il8n.PARENT_CATEGORY} />}
+                    label={formatMessage(il8n.PARENT_CATEGORY)}
                     template={this.categoryItem}
                     />
 
@@ -268,3 +270,9 @@ export default class Form extends Component {
         );
     }
 }
+
+Form.propTypes = {
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(Form);
