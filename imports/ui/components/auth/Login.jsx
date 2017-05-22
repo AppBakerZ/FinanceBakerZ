@@ -8,7 +8,7 @@ import { Link } from 'react-router'
 import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
 const il8n = defineMessages({
@@ -31,7 +31,7 @@ const il8n = defineMessages({
 
 
 // App component - represents the whole app
-export default class Register extends Component {
+class Register extends Component {
 
     constructor(props) {
         super(props);
@@ -95,19 +95,20 @@ export default class Register extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="login" autoComplete={'off'}>
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
                 </div>
-                <Input type='text' label={<FormattedMessage {...il8n.USERNAMEOREMAIL} />}
+                <Input type='text' label={formatMessage(il8n.USERNAMEOREMAIL)}
                        name='usernameOrEmail'
                        maxLength={ 30 }
                        value={this.state.usernameOrEmail}
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='password' label={<FormattedMessage {...il8n.PASSWORD} />}
+                <Input type='password' label={formatMessage(il8n.PASSWORD)}
                        name='password'
                        maxLength={ 20 }
                        value={this.state.password}
@@ -117,11 +118,11 @@ export default class Register extends Component {
                 <div className={theme.buttonParents}>
                     <div className={theme.buttonGroup}>
                         <Button type='submit' disabled={this.props.loading} icon='lock_open'
-                                label={<FormattedMessage {...il8n.LOGIN_BUTTON} />} raised primary />
+                                label={formatMessage(il8n.LOGIN_BUTTON)} raised primary />
                     </div>
                     <div className={theme.buttonGroup}>
                         <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
-                                label={<FormattedMessage {...il8n.REGISTER_BUTTON} />} raised accent />
+                                label={formatMessage(il8n.REGISTER_BUTTON)} raised accent />
                     </div>
                 </div>
                 <div className={theme.forgotGroup}>
@@ -131,3 +132,9 @@ export default class Register extends Component {
         );
     }
 }
+
+Register.propTypes = {
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(Register);

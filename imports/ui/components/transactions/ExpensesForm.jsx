@@ -10,7 +10,7 @@ import { Slingshot } from 'meteor/edgee:slingshot'
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Categories } from '../../../api/categories/categories.js';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 import theme from './theme';
 import dropdownTheme from './dropdownTheme';
@@ -226,19 +226,20 @@ class ExpensesForm extends Component {
     }
 
     renderButton (){
+        const { formatMessage } = this.props.intl;
         let button;
         if(this.state.isNewRoute){
             button = <div className={theme.addExpensesBtn}>
-                <Button type='submit' disabled={this.state.disableButton} icon='add' label={<FormattedMessage {...il8n.ADD_EXPENSE_BUTTON} />} raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='add' label={formatMessage(il8n.ADD_EXPENSE_BUTTON)} raised primary />
             </div>
         }else{
             button = <div className={theme.addExpensesBtn}>
-                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_EXPENSE_BUTTON} />} raised primary />
+                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={formatMessage(il8n.UPDATE_EXPENSE_BUTTON)} raised primary />
                 <Button
                     onClick={this.removeExpense.bind(this)}
                     type='button'
                     icon='delete'
-                    label={<FormattedMessage {...il8n.REMOVE_EXPENSE_BUTTON} />}
+                    label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}
                     className='float-right'
                     accent />
             </div>
@@ -366,12 +367,13 @@ class ExpensesForm extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         //Show bill if added
         if(this.state.billUrl || this.state.data_uri){
             var uploadedBill = <div className='bill-group'>
                 <Button
                     className='bill-change-button'
-                    label={<FormattedMessage {...il8n.CHANGE_BILL_BUTTON} />}
+                    label={formatMessage(il8n.CHANGE_BILL_BUTTON)}
                     type='button'
                     onClick={this.resetBillUpload.bind(this)}
                     />
@@ -405,13 +407,13 @@ class ExpensesForm extends Component {
                     source={this.accounts()}
                     name='account'
                     onChange={this.onChange.bind(this)}
-                    label={<FormattedMessage {...il8n.SELECT_ACCOUNT} />}
+                    label={formatMessage(il8n.SELECT_ACCOUNT)}
                     value={this.state.account}
                     template={this.accountItem}
                     required
                     />
 
-                <Input type='number' label={<FormattedMessage {...il8n.AMOUNT} />}
+                <Input type='number' label={formatMessage(il8n.AMOUNT)}
                        name='amount'
                        value={this.state.amount}
                        onChange={this.onChange.bind(this)}
@@ -422,12 +424,12 @@ class ExpensesForm extends Component {
                     source={this.categories()}
                     name='category'
                     onChange={this.onChange.bind(this)}
-                    label={<FormattedMessage {...il8n.SELECT_CATEGORY} />}
+                    label={formatMessage(il8n.SELECT_CATEGORY)}
                     value={this.state.category}
                     template={this.categoryItem}
                     required
                     />
-                <Input type='text' label={<FormattedMessage {...il8n.DESCRIPTION} />} className={theme.boxShadowNone}
+                <Input type='text' label={formatMessage(il8n.DESCRIPTION)} className={theme.boxShadowNone}
                        name='description'
                        multiline
                        value={this.state.description}
@@ -435,13 +437,13 @@ class ExpensesForm extends Component {
                        required
                     />
                 <DatePicker
-                    label={<FormattedMessage {...il8n.CREATION_DATE} />}
+                    label= {formatMessage(il8n.CREATION_DATE)}
                     name='spentAt'
                     onChange={this.onChange.bind(this)}
                     value={this.state.spentAt}
                     />
                 <TimePicker
-                    label={<FormattedMessage {...il8n.CREATION_TIME} />}
+                    label={formatMessage(il8n.CREATION_TIME)}
                     name='spentTime'
                     onChange={this.onChange.bind(this)}
                     value={this.state.spentTime}
@@ -460,10 +462,11 @@ class ExpensesForm extends Component {
 ExpensesForm.propTypes = {
     expense: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    expenseExists: PropTypes.bool.isRequired
+    expenseExists: PropTypes.bool.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer((props) => {
+ExpensesForm = createContainer((props) => {
     const { id } = props.params;
     const expenseHandle = Meteor.subscribe('expenses.single', id);
     const accountsHandle = Meteor.subscribe('accounts');
@@ -479,3 +482,5 @@ export default createContainer((props) => {
         categories: Categories.find({}).fetch()
     };
 }, ExpensesForm);
+
+export default injectIntl(ExpensesForm);

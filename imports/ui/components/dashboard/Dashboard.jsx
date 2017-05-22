@@ -22,7 +22,7 @@ import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
 import cardBackgroundTheme from './cardBackgroundTheme';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js';
-import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const il8n = defineMessages({
     AVAILABLE_BALANCE: {
@@ -51,6 +51,24 @@ const il8n = defineMessages({
     },
     FILTER_BY_ACCOUNT: {
         id: 'DASHBOARD.FILTER_BY_ACCOUNT'
+    },
+    FILTER_BY_TODAY: {
+        id: 'DASHBOARD.FILTER_BY_TODAY'
+    },
+    FILTER_BY_THIS_WEEK: {
+        id: 'DASHBOARD.FILTER_BY_THIS_WEEK'
+    },
+    FILTER_BY_THIS_MONTH: {
+        id: 'DASHBOARD.FILTER_BY_THIS_MONTH'
+    },
+    FILTER_BY_LAST_MONTH: {
+        id: 'DASHBOARD.FILTER_BY_LAST_MONTH'
+    },
+    FILTER_BY_THIS_YEAR: {
+        id: 'DASHBOARD.FILTER_BY_THIS_YEAR'
+    },
+    FILTER_BY_DATE_RANGE: {
+        id: 'DASHBOARD.FILTER_BY_DATE_RANGE'
     }
 });
 
@@ -161,29 +179,30 @@ class DashboardPage extends Component {
     }
 
     filters(){
+        const { formatMessage } = this.props.intl;
         return [
             {
-                name: 'Today',
+                name: formatMessage(il8n.FILTER_BY_TODAY),
                 value: 'day'
             },
             {
-                name: 'This Week',
+                name: formatMessage(il8n.FILTER_BY_THIS_WEEK),
                 value: 'week'
             },
             {
-                name: 'This Month',
+                name: formatMessage(il8n.FILTER_BY_THIS_MONTH),
                 value: 'month'
             },
             {
-                name: 'Last Month',
+                name: formatMessage(il8n.FILTER_BY_LAST_MONTH),
                 value: 'months'
             },
             {
-                name: 'This Year',
+                name: formatMessage(il8n.FILTER_BY_THIS_YEAR),
                 value: 'year'
             },
             {
-                name: 'Date Range',
+                name: formatMessage(il8n.FILTER_BY_DATE_RANGE),
                 value: 'range'
             }
         ];
@@ -218,17 +237,18 @@ class DashboardPage extends Component {
     }
 
     renderDateRange(){
+        const { formatMessage } = this.props.intl;
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
                 <DatePicker className='demo' theme={datePickerTheme}
-                            label={<FormattedMessage {...il8n.DATE_FROM} />}
+                            label={formatMessage(il8n.DATE_FROM)}
                             name='dateFrom'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateFrom}
                     />
 
                 <DatePicker theme={datePickerTheme}
-                            label={<FormattedMessage {...il8n.DATE_TO} />}
+                            label={formatMessage(il8n.DATE_TO)}
                             name='dateTo'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateTo}
@@ -240,6 +260,7 @@ class DashboardPage extends Component {
         )
     }
     renderTotalIncomes(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.incomeBox}>
                 <div className={theme.divTitle}>
@@ -254,13 +275,14 @@ class DashboardPage extends Component {
                 </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
-                        <Button icon='description' label={<FormattedMessage {...il8n.TOTAL_INCOMES_BUTTON} />} flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_INCOMES_BUTTON)} flat />
                     </div>
                 )}
             </div>
         )
     }
     renderTotalExpenses(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.expensesBox}>
                 <div className={theme.divTitle}>
@@ -275,7 +297,7 @@ class DashboardPage extends Component {
                 </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
-                        <Button icon='description' label={<FormattedMessage {...il8n.TOTAL_EXPENSES_BUTTON} />} flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_EXPENSES_BUTTON)} flat />
                     </div>
                 )}
             </div>
@@ -298,6 +320,7 @@ class DashboardPage extends Component {
         )
     }
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
                 <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
@@ -309,7 +332,7 @@ class DashboardPage extends Component {
                                                   direction='down'
                                                   name='multiple'
                                                   onChange={this.handleMultipleChange.bind(this)}
-                                                  label={<FormattedMessage {...il8n.FILTER_BY_ACCOUNT} />}
+                                                  label={formatMessage(il8n.FILTER_BY_ACCOUNT)}
                                                   source={this.accounts()}
                                                   value={this.state.multiple}
                                         />
@@ -319,7 +342,7 @@ class DashboardPage extends Component {
                                               source={this.filters()}
                                               name='filterBy'
                                               onChange={this.onChange.bind(this)}
-                                              label={<FormattedMessage {...il8n.FILTER_BY} />}
+                                              label={formatMessage(il8n.FILTER_BY)}
                                               value={this.state.filterBy}
                                               template={this.filterItem}
                                               required
@@ -359,13 +382,16 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
-    accounts: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+DashboardPage = createContainer(() => {
     Meteor.subscribe('accounts');
 
     return {
         accounts: Accounts.find({}).fetch()
     };
 }, DashboardPage);
+
+export default injectIntl(DashboardPage);

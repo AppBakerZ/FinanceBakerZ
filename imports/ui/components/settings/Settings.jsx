@@ -127,6 +127,9 @@ const il8n = defineMessages({
     },
     EDIT_IMAGE_BUTTON:{
         id: 'SETTINGS.EDIT_IMAGE_BUTTON'
+    },
+    EDIT_ACCOUNT_SETTINGS_BUTTON:{
+        id: 'SETTINGS.EDIT_ACCOUNT_SETTINGS_BUTTON'
     }
 });
 
@@ -520,7 +523,7 @@ class SettingsPage extends Component {
                             />
 
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary />
+                            <Button type='submit' label={formatMessage(il8n.EDIT_ACCOUNT_SETTINGS_BUTTON)} raised primary />
                         </div>
                     </form>
                 );

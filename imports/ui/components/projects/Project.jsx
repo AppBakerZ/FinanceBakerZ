@@ -18,7 +18,7 @@ import theme from './theme';
 import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
-import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
+import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
 
@@ -78,6 +78,15 @@ const il8n = defineMessages({
     },
     STATUS: {
         id: 'PROJECTS.STATUS_OF_PROJECT'
+    },
+    PROGRESS: {
+        id: 'PROJECTS.PROGRESS'
+    },
+    WAITING: {
+        id: 'PROJECTS.WAITING'
+    },
+    COMPLETED: {
+        id: 'PROJECTS.COMPLETED'
     }
 });
 
@@ -100,17 +109,19 @@ class ProjectPage extends Component {
             loading : false
         };
 
+        const { formatMessage } = this.props.intl;
+
         this.statuses = [
             {
-                label: 'In Progress',
+                label: formatMessage(il8n.PROGRESS),
                 value: 'progress'
             },
             {
-                label: 'Waiting for Feedback',
+                label: formatMessage(il8n.WAITING),
                 value: 'waiting'
             },
             {
-                label: 'Completed',
+                label: formatMessage(il8n.COMPLETED),
                 value: 'completed'
             }
         ];
@@ -160,6 +171,7 @@ class ProjectPage extends Component {
         });
     }
     renderConfirmationMessage(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.dialogAccount}>
                 <div className={theme.confirmText}>
@@ -169,8 +181,8 @@ class ProjectPage extends Component {
                 </div>
 
                 <div className={theme.buttonArea}>
-                    <Button label={<FormattedMessage {...il8n.BACK_BUTTON} />} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={<FormattedMessage {...il8n.REMOVE_BUTTON} />} raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
+                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
                 </div>
             </div>
         )
@@ -282,13 +294,14 @@ class ProjectPage extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div className="projects"  onScroll={this.handleScroll}>
                 <div className="container">
                     <div>
                         <div className={theme.inputField}>
                             <Input type='text'
-                                   label={<FormattedMessage {...il8n.FILTER_BY_PROJECT_NAME} />}
+                                   label={formatMessage(il8n.FILTER_BY_PROJECT_NAME)}
                                    name='name'
                                    value={this.state.filter.name}
                                    onChange={this.onChangeFilter.bind(this)}
@@ -296,7 +309,7 @@ class ProjectPage extends Component {
                         </div>
                         <div className={theme.inputField}>
                             <Input type='text'
-                                   label={<FormattedMessage {...il8n.FILTER_BY_CLIENT_NAME} />}
+                                   label={formatMessage(il8n.FILTER_BY_CLIENT_NAME)}
                                    name='client.name'
                                    value={this.state.filter.client.name}
                                    onChange={this.onChangeFilter.bind(this)}
@@ -308,7 +321,7 @@ class ProjectPage extends Component {
                                 source={this.statuses}
                                 name='status'
                                 onChange={this.onChangeFilter.bind(this)}
-                                label={<FormattedMessage {...il8n.FILTER_BY_STATUS} />}
+                                label={formatMessage(il8n.FILTER_BY_STATUS)}
                                 value={this.state.filter.status}
                                 />
                             {(this.state.filter.status) && <IconButton className="close" icon='clear' onClick={this.resetStatusFilter.bind(this)} />}
@@ -320,7 +333,7 @@ class ProjectPage extends Component {
                         <Button
                             className={theme.button}
                             icon='add'
-                            label={<FormattedMessage {...il8n.ADD_NEW_PROJECTS} /> }
+                            label={formatMessage(il8n.ADD_NEW_PROJECTS)}
                             flat
                             onClick={this.openPopup.bind(this, 'add')}
                             theme={theme}
@@ -337,10 +350,11 @@ class ProjectPage extends Component {
 }
 
 ProjectPage.propTypes = {
-    projects: PropTypes.array.isRequired
+    projects: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+ProjectPage = createContainer(() => {
     const projectsHandle = Meteor.subscribe('projects', query.get());
     const projectsLoading = !projectsHandle.ready();
     const projects = Projects.find().fetch();
@@ -351,3 +365,5 @@ export default createContainer(() => {
         projectsExists
     };
 }, ProjectPage);
+
+export default injectIntl(ProjectPage);
