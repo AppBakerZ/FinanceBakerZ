@@ -78,6 +78,15 @@ const il8n = defineMessages({
     },
     STATUS: {
         id: 'PROJECTS.STATUS_OF_PROJECT'
+    },
+    PROGRESS: {
+        id: 'PROJECTS.PROGRESS'
+    },
+    WAITING: {
+        id: 'PROJECTS.WAITING'
+    },
+    COMPLETED: {
+        id: 'PROJECTS.COMPLETED'
     }
 });
 
@@ -100,17 +109,19 @@ class ProjectPage extends Component {
             loading : false
         };
 
+        const { formatMessage } = this.props.intl;
+
         this.statuses = [
             {
-                label: 'In Progress',
+                label: formatMessage(il8n.PROGRESS),
                 value: 'progress'
             },
             {
-                label: 'Waiting for Feedback',
+                label: formatMessage(il8n.WAITING),
                 value: 'waiting'
             },
             {
-                label: 'Completed',
+                label: formatMessage(il8n.COMPLETED),
                 value: 'completed'
             }
         ];

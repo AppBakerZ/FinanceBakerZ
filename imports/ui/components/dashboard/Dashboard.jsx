@@ -51,6 +51,24 @@ const il8n = defineMessages({
     },
     FILTER_BY_ACCOUNT: {
         id: 'DASHBOARD.FILTER_BY_ACCOUNT'
+    },
+    FILTER_BY_TODAY: {
+        id: 'DASHBOARD.FILTER_BY_TODAY'
+    },
+    FILTER_BY_THIS_WEEK: {
+        id: 'DASHBOARD.FILTER_BY_THIS_WEEK'
+    },
+    FILTER_BY_THIS_MONTH: {
+        id: 'DASHBOARD.FILTER_BY_THIS_MONTH'
+    },
+    FILTER_BY_LAST_MONTH: {
+        id: 'DASHBOARD.FILTER_BY_LAST_MONTH'
+    },
+    FILTER_BY_THIS_YEAR: {
+        id: 'DASHBOARD.FILTER_BY_THIS_YEAR'
+    },
+    FILTER_BY_DATE_RANGE: {
+        id: 'DASHBOARD.FILTER_BY_DATE_RANGE'
     }
 });
 
@@ -161,29 +179,30 @@ class DashboardPage extends Component {
     }
 
     filters(){
+        const { formatMessage } = this.props.intl;
         return [
             {
-                name: 'Today',
+                name: formatMessage(il8n.FILTER_BY_TODAY),
                 value: 'day'
             },
             {
-                name: 'This Week',
+                name: formatMessage(il8n.FILTER_BY_THIS_WEEK),
                 value: 'week'
             },
             {
-                name: 'This Month',
+                name: formatMessage(il8n.FILTER_BY_THIS_MONTH),
                 value: 'month'
             },
             {
-                name: 'Last Month',
+                name: formatMessage(il8n.FILTER_BY_LAST_MONTH),
                 value: 'months'
             },
             {
-                name: 'This Year',
+                name: formatMessage(il8n.FILTER_BY_THIS_YEAR),
                 value: 'year'
             },
             {
-                name: 'Date Range',
+                name: formatMessage(il8n.FILTER_BY_DATE_RANGE),
                 value: 'range'
             }
         ];
