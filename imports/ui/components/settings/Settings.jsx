@@ -520,7 +520,7 @@ class SettingsPage extends Component {
                             />
 
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary />
+                            <Button type='submit' label={formatMessage(il8n.EDIT_ACCOUNT_SETTINGS)} raised primary />
                         </div>
                     </form>
                 );
