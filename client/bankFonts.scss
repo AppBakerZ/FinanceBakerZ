@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'Bank-Font';
-  src:  url('fonts/Bank-Font.eot?puqiei');
-  src:  url('fonts/Bank-Font.eot?puqiei#iefix') format('embedded-opentype'),
-  url('fonts/Bank-Font.ttf?puqiei') format('truetype'),
-  url('fonts/Bank-Font.woff?puqiei') format('woff'),
-  url('fonts/Bank-Font.svg?puqiei#Bank-Font') format('svg');
+  font-family: 'Bank';
+  src:  url('fonts/Bank.eot?m625mb');
+  src:  url('fonts/Bank.eot?m625mb#iefix') format('embedded-opentype'),
+  url('fonts/Bank.ttf?m625mb') format('truetype'),
+  url('fonts/Bank.woff?m625mb') format('woff'),
+  url('fonts/Bank.svg?m625mb#Bank') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,7 +12,7 @@
 :global {
   [class^="bank-"], [class*=" bank-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'Bank-Font' !important;
+    font-family: 'Bank' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -26,854 +26,851 @@
   }
 
   .bank-Vietin-Bank:before {
-    content: "\e900";
-  }
-  .bank-Bank-of-Bahrain-and-Kuwait2:before {
-    content: "\e901";
-  }
-  .bank-BNP-Paribas2:before {
-    content: "\e902";
-  }
-  .bank-Tisco-Bank:before {
-    content: "\e903";
-  }
-  .bank-TMB-Bank:before {
-    content: "\e904";
-  }
-  .bank-Gullak_BANK:before {
-    content: "\ea08";
-  }
-  .bank-Bank-of-Ayudhya:before {
-    content: "\e905";
-  }
-  .bank-Bankok-Bank:before {
-    content: "\e906";
-  }
-  .bank-Kasikornbank:before {
-    content: "\e907";
-  }
-  .bank-Krung-Thai-Bank:before {
-    content: "\e908";
-  }
-  .bank-Siam-Commercial-Bank:before {
-    content: "\e909";
-  }
-  .bank-Deutsche-Postbank:before {
-    content: "\e90a";
-  }
-  .bank-European-Central-Bank:before {
-    content: "\e90b";
-  }
-  .bank-German-Federal-Bank:before {
-    content: "\e90c";
-  }
-  .bank-GLS-Bank:before {
-    content: "\e90d";
-  }
-  .bank-HSH-Nordbank:before {
     content: "\e90e";
   }
-  .bank-HSN-Nordbank:before {
+  .bank-Bank-of-Bahrain-and-Kuwait2:before {
     content: "\e90f";
   }
-  .bank-Landesbank-Baden-Württemberg:before {
+  .bank-BNP-Paribas2:before {
     content: "\e910";
   }
-  .bank-Landesbank-Baden-Wurttemberg:before {
+  .bank-Tisco-Bank:before {
     content: "\e911";
   }
-  .bank-NordLB:before {
+  .bank-TMB-Bank:before {
     content: "\e912";
   }
-  .bank-Wirecard:before {
+  .bank-Bank-of-Ayudhya:before {
     content: "\e913";
   }
-  .bank-BayernLB:before {
+  .bank-Bankok-Bank:before {
     content: "\e914";
   }
-  .bank-Commerz-Bank:before {
+  .bank-Kasikornbank:before {
     content: "\e915";
   }
-  .bank-Dekabank:before {
+  .bank-Krung-Thai-Bank:before {
     content: "\e916";
   }
-  .bank-Rak-Bank:before {
+  .bank-Siam-Commercial-Bank:before {
     content: "\e917";
   }
-  .bank-Sharjah-Islamic-Bank:before {
+  .bank-Deutsche-Postbank:before {
     content: "\e918";
   }
-  .bank-Union-National-Bank:before {
+  .bank-European-Central-Bank:before {
     content: "\e919";
   }
-  .bank-Abu-Dhabi-Commercial-Bank:before {
+  .bank-German-Federal-Bank:before {
     content: "\e91a";
   }
-  .bank-Abu-Dhabi-Islamic-Bank:before {
+  .bank-GLS-Bank:before {
     content: "\e91b";
   }
-  .bank-Arab-Bank:before {
+  .bank-HSH-Nordbank:before {
     content: "\e91c";
   }
-  .bank-Bank-of-Sharjah:before {
+  .bank-HSN-Nordbank:before {
     content: "\e91d";
   }
-  .bank-Citi-Bank:before {
+  .bank-Landesbank-Baden-Württemberg:before {
     content: "\e91e";
   }
-  .bank-Commercial-Bank-of-Dubai:before {
+  .bank-Landesbank-Baden-Wurttemberg:before {
     content: "\e91f";
   }
-  .bank-Emirates-Investment-Bank:before {
+  .bank-NordLB:before {
     content: "\e920";
   }
-  .bank-Emirates-NBD:before {
+  .bank-Wirecard:before {
     content: "\e921";
   }
-  .bank-First-Gulf-Bank:before {
+  .bank-BayernLB:before {
     content: "\e922";
   }
-  .bank-HSBC-Bank:before {
+  .bank-Commerz-Bank:before {
     content: "\e923";
   }
-  .bank-Mashreq-Bank:before {
+  .bank-Dekabank:before {
     content: "\e924";
   }
-  .bank-National-Bank-of-Abu-Dubai:before {
+  .bank-Rak-Bank:before {
     content: "\e925";
   }
-  .bank-Noor-Bank:before {
+  .bank-Sharjah-Islamic-Bank:before {
     content: "\e926";
   }
-  .bank-ICBC-Turkey:before {
+  .bank-Union-National-Bank:before {
     content: "\e927";
   }
-  .bank-ING-Group:before {
+  .bank-Abu-Dhabi-Commercial-Bank:before {
     content: "\e928";
   }
-  .bank-Intesa-Sanpaolo2:before {
+  .bank-Abu-Dhabi-Islamic-Bank:before {
     content: "\e929";
   }
-  .bank-Merrill-Lynch:before {
-    content: "\e92a";
-  }
-  .bank-Rabo-Bank:before {
-    content: "\e92b";
-  }
-  .bank-Royal-Bank-of-Scotland:before {
-    content: "\e92c";
-  }
-  .bank-Sekerbank:before {
-    content: "\e92d";
-  }
-  .bank-Societe-Generale:before {
-    content: "\e92e";
-  }
-  .bank-Turkish-Bank:before {
-    content: "\e92f";
-  }
-  .bank-Turkish-Economic-Bank:before {
-    content: "\e930";
-  }
-  .bank-Turkiye-is-Bankasi:before {
-    content: "\e931";
-  }
-  .bank-Vakif-Bank:before {
-    content: "\e932";
-  }
-  .bank-Yapi-ve-Kredi-Bankasi:before {
-    content: "\e933";
-  }
-  .bank-Ziraat-Bank:before {
-    content: "\e934";
-  }
-  .bank-AnT-Bank:before {
-    content: "\e935";
-  }
-  .bank-Adabank:before {
-    content: "\e936";
-  }
-  .bank-Akbank:before {
-    content: "\e937";
-  }
-  .bank-Anadolu-Bank:before {
-    content: "\e938";
-  }
-  .bank-Bank-Mellat:before {
-    content: "\e939";
-  }
-  .bank-Birlesik-Fon-Bankasi:before {
-    content: "\e93a";
-  }
-  .bank-Credit-Agricole:before {
-    content: "\e93b";
-  }
-  .bank-Deniz-Bank:before {
-    content: "\e93c";
-  }
-  .bank-Deutsche-Bank:before {
-    content: "\e93d";
-  }
-  .bank-Fibab-Bank:before {
-    content: "\e93e";
-  }
-  .bank-Finans-Bank:before {
-    content: "\e93f";
-  }
-  .bank-Halk-Bank:before {
-    content: "\e940";
-  }
-  .bank-National-Commercial-Bank:before {
-    content: "\e941";
-  }
-  .bank-Riyad-Bank:before {
-    content: "\e942";
-  }
-  .bank-saudia-arabia-banks-05:before {
-    content: "\e943";
-  }
-  .bank-Saudi-British-Bank:before {
-    content: "\e944";
-  }
-  .bank-Saudi-Hollandi-Bank:before {
-    content: "\e945";
-  }
-  .bank-Alinma-Bank:before {
-    content: "\e946";
-  }
-  .bank-Al-Rajhi-Bank:before {
-    content: "\e947";
-  }
-  .bank-Arab-National-Bank:before {
-    content: "\e948";
-  }
-  .bank-Bank-Bilad:before {
-    content: "\e949";
-  }
-  .bank-Banque-Saudi-Fransi:before {
-    content: "\e94a";
-  }
-  .bank-Ahli-Bank:before {
-    content: "\e94b";
-  }
-  .bank-Doha-Bank:before {
+  .bank-Arab-Bank:before {
     content: "\e94c";
   }
-  .bank-International-Bank-of-Qatar:before {
+  .bank-Bank-of-Sharjah:before {
+    content: "\e94b";
+  }
+  .bank-Citi-Bank:before {
+    content: "\e94a";
+  }
+  .bank-Commercial-Bank-of-Dubai:before {
+    content: "\e949";
+  }
+  .bank-Emirates-Investment-Bank:before {
+    content: "\e948";
+  }
+  .bank-Emirates-NBD:before {
+    content: "\e92a";
+  }
+  .bank-First-Gulf-Bank:before {
+    content: "\e92b";
+  }
+  .bank-HSBC-Bank:before {
+    content: "\e92c";
+  }
+  .bank-Mashreq-Bank:before {
+    content: "\e92d";
+  }
+  .bank-National-Bank-of-Abu-Dubai:before {
+    content: "\e92e";
+  }
+  .bank-Noor-Bank:before {
+    content: "\e92f";
+  }
+  .bank-ICBC-Turkey:before {
+    content: "\e930";
+  }
+  .bank-ING-Group:before {
+    content: "\e931";
+  }
+  .bank-Intesa-Sanpaolo2:before {
+    content: "\e932";
+  }
+  .bank-Merrill-Lynch:before {
+    content: "\e933";
+  }
+  .bank-Rabo-Bank:before {
+    content: "\e934";
+  }
+  .bank-Royal-Bank-of-Scotland:before {
+    content: "\e935";
+  }
+  .bank-Sekerbank:before {
+    content: "\e936";
+  }
+  .bank-Societe-Generale:before {
+    content: "\e937";
+  }
+  .bank-Turkish-Bank:before {
+    content: "\e938";
+  }
+  .bank-Turkish-Economic-Bank:before {
+    content: "\e939";
+  }
+  .bank-Turkiye-is-Bankasi:before {
+    content: "\e93a";
+  }
+  .bank-Vakif-Bank:before {
+    content: "\e93b";
+  }
+  .bank-Yapi-ve-Kredi-Bankasi:before {
+    content: "\e93c";
+  }
+  .bank-Ziraat-Bank:before {
+    content: "\e93d";
+  }
+  .bank-AnT-Bank:before {
+    content: "\e93e";
+  }
+  .bank-Adabank:before {
+    content: "\e93f";
+  }
+  .bank-Akbank:before {
+    content: "\e940";
+  }
+  .bank-Anadolu-Bank:before {
+    content: "\e941";
+  }
+  .bank-Bank-Mellat:before {
+    content: "\e942";
+  }
+  .bank-Birlesik-Fon-Bankasi:before {
+    content: "\e943";
+  }
+  .bank-Credit-Agricole:before {
+    content: "\e944";
+  }
+  .bank-Deniz-Bank:before {
+    content: "\e945";
+  }
+  .bank-Deutsche-Bank:before {
+    content: "\e946";
+  }
+  .bank-Fibab-Bank:before {
+    content: "\e947";
+  }
+  .bank-Finans-Bank:before {
     content: "\e94d";
   }
-  .bank-Qatar-Development-Bank:before {
+  .bank-Halk-Bank:before {
     content: "\e94e";
   }
-  .bank-Qatar-Islamic-Bank:before {
+  .bank-National-Commercial-Bank:before {
     content: "\e94f";
   }
-  .bank-Qatar-National-Bank:before {
+  .bank-Riyad-Bank:before {
     content: "\e950";
   }
-  .bank-American-Express:before {
+  .bank-saudia-arabia-banks-05:before {
     content: "\e951";
   }
-  .bank-Bank-of-America:before {
+  .bank-Saudi-British-Bank:before {
     content: "\e952";
   }
-  .bank-Bank-of-New-York-Mellon:before {
+  .bank-Saudi-Hollandi-Bank:before {
     content: "\e953";
   }
-  .bank-BBnT:before {
+  .bank-Alinma-Bank:before {
     content: "\e954";
   }
-  .bank-Capital-One:before {
+  .bank-Al-Rajhi-Bank:before {
     content: "\e955";
   }
-  .bank-Charles-Schwab-Corporation:before {
+  .bank-Arab-National-Bank:before {
     content: "\e956";
   }
-  .bank-Citizens:before {
+  .bank-Bank-Bilad:before {
     content: "\e957";
   }
-  .bank-Dominion-Bank:before {
+  .bank-Banque-Saudi-Fransi:before {
     content: "\e958";
   }
-  .bank-Fifth-Third-Bank:before {
+  .bank-Ahli-Bank:before {
     content: "\e959";
   }
-  .bank-Goldman-Sachs:before {
+  .bank-Doha-Bank:before {
     content: "\e95a";
   }
-  .bank-Huntington:before {
+  .bank-International-Bank-of-Qatar:before {
     content: "\e95b";
   }
-  .bank-J-P-Morgan:before {
+  .bank-Qatar-Development-Bank:before {
     content: "\e95c";
   }
-  .bank-Key-Bank:before {
+  .bank-Qatar-Islamic-Bank:before {
     content: "\e95d";
   }
-  .bank-MnT-Bank:before {
+  .bank-Qatar-National-Bank:before {
     content: "\e95e";
   }
-  .bank-Morgan-Stanley:before {
+  .bank-American-Express:before {
     content: "\e95f";
   }
-  .bank-MUFG-Union-Bank:before {
+  .bank-Bank-of-America:before {
     content: "\e960";
   }
-  .bank-Northern-Trust:before {
+  .bank-Bank-of-New-York-Mellon:before {
     content: "\e961";
   }
-  .bank-PNC-Financial-Services:before {
+  .bank-BBnT:before {
     content: "\e962";
   }
-  .bank-Regions-Financial-Corporation:before {
+  .bank-Capital-One:before {
     content: "\e963";
   }
-  .bank-Royal-Bank-of-Canada:before {
+  .bank-Charles-Schwab-Corporation:before {
     content: "\e964";
   }
-  .bank-Santander-Bank:before {
+  .bank-Citizens:before {
     content: "\e965";
   }
-  .bank-State-Street-Corporation:before {
+  .bank-Dominion-Bank:before {
     content: "\e966";
   }
-  .bank-Trust-Banks:before {
+  .bank-Fifth-Third-Bank:before {
     content: "\e967";
   }
-  .bank-USAA:before {
+  .bank-Goldman-Sachs:before {
     content: "\e968";
   }
-  .bank-US-Bank:before {
+  .bank-Huntington:before {
     content: "\e969";
   }
-  .bank-Wells-Fargo:before {
+  .bank-J-P-Morgan:before {
     content: "\e96a";
   }
-  .bank-Ally-Financial:before {
+  .bank-Key-Bank:before {
     content: "\e96b";
   }
-  .bank-Lloyds-Banking-Group:before {
+  .bank-MnT-Bank:before {
     content: "\e96c";
   }
-  .bank-Barclays:before {
+  .bank-Morgan-Stanley:before {
     content: "\e96d";
   }
-  .bank-United-Overseas-Bank:before {
+  .bank-MUFG-Union-Bank:before {
     content: "\e96e";
   }
-  .bank-Ambank:before {
+  .bank-Northern-Trust:before {
     content: "\e96f";
   }
-  .bank-CIMB-Bank:before {
+  .bank-PNC-Financial-Services:before {
     content: "\e970";
   }
-  .bank-Hong-Leong-Bank:before {
+  .bank-Regions-Financial-Corporation:before {
     content: "\e971";
   }
-  .bank-May-Bank:before {
+  .bank-Royal-Bank-of-Canada:before {
     content: "\e972";
   }
-  .bank-OCBC-Bank:before {
+  .bank-Santander-Bank:before {
     content: "\e973";
   }
-  .bank-Public-Bank-Berhad:before {
+  .bank-State-Street-Corporation:before {
     content: "\e974";
   }
-  .bank-RHB-Bank:before {
+  .bank-Trust-Banks:before {
     content: "\e975";
   }
-  .bank-SIX-Group:before {
+  .bank-USAA:before {
     content: "\e976";
   }
-  .bank-Vontobel:before {
+  .bank-US-Bank:before {
+    content: "\e999";
+  }
+  .bank-Wells-Fargo:before {
+    content: "\e998";
+  }
+  .bank-Ally-Financial:before {
+    content: "\e997";
+  }
+  .bank-Lloyds-Banking-Group:before {
+    content: "\e996";
+  }
+  .bank-Barclays:before {
+    content: "\e995";
+  }
+  .bank-United-Overseas-Bank:before {
+    content: "\e994";
+  }
+  .bank-Ambank:before {
     content: "\e977";
   }
-  .bank-WIR-Bank:before {
+  .bank-CIMB-Bank:before {
     content: "\e978";
   }
-  .bank-Alternative-Bank-Schweiz:before {
+  .bank-Hong-Leong-Bank:before {
     content: "\e979";
   }
-  .bank-CIM-Bank:before {
+  .bank-May-Bank:before {
     content: "\e97a";
   }
-  .bank-Graubündner-Kantonalbank:before {
+  .bank-OCBC-Bank:before {
     content: "\e97b";
   }
-  .bank-ICB-Banking-Group:before {
+  .bank-Public-Bank-Berhad:before {
     content: "\e97c";
   }
-  .bank-Migros-Bank:before {
+  .bank-RHB-Bank:before {
     content: "\e97d";
   }
-  .bank-Central-Bank-of-Srilanka:before {
+  .bank-SIX-Group:before {
     content: "\e97e";
   }
-  .bank-Commercial-Bank-of-Ceylon:before {
+  .bank-Vontobel:before {
     content: "\e97f";
   }
-  .bank-DFCC-Bank:before {
+  .bank-WIR-Bank:before {
     content: "\e980";
   }
-  .bank-Hatton-National-Bank:before {
+  .bank-Alternative-Bank-Schweiz:before {
     content: "\e981";
   }
-  .bank-ICICI-Bank:before {
+  .bank-CIM-Bank:before {
     content: "\e982";
   }
-  .bank-Sampath-Bank:before {
+  .bank-Graubündner-Kantonalbank:before {
     content: "\e983";
   }
-  .bank-Seylan-Bank:before {
+  .bank-ICB-Banking-Group:before {
     content: "\e984";
   }
-  .bank-Axis-Bank:before {
+  .bank-Migros-Bank:before {
     content: "\e985";
   }
-  .bank-Bank-of-Ceylon:before {
+  .bank-Central-Bank-of-Srilanka:before {
     content: "\e986";
   }
-  .bank-BankMuscat .path1:before {
+  .bank-Commercial-Bank-of-Ceylon:before {
     content: "\e987";
+  }
+  .bank-DFCC-Bank:before {
+    content: "\e988";
+  }
+  .bank-Hatton-National-Bank:before {
+    content: "\e989";
+  }
+  .bank-ICICI-Bank:before {
+    content: "\e98a";
+  }
+  .bank-Sampath-Bank:before {
+    content: "\e98b";
+  }
+  .bank-Seylan-Bank:before {
+    content: "\e98c";
+  }
+  .bank-Axis-Bank:before {
+    content: "\e98d";
+  }
+  .bank-Bank-of-Ceylon:before {
+    content: "\e98e";
+  }
+  .bank-BankMuscat .path1:before {
+    content: "\e98f";
     color: rgb(239, 49, 37);
   }
   .bank-BankMuscat .path2:before {
-    content: "\e988";
+    content: "\ea1e";
     margin-left: -3.3359375em;
     color: rgb(0, 0, 0);
   }
   .bank-BankMuscat .path3:before {
-    content: "\e989";
+    content: "\ea1f";
     margin-left: -3.3359375em;
     color: rgb(0, 0, 0);
   }
   .bank-National-Bank-of-Kuwait:before {
-    content: "\e98a";
-  }
-  .bank-Gulf-Bank-of-Kuwait:before {
-    content: "\e98b";
-  }
-  .bank-Shanghai-Pudong-Development-Bank:before {
-    content: "\e98c";
-  }
-  .bank-Agricultural-Development-Bank-of-China:before {
-    content: "\e98d";
-  }
-  .bank-Bank-of-Beijing:before {
-    content: "\e98e";
-  }
-  .bank-Bank-of-China1:before {
-    content: "\e98f";
-  }
-  .bank-China-CITIC-Bank:before {
     content: "\e990";
   }
-  .bank-China-Construction-Bank:before {
+  .bank-Gulf-Bank-of-Kuwait:before {
     content: "\e991";
   }
-  .bank-China-Development-Bank:before {
+  .bank-Shanghai-Pudong-Development-Bank:before {
     content: "\e992";
   }
-  .bank-China-Everbright-Bank:before {
+  .bank-Agricultural-Development-Bank-of-China:before {
     content: "\e993";
   }
-  .bank-China-Guangfa-Bank:before {
-    content: "\e994";
-  }
-  .bank-Exim-Bank-of-China:before {
-    content: "\e995";
-  }
-  .bank-Harbin-Bank:before {
-    content: "\e996";
-  }
-  .bank-Hua-Xia-Bank:before {
-    content: "\e997";
-  }
-  .bank-Industrial-and-Commercial-Bank-of-China:before {
-    content: "\e998";
-  }
-  .bank-Industrial-Bank-China:before {
-    content: "\e999";
-  }
-  .bank-Peoples-Bank-of-China:before {
+  .bank-Bank-of-Beijing:before {
     content: "\e99a";
   }
-  .bank-Alterna-Savings:before {
+  .bank-Bank-of-China1:before {
     content: "\e99b";
   }
-  .bank-B2B-Bank:before {
+  .bank-China-CITIC-Bank:before {
     content: "\e99c";
   }
-  .bank-Bank-of-Montreal:before {
+  .bank-China-Construction-Bank:before {
     content: "\e99d";
   }
-  .bank-Bridgewater-Bank:before {
+  .bank-China-Development-Bank:before {
     content: "\e99e";
   }
-  .bank-Canadian-Imperial-Bank-of-Commerce:before {
+  .bank-China-Everbright-Bank:before {
     content: "\e99f";
   }
-  .bank-Canadian-Western-Bank:before {
-    content: "\e9a0";
-  }
-  .bank-Laurentian-Bank-of-Canada:before {
-    content: "\e9a1";
-  }
-  .bank-National-Bank-of-Canada:before {
-    content: "\e9a2";
-  }
-  .bank-Scotiabank:before {
-    content: "\e9a3";
-  }
-  .bank-Tangerine-Bank:before {
-    content: "\e9a4";
-  }
-  .bank-AMP-Limited:before {
-    content: "\e9a5";
-  }
-  .bank-Australia-and-New-Zealand-Banking-Group:before {
-    content: "\e9a6";
-  }
-  .bank-Bank-Australia:before {
-    content: "\e9a7";
-  }
-  .bank-Bank-of-Melbourne:before {
-    content: "\e9a8";
-  }
-  .bank-Bank-of-Queensland:before {
-    content: "\e9a9";
-  }
-  .bank-Bank-of-South-Australia:before {
-    content: "\e9aa";
-  }
-  .bank-Bank-Vic:before {
-    content: "\e9ab";
-  }
-  .bank-Bankwest:before {
-    content: "\e9ac";
-  }
-  .bank-Bendigo-and-Adelaide-Bank:before {
-    content: "\e9ad";
-  }
-  .bank-Beyond-Bank-Australia:before {
+  .bank-China-Guangfa-Bank:before {
     content: "\e9ae";
   }
-  .bank-Commonwealth-Bank:before {
-    content: "\e9af";
+  .bank-Exim-Bank-of-China:before {
+    content: "\e9a0";
   }
-  .bank-Greater-Bank:before {
-    content: "\e9b0";
+  .bank-Harbin-Bank:before {
+    content: "\e9a1";
   }
-  .bank-Heritage-Bank:before {
-    content: "\e9b1";
+  .bank-Hua-Xia-Bank:before {
+    content: "\e9a2";
   }
-  .bank-Hume-Bank:before {
-    content: "\e9b2";
+  .bank-Industrial-and-Commercial-Bank-of-China:before {
+    content: "\e9a3";
   }
-  .bank-Macquarie-Group:before {
-    content: "\e9b3";
+  .bank-Industrial-Bank-China:before {
+    content: "\e9a4";
   }
-  .bank-National-Australia-Bank:before {
-    content: "\e9b4";
+  .bank-Peoples-Bank-of-China:before {
+    content: "\e9a5";
   }
-  .bank-P-and-N-Bank:before {
-    content: "\e9b5";
+  .bank-Alterna-Savings:before {
+    content: "\e9ad";
   }
-  .bank-Police-Bank:before {
-    content: "\e9b6";
+  .bank-B2B-Bank:before {
+    content: "\e9a6";
   }
-  .bank-St-George-Bank:before {
-    content: "\e9b7";
+  .bank-Bank-of-Montreal:before {
+    content: "\e9a7";
   }
-  .bank-Suncorp-Group:before {
-    content: "\e9b8";
+  .bank-Bridgewater-Bank:before {
+    content: "\e9a8";
   }
-  .bank-Teachers-Mutuat-Bank:before {
-    content: "\e9b9";
+  .bank-Canadian-Imperial-Bank-of-Commerce:before {
+    content: "\e9a9";
   }
-  .bank-Westpac:before {
-    content: "\e9ba";
+  .bank-Canadian-Western-Bank:before {
+    content: "\e9aa";
   }
-  .bank-Unicredit:before {
-    content: "\e9bb";
+  .bank-Laurentian-Bank-of-Canada:before {
+    content: "\e9ab";
   }
-  .bank-Banca-Carige:before {
-    content: "\e9bc";
+  .bank-National-Bank-of-Canada:before {
+    content: "\e9ac";
   }
-  .bank-BPER-Banca:before {
-    content: "\e9bd";
-  }
-  .bank-Cassa-Depositi-e-Prestiti:before {
-    content: "\e9be";
-  }
-  .bank-Intesa-Sanpaolo:before {
-    content: "\e9bf";
-  }
-  .bank-UBI-Banca:before {
-    content: "\e9c0";
-  }
-  .bank-Alpha-Bank:before {
-    content: "\e9c1";
-  }
-  .bank-Bank-of-Greece:before {
-    content: "\e9c2";
-  }
-  .bank-Eurobank-Ergasias:before {
-    content: "\e9c3";
-  }
-  .bank-National-Bank-of-Greece:before {
-    content: "\e9c4";
-  }
-  .bank-Piraeus-Bank:before {
-    content: "\e9c5";
-  }
-  .bank-Allahabad-Bank:before {
-    content: "\e9c6";
-  }
-  .bank-Andhra-Bank:before {
-    content: "\e9c7";
-  }
-  .bank-Canara-Bank:before {
-    content: "\e9c8";
-  }
-  .bank-Dena-Bank:before {
-    content: "\e9c9";
-  }
-  .bank-Oriental-Bank-of-Commerce:before {
+  .bank-Scotiabank:before {
     content: "\e9ca";
   }
-  .bank-Punjab-n-Sind-Bank:before {
+  .bank-Tangerine-Bank:before {
+    content: "\e9c9";
+  }
+  .bank-AMP-Limited:before {
+    content: "\e9c8";
+  }
+  .bank-Australia-and-New-Zealand-Banking-Group:before {
+    content: "\e9c7";
+  }
+  .bank-Bank-Australia:before {
+    content: "\e9c6";
+  }
+  .bank-Bank-of-Melbourne:before {
+    content: "\e9c5";
+  }
+  .bank-Bank-of-Queensland:before {
+    content: "\e9af";
+  }
+  .bank-Bank-of-South-Australia:before {
+    content: "\e9b0";
+  }
+  .bank-Bank-Vic:before {
+    content: "\e9b1";
+  }
+  .bank-Bankwest:before {
+    content: "\e9b2";
+  }
+  .bank-Bendigo-and-Adelaide-Bank:before {
+    content: "\e9b3";
+  }
+  .bank-Beyond-Bank-Australia:before {
+    content: "\e9b4";
+  }
+  .bank-Commonwealth-Bank:before {
+    content: "\e9b5";
+  }
+  .bank-Greater-Bank:before {
+    content: "\e9b6";
+  }
+  .bank-Heritage-Bank:before {
+    content: "\e9b7";
+  }
+  .bank-Hume-Bank:before {
+    content: "\e9b8";
+  }
+  .bank-Macquarie-Group:before {
+    content: "\e9b9";
+  }
+  .bank-National-Australia-Bank:before {
+    content: "\e9ba";
+  }
+  .bank-P-and-N-Bank:before {
+    content: "\e9bb";
+  }
+  .bank-Police-Bank:before {
+    content: "\e9bc";
+  }
+  .bank-St-George-Bank:before {
+    content: "\e9bd";
+  }
+  .bank-Suncorp-Group:before {
+    content: "\e9be";
+  }
+  .bank-Teachers-Mutuat-Bank:before {
+    content: "\e9bf";
+  }
+  .bank-Westpac:before {
+    content: "\e9c0";
+  }
+  .bank-Unicredit:before {
+    content: "\e9c1";
+  }
+  .bank-Banca-Carige:before {
+    content: "\e9c2";
+  }
+  .bank-BPER-Banca:before {
+    content: "\e9c3";
+  }
+  .bank-Cassa-Depositi-e-Prestiti:before {
+    content: "\e9c4";
+  }
+  .bank-Intesa-Sanpaolo:before {
     content: "\e9cb";
   }
-  .bank-Punjab-National-Bank:before {
+  .bank-UBI-Banca:before {
     content: "\e9cc";
   }
-  .bank-State-Bank-of-India:before {
+  .bank-Alpha-Bank:before {
     content: "\e9cd";
   }
-  .bank-UCO-Bank:before {
+  .bank-Bank-of-Greece:before {
     content: "\e9ce";
   }
-  .bank-Banco-Santander:before {
+  .bank-Eurobank-Ergasias:before {
     content: "\e9cf";
   }
-  .bank-Bank-Norwegian:before {
+  .bank-National-Bank-of-Greece:before {
     content: "\e9d0";
   }
-  .bank-DNB-ASA:before {
+  .bank-Piraeus-Bank:before {
     content: "\e9d1";
   }
-  .bank-Nordlandsbanken:before {
+  .bank-Allahabad-Bank:before {
     content: "\e9d2";
   }
-  .bank-YA-Bank:before {
+  .bank-Andhra-Bank:before {
     content: "\e9d3";
   }
-  .bank-Anglo-Irish-Bank:before {
+  .bank-Canara-Bank:before {
     content: "\e9d4";
   }
-  .bank-Bank-of-Irland:before {
+  .bank-Dena-Bank:before {
     content: "\e9d5";
   }
-  .bank-KBC-Bank-Irland:before {
+  .bank-Oriental-Bank-of-Commerce:before {
     content: "\e9d6";
   }
-  .bank-Allied-Irish-Banks:before {
+  .bank-Punjab-n-Sind-Bank:before {
     content: "\e9d7";
   }
-  .bank-Syd-Bank:before {
+  .bank-Punjab-National-Bank:before {
     content: "\e9d8";
   }
-  .bank-Alm-Brand:before {
+  .bank-State-Bank-of-India:before {
     content: "\e9d9";
   }
-  .bank-Danske-Bank:before {
+  .bank-UCO-Bank:before {
     content: "\e9da";
   }
-  .bank-JYSKE-Bank:before {
+  .bank-Banco-Santander:before {
     content: "\e9db";
   }
-  .bank-Nordea-Bank-Danmark:before {
+  .bank-Bank-Norwegian:before {
     content: "\e9dc";
   }
-  .bank-Nykredit:before {
+  .bank-DNB-ASA:before {
     content: "\e9dd";
   }
-  .bank-Saxo-Bank:before {
+  .bank-Nordlandsbanken:before {
     content: "\e9de";
   }
-  .bank-DBS-Bank:before {
+  .bank-YA-Bank:before {
     content: "\e9df";
   }
-  .bank-POSB-Bank:before {
+  .bank-Anglo-Irish-Bank:before {
     content: "\e9e0";
   }
-  .bank-Banks-of-Singapore:before {
+  .bank-Bank-of-Irland:before {
     content: "\e9e1";
   }
-  .bank-Jordan-Kuwait-Bank:before {
+  .bank-KBC-Bank-Irland:before {
     content: "\e9e2";
   }
-  .bank-Bank-Audi:before {
+  .bank-Allied-Irish-Banks:before {
     content: "\e9e3";
   }
-  .bank-Bank-of-Jordan:before {
+  .bank-Syd-Bank:before {
     content: "\e9e4";
   }
-  .bank-Cairo-Amman-Bank:before {
+  .bank-Alm-Brand:before {
     content: "\e9e5";
   }
-  .bank-Jordan-Ahli-Bank:before {
+  .bank-Danske-Bank:before {
     content: "\e9e6";
   }
-  .bank-BNP-Paribas:before {
+  .bank-JYSKE-Bank:before {
     content: "\e9e7";
   }
-  .bank-Bank-of-Bahrain-and-Kuwait:before {
+  .bank-Nordea-Bank-Danmark:before {
     content: "\e9e8";
   }
-  .bank-Compartamos-Banco:before {
+  .bank-Nykredit:before {
     content: "\e9e9";
   }
-  .bank-Banca-Mifel:before {
+  .bank-Saxo-Bank:before {
     content: "\e9ea";
   }
-  .bank-Banco-Azteca:before {
+  .bank-DBS-Bank:before {
     content: "\e9eb";
   }
-  .bank-Bank-of-Mexico:before {
+  .bank-POSB-Bank:before {
     content: "\e9ec";
   }
-  .bank-Banregio:before {
+  .bank-Banks-of-Singapore:before {
     content: "\e9ed";
   }
-  .bank-Banco-de-Bogota:before {
+  .bank-Jordan-Kuwait-Bank:before {
     content: "\e9ee";
   }
-  .bank-Banco-de-Occidente-Credencial:before {
+  .bank-Bank-Audi:before {
     content: "\e9ef";
   }
-  .bank-Bancolombia:before {
+  .bank-Bank-of-Jordan:before {
     content: "\e9f0";
   }
-  .bank-Daviviendaa:before {
+  .bank-Cairo-Amman-Bank:before {
     content: "\e9f1";
   }
-  .bank-Banco-Bradesco:before {
+  .bank-Jordan-Ahli-Bank:before {
     content: "\e9f2";
   }
-  .bank-Banco-do-Brasil:before {
+  .bank-BNP-Paribas:before {
     content: "\e9f3";
   }
-  .bank-Banco-Safra:before {
+  .bank-Bank-of-Bahrain-and-Kuwait:before {
     content: "\e9f4";
   }
-  .bank-Banrisul:before {
+  .bank-Compartamos-Banco:before {
+    content: "\ea1d";
+  }
+  .bank-Banca-Mifel:before {
+    content: "\ea1c";
+  }
+  .bank-Banco-Azteca:before {
+    content: "\ea1b";
+  }
+  .bank-Bank-of-Mexico:before {
+    content: "\ea1a";
+  }
+  .bank-Banregio:before {
+    content: "\ea19";
+  }
+  .bank-Banco-de-Bogota:before {
+    content: "\ea18";
+  }
+  .bank-Banco-de-Occidente-Credencial:before {
     content: "\e9f5";
   }
-  .bank-Caixa:before {
+  .bank-Bancolombia:before {
     content: "\e9f6";
   }
-  .bank-Itau:before {
+  .bank-Daviviendaa:before {
     content: "\e9f7";
   }
-  .bank-Central-Bank-of-Argentina:before {
+  .bank-Banco-Bradesco:before {
     content: "\e9f8";
   }
-  .bank-Banco-Credicoop:before {
+  .bank-Banco-do-Brasil:before {
     content: "\e9f9";
   }
-  .bank-Banco-Hipotecario:before {
+  .bank-Banco-Safra:before {
     content: "\e9fa";
   }
-  .bank-Banco-Macro:before {
+  .bank-Banrisul:before {
     content: "\e9fb";
   }
-  .bank-Banco-Patagonia:before {
+  .bank-Caixa:before {
     content: "\e9fc";
   }
-  .bank-Bank-of-the-Argentine-Nation:before {
+  .bank-Itau:before {
     content: "\e9fd";
   }
-  .bank-United-Bank:before {
+  .bank-Central-Bank-of-Argentina:before {
     content: "\e9fe";
   }
-  .bank-Al-Baraka:before {
+  .bank-Banco-Credicoop:before {
     content: "\e9ff";
   }
-  .bank-Allied-Bank:before {
+  .bank-Banco-Hipotecario:before {
     content: "\ea00";
   }
-  .bank-Askari-Bank:before {
+  .bank-Banco-Macro:before {
     content: "\ea01";
   }
-  .bank-Bank-Al-Habib:before {
+  .bank-Banco-Patagonia:before {
     content: "\ea02";
   }
-  .bank-Bank-Alfalah:before {
+  .bank-Bank-of-the-Argentine-Nation:before {
     content: "\ea03";
   }
-  .bank-Bank-of-Punjab:before {
+  .bank-United-Bank:before {
     content: "\ea04";
   }
-  .bank-BankIslami:before {
+  .bank-Al-Baraka:before {
     content: "\ea05";
   }
-  .bank-Dubai-Islamic-Bank:before {
+  .bank-Allied-Bank:before {
     content: "\ea06";
   }
-  .bank-Faysal-Bank:before {
+  .bank-Askari-Bank:before {
     content: "\ea07";
   }
-  .bank-Gullak_BANK:before {
+  .bank-Bank-Al-Habib:before {
     content: "\ea08";
   }
-  .bank-HBL:before {
+  .bank-Bank-Alfalah:before {
     content: "\ea09";
   }
-  .bank-JS-Bank:before {
+  .bank-Bank-of-Punjab:before {
     content: "\ea0a";
   }
-  .bank-MCB-Limited:before {
+  .bank-BankIslami:before {
     content: "\ea0b";
   }
-  .bank-Meezan-Bank:before {
+  .bank-Dubai-Islamic-Bank:before {
     content: "\ea0c";
   }
-  .bank-Money_box:before {
+  .bank-Faysal-Bank:before {
     content: "\ea0d";
   }
-  .bank-NBP:before {
+  .bank-Gullak-Bank:before {
     content: "\ea0e";
   }
-  .bank-NIB-Bank:before {
+  .bank-HBL:before {
     content: "\ea0f";
   }
-  .bank-Payment-Payoneer:before {
+  .bank-JS-Bank:before {
     content: "\ea10";
   }
-  .bank-Payment-Paypal:before {
+  .bank-MCB-Limited:before {
     content: "\ea11";
   }
-  .bank-Payment-Skrill:before {
+  .bank-Meezan-Bank:before {
     content: "\ea12";
   }
-  .bank-Samba-Bank:before {
+  .bank-Money-Box:before {
+    content: "\ea20";
+  }
+  .bank-NBP:before {
     content: "\ea13";
   }
-  .bank-Silk-Bank:before {
+  .bank-NIB-Bank:before {
     content: "\ea14";
   }
-  .bank-Sindh-Bank:before {
+  .bank-Payment-Payoneer:before {
     content: "\ea15";
   }
-  .bank-Soneri-Bank:before {
+  .bank-Payment-Paypal:before {
     content: "\ea16";
   }
-  .bank-Standard-Chartered:before {
+  .bank-Payment-Skrill:before {
     content: "\ea17";
   }
+  .bank-Samba-Bank:before {
+    content: "\ea21";
+  }
+  .bank-Silk-Bank:before {
+    content: "\ea22";
+  }
+  .bank-Sindh-Bank:before {
+    content: "\ea23";
+  }
+  .bank-Soneri-Bank:before {
+    content: "\ea24";
+  }
+  .bank-Standard-Chartered:before {
+    content: "\ea25";
+  }
   .bank-Summit-Bank:before {
-    content: "\ea18";
+    content: "\ea26";
   }
 }

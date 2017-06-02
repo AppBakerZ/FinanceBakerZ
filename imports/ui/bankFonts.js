@@ -6,11 +6,11 @@ export default {
         },
         {
             label: 'Gullak Bank',
-            value: 'bank-Gullak_BANK'
+            value: 'bank-Gullak-Bank'
         },
         {
             label: 'Money box',
-            value: 'bank-Money_box'
+            value: 'bank-Money-Box'
         },
         {
             label: 'Allied Bank',
