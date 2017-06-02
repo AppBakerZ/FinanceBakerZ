@@ -217,7 +217,7 @@ class Form extends Component {
                        onChange={this.onChange.bind(this)}
                     />
 
-                <Dropdown
+                <Dropdown theme={theme} className={theme.projectStatus}
                     auto={true}
                     source={this.props.statuses}
                     name='status'
