@@ -173,7 +173,7 @@ class AccountsPage extends Component {
                         <div> <FormattedMessage {...il8n.BANK} />  <strong>{accountHelpers.alterName(account.bank)}</strong></div>
                         <div> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> <strong>{account.number || 'Not Available'}</strong></div>
                         {this.getAvailableBalance([account._id], index)}
-                        <div> <FormattedMessage {...il8n.AVAILABLE_BALANCE} /> <strong>{this.getFormattedCurrency(account.availableBalance) || 'Loading ...'}</strong></div>
+                        <div> <FormattedMessage {...il8n.AVAILABLE_BALANCE} /> <strong>{this.getFormattedCurrency(account.availableBalance || 0) || 'Loading ...'}</strong></div>
                     </div>,
                 actions:
                     <div className={theme.buttonParent}>
