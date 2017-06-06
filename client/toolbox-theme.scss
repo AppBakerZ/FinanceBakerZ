@@ -16,20 +16,16 @@ $preferred-font: 'Nexa Bold Regular', 'Arial', sans-serif !default;
 
 @font-face {
   font-family: 'Nexa Light Regular';
-  src: url('/fonts/nexa_light-webfont.woff2') format('woff2'),
-  url('/fonts/nexa_light-webfont.woff') format('woff');
+  src: url('/fonts/nexa_light-webfont.woff');
   font-weight: normal;
   font-style: normal;
-
 }
 
 @font-face {
   font-family: 'Nexa Bold Regular';
-  src: url('/fonts/nexa_bold-webfont.woff2') format('woff2'),
-  url('/fonts/nexa_bold-webfont.woff') format('woff');
+  src: url('/fonts/nexa_bold-webfont.woff');
   font-weight: normal;
   font-style: normal;
-
 }
 
 body {
