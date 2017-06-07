@@ -228,14 +228,32 @@
 body[dir="rtl"] .inputDropdown {
   margin-right: $unit * 3.5;
 }
-
 body[dir="rtl"] .pageTitle {
   height: $unit * 8;
   padding: 2.3rem 4rem 2.3rem 5rem;
 }
-
 body[dir="rtl"] .pageTitle button {
   float: left !important;
+}
+body[dir="rtl"] .buttonBox button:first-child {
+  margin-left: $unit * 1.8;
+  margin-right: 0;
+}
+body[dir="rtl"] .buttonArea button:first-child {
+  margin-left: $unit * 1.8;
+  margin-right: 0;
+}
+body[dir="rtl"] .buttonBox button {
+  height: 4rem;
+}
+body[dir="rtl"] .contentTwo div p {
+  line-height: 3.5rem;
+}
+body[dir="rtl"] .confirmText h3 {
+  float: none !important;
+}
+body[dir="rtl"] .confirmText p {
+  line-height: 3rem;
 }
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////

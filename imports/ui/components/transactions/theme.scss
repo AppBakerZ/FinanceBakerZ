@@ -295,9 +295,22 @@ body[dir="rtl"] .pageTitle {
   height: $unit * 8;
   padding: 1.7rem 4rem 2.3rem 5rem;
 }
-
 body[dir="rtl"] .pageTitle > div {
   float: left !important;
+}
+body[dir="rtl"] .contentParent .contentTwo p {
+  line-height: 3.5rem;
+}
+body[dir="rtl"] .contentParent .contentThree button:first-child {
+  margin-right: 0;
+  margin-left: 2rem;
+}
+body[dir="rtl"] .buttonBox button:last-of-type {
+  margin-right: 2rem;
+  margin-left: 0;
+}
+body[dir="rtl"] .confirmText p {
+  line-height: 3.5rem;
 }
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
