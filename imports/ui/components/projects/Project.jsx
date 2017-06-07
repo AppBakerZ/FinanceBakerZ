@@ -210,7 +210,7 @@ class ProjectPage extends Component {
         if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
             console.log('handleScroll');
             let copyQuery = query.get();
-            copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber + 1);
+            copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber += 1);
             query.set(copyQuery);
         }
     }
