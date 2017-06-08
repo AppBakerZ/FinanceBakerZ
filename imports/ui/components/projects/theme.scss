@@ -255,6 +255,11 @@ body[dir="rtl"] .confirmText h3 {
 body[dir="rtl"] .confirmText p {
   line-height: 3rem;
 }
+body[dir="rtl"] .inputDropdown div div:after {
+  left: 0;
+  right: auto;
+  top: 55%;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

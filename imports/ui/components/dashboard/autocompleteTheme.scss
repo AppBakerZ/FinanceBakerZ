@@ -56,6 +56,11 @@ body[dir="rtl"] .autocomplete .value span:first-of-type {
 body[dir="rtl"] .autocomplete .value span:last-of-type {
   top: 1px;
 }
+body[dir="rtl"] .autocomplete .input:after {
+  left: 0;
+  right: auto;
+  top: 75%;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

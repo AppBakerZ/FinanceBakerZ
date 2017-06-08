@@ -312,6 +312,23 @@ body[dir="rtl"] .buttonBox button:last-of-type {
 body[dir="rtl"] .confirmText p {
   line-height: 3.5rem;
 }
+body[dir="rtl"] .dashboardAutocomplete .values div span:first-child {
+  float: left;
+  padding: 6px 0 6px 0;
+  margin: -8px 0 0 0;
+}
+body[dir="rtl"] .dashboardAutocomplete .values div span:last-of-type {
+  margin: 2px 0.4rem 0;
+}
+body[dir="rtl"] .dashboardAutocomplete .input:after {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dashboardAutocomplete div div:after {
+  left: 0;
+  right: auto;
+}
+
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
