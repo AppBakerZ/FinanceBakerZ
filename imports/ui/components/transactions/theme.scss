@@ -328,7 +328,20 @@ body[dir="rtl"] .dashboardAutocomplete div div:after {
   left: 0;
   right: auto;
 }
-
+body[dir="rtl"] .dashboardAutocompleteLast {
+  margin-right: 20px;
+}
+body[dir="rtl"] .dashboardAutocompleteLast div div:after{
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dashboardAutocompleteLastOne {
+  margin-right: 20px;
+}
+body[dir="rtl"] .dashboardAutocompleteLastOne div:after{
+  left: 0;
+  right: auto;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

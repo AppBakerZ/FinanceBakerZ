@@ -339,6 +339,7 @@ class DashboardPage extends Component {
                                         />
 
                                     <Dropdown theme={dropdownTheme}
+                                              className={theme.autoDropdown}
                                               auto={false}
                                               source={this.filters()}
                                               name='filterBy'
