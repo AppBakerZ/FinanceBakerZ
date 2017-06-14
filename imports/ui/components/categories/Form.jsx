@@ -211,7 +211,7 @@ class Form extends Component {
         }
 
         return (
-            <div className={parentClass}>
+            <div className={parentClass} title={icon.label.replace(/-/g, " ")}>
                 <i className={icon.value}/>
             </div>
         );
