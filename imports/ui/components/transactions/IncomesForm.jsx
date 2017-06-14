@@ -117,7 +117,7 @@ class IncomesForm extends Component {
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = (project && type == "project" && {_id: project}) || {};
+        project = (project && type == "project" && {_id: project});
 
         Meteor.call('incomes.insert', {
             income: {
