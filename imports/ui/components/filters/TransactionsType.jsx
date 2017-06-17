@@ -3,7 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Dropdown } from 'react-toolbox';
 
-export default class TransactionsType extends Component {
+class TransactionsType extends Component {
 
     constructor(props) {
         super(props);
@@ -25,8 +25,7 @@ export default class TransactionsType extends Component {
         }];
     }
     selectType (type) {
-        this.setState({type});
-        this.props.getType(type)
+        updateFilter('reports', 'type', type)
     }
     typeItem (type) {
         return (
@@ -42,9 +41,17 @@ export default class TransactionsType extends Component {
                 source={this.types()}
                 onChange={this.selectType.bind(this)}
                 label='Filter By Type'
-                value={this.state.type}
+                value={this.props.local.type}
                 template={this.typeItem}
             />
         );
     }
 }
+
+export default createContainer(() => {
+    return {
+        local: LocalCollection.findOne({
+            name: 'reports'
+        })
+    };
+}, TransactionsType);

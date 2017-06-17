@@ -3,7 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Dropdown } from 'react-toolbox';
 
-export default class FilterBy extends Component {
+class FilterBy extends Component {
 
     constructor(props) {
         super(props);
@@ -24,9 +24,8 @@ export default class FilterBy extends Component {
                 value: 'week'
         }];
     }
-    selectFilter (type) {
-        this.setState({type});
-        this.props.getFilter(type)
+    selectFilter (filter) {
+        updateFilter('reports', 'filter', filter)
     }
     filterItem (filter) {
         return (
@@ -43,9 +42,17 @@ export default class FilterBy extends Component {
                 name='filterBy'
                 onChange={this.selectFilter.bind(this)}
                 label='Filter By'
-                value={this.state.filterBy}
+                value={this.props.local.filter}
                 template={this.filterItem}
             />
         );
     }
 }
+
+export default createContainer(() => {
+    return {
+        local: LocalCollection.findOne({
+            name: 'reports'
+        })
+    };
+}, FilterBy);

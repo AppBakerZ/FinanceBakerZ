@@ -6,6 +6,7 @@ import AccountsDD from '/imports/ui/components/filters/AccountsDD.jsx';
 import TransactionsType from '/imports/ui/components/filters/TransactionsType.jsx';
 import FilterBy from '/imports/ui/components/filters/FilterBy.jsx';
 import ProjectsDD from '/imports/ui/components/filters/ProjectsDD.jsx';
+import CategoriesDD from '/imports/ui/components/filters/CategoriesDD.jsx';
 
 import { Meteor } from 'meteor/meteor';
 
@@ -14,28 +15,16 @@ class ReportsPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-        };
-    }
-    getAccounts(accounts){
-        console.log('accounts', accounts);
-    }
-    getType(type){
-        console.log('type', type);
-    }
-    getFilter(filter){
-        console.log('filter', filter);
-    }
-    getProjects(project){
-        console.log('project', project);
+        this.state = {};
     }
     render() {
         return (
             <div className='reports'>
-                <AccountsDD  getAccounts={this.getAccounts.bind(this)}/>
-                <TransactionsType  getType={this.getType.bind(this)}/>
-                <FilterBy  getFilter={this.getFilter.bind(this)}/>
-                <ProjectsDD  getProjects={this.getProjects.bind(this)}/>
+                <AccountsDD />
+                <TransactionsType />
+                <FilterBy />
+                <ProjectsDD />
+                <CategoriesDD />
             </div>
         );
     }
@@ -44,6 +33,5 @@ class ReportsPage extends Component {
 ReportsPage.propTypes = {};
 
 export default createContainer(() => {
-
     return {};
 }, ReportsPage);

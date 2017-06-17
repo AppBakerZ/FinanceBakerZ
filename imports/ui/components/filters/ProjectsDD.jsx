@@ -24,8 +24,7 @@ class ProjectsDD extends Component {
     }
 
     filterByProjects(projects) {
-        this.setState({multiple: projects});
-        this.props.getProjects(projects)
+        updateFilter('reports', 'projects', projects)
     }
 
     render() {
@@ -35,7 +34,7 @@ class ProjectsDD extends Component {
                 onChange={this.filterByProjects.bind(this)}
                 label='Projects'
                 source={this.projects()}
-                value={this.state.multiple}
+                value={this.props.local.projects}
                 />
         );
     }
@@ -51,6 +50,9 @@ export default createContainer(() => {
     const projects = Projects.find().fetch();
 
     return {
-        projects
+        projects,
+        local: LocalCollection.findOne({
+            name: 'reports'
+        })
     };
 }, ProjectsDD);

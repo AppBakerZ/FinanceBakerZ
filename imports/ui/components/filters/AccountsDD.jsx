@@ -23,10 +23,8 @@ class AccountsDD extends Component {
         return accounts;
     }
     filterByAccounts(accounts) {
-        this.setState({multiple: accounts});
-        this.props.getAccounts(accounts)
+        updateFilter('reports', 'accounts', accounts)
     }
-
     render() {
         return (
             <Autocomplete
@@ -34,7 +32,7 @@ class AccountsDD extends Component {
                 onChange={this.filterByAccounts.bind(this)}
                 label='Accounts'
                 source={this.accounts()}
-                value={this.state.multiple}
+                value={this.props.local.accounts}
                 />
         );
     }
@@ -50,6 +48,9 @@ export default createContainer(() => {
     const accounts = Accounts.find({}).fetch();
 
     return {
-        accounts
+        accounts,
+        local: LocalCollection.findOne({
+            name: 'reports'
+        })
     };
 }, AccountsDD);
