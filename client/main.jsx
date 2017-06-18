@@ -11,7 +11,9 @@ LocalCollection.insert({
     categories: [],
     projects: [],
     type: 'both',
-    filter: 'month'
+    filter: 'month',
+    dateFrom: '',
+    dateTo: ''
 });
 
 updateFilter = function (name, key, value){

@@ -5,6 +5,7 @@ import { } from 'react-toolbox';
 import AccountsDD from '/imports/ui/components/filters/AccountsDD.jsx';
 import TransactionsType from '/imports/ui/components/filters/TransactionsType.jsx';
 import FilterBy from '/imports/ui/components/filters/FilterBy.jsx';
+import DateRange from '/imports/ui/components/filters/DateRange.jsx';
 import ProjectsDD from '/imports/ui/components/filters/ProjectsDD.jsx';
 import CategoriesDD from '/imports/ui/components/filters/CategoriesDD.jsx';
 
@@ -18,20 +19,24 @@ class ReportsPage extends Component {
         this.state = {};
     }
     render() {
+        console.log("this.props.local.filter == 'range'", this.props.local.filter == 'range');
         return (
             <div className='reports'>
                 <AccountsDD />
                 <TransactionsType />
+                {this.props.local.type == 'incomes' ? <ProjectsDD /> : ''}
+                {this.props.local.type == 'expenses' ? <CategoriesDD /> : ''}
                 <FilterBy />
-                <ProjectsDD />
-                <CategoriesDD />
+                {this.props.local.filter == 'range' ? <DateRange /> : ''}
             </div>
         );
     }
 }
 
-ReportsPage.propTypes = {};
-
 export default createContainer(() => {
-    return {};
+    return {
+        local: LocalCollection.findOne({
+            name: 'reports'
+        })
+    };
 }, ReportsPage);

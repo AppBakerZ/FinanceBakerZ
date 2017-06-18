@@ -7,13 +7,18 @@ import { Meteor } from 'meteor/meteor';
 
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 import { Accounts } from '../../../api/accounts/accounts.js';
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    FILTER_BY_ACCOUNT: {
+        id: 'TRANSACTIONS.FILTER_BY_ACCOUNT'
+    }
+});
 
 class AccountsDD extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {};
     }
     accounts(){
         let accounts = {};
@@ -26,11 +31,12 @@ class AccountsDD extends Component {
         updateFilter('reports', 'accounts', accounts)
     }
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <Autocomplete
                 direction='down'
                 onChange={this.filterByAccounts.bind(this)}
-                label='Accounts'
+                label={formatMessage(il8n.FILTER_BY_ACCOUNT)}
                 source={this.accounts()}
                 value={this.props.local.accounts}
                 />
@@ -42,7 +48,7 @@ AccountsDD.propTypes = {
     accounts: PropTypes.array.isRequired
 };
 
-export default createContainer(() => {
+export default injectIntl(createContainer(() => {
 
     Meteor.subscribe('accounts');
     const accounts = Accounts.find({}).fetch();
@@ -53,4 +59,4 @@ export default createContainer(() => {
             name: 'reports'
         })
     };
-}, AccountsDD);
+}, AccountsDD));

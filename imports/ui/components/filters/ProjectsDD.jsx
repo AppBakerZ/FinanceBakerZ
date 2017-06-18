@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-
 import { Autocomplete } from 'react-toolbox';
-
 import { Meteor } from 'meteor/meteor';
-
 import { Projects } from '../../../api/projects/projects.js';
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    FILTER_BY_PROJECT: {
+        id: 'TRANSACTIONS.FILTER_BY_PROJECT'
+    }
+});
 
 class ProjectsDD extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {};
     }
     projects(){
         let projects = {};
@@ -22,17 +24,16 @@ class ProjectsDD extends Component {
 
         return projects;
     }
-
     filterByProjects(projects) {
         updateFilter('reports', 'projects', projects)
     }
-
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <Autocomplete
                 direction='down'
                 onChange={this.filterByProjects.bind(this)}
-                label='Projects'
+                label={formatMessage(il8n.FILTER_BY_PROJECT)}
                 source={this.projects()}
                 value={this.props.local.projects}
                 />
@@ -44,7 +45,7 @@ ProjectsDD.propTypes = {
     projects: PropTypes.array.isRequired
 };
 
-export default createContainer(() => {
+export default injectIntl(createContainer(() => {
 
     Meteor.subscribe('projects.all');
     const projects = Projects.find().fetch();
@@ -55,4 +56,4 @@ export default createContainer(() => {
             name: 'reports'
         })
     };
-}, ProjectsDD);
+}, ProjectsDD));
