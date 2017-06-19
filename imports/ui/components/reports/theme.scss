@@ -1,0 +1,11 @@
+.reports{
+  width: 100%;
+  padding: 0 15px;
+  > div{
+    > div{
+      width: 16%;
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+}

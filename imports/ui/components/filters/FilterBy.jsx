@@ -3,6 +3,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
 
+import theme from './theme';
+
 const il8n = defineMessages({
     FILTER_BY: {
         id: 'TRANSACTIONS.FILTER_BY'
@@ -82,6 +84,7 @@ class FilterBy extends Component {
         const { formatMessage } = this.props.intl;
         return (
             <Dropdown
+                className={theme.dropDowns}
                 auto={false}
                 source={this.filters()}
                 name='filterBy'

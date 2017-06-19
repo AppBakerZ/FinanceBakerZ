@@ -1,0 +1,19 @@
+.datePickers{
+  display: inline-block !important;
+  width: 33.3% !important;
+  margin-right: 0 !important;
+  > div{
+    &:first-of-type{
+      width: 48%;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    &:last-of-type{
+      width: 49%;
+      display: inline-block;
+    }
+  }
+}
+.dropDowns{
+  top: -3px;
+}

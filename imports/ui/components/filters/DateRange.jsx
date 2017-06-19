@@ -3,6 +3,8 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { DatePicker } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
 
+import theme from './theme';
+
 const il8n = defineMessages({
     DATE_FROM: {
         id: 'TRANSACTIONS.DATE_FROM'
@@ -22,7 +24,7 @@ class DateRange extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <div>
+            <div className={theme.datePickers}>
                 <DatePicker
                     label={formatMessage(il8n.DATE_FROM)}
                     name='dateFrom'

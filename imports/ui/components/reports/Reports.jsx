@@ -6,6 +6,8 @@ import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
 
 import { Meteor } from 'meteor/meteor';
 
+import theme from './theme';
+
 class ReportsPage extends Component {
 
     constructor(props) {
@@ -15,7 +17,7 @@ class ReportsPage extends Component {
     }
     render() {
         return (
-            <div className='reports'>
+            <div className={theme.reports}>
                 <FilterBar />
             </div>
         );
