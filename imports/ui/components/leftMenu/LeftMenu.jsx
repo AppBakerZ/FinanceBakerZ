@@ -111,8 +111,10 @@ class LeftMenu extends Component {
                         <ListItem className={this.isActive('settings')} caption= {formatMessage(il8n.SETTINGS)} leftIcon='settings' theme={listItemTheme}/>
                     </Link>
                     <ListItem caption= {formatMessage(il8n.LOGOUT_BUTTON)} leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
+                    <Link>
                     {/*this button is just to test pay by easy paisa event*/}
                     <ListItem caption='EasyPaisa'  leftIcon='payment' onClick={this.easyPaisa.bind(this)} theme={listItemTheme}/>
+                    </Link>
                 </List>
             </Drawer>
         );

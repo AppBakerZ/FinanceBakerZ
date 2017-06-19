@@ -12,10 +12,10 @@ import { HTTP } from 'meteor/http'
 // };
 
 //this one is test url for direct merchant transaction
-testURL = 'https://easypay.easypaisa.com.pk/easypay-service/PartnerBusinessService/META-INF/wsdl/partner/transaction/PartnerBusinessService.wsdl';
+let testURL = 'https://easypay.easypaisa.com.pk/easypay-service/PartnerBusinessService/META-INF/wsdl/partner/transaction/PartnerBusinessService.wsdl';
 
 //here is minimal merchant test config obj
-testConfig = {
+let testConfig = {
     Username: 'pgsystems',
     password: '9b01234324vxddc0b',
     channel: 'Internet',
@@ -30,17 +30,17 @@ testConfig = {
 
 //and the initial data to check the server different responses with HTTP call
 let initialData = {
-    storeId: '5820',
-    amount: '1000.00',
-    postBackURL: 'http://localhost:3000/app/transactions',
-    orderRefNum: '1101',
-    expiryDate: '20140606 201521',
+    storeId: 5820,
+    amount: '10',
+    postBackURL: 'http://localhost:3000/',
+    mobileNum: '03325241789'
 };
 
 //generalize http request with parameter diff
 function maketestreqest(form){
-    HTTP.call("POST", "https://easypaystg.easypaisa.com.pk/easypay/Index.jsf", {
-                   data: initialData
+    // HTTP.call("POST", "https://easypaystg.easypaisa.com.pk/easypay/Index.jsf", {
+    HTTP.call("POST", "https://easypay.easypaisa.com.pk/easypay/Index.jsf", {
+                    data: initialData
                },
                function (error, result) {
                    if (!error) {
@@ -81,6 +81,7 @@ function makeInitialRequest(fname){
     });
 }
 
-//TODO:made is complete dynamic from here instead of stand alone module
-module.exports = maketestreqest;
-
+//TODO:complete dynamic request based on dynamic arguments.
+export const easyPaisa = {
+    maketestreqest: maketestreqest
+};

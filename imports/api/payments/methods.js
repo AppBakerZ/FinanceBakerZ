@@ -29,9 +29,12 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ payment }) {
         payment.user = this.userId;
-        console.log(easyPaisa);
+        easyPaisa.maketestreqest((err, response) => {
+            console.log('err', err);
+            console.log('response', response)
+        });
 
-        return Payments.insert(payment);
+        // return Payments.insert(payment);
     }
 });
 
