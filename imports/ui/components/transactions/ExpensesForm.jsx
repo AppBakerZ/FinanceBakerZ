@@ -228,7 +228,7 @@ class ExpensesForm extends Component {
     renderButton (){
         const { formatMessage } = this.props.intl;
         let button;
-        if(this.state.isNewRoute){
+        if(this.props.isNewRoute){
             button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='add' label={formatMessage(il8n.ADD_EXPENSE_BUTTON)} raised primary />
             </div>
