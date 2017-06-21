@@ -35,13 +35,12 @@ class EasyPaisa extends Component {
         return (
             <div className={theme.easyPaisaBanner}>
                 {/*<a href={`easypaystg.easypaisa.com.pk/easypay/Confirm.jsf?auth_token=${this.props.location.query.auth_token}&postBackURL=${this.props.location.query.postBackURL}`}>confirm</a>*/}
-                <a onClick={this.confirmPayment.bind(this)}>confirm</a>
                 <Card className={theme.cardContent}>
                     <div className="">
                         <img src="../assets/images/download.png" alt=""/>
                         <h2>processing to <br/>easypay</h2>
                         <span className={theme.pleaseText}>please</span>
-                        <Button className={theme.easyPaisaBtn} label='Confirm' raised />
+                        <Button className={theme.easyPaisaBtn} onClick={this.confirmPayment.bind(this)} label='Confirm' raised />
                     </div>
                 </Card>
             </div>
