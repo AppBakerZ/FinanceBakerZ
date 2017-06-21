@@ -6,6 +6,8 @@ import { IconButton, Input, Button } from 'react-toolbox';
 
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
+import theme from './theme';
+import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 
 // App component - represents the whole app
 class EasyPaisa extends Component {
@@ -31,9 +33,17 @@ class EasyPaisa extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <div>
+            <div className={theme.easyPaisaBanner}>
                 {/*<a href={`easypaystg.easypaisa.com.pk/easypay/Confirm.jsf?auth_token=${this.props.location.query.auth_token}&postBackURL=${this.props.location.query.postBackURL}`}>confirm</a>*/}
                 <a onClick={this.confirmPayment.bind(this)}>confirm</a>
+                <Card className={theme.cardContent}>
+                    <div className="">
+                        <img src="../assets/images/download.png" alt=""/>
+                        <h2>processing to <br/>easypay</h2>
+                        <span className={theme.pleaseText}>please</span>
+                        <Button className={theme.easyPaisaBtn} label='Confirm' raised />
+                    </div>
+                </Card>
             </div>
         );
     }
