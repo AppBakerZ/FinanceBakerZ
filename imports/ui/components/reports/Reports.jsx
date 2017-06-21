@@ -1,29 +1,41 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input } from 'react-toolbox';
-import { Link } from 'react-router'
-import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
+import { } from 'react-toolbox';
+import AccountsDD from '/imports/ui/components/filters/AccountsDD.jsx';
+import TransactionsType from '/imports/ui/components/filters/TransactionsType.jsx';
+import FilterBy from '/imports/ui/components/filters/FilterBy.jsx';
+import ProjectsDD from '/imports/ui/components/filters/ProjectsDD.jsx';
 
 import { Meteor } from 'meteor/meteor';
-import { ReactiveVar } from 'meteor/reactive-var'
 
 class ReportsPage extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+        };
     }
-
-    runTest(){
-
+    getAccounts(accounts){
+        console.log('accounts', accounts);
     }
-
+    getType(type){
+        console.log('type', type);
+    }
+    getFilter(filter){
+        console.log('filter', filter);
+    }
+    getProjects(project){
+        console.log('project', project);
+    }
     render() {
         return (
             <div className='reports'>
-                <button onClick={this.runTest.bind(this)}>Test</button>
+                <AccountsDD  getAccounts={this.getAccounts.bind(this)}/>
+                <TransactionsType  getType={this.getType.bind(this)}/>
+                <FilterBy  getFilter={this.getFilter.bind(this)}/>
+                <ProjectsDD  getProjects={this.getProjects.bind(this)}/>
             </div>
         );
     }
@@ -32,5 +44,6 @@ class ReportsPage extends Component {
 ReportsPage.propTypes = {};
 
 export default createContainer(() => {
+
     return {};
 }, ReportsPage);
