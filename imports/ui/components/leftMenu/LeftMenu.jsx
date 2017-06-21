@@ -33,6 +33,9 @@ const il8n = defineMessages({
     SETTINGS: {
         id: 'LEFTMENU.SETTINGS'
     },
+    PAYMENTS: {
+        id: 'LEFTMENU.PAYMENTS'
+    },
     LOGOUT_BUTTON: {
         id: 'LEFTMENU.LOGOUT_BUTTON'
     }
@@ -110,18 +113,10 @@ class LeftMenu extends Component {
                     <Link to={`/app/settings`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('settings')} caption= {formatMessage(il8n.SETTINGS)} leftIcon='settings' theme={listItemTheme}/>
                     </Link>
-                    <ListItem caption= {formatMessage(il8n.LOGOUT_BUTTON)} leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
-                    <Link>
-                    {/*this button is just to test pay by easy paisa event*/}
-                        <form action="https://easypay.easypaisa.com.pk/easypay/Index.jsf" method="POST">
-                            <input type="hidden" name="storeId" value="5820" />
-                            <input type="hidden" name="amount" value="10" hidden />
-                            <input type="hidden" name="postBackURL" value="http://localhost:3000/app/easyPaisa" hidden/>
-                            <input type="hidden" name="orderRefNum" value="1101" />
-                            <input type="hidden" name="mobileNum" value="03325241789" />
-                            <input caption='EasyPaisa' leftIcon='payment' name="pay" theme={listItemTheme} type="submit"/>
-                        </form>
+                    <Link to={`/app/payments`} onClick={this.toggleDrawerActive.bind(this)}>
+                        <ListItem className={this.isActive('payments')} caption= {formatMessage(il8n.PAYMENTS)} leftIcon='payment' theme={listItemTheme}/>
                     </Link>
+                    <ListItem caption= {formatMessage(il8n.LOGOUT_BUTTON)} leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
                 </List>
             </Drawer>
         );

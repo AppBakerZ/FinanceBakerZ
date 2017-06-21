@@ -219,7 +219,10 @@
     "LEFTMENU.CATEGORIES": "Categories",
     "LEFTMENU.REPORTS": "Reports",
     "LEFTMENU.SETTINGS": "Settings",
-    "LEFTMENU.LOGOUT_BUTTON": "Logout"
+    "LEFTMENU.PAYMENTS": "Payments",
+    "LEFTMENU.LOGOUT_BUTTON": "Logout",
+    "PAYMENTS.PAYMENTS": "Payments",
+    "PAYMENTS.METHOD": "Payment Method"
 },
 
   "ur": {
@@ -442,7 +445,9 @@
     "LEFTMENU.CATEGORIES": "اقسام ",
     "LEFTMENU.REPORTS": "نتائج",
     "LEFTMENU.SETTINGS": " ترتیبات",
-    "LEFTMENU.LOGOUT_BUTTON": " خروج"
+    "LEFTMENU.PAYMENTS": " ادائگی",
+    "PAYMENTS.PAYMENTS": " ادائگی",
+    "PAYMENTS.METHOD": "ذریعہ"
   }
 
 }
