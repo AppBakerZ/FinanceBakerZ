@@ -1,0 +1,27 @@
+.table{
+  padding-top: 20px;
+  thead{
+    tr{
+      th{
+        font-size: 2rem;
+        color: #333;
+        border-right: solid 0.2rem rgba(0, 0, 0, 0.12);
+        &:first-child{
+          font-size: 0;
+          padding: 0 2rem;
+        }
+      }
+    }
+  }
+  tbody{
+    tr{
+      td{
+        font-size: 2rem;
+        text-transform: capitalize;
+        color: #333333;
+        border-bottom: solid 0.2rem rgba(0, 0, 0, 0.12);
+        padding: 0.2rem 3.5rem 0 3.5rem;
+      }
+    }
+  }
+}

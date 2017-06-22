@@ -8,6 +8,7 @@ import { Table } from 'react-toolbox';
 import {defineMessages, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
+import transactionsTable from './transactionsTable';
 
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
@@ -65,7 +66,7 @@ class TransactionsTable extends Component {
         });
 
         return (
-            <Table model={this.getTableModel()}
+            <Table theme={transactionsTable} model={this.getTableModel()}
                    source={data}
                    onRowClick={this.selectItem.bind(this)}
                    selectable={false}
