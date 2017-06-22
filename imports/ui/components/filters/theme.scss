@@ -28,6 +28,7 @@
   width: 20%;
   display: inline-block;
   float: left;
+  top: 7px;
 }
 .filterDropDowns{
   width: 20%;
@@ -83,7 +84,7 @@
   .autoCompleteIncome{
     width: 100%;
     display: inline-block;
-    top: -7px;
+    top: 0;
     > div{
       width: 26%;
       display: inline-block;
