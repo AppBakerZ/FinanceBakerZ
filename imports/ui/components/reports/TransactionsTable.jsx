@@ -13,6 +13,7 @@ import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
 
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
+import { dateHelpers } from '../../../helpers/dateHelpers.js'
 
 const il8n = defineMessages({
     TRANSACTION_DATE: {
@@ -81,11 +82,20 @@ TransactionsTable.propTypes = {
 
 export default createContainer(() => {
 
+    const local = LocalCollection.findOne({
+        name: 'reports'
+    });
+
     const transactionsHandle = Meteor.subscribe('transactions', {
         limit : 10,
-        accounts: [],
-        dateFilter: '',
-        type: ''
+        accounts: local.accounts,
+        dateFilter: dateHelpers.filterByDate(local.filter, {
+            dateFrom: local.dateFrom,
+            dateTo: local.dateTo
+        }),
+        type: local.type,
+        filterByCategory: local.type == 'expenses' ? local.categories : '',
+        filterByProjects: local.type == 'incomes' ? local.projects : ''
     });
 
     const transactionsLoading = !transactionsHandle.ready();
@@ -99,9 +109,7 @@ export default createContainer(() => {
     }).reverse();
 
     return {
-        local: LocalCollection.findOne({
-            name: 'reports'
-        }),
+        local,
         transactions
     };
 }, TransactionsTable);

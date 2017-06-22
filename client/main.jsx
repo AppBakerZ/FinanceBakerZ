@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
+import moment from 'moment';
 
 import '/imports/startup/client';
 
@@ -11,9 +12,10 @@ LocalCollection.insert({
     categories: [],
     projects: [],
     type: 'both',
-    filter: 'month',
-    dateFrom: '',
-    dateTo: ''
+    filter: 'range',
+    dateFilter: '',
+    dateFrom: moment().subtract(1, 'months').startOf('month').format(),
+    dateTo: moment().startOf('today').format()
 });
 
 updateFilter = function (name, key, value){
