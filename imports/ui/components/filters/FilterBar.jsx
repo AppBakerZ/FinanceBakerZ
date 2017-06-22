@@ -21,12 +21,14 @@ class FilterBar extends Component {
     render() {
         return (
             <div className='filter-bar'>
+                <FilterBy />
+                {this.props.local.filter == 'range' ? <DateRange /> : ''}
                 <AccountsDD />
                 <TransactionsType />
                 {this.props.local.type == 'incomes' ? <ProjectsDD /> : ''}
                 {this.props.local.type == 'expenses' ? <CategoriesDD /> : ''}
-                <FilterBy />
-                {this.props.local.filter == 'range' ? <DateRange /> : ''}
+
+
             </div>
         );
     }

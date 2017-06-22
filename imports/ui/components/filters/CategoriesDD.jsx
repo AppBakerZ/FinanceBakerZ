@@ -5,6 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
 
+import theme from './theme';
+
 const il8n = defineMessages({
     FILTER_BY_CATEGORY: {
         id: 'TRANSACTIONS.FILTER_BY_CATEGORY'
@@ -32,13 +34,17 @@ class CategoriesDD extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <Autocomplete
-                direction='down'
-                onChange={this.filterByCategories.bind(this)}
-                label={formatMessage(il8n.FILTER_BY_CATEGORY)}
-                source={this.categories()}
-                value={this.props.local.categories}
-                />
+            <div className={theme.autoCompleteIncomeParent}>
+                <Autocomplete
+                    theme={theme}
+                    className={theme.autoCompleteIncome}
+                    direction='down'
+                    onChange={this.filterByCategories.bind(this)}
+                    label={formatMessage(il8n.FILTER_BY_CATEGORY)}
+                    source={this.categories()}
+                    value={this.props.local.categories}
+                    />
+            </div>
         );
     }
 }

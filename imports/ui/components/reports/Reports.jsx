@@ -69,7 +69,7 @@ class ReportsPage extends Component {
         return (
             <div className={theme.reports}>
                 <FilterBar />
-                <Table model={this.getTableModel()}
+                <Table model={this.getTableModel()} className={theme.tableReport}
                        source={data}
                        onRowClick={this.selectItem.bind(this)}
                        selectable={false}

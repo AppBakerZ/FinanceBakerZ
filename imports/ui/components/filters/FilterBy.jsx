@@ -84,7 +84,7 @@ class FilterBy extends Component {
         const { formatMessage } = this.props.intl;
         return (
             <Dropdown
-                className={theme.dropDowns}
+                className={theme.filterDropDowns}
                 auto={false}
                 source={this.filters()}
                 name='filterBy'

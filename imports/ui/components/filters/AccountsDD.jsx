@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Autocomplete } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
+import theme from './theme';
 
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 import { Accounts } from '../../../api/accounts/accounts.js';
@@ -33,13 +34,15 @@ class AccountsDD extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <Autocomplete
+            <div className={theme.autoCompleteParent}>
+            <Autocomplete theme={theme}
                 direction='down'
                 onChange={this.filterByAccounts.bind(this)}
                 label={formatMessage(il8n.FILTER_BY_ACCOUNT)}
                 source={this.accounts()}
                 value={this.props.local.accounts}
                 />
+            </div>
         );
     }
 }

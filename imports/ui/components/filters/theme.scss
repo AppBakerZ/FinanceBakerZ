@@ -1,19 +1,125 @@
 .datePickers{
   display: inline-block !important;
-  width: 33.3% !important;
+  width: 75% !important;
   margin-right: 0 !important;
+  margin-bottom: 15px;
   > div{
-    &:first-of-type{
-      width: 48%;
-      display: inline-block;
-      margin-right: 10px;
-    }
-    &:last-of-type{
-      width: 49%;
-      display: inline-block;
+    width: 26.7%;
+    display: inline-block;
+    margin: 0 0 0 20px;
+    top: 3px;
+    position: relative;
+    &:before{
+      position: absolute;
+      top: 50%;
+      right: 0.8rem;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      content: "";
+      border-top: 0.54857rem solid rgba(0, 0, 0, 0.12);
+      border-right: 0.54857rem solid transparent;
+      border-left: 0.54857rem solid transparent;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 }
 .dropDowns{
-  top: -3px;
+  width: 20%;
+  display: inline-block;
+  float: left;
+}
+.filterDropDowns{
+  width: 20%;
+  display: inline-block;
+}
+.autoCompleteParent{
+  .autocomplete{
+    width: 100%;
+    display: inline-block;
+    > div{
+      width: 20%;
+      display: inline-block;
+      float: left;
+    }
+    .values{
+      width: 80%;
+      float: right;
+      padding-left: 20px;
+      > div{
+        line-height: 4rem;
+        padding: 0.2rem 3.5rem 0 1rem;
+        background: #ebebeb;
+        color: #777777;
+        font-size: 16px;
+        z-index: 300;
+        margin-top: 1rem;
+        float: left;
+        margin-right: 10px;
+        span{
+          margin: 0 0.4rem 0;
+          top: 10px;
+          right: 3px;
+          text-transform: capitalize;
+          letter-spacing: 0.5px;
+          svg{
+            background: #5c5c5c !important;
+            path{
+              stroke: #ffffff !important;
+            }
+          }
+        }
+      }
+    }
+    .suggestions{
+      width: 20%;
+    }
+  }
+}
+.autoCompleteIncomeParent{
+  width: 78%;
+  display: inline-block;
+  margin-left: 20px;
+  .autoCompleteIncome{
+    width: 100%;
+    display: inline-block;
+    top: -7px;
+    > div{
+      width: 26%;
+      display: inline-block;
+      float: left;
+    }
+    .values{
+      width: 72%;
+      display: inline-block;
+      margin-left: 20px;
+      > div{
+        line-height: 4rem;
+        padding: 0.2rem 3.5rem 0 1rem;
+        background: #ebebeb;
+        color: #777777;
+        font-size: 16px;
+        z-index: 300;
+        margin-top: 1rem;
+        float: left;
+        margin-right: 10px;
+        span{
+          margin: 0 0.4rem 0;
+          top: 10px;
+          right: 3px;
+          text-transform: capitalize;
+          letter-spacing: 0.5px;
+          svg{
+            background: #5c5c5c !important;
+            path{
+              stroke: #ffffff !important;
+            }
+          }
+        }
+      }
+    }
+    .suggestions{
+      width: 26%;
+    }
+  }
 }

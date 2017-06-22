@@ -5,6 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { Projects } from '../../../api/projects/projects.js';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
 
+import theme from './theme';
+
 const il8n = defineMessages({
     FILTER_BY_PROJECT: {
         id: 'TRANSACTIONS.FILTER_BY_PROJECT'
@@ -30,13 +32,17 @@ class ProjectsDD extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <Autocomplete
-                direction='down'
-                onChange={this.filterByProjects.bind(this)}
-                label={formatMessage(il8n.FILTER_BY_PROJECT)}
-                source={this.projects()}
-                value={this.props.local.projects}
-                />
+            <div className={theme.autoCompleteIncomeParent}>
+                <Autocomplete
+                    theme={theme}
+                    className={theme.autoCompleteIncome}
+                    direction='down'
+                    onChange={this.filterByProjects.bind(this)}
+                    label={formatMessage(il8n.FILTER_BY_PROJECT)}
+                    source={this.projects()}
+                    value={this.props.local.projects}
+                    />
+            </div>
         );
     }
 }
