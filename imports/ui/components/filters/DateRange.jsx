@@ -29,14 +29,14 @@ class DateRange extends Component {
                     label={formatMessage(il8n.DATE_FROM)}
                     name='dateFrom'
                     onChange={this.onDateChange.bind(this)}
-                    value={this.props.local.dateFrom}
-                    />
+                    value={new Date(this.props.local.dateFrom)}
+                />
 
                 <DatePicker
                     label={formatMessage(il8n.DATE_TO)}
                     name='dateTo'
                     onChange={this.onDateChange.bind(this)}
-                    value={this.props.local.dateTo}
+                    value={new Date(this.props.local.dateTo)}
                     />
             </div>
         );

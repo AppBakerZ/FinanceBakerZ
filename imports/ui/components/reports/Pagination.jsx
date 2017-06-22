@@ -25,20 +25,20 @@ class Pagination extends Component {
     render() {
         return (
             <div className={theme.paginationList}>
-                <ReactPaginate previousLabel={"Previous"}
-                               nextLabel={"Next"}
-                               breakLabel={<a href="">...</a>}
-                               breakClassName={"break-me"}
-                               pageCount={this.state.pageCount}
-                               marginPagesDisplayed={2}
-                               pageRangeDisplayed={5}
-                               onPageChange={this.handlePageClick.bind(this)}
-                               containerClassName={"pagination"}
-                               subContainerClassName={"pages pagination"}
-                               activeClassName={"active"} />
-
+                <ReactPaginate 
+                    previousLabel={'Previous'}
+                    nextLabel={'Next'}
+                    breakLabel={<a href=''>...</a>}
+                    breakClassName={'break-me'}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick.bind(this)}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+                    activeClassName={'active'}
+                />
             </div>
-
         );
     }
 
