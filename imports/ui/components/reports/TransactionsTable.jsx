@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Card } from 'react-toolbox/lib/card';
 
 import moment from 'moment';
 import { Table } from 'react-toolbox';
@@ -66,12 +67,15 @@ class TransactionsTable extends Component {
         });
 
         return (
-            <Table theme={transactionsTable} model={this.getTableModel()}
-                   source={data}
-                   onRowClick={this.selectItem.bind(this)}
-                   selectable={false}
-                   heading={true}
-            />
+            <Card className={transactionsTable.cardReport}>
+                <h3>Transactions</h3>
+                <Table theme={transactionsTable} model={this.getTableModel()}
+                       source={data}
+                       onRowClick={this.selectItem.bind(this)}
+                       selectable={false}
+                       heading={true}
+                />
+            </Card>
         );
     }
 }
