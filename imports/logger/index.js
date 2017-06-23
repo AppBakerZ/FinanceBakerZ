@@ -13,15 +13,12 @@ export const logger = new winston.Logger({
 });
 
 logger.on('logging', function (transport, level, msg, meta) {
-    console.log('level', level);
-    console.log('msg', msg);
-    console.log('meta', meta);
     Meteor.call('logs.insert', {
         log:{
-            level: level
+            level: level,
+            log: msg,
+            meta: ''
         }
     }, (err, response) => {
-        console.log('err', err);
-        console.log('res', response);
     })
 });

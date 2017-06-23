@@ -9,11 +9,6 @@ import { Logs } from './logs';
 
 export const insert = new ValidatedMethod({
     name: 'logs.insert',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to create expense'
-    },
     validate: new SimpleSchema({
         'log': {
             type: Object
@@ -21,8 +16,17 @@ export const insert = new ValidatedMethod({
         'log.level': {
             type: String
         },
+        'log.log': {
+            type: String,
+            optional: true
+        },
+        'log.meta': {
+            type: String,
+            optional: true
+        },
     }).validator(),
     run({ log }) {
+        log.userId = this.userId;
         return Logs.insert(log);
     }
 });

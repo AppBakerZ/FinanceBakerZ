@@ -13,13 +13,24 @@ Logs.deny({
 });
 
 Logs.schema = new SimpleSchema({
-    user: {
+    userId: {
         type: String,
-        label: 'User of logs'
+        label: 'User of logs',
+        optional: true
     },
     level: {
         type: String,
         label: 'level of Log',
+        optional: true
+    },
+    log: {
+        type: String,
+        label: 'log description',
+        optional: true
+    },
+    meta: {
+        type: String,
+        label: 'log meta data',
         optional: true
     },
     createdAt: {
