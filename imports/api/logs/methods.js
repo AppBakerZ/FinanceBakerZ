@@ -18,7 +18,7 @@ export const insert = new ValidatedMethod({
         'log': {
             type: Object
         },
-        'log.name': {
+        'log.level': {
             type: String
         },
     }).validator(),

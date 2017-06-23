@@ -16,7 +16,11 @@ logger.on('logging', function (transport, level, msg, meta) {
     console.log('level', level);
     console.log('msg', msg);
     console.log('meta', meta);
-    Meteor.call('logs.insert',{name: 'test'}, (err, response) => {
+    Meteor.call('logs.insert', {
+        log:{
+            level: level
+        }
+    }, (err, response) => {
         console.log('err', err);
         console.log('res', response);
     })

@@ -15,11 +15,22 @@ Logs.deny({
 Logs.schema = new SimpleSchema({
     user: {
         type: String,
-        label: 'logs related to user'
+        label: 'User of logs'
     },
-    name: {
+    level: {
         type: String,
-        label: 'name related to user'
+        label: 'level of Log',
+        optional: true
+    },
+    createdAt: {
+        type: Date,
+        label: 'Payment creation Date',
+        denyUpdate: true,
+        autoValue: function() {
+            if (this.isInsert) {
+                return new Date();
+            }
+        }
     },
 });
 
@@ -29,5 +40,10 @@ Logs.attachSchema(Logs.schema);
 // to the client. If we add secret properties to List objects, don't list
 // them here to keep them private to the server.
 Logs.publicFields = {
-    user: 1
+    level: 1
 };
+
+
+Logs.helpers({
+
+});
