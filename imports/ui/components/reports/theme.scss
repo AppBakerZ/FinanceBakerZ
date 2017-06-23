@@ -11,9 +11,12 @@
   cursor: pointer;
   ul{
     text-align: center;
+    margin: 40px 0 20px 0;
     li{
       display: inline-block;
       margin-left: 15px;
+      font-size: 22px;
+      color: #333;
     }
   }
 }
