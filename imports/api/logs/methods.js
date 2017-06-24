@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-import { Match } from 'meteor/check';
 import { _ } from 'meteor/underscore';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
@@ -22,6 +20,11 @@ export const insert = new ValidatedMethod({
         },
         'log.meta': {
             type: String,
+            optional: true
+        },
+        'log.details': {
+            type: Object,
+            blackbox: true,
             optional: true
         },
     }).validator(),

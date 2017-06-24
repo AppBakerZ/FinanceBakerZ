@@ -33,9 +33,15 @@ Logs.schema = new SimpleSchema({
         label: 'log meta data',
         optional: true
     },
+    details: {
+        type: Object,
+        blackbox: true,
+        label: 'log additional details',
+        optional: true
+    },
     createdAt: {
         type: Date,
-        label: 'Payment creation Date',
+        label: 'log creation time',
         denyUpdate: true,
         autoValue: function() {
             if (this.isInsert) {
