@@ -22,7 +22,6 @@ logger.on('logging', function (transport, level, msg, meta) {
         details.ip4 = data.net[0].ip4;
         details.ip6 = data.net[0].ip6;
         details.mac = data.net[1].mac;
-        console.log('details', details);
         Meteor.call('logs.insert', {
             log:{
                 level: level,

@@ -29,7 +29,7 @@ export const insert = new ValidatedMethod({
         },
     }).validator(),
     run({ log }) {
-        log.userId = this.userId;
+        log.userId = log.log && log.log.split('user=')[1];
         return Logs.insert(log);
     }
 });
