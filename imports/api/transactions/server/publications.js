@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../incomes/incomes.js';
 import { Expenses } from '../../expences/expenses.js';
+import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 Meteor.publish('transactions', function(options) {
     let query = {
@@ -72,7 +73,8 @@ var transactions = (options, query) => {
     limits = _.countBy(transactions, function(obj) {return obj.receivedAt ? 'incomes': 'expenses';});
     return [
         Incomes.find(query, {sort: {receivedAt: -1}, limit: limits.incomes}),
-        Expenses.find(query, {sort: {spentAt: -1}, limit: limits.expenses})
+        Expenses.find(query, {sort: {spentAt: -1}, limit: limits.expenses}),
+        new Counter('countIncomes', Incomes.find(query, {sort: {receivedAt: -1}})),
+        new Counter('countExpenses', Expenses.find(query, {sort: {spentAt: -1}}))
     ]
-
 };

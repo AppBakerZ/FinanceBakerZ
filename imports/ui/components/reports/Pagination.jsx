@@ -30,9 +30,9 @@ class Pagination extends Component {
                     nextLabel={'Next'}
                     breakLabel={<a href=''>...</a>}
                     breakClassName={'break-me'}
-                    pageCount={this.state.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
+                    pageCount={Math.ceil(this.props.pageCount / 10)}
+                    marginPagesDisplayed={0}
+                    pageRangeDisplayed={10}
                     onPageChange={this.handlePageClick.bind(this)}
                     containerClassName={'pagination'}
                     subContainerClassName={'pages pagination'}

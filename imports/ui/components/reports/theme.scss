@@ -20,3 +20,9 @@
     }
   }
 }
+
+:global {
+  .active{
+    color: $color-primary !important;
+  }
+}
