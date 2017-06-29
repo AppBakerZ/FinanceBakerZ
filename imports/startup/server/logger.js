@@ -7,11 +7,19 @@ let wrapMethodsForLogs, loggingStarted;
 // here we wrap all method for logs
 wrapMethodsForLogs = function(name, originalHandler, methodMap) {
     return methodMap[name] = function() {
-        let  ex, params, result;
+        let  ex, params, result, filterParams;
         try {
             params = _.toArray(arguments);
-            //from here we are sending params in meta data
-            logger.info(`Event: ${name} user=${this.userId}`, params);
+            filterParams = _.compact(params);
+            //ignore the log insert self method to prevent infinite loop
+            // TODO: should we exclude meteor toys method too?
+            if( name === 'logs.insert' ){
+                //do nothing
+            }
+            else {
+                //from here we are sending logger meta data
+                logger.info(`Event: ${name} user=${this.userId}`, filterParams);
+            }
             result = originalHandler.apply(this, params);
             return result;
         } catch (error) {

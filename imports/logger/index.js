@@ -17,7 +17,6 @@ export const logger = new winston.Logger({
 
 logger.on('logging', function (transport, level, msg, meta) {
     //check null values of params
-    (meta && _.compact(meta).length) || (meta =  []);
     si.getStaticData(data => {
         details.platform = data.os.platform;
         details.version = data.os.distro;
@@ -29,7 +28,7 @@ logger.on('logging', function (transport, level, msg, meta) {
             log:{
                 level: level,
                 log: msg,
-                params: meta,
+                params: meta[0] || {},
                 details: details
             }
         }, (err, response) => {
