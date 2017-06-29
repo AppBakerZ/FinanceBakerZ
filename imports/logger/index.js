@@ -1,5 +1,6 @@
 //export logger as es6 format
 import winston from 'winston'
+import { _ } from 'meteor/underscore';
 const si = require('systeminformation');
 let details = {};
 
@@ -15,6 +16,8 @@ export const logger = new winston.Logger({
 });
 
 logger.on('logging', function (transport, level, msg, meta) {
+    //check null values of params
+    (meta && _.compact(meta).length) || (meta =  []);
     si.getStaticData(data => {
         details.platform = data.os.platform;
         details.version = data.os.distro;
@@ -26,7 +29,7 @@ logger.on('logging', function (transport, level, msg, meta) {
             log:{
                 level: level,
                 log: msg,
-                meta: '',
+                params: meta,
                 details: details
             }
         }, (err, response) => {

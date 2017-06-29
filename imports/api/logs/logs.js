@@ -39,6 +39,12 @@ Logs.schema = new SimpleSchema({
         label: 'log additional details',
         optional: true
     },
+    params:{
+        type: Object,
+        blackbox: true,
+        label: 'params of method call',
+        optional: true
+    },
     createdAt: {
         type: Date,
         label: 'log creation time',

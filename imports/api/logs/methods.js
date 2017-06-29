@@ -18,8 +18,9 @@ export const insert = new ValidatedMethod({
             type: String,
             optional: true
         },
-        'log.meta': {
-            type: String,
+        'log.params': {
+            type: Object,
+            blackbox: true,
             optional: true
         },
         'log.details': {
