@@ -11,20 +11,13 @@ wrapMethodsForLogs = function(name, originalHandler, methodMap) {
         try {
             params = _.toArray(arguments);
             filterParams = _.compact(params);
-            //ignore the log insert self method to prevent infinite loop
-            // TODO: should we exclude meteor toys method too?
-            if( name === 'logs.insert' ){
-                //do nothing
-            }
-            else {
-                //from here we are sending logger meta data
-                logger.info(`Event: ${name} user=${this.userId}`, filterParams);
-            }
+            //from here we are sending logger meta data
+            logger.info(`Event: ${name} user=${this.userId}`, filterParams);
             result = originalHandler.apply(this, params);
             return result;
         } catch (error) {
             ex = error;
-            logger.error(ex);
+            logger.error(`Error: ${name} user=${this.userId}`, ex);
             throw ex;
         }
     };
@@ -33,7 +26,13 @@ wrapMethodsForLogs = function(name, originalHandler, methodMap) {
 init_method_logger = () => {
     //here methods logged
     _.each(Meteor.default_server.method_handlers, (handler, name) =>{
-        wrapMethodsForLogs(name, handler, Meteor.default_server.method_handlers)
+        //ignore the log insert self method to prevent infinite loop
+        if( name === 'logs.insert' || name.indexOf('MeteorToys') !== -1 ){
+            //do nothing
+        }
+        else{
+            wrapMethodsForLogs(name, handler, Meteor.default_server.method_handlers)
+        }
     })
 
 
