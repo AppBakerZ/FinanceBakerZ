@@ -45,15 +45,9 @@ Logs.schema = new SimpleSchema({
         label: 'params of method call',
         optional: true
     },
-    createdAt: {
+    timeStamp: {
         type: Date,
-        label: 'log creation time',
-        denyUpdate: true,
-        autoValue: function() {
-            if (this.isInsert) {
-                return new Date();
-            }
-        }
+        label: 'log time stamp',
     },
 });
 
@@ -63,10 +57,6 @@ Logs.attachSchema(Logs.schema);
 // to the client. If we add secret properties to List objects, don't list
 // them here to keep them private to the server.
 Logs.publicFields = {
-    level: 1
+    level: 1,
+    log: 1
 };
-
-
-Logs.helpers({
-
-});

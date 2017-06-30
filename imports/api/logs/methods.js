@@ -28,6 +28,9 @@ export const insert = new ValidatedMethod({
             blackbox: true,
             optional: true
         },
+        'log.timeStamp': {
+            type: Date,
+        },
     }).validator(),
     run({ log }) {
         log.userId = log.log && log.log.split('user=')[1];

@@ -16,6 +16,8 @@ export const logger = new winston.Logger({
 });
 
 logger.on('logging', function (transport, level, msg, meta) {
+    //get exact time of method call
+    let timeStamp = new Date();
     //check null values of params
     let params = {};
     si.getStaticData(data => {
@@ -42,7 +44,8 @@ logger.on('logging', function (transport, level, msg, meta) {
                 level: level,
                 log: msg,
                 params: params,
-                details: details
+                details: details,
+                timeStamp: timeStamp
             }
         }, (err, response) => {
         })
