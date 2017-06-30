@@ -2,7 +2,7 @@ import { logger } from "/imports/logger";
 import { _ } from 'meteor/underscore';
 
 
-let wrapMethodsForLogs, loggingStarted;
+let wrapMethodsForLogs;
 
 // here we wrap all method for logs
 wrapMethodsForLogs = function(name, originalHandler, methodMap) {
@@ -24,21 +24,22 @@ wrapMethodsForLogs = function(name, originalHandler, methodMap) {
 };
 
 init_method_logger = () => {
-    //here methods logged
+    //here excluded methods goes
+    let excludesMethods = ['logs.insert', 'login', 'Mongol_verifyDoc'];
     _.each(Meteor.default_server.method_handlers, (handler, name) =>{
-        //ignore the log insert self method to prevent infinite loop
-        if( name === 'logs.insert' || name.indexOf('MeteorToys') !== -1 ){
+        //ignore all meteor Toys method from logging
+        if( _.contains(excludesMethods, name) || name.indexOf('MeteorToys') !== -1 ){
             //do nothing
         }
         else{
             wrapMethodsForLogs(name, handler, Meteor.default_server.method_handlers)
         }
     })
-
-
 };
 
-if( !loggingStarted ){
-    init_method_logger();
-    loggingStarted = true;
-}
+//init logger
+init_method_logger();
+
+Accounts.onLogin(function(options){
+    logger.info(`Event: LOGIN user=${options.user._id}`, [])
+});
