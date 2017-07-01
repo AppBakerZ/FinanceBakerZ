@@ -33,6 +33,12 @@ Logs.schema = new SimpleSchema({
         label: 'log meta data',
         optional: true
     },
+    record: {
+        type: Object,
+        blackbox: true,
+        label: 'log meta data',
+        optional: true
+    },
     details: {
         type: Object,
         blackbox: true,

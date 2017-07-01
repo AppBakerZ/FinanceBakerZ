@@ -15,7 +15,10 @@ export const logger = new winston.Logger({
     ]
 });
 
+// @meta here comes two things combined params and old doc
 logger.on('logging', function (transport, level, msg, meta) {
+    let oldDoc = meta.doc || {};
+    console.log('meta.doc', oldDoc);
     //get exact time of method call
     let timeStamp = new Date();
     //check null values of params
@@ -28,15 +31,15 @@ logger.on('logging', function (transport, level, msg, meta) {
         details.ip6 = data.net[0].ip6;
         details.mac = data.net[1].mac;
         if(level === 'info'){
-            params = meta[0] || {}
+            params = meta.params[0] || {}
         }
         else{
             params = {
-                error: meta.error,
-                reason:meta.reason,
-                details: meta.details,
-                message: meta.message,
-                type: meta.errorType,
+                error: meta.params.error,
+                reason:meta.params.reason,
+                details: meta.params.details,
+                message: meta.params.message,
+                type: meta.params.errorType,
             }
         }
         Meteor.call('logs.insert', {
@@ -45,9 +48,11 @@ logger.on('logging', function (transport, level, msg, meta) {
                 log: msg,
                 params: params,
                 details: details,
-                timeStamp: timeStamp
+                timeStamp: timeStamp,
+                record: meta.doc
             }
         }, (err, response) => {
+            console.log('err', err)
         })
     });
 

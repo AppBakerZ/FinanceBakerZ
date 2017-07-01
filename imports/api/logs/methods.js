@@ -28,6 +28,11 @@ export const insert = new ValidatedMethod({
             blackbox: true,
             optional: true
         },
+        'log.record': {
+            type: Object,
+            blackbox: true,
+            optional: true
+        },
         'log.timeStamp': {
             type: Date,
         },
