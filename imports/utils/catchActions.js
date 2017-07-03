@@ -6,7 +6,7 @@ import { Projects } from './../api/projects/projects';
 import { Logs } from '../api/logs/logs'
 import { _ } from 'meteor/underscore';
 // TODO: insert have some more checks
-let applicableActions = ['update','remove'];
+let applicableActions = ['insert', 'update', 'remove'];
 let Collections = {
     Accounts: Accounts,
     Categories: Categories,
@@ -16,14 +16,16 @@ let Collections = {
     Logs: Logs
 };
 //@MethodName comes as 'project.insert'
-export const actions = (methodName, paramsArray) => {
+export const actions = (methodName, paramsArray, isInsert) => {
     let params, splitMethod, collection, action, currentCollection, doc, keys, docId,
         length = applicableActions.length;
     while( length-- ) {
         if ( methodName.indexOf(applicableActions[length]) !==-1 ) {
 
             //the original params comes at 0 index
-            params = paramsArray[0] || {};
+            if( paramsArray instanceof Array ){
+                params = paramsArray[0] || {};
+            }
 
             //so split method and action sample @MethodName
             splitMethod = methodName.split('.');
@@ -31,8 +33,15 @@ export const actions = (methodName, paramsArray) => {
             action = splitMethod[1];
 
             //params look like "{ project: { _id: 'qMrEfkJ5gHwfvQq7A' } }" so parse params to get _id
-            keys = _.keys(params)[0];
-            docId = keys && params[keys]._id;
+            if( !isInsert ){
+                keys = _.keys(params)[0];
+                docId = keys && params[keys]._id;
+            }
+            //here direct doc id return in params in case of insertion
+            else {
+                docId = paramsArray
+            }
+
             //dynamic collection name for querying record
             currentCollection = Collections[capitalize(collection)];
             doc = currentCollection.findOne({

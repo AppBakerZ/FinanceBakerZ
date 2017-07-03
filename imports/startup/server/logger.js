@@ -11,15 +11,17 @@ wrapMethodsForLogs = function(name, originalHandler, methodMap) {
         try {
             params = _.toArray(arguments);
             filterParams = _.compact(params);
-            meta.doc = actions(name, params);
-            // console.log('meta.doc', meta.doc)
-            //from here we are sending utils meta data
+            if(!(name.indexOf('insert') !== -1) ){
+                meta.doc = actions(name, params)
+            }
             result = originalHandler.apply(this, params);
+
+            //here insert block goes
+            if( name.indexOf('insert') !== -1 ){
+                meta.doc = actions(name, result, true);
+            }
             meta.params = filterParams;
-            // meta.doc = actions(params);
             logger.info(`Event: ${name} user=${this.userId}`, meta);
-            // console.log(method);
-            // console.log('===result===');
             return result;
         } catch (error) {
             ex = error;

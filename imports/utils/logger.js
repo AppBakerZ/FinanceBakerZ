@@ -17,8 +17,6 @@ export const logger = new winston.Logger({
 
 // @meta here comes two things combined params and old doc
 logger.on('logging', function (transport, level, msg, meta) {
-    let oldDoc = meta.doc || {};
-    console.log('meta.doc', oldDoc);
     //get exact time of method call
     let timeStamp = new Date();
     //check null values of params
@@ -52,7 +50,6 @@ logger.on('logging', function (transport, level, msg, meta) {
                 record: meta.doc
             }
         }, (err, response) => {
-            console.log('err', err)
         })
     });
 
