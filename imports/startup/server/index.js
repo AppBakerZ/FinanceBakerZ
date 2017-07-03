@@ -9,3 +9,4 @@ import './register-api.js';
 
 import './email.js';
 import './aws.js';
+import './logger.js'
