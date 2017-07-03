@@ -12,11 +12,15 @@
   ul{
     text-align: center;
     margin: 40px 0 20px 0;
+    cursor: auto;
     li{
       display: inline-block;
       margin-left: 15px;
       font-size: 22px;
       color: #333;
+      a{
+        cursor: pointer;
+      }
     }
   }
 }
