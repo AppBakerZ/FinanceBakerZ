@@ -79,7 +79,7 @@
   }
 }
 .autoCompleteIncomeParent{
-  width: 78.5%;
+  width: 78%;
   float: left;
   margin-left: 20px;
   .autoCompleteIncome{
@@ -126,4 +126,46 @@
       top: 55px;
     }
   }
+}
+
+body[dir="rtl"] .filterDropDowns div div:after {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .filterDropDowns {
+  margin-left: 15px;
+}
+body[dir="rtl"] .datePickers div:before {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .autoCompleteParent .autocomplete div{
+  float: right;
+}
+body[dir="rtl"] .autoCompleteParent .autocomplete .values{
+  float: left;
+}
+body[dir="rtl"] .autoCompleteParent .autocomplete div:after{
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dropDowns{
+  float: right;
+}
+body[dir="rtl"] .dropDowns div:after{
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .autoCompleteIncomeParent{
+  margin: 0 10px 0 0;
+}
+body[dir="rtl"] .autoCompleteIncomeParent div .values{
+  float: left;
+}
+body[dir="rtl"] .autoCompleteIncomeParent div .values div{
+  float: right;
+}
+body[dir="rtl"] .autoCompleteIncomeParent div div:after{
+  left: 0;
+  right: auto;
 }
