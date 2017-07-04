@@ -36,3 +36,12 @@
     }
   }
 }
+.pageTitle{
+  background: $color-primary;
+  padding: 24px 50px 16px 50px;
+  h3{
+    color: white;
+    font-size: 26px;
+    text-transform: capitalize;
+  }
+}
