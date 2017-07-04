@@ -232,7 +232,7 @@ class PaymentPage extends Component {
             startAt: {type: Date, title: <FormattedMessage {...il8n.METHOD} />},
         };
         const table = <Table className={theme.table} theme={tableTheme}
-                             heading={true}
+                             heading={false}
                              model={projectModel}
                              onRowClick={this.onRowClick.bind(this)}
                              selectable={false}
