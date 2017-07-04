@@ -19,14 +19,23 @@ Meteor.publish('transactions', function(options) {
     if(!query.$and.length) delete query.$and;
 
     if(options.type == 'incomes') {
-        if(query.$and){
-
-        }
-        return Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit});
+        return Incomes.find(query, {
+            sort: {
+                receivedAt: -1
+            },
+            limit: options.limit,
+            skip: options.skip
+        })
     }
 
     if(options.type == 'expenses') {
-        return Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit});
+        return Expenses.find(query, {
+            sort: {
+                spentAt: -1
+            },
+            limit: options.limit,
+            skip: options.skip
+        })
     }
 
     //computing 'Transactions' below
@@ -65,15 +74,22 @@ var filterByProjects = (options, query) => {
 
 
 var transactions = (options, query) => {
-    let limits,
-        incomes = Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit}).fetch(),
-        expenses = Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit}).fetch(),
-        transactions = _.sortBy(incomes.concat(expenses), function(obj){return obj.receivedAt || obj.spentAt;}).reverse();
-    transactions.length = options.limit;
-    limits = _.countBy(transactions, function(obj) {return obj.receivedAt ? 'incomes': 'expenses';});
+    console.log('options ', options);
     return [
-        Incomes.find(query, {sort: {receivedAt: -1}, limit: limits.incomes}),
-        Expenses.find(query, {sort: {spentAt: -1}, limit: limits.expenses}),
+        Incomes.find(query, {
+            sort: {
+                receivedAt: -1
+            },
+            limit: options.limit,
+            skip: options.skip
+        }),
+        Expenses.find(query, {
+            sort: {
+                spentAt: -1
+            },
+            limit: options.limit,
+            skip: options.skip
+        }),
         new Counter('countIncomes', Incomes.find(query, {sort: {receivedAt: -1}})),
         new Counter('countExpenses', Expenses.find(query, {sort: {spentAt: -1}}))
     ]

@@ -15,7 +15,9 @@ LocalCollection.insert({
     filter: 'range',
     dateFilter: '',
     dateFrom: moment().subtract(1, 'months').startOf('month').format(),
-    dateTo: moment().startOf('today').format()
+    dateTo: moment().startOf('today').format(),
+    limit: 10,
+    skip: 0
 });
 
 updateFilter = function (name, key, value){

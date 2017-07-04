@@ -17,9 +17,9 @@ class Pagination extends Component {
 
     handlePageClick(data) {
         let selected = data.selected;
-        let offset = Math.ceil(selected * this.props.perPage);
+        let skip = Math.ceil(selected * this.props.local.limit);
 
-        this.setState({offset: offset})
+        updateFilter('reports', 'skip', skip)
     }
 
     render() {
@@ -28,9 +28,8 @@ class Pagination extends Component {
                 <ReactPaginate 
                     previousLabel={'Previous'}
                     nextLabel={'Next'}
-                    breakLabel={<a href=''>...</a>}
                     breakClassName={'break-me'}
-                    pageCount={Math.ceil(this.props.pageCount / 10)}
+                    pageCount={Math.ceil(this.props.pageCount / this.props.local.limit)}
                     marginPagesDisplayed={0}
                     pageRangeDisplayed={10}
                     onPageChange={this.handlePageClick.bind(this)}
@@ -46,6 +45,8 @@ class Pagination extends Component {
 
 export default createContainer(() => {
     return {
-
+        local: LocalCollection.findOne({
+            name: 'reports'
+        })
     };
 }, Pagination);

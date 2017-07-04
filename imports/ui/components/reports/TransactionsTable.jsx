@@ -109,7 +109,8 @@ export default createContainer(() => {
     });
 
     const transactionsHandle = Meteor.subscribe('transactions', {
-        limit : 10,
+        limit : local.limit,
+        skip: local.skip,
         accounts: local.accounts,
         dateFilter: dateHelpers.filterByDate(local.filter, {
             dateFrom: local.dateFrom,
@@ -123,8 +124,13 @@ export default createContainer(() => {
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
 
-    const expenses = Expenses.find().fetch();
-    const incomes = Incomes.find().fetch();
+    const expenses = Expenses.find({}, {
+        limit: local.limit
+    }).fetch();
+
+    const incomes = Incomes.find({}, {
+        limit: local.limit
+    }).fetch();
 
     const transactions = _.sortBy(incomes.concat(expenses), function(transaction){
         return transaction.receivedAt || transaction.spentAt
