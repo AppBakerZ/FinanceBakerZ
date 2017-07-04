@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
+import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio';
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var'
@@ -110,34 +111,57 @@ class PaymentPage extends Component {
                 value: 'completed'
             }
         ];
+
+        this.state = {
+            value: 'vvendetta'
+        };
+        this.handleChange = this.handleChange.bind(this);
     }
+
+    handleChange (value) {
+        this.setState({value});
+    };
+
     onRowClick(index){
         console.log('this.props.projects[index] ', this.props.projects[index]);
     }
 
-    renderPaymentTable() {
-        let payments = paymentMethods.map((method, index) => {
-            return {
-                radioButton:
-                    <div>
-                        <span>radio goes here</span>
-                    </div>,
-                icon:
-                    <div>icon goes here</div>,
-
-            }
-        });
-
-        const table = <Table className={theme.table} theme={tableTheme}
-                             heading={false}
-                             model={paymentModel}
-                             onRowClick={this.onRowClick.bind(this)}
-                             selectable={false}
-                             source={payments}
-        />;
+    renderPaymentMethods() {
         return (
-            <Card theme={tableTheme}>
-                { table }
+            <Card className={theme.paymentCard}>
+                <div className={theme.paymentContent} onClick={this.handleChange}>
+                    <div className={theme.paymentRadioBtn}>
+                        <RadioGroup name='comic' value={this.state.value}>
+                            <RadioButton value='thewalkingdead'/>
+                        </RadioGroup>
+                    </div>
+
+                    <div className={theme.paymentSvg}>
+                        <img src="../applicationIcons/EasyPaisa-02.svg" alt=""/>
+                        <h5>EasyPay</h5>
+                        <p>
+                            Pay at any EasyPay Shop/EasyPaisa Mobile Or Easypay using your Visa/Mastercard
+                        </p>
+                    </div>
+                </div>
+
+                <div className={theme.paymentContent} onClick={this.handleChange}>
+                    <div className={theme.paymentRadioBtn}>
+                        <RadioGroup name='comic' value={this.state.value}>
+                            <RadioButton value='thewalkingdead'/>
+                        </RadioGroup>
+                    </div>
+
+                    <div className={theme.paymentSvg}>
+                        <img src="../applicationIcons/mobile account-01.svg" alt=""/>
+                        <h5>bank transfer</h5>
+                        <p>
+                            A bank transfer is when money is sent from one bank account to another. Transferring
+                            money from your bank account is usually fats, free and safer then withdrawing and paying in cash
+                        </p>
+                    </div>
+                </div>
+
             </Card>
         )
     }
@@ -152,9 +176,9 @@ class PaymentPage extends Component {
                         <h3> <FormattedMessage {...il8n.PAYMENTS} /> </h3>
                     </div>
                     <Card theme={tableTheme}>
-                        {this.renderPaymentTable()}
+                        {this.renderPaymentMethods()}
                     </Card>
-                    <form action="https://easypay.easypaisa.com.pk/easypay/Index.jsf" method="POST">
+                    <form className={theme.formBtns} action="https://easypay.easypaisa.com.pk/easypay/Index.jsf" method="POST">
                         <input type="hidden" name="storeId" value="5820" />
                         <input type="hidden" name="amount" value="10" hidden />
                         <input type="hidden" name="postBackURL" value="http://localhost:3000/app/easyPaisa" hidden/>
