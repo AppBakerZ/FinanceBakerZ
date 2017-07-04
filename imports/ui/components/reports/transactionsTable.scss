@@ -79,13 +79,29 @@
   }
 }
 .cardReport{
-  h3{
+  .titleBg{
+    padding: 0 50px 0 50px;
     background: #008142;
-    color: #fff;
-    letter-spacing: 0.1rem;
-    font-size: 2.5rem;
-    display: inline-block;
-    width: 100%;
-    padding: 23px 30px 17px 50px;
+    h3{
+      color: #fff;
+      letter-spacing: 0.1rem;
+      font-size: 2.5rem;
+      display: inline-block;
+      padding: 23px 30px 17px 0;
+    }
+    .rightButtons{
+      float: right;
+      margin-top: 20px;
+      button{
+        font-size: 20px;
+        padding: 4px 10px 0 10px;
+        line-height: 40px;
+        height: 40px;
+        color: white;
+        &:first-child{
+          margin-right: 20px;
+        }
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Card } from 'react-toolbox/lib/card';
+import {Button, IconButton} from 'react-toolbox/lib/button';
 
 import moment from 'moment';
 import { Table } from 'react-toolbox';
@@ -68,7 +69,23 @@ class TransactionsTable extends Component {
 
         return (
             <Card className={transactionsTable.cardReport}>
-                <h3>Transactions</h3>
+                <div className={transactionsTable.titleBg}>
+                    <h3>Transactions</h3>
+                    <div className={transactionsTable.rightButtons}>
+                        <Button
+                            className='header-buttons'
+                            icon='add'
+                            label="income"
+                            name='Income'
+                            flat />
+                        <Button
+                            className='header-buttons'
+                            icon='add'
+                            label="expensive"
+                            name='Expense'
+                            flat />
+                    </div>
+                </div>
                 <Table theme={transactionsTable} model={this.getTableModel()}
                        source={data}
                        onRowClick={this.selectItem.bind(this)}
