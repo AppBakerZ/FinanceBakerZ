@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
+import { Card} from 'react-toolbox/lib/card';
 
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
@@ -249,14 +250,14 @@ class NewIncome extends Component {
             </div>
         }else{
             button = <div className={theme.addIncomeBtn}>
-                <Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary />
-                <Button
-                    onClick={this.removeIncome.bind(this)}
-                    type='button'
-                    icon='delete'
-                    label={formatMessage(il8n.REMOVE_INCOME_BUTTON)}
-                    className='float-right'
-                    accent />
+                {/*<Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary />*/}
+                {/*<Button*/}
+                    {/*onClick={this.removeIncome.bind(this)}*/}
+                    {/*type='button'*/}
+                    {/*icon='delete'*/}
+                    {/*label={formatMessage(il8n.REMOVE_INCOME_BUTTON)}*/}
+                    {/*className='float-right'*/}
+                    {/*accent />*/}
             </div>
         }
         return button;
@@ -286,10 +287,10 @@ class NewIncome extends Component {
             account.value = account._id;
 
             index++;
-            if(index % 3 == 0){
+            if(index % 5 == 0){
                 account.removeRightBorder = true
             }
-            let lastItems = this.props.accounts.length % 3 == 0 ? 3 : this.props.accounts.length % 3;
+            let lastItems = this.props.accounts.length % 5 == 0 ? 5 : this.props.accounts.length % 5;
             if(index > this.props.accounts.length - lastItems){
                 account.removeBottomBorder = true
             }
@@ -334,73 +335,78 @@ class NewIncome extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-income">
+            <div className={theme.incomeCard}>
+                <Card theme={theme}>
+                    <h3>add new income</h3>
+                    <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                        <Snackbar
+                            action='Dismiss'
+                            active={this.state.active}
+                            icon={this.state.barIcon}
+                            label={this.state.barMessage}
+                            timeout={2000}
+                            onClick={this.handleBarClick.bind(this)}
+                            onTimeout={this.handleBarTimeout.bind(this)}
+                            type={this.state.barType}
+                        />
 
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.active}
-                    icon={this.state.barIcon}
-                    label={this.state.barMessage}
-                    timeout={2000}
-                    onClick={this.handleBarClick.bind(this)}
-                    onTimeout={this.handleBarTimeout.bind(this)}
-                    type={this.state.barType}
-                />
+                        <Dropdown theme={dropdownTheme}
+                                  className={theme.bankFonts}
+                                  auto={false}
+                                  source={this.accounts()}
+                                  name='account'
+                                  onChange={this.onChange.bind(this)}
+                                  label={formatMessage(il8n.INCOME_ACCOUNT)}
+                                  value={this.state.account}
+                                  template={this.accountItem}
+                                  required
+                        />
 
-                <Dropdown theme={dropdownTheme}
-                          className={theme.bankFonts}
-                          auto={false}
-                          source={this.accounts()}
-                          name='account'
-                          onChange={this.onChange.bind(this)}
-                          label={formatMessage(il8n.INCOME_ACCOUNT)}
-                          value={this.state.account}
-                          template={this.accountItem}
-                          required
-                />
-
-                <Input type='number' label={formatMessage(il8n.INCOME_AMOUNT)}
-                       name='amount'
-                       value={this.state.amount}
-                       onChange={this.onChange.bind(this)}
-                       required
-                />
-                <DatePicker
-                    label={formatMessage(il8n.RECEIVING_DATE)}
-                    name='receivedAt'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.receivedAt}
-                />
-                <TimePicker
-                    label={formatMessage(il8n.RECEIVING_TIME)}
-                    name='receivedTime'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.receivedTime}
-                    format='ampm'
-                />
-                <Dropdown
-                    source={this.types()}
-                    name='type'
-                    label={formatMessage(il8n.SELECT_TYPE)}
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.type}
-                    template={this.typeItem}
-                    required
-                />
-                {this.state.type == 'project' &&
-                <Dropdown
-                    source={this.projects()}
-                    name='project'
-                    onChange={this.onChange.bind(this)}
-                    label={formatMessage(il8n.SELECT_PROJECT)}
-                    value={this.state.project}
-                    template={this.projectItem}
-                    required/>
-                }
-                {this.renderButton()}
-            </form>
+                        <Input type='number' label={formatMessage(il8n.INCOME_AMOUNT)}
+                               name='amount'
+                               value={this.state.amount}
+                               onChange={this.onChange.bind(this)}
+                               required
+                        />
+                        <DatePicker
+                            label={formatMessage(il8n.RECEIVING_DATE)}
+                            name='receivedAt'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.receivedAt}
+                        />
+                        <TimePicker
+                            label={formatMessage(il8n.RECEIVING_TIME)}
+                            name='receivedTime'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.receivedTime}
+                            format='ampm'
+                        />
+                        <Dropdown
+                            source={this.types()}
+                            name='type'
+                            label={formatMessage(il8n.SELECT_TYPE)}
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.type}
+                            template={this.typeItem}
+                            required
+                        />
+                        {this.state.type == 'project' &&
+                        <Dropdown
+                            source={this.projects()}
+                            name='project'
+                            onChange={this.onChange.bind(this)}
+                            label={formatMessage(il8n.SELECT_PROJECT)}
+                            value={this.state.project}
+                            template={this.projectItem}
+                            required/>
+                        }
+                        {this.renderButton()}
+                    </form>
+                </Card>
+                <Button label='add now' raised primary />
+            </div>
         );
     }
 }

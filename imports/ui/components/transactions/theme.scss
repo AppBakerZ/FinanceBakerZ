@@ -286,6 +286,41 @@
   }
 }
 
+////////////////////// new income styling /////////////////////////////
+.incomeCard{
+  margin: 30px auto 0;
+  width: 96%;
+  display: inline-table;
+  padding-bottom: 20px;
+  h3{
+    background: #008142;
+    color: #fff;
+    letter-spacing: 0.1rem;
+    font-size: 2.5rem;
+    display: block;
+    text-transform: capitalize;
+    padding: 23px 30px 17px 30px;
+  }
+  .incomeForm{
+    padding: 30px;
+    div{
+      ul{
+        position: absolute;
+        li{
+          width: 20%;
+        }
+      }
+    }
+  }
+  button{
+    margin: 40px auto 0;
+    display: block;
+    padding: 2px 40px 0;
+  }
+}
+
+////////////////////// new income styling /////////////////////////////
+
 /////////////////// dialog content styling end here //////////////////////////
 
 /////////////////////////////////////////////////
