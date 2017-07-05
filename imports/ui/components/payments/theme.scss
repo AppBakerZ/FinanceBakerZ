@@ -124,14 +124,21 @@
   margin-top: 50px;
   button{
     background: #008142;
-    color: white;
+    color: white !important;
     border: none;
     text-transform: uppercase;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.8px;
-    padding: 13px 50px 8px;
+    line-height: 24px;
+    padding: 8px 50px 8px;
     border-radius: 5px;
     cursor: pointer;
+    &:hover{
+      background: #008142 !important;
+    }
+  }
+  button[type="submit"]:disabled {
+    background: rgba(33, 33, 33, 0.2);
   }
 }

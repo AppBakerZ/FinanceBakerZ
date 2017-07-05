@@ -102,13 +102,13 @@ class PaymentPage extends Component {
         ];
 
         this.state = {
-            methodSelected: false,
+            methodSelected: true,
             value: ''
         };
     }
 
     handleChange (value) {
-        this.setState({value, methodSelected: true});
+        this.setState({value, methodSelected: false});
     };
 
     renderPaymentMethods() {
@@ -169,7 +169,7 @@ class PaymentPage extends Component {
                         <input type="hidden" name="postBackURL" value="http://localhost:3000/app/easyPaisa" hidden/>
                         <input type="hidden" name="orderRefNum" value="1101" />
                         <input type="hidden" name="mobileNum" value="03325241789" />
-                        <Button caption='EasyPaisa' leftIcon='payment' name="pay" type="submit" label="Proceed" disabled={true} />
+                        <Button caption='EasyPaisa' leftIcon='payment' name="pay" type="submit" label="Proceed" disabled={this.state.methodSelected} />
                     </form>
                 </div>
             </div>
