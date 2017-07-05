@@ -74,7 +74,6 @@ var filterByProjects = (options, query) => {
 
 
 var transactions = (options, query) => {
-    console.log('options ', options);
     return [
         Incomes.find(query, {
             sort: {

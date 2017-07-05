@@ -41,17 +41,19 @@ export default createContainer(() => {
     console.log(Counter.get('countExpenses'));
     console.log('Plus: ', Counter.get('countExpenses') + Counter.get('countIncomes'));
 
-    const transactionsHandle = Meteor.subscribe('transactions', {
-        limit : 10,
-        accounts: local.accounts,
-        dateFilter: dateHelpers.filterByDate(local.filter, {
-            dateFrom: local.dateFrom,
-            dateTo: local.dateTo
-        }),
-        type: local.type,
-        filterByCategory: local.type == 'expenses' ? local.categories : '',
-        filterByProjects: local.type == 'incomes' ? local.projects : ''
-    });
+    //currently no need here?
+    // const transactionsHandle = Meteor.subscribe('transactions', {
+    //     limit : 10,
+    //     skip: local.skip,
+    //     accounts: local.accounts,
+    //     dateFilter: dateHelpers.filterByDate(local.filter, {
+    //         dateFrom: local.dateFrom,
+    //         dateTo: local.dateTo
+    //     }),
+    //     type: local.type,
+    //     filterByCategory: local.type == 'expenses' ? local.categories : '',
+    //     filterByProjects: local.type == 'incomes' ? local.projects : ''
+    // });
 
 
 
