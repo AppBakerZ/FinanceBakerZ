@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -72,18 +73,24 @@ class TransactionsTable extends Component {
                 <div className={transactionsTable.titleBg}>
                     <h3>Transactions</h3>
                     <div className={transactionsTable.rightButtons}>
-                        <Button
-                            className='header-buttons'
-                            icon='add'
-                            label="income"
-                            name='Income'
-                            flat />
-                        <Button
-                            className='header-buttons'
-                            icon='add'
-                            label="expensive"
-                            name='Expense'
-                            flat />
+                        <Link to="app/transactions/incomes/new">
+                            <Button
+                                className='header-buttons'
+                                icon='add'
+                                label="income"
+                                name='Income'
+                                flat />
+                        </Link>
+                        <Link to="app/transactions/expenses/new">
+                            <Button
+                                className='header-buttons'
+                                icon='add'
+                                label="expense"
+                                name='Expense'
+                                flat />
+                        </Link>
+
+
                     </div>
                 </div>
                 <Table theme={transactionsTable} model={this.getTableModel()}
