@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon, IconButton } from 'react-toolbox';
+import { Card} from 'react-toolbox/lib/card';
 
 import { Meteor } from 'meteor/meteor';
 import { Slingshot } from 'meteor/edgee:slingshot'
@@ -234,14 +235,14 @@ class NewExpense extends Component {
             </div>
         }else{
             button = <div className={theme.addExpensesBtn}>
-                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={formatMessage(il8n.UPDATE_EXPENSE_BUTTON)} raised primary />
-                <Button
-                    onClick={this.removeExpense.bind(this)}
-                    type='button'
-                    icon='delete'
-                    label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}
-                    className='float-right'
-                    accent />
+                {/*<Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={formatMessage(il8n.UPDATE_EXPENSE_BUTTON)} raised primary />*/}
+                {/*<Button*/}
+                    {/*onClick={this.removeExpense.bind(this)}*/}
+                    {/*type='button'*/}
+                    {/*icon='delete'*/}
+                    {/*label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}*/}
+                    {/*className='float-right'*/}
+                    {/*accent />*/}
             </div>
         }
         return button;
@@ -271,10 +272,10 @@ class NewExpense extends Component {
             account.value = account._id;
 
             index++;
-            if(index % 3 == 0){
+            if(index % 5 == 0){
                 account.removeRightBorder = true
             }
-            let lastItems = this.props.accounts.length % 3 == 0 ? 3 : this.props.accounts.length % 3;
+            let lastItems = this.props.accounts.length % 5 == 0 ? 5 : this.props.accounts.length % 5;
             if(index > this.props.accounts.length - lastItems){
                 account.removeBottomBorder = true
             }
@@ -387,74 +388,80 @@ class NewExpense extends Component {
                 onChange={this.uploadBill.bind(this)} />
         }
         return (
-            <form onSubmit={this.onSubmit.bind(this)} className="add-expense">
+            <div className={theme.incomeCard}>
+                <Card theme={theme}>
+                    <h3>add new expense</h3>
+                    <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
 
-                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
 
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.active}
-                    icon={this.state.barIcon}
-                    label={this.state.barMessage}
-                    timeout={2000}
-                    onClick={this.handleBarClick.bind(this)}
-                    onTimeout={this.handleBarTimeout.bind(this)}
-                    type={this.state.barType}
-                />
+                        <Snackbar
+                            action='Dismiss'
+                            active={this.state.active}
+                            icon={this.state.barIcon}
+                            label={this.state.barMessage}
+                            timeout={2000}
+                            onClick={this.handleBarClick.bind(this)}
+                            onTimeout={this.handleBarTimeout.bind(this)}
+                            type={this.state.barType}
+                        />
 
-                <Dropdown theme={dropdownTheme}
-                          auto={false}
-                          source={this.accounts()}
-                          name='account'
-                          onChange={this.onChange.bind(this)}
-                          label={formatMessage(il8n.SELECT_ACCOUNT)}
-                          value={this.state.account}
-                          template={this.accountItem}
-                          required
-                />
+                        <Dropdown theme={dropdownTheme}
+                                  auto={false}
+                                  source={this.accounts()}
+                                  name='account'
+                                  onChange={this.onChange.bind(this)}
+                                  label={formatMessage(il8n.SELECT_ACCOUNT)}
+                                  value={this.state.account}
+                                  template={this.accountItem}
+                                  required
+                        />
 
-                <Input type='number' label={formatMessage(il8n.AMOUNT)}
-                       name='amount'
-                       value={this.state.amount}
-                       onChange={this.onChange.bind(this)}
-                       required
-                />
-                <Dropdown
-                    auto={false}
-                    source={this.categories()}
-                    name='category'
-                    onChange={this.onChange.bind(this)}
-                    label={formatMessage(il8n.SELECT_CATEGORY)}
-                    value={this.state.category}
-                    template={this.categoryItem}
-                    required
-                />
-                <Input type='text' label={formatMessage(il8n.DESCRIPTION)} className={theme.boxShadowNone}
-                       name='description'
-                       multiline
-                       value={this.state.description}
-                       onChange={this.onChange.bind(this)}
-                       required
-                />
-                <DatePicker
-                    label= {formatMessage(il8n.CREATION_DATE)}
-                    name='spentAt'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.spentAt}
-                />
-                <TimePicker
-                    label={formatMessage(il8n.CREATION_TIME)}
-                    name='spentTime'
-                    onChange={this.onChange.bind(this)}
-                    value={this.state.spentTime}
-                    format='ampm'
-                />
+                        <Input type='number' label={formatMessage(il8n.AMOUNT)}
+                               name='amount'
+                               value={this.state.amount}
+                               onChange={this.onChange.bind(this)}
+                               required
+                        />
+                        <Dropdown
+                            auto={false}
+                            source={this.categories()}
+                            name='category'
+                            onChange={this.onChange.bind(this)}
+                            label={formatMessage(il8n.SELECT_CATEGORY)}
+                            value={this.state.category}
+                            template={this.categoryItem}
+                            required
+                        />
+                        <Input type='text' label={formatMessage(il8n.DESCRIPTION)} className={theme.boxShadowNone}
+                               name='description'
+                               multiline
+                               value={this.state.description}
+                               onChange={this.onChange.bind(this)}
+                               required
+                        />
+                        <DatePicker
+                            label= {formatMessage(il8n.CREATION_DATE)}
+                            name='spentAt'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.spentAt}
+                        />
+                        <TimePicker
+                            label={formatMessage(il8n.CREATION_TIME)}
+                            name='spentTime'
+                            onChange={this.onChange.bind(this)}
+                            value={this.state.spentTime}
+                            format='ampm'
+                        />
 
-                {billUpload}
-                {uploadedBill}
+                        {billUpload}
+                        {uploadedBill}
 
-                {this.renderButton()}
-            </form>
+                        {this.renderButton()}
+                    </form>
+                </Card>
+                <Button label='add now' raised primary />
+            </div>
         );
     }
 }

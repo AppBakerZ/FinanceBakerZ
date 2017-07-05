@@ -80,7 +80,7 @@ class AppLayout extends Component {
                             <span> <FormattedMessage {...il8n.WELCOME} />  <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
-                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
+                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex', overflow: 'auto' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                         <ConnectionStatus />
                     </div>
