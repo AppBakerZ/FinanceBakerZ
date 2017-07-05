@@ -25,6 +25,7 @@ import ProjectPage from '../../ui/components/projects/Project.jsx';
 import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
 
 import EasyPaisa from '../../ui/components/payments/easypaisa';
+import EasyPayCallBack from '../../ui/components/payments/EasyPayCallBack';
 import PaymentPage from '../../ui/components/payments/payments';
 import {addLocaleData} from 'react-intl';
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
@@ -104,6 +105,7 @@ class Il8n extends Component {
                             </Route>
                         </Route>
                         <Route path="easyPaisa" components={{ content: EasyPaisa}} />
+                        <Route path="EasyPayCallBack" components={{ content: EasyPayCallBack}} />
                         <Route path="payments" components={{ content: PaymentPage}} />
                     </Route>
                     <Route path="/" component={AuthLayout}>
