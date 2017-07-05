@@ -142,3 +142,38 @@
     background: rgba(33, 33, 33, 0.2);
   }
 }
+.succesful{
+  display: block;
+  font-size: 20px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  margin: 0 0 25px 0;
+}
+.easyPaisaImg{
+  margin-bottom: 10px !important;
+}
+.transactionId{
+  width: 100%;
+  float: left;
+  padding: 0 13px;
+  margin: 0 0 20px 0;
+  span{
+    font-size: 20px;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    margin: 0 0 25px 0;
+    &:first-of-type{
+      float: left;
+      margin: 0;
+    }
+    &:last-of-type{
+      float: right;
+      margin: 0;
+    }
+  }
+}
+.errorText{
+  font-size: 16px;
+  line-height: 22px;
+  margin: 5px 0 30px 0;
+}
