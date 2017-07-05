@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import moment from 'moment';
 
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 import { RadioGroup, RadioButton } from 'react-toolbox/lib/radio';
@@ -15,16 +14,6 @@ import tableTheme from './tableTheme';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const RECORDS_PER_PAGE = 8;
-
-const paymentModel = {
-    radioButton: String,
-    icon: String,
-};
-
-const paymentMethods = [
-    {name: 'Easy Paisa' },
-    {name: 'Bank Transfer'}
-];
 
 let pageNumber = 1,
     query = new ReactiveVar({
@@ -113,26 +102,22 @@ class PaymentPage extends Component {
         ];
 
         this.state = {
-            value: 'vvendetta'
+            methodSelected: false,
+            value: ''
         };
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange (value) {
-        this.setState({value});
+        this.setState({value, methodSelected: true});
     };
-
-    onRowClick(index){
-        console.log('this.props.projects[index] ', this.props.projects[index]);
-    }
 
     renderPaymentMethods() {
         return (
             <Card className={theme.paymentCard}>
-                <div className={theme.paymentContent} onClick={this.handleChange}>
+                <div className={theme.paymentContent} onClick={this.handleChange.bind(this, 'easyPay')}>
                     <div className={theme.paymentRadioBtn}>
-                        <RadioGroup name='comic' value={this.state.value}>
-                            <RadioButton value='thewalkingdead'/>
+                        <RadioGroup name='method' value={this.state.value}>
+                            <RadioButton value='easyPay'/>
                         </RadioGroup>
                     </div>
 
@@ -145,10 +130,10 @@ class PaymentPage extends Component {
                     </div>
                 </div>
 
-                <div className={theme.paymentContent} onClick={this.handleChange}>
+                <div className={theme.paymentContent} onClick={this.handleChange.bind(this, 'BankTransfer')}>
                     <div className={theme.paymentRadioBtn}>
-                        <RadioGroup name='comic' value={this.state.value}>
-                            <RadioButton value='thewalkingdead'/>
+                        <RadioGroup name='method' value={this.state.value}>
+                            <RadioButton value='BankTransfer'/>
                         </RadioGroup>
                     </div>
 
@@ -184,7 +169,7 @@ class PaymentPage extends Component {
                         <input type="hidden" name="postBackURL" value="http://localhost:3000/app/easyPaisa" hidden/>
                         <input type="hidden" name="orderRefNum" value="1101" />
                         <input type="hidden" name="mobileNum" value="03325241789" />
-                        <button caption='EasyPaisa' leftIcon='payment' name="pay" type="submit" label="easyPay">Proceed</button>
+                        <Button caption='EasyPaisa' leftIcon='payment' name="pay" type="submit" label="Proceed" disabled={true} />
                     </form>
                 </div>
             </div>
