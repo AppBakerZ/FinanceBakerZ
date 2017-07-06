@@ -124,8 +124,8 @@ export default createContainer(() => {
             dateTo: local.dateTo
         }),
         type: local.type,
-        filterByCategory: local.type == 'expenses' ? local.categories : '',
-        filterByProjects: local.type == 'incomes' ? local.projects : ''
+        filterByCategory: local.type === 'expenses' ? local.categories : '',
+        filterByProjects: local.type === 'incomes' ? local.projects : ''
     });
 
     const transactionsLoading = !transactionsHandle.ready();

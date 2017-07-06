@@ -3,6 +3,14 @@ import { Incomes } from '../../incomes/incomes.js';
 import { Expenses } from '../../expences/expenses.js';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
+//here we define two sorting option based on income and expenses keys
+let incomeSort = {
+    receivedAt: -1
+};
+let expenseSort = {
+    spentAt: -1
+};
+
 Meteor.publish('transactions', function(options) {
     let query = {
         owner: this.userId,
@@ -18,43 +26,22 @@ Meteor.publish('transactions', function(options) {
 
     if(!query.$and.length) delete query.$and;
 
-    if(options.type == 'incomes') {
+    if( options.type === 'incomes' ) {
         return [
-            Incomes.find(query, {
-            sort: {
-                receivedAt: -1
-            },
-            limit: options.limit,
-            skip: options.skip
-        }),
+            findQuery(Incomes, query, options, incomeSort),
             new Counter('incomesCount', Incomes.find(query, {
-                sort: {
-                    receivedAt: -1
-                }
+                sort: sort
             }))
         ]
     }
 
-    if(options.type == 'expenses') {
-        new Counter('expensesCount', Expenses.find(query, {
-            sort: {
-                spentAt: -1
-            }
-        }));
+    if(options.type === 'expenses') {
         return [
-            Expenses.find(query, {
-            sort: {
-                spentAt: -1
-            },
-            limit: options.limit,
-            skip: options.skip
-        }),
+            findQuery(Expenses, query, options, expenseSort),
             new Counter('expensesCount', Expenses.find(query, {
-                sort: {
-                    spentAt: -1
-                }
+                sort: sort
             }))
-    ]
+        ]
     }
 
     //computing 'Transactions' below
@@ -62,7 +49,7 @@ Meteor.publish('transactions', function(options) {
 });
 
 
-var datefilter = (options, query) => {
+let datefilter = (options, query) => {
     let dateQuery = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)};
     let temp = {$or: [{receivedAt: dateQuery}, {spentAt: dateQuery}]};
     query.$and.push(temp);
@@ -70,7 +57,7 @@ var datefilter = (options, query) => {
 
 
 
-var filterByCategory = (options, query) => {
+let filterByCategory = (options, query) => {
     let temp = {
         'category._id': {
             $in: options.filterByCategory
@@ -81,7 +68,7 @@ var filterByCategory = (options, query) => {
 
 
 
-var filterByProjects = (options, query) => {
+let filterByProjects = (options, query) => {
     let temp = {
         'project._id': {
             $in: options.filterByProjects
@@ -92,23 +79,24 @@ var filterByProjects = (options, query) => {
 
 
 
-var transactions = (options, query) => {
+let transactions = (options, query) => {
+
     return [
-        Incomes.find(query, {
-            sort: {
-                receivedAt: -1
-            },
-            limit: options.limit,
-            skip: options.skip
-        }),
-        Expenses.find(query, {
-            sort: {
-                spentAt: -1
-            },
-            limit: options.limit,
-            skip: options.skip
-        }),
-        new Counter('countIncomes', Incomes.find(query, {sort: {receivedAt: -1}})),
-        new Counter('countExpenses', Expenses.find(query, {sort: {spentAt: -1}}))
+        findQuery(Incomes, query, options, incomeSort),
+        findQuery(Expenses, query, options, expenseSort),
+        new Counter('countIncomes', Incomes.find(query, {
+            sort: incomeSort
+        })),
+        new Counter('countExpenses', Expenses.find(query, {
+            sort: expenseSort
+        }))
     ]
+};
+
+findQuery =(Collection, query, options, sort) => {
+    return Collection.find(query, {
+        sort: sort,
+        limit: options.limit,
+        skip: options.skip
+    })
 };
