@@ -40,6 +40,8 @@ class TransactionsType extends Component {
         ];
     }
     selectType (type) {
+        //whenever the transaction type change skip set to 1
+        updateFilter('reports', 'skip', 1);
         updateFilter('reports', 'type', type)
     }
     typeItem (type) {

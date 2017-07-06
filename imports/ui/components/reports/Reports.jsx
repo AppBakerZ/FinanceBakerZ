@@ -36,31 +36,21 @@ export default createContainer(() => {
     const local = LocalCollection.findOne({
         name: 'reports'
     });
-
-    console.log(Counter.get('countIncomes'));
-    console.log(Counter.get('countExpenses'));
-    console.log('Plus: ', Counter.get('countExpenses') + Counter.get('countIncomes'));
-
-    //currently no need here?
-    // const transactionsHandle = Meteor.subscribe('transactions', {
-    //     limit : 10,
-    //     skip: local.skip,
-    //     accounts: local.accounts,
-    //     dateFilter: dateHelpers.filterByDate(local.filter, {
-    //         dateFrom: local.dateFrom,
-    //         dateTo: local.dateTo
-    //     }),
-    //     type: local.type,
-    //     filterByCategory: local.type == 'expenses' ? local.categories : '',
-    //     filterByProjects: local.type == 'incomes' ? local.projects : ''
-    // });
+    let pageCount;
 
 
+    if( local.type === 'incomes' ){
+        pageCount = Counter.get('incomesCount')
+    }
+    else if( local.type === 'expenses' ){
+        pageCount = Counter.get('expensesCount')
+    }
+    else{
+        pageCount = Counter.get('countExpenses') + Counter.get('countIncomes')
+    }
 
     return {
-        local: LocalCollection.findOne({
-            name: 'reports'
-        }),
-        pageCount: Counter.get('countExpenses') + Counter.get('countIncomes')
+        local: local,
+        pageCount: pageCount
     };
 }, ReportsPage);

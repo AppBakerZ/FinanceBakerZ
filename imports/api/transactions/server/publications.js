@@ -19,23 +19,42 @@ Meteor.publish('transactions', function(options) {
     if(!query.$and.length) delete query.$and;
 
     if(options.type == 'incomes') {
-        return Incomes.find(query, {
+        return [
+            Incomes.find(query, {
             sort: {
                 receivedAt: -1
             },
             limit: options.limit,
             skip: options.skip
-        })
+        }),
+            new Counter('incomesCount', Incomes.find(query, {
+                sort: {
+                    receivedAt: -1
+                }
+            }))
+        ]
     }
 
     if(options.type == 'expenses') {
-        return Expenses.find(query, {
+        new Counter('expensesCount', Expenses.find(query, {
+            sort: {
+                spentAt: -1
+            }
+        }));
+        return [
+            Expenses.find(query, {
             sort: {
                 spentAt: -1
             },
             limit: options.limit,
             skip: options.skip
-        })
+        }),
+            new Counter('expensesCount', Expenses.find(query, {
+                sort: {
+                    spentAt: -1
+                }
+            }))
+    ]
     }
 
     //computing 'Transactions' below
