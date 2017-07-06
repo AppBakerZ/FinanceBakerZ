@@ -30,10 +30,20 @@
   float: left;
   top: 7px;
   margin-bottom: 20px;
+  div{
+    label{
+      color: #333333;
+    }
+  }
 }
 .filterDropDowns{
   width: 20%;
   display: inline-block;
+  div{
+    label{
+      color: #333333;
+    }
+  }
 }
 .autoCompleteParent{
   .autocomplete{
@@ -43,6 +53,9 @@
       width: 20%;
       display: inline-block;
       float: left;
+      label{
+        color: #333333;
+      }
     }
     .values{
       width: 80%;
@@ -90,6 +103,9 @@
       width: 26%;
       display: inline-block;
       float: left;
+      label{
+        color: #333333;
+      }
     }
     .values{
       width: 71%;
