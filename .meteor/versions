@@ -60,6 +60,7 @@ meteorhacks:aggregate@1.3.0
 meteorhacks:collection-utils@1.2.0
 meteorhacks:ssr@2.2.0
 meteortoys:toykit@3.0.4
+mikowals:batch-insert@1.1.14
 minifier-css@1.2.14
 minifier-js@1.2.15
 minimongo@1.0.18

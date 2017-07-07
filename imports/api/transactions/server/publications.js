@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../incomes/incomes.js';
 import { Expenses } from '../../expences/expenses.js';
+import { Views } from '../../views/views';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 //here we define two sorting option based on income and expenses keys
@@ -80,17 +81,25 @@ let filterByProjects = (options, query) => {
 
 
 let transactions = (options, query) => {
+    return Views.find({
 
-    return [
-        findQuery(Incomes, query, options, incomeSort),
-        findQuery(Expenses, query, options, expenseSort),
-        new Counter('countIncomes', Incomes.find(query, {
-            sort: incomeSort
-        })),
-        new Counter('countExpenses', Expenses.find(query, {
-            sort: expenseSort
-        }))
-    ]
+        });
+    Expenses.aggregate([ { $out: "views" } ]);
+    Incomes.aggregate([], function(err, result){
+        Views.batchInsert(result, function(err, res){
+            Views.update({},
+                {
+                    $rename: {
+                        spentAt:'date'}
+                }, {multi:true});
+            Views.update({},{
+                $rename:{
+                    receivedAt:'date'
+                }
+            }, {multi:true});
+
+        })
+    });
 };
 
 findQuery =(Collection, query, options, sort) => {

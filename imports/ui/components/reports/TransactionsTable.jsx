@@ -15,6 +15,7 @@ import transactionsTable from './transactionsTable';
 
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
+import { Views } from '../../../api/views/views.js';
 
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
@@ -61,7 +62,7 @@ class TransactionsTable extends Component {
                 category: transaction.receivedAt ?
                     (transaction.type == "project" ?
                         (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
-                    (transaction.category.name || transaction.category),
+                    (transaction.category && transaction.category.name || transaction.category),
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={transaction.amount}/>  </span>),
                 rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
@@ -139,9 +140,11 @@ export default createContainer(() => {
         limit: local.limit
     }).fetch();
 
-    const transactions = _.sortBy(incomes.concat(expenses), function(transaction){
-        return transaction.receivedAt || transaction.spentAt
-    }).reverse();
+    const views = Views.find({}, {
+    }).fetch();
+
+    console.log('views', views.length);
+    const transactions = views;
 
     return {
         local,
