@@ -11,6 +11,7 @@ import '../../api/incomes/server/publications.js';
 import '../../api/expences/methods.js';
 import '../../api/expences/server/publications.js';
 import '../../api/views/server/publications.js';
+import '../../api/views/server/methods.js';
 
 import '../../api/categories/methods.js';
 import '../../api/categories/server/publications.js';

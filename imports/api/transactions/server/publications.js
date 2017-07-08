@@ -43,7 +43,7 @@ Meteor.publish('transactions', function(options) {
 
     if(options.type === 'incomes') {
         return [
-            findQuery(Incomes, query, options, sortOptions.incomeSort),
+            findCursor(Incomes, query, options, sortOptions.incomeSort),
             new Counter('incomesCount', Incomes.find(query, {
                 sort: sortOptions.incomeSort
             }))
@@ -52,7 +52,7 @@ Meteor.publish('transactions', function(options) {
 
     if(options.type === 'expenses') {
         return [
-            findQuery(Expenses, query, options, sortOptions.expenseSort),
+            findCursor(Expenses, query, options, sortOptions.expenseSort),
             new Counter('expensesCount', Expenses.find(query, {
                 sort: sortOptions.expenseSort
             }))
@@ -105,41 +105,29 @@ let filterByProjects = (options, query) => {
 
 let transactions = (options, query, viewFlag) => {
     if( viewFlag ){
-        // Expenses.aggregate([ { $out: "views" } ]);
-        // Incomes.aggregate([], function(err, result){
-        //     Views.batchInsert(result, function(err, res){
-        //         Views.update({},
-        //             {
-        //                 $rename: {
-        //                     spentAt:'date'
-        //                 }
-        //             }, {
-        //             multi:true
-        //             }, (err, res) => {
-        //                 console.log('second last Point');
-        //                 Views.update({},{
-        //                     $rename:{
-        //                         receivedAt:'date'
-        //                     }
-        //                 }, {
-        //                     multi:true
-        //                 }, (err, res) =>{
-        //                     console.log('lastPoint', options);
-        //
-        //                 });
-        //             });
-        //     })
-        // })
+        //call asynchronous method just to get result delay :)
+        Meteor.call('testMethod', (err, res) => {
+            return [
+                findCursor(Incomes, query, options, sortOptions.incomeSort),
+                findCursor(Expenses, query, options, sortOptions.expenseSort),
+                new Counter('countIncomes', Incomes.find(query, {
+                    sort: sortOptions.incomeSort
+                })),
+                new Counter('countExpenses', Expenses.find(query, {
+                    sort: sortOptions.expenseSort
+                }))
+            ]
+        });
         return [
-            findQuery(Views, query, options, sortOptions.viewSort),
+            findCursor(Views, query, options, sortOptions.viewSort),
             new Counter('viewsCount', Views.find(query, {
                 sort: sortOptions.viewSort
             }))
         ];
     }
     return [
-        findQuery(Incomes, query, options, sortOptions.incomeSort),
-        findQuery(Expenses, query, options, sortOptions.expenseSort),
+        findCursor(Incomes, query, options, sortOptions.incomeSort),
+        findCursor(Expenses, query, options, sortOptions.expenseSort),
         new Counter('countIncomes', Incomes.find(query, {
             sort: sortOptions.incomeSort
         })),
@@ -147,13 +135,10 @@ let transactions = (options, query, viewFlag) => {
             sort: sortOptions.expenseSort
         }))
     ]
-
-
-
-
 };
 
-findQuery =(Collection, query, options, sort) => {
+//return dynamic cursor based on given options
+findCursor =(Collection, query, options, sort) => {
     return Collection.find(query, {
         sort: sort,
         limit: options.limit,
