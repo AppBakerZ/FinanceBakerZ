@@ -7,5 +7,15 @@ Meteor.publish('views', function(limit){
         limit: {type: Number}
     }).validate({limit});
 
-    return Views.find();
+
+    return Views.find(
+        {
+            owner: this.userId
+        },
+        {
+            limit: limit,
+            sort: {
+                date: -1
+            }
+        });
 });

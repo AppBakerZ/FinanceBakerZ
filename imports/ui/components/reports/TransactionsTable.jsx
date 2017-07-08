@@ -124,6 +124,7 @@ export default createContainer(() => {
             dateFrom: local.dateFrom,
             dateTo: local.dateTo
         }),
+        viewFlag: true,
         type: local.type,
         filterByCategory: local.type === 'expenses' ? local.categories : '',
         filterByProjects: local.type === 'incomes' ? local.projects : ''
@@ -132,19 +133,26 @@ export default createContainer(() => {
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
 
-    const expenses = Expenses.find({}, {
-        limit: local.limit
-    }).fetch();
+    let transactions;
+    if(local.type === 'incomes'){
+        transactions = Incomes.find({}, {
+            limit: local.limit
+        }).fetch();
+    }
 
-    const incomes = Incomes.find({}, {
-        limit: local.limit
-    }).fetch();
-
-    const views = Views.find({}, {
-    }).fetch();
-
-    console.log('views', views.length);
-    const transactions = views;
+    else if(local.type === 'expenses'){
+        transactions = Expenses.find({}, {
+            limit: local.limit
+        }).fetch();
+    }
+    else{
+        transactions = Views.find({}, {
+            limit: local.limit,
+            sort:{
+                date: -1
+            }
+        }).fetch();
+    }
 
     return {
         local,

@@ -29,7 +29,7 @@ class TransactionsType extends Component {
         const { formatMessage } = this.props.intl;
         return [{
                 name: formatMessage(il8n.FILTER_BY_BOTH),
-                value: ''
+                value: 'both'
             }, {
                 name: formatMessage(il8n.FILTER_BY_INCOMES),
                 value: 'incomes'

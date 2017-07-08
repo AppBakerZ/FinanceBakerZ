@@ -46,7 +46,8 @@ export default createContainer(() => {
         pageCount = Counter.get('expensesCount')
     }
     else{
-        pageCount = Counter.get('countExpenses') + Counter.get('countIncomes')
+        // pageCount = Counter.get('countExpenses') + Counter.get('countIncomes')
+        pageCount = Counter.get('viewsCount')
     }
 
     return {
