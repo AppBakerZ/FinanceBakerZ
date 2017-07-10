@@ -759,7 +759,7 @@ TransactionPage.propTypes = {
 };
 
 TransactionPage = createContainer(() => {
-    const transactionsHandle = Meteor.subscribe('transactions', query.get());
+    const transactionsHandle = Meteor.subscribe('transaction', query.get());
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
 

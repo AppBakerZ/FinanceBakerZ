@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../incomes/incomes.js';
 import { Expenses } from '../../expences/expenses.js';
-import { Views } from '../../views/views';
+import { Transactions } from '../../transactions/transactions.js';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 //here we define three types of sorting options
@@ -17,9 +17,9 @@ let sortOptions = {
     }
 };
 
-
-Meteor.publish('transactions', function(options) {
-    //we only return Views if view Flag found to not break the old functionality
+//remove the 's' from transactions to respect the new Transactions collection
+Meteor.publish('transaction', function(options) {
+    //we only return Transactions if view Flag found to not break the old functionality
     let viewFlag = options.viewFlag;
     let query = {
         owner: this.userId,
@@ -106,7 +106,7 @@ let filterByProjects = (options, query) => {
 let transactions = (options, query, viewFlag) => {
     if( viewFlag ){
         //call asynchronous method just to get result delay :)
-        Meteor.call('testMethod', (err, res) => {
+        Meteor.call('copyTransactions', (err, res) => {
             return [
                 findCursor(Incomes, query, options, sortOptions.incomeSort),
                 findCursor(Expenses, query, options, sortOptions.expenseSort),
@@ -119,8 +119,8 @@ let transactions = (options, query, viewFlag) => {
             ]
         });
         return [
-            findCursor(Views, query, options, sortOptions.viewSort),
-            new Counter('viewsCount', Views.find(query, {
+            findCursor(Transactions, query, options, sortOptions.viewSort),
+            new Counter('transactionsCount', Transactions.find(query, {
                 sort: sortOptions.viewSort
             }))
         ];

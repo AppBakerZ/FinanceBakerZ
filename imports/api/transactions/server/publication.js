@@ -1,14 +1,14 @@
 import { Meteor } from 'meteor/meteor';
-import { Views } from '../views';
+import { Transactions } from '../transactions';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-Meteor.publish('views', function(limit){
+Meteor.publish('transactions', function(limit){
     new SimpleSchema({
         limit: {type: Number}
     }).validate({limit});
 
 
-    return Views.find(
+    return Transactions.find(
         {
             owner: this.userId
         },

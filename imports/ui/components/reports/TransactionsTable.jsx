@@ -15,7 +15,7 @@ import transactionsTable from './transactionsTable';
 
 import { Expenses } from '../../../api/expences/expenses.js';
 import { Incomes } from '../../../api/incomes/incomes.js';
-import { Views } from '../../../api/views/views.js';
+import { Transactions } from '../../../api/transactions/transactions';
 
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
@@ -57,12 +57,9 @@ class TransactionsTable extends Component {
         let transactions = this.props.transactions;
         let data = transactions.map(function(transaction){
             return {
-                leftIcon: transaction.receivedAt ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
+                leftIcon: transaction.type === "Income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
                 date: moment(transaction.receivedAt || transaction.spentAt).format("DD-MMM-YY"),
-                category: transaction.receivedAt ?
-                    (transaction.type == "project" ?
-                        (transaction.project && transaction.project.name || transaction.project) : transaction.type) :
-                    (transaction.category && transaction.category.name || transaction.category),
+                category: (transaction.type === "Income" ? (transaction.project && transaction.project.name || transaction.project || transaction.type) : (transaction.category && transaction.category.name || transaction.category || transaction.type)),
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={transaction.amount}/>  </span>),
                 rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
@@ -116,7 +113,7 @@ export default createContainer(() => {
         name: 'reports'
     });
 
-    const transactionsHandle = Meteor.subscribe('transactions', {
+    const transactionsHandle = Meteor.subscribe('transaction', {
         limit : local.limit,
         skip: local.skip,
         accounts: local.accounts,
@@ -146,7 +143,7 @@ export default createContainer(() => {
         }).fetch();
     }
     else{
-        transactions = Views.find({}, {
+        transactions = Transactions.find({}, {
             limit: local.limit,
             sort:{
                 date: -1

@@ -3,18 +3,18 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-class ViewsCollection extends Mongo.Collection {}
+class TransactionsCollection extends Mongo.Collection {}
 
-export const Views = new ViewsCollection('views');
+export const Transactions = new TransactionsCollection('transactions');
 
 // Deny all client-side updates since we will be using methods to manage this collection
-// Views.deny({
-//     insert() { return true; },
-//     update() { return true; },
-//     remove() { return true; }
-// });
+Transactions.deny({
+    insert() { return true; },
+    update() { return true; },
+    remove() { return true; }
+});
 //
-// Expenses.schema = new SimpleSchema({
+// Transactions.schema = new SimpleSchema({
 //     owner: {
 //         type: String,
 //         label: 'Owner of expense'
@@ -84,16 +84,16 @@ export const Views = new ViewsCollection('views');
 //     }
 // });
 //
-// Expenses.attachSchema(Expenses.schema);
+// Transactions.attachSchema(Expenses.schema);
 //
 // // This represents the keys from Lists objects that should be published
 // // to the client. If we add secret properties to List objects, don't list
 // // them here to keep them private to the server.
-Views.publicFields = {
+Transactions.publicFields = {
     owner: 1
 };
 //
 //
-// Expenses.helpers({
+// Transactions.helpers({
 //
 // });
