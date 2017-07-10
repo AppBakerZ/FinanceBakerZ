@@ -24,17 +24,23 @@ export const insert = new ValidatedMethod({
         },
         'payment.amount': {
             type: Number,
+        },
+        'payment.method': {
+            type: String,
+        },
+        'payment.description': {
+            type: String,
             optional: true
         },
     }).validator(),
     run({ payment }) {
-        payment.user = this.userId;
-        easyPaisa.maketestreqest((err, response) => {
-            console.log('err', err);
-            console.log('response', response)
-        });
+        payment.userId = this.userId;
+        // easyPaisa.maketestreqest((err, response) => {
+        //     console.log('err', err);
+        //     console.log('response', response)
+        // });
 
-        // return Payments.insert(payment);
+        return Payments.insert(payment);
     }
 });
 

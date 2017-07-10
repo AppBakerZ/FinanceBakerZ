@@ -65,6 +65,8 @@ class LeftMenu extends Component {
         Meteor.call('payments.insert',{
             payment: {
                 amount: 5000,
+                method: 'easy Pay',
+                description: 'basic plan',
                 status: 'pending'
             }
         }, (err, response)=>{
