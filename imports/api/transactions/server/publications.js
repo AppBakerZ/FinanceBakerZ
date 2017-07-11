@@ -3,7 +3,7 @@ import { Transactions } from '../../transactions/transactions.js';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 sortbyDate = {
-    date: -1
+    transactionAt: -1
 };
 //remove the 's' from transactions to respect the new Transactions collection
 Meteor.publish('transaction', function(options) {
@@ -15,7 +15,7 @@ Meteor.publish('transaction', function(options) {
     if(options.accounts.length)
         query['account'] = {$in: ArrayGuard(options.accounts)};
 
-    options.dateFilter && (query.date = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)});
+    options.dateFilter && (query.transactionAt = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)});
 
     options.filterByCategory && options.filterByCategory.length && filterByCategory(options, query);
     options.filterByProjects && options.filterByProjects.length && filterByProjects(options, query);
@@ -42,7 +42,7 @@ let datefilter = (options, query) => {
     };
     let temp = {
         $or: [{
-            date: dateQuery
+            transactionAt: dateQuery
         }
         ]};
     query.$and.push(temp);

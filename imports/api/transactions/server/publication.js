@@ -15,7 +15,7 @@ Meteor.publish('transactions', function(limit){
         {
             limit: limit,
             sort: {
-                date: -1
+                transactionAt: -1
             }
         });
 });

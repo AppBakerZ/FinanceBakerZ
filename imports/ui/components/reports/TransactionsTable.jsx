@@ -59,7 +59,7 @@ class TransactionsTable extends Component {
             let ProjectOrCategory = project || category;
             return {
                 leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
-                date: moment(transaction.date).format("DD-MMM-YY"),
+                date: moment(transaction.transactionAt).format("DD-MMM-YY"),
                 // project or category name
                 category: ProjectOrCategory.name,
                 amount: (<span>
@@ -133,7 +133,7 @@ export default createContainer(() => {
     const transactions = Transactions.find({}, {
         limit: local.limit,
         sort:{
-            date: -1
+            transactionAt: -1
         }
     }).fetch();
 

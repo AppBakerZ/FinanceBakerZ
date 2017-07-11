@@ -14,7 +14,7 @@ export const testMethod = new ValidatedMethod({
             $project: {
                 account : "$account",
                 amount : "$amount",
-                date : "$spentAt",
+                transactionAt : "$spentAt",
                 description : "$description",
                 category : "$category",
                 type: {
@@ -31,7 +31,7 @@ export const testMethod = new ValidatedMethod({
             $project: {
                 account : "$account",
                 amount : "$amount",
-                date : "$receivedAt",
+                transactionAt : "$receivedAt",
                 type:{
                     $literal: 'income'
                 },
