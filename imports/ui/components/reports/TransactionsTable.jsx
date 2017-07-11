@@ -13,8 +13,6 @@ import {defineMessages, FormattedMessage, FormattedNumber} from 'react-intl';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import transactionsTable from './transactionsTable';
 
-import { Expenses } from '../../../api/expences/expenses.js';
-import { Incomes } from '../../../api/incomes/incomes.js';
 import { Transactions } from '../../../api/transactions/transactions';
 
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
@@ -56,13 +54,17 @@ class TransactionsTable extends Component {
 
         let transactions = this.props.transactions;
         let data = transactions.map(function(transaction){
+            //didn't find why directly nested key not work in template ?? :(
+            let { project, category } = transaction;
+            let ProjectOrCategory = project || category;
             return {
-                leftIcon: transaction.type === "Income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
-                date: moment(transaction.receivedAt || transaction.spentAt).format("DD-MMM-YY"),
-                category: (transaction.type === "Income" ? (transaction.project && transaction.project.name || transaction.project || transaction.type) : (transaction.category && transaction.category.name || transaction.category || transaction.type)),
+                leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
+                date: moment(transaction.date).format("DD-MMM-YY"),
+                // project or category name
+                category: ProjectOrCategory.name,
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={transaction.amount}/>  </span>),
-                rightIcon: transaction.receivedAt ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
+                rightIcon: transaction.type === "income" ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
 
@@ -112,7 +114,6 @@ export default createContainer(() => {
     const local = LocalCollection.findOne({
         name: 'reports'
     });
-
     const transactionsHandle = Meteor.subscribe('transaction', {
         limit : local.limit,
         skip: local.skip,
@@ -121,7 +122,6 @@ export default createContainer(() => {
             dateFrom: local.dateFrom,
             dateTo: local.dateTo
         }),
-        viewFlag: true,
         type: local.type,
         filterByCategory: local.type === 'expenses' ? local.categories : '',
         filterByProjects: local.type === 'incomes' ? local.projects : ''
@@ -130,26 +130,12 @@ export default createContainer(() => {
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
 
-    let transactions;
-    if(local.type === 'incomes'){
-        transactions = Incomes.find({}, {
-            limit: local.limit
-        }).fetch();
-    }
-
-    else if(local.type === 'expenses'){
-        transactions = Expenses.find({}, {
-            limit: local.limit
-        }).fetch();
-    }
-    else{
-        transactions = Transactions.find({}, {
-            limit: local.limit,
-            sort:{
-                date: -1
-            }
-        }).fetch();
-    }
+    const transactions = Transactions.find({}, {
+        limit: local.limit,
+        sort:{
+            date: -1
+        }
+    }).fetch();
 
     return {
         local,

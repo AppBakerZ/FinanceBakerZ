@@ -36,18 +36,7 @@ export default createContainer(() => {
     const local = LocalCollection.findOne({
         name: 'reports'
     });
-    let pageCount;
-
-
-    if( local.type === 'incomes' ){
-        pageCount = Counter.get('incomesCount')
-    }
-    else if( local.type === 'expenses' ){
-        pageCount = Counter.get('expensesCount')
-    }
-    else{
-        pageCount = Counter.get('transactionsCount')
-    }
+    const pageCount = Counter.get('transactionsCount');
 
     return {
         local: local,
