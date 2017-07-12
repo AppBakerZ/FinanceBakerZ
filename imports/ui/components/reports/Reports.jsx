@@ -7,7 +7,6 @@ import TransactionsTable from '/imports/ui/components/reports/TransactionsTable.
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
-import { dateHelpers } from '../../../helpers/dateHelpers.js'
 
 import theme from './theme';
 
@@ -24,7 +23,7 @@ class ReportsPage extends Component {
             <div className={theme.reports}>
                 <FilterBar />
                 <TransactionsTable />
-                <Pagination pageCount={this.props.pageCount} />
+                <Pagination pageCount={this.props.pageCount} test={ this.props }/>
             </div>
         );
     }
@@ -40,6 +39,6 @@ export default createContainer(() => {
 
     return {
         local: local,
-        pageCount: pageCount
+        pageCount: pageCount,
     };
 }, ReportsPage);

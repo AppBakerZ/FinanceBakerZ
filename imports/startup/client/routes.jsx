@@ -86,9 +86,8 @@ class Il8n extends Component {
                         <Route path="dashboard" components={{ content: DashboardPage}} />
                         <Route path="accounts" components={{ content: AccountsPage }} />
                         <Route path="categories" components={{ content: CategoriesPage }} />
-                        <Route path="reports" components={{ content: ReportsPage }}>
-                            <Route path=":id" />
-                        </Route>
+                        <Route path="reports(/paginate)(/:number)" components={{ content: ReportsPage }} />
+
                         <Route path="settings" components={{ content: SettingsPage }}>
                             <Route path=":id" />
                         </Route>
