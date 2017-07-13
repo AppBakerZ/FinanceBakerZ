@@ -309,79 +309,79 @@ export default [
   },
   {
     label: 'bag',
-    value: 'icon-icons-2_bag'
+    value: 'icon-icons_bag'
   },
   {
     label: 'bird',
-    value: 'icon-icons-2_bird'
+    value: 'icon-icons_bird'
   },
   {
     label: 'birthday',
-    value: 'icon-icons-2_birthday'
+    value: 'icon-icons_birthday'
   },
   {
     label: 'camel',
-    value: 'icon-icons-2_camel'
+    value: 'icon-icons_camel'
   },
   {
     label: 'cow',
-    value: 'icon-icons-2_cow'
+    value: 'icon-icons_cow'
   },
   {
     label: 'eye-glasses',
-    value: 'icon-icons-2_eye-glasses'
+    value: 'icon-icons_eye-glasses'
   },
   {
     label: 'foot-wear',
-    value: 'icon-icons-2_foot-wear'
+    value: 'icon-icons_foot-wear'
   },
   {
     label: 'generator',
-    value: 'icon-icons-2_generator'
+    value: 'icon-icons_generator'
   },
   {
     label: 'goat',
-    value: 'icon-icons-2_goat'
+    value: 'icon-icons_goat'
   },
   {
     label: 'jewelry',
-    value: 'icon-icons-2_jewelry'
+    value: 'icon-icons_jewelry'
   },
   {
     label: 'motherboard',
-    value: 'icon-icons-2_motherboard'
+    value: 'icon-icons_motherboard'
   },
   {
     label: 'motor',
-    value: 'icon-icons-2_motor'
+    value: 'icon-icons_motor'
   },
   {
     label: 'online-shopping',
-    value: 'icon-icons-2_online-shopping'
+    value: 'icon-icons_online-shopping'
   },
   {
     label: 'sheep',
-    value: 'icon-icons-2_sheep'
+    value: 'icon-icons_sheep'
   },
   {
     label: 'solar-panel',
-    value: 'icon-icons-2_solar-panel'
+    value: 'icon-icons_solar-panel'
   },
   {
     label: 'tap',
-    value: 'icon-icons-2_tap'
+    value: 'icon-icons_tap'
   },
   {
     label: 'tie',
-    value: 'icon-icons-2_tie'
+    value: 'icon-icons_tie'
   },
   {
     label: 'ups',
-    value: 'icon-icons-2_ups'
+    value: 'icon-icons_ups'
   },
   {
     label: 'wrist-watch',
-    value: 'icon-icons-2_wrist-watch'
+    value: 'icon-icons_wrist-watch'
   },
   {
     label: 'air-conditioner',
@@ -421,7 +421,7 @@ export default [
   },
   {
     label: 'flight-ticket2',
-    value: 'icon-icons_flight-ticket2'
+    value: 'icon-icons_flight-ticket'
   },
   {
     label: 'hand-wash-liquid',
@@ -445,7 +445,7 @@ export default [
   },
   {
     label: 'net-cable2',
-    value: 'icon-icons_net-cable2'
+    value: 'icon-icons_net-cable'
   },
   {
     label: 'news-paper',
@@ -482,5 +482,25 @@ export default [
   {
     label: 'wash-basin',
     value: 'icon-icons_wash-basin'
+  },
+  {
+    label: 'audit',
+    value: 'icon-icons_audit'
+  },
+  {
+    label: 'building',
+    value: 'icon-icons_building'
+  },
+  {
+    label: 'decoration',
+    value: 'icon-icons_decoration'
+  },
+  {
+    label: 'services-tax',
+    value: 'icon-icons_services-tax'
+  },
+  {
+    label: 'withholding-tax',
+    value: 'icon-icons_withholding-tax'
   }
 ]
