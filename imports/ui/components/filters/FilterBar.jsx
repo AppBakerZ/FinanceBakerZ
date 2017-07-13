@@ -22,11 +22,11 @@ class FilterBar extends Component {
         return (
             <div className='filter-bar'>
                 <FilterBy />
-                {this.props.local.filter == 'range' ? <DateRange /> : ''}
+                {this.props.local.filter === 'range' ? <DateRange /> : ''}
                 <AccountsDD />
                 <TransactionsType />
-                {this.props.local.type == 'incomes' ? <ProjectsDD /> : ''}
-                {this.props.local.type == 'expenses' ? <CategoriesDD /> : ''}
+                {this.props.local.type === 'incomes' ? <ProjectsDD /> : ''}
+                {this.props.local.type === 'expenses' ? <CategoriesDD /> : ''}
 
 
             </div>

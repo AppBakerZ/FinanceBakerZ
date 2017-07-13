@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 
 import ReactPaginate from 'react-paginate';
 import theme from './theme';
-
+let flag = 5;
 class Pagination extends Component {
 
     constructor(props) {
@@ -19,11 +19,50 @@ class Pagination extends Component {
         };
     }
 
-    componentWillMount() {
+
+    componentWillReceiveProps(nextprops){
+        const { history} = this.props.test;
         let { pager } = this.state;
+        let { location } = this.props.test;
+        let { local } = nextprops;
         if (pager){
-            let skip = Math.ceil(pager * this.props.local.limit);
+            let skip = Math.ceil(pager * local.limit);
             updateFilter('reports', 'skip', skip)
+        }
+        let query = location.query;
+        if( local.type === "incomes" || local.type === "expenses" ){
+            if(query.type !== local.type){
+                query.type = local.type;
+            }
+        }
+        if( local.categories.length ){
+            query.categories = query.categories || '';
+            if(query.categories.split(".") !== local.categories){
+                flag--;
+                // query.categories = `${[local.categories.join("','")]}`;
+                query.categories = `${[local.categories]}`;
+                // if(query.categories && query.categories.length){
+                //     query.categories = `"${[local.categories.join(",")]}"`
+                // }
+                // browserHistory.push(`${this.props.test.location.pathname}?categories=["${local.categories}"]`);
+            }
+        }
+        if(local.projects.length){
+            query.projects = query.project || '';
+            if(query.projects.split(".") !== local.projects){
+                flag--;
+                // query.projects = `[${local.projects.join("','")}]`;
+                query.projects = `${[local.projects]}`;
+                // if(query.projects && query.projects.length){
+                //     query.projects = `"[${local.projects.join(",")}]"`;
+                // }
+
+                // browserHistory.push(`${this.props.test.location.pathname}?projects=["${local.projects}"]`);
+            }
+        }
+        if(flag >= 0 && flag !== 5){
+            // flag = false;
+            history.pushState(null, `/app/reports/paginate/`, query);
         }
     }
 
