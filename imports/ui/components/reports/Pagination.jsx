@@ -21,28 +21,35 @@ class Pagination extends Component {
     }
 
 
-    componentWillReceiveProps(nextprops){
+    componentWillReceiveProps(nextProps){
+        let { pager } = this.state;
         if(initialParamsFlag){
             //first time it will update the local collection with given url Params
-            let { query } = nextprops.test.location;
+            let { query } = nextProps.test.location;
             query.type && updateFilter('reports', 'type', query.type);
-            query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
-            query.projects && updateFilter('reports', 'projects', query.projects.split(","));
-            query.categories && updateFilter('reports', 'categories', query.categories.split(","));
+            // query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
+            // query.projects && updateFilter('reports', 'projects', query.projects.split(","));
+            // query.categories && updateFilter('reports', 'categories', query.categories.split(","));
             //date filters
             query.filter && updateFilter('reports', 'filter', query.filter);
             query.dateFrom && updateFilter('reports', 'dateFrom', moment(query.dateFrom).format());
             query.dateTo && updateFilter('reports', 'dateTo', moment(query.dateTo).format());
             initialParamsFlag = false;
+
+            //if given then update skip first time too
+            if (pager){
+                let skip = Math.ceil(pager * nextProps.local.limit);
+                updateFilter('reports', 'skip', skip)
+            }
+        }
+        if(nextProps.pageCount <= nextProps.local.limit){
+            //else no skip in any way
+            updateFilter('reports', 'skip', 0);
         }
         let flag = false;
-        let { pager } = this.state;
         let { location } = this.props.test;
-        let { local } = nextprops;
-        if (pager){
-            let skip = Math.ceil(pager * local.limit);
-            updateFilter('reports', 'skip', skip)
-        }
+        let { local } = nextProps;
+
         let query = location.query;
         if( query.type !== local.type ){
             query.type = local.type;
