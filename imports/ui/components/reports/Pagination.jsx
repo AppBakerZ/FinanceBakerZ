@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router';
 
 import ReactPaginate from 'react-paginate';
 import theme from './theme';
-let flag = 5;
 class Pagination extends Component {
 
     constructor(props) {
@@ -21,7 +20,7 @@ class Pagination extends Component {
 
 
     componentWillReceiveProps(nextprops){
-        const { history} = this.props.test;
+        let flag = false;
         let { pager } = this.state;
         let { location } = this.props.test;
         let { local } = nextprops;
@@ -30,49 +29,58 @@ class Pagination extends Component {
             updateFilter('reports', 'skip', skip)
         }
         let query = location.query;
-        if( local.type === "incomes" || local.type === "expenses" ){
-            if(query.type !== local.type){
-                query.type = local.type;
-            }
+        if( query.type !== local.type ){
+            query.type = local.type;
+            flag = true;
         }
         if( local.categories.length ){
             query.categories = query.categories || '';
-            if(query.categories.split(".") !== local.categories){
-                flag--;
+            if(query.categories !== local.categories.join(",")){
+                flag = true;
                 // query.categories = `${[local.categories.join("','")]}`;
                 query.categories = `${[local.categories]}`;
-                // if(query.categories && query.categories.length){
-                //     query.categories = `"${[local.categories.join(",")]}"`
-                // }
-                // browserHistory.push(`${this.props.test.location.pathname}?categories=["${local.categories}"]`);
             }
         }
-        if(local.projects.length){
-            query.projects = query.project || '';
-            if(query.projects.split(".") !== local.projects){
-                flag--;
-                // query.projects = `[${local.projects.join("','")}]`;
+        else if((!local.categories.length) && query.categories){
+            delete query.categories;
+            flag = true
+        }
+        if( local.projects.length ){
+            query.projects = query.projects || '';
+            if(query.projects !== local.projects.join(",")){
+                flag = true;
                 query.projects = `${[local.projects]}`;
-                // if(query.projects && query.projects.length){
-                //     query.projects = `"[${local.projects.join(",")}]"`;
-                // }
-
-                // browserHistory.push(`${this.props.test.location.pathname}?projects=["${local.projects}"]`);
             }
         }
-        if(flag >= 0 && flag !== 5){
-            // flag = false;
-            history.pushState(null, `/app/reports/paginate/`, query);
+        else if((!local.projects.length) && query.projects){
+            delete query.projects;
+            flag = true
+        }
+        if( local.accounts.length ){
+            query.accounts = query.accounts || '';
+            if(query.accounts !== local.accounts.join(",")){
+                flag = true;
+                query.accounts = `${[local.accounts]}`;
+            }
+        }
+        else if((!local.accounts.length) && query.accounts){
+            delete query.accounts;
+            flag = true
+        }
+        if(flag){
+            browserHistory.pushState(null, location.pathname, query);
         }
     }
 
 
     handlePageClick(data) {
+        const { location } = this.props.test;
+        let query = location.query;
         let selected = data.selected;
-        //set the params in case of greater than 0
-        selected && browserHistory.push(`/app/reports/paginate/${selected}`);
-        // else default to index page
-        selected || browserHistory.push("/app/reports/paginate");
+
+        //set the params in case of greater than 0 else default
+        selected && browserHistory.pushState(null, `/app/reports/paginate/${selected}`, query);
+        selected || browserHistory.pushState(null, "/app/reports", query);
         let skip = Math.ceil(selected * this.props.local.limit);
 
         updateFilter('reports', 'skip', skip)
