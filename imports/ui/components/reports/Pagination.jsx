@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 
 import ReactPaginate from 'react-paginate';
 import theme from './theme';
@@ -30,8 +31,8 @@ class Pagination extends Component {
             query.categories && updateFilter('reports', 'categories', query.categories.split(","));
             //date filters
             query.filter && updateFilter('reports', 'filter', query.filter);
-            query.dateFrom && updateFilter('reports', 'dateFrom', query.dateFrom);
-            query.dateTo && updateFilter('reports', 'dateTo', query.dateTo);
+            query.dateFrom && updateFilter('reports', 'dateFrom', moment(query.dateFrom).format());
+            query.dateTo && updateFilter('reports', 'dateTo', moment(query.dateTo).format());
             initialParamsFlag = false;
         }
         let flag = false;
@@ -86,11 +87,11 @@ class Pagination extends Component {
             flag = true;
         }
         if( new Date(query.dateFrom).getTime() !== new Date(local.dateFrom).getTime() ){
-            query.dateFrom = local.dateFrom;
+            query.dateFrom = moment(local.dateFrom).format();
             flag = true;
         }
         if( new Date(query.dateTo).getTime() !== new Date(local.dateTo).getTime() ){
-            query.dateTo = local.dateTo;
+            query.dateTo = moment(local.dateTo).format();
             flag = true;
         }
         //add conditions on states and change filter
