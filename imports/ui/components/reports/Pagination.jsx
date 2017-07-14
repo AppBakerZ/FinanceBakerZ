@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 
 import ReactPaginate from 'react-paginate';
 import theme from './theme';
+let initialParamsFlag = true;
 class Pagination extends Component {
 
     constructor(props) {
@@ -20,6 +21,15 @@ class Pagination extends Component {
 
 
     componentWillReceiveProps(nextprops){
+        if(initialParamsFlag){
+            //first time it will update the local collection with given url Params
+            let { query } = nextprops.test.location;
+            query.type && updateFilter('reports', 'type', query.type);
+            query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
+            query.projects && updateFilter('reports', 'projects', query.projects.split(","));
+            query.categories && updateFilter('reports', 'categories', query.categories.split(","));
+            initialParamsFlag = false;
+        }
         let flag = false;
         let { pager } = this.state;
         let { location } = this.props.test;
