@@ -28,6 +28,10 @@ class Pagination extends Component {
             query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
             query.projects && updateFilter('reports', 'projects', query.projects.split(","));
             query.categories && updateFilter('reports', 'categories', query.categories.split(","));
+            //date filters
+            query.filter && updateFilter('reports', 'filter', query.filter);
+            query.dateFrom && updateFilter('reports', 'dateFrom', query.dateFrom);
+            query.dateTo && updateFilter('reports', 'dateTo', query.dateTo);
             initialParamsFlag = false;
         }
         let flag = false;
@@ -47,7 +51,6 @@ class Pagination extends Component {
             query.categories = query.categories || '';
             if(query.categories !== local.categories.join(",")){
                 flag = true;
-                // query.categories = `${[local.categories.join("','")]}`;
                 query.categories = `${[local.categories]}`;
             }
         }
@@ -77,6 +80,20 @@ class Pagination extends Component {
             delete query.accounts;
             flag = true
         }
+        //date filters
+        if( query.filter !== local.filter ){
+            query.filter = local.filter;
+            flag = true;
+        }
+        if( new Date(query.dateFrom).getTime() !== new Date(local.dateFrom).getTime() ){
+            query.dateFrom = local.dateFrom;
+            flag = true;
+        }
+        if( new Date(query.dateTo).getTime() !== new Date(local.dateTo).getTime() ){
+            query.dateTo = local.dateTo;
+            flag = true;
+        }
+        //add conditions on states and change filter
         if(flag){
             browserHistory.pushState(null, location.pathname, query);
         }
