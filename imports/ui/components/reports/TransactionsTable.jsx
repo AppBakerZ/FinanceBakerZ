@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -38,8 +38,10 @@ class TransactionsTable extends Component {
         this.state = {};
     }
     selectItem(index){
-        let selectedProject =  this.props.transactions[index] ;
-        console.log('selectedProject', selectedProject)
+        let selectedTransaction =  this.props.transactions[index] ;
+        browserHistory.push({
+            pathname: `/app/transactions/${selectedTransaction.type}/edit/${selectedTransaction._id}`
+        })
     }
     getTableModel(){
         return {
@@ -69,7 +71,7 @@ class TransactionsTable extends Component {
                 <div className={transactionsTable.titleBg}>
                     <h3>Transactions</h3>
                     <div className={transactionsTable.rightButtons}>
-                        <Link to="app/transactions/incomes/new">
+                        <Link to="/app/transactions/income/new">
                             <Button
                                 className='header-buttons'
                                 icon='add'
@@ -77,7 +79,7 @@ class TransactionsTable extends Component {
                                 name='Income'
                                 flat />
                         </Link>
-                        <Link to="app/transactions/expenses/new">
+                        <Link to="/app/transactions/expense/new">
                             <Button
                                 className='header-buttons'
                                 icon='add'

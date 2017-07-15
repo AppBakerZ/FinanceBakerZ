@@ -99,8 +99,8 @@ class Il8n extends Component {
                             <Route path="expenses" >
                             </Route>
                         </Route>
-                        <Route path="transactions/incomes/new" components={{content: NewIncome}}/>
-                        <Route path="transactions/expenses/new" components={{content: NewExpense}}/>
+                        <Route path="transactions/income(/:type)(/:id)" components={{content: NewIncome}}/>
+                        <Route path="transactions/expense(/:type)(/:id)" components={{content: NewExpense}}/>
                     </Route>
                     <Route path="/" component={AuthLayout}>
                         <IndexRoute component={ Login} />

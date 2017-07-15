@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { browserHistory } from 'react-router';
 
 import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon, IconButton } from 'react-toolbox';
@@ -75,7 +76,7 @@ class NewExpense extends Component {
 
     setCurrentRoute(value){
         this.setState({
-            isNewRoute: value
+            isNew: value
         })
     }
 
@@ -94,7 +95,7 @@ class NewExpense extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        this.state.isNewRoute ? this.createExpense() : this.updateExpense();
+        this.state.isNew ? this.createExpense() : this.updateExpense();
         this.setState({loading: true})
     }
 
@@ -116,6 +117,7 @@ class NewExpense extends Component {
             }
         }, (err, response) => {
             if(response){
+                changeRoute('/app/reports', 2000);
                 this.setState({
                     active: true,
                     barMessage: 'Expense created successfully',
@@ -123,8 +125,7 @@ class NewExpense extends Component {
                     barType: 'accept'
                 });
                 this.resetExpense();
-                this.props.closePopup();
-            }else{
+            }else {
                 this.setState({
                     active: true,
                     barMessage: err.reason,
@@ -161,13 +162,13 @@ class NewExpense extends Component {
                     barType: 'cancel'
                 });
             }else{
+                changeRoute('/app/reports', 2000);
                 this.setState({
                     active: true,
                     barMessage: 'Expense updated successfully',
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                this.props.closePopup();
             }
             this.setState({loading: false})
         });
@@ -188,7 +189,7 @@ class NewExpense extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/app/expenses/new');
+                changeRoute('/app/reports', 2000);
                 this.setState({
                     active: true,
                     barMessage: 'Expense deleted successfully',
@@ -220,29 +221,28 @@ class NewExpense extends Component {
         p.expense.receivedTime = p.expense.receivedAt;
         p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
-        this.setCurrentRoute(p.isNewRoute);
-        if(p.isNewRoute){
-            this.resetExpense()
-        }
+        let isNew = p.params.type === 'new';
+        this.setCurrentRoute(isNew);
+        isNew && this.resetExpense();
     }
 
     renderButton (){
         const { formatMessage } = this.props.intl;
         let button;
-        if(this.state.isNewRoute){
+        if(this.state.isNew){
             button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='add' label={formatMessage(il8n.ADD_EXPENSE_BUTTON)} raised primary />
             </div>
         }else{
             button = <div className={theme.addExpensesBtn}>
-                {/*<Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={formatMessage(il8n.UPDATE_EXPENSE_BUTTON)} raised primary />*/}
-                {/*<Button*/}
-                    {/*onClick={this.removeExpense.bind(this)}*/}
-                    {/*type='button'*/}
-                    {/*icon='delete'*/}
-                    {/*label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}*/}
-                    {/*className='float-right'*/}
-                    {/*accent />*/}
+                <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={formatMessage(il8n.UPDATE_EXPENSE_BUTTON)} raised primary />
+                <Button
+                    onClick={this.removeExpense.bind(this)}
+                    type='button'
+                    icon='delete'
+                    label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}
+                    className='float-right'
+                    accent />
             </div>
         }
         return button;
@@ -460,7 +460,7 @@ class NewExpense extends Component {
                         {this.renderButton()}
                     </form>
                 </Card>
-                <Button label='add now' raised primary />
+                {/*<Button label='add now' raised primary />*/}
             </div>
         );
     }
@@ -491,3 +491,12 @@ NewExpense = createContainer((props) => {
 }, NewExpense);
 
 export default injectIntl(NewExpense);
+
+//TODO: made it globally to use in whole app
+let changeRoute = (pathname, time) => {
+    Meteor.setTimeout(() => {
+        browserHistory.push({
+            pathname: pathname,
+        })
+    }, time)
+};
