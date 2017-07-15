@@ -27,9 +27,9 @@ class Pagination extends Component {
             //first time it will update the local collection with given url Params
             let { query } = nextProps.test.location;
             query.type && updateFilter('reports', 'type', query.type);
-            // query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
-            // query.projects && updateFilter('reports', 'projects', query.projects.split(","));
-            // query.categories && updateFilter('reports', 'categories', query.categories.split(","));
+            query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
+            query.projects && updateFilter('reports', 'projects', query.projects.split(","));
+            query.categories && updateFilter('reports', 'categories', query.categories.split(","));
             //date filters
             query.filter && updateFilter('reports', 'filter', query.filter);
             query.dateFrom && updateFilter('reports', 'dateFrom', moment(query.dateFrom).format());
