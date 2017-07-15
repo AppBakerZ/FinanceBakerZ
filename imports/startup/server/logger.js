@@ -11,14 +11,15 @@ wrapMethodsForLogs = function(name, originalHandler, methodMap) {
         try {
             params = _.toArray(arguments);
             filterParams = _.compact(params);
+            let isUserCollection = name.indexOf('settings') !== -1;
             if(!(name.indexOf('insert') !== -1) ){
-                meta.doc = actions(name, params)
+                meta.doc = actions(name, params, false, isUserCollection)
             }
             result = originalHandler.apply(this, params);
 
             //here insert block goes
             if( name.indexOf('insert') !== -1 ){
-                meta.doc = actions(name, result, true);
+                meta.doc = actions(name, result, true, isUserCollection);
             }
             meta.params = filterParams;
             logger.info(`Event: ${name} user=${this.userId}`, meta);

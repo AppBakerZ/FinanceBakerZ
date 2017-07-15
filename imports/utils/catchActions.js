@@ -16,11 +16,11 @@ let Collections = {
     Logs: Logs
 };
 //@MethodName comes as 'project.insert'
-export const actions = (methodName, paramsArray, isInsert) => {
+export const actions = (methodName, paramsArray, isInsert, isUserSettings) => {
     let params, splitMethod, collection, action, currentCollection, doc, keys, docId,
         length = applicableActions.length;
     while( length-- ) {
-        if ( methodName.indexOf(applicableActions[length]) !==-1 ) {
+        if ( methodName.indexOf(applicableActions[length]) !== -1 ) {
 
             //the original params comes at 0 index
             if( paramsArray instanceof Array ){
@@ -42,8 +42,14 @@ export const actions = (methodName, paramsArray, isInsert) => {
                 docId = paramsArray
             }
 
-            //dynamic collection name for querying record
-            currentCollection = Collections[capitalize(collection)];
+            //check whether the method is related to settings
+            if( isUserSettings ){
+                docId = Meteor.userId();
+                currentCollection = Meteor.users
+            }
+            else{
+                currentCollection = Collections[capitalize(collection)];
+            }
             doc = currentCollection.findOne({
                 _id: docId
             });
