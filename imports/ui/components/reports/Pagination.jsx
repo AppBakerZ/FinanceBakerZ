@@ -22,6 +22,7 @@ class Pagination extends Component {
 
 
     componentWillReceiveProps(nextProps){
+        let typeChanged = false;
         let { pager } = this.state;
         if(initialParamsFlag){
             //first time it will update the local collection with given url Params
@@ -52,6 +53,7 @@ class Pagination extends Component {
 
         let query = location.query;
         if( query.type !== local.type ){
+            typeChanged = true;
             query.type = local.type;
             flag = true;
         }
@@ -102,8 +104,17 @@ class Pagination extends Component {
             flag = true;
         }
         //add conditions on states and change filter
-        if(flag){
-            browserHistory.pushState(null, location.pathname, query);
+        if(flag && typeChanged){
+            browserHistory.push({
+                pathname: '/app/reports',
+                query: query
+            });
+        }
+        else if( flag ){
+            browserHistory.push({
+                pathname: location.pathname,
+                query: query
+            });
         }
     }
 
@@ -114,8 +125,8 @@ class Pagination extends Component {
         let selected = data.selected;
 
         //set the params in case of greater than 0 else default
-        selected && browserHistory.pushState(null, `/app/reports/paginate/${selected}`, query);
-        selected || browserHistory.pushState(null, "/app/reports", query);
+        selected && browserHistory.push({pathname: `/app/reports/paginate/${selected}`, query: query});
+        selected || browserHistory.push({pathname: "/app/reports", query: query});
         let skip = Math.ceil(selected * this.props.local.limit);
 
         updateFilter('reports', 'skip', skip)

@@ -114,7 +114,7 @@ export default createContainer(() => {
         limit : local.limit,
         skip: local.skip,
         accounts: local.accounts,
-        dateFilter: dateHelpers.filterByDate(local.filter, {
+        dateFilter: local.filter === 'all' ? '' : dateHelpers.filterByDate(local.filter, {
             dateFrom: local.dateFrom,
             dateTo: local.dateTo
         }),
