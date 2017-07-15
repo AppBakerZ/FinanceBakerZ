@@ -22,11 +22,22 @@ class Pagination extends Component {
 
 
     componentWillReceiveProps(nextProps){
-        let typeChanged = false;
+        const { location } = nextProps.test;
+        let typeChanged = false, flag = false;
+        let query = location.query;
         let { pager } = this.state;
-        if(initialParamsFlag){
+        let { local, pageCount } = nextProps;
+
+        //directly rendered first time
+        if( initialParamsFlag ){
+
+            //if given then update skip first time too
+            if ( pager ){
+                let skip = Math.ceil(pager * nextProps.local.limit);
+                updateFilter('reports', 'skip', skip)
+            }
+
             //first time it will update the local collection with given url Params
-            let { query } = nextProps.test.location;
             query.type && updateFilter('reports', 'type', query.type);
             query.accounts && updateFilter('reports', 'accounts', query.accounts.split(","));
             query.projects && updateFilter('reports', 'projects', query.projects.split(","));
@@ -36,27 +47,20 @@ class Pagination extends Component {
             query.dateFrom && updateFilter('reports', 'dateFrom', moment(query.dateFrom).format());
             query.dateTo && updateFilter('reports', 'dateTo', moment(query.dateTo).format());
             initialParamsFlag = false;
-
-            //if given then update skip first time too
-            if (pager){
-                let skip = Math.ceil(pager * nextProps.local.limit);
-                updateFilter('reports', 'skip', skip)
-            }
         }
-        if(nextProps.pageCount <= nextProps.local.limit){
+        if( pageCount <= nextProps.local.limit){
             //else no skip in any way
             updateFilter('reports', 'skip', 0);
         }
-        let flag = false;
-        let { location } = this.props.test;
-        let { local } = nextProps;
 
-        let query = location.query;
+        //transaction type
         if( query.type !== local.type ){
             typeChanged = true;
             query.type = local.type;
             flag = true;
         }
+
+        //transaction categories
         if( local.categories.length ){
             query.categories = query.categories || '';
             if(query.categories !== local.categories.join(",")){
@@ -64,10 +68,12 @@ class Pagination extends Component {
                 query.categories = `${[local.categories]}`;
             }
         }
-        else if((!local.categories.length) && query.categories){
+        else if( (!local.categories.length) && query.categories ){
             delete query.categories;
             flag = true
         }
+
+        //transaction projects
         if( local.projects.length ){
             query.projects = query.projects || '';
             if(query.projects !== local.projects.join(",")){
@@ -79,6 +85,8 @@ class Pagination extends Component {
             delete query.projects;
             flag = true
         }
+
+        //transaction accounts
         if( local.accounts.length ){
             query.accounts = query.accounts || '';
             if(query.accounts !== local.accounts.join(",")){
@@ -90,6 +98,7 @@ class Pagination extends Component {
             delete query.accounts;
             flag = true
         }
+
         //date filters
         if( query.filter !== local.filter ){
             query.filter = local.filter;
@@ -104,7 +113,9 @@ class Pagination extends Component {
             flag = true;
         }
         //add conditions on states and change filter
-        if(flag && typeChanged){
+        // @flag any filter change
+        // @typeChanged in case of transaction type changed
+        if( flag && typeChanged ){
             browserHistory.push({
                 pathname: '/app/reports',
                 query: query
