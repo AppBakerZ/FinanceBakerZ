@@ -123,7 +123,6 @@ class NewExpense extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                this.resetExpense();
             }else {
                 this.setState({
                     active: true,
@@ -217,7 +216,7 @@ class NewExpense extends Component {
 
     componentWillReceiveProps (p){
         p.expense.billUrl = p.expense.billUrl || '';
-        p.expense.receivedTime = p.expense.receivedAt;
+        p.expense.spentTime = p.expense.spentAt;
         p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
         let isNew = p.params.type === 'new';

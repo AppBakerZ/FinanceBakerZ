@@ -136,7 +136,6 @@ class NewIncome extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                this.resetIncome();
             }else{
                 this.setState({
                     active: true,
