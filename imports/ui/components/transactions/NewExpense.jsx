@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { browserHistory } from 'react-router';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
-import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon, IconButton } from 'react-toolbox';
 import { Card} from 'react-toolbox/lib/card';
 
@@ -117,7 +116,7 @@ class NewExpense extends Component {
             }
         }, (err, response) => {
             if(response){
-                changeRoute('/app/reports', 2000);
+                routeHelpers.changeRoute('/app/reports', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Expense created successfully',
@@ -162,7 +161,7 @@ class NewExpense extends Component {
                     barType: 'cancel'
                 });
             }else{
-                changeRoute('/app/reports', 2000);
+                routeHelpers.changeRoute('/app/reports', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Expense updated successfully',
@@ -189,7 +188,7 @@ class NewExpense extends Component {
                     barType: 'cancel'
                 });
             }else{
-                changeRoute('/app/reports', 2000);
+                routeHelpers.changeRoute('/app/reports', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Expense deleted successfully',
@@ -272,10 +271,10 @@ class NewExpense extends Component {
             account.value = account._id;
 
             index++;
-            if(index % 5 == 0){
+            if(index % 5 === 0){
                 account.removeRightBorder = true
             }
-            let lastItems = this.props.accounts.length % 5 == 0 ? 5 : this.props.accounts.length % 5;
+            let lastItems = this.props.accounts.length % 5 === 0 ? 5 : this.props.accounts.length % 5;
             if(index > this.props.accounts.length - lastItems){
                 account.removeBottomBorder = true
             }
@@ -368,10 +367,11 @@ class NewExpense extends Component {
     }
 
     render() {
+        let uploadedBill, billUpload;
         const { formatMessage } = this.props.intl;
         //Show bill if added
         if(this.state.billUrl || this.state.data_uri){
-            var uploadedBill = <div className='bill-group'>
+            uploadedBill = <div className='bill-group'>
                 <Button
                     className='bill-change-button'
                     label={formatMessage(il8n.CHANGE_BILL_BUTTON)}
@@ -382,7 +382,7 @@ class NewExpense extends Component {
             </div>
         }else{
             //Enable upload bill option
-            var billUpload = <Input
+            billUpload = <Input
                 type='file'
                 id='input'
                 onChange={this.uploadBill.bind(this)} />
@@ -493,10 +493,3 @@ NewExpense = createContainer((props) => {
 export default injectIntl(NewExpense);
 
 //TODO: made it globally to use in whole app
-let changeRoute = (pathname, time) => {
-    Meteor.setTimeout(() => {
-        browserHistory.push({
-            pathname: pathname,
-        })
-    }, time)
-};

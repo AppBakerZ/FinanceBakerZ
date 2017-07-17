@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
-import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 import { Card} from 'react-toolbox/lib/card';
 
@@ -9,7 +9,6 @@ import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Projects } from '../../../api/projects/projects.js';
-import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 import theme from './theme';
 import dropdownTheme from './dropdownTheme';
@@ -89,7 +88,7 @@ class NewIncome extends Component {
 
     setCurrentRoute(value){
         this.setState({
-            isNewRoute: value
+            isNew: value
         })
     }
 
@@ -108,7 +107,7 @@ class NewIncome extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        this.state.isNewRoute ? this.createIncome() : this.updateIncome();
+        this.state.isNew ? this.createIncome() : this.updateIncome();
         this.setState({loading: true})
     }
 
@@ -118,7 +117,7 @@ class NewIncome extends Component {
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = (project && type == "project" && {_id: project}) || {};
+        project = (project && type === "project" && {_id: project}) || {};
 
         Meteor.call('incomes.insert', {
             income: {
@@ -130,6 +129,7 @@ class NewIncome extends Component {
             }
         }, (err, response) => {
             if(response){
+                routeHelpers.changeRoute('/app/reports', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Income created successfully',
@@ -137,7 +137,6 @@ class NewIncome extends Component {
                     barType: 'accept'
                 });
                 this.resetIncome();
-                this.props.closePopup();
             }else{
                 this.setState({
                     active: true,
@@ -156,7 +155,7 @@ class NewIncome extends Component {
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = (project && type == "project" && {_id: project}) || {};
+        project = (project && type === "project" && {_id: project}) || {};
 
         Meteor.call('incomes.update', {
             income: {
@@ -176,13 +175,13 @@ class NewIncome extends Component {
                     barType: 'cancel'
                 });
             }else{
+                routeHelpers.changeRoute('/app/reports', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Income updated successfully',
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                this.props.closePopup();
             }
             this.setState({loading: false})
         });
@@ -203,7 +202,7 @@ class NewIncome extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/app/incomes/new');
+                routeHelpers.changeRoute('/app/reports', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Income deleted successfully',
@@ -216,7 +215,7 @@ class NewIncome extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        e.target.name == 'project' && this.setState({['projectName']: e.target.textContent});
+        e.target.name === 'project' && this.setState({['projectName']: e.target.textContent});
     }
 
     handleBarClick (event, instance) {
@@ -233,31 +232,30 @@ class NewIncome extends Component {
 
     componentWillReceiveProps (p){
         p.income.receivedTime = p.income.receivedAt;
-        p.income.type == "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
+        p.income.type === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
         this.setState(p.income);
-        this.setCurrentRoute(p.isNewRoute);
-        if(p.isNewRoute){
-            this.resetIncome()
-        }
+        let isNew = p.params.type === 'new';
+        this.setCurrentRoute(isNew);
+        isNew && this.resetIncome()
     }
 
     renderButton (){
         const { formatMessage } = this.props.intl;
         let button;
-        if(this.state.isNewRoute){
+        if(this.state.isNew){
             button = <div className={theme.addIncomeBtn}>
                 <Button type='submit' icon='add' label={formatMessage(il8n.ADD_INCOME_BUTTON)} raised primary />
             </div>
         }else{
             button = <div className={theme.addIncomeBtn}>
-                {/*<Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary />*/}
-                {/*<Button*/}
-                    {/*onClick={this.removeIncome.bind(this)}*/}
-                    {/*type='button'*/}
-                    {/*icon='delete'*/}
-                    {/*label={formatMessage(il8n.REMOVE_INCOME_BUTTON)}*/}
-                    {/*className='float-right'*/}
-                    {/*accent />*/}
+                <Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary />
+                <Button
+                    onClick={this.removeIncome.bind(this)}
+                    type='button'
+                    icon='delete'
+                    label={formatMessage(il8n.REMOVE_INCOME_BUTTON)}
+                    className='float-right'
+                    accent />
             </div>
         }
         return button;
@@ -287,10 +285,10 @@ class NewIncome extends Component {
             account.value = account._id;
 
             index++;
-            if(index % 5 == 0){
+            if(index % 5 === 0){
                 account.removeRightBorder = true
             }
-            let lastItems = this.props.accounts.length % 5 == 0 ? 5 : this.props.accounts.length % 5;
+            let lastItems = this.props.accounts.length % 5 === 0 ? 5 : this.props.accounts.length % 5;
             if(index > this.props.accounts.length - lastItems){
                 account.removeBottomBorder = true
             }
@@ -392,7 +390,7 @@ class NewIncome extends Component {
                             template={this.typeItem}
                             required
                         />
-                        {this.state.type == 'project' &&
+                        {this.state.type === 'project' &&
                         <Dropdown
                             source={this.projects()}
                             name='project'
@@ -405,7 +403,7 @@ class NewIncome extends Component {
                         {this.renderButton()}
                     </form>
                 </Card>
-                <Button label='add now' raised primary />
+                {/*<Button label='add now' raised primary />*/}
             </div>
         );
     }
