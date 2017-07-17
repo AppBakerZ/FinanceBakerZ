@@ -100,6 +100,7 @@ class NewIncome extends Component {
             receivedAt: datetime,
             receivedTime: datetime,
             type: 'project',
+            creditType: 'project',
             project: ''
         })
     }
@@ -118,6 +119,7 @@ class NewIncome extends Component {
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && type === "project" && {_id: project}) || {};
+        let creditType = type === "project" ? 'project' : 'salary';
 
         Meteor.call('incomes.insert', {
             income: {
@@ -125,7 +127,8 @@ class NewIncome extends Component {
                 amount: Number(amount),
                 receivedAt,
                 type,
-                project
+                project,
+                creditType
             }
         }, (err, response) => {
             if(response){
@@ -155,6 +158,7 @@ class NewIncome extends Component {
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && type === "project" && {_id: project}) || {};
+        creditType = type === "project" ? 'project' : 'salary';
 
         Meteor.call('incomes.update', {
             income: {
@@ -163,7 +167,8 @@ class NewIncome extends Component {
                 amount: Number(amount),
                 receivedAt,
                 type,
-                project
+                project,
+                creditType
             }
         }, (err, response) => {
             if(err){

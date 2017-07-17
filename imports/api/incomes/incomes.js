@@ -31,6 +31,10 @@ Incomes.schema = new SimpleSchema({
         type: String,
         label: 'Type of income'
     },
+    creditType: {
+        type: String,
+        optional: true
+    },
     project: {
         type: Object,
         label: 'Project of income',

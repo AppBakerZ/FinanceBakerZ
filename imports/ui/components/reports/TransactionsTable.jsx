@@ -59,7 +59,7 @@ class TransactionsTable extends Component {
             return {
                 leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
                 date: moment(transaction.transactionAt).format("DD-MMM-YY"),
-                category: (transaction.type === "income" ? (transaction.project && transaction.project.name || transaction.project || transaction.type) : (transaction.category && transaction.category.name || transaction.category || transaction.type)),
+                category: (transaction.type === "income" ? (transaction.project && transaction.project.name || transaction.creditType || transaction.type) : (transaction.category && transaction.category.name || transaction.type)),
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={transaction.amount}/>  </span>),
                 rightIcon: transaction.type === "income" ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
