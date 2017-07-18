@@ -112,44 +112,50 @@ class NewIncome extends Component {
         this.setState({loading: true})
     }
 
-    createIncome(){
+    createIncome() {
         let {account, amount, receivedAt, receivedTime, type, project} = this.state;
-
+        if (!Object.keys(project).length) {
+            this.setState({
+                active: true,
+                barMessage: 'You must add the project'
+            });
+            return
+        }
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && type === "project" && {_id: project}) || {};
         let creditType = type === "project" ? 'project' : 'salary';
 
-        Meteor.call('incomes.insert', {
-            income: {
-                account,
-                amount: Number(amount),
-                receivedAt,
-                type,
-                project,
-                creditType
-            }
-        }, (err, response) => {
-            if(response){
-                routeHelpers.changeRoute('/app/reports', 1200);
-                this.setState({
-                    active: true,
-                    barMessage: 'Income created successfully',
-                    barIcon: 'done',
-                    barType: 'accept'
-                });
-            }else{
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }
-            this.setState({loading: false})
-        });
-    }
+            Meteor.call('incomes.insert', {
+                income: {
+                    account,
+                    amount: Number(amount),
+                    receivedAt,
+                    type,
+                    project,
+                    creditType
+                }
+            }, (err, response) => {
+                if (response) {
+                    routeHelpers.changeRoute('/app/reports', 1200);
+                    this.setState({
+                        active: true,
+                        barMessage: 'Income created successfully',
+                        barIcon: 'done',
+                        barType: 'accept'
+                    });
+                } else {
+                    this.setState({
+                        active: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel'
+                    });
+                }
+                this.setState({loading: false})
+            });
+        }
 
     updateIncome(){
         let {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
