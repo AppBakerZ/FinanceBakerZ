@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 import { createContainer } from 'meteor/react-meteor-data';
+import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
 import TransactionsTable from '/imports/ui/components/reports/TransactionsTable.jsx';
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
-import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 import theme from './theme';
@@ -18,12 +18,35 @@ class ReportsPage extends Component {
         this.state = {};
     }
 
+    componentWillUpdate(nextProps) {
+
+        const {location, params, local} = nextProps;
+        let query = location.query, accounts, projects, categories;
+        accounts = query.accounts ? query.accounts.split(",") : [];
+        projects = query.projects ? query.projects.split(",") : [];
+        categories = query.categories ? query.categories.split(",") : [];
+
+        //first update skip if given
+        params.number && updateFilter('reports', 'skip', Math.ceil(params.number * local.limit));
+
+        //filters
+        updateFilter('reports', 'type', query.type || 'both');
+        updateFilter('reports', 'accounts', accounts);
+        updateFilter('reports', 'projects', projects);
+        updateFilter('reports', 'categories', categories);
+
+        //date filters
+        updateFilter('reports', 'filter', query.filter || 'range');
+        updateFilter('reports', 'dateFrom', moment(query.dateFrom).format());
+        updateFilter('reports', 'dateTo', moment(query.dateTo).format());
+    }
+
     render() {
         return (
             <div className={theme.reports}>
-                <FilterBar />
+                <FilterBar parentProps={ this.props }/>
                 <TransactionsTable />
-                <Pagination pageCount={this.props.pageCount} history={ this.props }/>
+                <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/>
             </div>
         );
     }

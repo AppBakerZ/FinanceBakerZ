@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { DatePicker } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import moment from 'moment';
 
 import theme from './theme';
 
@@ -19,7 +20,19 @@ class DateRange extends Component {
         super(props);
     }
     onDateChange (date, e) {
-        updateFilter('reports', e.target.name, date)
+        let dateFilter = e.target.name;
+        let { parentProps } = this.props.parentProps;
+        let {location, history} = parentProps;
+        let query = location.query;
+
+        // transaction dateFilter
+        if( new Date(query[dateFilter]).getTime() !== new Date(date).getTime() ){
+            query[dateFilter] = moment(date).format();
+            history.push({
+                pathname: location.pathname,
+                query: query
+            });
+        }
     }
     render() {
         const { formatMessage } = this.props.intl;

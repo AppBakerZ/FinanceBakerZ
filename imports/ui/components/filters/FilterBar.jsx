@@ -9,8 +9,6 @@ import DateRange from '/imports/ui/components/filters/DateRange.jsx';
 import ProjectsDD from '/imports/ui/components/filters/ProjectsDD.jsx';
 import CategoriesDD from '/imports/ui/components/filters/CategoriesDD.jsx';
 
-import { Meteor } from 'meteor/meteor';
-
 class FilterBar extends Component {
 
     constructor(props) {
@@ -21,12 +19,12 @@ class FilterBar extends Component {
     render() {
         return (
             <div className='filter-bar'>
-                <FilterBy />
-                {this.props.local.filter === 'range' ? <DateRange /> : ''}
-                <AccountsDD />
-                <TransactionsType />
-                {this.props.local.type === 'incomes' ? <ProjectsDD /> : ''}
-                {this.props.local.type === 'expenses' ? <CategoriesDD /> : ''}
+                <FilterBy parentProps={ this.props }/>
+                {this.props.local.filter === 'range' ? <DateRange parentProps={ this.props }/> : ''}
+                <AccountsDD parentProps={ this.props }/>
+                <TransactionsType parentProps={ this.props }/>
+                {this.props.local.type === 'incomes' ? <ProjectsDD parentProps={ this.props }/> : ''}
+                {this.props.local.type === 'expenses' ? <CategoriesDD parentProps={ this.props }/> : ''}
 
 
             </div>

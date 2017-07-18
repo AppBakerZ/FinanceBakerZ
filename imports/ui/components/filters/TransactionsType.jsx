@@ -40,9 +40,20 @@ class TransactionsType extends Component {
         ];
     }
     selectType (type) {
+        let { parentProps } = this.props.parentProps;
+        let {location, history} = parentProps;
+        let query = location.query;
         //whenever the transaction type change skip 0
         updateFilter('reports', 'skip', 0);
-        updateFilter('reports', 'type', type)
+        // transaction filter
+        if( query.type !== type ){
+            query.type = type;
+            history.push({
+                pathname: location.pathname,
+                query: query
+            });
+        }
+        // updateFilter('reports', 'type', type)
     }
     typeItem (type) {
         return (

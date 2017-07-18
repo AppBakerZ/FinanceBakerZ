@@ -71,7 +71,19 @@ class FilterBy extends Component {
         ];
     }
     selectFilter (filter) {
-        updateFilter('reports', 'filter', filter)
+        let { parentProps } = this.props.parentProps;
+        let {location, history} = parentProps;
+        let query = location.query;
+
+        // transaction filter
+        if( query.filter !== filter ){
+            query.filter = filter;
+            history.push({
+                pathname: location.pathname,
+                query: query
+            });
+        }
+
     }
     filterItem (filter) {
         return (

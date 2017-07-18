@@ -29,7 +29,14 @@ class AccountsDD extends Component {
         return accounts;
     }
     filterByAccounts(accounts) {
-        updateFilter('reports', 'accounts', accounts)
+        let { parentProps } = this.props.parentProps;
+        let {location, history} = parentProps;
+        let query = location.query;
+        query.accounts = `${[accounts]}`;
+        history.push({
+            pathname: location.pathname,
+            query: query
+        });
     }
     render() {
         const { formatMessage } = this.props.intl;
