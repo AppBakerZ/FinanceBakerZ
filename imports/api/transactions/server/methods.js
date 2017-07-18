@@ -41,9 +41,14 @@ export const testMethod = new ValidatedMethod({
                 createdAt : "$createdAt"
             }
         }], function (err, result) {
-            Transactions.batchInsert(result, function(err, res){
+            if(result.length) {
+                Transactions.batchInsert(result, function (err, res) {
+                    fu.return('completed')
+                })
+            }
+            else{
                 fu.return('completed')
-            })
+            }
         });
         return fu.wait();
     }

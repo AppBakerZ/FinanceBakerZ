@@ -7,13 +7,16 @@ import { Card } from 'react-toolbox/lib/card';
 import {Button, IconButton} from 'react-toolbox/lib/button';
 
 import moment from 'moment';
-import { Table } from 'react-toolbox';
+import { Table, Snackbar } from 'react-toolbox';
 import {defineMessages, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import transactionsTable from './transactionsTable';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { Transactions } from '../../../api/transactions/transactions';
+import { Projects } from '../../../api/projects/projects.js';
+import { Categories } from '../../../api/categories/categories.js';
 
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
@@ -35,13 +38,22 @@ class TransactionsTable extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            active: false
+        };
     }
     selectItem(index){
         let selectedTransaction =  this.props.transactions[index] ;
         browserHistory.push({
             pathname: `/app/transactions/${selectedTransaction.type}/edit/${selectedTransaction._id}`
         })
+    }
+    handleBarClick (event, instance) {
+        this.setState({ active: false });
+    }
+
+    handleBarTimeout (event, instance) {
+        this.setState({ active: false });
     }
     getTableModel(){
         return {
@@ -51,6 +63,30 @@ class TransactionsTable extends Component {
             amount: {type: Date, title: <FormattedMessage {...il8n.AMOUNT_OF_TRANSACTION} />},
             rightIcon: {type: String}
         }
+    }
+    addIncome(){
+        if(this.props.projectExists){
+            routeHelpers.changeRoute('/app/transactions/income/new');
+        }
+        else{
+            this.setState({
+                active: true,
+                barMessage: 'You must have a single project to add income'
+            });
+        }
+
+    }
+    addExpense(){
+        if(this.props.categoryExists){
+            routeHelpers.changeRoute('/app/transactions/expense/new');
+        }
+        else{
+            this.setState({
+                active: true,
+                barMessage: 'You must have a single category to add expense'
+            });
+        }
+
     }
     render() {
 
@@ -69,26 +105,31 @@ class TransactionsTable extends Component {
         return (
             <Card className={transactionsTable.cardReport}>
                 <div className={transactionsTable.titleBg}>
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.active}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.handleBarClick.bind(this)}
+                        onTimeout={this.handleBarTimeout.bind(this)}
+                        type={this.state.barType}
+                        />
                     <h3>Transactions</h3>
                     <div className={transactionsTable.rightButtons}>
-                        <Link to="/app/transactions/income/new">
                             <Button
+                                onClick={this.addIncome.bind(this)}
                                 className='header-buttons'
                                 icon='add'
                                 label="income"
                                 name='Income'
                                 flat />
-                        </Link>
-                        <Link to="/app/transactions/expense/new">
                             <Button
+                                onClick={this.addExpense.bind(this)}
                                 className='header-buttons'
                                 icon='add'
                                 label="expense"
                                 name='Expense'
                                 flat />
-                        </Link>
-
-
                     </div>
                 </div>
                 <Table theme={transactionsTable} model={this.getTableModel()}
@@ -125,6 +166,9 @@ export default createContainer(() => {
         filterByProjects: local.type === 'incomes' ? local.projects : ''
     });
 
+    const projects = Meteor.subscribe('projects.all');
+    const categories = Meteor.subscribe('categories');
+
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
 
@@ -135,8 +179,12 @@ export default createContainer(() => {
         }
     }).fetch();
 
+    const categoryExists = Categories.findOne({});
+    const projectExists = Projects.findOne({});
     return {
         local,
-        transactions
+        transactions,
+        categoryExists,
+        projectExists
     };
 }, TransactionsTable);
