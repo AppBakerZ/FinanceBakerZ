@@ -64,14 +64,14 @@ class LeftMenu extends Component {
         });
     }
     isActive(path){
-        return this.props.location.pathname == `/app/${path}` ? listItemTheme.active : ''
+        return this.props.location.pathname === `/app/${path}` ? listItemTheme.active : ''
     }
     getUserLang(){
         return this.props.user && this.props.user.profile && this.props.user.profile.language || '';
     }
     setDirection(){
         let dir = this.getUserLang() ? this.getUserLang().direction : 'ltr';
-        return dir == 'ltr' ? 'left' : 'right'
+        return dir === 'ltr' ? 'left' : 'right'
     }
     render() {
         const { formatMessage } = this.props.intl;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { browserHistory } from 'react-router';
 import moment from 'moment';
 
 import ReactPaginate from 'react-paginate';
@@ -10,7 +9,7 @@ class Pagination extends Component {
 
     constructor(props) {
         super(props);
-        let parentProps = props.test;
+        let parentProps = props.history;
         this.state = {
             //if found set else false
             pager: parentProps.params.number,
@@ -21,12 +20,12 @@ class Pagination extends Component {
     }
 
 
-    componentWillReceiveProps(nextProps){
-        const { location } = nextProps.test;
+    componentWillUpdate(nextProps){
+        const { location, history } = this.props.history;
+        let { pager } = this.state;
+        let { local, pageCount } = this.props;
         let typeChanged = false, flag = false;
         let query = location.query;
-        let { pager } = this.state;
-        let { local, pageCount } = nextProps;
 
         //directly rendered first time
         if( initialParamsFlag ){
@@ -116,13 +115,13 @@ class Pagination extends Component {
         // @flag any filter change
         // @typeChanged in case of transaction type changed
         if( flag && typeChanged ){
-            browserHistory.push({
+            history.push({
                 pathname: '/app/reports',
                 query: query
             });
         }
         else if( flag ){
-            browserHistory.push({
+            history.push({
                 pathname: location.pathname,
                 query: query
             });
@@ -131,13 +130,13 @@ class Pagination extends Component {
 
 
     handlePageClick(data) {
-        const { location } = this.props.test;
+        const { location, history } = this.props.history;
         let query = location.query;
         let selected = data.selected;
 
         //set the params in case of greater than 0 else default
-        selected && browserHistory.push({pathname: `/app/reports/paginate/${selected}`, query: query});
-        selected || browserHistory.push({pathname: "/app/reports", query: query});
+        selected && history.push({pathname: `/app/reports/paginate/${selected}`, query: query});
+        selected || history.push({pathname: "/app/reports", query: query});
         let skip = Math.ceil(selected * this.props.local.limit);
 
         updateFilter('reports', 'skip', skip)

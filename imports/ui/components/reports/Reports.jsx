@@ -23,7 +23,7 @@ class ReportsPage extends Component {
             <div className={theme.reports}>
                 <FilterBar />
                 <TransactionsTable />
-                <Pagination pageCount={this.props.pageCount} test={ this.props }/>
+                <Pagination pageCount={this.props.pageCount} history={ this.props }/>
             </div>
         );
     }
