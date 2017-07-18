@@ -27,7 +27,14 @@ class ProjectsDD extends Component {
         return projects;
     }
     filterByProjects(projects) {
-        updateFilter('reports', 'projects', projects)
+        let { parentProps } = this.props.parentProps;
+        let {location, history} = parentProps;
+        let query = location.query;
+        query.projects = `${[projects]}`;
+        history.push({
+            pathname: location.pathname,
+            query: query
+        });
     }
     render() {
         const { formatMessage } = this.props.intl;

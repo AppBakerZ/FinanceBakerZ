@@ -28,7 +28,14 @@ class CategoriesDD extends Component {
     }
 
     filterByCategories(categories) {
-        updateFilter('reports', 'categories', categories)
+        let { parentProps } = this.props.parentProps;
+        let {location, history} = parentProps;
+        let query = location.query;
+        query.categories = `${[categories]}`;
+        history.push({
+            pathname: location.pathname,
+            query: query
+        });
     }
 
     render() {
