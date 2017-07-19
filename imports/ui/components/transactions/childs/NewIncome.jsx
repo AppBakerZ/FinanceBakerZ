@@ -1,17 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 import { Card} from 'react-toolbox/lib/card';
 
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '../../../api/incomes/incomes.js';
-import { Accounts } from '../../../api/accounts/accounts.js';
-import { Projects } from '../../../api/projects/projects.js';
+import { Incomes } from '../../../../api/incomes/incomes.js';
+import { Accounts } from '../../../../api/accounts/accounts.js';
+import { Projects } from '../../../../api/projects/projects.js';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
-import theme from './theme';
-import dropdownTheme from './dropdownTheme';
+import theme from '../theme';
+import dropdownTheme from '../dropdownTheme';
 
 
 const il8n = defineMessages({

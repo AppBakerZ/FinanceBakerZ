@@ -23,8 +23,12 @@ import SettingsPage from '../../ui/components/settings/Settings.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
 import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
-import NewIncome from '../../ui/components/transactions/NewIncome';
-import NewExpense from '../../ui/components/transactions/NewExpense';
+//transactions childrens
+import NewIncome from '../../ui/components/transactions/childs/NewIncome';
+import NewExpense from '../../ui/components/transactions/childs/NewExpense';
+import viewIncome from '../../ui/components/transactions/childs/viewIncome';
+import viewExpense from '../../ui/components/transactions/childs/viewExpense';
+
 import {addLocaleData} from 'react-intl';
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'
@@ -99,6 +103,8 @@ class Il8n extends Component {
                             <Route path="expenses" >
                             </Route>
                         </Route>
+                        <Route path="transactions/income(/:id)" components={{content: viewIncome}} />
+                        <Route path="transactions/expense(/:id)" components={{content: viewExpense}} />
                         <Route path="transactions/income(/:type)(/:id)" components={{content: NewIncome}}/>
                         <Route path="transactions/expense(/:type)(/:id)" components={{content: NewExpense}}/>
                     </Route>

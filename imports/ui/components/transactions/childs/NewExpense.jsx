@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon, IconButton } from 'react-toolbox';
 import { Card} from 'react-toolbox/lib/card';
@@ -8,13 +8,13 @@ import { Card} from 'react-toolbox/lib/card';
 import { Meteor } from 'meteor/meteor';
 import { Slingshot } from 'meteor/edgee:slingshot'
 
-import { Expenses } from '../../../api/expences/expenses.js';
-import { Accounts } from '../../../api/accounts/accounts.js';
-import { Categories } from '../../../api/categories/categories.js';
+import { Expenses } from '../../../../api/expences/expenses.js';
+import { Accounts } from '../../../../api/accounts/accounts.js';
+import { Categories } from '../../../../api/categories/categories.js';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
-import theme from './theme';
-import dropdownTheme from './dropdownTheme';
+import theme from '../theme';
+import dropdownTheme from '../dropdownTheme';
 
 
 const il8n = defineMessages({

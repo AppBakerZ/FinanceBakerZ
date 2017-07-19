@@ -45,7 +45,7 @@ class TransactionsTable extends Component {
     selectItem(index){
         let selectedTransaction =  this.props.transactions[index] ;
         browserHistory.push({
-            pathname: `/app/transactions/${selectedTransaction.type}/edit/${selectedTransaction._id}`
+            pathname: `/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`
         })
     }
     handleBarClick (event, instance) {
@@ -66,7 +66,7 @@ class TransactionsTable extends Component {
     }
     addIncome(){
         if(this.props.projectExists){
-            routeHelpers.changeRoute('/app/transactions/income/new');
+            routeHelpers.changeRoute('/app/transactions/income/add/new');
         }
         else{
             this.setState({
@@ -78,7 +78,7 @@ class TransactionsTable extends Component {
     }
     addExpense(){
         if(this.props.categoryExists){
-            routeHelpers.changeRoute('/app/transactions/expense/new');
+            routeHelpers.changeRoute('/app/transactions/expense/add/new');
         }
         else{
             this.setState({
