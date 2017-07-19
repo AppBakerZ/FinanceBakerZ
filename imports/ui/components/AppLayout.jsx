@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Link } from 'react-router'
 
 import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
@@ -50,6 +49,8 @@ class AppLayout extends Component {
         return name;
     }
     logout(){
+        //TODO: not working with custom queryParams (reports page)
+        window.location.reload();
         Meteor.logout(() => {
             this.props.history.push('/login')
         })

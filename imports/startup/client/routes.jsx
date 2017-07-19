@@ -44,7 +44,7 @@ let checkAuth = (nextState, replace, next, setIntervalHandel) => {
 
 let requireAuth = (nextState, replace, next) => {
     let setIntervalHandel;
-    setIntervalHandel = setInterval(() => {
+    setIntervalHandel = Meteor.setInterval(() => {
         if (Meteor.user() !== undefined){
             checkAuth(nextState, replace, next, setIntervalHandel)
         }
