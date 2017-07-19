@@ -244,7 +244,7 @@ class NewIncome extends Component {
         p.income.receivedTime = p.income.receivedAt;
         p.income.type === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
         this.setState(p.income);
-        let isNew = p.params.type === 'new';
+        let isNew = p.params.id === 'new';
         this.setCurrentRoute(isNew);
         isNew && this.resetIncome()
     }

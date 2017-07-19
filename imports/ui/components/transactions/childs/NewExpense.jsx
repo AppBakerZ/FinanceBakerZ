@@ -219,7 +219,7 @@ class NewExpense extends Component {
         p.expense.spentTime = p.expense.spentAt;
         p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
-        let isNew = p.params.type === 'new';
+        let isNew = p.params.id === 'new';
         this.setCurrentRoute(isNew);
         isNew && this.resetExpense();
     }
