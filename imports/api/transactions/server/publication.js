@@ -19,3 +19,11 @@ Meteor.publish('transactions', function(limit){
             }
         });
 });
+
+
+Meteor.publish('transactions.single', function (id) {
+    return Transactions.find({
+        owner: this.userId,
+        _id: id
+    });
+});
