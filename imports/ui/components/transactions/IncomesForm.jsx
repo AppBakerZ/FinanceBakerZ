@@ -117,7 +117,7 @@ class IncomesForm extends Component {
         receivedAt = new Date(receivedAt);
         receivedTime = new Date(receivedTime);
         receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = (project && type == "project" && {_id: project}) || {};
+        project = (project && type == "project" && {_id: project});
 
         Meteor.call('incomes.insert', {
             income: {
@@ -243,7 +243,7 @@ class IncomesForm extends Component {
     renderButton (){
         const { formatMessage } = this.props.intl;
         let button;
-        if(this.state.isNewRoute){
+        if(this.props.isNewRoute){
             button = <div className={theme.addIncomeBtn}>
                 <Button type='submit' icon='add' label={formatMessage(il8n.ADD_INCOME_BUTTON)} raised primary />
             </div>

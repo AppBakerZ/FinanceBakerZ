@@ -181,6 +181,9 @@ class TransactionPage extends Component {
             barActive : false
         };
 
+        query.set({ limit : RECORDS_PER_PAGE * pageNumber,
+            accounts: []});
+
         if(this.props.routes[3]) {
             this.state.model = this.props.routes[2].path == 'expenses' ? 'Expense' : 'Income';
             this.state.showForm = true;

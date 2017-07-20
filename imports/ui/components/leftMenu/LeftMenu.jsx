@@ -60,6 +60,17 @@ class LeftMenu extends Component {
             this.props.history.push('/login')
         })
     }
+    easyPaisa(){
+        Meteor.call('payments.insert',{
+            payment: {
+                amount: 5000,
+                status: 'pending'
+            }
+        }, (err, response)=>{
+            console.log('err', err);
+            console.log('response', response);
+        })
+    }
     componentWillReceiveProps(props) {
         this.setState({
             drawerActive: props.drawerActive
@@ -102,6 +113,8 @@ class LeftMenu extends Component {
                         <ListItem className={this.isActive('settings')} caption= {formatMessage(il8n.SETTINGS)} leftIcon='settings' theme={listItemTheme}/>
                     </Link>
                     <ListItem caption= {formatMessage(il8n.LOGOUT_BUTTON)} leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
+                    {/*this button is just to test pay by easy paisa event*/}
+                    <ListItem caption='EasyPaisa'  leftIcon='payment' onClick={this.easyPaisa.bind(this)} theme={listItemTheme}/>
                 </List>
             </Drawer>
         );

@@ -38,17 +38,17 @@ export const insert = new ValidatedMethod({
             optional: true
         },
         'income.project': {
-            type: Object,
-            optional: true
+            type: Object
         },
         'income.project._id': {
-            type: String,
-            optional: true
+            type: String
         }
     }).validator(),
     run({ income }) {
-        income.owner = this.userId;
-        income.project._id && (income.project.name = Projects.findOne(income.project._id).name);
+        if(income.project) {
+            income.owner = this.userId;
+            income.project._id && (income.project.name = Projects.findOne(income.project._id).name);
+        }
         return Incomes.insert(income);
     }
 });
