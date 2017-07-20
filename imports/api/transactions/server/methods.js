@@ -2,7 +2,7 @@ import { Expenses } from '../../../api/expences/expenses'
 import { Incomes } from '../../../api/incomes/incomes'
 import { Transactions } from '../transactions'
 import Future from 'fibers/future';
-export const testMethod = new ValidatedMethod({
+export const copyTransactions = new ValidatedMethod({
     name: 'copyTransactions',
     validate:null,
     run() {

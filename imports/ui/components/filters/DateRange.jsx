@@ -18,15 +18,32 @@ const il8n = defineMessages({
 class DateRange extends Component {
     constructor(props) {
         super(props);
+        let { parentProps } = props.parentProps;
+        let { location } = parentProps;
+        let query = location.query;
+        this.state = {
+            dateFrom: query.dateFrom || moment().subtract(1, 'months').startOf('month').format(),
+            dateTo: query.dateTo || moment().startOf('today').format(),
+        }
+    }
+    componentWillReceiveProps(props){
+        let { parentProps } = props.parentProps;
+        let { location } = parentProps;
+        let query = location.query;
+        this.state = {
+            dateFrom: query.dateFrom || moment().subtract(1, 'months').startOf('month').format(),
+            dateTo: query.dateTo || moment().startOf('today').format(),
+        }
     }
     onDateChange (date, e) {
         let dateFilter = e.target.name;
         let { parentProps } = this.props.parentProps;
-        let {location, history} = parentProps;
+        let { location, history } = parentProps;
         let query = location.query;
 
         // transaction dateFilter
         if( new Date(query[dateFilter]).getTime() !== new Date(date).getTime() ){
+            this.setState([e.target.name]);
             query[dateFilter] = moment(date).format();
             history.push({
                 pathname: location.pathname,
@@ -42,14 +59,14 @@ class DateRange extends Component {
                     label={formatMessage(il8n.DATE_FROM)}
                     name='dateFrom'
                     onChange={this.onDateChange.bind(this)}
-                    value={new Date(this.props.local.dateFrom)}
+                    value={new Date(this.state.dateFrom)}
                 />
 
                 <DatePicker
                     label={formatMessage(il8n.DATE_TO)}
                     name='dateTo'
                     onChange={this.onDateChange.bind(this)}
-                    value={new Date(this.props.local.dateTo)}
+                    value={new Date(this.state.dateTo)}
                     />
             </div>
         );

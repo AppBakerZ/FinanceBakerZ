@@ -21,10 +21,14 @@ class ReportsPage extends Component {
     componentWillUpdate(nextProps) {
 
         const {location, params, local} = nextProps;
-        let query = location.query, accounts, projects, categories;
+        let query = location.query, accounts, projects, categories, dateFrom, dateTo;
         accounts = query.accounts ? query.accounts.split(",") : [];
         projects = query.projects ? query.projects.split(",") : [];
         categories = query.categories ? query.categories.split(",") : [];
+
+        dateFrom = query.dateFrom || moment().subtract(1, 'months').startOf('month').format();
+        dateTo = query.dateTo || moment().startOf('today').format();
+
 
         //first update skip if given
         params.number && updateFilter('reports', 'skip', Math.ceil(params.number * local.limit));
@@ -37,8 +41,8 @@ class ReportsPage extends Component {
 
         //date filters
         updateFilter('reports', 'filter', query.filter || 'range');
-        updateFilter('reports', 'dateFrom', moment(query.dateFrom).format());
-        updateFilter('reports', 'dateTo', moment(query.dateTo).format());
+        updateFilter('reports', 'dateFrom', moment(dateFrom).format());
+        updateFilter('reports', 'dateTo', moment(dateTo).format());
     }
 
     render() {

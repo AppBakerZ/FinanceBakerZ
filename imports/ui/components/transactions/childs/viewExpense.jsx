@@ -62,7 +62,7 @@ class viewExpense extends Component {
     /*************** template render ***************/
     render() {
         let { transaction, account } = this.props;
-        let {_id, transactionAt, category, amount } = transaction;
+        let {_id, transactionAt, category, amount, description } = transaction;
         let { bank, number } = account;
         let date = moment(transactionAt).format('DD-MMM-YYYY');
         //remove the bank prefix from bank account
@@ -102,6 +102,7 @@ class viewExpense extends Component {
                             <h5>Deposited in: <span>{bank}</span></h5>
                             <h5>Account Number: <span>{number}</span></h5>
                             <h5>Amount: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}><FormattedNumber value={amount}/></span></h5>
+                            {description && <h5>Description: <span>{ description }</span> </h5>}
                         </div>
                         <div className={theme.accountContent}>
                             <h5>Sender Name: <span>Saeed Anwar</span></h5>

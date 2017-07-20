@@ -114,7 +114,7 @@ class NewIncome extends Component {
 
     createIncome() {
         let {account, amount, receivedAt, receivedTime, type, project} = this.state;
-        if (!Object.keys(project).length) {
+        if (type === "project" && !Object.keys(project).length) {
             this.setState({
                 active: true,
                 barMessage: 'You must add the project'
