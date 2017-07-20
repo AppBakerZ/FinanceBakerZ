@@ -60,10 +60,11 @@ class viewIncome extends Component {
 
     render() {
         let { transaction, account } = this.props;
+        console.log(transaction);
         let { bank, number } = account;
         //remove the bank prefix from bank account
         bank = bank && bank.split("bank-")[1];
-        let { amount, _id, transactionAt, project } = transaction;
+        let { amount, _id, transactionAt } = transaction;
         let date = moment (transactionAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
@@ -109,7 +110,11 @@ class viewIncome extends Component {
                             <h5>Account Number: <span>009123455670</span></h5>
                         </div>
                         <div className={theme.projectContent}>
-                            <h5>Project: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>
+                            { transaction.creditType ? (transaction.creditType === 'salary' ?
+                                <h5>CreditType: <span>Salary</span></h5> :
+                                <h5>CreditType: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>) :
+                                <h5>Project: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>
+                            }
                         </div>
                     </div>
                 </div>
