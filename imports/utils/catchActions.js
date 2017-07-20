@@ -50,10 +50,14 @@ export const actions = (methodName, paramsArray, isInsert, isUserSettings) => {
             else{
                 currentCollection = Collections[capitalize(collection)];
             }
-            doc = currentCollection.findOne({
-                _id: docId
-            });
-
+            if(docId) {
+                doc = currentCollection.findOne({
+                    _id: docId
+                });
+            }
+            else{
+                doc = currentCollection.findOne( params[keys] );
+            }
             //add collection key to flexible query afterwards
             doc.collection = collection;
             return doc
