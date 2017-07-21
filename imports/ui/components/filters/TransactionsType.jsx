@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import theme from './theme';
 
@@ -41,7 +42,8 @@ class TransactionsType extends Component {
     }
     selectType (type) {
         let { parentProps } = this.props.parentProps;
-        let {location, history} = parentProps;
+        let { location, history } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         //whenever the transaction type change skip 0
         updateFilter('reports', 'skip', 0);
@@ -49,11 +51,10 @@ class TransactionsType extends Component {
         if( query.type !== type ){
             query.type = type;
             history.push({
-                pathname: location.pathname,
+                pathname: pathname,
                 query: query
             });
         }
-        // updateFilter('reports', 'type', type)
     }
     typeItem (type) {
         return (

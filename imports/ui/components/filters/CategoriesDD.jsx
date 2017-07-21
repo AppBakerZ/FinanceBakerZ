@@ -4,6 +4,7 @@ import { Autocomplete } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import theme from './theme';
 
@@ -29,11 +30,12 @@ class CategoriesDD extends Component {
 
     filterByCategories(categories) {
         let { parentProps } = this.props.parentProps;
-        let {location, history} = parentProps;
+        let { location, history } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.categories = `${[categories]}`;
         history.push({
-            pathname: location.pathname,
+            pathname: pathname,
             query: query
         });
     }

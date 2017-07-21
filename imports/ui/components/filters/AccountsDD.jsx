@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Autocomplete } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 import theme from './theme';
 
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
@@ -30,11 +31,12 @@ class AccountsDD extends Component {
     }
     filterByAccounts(accounts) {
         let { parentProps } = this.props.parentProps;
-        let {location, history} = parentProps;
+        let { location, history } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.accounts = `${[accounts]}`;
         history.push({
-            pathname: location.pathname,
+            pathname: pathname,
             query: query
         });
     }

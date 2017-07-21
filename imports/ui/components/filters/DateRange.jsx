@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { DatePicker } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 import moment from 'moment';
 
 import theme from './theme';
@@ -39,6 +40,7 @@ class DateRange extends Component {
         let dateFilter = e.target.name;
         let { parentProps } = this.props.parentProps;
         let { location, history } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
 
         // transaction dateFilter
@@ -46,7 +48,7 @@ class DateRange extends Component {
             this.setState([e.target.name]);
             query[dateFilter] = moment(date).format();
             history.push({
-                pathname: location.pathname,
+                pathname: pathname,
                 query: query
             });
         }
