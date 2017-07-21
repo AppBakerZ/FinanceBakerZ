@@ -4,6 +4,7 @@ import { Autocomplete } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Projects } from '../../../api/projects/projects.js';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import theme from './theme';
 
@@ -28,11 +29,12 @@ class ProjectsDD extends Component {
     }
     filterByProjects(projects) {
         let { parentProps } = this.props.parentProps;
-        let {location, history} = parentProps;
+        let { location, history } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.projects = `${[projects]}`;
         history.push({
-            pathname: location.pathname,
+            pathname: pathname,
             query: query
         });
     }

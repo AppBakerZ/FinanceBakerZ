@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import theme from './theme';
 
@@ -72,14 +73,14 @@ class FilterBy extends Component {
     }
     selectFilter (filter) {
         let { parentProps } = this.props.parentProps;
-        let {location, history} = parentProps;
+        let { location, history } = parentProps;
         let query = location.query;
-
+        let pathname = routeHelpers.resetPagination(location.pathname);
         // transaction filter
         if( query.filter !== filter ){
             query.filter = filter;
             history.push({
-                pathname: location.pathname,
+                pathname: pathname,
                 query: query
             });
         }
