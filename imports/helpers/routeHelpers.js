@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 
 //TODO: confirm if loading required instead of time?
 export const routeHelpers = {
-    /***** when want to change route programmatically and option delay *****/
+    /***** when want to change route programmatically and optional delay *****/
      //@route string (required) given the route with params
     //@time number (optional) if given routes changed after given time
     //@query object (optional) if given then append
