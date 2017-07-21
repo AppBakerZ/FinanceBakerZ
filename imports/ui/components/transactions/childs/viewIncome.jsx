@@ -60,7 +60,6 @@ class viewIncome extends Component {
 
     render() {
         let { transaction, account } = this.props;
-        console.log(transaction);
         let { bank, number } = account;
         //remove the bank prefix from bank account
         bank = bank && bank.split("bank-")[1];

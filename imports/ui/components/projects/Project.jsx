@@ -127,7 +127,7 @@ class ProjectPage extends Component {
         ];
     }
     onRowClick(index){
-        console.log('this.props.projects[index] ', this.props.projects[index]);
+        // console.log('this.props.projects[index] ', this.props.projects[index]);
         this.openPopup('show', this.props.projects[index])
     }
     popupTemplate(){
