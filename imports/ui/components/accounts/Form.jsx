@@ -89,33 +89,42 @@ class Form extends Component {
     }
     createAccount(){
         const {country, number, bank} = this.state;
-        Meteor.call('accounts.insert', {
-            account: {
-                country,
-                number,
-                bank
-            }
-        }, (err, response) => {
-            if(response){
-                this.setState({
-                    active: true,
-                    barMessage: 'Account created successfully',
-                    barIcon: 'done',
-                    barType: 'accept'
-                });
-                setTimeout(()=> {
-                    this.props.closePopup();
-                }, 1000)
-            }else{
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }
-            this.setState({loading: false})
-        });
+        if(bank) {
+            Meteor.call('accounts.insert', {
+                account: {
+                    country,
+                    number,
+                    bank
+                }
+            }, (err, response) => {
+                if (response) {
+                    this.setState({
+                        active: true,
+                        barMessage: 'Account created successfully',
+                        barIcon: 'done',
+                        barType: 'accept'
+                    });
+                    setTimeout(()=> {
+                        this.props.closePopup();
+                    }, 1000)
+                } else {
+                    this.setState({
+                        active: true,
+                        barMessage: err.reason,
+                        barIcon: 'error_outline',
+                        barType: 'cancel'
+                    });
+                }
+                this.setState({loading: false})
+            });
+        }
+        else{
+            this.setState({
+                active: true,
+                barMessage: 'You must have to add the bank'
+            });
+        }
+
     }
     updateAccount(){
         const {_id, country, number, bank} = this.state;
