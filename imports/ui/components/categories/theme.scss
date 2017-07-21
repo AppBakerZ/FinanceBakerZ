@@ -161,6 +161,20 @@ body[dir="rtl"] .categoriesTitle {
 body[dir="rtl"] .categoriesTitle button {
   float: left !important;
 }
+body[dir="rtl"] .buttonBox button {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+body[dir="rtl"] .buttonBox button:last-of-type {
+  margin: 0 $unit 0 0;
+  top: -1px;
+}
+body[dir="rtl"] .dialogContent div h3 {
+  float: none !important;
+}
+body[dir="rtl"] .dialogContent div p {
+  line-height: 4rem;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

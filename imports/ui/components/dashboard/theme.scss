@@ -175,6 +175,7 @@
     }
   }
 }
+
 /////////////////////////////////////////////////
 //////// Extra Small Media Query End Here ///////
 /////////////////////////////////////////////////
@@ -188,6 +189,16 @@ body[dir="rtl"] .dashboardDropdown > div {
 body[dir="rtl"] .dashboardDropdown > div:last-of-type {
   float: left;
 }
+body[dir="rtl"] .autoDropdown div div:after {
+  left: 0;
+  right: auto;
+  top: 70%;
+}
+body[dir="rtl"] .dashboardDropdown div div:after {
+  left: 0;
+  right: auto;
+}
+
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

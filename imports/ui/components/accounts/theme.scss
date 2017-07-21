@@ -102,11 +102,18 @@
 body[dir="rtl"] .accountTitle {
   text-align: left !important;
 }
-
 body[dir="rtl"] .buttonParent button {
   margin: 0 0 0 $unit;
 }
-
+body[dir="rtl"] .dialogAccount .confirmText h3 {
+  float: none !important;
+}
+body[dir="rtl"] .dialogAccount .confirmText p{
+  line-height: 4rem;
+}
+body[dir="rtl"] .buttonBox button:last-of-type{
+  margin-right: 10px;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

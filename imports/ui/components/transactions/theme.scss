@@ -338,9 +338,52 @@ body[dir="rtl"] .pageTitle {
   height: $unit * 8;
   padding: 1.7rem 4rem 2.3rem 5rem;
 }
-
 body[dir="rtl"] .pageTitle > div {
   float: left !important;
+}
+body[dir="rtl"] .contentParent .contentTwo p {
+  line-height: 3.5rem;
+}
+body[dir="rtl"] .contentParent .contentThree button:first-child {
+  margin-right: 0;
+  margin-left: 2rem;
+}
+body[dir="rtl"] .buttonBox button:last-of-type {
+  margin-right: 2rem;
+  margin-left: 0;
+}
+body[dir="rtl"] .confirmText p {
+  line-height: 3.5rem;
+}
+body[dir="rtl"] .dashboardAutocomplete .values div span:first-child {
+  float: left;
+  padding: 6px 0 6px 0;
+  margin: -8px 0 0 0;
+}
+body[dir="rtl"] .dashboardAutocomplete .values div span:last-of-type {
+  margin: 2px 0.4rem 0;
+}
+body[dir="rtl"] .dashboardAutocomplete .input:after {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dashboardAutocomplete div div:after {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dashboardAutocompleteLast {
+  margin-right: 20px;
+}
+body[dir="rtl"] .dashboardAutocompleteLast div div:after{
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dashboardAutocompleteLastOne {
+  margin-right: 20px;
+}
+body[dir="rtl"] .dashboardAutocompleteLastOne div:after{
+  left: 0;
+  right: auto;
 }
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////

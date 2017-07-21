@@ -240,6 +240,7 @@ class DashboardPage extends Component {
         const { formatMessage } = this.props.intl;
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
+
                 <DatePicker className='demo' theme={datePickerTheme}
                             label={formatMessage(il8n.DATE_FROM)}
                             name='dateFrom'
@@ -338,6 +339,7 @@ class DashboardPage extends Component {
                                         />
 
                                     <Dropdown theme={dropdownTheme}
+                                              className={theme.autoDropdown}
                                               auto={false}
                                               source={this.filters()}
                                               name='filterBy'
