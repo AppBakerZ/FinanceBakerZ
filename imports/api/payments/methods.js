@@ -29,7 +29,7 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ payment }) {
         payment.user = this.userId;
-        console.log(easyPaisa);
+        // console.log(easyPaisa);
 
         return Payments.insert(payment);
     }

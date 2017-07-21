@@ -150,7 +150,7 @@ class Form extends Component {
         return this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
     componentDidMount (){
-        console.log('this.props.project ', this.props.project)
+        // console.log('this.props.project ', this.props.project)
         if(this.props.project){
             this.props.project.clientName = this.props.project.client.name
         }
