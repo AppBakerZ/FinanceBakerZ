@@ -8,7 +8,7 @@ import { Card} from 'react-toolbox/lib/card';
 import { Meteor } from 'meteor/meteor';
 import { Slingshot } from 'meteor/edgee:slingshot'
 
-import { Expenses } from '../../../../api/expences/expenses.js';
+import { Transactions } from '../../../../api/transactions/transactions.js';
 import { Accounts } from '../../../../api/accounts/accounts.js';
 import { Categories } from '../../../../api/categories/categories.js';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -216,7 +216,7 @@ class NewExpense extends Component {
 
     componentWillReceiveProps (p){
         p.expense.billUrl = p.expense.billUrl || '';
-        p.expense.spentTime = p.expense.spentAt;
+        p.expense.spentTime = p.expense.transactionAt;
         p.expense.category = p.expense.category && p.expense.category._id;
         this.setState(p.expense);
         let isNew = p.params.id === 'new';
@@ -459,7 +459,6 @@ class NewExpense extends Component {
                         {this.renderButton()}
                     </form>
                 </Card>
-                {/*<Button label='add now' raised primary />*/}
             </div>
         );
     }
@@ -474,12 +473,13 @@ NewExpense.propTypes = {
 
 NewExpense = createContainer((props) => {
     const { id } = props.params;
-    const expenseHandle = Meteor.subscribe('expenses.single', id);
-    const accountsHandle = Meteor.subscribe('accounts');
-    const categoriesHandle = Meteor.subscribe('categories');
+    const expenseHandle = Meteor.subscribe('transactions.single', id);
     const loading = !expenseHandle.ready();
-    const expense = Expenses.findOne(id);
+    const expense = Transactions.findOne(id);
     const expenseExists = !loading && !!expense;
+    Meteor.subscribe('accounts');
+    Meteor.subscribe('categories');
+
     return {
         loading,
         expenseExists,
@@ -490,5 +490,3 @@ NewExpense = createContainer((props) => {
 }, NewExpense);
 
 export default injectIntl(NewExpense);
-
-//TODO: made it globally to use in whole app

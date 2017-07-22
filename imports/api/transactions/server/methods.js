@@ -35,6 +35,7 @@ export const copyTransactions = new ValidatedMethod({
                 type:{
                     $literal: 'income'
                 },
+                // TODO add fallback for old doc which not have CreditType
                 creditType : "$creditType",
                 project : "$project",
                 owner : "$owner",

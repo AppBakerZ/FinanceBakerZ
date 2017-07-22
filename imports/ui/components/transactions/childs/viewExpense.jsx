@@ -129,7 +129,6 @@ viewExpense = createContainer((props) => {
     let accountId;
     Meteor.subscribe('transactions.single', id);
     Meteor.subscribe('accounts');
-    Meteor.subscribe('categories');
     const transaction = Transactions.findOne(id);
     transaction && (accountId = transaction.account);
     const account = Accounts.findOne(accountId);
