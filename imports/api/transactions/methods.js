@@ -9,6 +9,7 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from './transactions.js';
 import { Projects } from '../projects/projects.js';
+import { Categories } from '../categories/categories.js';
 
 export const insert = new ValidatedMethod({
     name: 'transactions.insert',
@@ -44,12 +45,31 @@ export const insert = new ValidatedMethod({
         'transaction.project._id': {
             type: String,
             optional: true
+        },
+        'transaction.category': {
+            type: Object,
+            optional: true
+        },
+        'transaction.category._id': {
+            type: String,
+            optional: true
+        },
+        'transaction.billUrl': {
+            type: String,
+            optional: true
+        },
+        'transaction.description': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ transaction }) {
+        transaction.owner = this.userId;
         if(transaction.project) {
-            transaction.owner = this.userId;
             transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
+        }
+        else if(transaction.category){
+            transaction.category._id && (transaction.category.name = Categories.findOne(transaction.category._id).name);
         }
         return Transactions.insert(transaction);
     }
@@ -113,7 +133,12 @@ export const update = new ValidatedMethod({
     run({ transaction }) {
         const {_id} = transaction;
         delete transaction._id;
-        transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
+        if(transaction.project){
+            transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
+        }
+        else if (transaction.category){
+            transaction.category._id && (transaction.category.name = Categories.findOne(transaction.category._id).name);
+        }
         return Transactions.update(_id, {$set: transaction});
     }
 });

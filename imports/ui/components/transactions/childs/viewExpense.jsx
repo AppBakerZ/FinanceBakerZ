@@ -28,8 +28,8 @@ class viewExpense extends Component {
 
     removeTransaction(){
         const { id } = this.props.params;
-        Meteor.call('expenses.remove', {
-            expense: {
+        Meteor.call('transactions.remove', {
+            transaction: {
                 _id: id
             }
         }, (err, response) => {

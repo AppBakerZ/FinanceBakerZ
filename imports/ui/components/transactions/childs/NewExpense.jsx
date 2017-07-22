@@ -100,16 +100,18 @@ class NewExpense extends Component {
 
     createExpense(){
         let {account, amount, description, spentAt, spentTime, category, billUrl} = this.state;
-        spentAt = new Date(spentAt);
+        let transactionAt = new Date(spentAt);
+        let type = 'expense';
         spentTime = new Date(spentTime);
-        spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
         category = category && {_id: category};
 
-        Meteor.call('expenses.insert', {
-            expense: {
+        Meteor.call('transactions.insert', {
+            transaction: {
                 account,
                 amount: Number(amount),
-                spentAt,
+                transactionAt,
+                type,
                 description,
                 billUrl,
                 category
@@ -137,16 +139,18 @@ class NewExpense extends Component {
 
     updateExpense(){
         let {_id, account, amount ,spentAt ,spentTime ,description, billUrl, category} = this.state;
-        spentAt = new Date(spentAt);
+        let transactionAt = new Date(spentAt);
+        let type = 'expense';
         spentTime = new Date(spentTime);
-        spentAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
         category = category && {_id: category};
-        Meteor.call('expenses.update', {
-            expense: {
+        Meteor.call('transactions.update', {
+            transaction: {
                 _id,
                 account,
                 amount: Number(amount),
-                spentAt,
+                transactionAt,
+                type,
                 description,
                 billUrl,
                 category
@@ -174,8 +178,8 @@ class NewExpense extends Component {
 
     removeExpense(){
         const {_id} = this.state;
-        Meteor.call('expenses.remove', {
-            expense: {
+        Meteor.call('transactions.remove', {
+            transaction: {
                 _id
             }
         }, (err, response) => {
