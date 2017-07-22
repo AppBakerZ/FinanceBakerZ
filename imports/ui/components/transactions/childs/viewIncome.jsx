@@ -26,8 +26,8 @@ class viewIncome extends Component {
 
     removeTransaction(){
         const { id } = this.props.params;
-        Meteor.call('incomes.remove', {
-            income: {
+        Meteor.call('transactions.remove', {
+            transaction: {
                 _id: id
             }
         }, (err, response) => {

@@ -45,7 +45,8 @@ Transactions.schema = new SimpleSchema({
     category: {
         type: Object,
         blackbox: true,
-        label: 'Category Object'
+        label: 'Category Object',
+        optional: true
     },
     // 'category._id': {
     //     type: String,
@@ -58,7 +59,8 @@ Transactions.schema = new SimpleSchema({
     project: {
         type: Object,
         blackbox: true,
-        label: 'project Object'
+        label: 'project Object',
+        optional: true
     },
     // 'project._id': {
     //     type: String,

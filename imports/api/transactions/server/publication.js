@@ -27,7 +27,7 @@ Meteor.publish('transactions.single', function (id) {
     });
 });
 
-//publish only incomes Transaction
+//publish only Transaction (incomes)
 Meteor.publish('transactions.incomes', function (limit) {
     new SimpleSchema({
         limit: {type: Number}
@@ -47,7 +47,7 @@ Meteor.publish('transactions.incomes', function (limit) {
         });
 });
 
-//publish only expesnse Transaction
+//publish only Transaction (expenses)
 Meteor.publish('transactions.expenses', function (limit) {
     new SimpleSchema({
         limit: {type: Number}

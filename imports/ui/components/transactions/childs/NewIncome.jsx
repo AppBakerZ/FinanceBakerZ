@@ -120,19 +120,19 @@ class NewIncome extends Component {
             });
             return
         }
-        receivedAt = new Date(receivedAt);
+        let transactionAt = new Date(receivedAt);
+        let type='income';
         receivedTime = new Date(receivedTime);
-        receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && creditType === "project" && {_id: project}) || {};
         // TODO:merge both types to creditType
         creditType = creditType === "project" ? 'project' : 'salary';
-        let type = creditType;
 
-            Meteor.call('incomes.insert', {
-                income: {
+            Meteor.call('transactions.insert', {
+                transaction: {
                     account,
                     amount: Number(amount),
-                    receivedAt,
+                    transactionAt,
                     type,
                     project,
                     creditType
@@ -161,19 +161,19 @@ class NewIncome extends Component {
     updateIncome(){
         let {_id, account, amount, receivedAt, receivedTime, creditType, project} = this.state;
 
-        receivedAt = new Date(receivedAt);
+        let transactionAt = new Date(receivedAt);
+        let type = 'income';
         receivedTime = new Date(receivedTime);
-        receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && creditType === "project" && {_id: project}) || {};
         creditType = creditType === "project" ? 'project' : 'salary';
-        let type = creditType;
 
-        Meteor.call('incomes.update', {
-            income: {
+        Meteor.call('transactions.update', {
+            transaction: {
                 _id,
                 account,
                 amount: Number(amount),
-                receivedAt,
+                transactionAt,
                 type,
                 project,
                 creditType
@@ -201,8 +201,8 @@ class NewIncome extends Component {
 
     removeIncome(){
         const {_id} = this.state;
-        Meteor.call('incomes.remove', {
-            income: {
+        Meteor.call('transactions.remove', {
+            transaction: {
                 _id
             }
         }, (err, response) => {

@@ -69,8 +69,8 @@ let filterByProjects = (options, query) => {
 let transactions = (options, query) => {
 
     //call asynchronous method just to get result delay :)
-    Meteor.call('copyTransactions', (err, res) => {
-    });
+    // Meteor.call('copyTransactions', (err, res) => {
+    // });
 
     if(options.type && options.type !== 'both'){
         query.type = options.type

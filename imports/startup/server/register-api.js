@@ -10,9 +10,11 @@ import '../../api/incomes/server/publications.js';
 
 import '../../api/expences/methods.js';
 import '../../api/expences/server/publications.js';
+
 import '../../api/transactions/transactions.js';
 import '../../api/transactions/server/publication.js';
 import '../../api/transactions/server/methods.js';
+import '../../api/transactions/methods.js';
 
 import '../../api/categories/methods.js';
 import '../../api/categories/server/publications.js';

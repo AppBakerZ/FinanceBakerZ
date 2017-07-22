@@ -2,6 +2,7 @@ import { Accounts } from './../api/accounts/accounts';
 import { Categories } from './../api/categories/categories';
 import { Incomes } from './../api/incomes/incomes.js';
 import { Expenses } from './../api/expences/expenses';
+import { Transactions } from './../api/transactions/transactions';
 import { Projects } from './../api/projects/projects';
 import { Logs } from '../api/logs/logs'
 import { _ } from 'meteor/underscore';
@@ -12,6 +13,7 @@ let Collections = {
     Categories: Categories,
     Incomes: Incomes,
     Expenses: Expenses,
+    Transactions: Transactions,
     Projects: Projects,
     Logs: Logs
 };
