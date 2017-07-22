@@ -34,7 +34,7 @@ wrapMethodsForLogs = function(name, originalHandler, methodMap) {
 
 init_method_logger = () => {
     //here excluded methods goes
-    let excludesMethods = ['logs.insert', 'login', 'Mongol', 'MeteorToys', 'statistics'];
+    let excludesMethods = ['logs.insert', 'login', 'Mongol', 'MeteorToys', 'statistics', 'copyTransactions'];
     _.each(Meteor.default_server.method_handlers, (handler, name) => {
 
         if (new RegExp((excludesMethods.join("|"))).test(name)){
