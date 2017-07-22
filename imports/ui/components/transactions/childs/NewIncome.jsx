@@ -6,7 +6,7 @@ import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker 
 import { Card} from 'react-toolbox/lib/card';
 
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '../../../../api/incomes/incomes.js';
+import { Transactions } from '../../../../api/transactions/transactions.js';
 import { Accounts } from '../../../../api/accounts/accounts.js';
 import { Projects } from '../../../../api/projects/projects.js';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -428,9 +428,9 @@ NewIncome.propTypes = {
 
 NewIncome = createContainer((props) => {
     const { id } = props.params;
-    const incomeHandle = Meteor.subscribe('incomes.single', id);
+    const incomeHandle = Meteor.subscribe('transactions.single', id);
     const loading = !incomeHandle.ready();
-    const income = Incomes.findOne(id);
+    const income = Transactions.findOne(id);
     const incomeExists = !loading && !!income;
     Meteor.subscribe('accounts');
     Meteor.subscribe('projects.all');
