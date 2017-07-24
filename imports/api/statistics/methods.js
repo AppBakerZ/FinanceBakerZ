@@ -13,8 +13,6 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
-import { Expenses } from '../expences/expenses.js';
-import { Incomes } from '../incomes/incomes.js';
 import { Transactions } from '../transactions/transactions.js'
 import { Accounts } from '../accounts/accounts.js';
 import { Categories } from '../categories/categories.js';
@@ -162,7 +160,7 @@ export const availableBalance = new ValidatedMethod({
         });
 
         query.type = 'expense';
-        const sumOfExpenses = Expenses.aggregate({
+        const sumOfExpenses = Transactions.aggregate({
             $match: query
         },{
             $group: { _id: null, total: { $sum: '$amount' } }
@@ -263,6 +261,8 @@ export const generateReport = new ValidatedMethod({
     }).validator(),
     //run({report, date, filterBy}) {
     run({params}) {
+        //check for incomes only or expenses;
+        let isIncome = params.report === 'incomes';
         let record, data, html_string, options, pdfData,
             fut = new Future(),
             fileName = "report.pdf",
@@ -270,15 +270,15 @@ export const generateReport = new ValidatedMethod({
             reportStyle = Assets.getText('report.css');
 
         let query = {
-            owner: this.userId
+            owner: this.userId,
+            type: isIncome ? 'income' : 'expense'
         };
 
         if(params.multiple.length){
             query['account'] = {$in: params.multiple};
         }
         if(params.date){
-            let fetch = (params.report == 'incomes') ? 'receivedAt' : 'spentAt';
-            query[fetch] = {
+            query.transactionAt = {
                 $gte: new Date(params.date.start),
                 $lte: new Date(params.date.end)
             };
@@ -301,11 +301,12 @@ export const generateReport = new ValidatedMethod({
                 return accountHelpers.alterName(account.bank)
             },
             categoryName : function(category){
-                return Categories.findOne({_id : category._id}).name;
+                let Category = Categories.findOne({_id : category._id});
+                return Category && Category.name
             },
             totalIncome : function(){
                 if(params.date){
-                    let incomes = Incomes.aggregate({
+                    let incomes = Transactions.aggregate({
                         $match: query
                     },{
                         $group: { _id: null, total: { $sum: '$amount' } }
@@ -314,8 +315,9 @@ export const generateReport = new ValidatedMethod({
                 }
             },
             totalExpenses : function(){
+                query.type = 'expense';
                 if(params.date){
-                    let expenses = Expenses.aggregate({
+                    let expenses = Transactions.aggregate({
                         $match: query
                     },{
                         $group: { _id: null, total: { $sum: '$amount' } }
@@ -330,18 +332,21 @@ export const generateReport = new ValidatedMethod({
 
         // PREPARE DATA
         //createdAt
-        let option = {sort: {}};
-        (params.report == 'incomes') ? option.sort['receivedAt'] = 1 : option.sort['spentAt'] = 1;
-        record =  (params.report == 'incomes') ? Incomes.find(query, option).fetch() : Expenses.find(query, option).fetch();
+        let option = {
+            sort: {
+                transactionAt: 1
+            }
+        };
+        record =  Transactions.find(query, option).fetch();
 
         if(!record.length){
             throw new Meteor.Error( 404, 'result not found' );
         }
 
         data = {
-            heading : (params.report == 'incomes') ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
+            heading : isIncome ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
             record: record,
-            income : (params.report == 'incomes')
+            income : isIncome
 
         };
 
