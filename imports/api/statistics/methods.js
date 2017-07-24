@@ -15,6 +15,7 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Expenses } from '../expences/expenses.js';
 import { Incomes } from '../incomes/incomes.js';
+import { Transactions } from '../transactions/transactions.js'
 import { Accounts } from '../accounts/accounts.js';
 import { Categories } from '../categories/categories.js';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
@@ -36,14 +37,15 @@ export const incomesGroupByMonth = new ValidatedMethod({
     run({year}) {
 
         let match = {"$match": {
-                owner: this.userId
+                owner: this.userId,
+                type: 'income'
             }};
 
-        const getYears = Incomes.aggregate([
+        const getYears = Transactions.aggregate([
             match,
             { "$group": {
                 "_id": null,
-                "years": { $addToSet:  {$year: "$receivedAt"} }
+                "years": { $addToSet:  {$year: "$transactionAt"} }
             }}
         ]);
 
@@ -54,26 +56,26 @@ export const incomesGroupByMonth = new ValidatedMethod({
             years = getYears[0].years;
         }
 
+
         const yearQuery = {
             $gte: new Date(moment([year]).startOf('year').format()),
             $lte: new Date(moment([year]).endOf('year').format())
         };
 
-        match.$match.receivedAt = yearQuery;
-        const sumOfIncomesByMonth = Incomes.aggregate([
+        match.$match.transactionAt = yearQuery;
+        const sumOfIncomesByMonth = Transactions.aggregate([
             match,
             { "$group": {
-                "_id": { "$month": "$receivedAt" },
+                "_id": { "$month": "$transactionAt" },
                 "income": { "$sum": "$amount" }
             }}
         ]);
 
-        delete match.$match.receivedAt;
-        match.$match.spentAt = yearQuery;
-        const sumOfExpensesByMonth = Expenses.aggregate([
+        match.$match.type = 'expense';
+        const sumOfExpensesByMonth = Transactions.aggregate([
             match,
             { "$group": {
-                "_id": { "$month": "$spentAt" },
+                "_id": { "$month": "$transactionAt" },
                 "expense": { "$sum": "$amount" }
             }}
         ]);
