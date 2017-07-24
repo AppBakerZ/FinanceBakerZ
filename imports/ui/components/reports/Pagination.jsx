@@ -7,6 +7,17 @@ class Pagination extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            pageSelected : 0
+        }
+    }
+
+    componentWillReceiveProps (p){
+        const { parentProps } = p;
+        const { params } = parentProps;
+        this.setState({
+            pageSelected: params.number || 0
+        })
     }
 
 
@@ -36,6 +47,7 @@ class Pagination extends Component {
                     pageRangeDisplayed={10}
                     onPageChange={this.handlePageClick.bind(this)}
                     containerClassName={'pagination'}
+                    forcePage={Number(this.state.pageSelected)}
                     subContainerClassName={'pages pagination'}
                     activeClassName={'active'}
                 />
