@@ -398,7 +398,7 @@ class NewIncome extends Component {
                         />
                         <Dropdown
                             source={this.types()}
-                            name='type'
+                            name='creditType'
                             label={formatMessage(il8n.SELECT_TYPE)}
                             onChange={this.onChange.bind(this)}
                             value={this.state.creditType}
