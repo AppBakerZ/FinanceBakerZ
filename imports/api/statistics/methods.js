@@ -34,11 +34,13 @@ export const incomesGroupByMonth = new ValidatedMethod({
     }).validator(),
     run({year}) {
 
+        //match for incomes transactions
         let match = {"$match": {
                 owner: this.userId,
                 type: 'income'
             }};
 
+        //get all unique years exists in DB
         const getYears = Transactions.aggregate([
             match,
             { "$group": {
@@ -54,13 +56,13 @@ export const incomesGroupByMonth = new ValidatedMethod({
             years = getYears[0].years;
         }
 
-
-        const yearQuery = {
+        //specify formatted year query in $match
+        match.$match.transactionAt = {
             $gte: new Date(moment([year]).startOf('year').format()),
             $lte: new Date(moment([year]).endOf('year').format())
         };
 
-        match.$match.transactionAt = yearQuery;
+        //both run different because match phase is different
         const sumOfIncomesByMonth = Transactions.aggregate([
             match,
             { "$group": {
@@ -69,6 +71,7 @@ export const incomesGroupByMonth = new ValidatedMethod({
             }}
         ]);
 
+        //both run different because match phase is different
         match.$match.type = 'expense';
         const sumOfExpensesByMonth = Transactions.aggregate([
             match,
@@ -147,29 +150,38 @@ export const availableBalance = new ValidatedMethod({
     run({accounts}) {
         let query = {
             owner: this.userId,
-            type: 'income'
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
 
-        const sumOfIncomes = Transactions.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        query.type = 'expense';
-        const sumOfExpenses = Transactions.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        const totalIncomes = sumOfIncomes.length ? sumOfIncomes[0].total : 0;
-        const totalExpenses = sumOfExpenses.length ? sumOfExpenses[0].total : 0;
-
-        return totalIncomes - totalExpenses;
+        let counting = Transactions.aggregate([{
+                $match: query
+            },
+            { "$group": {
+            "_id": "null",
+            "income": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "income" ] },
+                        '$amount',
+                        0
+                    ]
+                }
+            },
+            "expense": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "expense" ] },
+                        "$amount",
+                        0
+                    ]
+                }
+            },
+        }},{"$project": {
+            "count": { "$subtract": [ "$income", "$expense" ] }
+        }}]);
+        return counting.length ? counting[0].count : 0
     }
 });
 
