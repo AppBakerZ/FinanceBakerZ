@@ -117,7 +117,7 @@ export const incomesGroupByProject = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
-        const paidAmountArray = Incomes.aggregate([{
+        const paidAmountArray = Transactions.aggregate([{
             $match: {
                 'project._id': project._id
             }
@@ -148,17 +148,20 @@ export const availableBalance = new ValidatedMethod({
     }).validator(),
     run({accounts}) {
         let query = {
-            owner: this.userId
+            owner: this.userId,
+            type: 'income'
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
-        const sumOfIncomes = Incomes.aggregate({
+
+        const sumOfIncomes = Transactions.aggregate({
             $match: query
         },{
             $group: { _id: null, total: { $sum: '$amount' } }
         });
 
+        query.type = 'expense';
         const sumOfExpenses = Expenses.aggregate({
             $match: query
         },{
@@ -195,27 +198,27 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
     }).validator(),
     run({accounts, date}) {
         let query = {
-            owner: this.userId
+            owner: this.userId,
+            type: 'income'
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
         if(date){
-            query['receivedAt'] = {
+            query['transactionAt'] = {
                 $gte: new Date(date.start),
                 $lte: new Date(date.end)
             };
         }
-        const sumOfIncomes = Incomes.aggregate({
+        const sumOfIncomes = Transactions.aggregate({
             $match: query
         },{
             $group: { _id: null, total: { $sum: '$amount' } }
         });
 
-        query.spentAt = query.receivedAt;
-        delete query.receivedAt;
+        query.type = 'expense';
 
-        const sumOfExpenses = Expenses.aggregate({
+        const sumOfExpenses = Transactions.aggregate({
             $match: query
         },{
             $group: { _id: null, total: { $sum: '$amount' } }
