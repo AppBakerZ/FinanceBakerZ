@@ -29,7 +29,6 @@ import NewExpense from '../../ui/components/transactions/childs/NewExpense';
 import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
 
-import {addLocaleData} from 'react-intl';
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {

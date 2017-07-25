@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component,  } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { List, ListItem, Button, Card, Table, Dialog } from 'react-toolbox';
-import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
@@ -17,8 +17,6 @@ import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
 import dialogTheme from './dialogTheme';
 
-import bankFonts from '/imports/ui/bankFonts.js';
-import countries from '/imports/ui/countries.js';
 import {FormattedMessage, intlShape, injectIntl, FormattedNumber ,defineMessages} from 'react-intl';
 
 

@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
 import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
-import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';

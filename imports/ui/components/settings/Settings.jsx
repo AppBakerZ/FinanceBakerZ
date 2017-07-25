@@ -1,9 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
-import moment from 'moment';
 
 import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input, Snackbar } from 'react-toolbox';
-import { Link } from 'react-router'
 import { Slingshot } from 'meteor/edgee:slingshot'
 
 import { Meteor } from 'meteor/meteor';

@@ -1,11 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { IconButton, Input, Button } from 'react-toolbox';
-
-import { Link } from 'react-router'
-
-import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';

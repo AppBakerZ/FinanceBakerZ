@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 
-import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
