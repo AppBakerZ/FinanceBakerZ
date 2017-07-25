@@ -25,16 +25,17 @@ export default class ConnectionStatus extends Component {
         //TODO: Remove jQuery selector when upgrade to toolbox 2.0
         let $body = $('body');
         Tracker.autorun(() => {
-            let status = Meteor.status().status;
 
-            if(status !== 'connected') {
+            let status = Meteor.status().status;
+            //added extra checks to remove warnings
+            if(status !== 'connected' && this.state) {
                 $body.addClass('disconnected');
                 this.setState({
                     connectionBar: true,
                     barMessage: "Unable to connect to the internet. Please check your network settings."
                 });
             }
-            else {
+            else if(this.state.connectionBar){
                 this.setState({ connectionBar: false });
                 setTimeout(() => {
                     $body.removeClass('disconnected');
