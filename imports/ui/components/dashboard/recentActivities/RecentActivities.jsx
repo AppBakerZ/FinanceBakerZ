@@ -92,7 +92,7 @@ class RecentActivities extends Component {
         const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>
         const add =
             <div className={theme.errorShowIncomes}>
-                <Link to={ `/app/transactions/incomes/new`}>
+                <Link to={ `/app/transactions/income/add/new`}>
                 <Button type='button' icon='add' raised primary  />
                 <p> <FormattedMessage {...il8n.ADD_SOME_INCOMES} /> </p> </Link>
             </div>;
@@ -131,7 +131,7 @@ class RecentActivities extends Component {
         const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>
         const add =
             <div className={theme.errorShowExpenses}>
-                <Link to={`/app/transactions/expenses/new`}>
+                <Link to={`/app/transactions/expense/add/new`}>
                 <Button type='button' icon='add' raised accent />
                 <p> <FormattedMessage {...il8n.ADD_SOME_EXPENSES} /> </p> </Link>
             </div>;
