@@ -14,7 +14,7 @@ LocalCollection.insert({
     type: 'both',
     filter: 'range',
     dateFilter: '',
-    dateFrom: moment().subtract(1, 'months').startOf('month').format(),
+    dateFrom: moment().startOf('month').format(),
     dateTo: moment().startOf('today').format(),
     limit: 10,
     skip: 0

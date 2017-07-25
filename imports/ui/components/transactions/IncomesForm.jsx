@@ -1,14 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
-import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Incomes } from '../../../api/incomes/incomes.js';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { Projects } from '../../../api/projects/projects.js';
-import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 import theme from './theme';
 import dropdownTheme from './dropdownTheme';
@@ -202,7 +202,7 @@ class IncomesForm extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/app/incomes/new');
+                routeHelpers.changeRoute('/app/incomes/new');
                 this.setState({
                     active: true,
                     barMessage: 'Income deleted successfully',

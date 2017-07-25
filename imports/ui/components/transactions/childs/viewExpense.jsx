@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 import { Transactions } from '../../../../api/transactions/transactions.js'

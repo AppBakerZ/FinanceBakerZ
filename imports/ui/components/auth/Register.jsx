@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { IconButton, Input, Button } from 'react-toolbox';
 
@@ -49,7 +50,7 @@ class Register extends Component {
     }
 
     onClick (){
-        this.props.history.push('/');
+        routeHelpers.changeRoute('/');
     }
 
     onSubmit(event){
@@ -93,7 +94,7 @@ class Register extends Component {
                 );
                 var account = {account: {owner: Meteor.user()._id}};
                 setTimeout(() => {
-                    this.props.history.push('/app/settings');
+                    routeHelpers.changeRoute('/app/settings');
                 }, 1000);
             }
             this.props.progressBarUpdate(false);

@@ -1,7 +1,6 @@
 // fill the DB with example data on startup
 
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from '../../api/accounts/accounts.js';
 
 
 
