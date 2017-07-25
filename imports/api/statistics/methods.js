@@ -34,10 +34,9 @@ export const incomesGroupByMonth = new ValidatedMethod({
     }).validator(),
     run({year}) {
 
-        //match for incomes transactions
+        //match for current user transactions
         let match = {"$match": {
-                owner: this.userId,
-                type: 'income'
+                owner: this.userId
             }};
 
         //get all unique years exists in DB
@@ -56,48 +55,77 @@ export const incomesGroupByMonth = new ValidatedMethod({
             years = getYears[0].years;
         }
 
-        //specify formatted year query in $match
+        // specify formatted year query in $match
         match.$match.transactionAt = {
             $gte: new Date(moment([year]).startOf('year').format()),
             $lte: new Date(moment([year]).endOf('year').format())
         };
 
-        //both run different because match phase is different
-        const sumOfIncomesByMonth = Transactions.aggregate([
-            match,
+        //UPDATED METHOD BEGINS
+        //here in first group stage we nest group with two keys income and expense
+        //both have own type of sum based on condition
+        let CountedArrayByMonths = Transactions.aggregate([match,
             { "$group": {
                 "_id": { "$month": "$transactionAt" },
-                "income": { "$sum": "$amount" }
-            }}
-        ]);
+                "income": {
+                    "$sum": {
+                        "$cond": [
+                            { "$eq": [ "$type", "income" ] },
+                            '$amount',
+                            0
+                        ]
+                    }
+                },
+                "expense": {
+                    "$sum": {
+                        "$cond": [
+                            { "$eq": [ "$type", "expense" ] },
+                            "$amount",
+                            0
+                        ]
+                    }
+                },
+            }}]);
 
+        /**** although old method changed but don't remove untill production check :) *****/
         //both run different because match phase is different
-        match.$match.type = 'expense';
-        const sumOfExpensesByMonth = Transactions.aggregate([
-            match,
-            { "$group": {
-                "_id": { "$month": "$transactionAt" },
-                "expense": { "$sum": "$amount" }
-            }}
-        ]);
+        // const sumOfIncomesByMonth = Transactions.aggregate([
+        //     match,
+        //     { "$group": {
+        //         "_id": { "$month": "$transactionAt" },
+        //         "income": { "$sum": "$amount" }
+        //     }}
+        // ]);
+        //
+        // //both run different because match phase is different
+        // match.$match.type = 'expense';
+        // const sumOfExpensesByMonth = Transactions.aggregate([
+        //     match,
+        //     { "$group": {
+        //         "_id": { "$month": "$transactionAt" },
+        //         "expense": { "$sum": "$amount" }
+        //     }}
+        // ]);
+        //
+        // const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
+        //
+        //  let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
+        //     let item = {};
+        //     if(arrayGroup.length > 1){
+        //         item = _.extend(arrayGroup[0], arrayGroup[1]);
+        //     }else{
+        //         item = arrayGroup[0]
+        //     }
+        //
+        //     if(!_.has(item, 'income')) item.income = 0;
+        //     if(!_.has(item, 'expense')) item.expense = 0;
+        //
+        //     return item
+        // });
+        // return {years: years, result: groupedByMonths}
 
-        const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
 
-         let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
-            let item = {};
-            if(arrayGroup.length > 1){
-                item = _.extend(arrayGroup[0], arrayGroup[1]);
-            }else{
-                item = arrayGroup[0]
-            }
-
-            if(!_.has(item, 'income')) item.income = 0;
-            if(!_.has(item, 'expense')) item.expense = 0;
-
-            return item
-        });
-
-        return {years: years, result: groupedByMonths}
+        return {years: years, result: CountedArrayByMonths}
     }
 });
 
@@ -156,9 +184,8 @@ export const availableBalance = new ValidatedMethod({
         }
 
         let counting = Transactions.aggregate([{
-                $match: query
-            },
-            { "$group": {
+            $match: query
+        }, { "$group": {
             "_id": "null",
             "income": {
                 "$sum": {
@@ -178,8 +205,12 @@ export const availableBalance = new ValidatedMethod({
                     ]
                 }
             },
-        }},{"$project": {
-            "count": { "$subtract": [ "$income", "$expense" ] }
+        }},{
+            //now just subtract total expense from incomes to get current Balance
+            "$project": {
+            "count": {
+                "$subtract": [ "$income", "$expense" ]
+            }
         }}]);
         return counting.length ? counting[0].count : 0
     }
@@ -209,7 +240,6 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
     run({accounts, date}) {
         let query = {
             owner: this.userId,
-            type: 'income'
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
@@ -220,27 +250,37 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
                 $lte: new Date(date.end)
             };
         }
-        const sumOfIncomes = Transactions.aggregate({
+
+        let countedArray = Transactions.aggregate([{
             $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        query.type = 'expense';
-
-        const sumOfExpenses = Transactions.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
+        }, { "$group": {
+            "_id": "null",
+            "income": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "income" ] },
+                        '$amount',
+                        0
+                    ]
+                }
+            },
+            "expense": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "expense" ] },
+                        "$amount",
+                        0
+                    ]
+                }
+            },
+        }}]);
         return {
-            incomes: sumOfIncomes.length ? sumOfIncomes[0].total : 0,
-            expenses: sumOfExpenses.length ? sumOfExpenses[0].total : 0
+            incomes: countedArray.length ? countedArray[0].income : 0,
+            expenses: countedArray.length ? countedArray[0].expense : 0
         };
     }
 });
-
+//TODO: we will optimize it after reports updates
 export const generateReport = new ValidatedMethod({
     name: 'statistics.generateReport',
     mixins : [LoggedInMixin],
