@@ -19,6 +19,7 @@ export default class ConnectionStatus extends Component {
         };
 
         //check for connection status
+        this.connectionStatus = this.connectionStatus.bind(this);
         this.connectionStatus();
     }
     connectionStatus(){
