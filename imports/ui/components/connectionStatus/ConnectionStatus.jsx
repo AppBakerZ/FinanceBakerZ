@@ -10,6 +10,7 @@ export default class ConnectionStatus extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            connectionBar: false,
             activeSnackbar: false,
             barIcon: '',
             barMessage: '',
@@ -26,7 +27,7 @@ export default class ConnectionStatus extends Component {
         Tracker.autorun(() => {
             let status = Meteor.status().status;
 
-            if(status != 'connected') {
+            if(status !== 'connected') {
                 $body.addClass('disconnected');
                 this.setState({
                     connectionBar: true,

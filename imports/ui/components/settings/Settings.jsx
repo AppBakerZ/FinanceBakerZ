@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers }  from '../../../helpers/routeHelpers'
 
 import { List, ListItem, Button, IconButton, ListSubHeader, Dropdown, Card, Checkbox, Dialog, ProgressBar, Input, Snackbar } from 'react-toolbox';
 import { Slingshot } from 'meteor/edgee:slingshot'
@@ -190,7 +191,7 @@ class SettingsPage extends Component {
 
             }
              else {
-                this.props.history.push('/login');
+                routeHelpers.changeRoute('/login');
             }
         });
 

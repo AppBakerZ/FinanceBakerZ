@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker, FontIcon, IconButton } from 'react-toolbox';
 
@@ -187,7 +188,7 @@ class ExpensesForm extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/app/expenses/new');
+                routeHelpers.changeRoute('/app/expenses/new');
                 this.setState({
                     active: true,
                     barMessage: 'Expense deleted successfully',

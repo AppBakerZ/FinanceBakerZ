@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 
@@ -201,7 +202,7 @@ class IncomesForm extends Component {
                     barType: 'cancel'
                 });
             }else{
-                this.props.history.replace('/app/incomes/new');
+                routeHelpers.changeRoute('/app/incomes/new');
                 this.setState({
                     active: true,
                     barMessage: 'Income deleted successfully',

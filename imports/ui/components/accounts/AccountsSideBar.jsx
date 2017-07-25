@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 
@@ -132,7 +133,7 @@ class AccountsSideBar extends Component {
                 }
 
                 else {
-                    this.props.history.replace('/app/accounts/new');
+                    routeHelpers.changeRoute('/app/accounts/new');
                     this.setState({
                         active: true,
                         barMessage: 'Account deleted successfully',
