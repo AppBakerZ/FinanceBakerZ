@@ -4,7 +4,6 @@ import { Transactions } from './../api/transactions/transactions';
 import { Projects } from './../api/projects/projects';
 import { Logs } from '../api/logs/logs'
 import { _ } from 'meteor/underscore';
-// TODO: merge transaction after whole app use transaction collection every where
 let applicableActions = ['insert', 'update', 'remove'];
 let Collections = {
     Accounts: Accounts,

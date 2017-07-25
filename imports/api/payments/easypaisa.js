@@ -7,7 +7,7 @@ import { HTTP } from 'meteor/http'
 //         storeId:5820,
 //         Hash_key: 'SW7Z00D2XGFZZSG8'
 //         url:'https://easypay.easypaisa.com.pk/easypay-service/PartnerBusinessService/META-INF/wsdl/partner/transaction/PartnerBusinessService.wsdl',
-//         mode:env != 'production' ? 'TEST' : 'PRODUCTION'
+//         mode:env !== 'production' ? 'TEST' : 'PRODUCTION'
 //     }
 // };
 
@@ -81,6 +81,5 @@ function makeInitialRequest(fname){
     });
 }
 
-//TODO:made is complete dynamic from here instead of stand alone module
 module.exports = maketestreqest;
 

@@ -222,12 +222,12 @@ class ProjectPage extends Component {
             filter = _.extend(this.state.filter, this.state.filter);
 
         filter[label] = val;
-        if(label == 'client.name'){
+        if(label === 'client.name'){
             filter['client']['name'] = val;
         }
         this.setState({ filter});
         if(val){
-            copyQuery[label] = (label != 'status') ? { $regex : val} : val;
+            copyQuery[label] = (label !== 'status') ? { $regex : val} : val;
         }
         else{
             delete  copyQuery[label]

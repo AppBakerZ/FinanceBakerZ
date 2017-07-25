@@ -125,7 +125,6 @@ class NewIncome extends Component {
         receivedTime = new Date(receivedTime);
         transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && creditType === "project" && {_id: project}) || {};
-        // TODO:merge both types to creditType
         creditType = creditType === "project" ? 'project' : 'salary';
 
             Meteor.call('transactions.insert', {

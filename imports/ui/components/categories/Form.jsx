@@ -53,10 +53,10 @@ class Form extends Component {
 
         this.icons = fonts.map((font, index) => {
             index++;
-            if(index % 5 == 0){
+            if(index % 5 === 0){
                 font.removeRightBorder = true
             }
-            let lastItems = fonts.length % 5 == 0 ? 5 : fonts.length % 5;
+            let lastItems = fonts.length % 5 === 0 ? 5 : fonts.length % 5;
             if(index > fonts.length - lastItems){
                 font.removeBottomBorder = true
             }
