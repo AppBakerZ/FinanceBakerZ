@@ -23,7 +23,7 @@ class DateRange extends Component {
         let { location } = parentProps;
         let query = location.query;
         this.state = {
-            dateFrom: query.dateFrom || moment().subtract(1, 'months').startOf('month').format(),
+            dateFrom: query.dateFrom || moment().startOf('month').format(),
             dateTo: query.dateTo || moment().startOf('today').format(),
         }
     }
@@ -32,7 +32,7 @@ class DateRange extends Component {
         let { location } = parentProps;
         let query = location.query;
         this.state = {
-            dateFrom: query.dateFrom || moment().subtract(1, 'months').startOf('month').format(),
+            dateFrom: query.dateFrom || moment().startOf('month').format(),
             dateTo: query.dateTo || moment().startOf('today').format(),
         }
     }
