@@ -35,10 +35,7 @@ class CategoriesDD extends Component {
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.categories = `${[categories]}`;
-        history.push({
-            pathname: pathname,
-            query: query
-        });
+        routeHelpers.changeRoute(pathname, 0, query);
     }
 
     render() {

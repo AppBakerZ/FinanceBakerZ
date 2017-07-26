@@ -40,6 +40,7 @@ class AccountsDD extends Component {
             pathname: pathname,
             query: query
         });
+        routeHelpers.changeRoute(pathname, 0, query)
     }
     render() {
         const { formatMessage } = this.props.intl;

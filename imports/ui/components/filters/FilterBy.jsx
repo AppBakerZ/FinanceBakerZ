@@ -79,10 +79,7 @@ class FilterBy extends Component {
         // transaction filter
         if( query.filter !== filter ){
             query.filter = filter;
-            history.push({
-                pathname: pathname,
-                query: query
-            });
+            routeHelpers.changeRoute(pathname, 0, query)
         }
 
     }

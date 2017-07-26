@@ -50,10 +50,7 @@ class TransactionsType extends Component {
         // transaction filter
         if( query.type !== type ){
             query.type = type;
-            history.push({
-                pathname: pathname,
-                query: query
-            });
+            routeHelpers.changeRoute(pathname, 0, query)
         }
     }
     typeItem (type) {
