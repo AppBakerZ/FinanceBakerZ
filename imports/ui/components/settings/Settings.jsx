@@ -140,6 +140,7 @@ class SettingsPage extends Component {
         super(props);
           let userInfo = Meteor.user();
         this.state = {
+            openDialog: false,
             currency: userInfo.profile.currency || '',
             language: userInfo.profile.language || '',
             check1: userInfo.profile.emailNotification,
