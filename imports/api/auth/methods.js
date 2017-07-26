@@ -1,6 +1,5 @@
 // methods related to signUp and Login
 
-import { Meteor } from 'meteor/meteor';
 import { Accounts as MeteorAccounts } from 'meteor/accounts-base'
 import { Accounts } from '../accounts/accounts.js';
 

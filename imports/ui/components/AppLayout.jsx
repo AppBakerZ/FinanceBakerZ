@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../helpers/routeHelpers'
 
 import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
@@ -52,7 +53,7 @@ class AppLayout extends Component {
         //TODO: not working with custom queryParams (reports page)
         window.location.reload();
         Meteor.logout(() => {
-            this.props.history.push('/login')
+            routeHelpers.changeRoute('/login')
         })
     }
     render() {

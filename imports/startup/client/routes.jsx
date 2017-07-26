@@ -29,7 +29,6 @@ import NewExpense from '../../ui/components/transactions/childs/NewExpense';
 import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
 
-import {addLocaleData} from 'react-intl';
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
@@ -84,7 +83,9 @@ class Il8n extends Component {
     render() {
         return (
             <IntlProvider locale={this.getUserLang().value} messages={this.getMessages()} >
-                <Router history={ browserHistory }>
+                {/* below key with Math.random is a fix of router warning*/}
+                {/*<Warning: [react-router] You cannot change <Router routes>; it will be ignored*/}
+                <Router history={ browserHistory } key={Math.random()}>
                     <Route path="app" component={AppLayout} onEnter={requireAuth}>
                         <IndexRoute components={{ content: DashboardPage}} />
                         <Route path="dashboard" components={{ content: DashboardPage}} />

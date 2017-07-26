@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import { Autocomplete } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
@@ -34,10 +35,7 @@ class CategoriesDD extends Component {
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.categories = `${[categories]}`;
-        history.push({
-            pathname: pathname,
-            query: query
-        });
+        routeHelpers.changeRoute(pathname, 0, query);
     }
 
     render() {

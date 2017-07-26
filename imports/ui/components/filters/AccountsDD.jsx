@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Autocomplete } from 'react-toolbox';
@@ -39,6 +40,7 @@ class AccountsDD extends Component {
             pathname: pathname,
             query: query
         });
+        routeHelpers.changeRoute(pathname, 0, query)
     }
     render() {
         const { formatMessage } = this.props.intl;

@@ -1,11 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { IconButton, Input, Button } from 'react-toolbox';
-
-import { Link } from 'react-router'
-
-import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -49,11 +46,11 @@ class Register extends Component {
     }
 
     onClick (){
-        this.props.history.push('/register');
+        routeHelpers.changeRoute('/register');
     }
 
     forgotPassword (){
-        this.props.history.push('/forgotPassword');
+        routeHelpers.changeRoute('/forgotPassword');
     }
 
     onSubmit(event){
@@ -87,7 +84,7 @@ class Register extends Component {
                 var useraccount = {account: {owner: Meteor.user()._id}};
                 Meteor.call('profileAssets', useraccount);
                 setTimeout(() => {
-                    this.props.history.push('/app/dashboard');
+                    routeHelpers.changeRoute('/app/dashboard');
                 }, 1000);
             }
             this.props.progressBarUpdate(false);

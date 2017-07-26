@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -79,10 +79,7 @@ class FilterBy extends Component {
         // transaction filter
         if( query.filter !== filter ){
             query.filter = filter;
-            history.push({
-                pathname: pathname,
-                query: query
-            });
+            routeHelpers.changeRoute(pathname, 0, query)
         }
 
     }

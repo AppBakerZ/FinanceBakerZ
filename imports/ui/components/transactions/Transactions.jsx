@@ -26,7 +26,7 @@ class TransactionPage extends Component {
         projects = query.projects ? query.projects.split(",") : [];
         categories = query.categories ? query.categories.split(",") : [];
 
-        dateFrom = query.dateFrom || moment().subtract(1, 'months').startOf('month').format();
+        dateFrom = query.dateFrom || moment().startOf('month').format();
         dateTo = query.dateTo || moment().startOf('today').format();
 
 

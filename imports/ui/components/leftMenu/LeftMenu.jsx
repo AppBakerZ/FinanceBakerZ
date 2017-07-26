@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Drawer, List, ListItem, FontIcon } from 'react-toolbox';
 import { Link } from 'react-router'
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { Meteor } from 'meteor/meteor'
 
@@ -57,7 +58,7 @@ class LeftMenu extends Component {
         //TODO: (ISSUE) not working with custom queryParams (reports page)
         window.location.reload();
         Meteor.logout(() => {
-            this.props.history.push('/login')
+            routeHelpers.changeRoute('/login')
         })
     }
     componentWillReceiveProps(props) {

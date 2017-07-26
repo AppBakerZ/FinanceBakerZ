@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { DatePicker } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -23,7 +23,7 @@ class DateRange extends Component {
         let { location } = parentProps;
         let query = location.query;
         this.state = {
-            dateFrom: query.dateFrom || moment().subtract(1, 'months').startOf('month').format(),
+            dateFrom: query.dateFrom || moment().startOf('month').format(),
             dateTo: query.dateTo || moment().startOf('today').format(),
         }
     }
@@ -32,7 +32,7 @@ class DateRange extends Component {
         let { location } = parentProps;
         let query = location.query;
         this.state = {
-            dateFrom: query.dateFrom || moment().subtract(1, 'months').startOf('month').format(),
+            dateFrom: query.dateFrom || moment().startOf('month').format(),
             dateTo: query.dateTo || moment().startOf('today').format(),
         }
     }
@@ -47,10 +47,7 @@ class DateRange extends Component {
         if( new Date(query[dateFilter]).getTime() !== new Date(date).getTime() ){
             this.setState([e.target.name]);
             query[dateFilter] = moment(date).format();
-            history.push({
-                pathname: pathname,
-                query: query
-            });
+            routeHelpers.changeRoute(pathname, 0, query);
         }
     }
     render() {

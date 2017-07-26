@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { Link, browserHistory } from 'react-router';
 
 import { Meteor } from 'meteor/meteor';
@@ -44,9 +45,7 @@ class TransactionsTable extends Component {
     }
     selectItem(index){
         let selectedTransaction =  this.props.transactions[index] ;
-        browserHistory.push({
-            pathname: `/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`
-        })
+        routeHelpers.changeRoute(`/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`);
     }
     handleBarClick (event, instance) {
         this.setState({ active: false });

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 import { Input, Button } from 'react-toolbox';
 import { Link } from 'react-router'

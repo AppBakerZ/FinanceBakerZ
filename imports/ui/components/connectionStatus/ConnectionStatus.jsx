@@ -5,11 +5,12 @@ import theme from './theme';
 
 
 
-
+let computation;
 export default class ConnectionStatus extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            connectionBar: false,
             activeSnackbar: false,
             barIcon: '',
             barMessage: '',
@@ -18,12 +19,16 @@ export default class ConnectionStatus extends Component {
         };
 
         //check for connection status
+        this.connectionStatus.bind(this);
+    }
+
+    componentDidMount(){//check for connection status
         this.connectionStatus();
     }
     connectionStatus(){
         //TODO: Remove jQuery selector when upgrade to toolbox 2.0
         let $body = $('body');
-        Tracker.autorun(() => {
+        computation = Tracker.autorun(() => {
             let status = Meteor.status().status;
 
             if(status !== 'connected') {
@@ -40,6 +45,10 @@ export default class ConnectionStatus extends Component {
                 }, 3000)
             }
         });
+    }
+
+    componentWillUnmount(){
+        computation.stop()
     }
     render() {
         return (
