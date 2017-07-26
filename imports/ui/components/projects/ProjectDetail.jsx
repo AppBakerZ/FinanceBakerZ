@@ -63,8 +63,8 @@ class ProjectDetail extends Component {
                 <div className={theme.contentTwo}>
                     <div> <p> <FormattedMessage {...il8n.CLIENT_NAME} /> </p> <p>{project.client.name}</p></div>
                     <div> <p> <FormattedMessage {...il8n.AMOUNT_AGREED} /></p> <p>{<FormattedNumber value={project.amount}/>}</p></div>
-                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid == null ? 'Loading ...' : <FormattedNumber value={this.state.amountPaid}/>} </p></div>
-                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{ this.state.amountPaid == null ? 'Loading ...' : <FormattedNumber value={project.amount - this.state.amountPaid}/> } </p></div>
+                    <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid === null ? 'Loading ...' : <FormattedNumber value={this.state.amountPaid}/>} </p></div>
+                    <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{ this.state.amountPaid === null ? 'Loading ...' : <FormattedNumber value={project.amount - this.state.amountPaid}/> } </p></div>
                     <div> <p> <FormattedMessage {...il8n.PROJECT_STATUS} /> </p> <p>{project.status}</p></div>
                 </div>
 

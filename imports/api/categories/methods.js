@@ -71,7 +71,7 @@ export const update = new ValidatedMethod({
         const {_id, name, icon, parent} = category;
         const oldCategory = Categories.findOne(_id);
 
-        if(oldCategory.parent != parent || oldCategory.name != name){
+        if(oldCategory.parent !== parent || oldCategory.name !== name){
             Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
             Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
         }
@@ -135,7 +135,7 @@ export const remove = new ValidatedMethod({
     }
 });
 
-const INCOMES_METHODS = _.pluck([
+const CATEGORIES_METHODS = _.pluck([
     insert,
     update,
     remove
@@ -144,7 +144,7 @@ const INCOMES_METHODS = _.pluck([
 if (Meteor.isServer) {
     DDPRateLimiter.addRule({
         name(name) {
-            return _.contains(INCOMES_METHODS, name);
+            return _.contains(CATEGORIES_METHODS, name);
         },
 
         // Rate limit per connection ID

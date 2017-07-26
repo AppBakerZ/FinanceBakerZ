@@ -7,7 +7,7 @@ import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker 
 import { Card} from 'react-toolbox/lib/card';
 
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '../../../../api/incomes/incomes.js';
+import { Transactions } from '../../../../api/transactions/transactions.js';
 import { Accounts } from '../../../../api/accounts/accounts.js';
 import { Projects } from '../../../../api/projects/projects.js';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -80,7 +80,7 @@ class NewIncome extends Component {
             amount: '',
             receivedAt: datetime,
             receivedTime: datetime,
-            type: 'project',
+            creditType: 'project',
             project: '',
             active: false,
             loading: false
@@ -100,7 +100,6 @@ class NewIncome extends Component {
             amount: '',
             receivedAt: datetime,
             receivedTime: datetime,
-            type: 'project',
             creditType: 'project',
             project: ''
         })
@@ -114,25 +113,26 @@ class NewIncome extends Component {
     }
 
     createIncome() {
-        let {account, amount, receivedAt, receivedTime, type, project} = this.state;
-        if (type === "project" && !Object.keys(project).length) {
+        let {account, amount, receivedAt, receivedTime, creditType, project} = this.state;
+        if (creditType === "project" && !Object.keys(project).length) {
             this.setState({
                 active: true,
                 barMessage: 'You must add the project'
             });
             return
         }
-        receivedAt = new Date(receivedAt);
+        let transactionAt = new Date(receivedAt);
+        let type='income';
         receivedTime = new Date(receivedTime);
-        receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = (project && type === "project" && {_id: project}) || {};
-        let creditType = type === "project" ? 'project' : 'salary';
+        transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        project = (project && creditType === "project" && {_id: project}) || {};
+        creditType = creditType === "project" ? 'project' : 'salary';
 
-            Meteor.call('incomes.insert', {
-                income: {
+            Meteor.call('transactions.insert', {
+                transaction: {
                     account,
                     amount: Number(amount),
-                    receivedAt,
+                    transactionAt,
                     type,
                     project,
                     creditType
@@ -159,20 +159,21 @@ class NewIncome extends Component {
         }
 
     updateIncome(){
-        let {_id, account, amount, receivedAt, receivedTime, type, project} = this.state;
+        let {_id, account, amount, receivedAt, receivedTime, creditType, project} = this.state;
 
-        receivedAt = new Date(receivedAt);
+        let transactionAt = new Date(receivedAt);
+        let type = 'income';
         receivedTime = new Date(receivedTime);
-        receivedAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
-        project = (project && type === "project" && {_id: project}) || {};
-        creditType = type === "project" ? 'project' : 'salary';
+        transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        project = (project && creditType === "project" && {_id: project}) || {};
+        creditType = creditType === "project" ? 'project' : 'salary';
 
-        Meteor.call('incomes.update', {
-            income: {
+        Meteor.call('transactions.update', {
+            transaction: {
                 _id,
                 account,
                 amount: Number(amount),
-                receivedAt,
+                transactionAt,
                 type,
                 project,
                 creditType
@@ -200,8 +201,8 @@ class NewIncome extends Component {
 
     removeIncome(){
         const {_id} = this.state;
-        Meteor.call('incomes.remove', {
-            income: {
+        Meteor.call('transactions.remove', {
+            transaction: {
                 _id
             }
         }, (err, response) => {
@@ -241,9 +242,12 @@ class NewIncome extends Component {
         return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
+
     componentWillReceiveProps (p){
-        p.income.receivedTime = p.income.receivedAt;
-        p.income.type === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
+        p.income.receivedTime = p.income.transactionAt;
+        if( p.income && p.income.creditType ){
+            p.income.creditType === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
+        }
         this.setState(p.income);
         let isNew = p.params.id === 'new';
         this.setCurrentRoute(isNew);
@@ -394,14 +398,14 @@ class NewIncome extends Component {
                         />
                         <Dropdown
                             source={this.types()}
-                            name='type'
+                            name='creditType'
                             label={formatMessage(il8n.SELECT_TYPE)}
                             onChange={this.onChange.bind(this)}
-                            value={this.state.type}
+                            value={this.state.creditType}
                             template={this.typeItem}
                             required
                         />
-                        {this.state.type === 'project' &&
+                        {this.state.creditType === 'project' &&
                         <Dropdown
                             source={this.projects()}
                             name='project'
@@ -414,7 +418,6 @@ class NewIncome extends Component {
                         {this.renderButton()}
                     </form>
                 </Card>
-                {/*<Button label='add now' raised primary />*/}
             </div>
         );
     }
@@ -429,9 +432,9 @@ NewIncome.propTypes = {
 
 NewIncome = createContainer((props) => {
     const { id } = props.params;
-    const incomeHandle = Meteor.subscribe('incomes.single', id);
+    const incomeHandle = Meteor.subscribe('transactions.single', id);
     const loading = !incomeHandle.ready();
-    const income = Incomes.findOne(id);
+    const income = Transactions.findOne(id);
     const incomeExists = !loading && !!income;
     Meteor.subscribe('accounts');
     Meteor.subscribe('projects.all');

@@ -13,8 +13,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
-import { Expenses } from '../expences/expenses.js';
-import { Incomes } from '../incomes/incomes.js';
+import { Transactions } from '../transactions/transactions.js'
 import { Accounts } from '../accounts/accounts.js';
 import { Categories } from '../categories/categories.js';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
@@ -35,15 +34,17 @@ export const incomesGroupByMonth = new ValidatedMethod({
     }).validator(),
     run({year}) {
 
+        //match for current user transactions
         let match = {"$match": {
                 owner: this.userId
             }};
 
-        const getYears = Incomes.aggregate([
+        //get all unique years exists in DB
+        const getYears = Transactions.aggregate([
             match,
             { "$group": {
                 "_id": null,
-                "years": { $addToSet:  {$year: "$receivedAt"} }
+                "years": { $addToSet:  {$year: "$transactionAt"} }
             }}
         ]);
 
@@ -54,47 +55,77 @@ export const incomesGroupByMonth = new ValidatedMethod({
             years = getYears[0].years;
         }
 
-        const yearQuery = {
+        // specify formatted year query in $match
+        match.$match.transactionAt = {
             $gte: new Date(moment([year]).startOf('year').format()),
             $lte: new Date(moment([year]).endOf('year').format())
         };
 
-        match.$match.receivedAt = yearQuery;
-        const sumOfIncomesByMonth = Incomes.aggregate([
-            match,
+        //UPDATED METHOD BEGINS
+        //here in first group stage we nest group with two keys income and expense
+        //both have own type of sum based on condition
+        let CountedArrayByMonths = Transactions.aggregate([match,
             { "$group": {
-                "_id": { "$month": "$receivedAt" },
-                "income": { "$sum": "$amount" }
-            }}
-        ]);
+                "_id": { "$month": "$transactionAt" },
+                "income": {
+                    "$sum": {
+                        "$cond": [
+                            { "$eq": [ "$type", "income" ] },
+                            '$amount',
+                            0
+                        ]
+                    }
+                },
+                "expense": {
+                    "$sum": {
+                        "$cond": [
+                            { "$eq": [ "$type", "expense" ] },
+                            "$amount",
+                            0
+                        ]
+                    }
+                },
+            }}]);
 
-        delete match.$match.receivedAt;
-        match.$match.spentAt = yearQuery;
-        const sumOfExpensesByMonth = Expenses.aggregate([
-            match,
-            { "$group": {
-                "_id": { "$month": "$spentAt" },
-                "expense": { "$sum": "$amount" }
-            }}
-        ]);
+        /**** although old method changed but don't remove untill production check :) *****/
+        //both run different because match phase is different
+        // const sumOfIncomesByMonth = Transactions.aggregate([
+        //     match,
+        //     { "$group": {
+        //         "_id": { "$month": "$transactionAt" },
+        //         "income": { "$sum": "$amount" }
+        //     }}
+        // ]);
+        //
+        // //both run different because match phase is different
+        // match.$match.type = 'expense';
+        // const sumOfExpensesByMonth = Transactions.aggregate([
+        //     match,
+        //     { "$group": {
+        //         "_id": { "$month": "$transactionAt" },
+        //         "expense": { "$sum": "$amount" }
+        //     }}
+        // ]);
+        //
+        // const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
+        //
+        //  let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
+        //     let item = {};
+        //     if(arrayGroup.length > 1){
+        //         item = _.extend(arrayGroup[0], arrayGroup[1]);
+        //     }else{
+        //         item = arrayGroup[0]
+        //     }
+        //
+        //     if(!_.has(item, 'income')) item.income = 0;
+        //     if(!_.has(item, 'expense')) item.expense = 0;
+        //
+        //     return item
+        // });
+        // return {years: years, result: groupedByMonths}
 
-        const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
 
-         let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
-            let item = {};
-            if(arrayGroup.length > 1){
-                item = _.extend(arrayGroup[0], arrayGroup[1]);
-            }else{
-                item = arrayGroup[0]
-            }
-
-            if(!_.has(item, 'income')) item.income = 0;
-            if(!_.has(item, 'expense')) item.expense = 0;
-
-            return item
-        });
-
-        return {years: years, result: groupedByMonths}
+        return {years: years, result: CountedArrayByMonths}
     }
 });
 
@@ -115,7 +146,7 @@ export const incomesGroupByProject = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
-        const paidAmountArray = Incomes.aggregate([{
+        const paidAmountArray = Transactions.aggregate([{
             $match: {
                 'project._id': project._id
             }
@@ -146,27 +177,42 @@ export const availableBalance = new ValidatedMethod({
     }).validator(),
     run({accounts}) {
         let query = {
-            owner: this.userId
+            owner: this.userId,
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
-        const sumOfIncomes = Incomes.aggregate({
+
+        let counting = Transactions.aggregate([{
             $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        const sumOfExpenses = Expenses.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        const totalIncomes = sumOfIncomes.length ? sumOfIncomes[0].total : 0;
-        const totalExpenses = sumOfExpenses.length ? sumOfExpenses[0].total : 0;
-
-        return totalIncomes - totalExpenses;
+        }, { "$group": {
+            "_id": "null",
+            "income": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "income" ] },
+                        '$amount',
+                        0
+                    ]
+                }
+            },
+            "expense": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "expense" ] },
+                        "$amount",
+                        0
+                    ]
+                }
+            },
+        }},{
+            //now just subtract total expense from incomes to get current Balance
+            "$project": {
+            "count": {
+                "$subtract": [ "$income", "$expense" ]
+            }
+        }}]);
+        return counting.length ? counting[0].count : 0
     }
 });
 
@@ -193,39 +239,48 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
     }).validator(),
     run({accounts, date}) {
         let query = {
-            owner: this.userId
+            owner: this.userId,
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
         if(date){
-            query['receivedAt'] = {
+            query['transactionAt'] = {
                 $gte: new Date(date.start),
                 $lte: new Date(date.end)
             };
         }
-        const sumOfIncomes = Incomes.aggregate({
+
+        let countedArray = Transactions.aggregate([{
             $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        query.spentAt = query.receivedAt;
-        delete query.receivedAt;
-
-        const sumOfExpenses = Expenses.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
+        }, { "$group": {
+            "_id": "null",
+            "income": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "income" ] },
+                        '$amount',
+                        0
+                    ]
+                }
+            },
+            "expense": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "expense" ] },
+                        "$amount",
+                        0
+                    ]
+                }
+            },
+        }}]);
         return {
-            incomes: sumOfIncomes.length ? sumOfIncomes[0].total : 0,
-            expenses: sumOfExpenses.length ? sumOfExpenses[0].total : 0
+            incomes: countedArray.length ? countedArray[0].income : 0,
+            expenses: countedArray.length ? countedArray[0].expense : 0
         };
     }
 });
-
+//TODO: we will optimize it after reports updates
 export const generateReport = new ValidatedMethod({
     name: 'statistics.generateReport',
     mixins : [LoggedInMixin],
@@ -258,6 +313,8 @@ export const generateReport = new ValidatedMethod({
     }).validator(),
     //run({report, date, filterBy}) {
     run({params}) {
+        //check for incomes only or expenses;
+        let isIncome = params.report === 'incomes';
         let record, data, html_string, options, pdfData,
             fut = new Future(),
             fileName = "report.pdf",
@@ -265,15 +322,15 @@ export const generateReport = new ValidatedMethod({
             reportStyle = Assets.getText('report.css');
 
         let query = {
-            owner: this.userId
+            owner: this.userId,
+            type: isIncome ? 'income' : 'expense'
         };
 
         if(params.multiple.length){
             query['account'] = {$in: params.multiple};
         }
         if(params.date){
-            let fetch = (params.report == 'incomes') ? 'receivedAt' : 'spentAt';
-            query[fetch] = {
+            query.transactionAt = {
                 $gte: new Date(params.date.start),
                 $lte: new Date(params.date.end)
             };
@@ -296,11 +353,12 @@ export const generateReport = new ValidatedMethod({
                 return accountHelpers.alterName(account.bank)
             },
             categoryName : function(category){
-                return Categories.findOne({_id : category._id}).name;
+                let Category = Categories.findOne({_id : category._id});
+                return Category && Category.name
             },
             totalIncome : function(){
                 if(params.date){
-                    let incomes = Incomes.aggregate({
+                    let incomes = Transactions.aggregate({
                         $match: query
                     },{
                         $group: { _id: null, total: { $sum: '$amount' } }
@@ -309,8 +367,9 @@ export const generateReport = new ValidatedMethod({
                 }
             },
             totalExpenses : function(){
+                query.type = 'expense';
                 if(params.date){
-                    let expenses = Expenses.aggregate({
+                    let expenses = Transactions.aggregate({
                         $match: query
                     },{
                         $group: { _id: null, total: { $sum: '$amount' } }
@@ -325,18 +384,21 @@ export const generateReport = new ValidatedMethod({
 
         // PREPARE DATA
         //createdAt
-        let option = {sort: {}};
-        (params.report == 'incomes') ? option.sort['receivedAt'] = 1 : option.sort['spentAt'] = 1;
-        record =  (params.report == 'incomes') ? Incomes.find(query, option).fetch() : Expenses.find(query, option).fetch();
+        let option = {
+            sort: {
+                transactionAt: 1
+            }
+        };
+        record =  Transactions.find(query, option).fetch();
 
         if(!record.length){
             throw new Meteor.Error( 404, 'result not found' );
         }
 
         data = {
-            heading : (params.report == 'incomes') ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
+            heading : isIncome ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
             record: record,
-            income : (params.report == 'incomes')
+            income : isIncome
 
         };
 

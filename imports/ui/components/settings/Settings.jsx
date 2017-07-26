@@ -161,7 +161,7 @@ class SettingsPage extends Component {
         ]
     }
     handleChange (field, value) {
-        if(field == 'check1') this.setState({'check2': false});
+        if(field === 'check1') this.setState({'check2': false});
         else this.setState({'check1': false});
         this.setState({[field]: value});
         this.emailNotify();
@@ -180,7 +180,7 @@ class SettingsPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        e.target.name == 'currency' && this.setCurrency(val)
+        e.target.name === 'currency' && this.setCurrency(val)
     }
 
 
@@ -245,7 +245,7 @@ class SettingsPage extends Component {
     changePassword(event){
         event.preventDefault();
         const {oldPassword, newPassword, alterPassword} = this.state;
-        if(newPassword != alterPassword){
+        if(newPassword !== alterPassword){
             this.setState({
                 active: true,
                 barMessage: 'Passwords do not match',
@@ -312,7 +312,7 @@ class SettingsPage extends Component {
             folder: "profiles",
             uploaderId: userId
         };
-              if(this.state.target && this.uploadImageName != this.state.target.name) {
+              if(this.state.target && this.uploadImageName !== this.state.target.name) {
                   this.uploadImageName = this.state.target.name;
 
                   let uploader = new Slingshot.Upload('imageUploader', metaContext);

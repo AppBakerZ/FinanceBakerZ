@@ -55,7 +55,7 @@ class LeftMenu extends Component {
         this.props.toggleDrawerActive();
     }
     logout(){
-        //TODO: not working with custom queryParams (reports page)
+        //TODO: (ISSUE) not working with custom queryParams (reports page)
         window.location.reload();
         Meteor.logout(() => {
             routeHelpers.changeRoute('/login')

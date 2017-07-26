@@ -9,9 +9,7 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Accounts } from './accounts.js';
 import { Categories } from '../categories/categories.js';
-import { Incomes } from '../incomes/incomes.js';
-import { Expenses } from '../expences/expenses.js';
-import { Projects } from '../projects/projects.js';
+import { Transactions } from '../transactions/transactions.js'
 
 export const insert = new ValidatedMethod({
     name: 'accounts.insert',
@@ -180,9 +178,7 @@ export const userRemove = new ValidatedMethod({
         const {owner} = account;
          Accounts.remove({owner: owner});
          Categories.remove({owner: owner});
-         Incomes.remove({owner: owner});
-         Expenses.remove({owner: owner});
-         Projects.remove({owner: owner});
+         Transactions.remove({owner: owner});
          Meteor.users.remove({_id: owner});
     }
 });

@@ -167,7 +167,7 @@ class DashboardPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name == 'filterBy' ? val : null, {[e.target.name]: val});
+        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name === 'filterBy' ? val : null, {[e.target.name]: val});
     }
 
     accounts(){
@@ -225,7 +225,7 @@ class DashboardPage extends Component {
             win.location = url;
             window.open = oldOpen;
             win.focus();
-        }
+        };
 
         Meteor.call('statistics.generateReport', {params } , function(err, res){
             if (err) {
@@ -256,7 +256,7 @@ class DashboardPage extends Component {
             </div>
         );
         return (
-            this.state.filterBy == 'range' ?  dropDowns : null
+            this.state.filterBy === 'range' ?  dropDowns : null
         )
     }
     renderTotalIncomes(){
@@ -350,10 +350,10 @@ class DashboardPage extends Component {
                                     {this.renderDateRange()}
                                 </Card>
                                 <Card theme={theme} className={theme.responsiveCardSecond}>
-                                    {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
+                                    {this.state.totalIncomes !== null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
                                 <Card theme={theme} className={theme.responsiveCardSecond}>
-                                    {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
+                                    {this.state.totalExpenses !== null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
@@ -363,7 +363,7 @@ class DashboardPage extends Component {
                             <Card className="card-box">
                                 <div className={theme.availableSection}>
                                     <Card theme={cardBackgroundTheme}>
-                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                        {this.state.availableBalance !== null ? this.availableBalance() : <Loader />}
                                     </Card>
                                 </div>
                             </Card>

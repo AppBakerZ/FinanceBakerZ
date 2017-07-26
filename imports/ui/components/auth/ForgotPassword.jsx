@@ -99,7 +99,7 @@ class ForgotPassword extends Component {
     {
         return (
             <div>
-                {this.state.isPassword == false ? this.showEmail() : this.showPassword()}
+                {this.state.isPassword === false ? this.showEmail() : this.showPassword()}
             </div>
         )
     }

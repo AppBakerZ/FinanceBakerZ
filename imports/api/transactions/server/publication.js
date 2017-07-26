@@ -26,3 +26,43 @@ Meteor.publish('transactions.single', function (id) {
         _id: id
     });
 });
+
+//publish only Transaction (incomes)
+Meteor.publish('transactions.incomes', function (limit) {
+    new SimpleSchema({
+        limit: {type: Number}
+    }).validate({limit});
+
+
+    return Transactions.find(
+        {
+            owner: this.userId,
+            type: 'income'
+        },
+        {
+            limit: limit,
+            sort: {
+                transactionAt: -1
+            }
+        });
+});
+
+//publish only Transaction (expenses)
+Meteor.publish('transactions.expenses', function (limit) {
+    new SimpleSchema({
+        limit: {type: Number}
+    }).validate({limit});
+
+
+    return Transactions.find(
+        {
+            owner: this.userId,
+            type: 'expense'
+        },
+        {
+            limit: limit,
+            sort: {
+                transactionAt: -1
+            }
+        });
+});

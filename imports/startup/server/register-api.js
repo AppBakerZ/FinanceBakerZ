@@ -5,14 +5,9 @@ import '../../api/auth/methods.js';
 import '../../api/accounts/methods.js';
 import '../../api/accounts/server/publications.js';
 
-import '../../api/incomes/methods.js';
-import '../../api/incomes/server/publications.js';
-
-import '../../api/expences/methods.js';
-import '../../api/expences/server/publications.js';
 import '../../api/transactions/transactions.js';
 import '../../api/transactions/server/publication.js';
-import '../../api/transactions/server/methods.js';
+import '../../api/transactions/methods.js';
 
 import '../../api/categories/methods.js';
 import '../../api/categories/server/publications.js';

@@ -6,8 +6,7 @@ import { Card, Table, Button } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '/imports/api/incomes/incomes.js';
-import { Expenses } from '/imports/api/expences/expenses.js';
+import { Transactions } from '/imports/api/transactions/transactions.js';
 
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 
@@ -84,13 +83,13 @@ class RecentActivities extends Component {
         let incomes = this.props.incomes.map(function(i){
             return {
                 icon: <Arrow primary width='16px' height='16px' />,
-                projects: i.type == "project" ? i.project.name || i.project : i.type,
+                projects: i.type === "project" ? i.project.name || i.project : i.type,
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>;
         const add =
             <div className={theme.errorShowIncomes}>
                 <Link to={ `/app/transactions/income/add/new`}>
@@ -108,7 +107,7 @@ class RecentActivities extends Component {
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
+                    <Link to={`/app/transactions/?type=incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
                 </div>
             </div>
         )
@@ -129,7 +128,7 @@ class RecentActivities extends Component {
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>;
         const add =
             <div className={theme.errorShowExpenses}>
                 <Link to={`/app/transactions/expense/add/new`}>
@@ -146,7 +145,7 @@ class RecentActivities extends Component {
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
+                    <Link to={`/app/transactions/?type=expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
                 </div>
             </div>
         )
@@ -162,15 +161,27 @@ RecentActivities.propTypes = {
 };
 
 export default createContainer(() => {
-    const incomesHandle = Meteor.subscribe('incomes', 5);
+    const incomesHandle = Meteor.subscribe('transactions.incomes', 5);
     const incomesLoading = !incomesHandle.ready();
-    const incomes = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const incomes = Transactions.find({
+        type: 'income'
+    }, {
+        fields: {
+            amount: 1, type: 1, project: 1
+        }
+    }).fetch();
     const incomesExists = !incomesLoading && !!incomes.length;
 
 
-    const expensesHandle = Meteor.subscribe('expenses', 5);
+    const expensesHandle = Meteor.subscribe('transactions.expenses', 5);
     const expensesLoading = !expensesHandle.ready();
-    const expenses = Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch();
+    const expenses = Transactions.find({
+        type: 'expense'
+    }, {
+        fields: {
+            amount: 1, 'category': 1
+        }
+    }).fetch();
     const expensesExists = !expensesLoading && !!expenses.length;
 
     return {

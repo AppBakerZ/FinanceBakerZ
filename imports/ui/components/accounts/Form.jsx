@@ -62,17 +62,17 @@ class Form extends Component {
     }
     setBanks(country){
 
-        let bankIcons = country == 'All' ? Object.values(bankFonts).reduce((prev, curr) => [...prev, ...curr]) : bankFonts[country];
+        let bankIcons = country === 'All' ? Object.values(bankFonts).reduce((prev, curr) => [...prev, ...curr]) : bankFonts[country];
         this.banks = bankIcons.map((font, index) => {
 
             index++;
             //delete pre keys if attach.
             delete font.removeRightBorder;
             delete font.removeBottomBorder;
-            if(index % 3 == 0){
+            if(index % 3 === 0){
                 font.removeRightBorder = true
             }
-            let lastItems = bankIcons.length % 3 == 0 ? 3 : bankIcons.length % 3;
+            let lastItems = bankIcons.length % 3 === 0 ? 3 : bankIcons.length % 3;
             if(index > bankIcons.length - lastItems){
                 font.removeBottomBorder = true
             }
@@ -155,7 +155,7 @@ class Form extends Component {
     }
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        if(e.target.name == 'country')
+        if(e.target.name === 'country')
             this.setBanks(val)
     }
     bankIcons(bank){

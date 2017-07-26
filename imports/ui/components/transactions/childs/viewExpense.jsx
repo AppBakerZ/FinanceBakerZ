@@ -28,8 +28,8 @@ class viewExpense extends Component {
 
     removeTransaction(){
         const { id } = this.props.params;
-        Meteor.call('expenses.remove', {
-            expense: {
+        Meteor.call('transactions.remove', {
+            transaction: {
                 _id: id
             }
         }, (err, response) => {
@@ -129,7 +129,6 @@ viewExpense = createContainer((props) => {
     let accountId;
     Meteor.subscribe('transactions.single', id);
     Meteor.subscribe('accounts');
-    Meteor.subscribe('categories');
     const transaction = Transactions.findOne(id);
     transaction && (accountId = transaction.account);
     const account = Accounts.findOne(accountId);
