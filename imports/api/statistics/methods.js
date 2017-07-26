@@ -86,6 +86,10 @@ export const incomesGroupByMonth = new ValidatedMethod({
                     }
                 },
             }}]);
+        //
+        if(CountedArrayByMonths.length){
+            CountedArrayByMonths = _.sortBy(CountedArrayByMonths, '_id')
+        }
 
         /**** although old method changed but don't remove untill production check :) *****/
         //both run different because match phase is different
