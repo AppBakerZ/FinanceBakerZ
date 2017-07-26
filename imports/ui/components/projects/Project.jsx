@@ -99,7 +99,10 @@ class ProjectPage extends Component {
 
         this.state = {
             filter : {
-                client : {}
+                name: '',
+                client : {
+                    name: ''
+                }
             },
 
             removeConfirmMessage: false,

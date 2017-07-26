@@ -5,7 +5,7 @@ import theme from './theme';
 
 
 
-
+let computation;
 export default class ConnectionStatus extends Component {
     constructor(props) {
         super(props);
@@ -19,30 +19,36 @@ export default class ConnectionStatus extends Component {
         };
 
         //check for connection status
-        this.connectionStatus = this.connectionStatus.bind(this);
+        this.connectionStatus.bind(this);
+    }
+
+    componentDidMount(){//check for connection status
         this.connectionStatus();
     }
     connectionStatus(){
         //TODO: Remove jQuery selector when upgrade to toolbox 2.0
         let $body = $('body');
-        Tracker.autorun(() => {
-
+        computation = Tracker.autorun(() => {
             let status = Meteor.status().status;
-            //added extra checks to remove warnings
-            if(status !== 'connected' && this.state) {
+
+            if(status !== 'connected') {
                 $body.addClass('disconnected');
                 this.setState({
                     connectionBar: true,
                     barMessage: "Unable to connect to the internet. Please check your network settings."
                 });
             }
-            else if(this.state.connectionBar){
+            else {
                 this.setState({ connectionBar: false });
                 setTimeout(() => {
                     $body.removeClass('disconnected');
                 }, 3000)
             }
         });
+    }
+
+    componentWillUnmount(){
+        computation.stop()
     }
     render() {
         return (

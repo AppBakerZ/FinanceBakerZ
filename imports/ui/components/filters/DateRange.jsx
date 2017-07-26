@@ -47,10 +47,7 @@ class DateRange extends Component {
         if( new Date(query[dateFilter]).getTime() !== new Date(date).getTime() ){
             this.setState([e.target.name]);
             query[dateFilter] = moment(date).format();
-            history.push({
-                pathname: pathname,
-                query: query
-            });
+            routeHelpers.changeRoute(pathname, 0, query);
         }
     }
     render() {
