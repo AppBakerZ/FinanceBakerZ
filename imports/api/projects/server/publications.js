@@ -52,11 +52,12 @@ Meteor.publish('projects', function(query){
 
     query.owner =  this.userId;
 
-    //omit all undefined or null params
     query = _.omit(query, (value) => {
+        //if empty obj then neglect it
         if(_.isObject(value)) {
             return !_.keys(value).length
         }
+        //remove empty values too
         return !value
     });
 

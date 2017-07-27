@@ -211,7 +211,6 @@ class ProjectPage extends Component {
     handleScroll(event) {
         let infiniteState = event.nativeEvent;
         if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
-            console.log('handleScroll');
             let copyQuery = query.get();
             copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber += 1);
             query.set(copyQuery);
@@ -226,6 +225,9 @@ class ProjectPage extends Component {
         filter[label] = val;
         if(label === 'name'){
             updateFilter('localProjects', 'projectName', val);
+        }
+        else{
+            updateFilter('localProjects', label, val);
         }
         if(label === 'client.name'){
             filter['client']['name'] = val;
@@ -365,23 +367,21 @@ ProjectPage = createContainer(() => {
         name: 'localProjects'
     });
     local.projectName === '' && (local.projectName = 'all');
+    local.client.name === '' && (local.client.name = 'all');
     const projectsHandle = Meteor.subscribe('projects', {
         name: local.projectName === 'all' ? {} : {
             $regex: local.projectName
         },
-        // 'client': (local.client.name === 'all' || '') ? '' : {
-        //     name: {
-        //         $regex: local.clientName
-        //     }
-        // },
+        'client.name': local.client.name === 'all' ? {} : {
+            $regex: local.client.name
+        },
         status: local.status,
         limit : local.limit,
         skip: local.skip,
     });
 
-    // const projectsHandle = Meteor.subscribe('projects', query.get());
     const projectsLoading = !projectsHandle.ready();
-    const projects = Projects.find({}).fetch();
+    const projects = Projects.find().fetch();
     const projectsExists = !projectsLoading && !!projects.length;
     return {
         local: LocalCollection.findOne({
