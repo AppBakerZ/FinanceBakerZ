@@ -13,7 +13,7 @@ import '../../api/categories/methods.js';
 import '../../api/categories/server/publications.js';
 
 import '../../api/projects/methods.js';
-import '../../api/projects/server/publicatiions.js';
+import '../../api/projects/server/publications.js';
 
 import '../../api/transactions/server/publications.js';
 

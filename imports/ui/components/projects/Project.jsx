@@ -223,8 +223,10 @@ class ProjectPage extends Component {
         let copyQuery = query.get(),
             label = event.target.name,
             filter = _.extend(this.state.filter, this.state.filter);
-
         filter[label] = val;
+        if(label === 'name'){
+            updateFilter('localProjects', 'projectName', val);
+        }
         if(label === 'client.name'){
             filter['client']['name'] = val;
         }
@@ -358,11 +360,33 @@ ProjectPage.propTypes = {
 };
 
 ProjectPage = createContainer(() => {
-    const projectsHandle = Meteor.subscribe('projects', query.get());
+
+    const local = LocalCollection.findOne({
+        name: 'localProjects'
+    });
+    local.projectName === '' && (local.projectName = 'all');
+    const projectsHandle = Meteor.subscribe('projects', {
+        name: local.projectName === 'all' ? {} : {
+            $regex: local.projectName
+        },
+        // 'client': (local.client.name === 'all' || '') ? '' : {
+        //     name: {
+        //         $regex: local.clientName
+        //     }
+        // },
+        status: local.status,
+        limit : local.limit,
+        skip: local.skip,
+    });
+
+    // const projectsHandle = Meteor.subscribe('projects', query.get());
     const projectsLoading = !projectsHandle.ready();
-    const projects = Projects.find().fetch();
+    const projects = Projects.find({}).fetch();
     const projectsExists = !projectsLoading && !!projects.length;
     return {
+        local: LocalCollection.findOne({
+            name: 'localProjects'
+        }),
         projectsLoading,
         projects,
         projectsExists
