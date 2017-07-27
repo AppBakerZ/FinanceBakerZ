@@ -69,7 +69,9 @@ export const insert = new ValidatedMethod({
             transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
         }
         else if(transaction.category){
-            transaction.category._id && (transaction.category.name = Categories.findOne(transaction.category._id).name);
+                let category = Categories.findOne(transaction.category._id);
+                transaction.category.name = category.name;
+                transaction.category.icon = category.icon;
         }
         return Transactions.insert(transaction);
     }
@@ -136,8 +138,10 @@ export const update = new ValidatedMethod({
         if(transaction.project){
             transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
         }
-        else if (transaction.category){
-            transaction.category._id && (transaction.category.name = Categories.findOne(transaction.category._id).name);
+        else if( transaction.category ){
+            let category = Categories.findOne(transaction.category._id);
+            transaction.category.name = category.name;
+            transaction.category.icon = category.icon;
         }
         return Transactions.update(_id, {$set: transaction});
     }
