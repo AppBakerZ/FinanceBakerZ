@@ -6,7 +6,6 @@ import moment from 'moment';
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
-import { ReactiveVar } from 'meteor/reactive-var'
 
 import Form from './Form.jsx';
 import ProjectDetail from './ProjectDetail.jsx';
@@ -20,12 +19,7 @@ import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
-const RECORDS_PER_PAGE = 8;
-
-let pageNumber = 1,
-    query = new ReactiveVar({
-        limit : RECORDS_PER_PAGE * pageNumber
-    });
+const RECORDS_PER_PAGE = 10;
 
 const il8n = defineMessages({
     NO_PROJECTS_ADDED: {
@@ -207,20 +201,10 @@ class ProjectPage extends Component {
         this.closePopup()
     }
 
-    /*************** Infinite scroll ***************/
-    handleScroll(event) {
-        let infiniteState = event.nativeEvent;
-        if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
-            let copyQuery = query.get();
-            copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber += 1);
-            query.set(copyQuery);
-        }
-    }
 
     /*************** onChange filter value***************/
     onChangeFilter(val, event){
-        let copyQuery = query.get(),
-            label = event.target.name,
+        let label = event.target.name,
             filter = _.extend(this.state.filter, this.state.filter);
         filter[label] = val;
         if(label === 'name'){
@@ -233,26 +217,13 @@ class ProjectPage extends Component {
             filter['client']['name'] = val;
         }
         this.setState({ filter});
-        if(val){
-            copyQuery[label] = (label !== 'status') ? { $regex : val} : val;
-        }
-        else{
-            delete  copyQuery[label]
-        }
-
-        pageNumber = 1;
-        copyQuery.limit  = RECORDS_PER_PAGE * pageNumber;
-        query.set(copyQuery);
     }
 
     resetStatusFilter(){
-        let copyQuery = query.get(),
-            filter = _.extend(this.state.filter, this.state.filter);
-
+        let filter = _.extend(this.state.filter, this.state.filter);
+        updateFilter('localProjects', 'status', '');
         filter.status = '';
         this.setState({ filter});
-        delete copyQuery.status;
-        query.set(copyQuery);
     }
 
     renderProjectTable() {
@@ -303,7 +274,7 @@ class ProjectPage extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         return (
-            <div className="projects"  onScroll={this.handleScroll}>
+            <div className="projects">
                 <div className="container">
                     <div>
                         <div className={theme.inputField}>
@@ -366,13 +337,13 @@ ProjectPage = createContainer(() => {
     const local = LocalCollection.findOne({
         name: 'localProjects'
     });
-    local.projectName === '' && (local.projectName = 'all');
-    local.client.name === '' && (local.client.name = 'all');
+
+
     const projectsHandle = Meteor.subscribe('projects', {
-        name: local.projectName === 'all' ? {} : {
+        name: local.projectName === '' ? {} : {
             $regex: local.projectName
         },
-        'client.name': local.client.name === 'all' ? {} : {
+        'client.name': local.client.name === '' ? {} : {
             $regex: local.client.name
         },
         status: local.status,
