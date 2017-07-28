@@ -30,8 +30,9 @@ class TransactionPage extends Component {
         dateTo = query.dateTo || moment().startOf('today').format();
 
 
-        //first update skip if given
-        params.number && updateFilter('reports', 'skip', Math.ceil(params.number * local.limit));
+        //first update skip if given else set initial
+        let number = params.number || 0;
+        updateFilter('reports', 'skip', Math.ceil(number * local.limit));
 
         //filters
         updateFilter('reports', 'type', query.type || 'both');

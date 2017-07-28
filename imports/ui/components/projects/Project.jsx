@@ -9,7 +9,7 @@ import { Meteor } from 'meteor/meteor';
 
 import Form from './Form.jsx';
 import ProjectDetail from './ProjectDetail.jsx';
-import Loader from '/imports/ui/components/loader/Loader.jsx';
+// import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
@@ -123,6 +123,14 @@ class ProjectPage extends Component {
                 value: 'completed'
             }
         ];
+    }
+
+    componentWillUpdate(nextProps) {
+        const { location, params, local } = nextProps;
+
+        //first update skip if given else set initial
+        let number = params.number || 0;
+        updateFilter('localProjects', 'skip', Math.ceil(number * local.limit));
     }
     onRowClick(index){
         // console.log('this.props.projects[index] ', this.props.projects[index]);
@@ -267,7 +275,7 @@ class ProjectPage extends Component {
         return (
             <Card theme={tableTheme}>
                 { this.props.projectsExists ||  projects.length ? table : something}
-                { this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
+                {/*{ this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}*/}
             </Card>
         )
     }
@@ -319,7 +327,8 @@ class ProjectPage extends Component {
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}
+                        {/*{this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}*/}
+                        { this.renderProjectTable() }
                     </Card>
                     {this.popupTemplate()}
                 </div>

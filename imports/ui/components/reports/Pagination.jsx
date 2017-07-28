@@ -38,7 +38,6 @@ class Pagination extends Component {
 
         //set the params in case of greater than 0 else default
         routeHelpers.changeRoute(`${pathName}/${selected}`, 0, query)
-        // selected || routeHelpers.changeRoute(pathName, 0, query);
         let skip = Math.ceil(selected * this.props.local.limit);
 
         // updateFilter('reports', 'skip', skip)
