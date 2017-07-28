@@ -64,5 +64,12 @@ Meteor.publish('projects', function(query){
     delete query.limit;
     delete query.skip;
 
-    return Projects.find(query, options);
+    return [
+        new Counter('projectsCount', Projects.find(query, {
+            sort: {
+                startAt: -1
+            }
+        })),
+        Projects.find(query, options)
+    ]
 });

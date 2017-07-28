@@ -1,6 +1,6 @@
 .projects{
     flex: 1;
-    display:  flex;
+    /*display:  flex;*/
     position: relative;
     overflow: auto;
 }

@@ -96,9 +96,9 @@ class Il8n extends Component {
                         <Route path="settings" components={{ content: SettingsPage }}>
                             <Route path=":id" />
                         </Route>
-                        <Route path="projects" components={{ content: ProjectPage}}>
+                        <Route path="projects(/paginate)(/:number)" components={{ content: ProjectPage}}>
                         </Route>
-                        <Route path="transactions" components={{ content: TransactionPage}}>
+                        <Route path="transactions(/paginate)(/:number)" components={{ content: TransactionPage}}>
                             <Route path="incomes" >
                             </Route>
                             <Route path="expenses" >

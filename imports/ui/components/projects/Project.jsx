@@ -10,6 +10,7 @@ import { Meteor } from 'meteor/meteor';
 import Form from './Form.jsx';
 import ProjectDetail from './ProjectDetail.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
+import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
@@ -322,6 +323,7 @@ class ProjectPage extends Component {
                     </Card>
                     {this.popupTemplate()}
                 </div>
+                <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/>
             </div>
         );
     }
@@ -337,6 +339,8 @@ ProjectPage = createContainer(() => {
     const local = LocalCollection.findOne({
         name: 'localProjects'
     });
+
+    const pageCount = Counter.get('projectsCount');
 
 
     const projectsHandle = Meteor.subscribe('projects', {
@@ -358,6 +362,7 @@ ProjectPage = createContainer(() => {
         local: LocalCollection.findOne({
             name: 'localProjects'
         }),
+        pageCount,
         projectsLoading,
         projects,
         projectsExists

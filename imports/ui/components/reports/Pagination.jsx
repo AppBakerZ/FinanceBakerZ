@@ -27,13 +27,21 @@ class Pagination extends Component {
         const { location, history } = parentProps;
         let query = location.query;
         let selected = data.selected;
+        let pathName = location.pathname;
+        let paginationExists = (pathName.indexOf('paginate') !== -1);
+        if( !paginationExists ){
+            pathName = `${pathName}/paginate`;
+        }
+        else{
+            pathName = pathName = pathName.slice(0, pathName.lastIndexOf('/'))
+        }
 
         //set the params in case of greater than 0 else default
-        selected && routeHelpers.changeRoute(`/app/reports/paginate/${selected}`, 0, query)
-        selected || routeHelpers.changeRoute("/app/reports", 0, query);
+        routeHelpers.changeRoute(`${pathName}/${selected}`, 0, query)
+        // selected || routeHelpers.changeRoute(pathName, 0, query);
         let skip = Math.ceil(selected * this.props.local.limit);
 
-        updateFilter('reports', 'skip', skip)
+        // updateFilter('reports', 'skip', skip)
     }
 
     render() {

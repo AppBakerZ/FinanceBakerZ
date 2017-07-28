@@ -46,7 +46,7 @@ class TransactionsType extends Component {
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         //whenever the transaction type change skip 0
-        updateFilter('reports', 'skip', 0);
+        // updateFilter('reports', 'skip', 0);
         // transaction filter
         if( query.type !== type ){
             query.type = type;
