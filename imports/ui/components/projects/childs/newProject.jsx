@@ -238,7 +238,7 @@ class NewProjectPage extends Component {
         let { id } = this.props.params;
         let isNew = id === 'new';
         if( !isNew ){
-            project && (project.clientName = project.client.name);
+            Object.keys(project).length && (project.clientName = project.client.name);
             this.setState(project);
             this.setCurrentRoute(isNew);
         }
