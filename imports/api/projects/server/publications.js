@@ -73,3 +73,10 @@ Meteor.publish('projects', function(query){
         Projects.find(query, options)
     ]
 });
+
+Meteor.publish('projects.single', function (id) {
+    return Projects.find({
+        owner: this.userId,
+        _id: id
+    });
+});

@@ -141,7 +141,8 @@ class ProjectPage extends Component {
     }
     onRowClick(index){
         // console.log('this.props.projects[index] ', this.props.projects[index]);
-        this.openPopup('show', this.props.projects[index])
+        let id = this.props.projects[index]._id;
+        routeHelpers.changeRoute(`/app/projectDetail/${id}`);
     }
     popupTemplate(){
         return(
@@ -302,6 +303,10 @@ class ProjectPage extends Component {
         )
     }
 
+    addProject(){
+        routeHelpers.changeRoute('/app/projects/add/new');
+    }
+
     render() {
         const { formatMessage } = this.props.intl;
         return (
@@ -344,7 +349,7 @@ class ProjectPage extends Component {
                             icon='add'
                             label={formatMessage(il8n.ADD_NEW_PROJECTS)}
                             flat
-                            onClick={this.openPopup.bind(this, 'add')}
+                            onClick={this.addProject.bind(this)}
                             theme={theme}
                             />
                     </div>

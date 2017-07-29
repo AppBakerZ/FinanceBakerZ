@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-toolbox';
 import theme from './theme';
+import { Projects } from '../../../api/projects/projects.js'
+import { createContainer } from 'meteor/react-meteor-data';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
@@ -54,6 +56,23 @@ class ProjectDetail extends Component {
             }
         });
     }
+
+    removeProject(){
+        const {_id} = this.state.selectedProject;
+        Meteor.call('projects.remove', {
+            project: {
+                _id
+            }
+        }, (err, response) => {
+            if(err){
+
+            }else{
+
+            }
+        });
+        // Close Popup
+        this.closePopup()
+    }
     render() {
         let {project} = this.props;
         const { formatMessage } = this.props.intl;
@@ -61,7 +80,7 @@ class ProjectDetail extends Component {
             <div className={theme.contentParent}>
                 <h4>{project.name}</h4>
                 <div className={theme.contentTwo}>
-                    <div> <p> <FormattedMessage {...il8n.CLIENT_NAME} /> </p> <p>{project.client.name}</p></div>
+                    <div> <p> <FormattedMessage {...il8n.CLIENT_NAME} /> </p> <p>{project.client && project.client.name}</p></div>
                     <div> <p> <FormattedMessage {...il8n.AMOUNT_AGREED} /></p> <p>{<FormattedNumber value={project.amount}/>}</p></div>
                     <div> <p><FormattedMessage {...il8n.AMOUNT_PAID} /></p> <p>{this.state.amountPaid === null ? 'Loading ...' : <FormattedNumber value={this.state.amountPaid}/>} </p></div>
                     <div> <p> <FormattedMessage {...il8n.AMOUNT_REMAINING} /> </p> <p>{ this.state.amountPaid === null ? 'Loading ...' : <FormattedNumber value={project.amount - this.state.amountPaid}/> } </p></div>
@@ -80,5 +99,14 @@ class ProjectDetail extends Component {
 ProjectDetail.propTypes = {
     intl: intlShape.isRequired
 };
+
+ProjectDetail = createContainer((props) => {
+    const { id } = props.params;
+    const transactionHandle = Meteor.subscribe('projects.single', id);
+    const project = Projects.findOne({_id: id});
+    return {
+        project: project ? project : {},
+    };
+}, ProjectDetail);
 
 export default injectIntl(ProjectDetail);

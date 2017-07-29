@@ -29,6 +29,9 @@ import NewExpense from '../../ui/components/transactions/childs/NewExpense';
 import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
 
+import NewProjectPage from '../../ui/components/projects/childs/newProject'
+import ProjectDetail  from '../../ui/components/projects/ProjectDetail'
+
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
@@ -96,8 +99,10 @@ class Il8n extends Component {
                         <Route path="settings" components={{ content: SettingsPage }}>
                             <Route path=":id" />
                         </Route>
+                        <Route path="projectDetail(/:id)" components={{ content: ProjectDetail}} />
                         <Route path="projects(/paginate)(/:number)" components={{ content: ProjectPage}}>
                         </Route>
+                        <Route path="projects(/:type)(/:id)" components={{ content: NewProjectPage}} />
                         <Route path="transactions(/paginate)(/:number)" components={{ content: TransactionPage}}>
                             <Route path="incomes" >
                             </Route>
