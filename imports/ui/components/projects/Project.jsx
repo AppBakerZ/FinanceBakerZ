@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 
@@ -127,10 +128,16 @@ class ProjectPage extends Component {
 
     componentWillUpdate(nextProps) {
         const { location, params, local } = nextProps;
+        let query = location.query;
 
         //first update skip if given else set initial
         let number = params.number || 0;
         updateFilter('localProjects', 'skip', Math.ceil(number * local.limit));
+
+        //filters
+        updateFilter('localProjects', 'projectName', query.projectName);
+        updateFilter('localProjects', 'client.name', query['client.name']);
+        updateFilter('localProjects', 'status', query.status);
     }
     onRowClick(index){
         // console.log('this.props.projects[index] ', this.props.projects[index]);
@@ -213,14 +220,27 @@ class ProjectPage extends Component {
 
     /*************** onChange filter value***************/
     onChangeFilter(val, event){
+        let { location } = this.props;
+        let query = location.query;
         let label = event.target.name,
             filter = _.extend(this.state.filter, this.state.filter);
         filter[label] = val;
+
+        //reset pagination on any filter change
+        let pathname = routeHelpers.resetPagination(location.pathname);
+
         if(label === 'name'){
-            updateFilter('localProjects', 'projectName', val);
+            // transaction filter
+            if( query.projectName !== val ){
+                query.projectName = val;
+                routeHelpers.changeRoute(pathname, 0, query)
+            }
         }
         else{
-            updateFilter('localProjects', label, val);
+            if( query[label] !== val ){
+                query[label] = val;
+                routeHelpers.changeRoute(pathname, 0, query)
+            }
         }
         if(label === 'client.name'){
             filter['client']['name'] = val;
@@ -229,10 +249,12 @@ class ProjectPage extends Component {
     }
 
     resetStatusFilter(){
+        let { location } = this.props;
+        let query = location.query;
+        delete query.status;
         let filter = _.extend(this.state.filter, this.state.filter);
-        updateFilter('localProjects', 'status', '');
         filter.status = '';
-        this.setState({ filter});
+        this.setState({ filter });
     }
 
     renderProjectTable() {
@@ -350,7 +372,6 @@ ProjectPage = createContainer(() => {
     });
 
     const pageCount = Counter.get('projectsCount');
-
 
     const projectsHandle = Meteor.subscribe('projects', {
         name: local.projectName === '' ? {} : {
