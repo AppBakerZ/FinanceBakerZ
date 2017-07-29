@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-toolbox';
 import theme from './theme';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 import { Projects } from '../../../api/projects/projects.js'
 import { createContainer } from 'meteor/react-meteor-data';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -57,8 +58,13 @@ class ProjectDetail extends Component {
         });
     }
 
+    editProject(){
+        let { id } = this.props.params;
+        routeHelpers.changeRoute(`/app/projects/edit/${id}`);
+    }
+
     removeProject(){
-        const {_id} = this.state.selectedProject;
+        const {_id} = this.props.params;
         Meteor.call('projects.remove', {
             project: {
                 _id
@@ -70,8 +76,6 @@ class ProjectDetail extends Component {
 
             }
         });
-        // Close Popup
-        this.closePopup()
     }
     render() {
         let {project} = this.props;
@@ -88,8 +92,8 @@ class ProjectDetail extends Component {
                 </div>
 
                 <div className={theme.buttonBox}>
-                    <Button label= {formatMessage(il8n.EDIT_INFORMATION)} raised accent onClick={this.props.openPopup.bind(null, 'edit', project)} />
-                    <Button label= {formatMessage(il8n.REMOVE_PROJECT)} raised accent onClick={this.props.openPopup.bind(null, 'remove', project)} />
+                    <Button label= {formatMessage(il8n.EDIT_INFORMATION)} raised accent onClick={this.editProject.bind(this)} />
+                    <Button label= {formatMessage(il8n.REMOVE_PROJECT)} raised accent onClick={this.removeProject.bind(this)} />
                 </div>
             </div>
         );
