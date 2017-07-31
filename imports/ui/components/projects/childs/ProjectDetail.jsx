@@ -65,37 +65,11 @@ class ProjectDetail extends Component {
         routeHelpers.changeRoute(`/app/projects/edit/${this.props.params.id}`);
     }
 
-    removeTransaction(){
-        const { id } = this.props.params;
-        Meteor.call('transactions.remove', {
-            transaction: {
-                _id: id
-            }
-        }, (err, response) => {
-            if(err){
-                this.setState({
-                    active: true,
-                    barMessage: err.reason,
-                    barIcon: 'error_outline',
-                    barType: 'cancel'
-                });
-            }else{
-                routeHelpers.changeRoute('/app/reports', 1200);
-                this.setState({
-                    active: true,
-                    barMessage: 'Expense deleted successfully',
-                    barIcon: 'done',
-                    barType: 'accept'
-                });
-            }
-        });
-    }
-
     removeProject(){
-        const {_id} = this.props.params;
+        const { id } = this.props.params;
         Meteor.call('projects.remove', {
             project: {
-                _id
+                _id: id
             }
         }, (err, response) => {
             if(err){
@@ -166,7 +140,7 @@ class ProjectDetail extends Component {
                             <h5><FormattedMessage {...il8n.CLIENT_NAME} />: <span>{project.client && project.client.name}</span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_AGREED} />: <span><FormattedNumber value={amount || 0}/></span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_PAID} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{amountPaid === null ? 'Loading ...' : <FormattedNumber value={amountPaid || 0}/>}</span></h5>
-                            <h5><FormattedMessage {...il8n.AMOUNT_REMAINING} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{ amountPaid === null ? 'Loading ...' : <FormattedNumber value={(amountPaid - amountPaid) || 0}/> } </span></h5>
+                            <h5><FormattedMessage {...il8n.AMOUNT_REMAINING} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{ amountPaid === null ? 'Loading ...' : <FormattedNumber value={(amount - amountPaid) || 0}/> } </span></h5>
                             <h5><FormattedMessage {...il8n.PROJECT_STATUS} />: <span className={theme.price}>{status} </span></h5>
                         </div>
                     </div>
@@ -183,7 +157,7 @@ ProjectDetail.propTypes = {
 
 ProjectDetail = createContainer((props) => {
     const { id } = props.params;
-    const transactionHandle = Meteor.subscribe('projects.single', id);
+    const projectHandle = Meteor.subscribe('projects.single', id);
     const project = Projects.findOne({_id: id});
     return {
         project: project ? project : {},

@@ -1,3 +1,86 @@
+.reports{
+  width: 100%;
+  padding: 30px 30px 0;
+  overflow: auto;
+  div{
+    div{
+      label{
+        color: #333333;
+      }
+    }
+  }
+}
+
+.paginationList{
+  margin-right: 0.3em;
+  color: blue;
+  user-select: none;
+  cursor: pointer;
+  ul{
+    text-align: center;
+    margin: 40px 0 20px 0;
+    cursor: auto;
+    li{
+      display: inline-block;
+      margin-left: 15px;
+      font-size: 22px;
+      color: #333;
+      a{
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+////////////////////// new income styling /////////////////////////////
+.incomeCard{
+  margin: 30px auto 0;
+  width: 96%;
+  display: inline-table;
+  padding-bottom: 20px;
+  h3{
+    background: #008142;
+    color: #fff;
+    letter-spacing: 0.1rem;
+    font-size: 2.5rem;
+    display: block;
+    text-transform: capitalize;
+    padding: 23px 30px 17px 30px;
+  }
+  .incomeForm{
+    padding: 30px;
+    div{
+      ul{
+        position: absolute;
+        li{
+          width: 20%;
+        }
+      }
+      label{
+        color: #333333;
+      }
+      div{
+        label{
+          color: #333333;
+        }
+      }
+    }
+  }
+  button{
+    margin: 40px auto 0;
+    display: block;
+    padding: 2px 40px 0;
+  }
+}
+
+////////////////////// new income styling /////////////////////////////
+
+:global {
+  .active{
+    color: $color-primary !important;
+  }
+}
+
 .viewExpense{
   padding: 30px;
   width: 100%;
