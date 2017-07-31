@@ -30,7 +30,7 @@ import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
 
 import NewProjectPage from '../../ui/components/projects/childs/newProject'
-import ProjectDetail  from '../../ui/components/projects/ProjectDetail'
+import ProjectDetail  from '../../ui/components/projects/childs/ProjectDetail'
 
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'

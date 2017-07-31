@@ -9,7 +9,7 @@ import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, 
 import { Meteor } from 'meteor/meteor';
 
 import Form from './Form.jsx';
-import ProjectDetail from './ProjectDetail.jsx';
+import ProjectDetail from './childs/ProjectDetail.jsx';
 // import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 
