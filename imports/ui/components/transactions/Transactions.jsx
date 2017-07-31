@@ -66,7 +66,6 @@ export default createContainer(() => {
     });
     const pageCount = Counter.get('transactionsCount');
     const totalCount = Counter.get('totalCount');
-    console.log(totalCount);
 
     return {
         totalCount,
