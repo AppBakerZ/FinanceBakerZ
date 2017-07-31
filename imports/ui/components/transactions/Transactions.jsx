@@ -51,7 +51,7 @@ class TransactionPage extends Component {
         return (
             <div className={theme.reports}>
                 <FilterBar parentProps={ this.props }/>
-                <TransactionsTable />
+                <TransactionsTable parentProps={this.props}/>
                 {pageCount ? <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/> : ''}
             </div>
         );
@@ -69,6 +69,7 @@ export default createContainer(() => {
     console.log(totalCount);
 
     return {
+        totalCount,
         local: local,
         pageCount: pageCount,
     };

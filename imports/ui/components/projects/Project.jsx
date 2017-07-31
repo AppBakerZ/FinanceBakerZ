@@ -129,6 +129,8 @@ class ProjectPage extends Component {
                 value: 'completed'
             }
         ];
+
+        this.updateFilters()
     }
 
     componentWillUpdate(nextProps) {
@@ -144,6 +146,17 @@ class ProjectPage extends Component {
         updateFilter('localProjects', 'client.name', query['client.name']);
         updateFilter('localProjects', 'status', query.status);
     }
+
+    updateFilters(){
+        const { location } = this.props;
+        let { filter } =  this.state;
+        let query = location.query;
+        query.projectName && (filter['name'] = query.projectName);
+        query['client.name'] && (filter['client']['name'] = query['client.name']);
+        query.status && (filter['status'] = query.status);
+        this.setState([filter])
+    }
+
     onRowClick(index){
         // console.log('this.props.projects[index] ', this.props.projects[index]);
         let id = this.props.projects[index]._id;
@@ -256,11 +269,13 @@ class ProjectPage extends Component {
 
     resetStatusFilter(){
         let { location } = this.props;
+        let { filter } = this.state;
         let query = location.query;
         delete query.status;
-        let filter = _.extend(this.state.filter, this.state.filter);
         filter.status = '';
         this.setState({ filter });
+        let pathname = routeHelpers.resetPagination(location.pathname);
+        routeHelpers.changeRoute(location.pathname, 0, query);
     }
 
     renderProjectTable() {
@@ -292,14 +307,6 @@ class ProjectPage extends Component {
                             selectable={false}
                             source={projects}
            />;
-      const something =
-            <div className={theme.projectNothing}>
-                <span className={theme.errorShow}><FormattedMessage {...il8n.NO_PROJECTS_ADDED} /></span>
-                <div className={theme.addProjectBtn}>
-                    <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
-                </div>
-                <span className={theme.errorShow}><FormattedMessage {...il8n.ADD_PROJECTS} /></span>
-            </div>;
         return (
             <Card theme={tableTheme}>
                 { projects.length ? table : this.props.totalCount ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}

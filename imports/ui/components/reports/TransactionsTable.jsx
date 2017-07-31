@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { Link, browserHistory } from 'react-router';
 
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -13,6 +12,9 @@ import {defineMessages, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import transactionsTable from './transactionsTable';
+import NothingFound from '../utilityComponents/NothingFound.jsx'
+import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
+
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { Transactions } from '../../../api/transactions/transactions';
@@ -88,8 +90,8 @@ class TransactionsTable extends Component {
 
     }
     render() {
-
         let transactions = this.props.transactions;
+        let { totalCount } = this.props.parentProps;
         let data = transactions.map(function(transaction){
             return {
                 leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
@@ -100,6 +102,12 @@ class TransactionsTable extends Component {
                 rightIcon: transaction.type === "income" ? <Arrow primary width='16px' height='16px' /> : <Arrow danger down width='16px' height='16px' />
             }
         });
+        const table = <Table theme={transactionsTable} model={this.getTableModel()}
+                             source={data}
+                             onRowClick={this.selectItem.bind(this)}
+                             selectable={false}
+                             heading={true}
+                        />;
 
         return (
             <Card className={transactionsTable.cardReport}>
@@ -131,12 +139,7 @@ class TransactionsTable extends Component {
                                 flat />
                     </div>
                 </div>
-                <Table theme={transactionsTable} model={this.getTableModel()}
-                       source={data}
-                       onRowClick={this.selectItem.bind(this)}
-                       selectable={false}
-                       heading={true}
-                />
+                { transactions.length ? table : totalCount ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         );
     }

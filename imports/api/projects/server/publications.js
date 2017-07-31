@@ -70,7 +70,7 @@ Meteor.publish('projects', function(query){
                 startAt: -1
             }
         })),
-        new Counter('totalCount', Projects.find({test: 'best'})),
+        new Counter('totalCount', Projects.find({})),
         Projects.find(query, options)
     ]
 });
