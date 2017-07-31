@@ -10,7 +10,8 @@ import { Meteor } from 'meteor/meteor';
 
 import Form from './Form.jsx';
 import ProjectDetail from './childs/ProjectDetail.jsx';
-// import Loader from '/imports/ui/components/loader/Loader.jsx';
+import NothingFound from '../utilityComponents/NothingFound.jsx'
+import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
@@ -299,17 +300,9 @@ class ProjectPage extends Component {
                 </div>
                 <span className={theme.errorShow}><FormattedMessage {...il8n.ADD_PROJECTS} /></span>
             </div>;
-        const nothing =
-            <div className={theme.projectNothing}>
-                <span className={theme.errorShow}><FormattedMessage {...il8n.NO_PROJECTS_MATCHED} /></span>
-                <div className={theme.addProjectBtn}>
-                    <Button type='button' icon='search' raised primary onClick={this.openPopup.bind(this, 'add')} />
-                </div>
-                <span className={theme.errorShow}><FormattedMessage {...il8n.GENERALIZED_FILTER} /></span>
-            </div>;
         return (
             <Card theme={tableTheme}>
-                { projects.length ? table : this.props.totalCount ? nothing : something}
+                { projects.length ? table : this.props.totalCount ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         )
     }
