@@ -35,20 +35,6 @@ Meteor.publish('transaction', function(options) {
 });
 
 
-let datefilter = (options, query) => {
-    let dateQuery = {
-        $gte: new Date(options.dateFilter.start),
-        $lte: new Date(options.dateFilter.end)
-    };
-    let temp = {
-        $or: [{
-            transactionAt: dateQuery
-        }
-        ]};
-    query.$and.push(temp);
-};
-
-
 
 let filterByCategory = (options, query) => {
     query['category._id'] = {
@@ -77,6 +63,7 @@ let transactions = (options, query) => {
             skip: options.skip,
             limit: options.limit,
         }),
+        new Counter('totalCount', Transactions.find({})),
         new Counter('transactionsCount', Transactions.find(query, {
             sort: sortbyDate
         }))

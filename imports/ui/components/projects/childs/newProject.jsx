@@ -161,9 +161,8 @@ class NewProjectPage extends Component {
         if( !isNew ){
             Object.keys(project).length && (project.clientName = project.client.name);
             this.setState(project);
-            this.setCurrentRoute(isNew);
         }
-
+        this.setCurrentRoute(isNew);
     }
 
     onSubmit(event){
@@ -260,7 +259,7 @@ class NewProjectPage extends Component {
     renderButton (){
         const { formatMessage } = this.props.intl;
         let button;
-        if(!this.state.isNew){
+        if(this.state.isNew){
             button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_PROJECT_BUTTON)} raised primary /></div>
         }else{
             button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_PROJECT_BUTTON)} raised primary /></div>
@@ -273,7 +272,7 @@ class NewProjectPage extends Component {
         return (
             <div className={theme.incomeCard}>
                 <Card theme={theme}>
-                    <h3>{!this.props.project ? <FormattedMessage {...il8n.ADD_PROJECT} /> : <FormattedMessage {...il8n.UPDATE_PROJECT} />}</h3>
+                    <h3>{this.state.isNew ? <FormattedMessage {...il8n.ADD_PROJECT} /> : <FormattedMessage {...il8n.UPDATE_PROJECT} />}</h3>
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
 
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />

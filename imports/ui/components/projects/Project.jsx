@@ -21,11 +21,15 @@ import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
-const RECORDS_PER_PAGE = 10;
-
 const il8n = defineMessages({
     NO_PROJECTS_ADDED: {
         id: 'PROJECTS.NO_PROJECTS_ADDED'
+    },
+    GENERALIZED_FILTER: {
+        id: 'PROJECTS.GENERALIZED_FILTER'
+    },
+    NO_PROJECTS_MATCHED: {
+        id: 'PROJECTS.NO_PROJECTS_MATCHED'
     },
     ADD_PROJECTS: {
         id: 'PROJECTS.ADD_PROJECT_TO_SHOW'
@@ -295,10 +299,17 @@ class ProjectPage extends Component {
                 </div>
                 <span className={theme.errorShow}><FormattedMessage {...il8n.ADD_PROJECTS} /></span>
             </div>;
+        const nothing =
+            <div className={theme.projectNothing}>
+                <span className={theme.errorShow}><FormattedMessage {...il8n.NO_PROJECTS_MATCHED} /></span>
+                <div className={theme.addProjectBtn}>
+                    <Button type='button' icon='search' raised primary onClick={this.openPopup.bind(this, 'add')} />
+                </div>
+                <span className={theme.errorShow}><FormattedMessage {...il8n.GENERALIZED_FILTER} /></span>
+            </div>;
         return (
             <Card theme={tableTheme}>
-                { this.props.projectsExists ||  projects.length ? table : something}
-                {/*{ this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}*/}
+                { projects.length ? table : this.props.totalCount ? nothing : something}
             </Card>
         )
     }
@@ -309,6 +320,7 @@ class ProjectPage extends Component {
 
     render() {
         const { formatMessage } = this.props.intl;
+        let { pageCount } = this.props;
         return (
             <div className="projects">
                 <div className="container">
@@ -354,12 +366,12 @@ class ProjectPage extends Component {
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {/*{this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}*/}
                         { this.renderProjectTable() }
                     </Card>
                     {this.popupTemplate()}
                 </div>
-                <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/>
+                {pageCount ? <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/> : ''}
+
             </div>
         );
     }
@@ -377,6 +389,7 @@ ProjectPage = createContainer(() => {
     });
 
     const pageCount = Counter.get('projectsCount');
+    const totalCount = Counter.get('totalCount');
 
     const projectsHandle = Meteor.subscribe('projects', {
         name: local.projectName === '' ? {} : {
@@ -398,6 +411,7 @@ ProjectPage = createContainer(() => {
             name: 'localProjects'
         }),
         pageCount,
+        totalCount,
         projectsLoading,
         projects,
         projectsExists
