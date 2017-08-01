@@ -68,6 +68,18 @@ const il8n = defineMessages({
     STATUS: {
         id: 'PROJECTS.STATUS_OF_PROJECT'
     },
+    FIXED: {
+        id: 'PROJECTS.FIXED'
+    },
+    HOURLY: {
+        id: 'PROJECTS.HOURLY'
+    },
+    WEEKLY: {
+        id: 'PROJECTS.WEEKLY'
+    },
+    MONTHLY: {
+        id: 'PROJECTS.MONTHLY'
+    },
     PROGRESS: {
         id: 'PROJECTS.PROGRESS'
     },
@@ -143,6 +155,25 @@ class NewProjectPage extends Component {
             {
                 label: formatMessage(il8n.COMPLETED),
                 value: 'completed'
+            }
+        ];
+
+        this.types = [
+            {
+                label: formatMessage(il8n.FIXED),
+                value: 'fixed'
+            },
+            {
+                label: formatMessage(il8n.HOURLY),
+                value: 'hourly'
+            },
+            {
+                label: formatMessage(il8n.WEEKLY),
+                value: 'weekly'
+            },
+            {
+                label: formatMessage(il8n.MONTHLY),
+                value: 'monthly'
             }
         ];
     }
@@ -304,12 +335,13 @@ class NewProjectPage extends Component {
                                required
                         />
 
-                        <Input type='text' label={formatMessage(il8n.PROJECT_TYPE)}
-                               name='type'
-                               maxLength={ 50 }
-                               value={this.state.type}
-                               onChange={this.onChange.bind(this)}
-                               required
+                        <Dropdown theme={theme} className={theme.projectStatus}
+                                  source={this.types}
+                                  name='type'
+                                  onChange={this.onChange.bind(this)}
+                                  label={formatMessage(il8n.PROJECT_TYPE)}
+                                  value={this.state.type}
+                                  required
                         />
 
                         <Input type='number' label={formatMessage(il8n.PROJECT_AMOUNT)}
