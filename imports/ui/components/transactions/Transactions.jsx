@@ -30,8 +30,9 @@ class TransactionPage extends Component {
         dateTo = query.dateTo || moment().startOf('today').format();
 
 
-        //first update skip if given
-        params.number && updateFilter('reports', 'skip', Math.ceil(params.number * local.limit));
+        //first update skip if given else set initial
+        let number = params.number || 0;
+        updateFilter('reports', 'skip', Math.ceil(number * local.limit));
 
         //filters
         updateFilter('reports', 'type', query.type || 'both');
@@ -46,11 +47,12 @@ class TransactionPage extends Component {
     }
 
     render() {
+        let { pageCount } = this.props;
         return (
             <div className={theme.reports}>
                 <FilterBar parentProps={ this.props }/>
-                <TransactionsTable />
-                <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/>
+                <TransactionsTable parentProps={this.props}/>
+                {pageCount ? <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/> : ''}
             </div>
         );
     }
@@ -63,8 +65,10 @@ export default createContainer(() => {
         name: 'reports'
     });
     const pageCount = Counter.get('transactionsCount');
+    const totalCount = Counter.get('totalCount');
 
     return {
+        totalCount,
         local: local,
         pageCount: pageCount,
     };

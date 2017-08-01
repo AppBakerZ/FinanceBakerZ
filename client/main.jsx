@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { render } from 'react-dom';
 import moment from 'moment';
 
 import '/imports/startup/client';
@@ -16,6 +15,18 @@ LocalCollection.insert({
     dateFilter: '',
     dateFrom: moment().startOf('month').format(),
     dateTo: moment().startOf('today').format(),
+    limit: 10,
+    skip: 0
+});
+
+LocalCollection.insert({
+    name: 'localProjects',
+    projectName : '',
+    client : {
+        name: ''
+    },
+    type : '',
+    status : '',
     limit: 10,
     skip: 0
 });

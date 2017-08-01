@@ -17,6 +17,7 @@ import ForgotPassword from '../../ui/components/auth/ForgotPassword.jsx';
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
+// import categoryDetail from '../../ui/components/categories/childs/CategoryDetails.jsx';
 
 import ReportsPage from '../../ui/components/reports/Reports.jsx';
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
@@ -28,6 +29,9 @@ import NewIncome from '../../ui/components/transactions/childs/NewIncome';
 import NewExpense from '../../ui/components/transactions/childs/NewExpense';
 import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
+
+import NewProjectPage from '../../ui/components/projects/childs/newProject'
+import ProjectDetail  from '../../ui/components/projects/childs/ProjectDetail'
 
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'
@@ -91,14 +95,17 @@ class Il8n extends Component {
                         <Route path="dashboard" components={{ content: DashboardPage}} />
                         <Route path="accounts" components={{ content: AccountsPage }} />
                         <Route path="categories" components={{ content: CategoriesPage }} />
+                        {/*<Route path="categoryDetail(/:id)" components={{ content: categoryDetail}} />*/}
                         <Route path="reports(/paginate)(/:number)" components={{ content: ReportsPage }} />
 
                         <Route path="settings" components={{ content: SettingsPage }}>
                             <Route path=":id" />
                         </Route>
-                        <Route path="projects" components={{ content: ProjectPage}}>
+                        <Route path="projectDetail(/:id)" components={{ content: ProjectDetail}} />
+                        <Route path="projects(/paginate)(/:number)" components={{ content: ProjectPage}}>
                         </Route>
-                        <Route path="transactions" components={{ content: TransactionPage}}>
+                        <Route path="projects(/:type)(/:id)" components={{ content: NewProjectPage}} />
+                        <Route path="transactions(/paginate)(/:number)" components={{ content: TransactionPage}}>
                             <Route path="incomes" >
                             </Route>
                             <Route path="expenses" >
