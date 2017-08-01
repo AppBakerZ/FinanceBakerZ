@@ -119,6 +119,7 @@ class NewProjectPage extends Component {
         const { formatMessage } = this.props.intl;
 
         this.state = {
+            isNew: false,
             name: '',
             clientName: '',
             type: '',
@@ -289,7 +290,6 @@ class NewProjectPage extends Component {
                         />
 
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
-                               auto={false}
                                name='name'
                                value={this.state.name}
                                onChange={this.onChange.bind(this)}
@@ -297,7 +297,6 @@ class NewProjectPage extends Component {
                         />
 
                         <Input type='text' label={formatMessage(il8n.CLIENT_NAME)}
-                               auto={false}
                                name='clientName'
                                maxLength={ 50 }
                                value={this.state.clientName}
@@ -306,7 +305,6 @@ class NewProjectPage extends Component {
                         />
 
                         <Input type='text' label={formatMessage(il8n.PROJECT_TYPE)}
-                               auto={false}
                                name='type'
                                maxLength={ 50 }
                                value={this.state.type}
@@ -315,14 +313,12 @@ class NewProjectPage extends Component {
                         />
 
                         <Input type='number' label={formatMessage(il8n.PROJECT_AMOUNT)}
-                               auto={false}
                                name='amount'
                                value={this.state.amount}
                                onChange={this.onChange.bind(this)}
                         />
 
                         <Dropdown theme={theme} className={theme.projectStatus}
-                                  auto={false}
                                   source={this.statuses}
                                   name='status'
                                   onChange={this.onChange.bind(this)}

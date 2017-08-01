@@ -103,7 +103,8 @@ class ProjectPage extends Component {
                 name: '',
                 client : {
                     name: ''
-                }
+                },
+                status:''
             },
 
             removeConfirmMessage: false,
@@ -129,8 +130,6 @@ class ProjectPage extends Component {
                 value: 'completed'
             }
         ];
-
-        this.updateFilters()
     }
 
     componentWillUpdate(nextProps) {
@@ -145,6 +144,10 @@ class ProjectPage extends Component {
         updateFilter('localProjects', 'projectName', query.projectName);
         updateFilter('localProjects', 'client.name', query['client.name']);
         updateFilter('localProjects', 'status', query.status);
+    }
+
+    componentDidMount(){
+        this.updateFilters()
     }
 
     updateFilters(){
@@ -275,7 +278,7 @@ class ProjectPage extends Component {
         filter.status = '';
         this.setState({ filter });
         let pathname = routeHelpers.resetPagination(location.pathname);
-        routeHelpers.changeRoute(location.pathname, 0, query);
+        routeHelpers.changeRoute(pathname, 0, query);
     }
 
     renderProjectTable() {
@@ -288,7 +291,7 @@ class ProjectPage extends Component {
                 clientName: client && client.name,
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount}/> </span>)
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount || 0}/> </span>)
             };
         });
 
