@@ -132,6 +132,7 @@ class NewProjectPage extends Component {
 
         this.state = {
             isNew: false,
+            clientDetails: [],
             name: '',
             clientName: '',
             type: '',
@@ -181,6 +182,7 @@ class NewProjectPage extends Component {
 
 
     setCurrentRoute(value){
+        console.log('isNew Called', value);
         this.setState({
             isNew: value
         })
@@ -192,19 +194,41 @@ class NewProjectPage extends Component {
         let isNew = id === 'new';
         if( !isNew ){
             Object.keys(project).length && (project.clientName = project.client.name);
+            project = _.extend(this.state, project);
             this.setState(project);
         }
         this.setCurrentRoute(isNew);
     }
 
+    changeCustomField (idx, val)  {
+        const newShareholders = this.state.clientDetails.map((customField, sidx) => {
+            if (idx !== sidx) return customField;
+            return { ...customField, name : val };
+        });
+
+        this.setState({ clientDetails: newShareholders });
+    }
+
+    addCustomField () {
+        this.setState({
+            clientDetails: this.state.clientDetails.concat([{ name: '',}])
+        });
+    }
+
+    removeCustomField (idx, evt) {
+        this.setState({
+            clientDetails: this.state.clientDetails.filter((s, sidx) => idx !== sidx)
+        });
+    }
+
     onSubmit(event){
         event.preventDefault();
-        this.state.isNEW ? this.updateProject() : this.createProject();
+        this.state.isNew ? this.createProject() : this.updateProject();
         this.setState({loading: true})
     }
 
     createProject(){
-        const {name, clientName, type, amount, status, startAt} = this.state;
+        const {name, clientName, type, amount, status, startAt, clientDetails} = this.state;
         Meteor.call('projects.insert', {
             project: {
                 name,
@@ -320,6 +344,20 @@ class NewProjectPage extends Component {
                             type={this.state.barType}
                         />
 
+                        <h4>Client Details</h4>
+
+                        {this.state.clientDetails.map((customField, idx) => (
+                            <div className="customField" key={idx + 1}>
+                                <Input type='text' label={'customFields'}
+                                       name={customField.name}
+                                       value={customField.name}
+                                       onChange={this.changeCustomField.bind(this, idx)}
+                                       required
+                                />
+                                <div className={theme.addBtn}><Button icon='remove' onClick={this.removeCustomField.bind(this, idx)} raised primary /></div>
+                            </div>
+                        ))}
+                        <div className={theme.addBtn}><Button icon='add' onClick={this.addCustomField.bind(this)} raised primary /></div>
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
                                name='name'
                                value={this.state.name}
