@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import { _ } from 'underscore'
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 
@@ -182,7 +183,6 @@ class NewProjectPage extends Component {
 
 
     setCurrentRoute(value){
-        console.log('isNew Called', value);
         this.setState({
             isNew: value
         })
@@ -215,7 +215,7 @@ class NewProjectPage extends Component {
         });
     }
 
-    removeCustomField (idx, evt) {
+    removeCustomField (idx) {
         this.setState({
             clientDetails: this.state.clientDetails.filter((s, sidx) => idx !== sidx)
         });
@@ -229,12 +229,12 @@ class NewProjectPage extends Component {
 
     createProject(){
         const {name, clientName, type, amount, status, startAt, clientDetails} = this.state;
+        let clientObj = _.extend.apply(null, clientDetails);
+
         Meteor.call('projects.insert', {
             project: {
                 name,
-                client: {
-                    name: clientName
-                },
+                client: clientObj,
                 type,
                 amount: Number(amount),
                 status,
