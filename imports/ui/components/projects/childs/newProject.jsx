@@ -141,7 +141,8 @@ class NewProjectPage extends Component {
             status: '',
             startAt: '',
             active: false,
-            loading: false
+            loading: false,
+            customField: ''
         };
 
 
@@ -178,6 +179,20 @@ class NewProjectPage extends Component {
                 value: 'monthly'
             }
         ];
+        this.customFields = [
+            {
+                label: 'Name',
+                value: 'name'
+            },
+            {
+                label: 'Contact',
+                value: 'contact'
+            },
+            {
+                label: 'custom',
+                value: 'custom'
+            }
+        ]
     }
 
 
@@ -200,7 +215,7 @@ class NewProjectPage extends Component {
         this.setCurrentRoute(isNew);
     }
 
-    changeCustomField (idx, val)  {
+    changeClientDetails (idx, val)  {
         const newShareholders = this.state.clientDetails.map((customField, sidx) => {
             if (idx !== sidx) return customField;
             return { ...customField, name : val };
@@ -210,9 +225,27 @@ class NewProjectPage extends Component {
     }
 
     addCustomField () {
+        if (!this.state.customField){
+            this.setState({
+                active: true,
+                barMessage: 'you must select Custom Field name From Drop Down',
+                barIcon: 'error_outline',
+                barType: 'cancel'
+            });
+            return false;
+        }
         this.setState({
-            clientDetails: this.state.clientDetails.concat([{ name: '',}])
+            clientDetails: this.state.clientDetails.concat([{ name: this.state.customField}])
         });
+    }
+
+    changeCustomField (evt, val)  {
+        // const newShareholders = this.state.customFields.map((customField, sidx) => {
+        //     if (idx !== sidx) return customField;
+        //     return { ...customField, value : val };
+        // });
+        //
+        // this.setState({ clientDetails: newShareholders });
     }
 
     removeCustomField (idx) {
@@ -297,6 +330,8 @@ class NewProjectPage extends Component {
     }
 
     onChange (val, e) {
+        console.log(e.target.name)
+        console.log(val)
         this.setState({[e.target.name]: val});
     }
 
@@ -346,18 +381,18 @@ class NewProjectPage extends Component {
 
                         <h4>Client Details</h4>
 
-                        {this.state.clientDetails.map((customField, idx) => (
-                            <div className="customField" key={idx + 1}>
-                                <Input type='text' label={'customFields'}
-                                       name={customField.name}
-                                       value={customField.name}
-                                       onChange={this.changeCustomField.bind(this, idx)}
-                                       required
-                                />
-                                <div className={theme.addBtn}><Button icon='remove' onClick={this.removeCustomField.bind(this, idx)} raised primary /></div>
-                            </div>
-                        ))}
-                        <div className={theme.addBtn}><Button icon='add' onClick={this.addCustomField.bind(this)} raised primary /></div>
+                        {/*{this.state.clientDetails.map((customField, idx) => (*/}
+                            {/*<div className="customField" key={idx + 1}>*/}
+                                {/*<Input type='text' label={'customFields'}*/}
+                                       {/*name={customField.name}*/}
+                                       {/*value={customField.name}*/}
+                                       {/*onChange={this.changeClientDetails.bind(this, idx)}*/}
+                                       {/*required*/}
+                                {/*/>*/}
+                                {/*<div className={theme.addBtn}><Button icon='remove' onClick={this.removeCustomField.bind(this, idx)} raised primary /></div>*/}
+                            {/*</div>*/}
+                        {/*))}*/}
+                        {/*<div className={theme.addBtn}><Button icon='add' onClick={this.addCustomField.bind(this)} raised primary /></div>*/}
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
                                name='name'
                                value={this.state.name}
@@ -406,11 +441,11 @@ class NewProjectPage extends Component {
 
                         <h4 className={theme.clientHeading}>client details</h4>
                         <Dropdown theme={theme} className={theme.projectCustomField}
-                                  source={this.types}
-                                  name='type'
+                                  source={this.customFields}
+                                  name='customField'
                                   onChange={this.onChange.bind(this)}
                                   label={formatMessage(il8n.PROJECT_TYPE)}
-                                  value={this.state.type}
+                                  value={this.state.customField}
                                   required
                         />
                         <div className={theme.closeBtnParent}>
@@ -420,8 +455,28 @@ class NewProjectPage extends Component {
                                 raised
                             />
                         </div>
+
+
+                        {this.state.clientDetails.map((customField, idx) => (
+                            <div className="customField" key={idx + 1}>
+                                <Input className={theme.projectCustomField} type='text' label={customField.name}
+                                       name={customField.name}
+                                       value={customField.name}
+                                       onChange={this.changeClientDetails.bind(this, idx)}
+                                       required
+                                />
+                                <div className={theme.closeBtnParent}>
+                                    <Button onClick={this.removeCustomField.bind(this, idx)}
+                                        label=''
+                                        icon='close'
+                                        raised
+                                    />
+                                </div>
+                            </div>
+                        ))}
+
                         <div className={theme.btnParents}>
-                            <Button type='submit' icon='add' label="Add custom fields" raised primary />
+                            <Button icon='add' onClick={this.addCustomField.bind(this)} label="Add custom fields" raised primary />
                         </div>
 
 
