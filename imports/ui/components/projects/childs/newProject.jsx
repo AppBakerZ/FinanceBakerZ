@@ -223,7 +223,7 @@ class NewProjectPage extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        this.state.isNew ? this.createProject() : this.updateProject();
+        this.state.isNew ? this.createProject(): this.updateProject();
         this.setState({loading: true})
     }
 
