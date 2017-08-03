@@ -142,7 +142,8 @@ class NewProjectPage extends Component {
             startAt: '',
             active: false,
             loading: false,
-            customField: ''
+            customField: '',
+            customFields: []
         };
 
 
@@ -218,25 +219,38 @@ class NewProjectPage extends Component {
     changeClientDetails (idx, val)  {
         const newShareholders = this.state.clientDetails.map((customField, sidx) => {
             if (idx !== sidx) return customField;
-            return { ...customField, name : val };
+            return { ...customField, value : val };
         });
 
         this.setState({ clientDetails: newShareholders });
     }
 
     addCustomField () {
+        let { customField, customFields } = this.state, errMessage, flag = false;
         if (!this.state.customField){
+            errMessage = 'You must select Custom Field name From above Drop Down';
+            flag = true;
+        }
+        else if(customFields.includes(customField)){
+            errMessage = `The ${customField} already added`;
+            flag = true;
+        }
+        if(flag){
             this.setState({
                 active: true,
-                barMessage: 'you must select Custom Field name From Drop Down',
+                barMessage: errMessage,
                 barIcon: 'error_outline',
                 barType: 'cancel'
             });
-            return false;
+            return
         }
+
+        customFields.push(customField)
         this.setState({
-            clientDetails: this.state.clientDetails.concat([{ name: this.state.customField}])
+            clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: ''}]),
+            customFields: customFields
         });
+        console.log(this.state)
     }
 
     changeCustomField (evt, val)  {
@@ -263,6 +277,8 @@ class NewProjectPage extends Component {
     createProject(){
         const {name, clientName, type, amount, status, startAt, clientDetails} = this.state;
         let clientObj = _.extend.apply(null, clientDetails);
+        console.log(clientObj)
+        return false;
 
         Meteor.call('projects.insert', {
             project: {
@@ -330,8 +346,6 @@ class NewProjectPage extends Component {
     }
 
     onChange (val, e) {
-        console.log(e.target.name)
-        console.log(val)
         this.setState({[e.target.name]: val});
     }
 
@@ -381,18 +395,6 @@ class NewProjectPage extends Component {
 
                         <h4>Client Details</h4>
 
-                        {/*{this.state.clientDetails.map((customField, idx) => (*/}
-                            {/*<div className="customField" key={idx + 1}>*/}
-                                {/*<Input type='text' label={'customFields'}*/}
-                                       {/*name={customField.name}*/}
-                                       {/*value={customField.name}*/}
-                                       {/*onChange={this.changeClientDetails.bind(this, idx)}*/}
-                                       {/*required*/}
-                                {/*/>*/}
-                                {/*<div className={theme.addBtn}><Button icon='remove' onClick={this.removeCustomField.bind(this, idx)} raised primary /></div>*/}
-                            {/*</div>*/}
-                        {/*))}*/}
-                        {/*<div className={theme.addBtn}><Button icon='add' onClick={this.addCustomField.bind(this)} raised primary /></div>*/}
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
                                name='name'
                                value={this.state.name}
@@ -461,7 +463,7 @@ class NewProjectPage extends Component {
                             <div className="customField" key={idx + 1}>
                                 <Input className={theme.projectCustomField} type='text' label={customField.name}
                                        name={customField.name}
-                                       value={customField.name}
+                                       value={customField.value}
                                        onChange={this.changeClientDetails.bind(this, idx)}
                                        required
                                 />
