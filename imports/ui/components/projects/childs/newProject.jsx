@@ -404,6 +404,28 @@ class NewProjectPage extends Component {
                             value={this.state.startAt}
                         />
 
+                        <h4 className={theme.clientHeading}>client details</h4>
+                        <Dropdown theme={theme} className={theme.projectCustomField}
+                                  source={this.types}
+                                  name='type'
+                                  onChange={this.onChange.bind(this)}
+                                  label={formatMessage(il8n.PROJECT_TYPE)}
+                                  value={this.state.type}
+                                  required
+                        />
+                        <div className={theme.closeBtnParent}>
+                            <Button
+                                label=''
+                                icon='close'
+                                raised
+                            />
+                        </div>
+                        <div className={theme.btnParents}>
+                            <Button type='submit' icon='add' label="Add custom fields" raised primary />
+                        </div>
+
+
+
                         {this.renderButton()}
                     </form>
                 </Card>
