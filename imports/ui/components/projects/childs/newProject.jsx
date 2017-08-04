@@ -143,7 +143,9 @@ class NewProjectPage extends Component {
             active: false,
             loading: false,
             showCustomFields: false,
+            showCustomInput: false,
             customField: '',
+            customValue: '',
             customFields: []
         };
 
@@ -187,11 +189,15 @@ class NewProjectPage extends Component {
                 value: 'name'
             },
             {
+                label: 'Country',
+                value: 'country'
+            },
+            {
                 label: 'Contact',
                 value: 'contact'
             },
             {
-                label: 'custom',
+                label: 'Custom Field',
                 value: 'custom'
             }
         ]
@@ -234,15 +240,22 @@ class NewProjectPage extends Component {
     }
 
     showCustomField(){
-        this.setState({
-            showCustomFields: true
-        });
+        let { showCustomFields, showCustomInput } = this.state;
+        if(!( showCustomInput || showCustomFields)){
+            this.setState({
+                showCustomFields: true
+            });
+        }
     }
 
-    addCustomField () {
-        let { customField, customFields } = this.state, errMessage, flag = false;
+    addCustomField (name) {
+        let { customField, customFields } = this.state, errMessage, flag = false, customValue = false;
+        if( name === 'customValue'){
+            customValue = true;
+        }
         if (!this.state.customField){
-            errMessage = 'You must select Custom Field name From above Drop Down';
+            customValue || (errMessage = 'You must select Custom Field name From above Drop Down');
+            customValue && (errMessage = 'You must Enter Custom Field name and Value');
             flag = true;
         }
         else if(customFields.includes(customField)){
@@ -261,9 +274,10 @@ class NewProjectPage extends Component {
 
         customFields.push(customField);
         this.setState({
-            clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: ''}]),
+            clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: customValue ? this.state.customValue : ''}]),
             customFields: customFields,
-            showCustomFields: false
+            showCustomFields: false,
+            showCustomInput: false
         });
     }
 
@@ -358,6 +372,18 @@ class NewProjectPage extends Component {
     onChange (val, e) {
         this.setState({[e.target.name]: val});
     }
+    onCustomFieldChange (val, e) {
+        if(val === 'custom'){
+            this.setState({
+                customField: '',
+                customValue: '',
+                showCustomFields: false,
+                showCustomInput: true,
+            });
+            return false
+        }
+        this.setState({[e.target.name]: val});
+    }
 
     handleBarClick (event, instance) {
         this.setState({ active: false });
@@ -412,14 +438,6 @@ class NewProjectPage extends Component {
                                required
                         />
 
-                        {/*<Input type='text' label={formatMessage(il8n.CLIENT_NAME)}*/}
-                               {/*name='clientName'*/}
-                               {/*maxLength={ 50 }*/}
-                               {/*value={this.state.clientName}*/}
-                               {/*onChange={this.onChange.bind(this)}*/}
-                               {/*required*/}
-                        {/*/>*/}
-
                         <Dropdown theme={theme} className={theme.projectStatus}
                                   source={this.types}
                                   name='type'
@@ -472,13 +490,39 @@ class NewProjectPage extends Component {
                             </div>
                         ))}
 
+                        {this.state.showCustomInput ?
+                            <div>
+
+                                <Input className={theme.inputCustomField} type='text' label='Field Name'
+                                       name='customField'
+                                       value={this.state.customField}
+                                       onChange={this.onCustomFieldChange.bind(this)}
+                                       required
+                                />
+                                <Input className={theme.inputCustomField} type='text' label='Field Value'
+                                       name='customValue'
+                                       value={this.state.customValue}
+                                       onChange={this.onCustomFieldChange.bind(this)}
+                                       required
+                                />
+                                <div className={theme.closeBtnParent}>
+                                    <Button style={{color: 'green'}}
+                                            label=''
+                                            icon='check'
+                                            raised
+                                            onClick={this.addCustomField.bind(this, 'customValue')}
+                                    />
+                                </div>
+                            </div>
+                            : ''}
+
                         {this.state.showCustomFields ?
                         <div>
 
                         <Dropdown theme={theme} className={theme.projectCustomField}
                                   source={this.customFields}
                                   name='customField'
-                                  onChange={this.onChange.bind(this)}
+                                  onChange={this.onCustomFieldChange.bind(this)}
                                   label='Please select Field'
                                   value={this.state.customField}
                                   required

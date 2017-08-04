@@ -80,6 +80,16 @@
         }
       }
     }
+    .inputCustomField{
+      width: 23%;
+      display: inline-block;
+      margin-right: 12px;
+      ul{
+        li{
+          width: 100%;
+        }
+      }
+    }
     .closeBtnParent{
       width: 50%;
       float: right;
@@ -177,7 +187,7 @@
         font-size: 16px;
         font-weight: normal;
         display: inline-block;
-        font-family: "Nexa Light Regular";
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
         margin: 0 0 40px 0;
         &:last-of-type{
           margin-left: 50px;
@@ -185,7 +195,7 @@
       }
       h5{
         font-size: 20px;
-        font-family: "Nexa Light Regular";
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
         margin-bottom: 30px;
         .price{
           color: #008142;
@@ -201,7 +211,7 @@
       border-bottom: 1px solid #e0e0e0;
       h5{
         font-size: 20px;
-        font-family: "Nexa Light Regular";
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
         margin-bottom: 30px;
         &:last-of-type{
           margin-bottom: 10px;
@@ -212,7 +222,7 @@
       padding: 45px 25px 40px;
       h5{
         font-size: 20px;
-        font-family: "Nexa Light Regular";
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
         margin-bottom: 30px;
         span{
           color: #008142;
