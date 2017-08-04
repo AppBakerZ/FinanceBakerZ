@@ -142,6 +142,7 @@ class NewProjectPage extends Component {
             startAt: '',
             active: false,
             loading: false,
+            showCustomFields: false,
             customField: '',
             customFields: []
         };
@@ -204,9 +205,9 @@ class NewProjectPage extends Component {
         })
     }
 
-    componentDidMount (){
-        let { project } = this.props;
-        let { id } = this.props.params;
+    componentWillReceiveProps (p){
+        let { project } = p;
+        let { id } = p.params;
         let isNew = id === 'new', clientDetails;
         if( !isNew ){
             // Object.keys(project).length && (project.clientName = project.client.name);
@@ -232,6 +233,12 @@ class NewProjectPage extends Component {
         this.setState({ clientDetails: newShareholders });
     }
 
+    showCustomField(){
+        this.setState({
+            showCustomFields: true
+        });
+    }
+
     addCustomField () {
         let { customField, customFields } = this.state, errMessage, flag = false;
         if (!this.state.customField){
@@ -255,7 +262,8 @@ class NewProjectPage extends Component {
         customFields.push(customField);
         this.setState({
             clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: ''}]),
-            customFields: customFields
+            customFields: customFields,
+            showCustomFields: false
         });
     }
 
@@ -444,21 +452,6 @@ class NewProjectPage extends Component {
                         />
 
                         <h4 className={theme.clientHeading}>client details</h4>
-                        <Dropdown theme={theme} className={theme.projectCustomField}
-                                  source={this.customFields}
-                                  name='customField'
-                                  onChange={this.onChange.bind(this)}
-                                  label='Please select Field'
-                                  value={this.state.customField}
-                                  required
-                        />
-                        <div className={theme.closeBtnParent}>
-                            <Button
-                                label=''
-                                icon='close'
-                                raised
-                            />
-                        </div>
 
 
                         {this.state.clientDetails.map((customField, idx) => (
@@ -479,8 +472,30 @@ class NewProjectPage extends Component {
                             </div>
                         ))}
 
+                        {this.state.showCustomFields ?
+                        <div>
+
+                        <Dropdown theme={theme} className={theme.projectCustomField}
+                                  source={this.customFields}
+                                  name='customField'
+                                  onChange={this.onChange.bind(this)}
+                                  label='Please select Field'
+                                  value={this.state.customField}
+                                  required
+                        />
+                        <div className={theme.closeBtnParent}>
+                            <Button style={{color: 'green'}}
+                                label=''
+                                icon='check'
+                                raised
+                                onClick={this.addCustomField.bind(this)}
+                            />
+                        </div>
+                        </div>
+                        : ''}
+
                         <div className={theme.btnParents}>
-                            <Button icon='add' onClick={this.addCustomField.bind(this)} label="Add custom fields" raised primary />
+                            <Button icon='add' onClick={this.showCustomField.bind(this)} label="Add custom fields" raised primary />
                         </div>
 
 
