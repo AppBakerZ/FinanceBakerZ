@@ -207,9 +207,16 @@ class NewProjectPage extends Component {
     componentDidMount (){
         let { project } = this.props;
         let { id } = this.props.params;
-        let isNew = id === 'new';
+        let isNew = id === 'new', clientDetails;
         if( !isNew ){
-            Object.keys(project).length && (project.clientName = project.client.name);
+            // Object.keys(project).length && (project.clientName = project.client.name);
+            Object.keys(project).length && (clientDetails = project.client);
+            if(clientDetails){
+                clientDetails = Object.keys(clientDetails).map(function(key) {
+                    return {name: key, value: clientDetails[key]};
+                });
+                project.clientDetails = clientDetails
+            }
             project = _.extend(this.state, project);
             this.setState(project);
         }
@@ -245,26 +252,18 @@ class NewProjectPage extends Component {
             return
         }
 
-        customFields.push(customField)
+        customFields.push(customField);
         this.setState({
             clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: ''}]),
             customFields: customFields
         });
-        console.log(this.state)
-    }
-
-    changeCustomField (evt, val)  {
-        // const newShareholders = this.state.customFields.map((customField, sidx) => {
-        //     if (idx !== sidx) return customField;
-        //     return { ...customField, value : val };
-        // });
-        //
-        // this.setState({ clientDetails: newShareholders });
     }
 
     removeCustomField (idx) {
+        let { customFields, clientDetails } = this.state;
         this.setState({
-            clientDetails: this.state.clientDetails.filter((s, sidx) => idx !== sidx)
+            clientDetails: clientDetails.filter((s, sidx) => idx !== sidx),
+            customFields: customFields.filter((s, sidx) => idx !== sidx)
         });
     }
 
@@ -275,10 +274,11 @@ class NewProjectPage extends Component {
     }
 
     createProject(){
-        const {name, clientName, type, amount, status, startAt, clientDetails} = this.state;
-        let clientObj = _.extend.apply(null, clientDetails);
-        console.log(clientObj)
-        return false;
+        const {name, type, amount, status, startAt, clientDetails} = this.state;
+        let clientObj = clientDetails.reduce(function(obj,item){
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
 
         Meteor.call('projects.insert', {
             project: {
@@ -311,14 +311,16 @@ class NewProjectPage extends Component {
     }
 
     updateProject(){
-        const {_id, name, clientName, type, amount, status, startAt} = this.state;
+        const {_id, name, clientDetails, type, amount, status, startAt} = this.state;
+        let clientObj = clientDetails.reduce(function(obj,item){
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
         Meteor.call('projects.update', {
             project: {
                 _id,
                 name,
-                client: {
-                    name: clientName
-                },
+                client: clientObj,
                 type,
                 amount: Number(amount),
                 status,
@@ -402,13 +404,13 @@ class NewProjectPage extends Component {
                                required
                         />
 
-                        <Input type='text' label={formatMessage(il8n.CLIENT_NAME)}
-                               name='clientName'
-                               maxLength={ 50 }
-                               value={this.state.clientName}
-                               onChange={this.onChange.bind(this)}
-                               required
-                        />
+                        {/*<Input type='text' label={formatMessage(il8n.CLIENT_NAME)}*/}
+                               {/*name='clientName'*/}
+                               {/*maxLength={ 50 }*/}
+                               {/*value={this.state.clientName}*/}
+                               {/*onChange={this.onChange.bind(this)}*/}
+                               {/*required*/}
+                        {/*/>*/}
 
                         <Dropdown theme={theme} className={theme.projectStatus}
                                   source={this.types}
@@ -446,7 +448,7 @@ class NewProjectPage extends Component {
                                   source={this.customFields}
                                   name='customField'
                                   onChange={this.onChange.bind(this)}
-                                  label={formatMessage(il8n.PROJECT_TYPE)}
+                                  label='Please select Field'
                                   value={this.state.customField}
                                   required
                         />
