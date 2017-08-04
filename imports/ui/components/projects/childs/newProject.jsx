@@ -210,8 +210,15 @@ class NewProjectPage extends Component {
             isNew: value
         })
     }
+    componentDidMount (){
+        this.updateProjectProps(this.props)
+    }
 
     componentWillReceiveProps (p){
+        this.updateProjectProps(p)
+    }
+
+    updateProjectProps(p){
         let { project } = p;
         let { id } = p.params;
         let isNew = id === 'new', clientDetails;
@@ -563,6 +570,8 @@ NewProjectPage = createContainer((props) => {
     const project = Projects.findOne({_id: id});
     return {
         project: project ? project : {},
+        //below key is just here to run componentWillReceiveProps as first
+        test: 'componentWillReceiveProps'
     };
 }, NewProjectPage);
 
