@@ -74,6 +74,17 @@ class NewExpense extends Component {
         };
     }
 
+    componentWillReceiveProps (p){
+        p.expense.billUrl = p.expense.billUrl || '';
+        p.expense.spentTime = p.expense.transactionAt;
+        p.expense.spentAt = p.expense.transactionAt;
+        p.expense.category = p.expense.category && p.expense.category._id;
+        this.setState(p.expense);
+        let isNew = p.params.id === 'new';
+        this.setCurrentRoute(isNew);
+        isNew && this.resetExpense();
+    }
+
     setCurrentRoute(value){
         this.setState({
             isNew: value
@@ -217,16 +228,6 @@ class NewExpense extends Component {
 
     progressBarToggle (){
         return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
-    }
-
-    componentWillReceiveProps (p){
-        p.expense.billUrl = p.expense.billUrl || '';
-        p.expense.spentTime = p.expense.transactionAt;
-        p.expense.category = p.expense.category && p.expense.category._id;
-        this.setState(p.expense);
-        let isNew = p.params.id === 'new';
-        this.setCurrentRoute(isNew);
-        isNew && this.resetExpense();
     }
 
     renderButton (){

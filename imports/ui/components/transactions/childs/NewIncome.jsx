@@ -87,6 +87,18 @@ class NewIncome extends Component {
         };
     }
 
+    componentWillReceiveProps (p){
+        p.income.receivedTime = p.income.transactionAt;
+        p.income.receivedAt = p.income.transactionAt;
+        if( p.income && p.income.creditType ){
+            p.income.creditType === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
+        }
+        this.setState(p.income);
+        let isNew = p.params.id === 'new';
+        this.setCurrentRoute(isNew);
+        isNew && this.resetIncome()
+    }
+
     setCurrentRoute(value){
         this.setState({
             isNew: value
@@ -240,18 +252,6 @@ class NewIncome extends Component {
 
     progressBarToggle (){
         return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
-    }
-
-
-    componentWillReceiveProps (p){
-        p.income.receivedTime = p.income.transactionAt;
-        if( p.income && p.income.creditType ){
-            p.income.creditType === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
-        }
-        this.setState(p.income);
-        let isNew = p.params.id === 'new';
-        this.setCurrentRoute(isNew);
-        isNew && this.resetIncome()
     }
 
     renderButton (){
