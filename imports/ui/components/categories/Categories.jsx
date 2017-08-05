@@ -146,9 +146,7 @@ class CategoriesPage extends Component {
         });
     }
 
-    removeSubcategory(e){
-        //e.stopPropagation();
-        //e.preventDefault();
+    removeSubcategory(){
         Meteor.call('categories.removeFromParent', {
             category: {
                 name: this.state.selectedCategory.name
@@ -257,7 +255,7 @@ CategoriesPage = createContainer(() => {
         parent: null
     }, {sort: {createdAt: -1}}).fetch();
     const children = Categories.find({
-        parent: {$exists: true}
+        parent: {$exists: true, $ne: null}
     }, {sort: {createdAt: -1}}).fetch();
     const categoriesExists = !categoriesLoading && !!categories.length;
 
