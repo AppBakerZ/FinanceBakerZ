@@ -133,7 +133,7 @@ class NewProjectPage extends Component {
 
         this.state = {
             isNew: false,
-            clientDetails: [],
+            clientDetails: [{name:'name', value: ''},{name:'country', value:''}],
             name: '',
             clientName: '',
             type: '',
