@@ -278,7 +278,7 @@ class NewProjectPage extends Component {
             });
             return
         }
-
+        this.customFields = this.customFields.filter((item) => (item.value !== customField));
         customFields.push(customField);
         this.setState({
             clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: customValue ? this.state.customValue : ''}]),
