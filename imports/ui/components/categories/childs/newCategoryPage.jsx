@@ -275,8 +275,7 @@ class NewCategoryPage extends Component {
                                required
                         />
 
-                        {/*<Dropdown theme={theme} className={theme.projectStatus}*/}
-                        <Dropdown theme={theme} className={dropdownTheme}
+                        <Dropdown theme={theme} className={theme.projectStatus}
                                   source={this.icons}
                                   name='icon'
                                   onChange={this.onChange.bind(this)}
@@ -296,56 +295,6 @@ class NewCategoryPage extends Component {
                                   template={this.categoryItem}
                                   required
                         />
-
-
-                        {/*<Input type='number' label={formatMessage(il8n.PROJECT_AMOUNT)}*/}
-                               {/*name='amount'*/}
-                               {/*value={this.state.amount}*/}
-                               {/*onChange={this.onChange.bind(this)}*/}
-                        {/*/>*/}
-
-                        {/*<Dropdown theme={theme} className={theme.projectStatus}*/}
-                                  {/*source={this.statuses}*/}
-                                  {/*name='status'*/}
-                                  {/*onChange={this.onChange.bind(this)}*/}
-                                  {/*label={formatMessage(il8n.PROJECT_STATUS)}*/}
-                                  {/*value={this.state.status}*/}
-                                  {/*required*/}
-                        {/*/>*/}
-
-                        {/*<DatePicker*/}
-                            {/*label={formatMessage(il8n.PROJECT_START_DATE)}*/}
-                            {/*name='startAt'*/}
-                            {/*onChange={this.onChange.bind(this)}*/}
-                            {/*value={this.state.startAt}*/}
-                        {/*/>*/}
-
-                        {/*<h4 className={theme.clientHeading}>client details</h4>*/}
-
-
-                        {/*{this.state.clientDetails.map((customField, idx) => (*/}
-                            {/*<div className="customField" key={idx + 1}>*/}
-                                {/*<Input className={theme.projectCustomField} type='text' label={customField.name}*/}
-                                       {/*name={customField.name}*/}
-                                       {/*value={customField.value}*/}
-                                       {/*onChange={this.changeClientDetails.bind(this, idx)}*/}
-                                       {/*required*/}
-                                {/*/>*/}
-                                {/*<div className={theme.closeBtnParent}>*/}
-                                    {/*<Button onClick={this.removeCustomField.bind(this, idx)}*/}
-                                            {/*label=''*/}
-                                            {/*icon='close'*/}
-                                            {/*raised*/}
-                                    {/*/>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
-                        {/*))}*/}
-
-                        {/*<div className={theme.btnParents}>*/}
-                            {/*<Button icon='add' onClick={this.showCustomField.bind(this)} label="Add custom fields" raised primary />*/}
-                        {/*</div>*/}
-
-
 
                         {this.renderButton()}
                     </form>
