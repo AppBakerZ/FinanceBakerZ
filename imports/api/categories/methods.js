@@ -34,11 +34,24 @@ export const insert = new ValidatedMethod({
     run({ category }) {
         // Set Owner of category
         category.owner = this.userId;
+        //save a copy for parent update
+        const {name, parent} = category;
+        let CategoryId = Categories.insert(category);
+        // return CategoryId
         // Add as children to parent if parent is set ?
-        if(category.parent)
-            Categories.update({name: category.parent, owner: this.userId}, {$addToSet : {children: category.name}});
-        // Insert as new category
-        return Categories.insert(category);
+        if(parent){
+             return Categories.update({
+                name: parent, owner: this.userId
+            }, {
+                $addToSet : {
+                    children: {
+                        id: CategoryId,
+                        name: name
+                    }
+                }
+            });
+        }
+        return CategoryId
     }
 });
 

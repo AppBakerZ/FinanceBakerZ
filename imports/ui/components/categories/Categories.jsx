@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { Button, Table, Card, FontIcon, Dialog } from 'react-toolbox';
 
@@ -164,12 +165,17 @@ class CategoriesPage extends Component {
         });
     }
 
+    categoryDetail(category){
+        routeHelpers.changeRoute(`/app/categoryDetail/${category._id}`);
+    }
+
     renderSubcategories(children, parent){
-        return children.map((name) => {
-            const category = Categories.findOne({name, parent});
+        return children.map((obj) => {
+            obj = _.values(obj)[0] || 'placeHolder';
+            const category = Categories.findOne({name:obj, parent});
             return <span key={name}>
-                    <div onClick={this.openPopup.bind(this, 'edit', category)}>
-                        {name}
+                    <div onClick={this.categoryDetail.bind(this, category)}>
+                        {obj}
                         <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
                     </div>
                     </span>
@@ -187,7 +193,7 @@ class CategoriesPage extends Component {
                 icon: <i className={category.icon}/>,
                 content:
                     <div>
-                        <div><strong onClick={this.openPopup.bind(this, 'edit', category)}>{category.name}</strong></div>
+                        <div><strong onClick={this.categoryDetail.bind(this, category)}>{category.name}</strong></div>
                         {this.renderSubcategories(category.children || [], category.name)}
                     </div>,
                 actions:

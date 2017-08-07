@@ -24,7 +24,7 @@ Categories.schema = new SimpleSchema({
         label: 'Icon of category'
     },
     children: {
-        type: [String],
+        type: [Object],
         label: 'children Array of category',
         defaultValue: []
     },

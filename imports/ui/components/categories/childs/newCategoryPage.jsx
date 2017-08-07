@@ -275,7 +275,7 @@ class NewCategoryPage extends Component {
                                required
                         />
 
-                        <Dropdown theme={theme} className={theme.projectStatus}
+                        <Dropdown theme={dropdownTheme} className={theme.projectStatus}
                                   source={this.icons}
                                   name='icon'
                                   onChange={this.onChange.bind(this)}
