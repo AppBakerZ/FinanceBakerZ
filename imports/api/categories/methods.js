@@ -106,6 +106,10 @@ export const removeFromParent = new ValidatedMethod({
         },
         'category.name': {
             type: String
+        },
+        'category._id': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ category }) {

@@ -94,6 +94,10 @@ class CategoriesPage extends Component {
                 break;
         }
     }
+
+    addCategory(){
+        routeHelpers.changeRoute('/app/categories/add/new');
+    }
     openPopup (action, category, e) {
         if(e){
             e.stopPropagation();
@@ -148,9 +152,11 @@ class CategoriesPage extends Component {
     }
 
     removeSubcategory(){
+        const {_id, name, parent} = this.state.selectedCategory;
         Meteor.call('categories.removeFromParent', {
             category: {
-                name: this.state.selectedCategory.name
+                _id,
+                name
             }
         }, (err, response) => {
             if(err){
@@ -170,12 +176,21 @@ class CategoriesPage extends Component {
     }
 
     renderSubcategories(children, parent){
-        return children.map((obj) => {
-            obj = _.values(obj)[0] || 'placeHolder';
-            const category = Categories.findOne({name:obj, parent});
-            return <span key={name}>
+        return children.map((catName, i) => {
+            if(_.values(catName).length && catName.name){
+                catName = catName.name
+            }
+            else{
+                catName = _.values(catName)[0] || 'placeHolder';
+            }
+            let obj = {
+                name: catName,
+                parent
+            };
+            const category = Categories.findOne(obj);
+            return <span key={catName + i}>
                     <div onClick={this.categoryDetail.bind(this, category)}>
-                        {obj}
+                        {catName}
                         <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
                     </div>
                     </span>
@@ -212,7 +227,7 @@ class CategoriesPage extends Component {
             <div className={theme.categoryNothing}>
                 <span className={theme.errorShow}>  <FormattedMessage {...il8n.NO_CATEGORIES_ADDED} /> </span>
                 <div className={theme.addCategoryBtn}>
-                    <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
+                    <Button type='button' icon='add' raised primary onClick={this.addCategory.bind(this)} />
                 </div>
                 <span className={theme.errorShow}> <FormattedMessage {...il8n.ADD_CATEGORIES} /> </span>
             </div>;
@@ -227,7 +242,7 @@ class CategoriesPage extends Component {
                             icon='add'
                             label={formatMessage(il8n.ADD_CATEGORY_BUTTON)}
                             flat
-                            onClick={this.openPopup.bind(this, 'add')}
+                            onClick={this.addCategory.bind(this)}
                             theme={buttonTheme}/>
                     </div>
                     <Card theme={tableTheme}>

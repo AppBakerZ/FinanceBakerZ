@@ -28,6 +28,16 @@ Categories.schema = new SimpleSchema({
         label: 'children Array of category',
         defaultValue: []
     },
+    'children.$.id': {
+        type: String,
+        label: 'id of child category',
+        optional: true
+    },
+    'children.$.name': {
+        type: String,
+        label: 'name of child category',
+        optional: true
+    },
     parent: {
         type: String,
         label: 'Parent of category',
