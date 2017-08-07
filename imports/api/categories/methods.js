@@ -108,14 +108,13 @@ export const removeFromParent = new ValidatedMethod({
             type: String
         },
         'category._id': {
-            type: String,
-            optional: true
+            type: String
         }
     }).validator(),
     run({ category }) {
-        const {name} = category;
-        Categories.update({name: name, owner: this.userId}, {$set: {parent: null}});
-        Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
+        const {name, _id } = category;
+        Categories.update({_id, owner: this.userId}, {$set: {parent: null}});
+        Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
     }
 });
 
@@ -145,7 +144,7 @@ export const remove = new ValidatedMethod({
         const {_id, parent, name} = category;
 
         if(parent){
-            Categories.update({name: parent, owner: this.userId}, {$pull: {children: name}});
+            Categories.update({'children.id': _id, name: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
         }
 
         return Categories.remove(_id);
