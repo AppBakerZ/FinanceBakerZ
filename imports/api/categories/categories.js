@@ -39,9 +39,19 @@ Categories.schema = new SimpleSchema({
         optional: true
     },
     parent: {
-        type: String,
+        type: Object,
         label: 'Parent of category',
         defaultValue: null,
+        optional: true
+    },
+    'parent.name': {
+        type: String,
+        label: 'name of Parent category',
+        optional: true
+    },
+    'parent.id': {
+        type: String,
+        label: 'id of Parent category',
         optional: true
     },
     owner: {

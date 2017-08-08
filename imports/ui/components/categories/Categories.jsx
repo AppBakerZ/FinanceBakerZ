@@ -23,6 +23,9 @@ const il8n = defineMessages({
     ADD_CATEGORIES: {
         id: 'CATEGORIES.ADD_CATEGORY_TO_SHOW'
     },
+    CLIENT_DETAILS: {
+        id: 'PORJECTS.CLIENTDETAILS'
+    },
     NO_CATEGORIES_ADDED: {
         id: 'CATEGORIES.NO_CATEGORIES_ADDED'
     },
@@ -188,13 +191,17 @@ class CategoriesPage extends Component {
 
     renderSubcategories(children, parent){
         return children.map((catName, i) => {
+            let catId;
             if(_.values(catName).length && catName.name){
-                catName = catName.name
+                catName = catName.name;
+                catId = catName.id;
             }
             let obj = {
-                name: catName,
-                parent
+                name: catName
             };
+            catId && (obj._id = catId);
+            //fallback parent within $or added for old records
+            obj.$or = [ { parent: parent.name }, { 'parent.id': parent._id } ];
             const category = Categories.findOne(obj);
             return <span key={catName + i}>
                     <div onClick={this.categoryDetail.bind(this, category)}>
@@ -217,7 +224,7 @@ class CategoriesPage extends Component {
                 content:
                     <div>
                         <div><strong onClick={this.categoryDetail.bind(this, category)}>{category.name}</strong></div>
-                        {this.renderSubcategories(category.children || [], category.name)}
+                        {this.renderSubcategories(category.children || [], category)}
                     </div>,
                 actions:
                     <div className={theme.buttonBox}>

@@ -52,10 +52,11 @@ class NewCategoryPage extends Component {
 
         this.state = {
             name: '',
+            parentName : '',
             icon: '',
             active: false,
             loading: false,
-            parent: null,
+            parentId: null,
             iconSelected: 'en',
             isNew: false,
         };
@@ -76,7 +77,7 @@ class NewCategoryPage extends Component {
 
     categories(){
         let cats = this.props.categories.map((category) => {
-            return {value: category.name, label: category.name, icon: category.icon};
+            return {value: category._id, label: category.name, icon: category.icon, name: category.name};
         });
         cats.unshift({value: null, label: 'No Parent'});
         return cats
@@ -124,7 +125,11 @@ class NewCategoryPage extends Component {
     }
 
     createCategory(){
-        let {name, icon, parent} = this.state;
+        let {name, icon, parentId, parentName } = this.state;
+        let parent = {
+            name: parentName,
+            id: parentId
+        };
 
         Meteor.call('categories.insert', {
             category: {
@@ -194,8 +199,12 @@ class NewCategoryPage extends Component {
         this.setState({[e.target.name]: val});
     }
 
-    onChangeParentCategory (val) {
-        this.setState({parent: val});
+    onChangeParentCategory (val, e) {
+        let parent = Categories.findOne({_id: val});
+        this.setState({
+            parentId: val,
+            parentName: parent && parent.name
+        });
     }
 
     handleBarClick (event, instance) {
@@ -265,8 +274,6 @@ class NewCategoryPage extends Component {
                             type={this.state.barType}
                         />
 
-                        <h4>Client Details</h4>
-
                         <Input type='text' label={formatMessage(il8n.CATEGORY_NAME)}
                                name='name'
                                maxLength={50}
@@ -288,10 +295,10 @@ class NewCategoryPage extends Component {
                         <Dropdown theme={theme} className={theme.projectStatus}
                                   auto
                                   source={this.categories()}
-                                  name='parent'
+                                  name='parentId'
                                   onChange={this.onChangeParentCategory.bind(this)}
                                   label={formatMessage(il8n.PARENT_CATEGORY)}
-                                  value={this.state.parent}
+                                  value={this.state.parentId}
                                   template={this.categoryItem}
                                   required
                         />

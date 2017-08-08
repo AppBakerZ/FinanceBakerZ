@@ -27,6 +27,14 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'category.parent': {
+            type: Object,
+            optional: true
+        },
+        'category.parent.name': {
+            type: String,
+            optional: true
+        },
+        'category.parent.id': {
             type: String,
             optional: true
         }
@@ -34,23 +42,40 @@ export const insert = new ValidatedMethod({
     run({ category }) {
         // Set Owner of category
         category.owner = this.userId;
-        //save a copy for parent update
-        const {name, parent} = category;
+        let CategoryName = category.name;
+        const { parent } = category;
         let CategoryId = Categories.insert(category);
-        // return CategoryId
-        // Add as children to parent if parent is set ?
+
+        //save a copy for parent update
         if(parent){
-             return Categories.update({
-                name: parent, owner: this.userId
-            }, {
-                $addToSet : {
-                    children: {
-                        id: CategoryId,
-                        name: name
+            let { name, id } = category.parent;
+            if(id){
+                return Categories.update({
+                    _id: id, owner: this.userId
+                }, {
+                    $addToSet : {
+                        children: {
+                            id: CategoryId,
+                            name: CategoryName
+                        }
                     }
-                }
-            });
+                });
+            }
+            //fallback code for old records
+            else{
+                return Categories.update({
+                    name: parent, owner: this.userId
+                }, {
+                    $addToSet : {
+                        children: {
+                            id: CategoryId,
+                            name: CategoryName
+                        }
+                    }
+                });
+            }
         }
+        // return CategoryId
         return CategoryId
     }
 });
