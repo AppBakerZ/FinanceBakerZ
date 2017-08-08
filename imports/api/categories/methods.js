@@ -112,7 +112,7 @@ export const removeFromParent = new ValidatedMethod({
         }
     }).validator(),
     run({ category }) {
-        const {name, _id } = category;
+        const { _id } = category;
         Categories.update({_id, owner: this.userId}, {$set: {parent: null}});
         Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
     }
@@ -138,11 +138,23 @@ export const remove = new ValidatedMethod({
         'category.parent': {
             type: String,
             optional: true
+        },
+        'category.ids': {
+            type: [String],
+            optional: true
+        },
+        'category.names': {
+            type: [String],
+            optional: true
         }
     }).validator(),
     run({ category }) {
-        const {_id, parent, name} = category;
+        const {_id, parent, name, ids, names} = category;
+        //remove it as parent category from children by Ids
+        ids && removeParent(category.ids, '_id');
 
+        //fallback by names for old records
+        names && removeParent(category.names, 'name');
         if(parent){
             Categories.update({'children.id': _id, name: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
         }
@@ -151,6 +163,18 @@ export const remove = new ValidatedMethod({
     }
 });
 
+let removeParent =(childrens, type) =>{
+    childrens.forEach((cat) => {
+        Categories.update({
+            [type]: cat
+        },{
+            $set: {
+                parent: null
+            }
+        })
+    })
+
+};
 const CATEGORIES_METHODS = _.pluck([
     insert,
     update,

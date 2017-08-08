@@ -64,9 +64,6 @@ class CategoriesPage extends Component {
 
     }
 
-    toggleSidebar(event){
-        this.props.toggleSidebar(true);
-    }
     popupTemplate(){
         return(
             <Dialog theme={dialogTheme}
@@ -131,12 +128,26 @@ class CategoriesPage extends Component {
         )
     }
     removeCategory(){
-        const {_id, name, parent} = this.state.selectedCategory;
+        const { _id, name, parent, children } = this.state.selectedCategory;
+        let ids = [], names = [];
+        children.map((catName) =>{
+            //get all ids of children for backend
+            if(_.values(children).length && catName.id){
+                ids.push(catName.id)
+            }
+            //fall back for old categories
+            else{
+                names.push(catName)
+            }
+        });
+
         Meteor.call('categories.remove', {
             category: {
                 _id,
                 name,
-                parent
+                parent,
+                ids,
+                names
             }
         }, (err, response) => {
             if(err){
@@ -179,9 +190,6 @@ class CategoriesPage extends Component {
         return children.map((catName, i) => {
             if(_.values(catName).length && catName.name){
                 catName = catName.name
-            }
-            else{
-                catName = _.values(catName)[0] || 'placeHolder';
             }
             let obj = {
                 name: catName,
