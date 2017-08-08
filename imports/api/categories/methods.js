@@ -48,7 +48,7 @@ export const insert = new ValidatedMethod({
 
         //save a copy for parent update
         if(parent){
-            let { name, id } = category.parent;
+            let { id } = category.parent;
             if(id){
                 return Categories.update({
                     _id: id, owner: this.userId
@@ -137,9 +137,16 @@ export const removeFromParent = new ValidatedMethod({
         }
     }).validator(),
     run({ category }) {
-        const { _id } = category;
+        const { _id, name } = category;
         Categories.update({_id, owner: this.userId}, {$set: {parent: null}});
-        Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
+        if(_id){
+            Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
+        }
+        //fall back for old code
+        else{
+            Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
+        }
+
     }
 });
 
