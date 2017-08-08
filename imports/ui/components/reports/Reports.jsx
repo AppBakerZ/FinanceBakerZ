@@ -57,6 +57,7 @@ class ReportsPage extends Component {
 }
 
 
+
 export default createContainer(() => {
 
     const local = LocalCollection.findOne({

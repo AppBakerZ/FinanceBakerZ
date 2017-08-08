@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown } from 'react-toolbox';
 import {intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -105,6 +105,11 @@ class FilterBy extends Component {
             />
         );
     }
+}
+
+FilterBy.propTypes = {
+    parentProps: PropTypes.object.isRequired
+
 }
 
 export default injectIntl(createContainer(() => {

@@ -58,8 +58,10 @@ class AccountsDD extends Component {
     }
 }
 
+
 AccountsDD.propTypes = {
-    accounts: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired,
+    parentProps: PropTypes.object.isRequired
 };
 
 export default injectIntl(createContainer(() => {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
@@ -62,6 +62,11 @@ class Pagination extends Component {
             </div>
         );
     }
+
+}
+
+Pagination.propTypes = {
+    parentProps: PropTypes.object.isRequired
 
 }
 
