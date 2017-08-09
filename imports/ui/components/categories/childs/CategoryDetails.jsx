@@ -221,7 +221,10 @@ class CategoryDetail extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let { category } = this.props;
-        let {_id, createdAt } = category;
+        let {_id, createdAt, parent } = category;
+        if(parent && parent.name){
+            parent = parent.name
+        }
         let date = moment(createdAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
@@ -259,7 +262,7 @@ class CategoryDetail extends Component {
                             <h6>Date: <span>{date}</span></h6>
                             <h5><FormattedMessage {...il8n.CATEGORY_NAME} />: <span>{category.name}</span></h5>
                             <h5><FormattedMessage {...il8n.DISPLAY_CATEGORY_ICON} />: <span><i className={category.icon}/></span></h5>
-                            {category.parent ? <h5><FormattedMessage {...il8n.DISPLAY_PARENT_CATEGORY} />: <span>{category.parent}</span></h5>  : ''}
+                            {parent ? <h5><FormattedMessage {...il8n.DISPLAY_PARENT_CATEGORY} />: <span>{parent}</span></h5>  : ''}
                         </div>
                     </div>
                 </div>

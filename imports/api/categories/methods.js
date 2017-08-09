@@ -101,20 +101,49 @@ export const update = new ValidatedMethod({
             type: String
         },
         'category.parent': {
+            type: Object,
+            optional: true
+        },
+        'category.parent.name': {
+            type: String,
+            optional: true
+        },
+        'category.parent.id': {
             type: String,
             optional: true
         }
     }).validator(),
     run({ category }) {
-        const {_id, name, icon, parent} = category;
+        let {_id, name, icon, parent} = category;
+        let type = 'name', oldParent, newParent = parent;
         const oldCategory = Categories.findOne(_id);
-
-        if(oldCategory.parent !== parent || oldCategory.name !== name){
-            Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
-            Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
+        if(parent && parent.id){
+            parent = parent.id;
+            type = '_id'
+        }
+        if(oldCategory.parent && oldCategory.parent.id){
+            oldParent = parent.id;
+        }
+        else{
+            oldParent = oldCategory.parent
         }
 
-        return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent}});
+        if(oldParent !== parent || oldCategory.name !== name){
+            Categories.update({[type]: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
+            Categories.update({[type]: parent, owner: this.userId}, {$addToSet : {
+                children: {
+                    id: _id,
+                    name: name
+                }
+            }});
+        }
+
+        // if(oldCategory.parent !== parent || oldCategory.name !== name){
+        //     Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
+        //     Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
+        // }
+
+        return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent: newParent}})
     }
 });
 
