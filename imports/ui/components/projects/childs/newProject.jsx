@@ -436,8 +436,6 @@ class NewProjectPage extends Component {
                             type={this.state.barType}
                         />
 
-                        <h4>Client Details</h4>
-
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
                                name='name'
                                value={this.state.name}

@@ -154,9 +154,19 @@ class CategoriesPage extends Component {
             }
         }, (err, response) => {
             if(err){
-
+                this.setState({
+                    active: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
             }else{
-
+                this.setState({
+                    active: true,
+                    barMessage: 'Category deleted successfully',
+                    barIcon: 'done',
+                    barType: 'accept'
+                });
             }
         });
         // Close Popup
@@ -166,7 +176,7 @@ class CategoriesPage extends Component {
     }
 
     removeSubcategory(){
-        const {_id, name, parent} = this.state.selectedCategory;
+        const { _id, name } = this.state.selectedCategory;
         Meteor.call('categories.removeFromParent', {
             category: {
                 _id,
@@ -174,9 +184,19 @@ class CategoriesPage extends Component {
             }
         }, (err, response) => {
             if(err){
-
+                this.setState({
+                    active: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
             }else{
-
+                this.setState({
+                    active: true,
+                    barMessage: 'Category deleted successfully',
+                    barIcon: 'done',
+                    barType: 'accept'
+                });
             }
         });
         // Close Popup

@@ -135,9 +135,11 @@ class CategoryDetail extends Component {
     }
 
     removeSubcategory(){
+        const {_id, name } = this.state;
         Meteor.call('categories.removeFromParent', {
             category: {
-                name: this.state.name
+                _id,
+                name
             }
         }, (err, response) => {
             if(err){
