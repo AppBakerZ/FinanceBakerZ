@@ -129,6 +129,9 @@ export const update = new ValidatedMethod({
         }
 
         if(oldParent !== parent || oldCategory.name !== name){
+            //if found any old value then omit
+            Categories.update({[type]: parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
+
             Categories.update({[type]: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
             Categories.update({[type]: parent, owner: this.userId}, {$addToSet : {
                 children: {

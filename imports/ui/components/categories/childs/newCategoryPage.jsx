@@ -116,9 +116,22 @@ class NewCategoryPage extends Component {
 
     updateCategoryProps(p){
         let { category } = p;
+        let { parent } = category;
         let { id } = p.params;
         let isNew = id === 'new';
         if( !isNew ){
+            if(parent && parent.name){
+                category.parentName = parent.name;
+                category.parentId = parent.id
+            }
+            else{
+                //fallback code added on initialize update
+                let parentExists = Categories.findOne({name: parent});
+                if(parentExists){
+                    category.parentId = parentExists._id;
+                    category.parentName = parentExists.name;
+                }
+            }
             this.setState(category);
         }
         this.setCurrentRoute(isNew);
@@ -162,7 +175,6 @@ class NewCategoryPage extends Component {
 
     updateCategory(){
         let {_id, name, icon, parentId, parentName} = this.state, parent;
-        console.log(this.state);
         if(parentId || parentName){
             parent = {
                 name: parentName,
