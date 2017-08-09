@@ -122,7 +122,7 @@ export const update = new ValidatedMethod({
             type = '_id'
         }
         if(oldCategory.parent && oldCategory.parent.id){
-            oldParent = parent.id;
+            oldParent = oldCategory.parent.id;
         }
         else{
             oldParent = oldCategory.parent
@@ -130,8 +130,8 @@ export const update = new ValidatedMethod({
 
         if(oldParent !== parent || oldCategory.name !== name){
             //if found any old value then omit
-            Categories.update({[type]: parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
-
+            Categories.update({[type]: parent, owner: this.userId}, {$pull: {"children": oldCategory.name}});
+            Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
             Categories.update({[type]: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
             Categories.update({[type]: parent, owner: this.userId}, {$addToSet : {
                 children: {
@@ -176,7 +176,7 @@ export const removeFromParent = new ValidatedMethod({
         }
         //fall back for old code
         else{
-            Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
+            Categories.update({children: name, owner: this.userId}, {$pull: {"children": name}});
         }
 
     }
