@@ -111,14 +111,13 @@ class viewIncome extends Component {
                             <h5>Account Number: <span>{ number }</span></h5>
                             <h5>Amount: <span> <i className={userCurrencyHelpers.loggedUserCurrency()}></i> </span>  <span className={theme.price}> { amount } </span> </h5>
                         </div>
-                        {details.client && Object.keys(details.client).length ?
+                        {details && details.client ?
                             <div className={theme.accountContent}>
                                 {Object.keys(details.client).map((key, idx) => (
-                                <div key={key + idx}>
-                                    <h5>{stringHelpers.capitalize(key)}: <span>{details[key]}</span></h5>
-                                </div>
+                                    <h5 key={key + idx}>Client {stringHelpers.capitalize(key)}: <span>{details.client[key]}</span></h5>
                                 ))}
-                            </div> : ''}
+                            </div> : ''
+                        }
 
                         <div className={theme.projectContent}>
                             { transaction.creditType ? (transaction.creditType === 'salary' ?

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
-import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { routeHelpers } from '../../../helpers/routeHelpers.js';
 
 import { Button, Table, Card, FontIcon, Dialog, Snackbar } from 'react-toolbox';
 
