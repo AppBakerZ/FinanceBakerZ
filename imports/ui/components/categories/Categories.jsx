@@ -233,6 +233,9 @@ class CategoriesPage extends Component {
             //fallback parent within $or added for old records
             obj.$or = [ { parent: parent.name }, { 'parent.id': parent._id } ];
             const category = Categories.findOne(obj);
+            if(!category){
+                return;
+            }
             return <span key={catName + i}>
                     <div onClick={this.categoryDetail.bind(this, category)}>
                         {catName}
