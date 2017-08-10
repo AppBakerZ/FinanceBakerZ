@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
-import { routeHelpers } from '../../../../helpers/routeHelpers.js'
-import { userCurrencyHelpers } from '../../../../helpers/currencyHelpers'
-import { Projects } from '../../../../api/projects/projects.js'
+import { routeHelpers } from '../../../../helpers/routeHelpers.js';
+import { userCurrencyHelpers } from '../../../../helpers/currencyHelpers';
+import { stringHelpers } from '../../../../helpers/stringHelpers';
+import { Projects } from '../../../../api/projects/projects.js';
 
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 import { Button, Snackbar } from 'react-toolbox';
@@ -137,11 +138,18 @@ class ProjectDetail extends Component {
                         <div className={theme.depositContent}>
                             <h6>Project ID: <span>{_id}</span></h6>
                             <h6>Date: <span>{date}</span></h6>
-                            <h5><FormattedMessage {...il8n.CLIENT_NAME} />: <span>{project.client && project.client.name}</span></h5>
+                            {/*<h5><FormattedMessage {...il8n.CLIENT_NAME} />: <span>{project.client && project.client.name}</span></h5>*/}
                             <h5><FormattedMessage {...il8n.AMOUNT_AGREED} />: <span><FormattedNumber value={amount || 0}/></span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_PAID} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{amountPaid === null ? 'Loading ...' : <FormattedNumber value={amountPaid || 0}/>}</span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_REMAINING} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{ amountPaid === null ? 'Loading ...' : <FormattedNumber value={(amount - amountPaid) || 0}/> } </span></h5>
                             <h5><FormattedMessage {...il8n.PROJECT_STATUS} />: <span className={theme.price}>{status} </span></h5>
+                            {project && project.client ?
+                                <span>
+                                    {Object.keys(project.client).map((key, idx) => (
+                                        <h5 key={key + idx}>Client {stringHelpers.capitalize(key)}: <span>{project.client[key]}</span></h5>
+                                    ))}
+                                </span> : ''
+                            }
                         </div>
                     </div>
                 </div>
