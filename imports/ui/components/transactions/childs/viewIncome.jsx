@@ -5,7 +5,9 @@ import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, In
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 import { Transactions } from '../../../../api/transactions/transactions.js'
 import { Accounts } from '../../../../api/accounts/accounts'
+import { Projects } from '../../../../api/projects/projects.js'
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
+import { stringHelpers } from '../../../../helpers/stringHelpers'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import theme from './theme';
 import moment from 'moment';
@@ -59,11 +61,17 @@ class viewIncome extends Component {
     }
 
     render() {
-        let { transaction, account } = this.props;
+        let { transaction, account, currentProject} = this.props;
         let { bank, number } = account;
+        let details = {};
+        if(currentProject){
+            details = currentProject;
+        }
+
         //remove the bank prefix from bank account
         bank = bank && bank.split("bank-")[1];
-        let { amount, _id, transactionAt } = transaction;
+        let { amount, _id, transactionAt, project } = transaction;
+
         let date = moment (transactionAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
@@ -103,11 +111,15 @@ class viewIncome extends Component {
                             <h5>Account Number: <span>{ number }</span></h5>
                             <h5>Amount: <span> <i className={userCurrencyHelpers.loggedUserCurrency()}></i> </span>  <span className={theme.price}> { amount } </span> </h5>
                         </div>
-                        <div className={theme.accountContent}>
-                            <h5>Sender Name: <span>Saeed Anwar</span></h5>
-                            <h5>Sender Bank: <span>Habib Bank</span></h5>
-                            <h5>Account Number: <span>009123455670</span></h5>
-                        </div>
+                        {details.client && Object.keys(details.client).length ?
+                            <div className={theme.accountContent}>
+                                {Object.keys(details.client).map((key, idx) => (
+                                <div key={key + idx}>
+                                    <h5>{stringHelpers.capitalize(key)}: <span>{details[key]}</span></h5>
+                                </div>
+                                ))}
+                            </div> : ''}
+
                         <div className={theme.projectContent}>
                             { transaction.creditType ? (transaction.creditType === 'salary' ?
                                 <h5>CreditType: <span>Salary</span></h5> :
@@ -129,11 +141,15 @@ viewIncome.propTypes = {
 
 viewIncome = createContainer((props) => {
     const { id } = props.params;
-    let accountId;
+    let accountId, project;
     const transactionHandle = Meteor.subscribe('transactions.single', id);
     Meteor.subscribe('accounts');
     const loading = !transactionHandle.ready();
     const transaction = Transactions.findOne({_id: id});
+    if(transaction && transaction.project){
+        const transactionHandle = Meteor.subscribe('projects.single', transaction.project._id);
+        project = Projects.findOne(transaction.project._id);
+    }
     transaction && (accountId = transaction.account);
     const account = Accounts.findOne(accountId);
     const transactionExists = !loading && !!transaction;
@@ -141,6 +157,7 @@ viewIncome = createContainer((props) => {
     return {
         loading,
         transactionExists,
+        currentProject: project,
         transaction: transactionExists ? transaction : {},
         account: account ? account : {}
     };

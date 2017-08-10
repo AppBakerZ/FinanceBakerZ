@@ -30,11 +30,12 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'project.client': {
-            type: Object
+            type: Object,
+            blackbox: true
         },
-        'project.client.name': {
-            type: String
-        },
+        // 'project.client.name': {
+        //     type: String
+        // },
         'project.status': {
             type: String
         },
@@ -48,6 +49,7 @@ export const insert = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
+        console.log('project', project);
         project.owner = this.userId;
         return Projects.insert(project);
     }
@@ -75,11 +77,12 @@ export const update = new ValidatedMethod({
             type: String
         },
         'project.client': {
-            type: Object
+            type: Object,
+            blackbox: true
         },
-        'project.client.name': {
-            type: String
-        },
+        // 'project.client.name': {
+        //     type: String
+        // },
         'project.status': {
             type: String
         },

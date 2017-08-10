@@ -17,7 +17,8 @@ import ForgotPassword from '../../ui/components/auth/ForgotPassword.jsx';
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
 
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
-// import categoryDetail from '../../ui/components/categories/childs/CategoryDetails.jsx';
+import categoryDetail from '../../ui/components/categories/childs/CategoryDetails.jsx';
+import newCategoryPage from '../../ui/components/categories/childs/newCategoryPage.jsx';
 
 import ReportsPage from '../../ui/components/reports/Reports.jsx';
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
@@ -95,7 +96,8 @@ class Il8n extends Component {
                         <Route path="dashboard" components={{ content: DashboardPage}} />
                         <Route path="accounts" components={{ content: AccountsPage }} />
                         <Route path="categories" components={{ content: CategoriesPage }} />
-                        {/*<Route path="categoryDetail(/:id)" components={{ content: categoryDetail}} />*/}
+                        <Route path="categoryDetail(/:id)" components={{ content: categoryDetail}} />
+                        <Route path="categories(/:type)(/:id)" components={{ content: newCategoryPage}} />
                         <Route path="reports(/paginate)(/:number)" components={{ content: ReportsPage }} />
 
                         <Route path="settings" components={{ content: SettingsPage }}>

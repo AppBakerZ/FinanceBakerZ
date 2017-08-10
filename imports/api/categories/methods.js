@@ -27,6 +27,14 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'category.parent': {
+            type: Object,
+            optional: true
+        },
+        'category.parent.name': {
+            type: String,
+            optional: true
+        },
+        'category.parent.id': {
             type: String,
             optional: true
         }
@@ -34,11 +42,41 @@ export const insert = new ValidatedMethod({
     run({ category }) {
         // Set Owner of category
         category.owner = this.userId;
-        // Add as children to parent if parent is set ?
-        if(category.parent)
-            Categories.update({name: category.parent, owner: this.userId}, {$addToSet : {children: category.name}});
-        // Insert as new category
-        return Categories.insert(category);
+        let CategoryName = category.name;
+        const { parent } = category;
+        let CategoryId = Categories.insert(category);
+
+        //save a copy for parent update
+        if(parent){
+            let { id } = category.parent;
+            if(id){
+                return Categories.update({
+                    _id: id, owner: this.userId
+                }, {
+                    $addToSet : {
+                        children: {
+                            id: CategoryId,
+                            name: CategoryName
+                        }
+                    }
+                });
+            }
+            //fallback code for old records
+            else{
+                return Categories.update({
+                    name: parent, owner: this.userId
+                }, {
+                    $addToSet : {
+                        children: {
+                            id: CategoryId,
+                            name: CategoryName
+                        }
+                    }
+                });
+            }
+        }
+        // return CategoryId
+        return CategoryId
     }
 });
 
@@ -63,20 +101,52 @@ export const update = new ValidatedMethod({
             type: String
         },
         'category.parent': {
+            type: Object,
+            optional: true
+        },
+        'category.parent.name': {
+            type: String,
+            optional: true
+        },
+        'category.parent.id': {
             type: String,
             optional: true
         }
     }).validator(),
     run({ category }) {
-        const {_id, name, icon, parent} = category;
+        let {_id, name, icon, parent} = category;
+        let type = 'name', oldParent, newParent = parent;
         const oldCategory = Categories.findOne(_id);
-
-        if(oldCategory.parent !== parent || oldCategory.name !== name){
-            Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
-            Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
+        if(parent && parent.id){
+            parent = parent.id;
+            type = '_id'
+        }
+        if(oldCategory.parent && oldCategory.parent.id){
+            oldParent = oldCategory.parent.id;
+        }
+        else{
+            oldParent = oldCategory.parent
         }
 
-        return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent}});
+        if(oldParent !== parent || oldCategory.name !== name){
+            //if found any old value then omit
+            Categories.update({[type]: parent, owner: this.userId}, {$pull: {"children": oldCategory.name}});
+            Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
+            Categories.update({[type]: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
+            Categories.update({[type]: parent, owner: this.userId}, {$addToSet : {
+                children: {
+                    id: _id,
+                    name: name
+                }
+            }});
+        }
+
+        // if(oldCategory.parent !== parent || oldCategory.name !== name){
+        //     Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
+        //     Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
+        // }
+
+        return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent: newParent}})
     }
 });
 
@@ -93,12 +163,22 @@ export const removeFromParent = new ValidatedMethod({
         },
         'category.name': {
             type: String
+        },
+        'category._id': {
+            type: String
         }
     }).validator(),
     run({ category }) {
-        const {name} = category;
-        Categories.update({name: name, owner: this.userId}, {$set: {parent: null}});
-        Categories.update({children: name, owner: this.userId}, {$pull: {children: name}});
+        const { _id, name } = category;
+        Categories.update({_id, owner: this.userId}, {$set: {parent: null}});
+        if(_id){
+            Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
+        }
+        //fall back for old code
+        else{
+            Categories.update({children: name, owner: this.userId}, {$pull: {"children": name}});
+        }
+
     }
 });
 
@@ -122,19 +202,43 @@ export const remove = new ValidatedMethod({
         'category.parent': {
             type: String,
             optional: true
+        },
+        'category.ids': {
+            type: [String],
+            optional: true
+        },
+        'category.names': {
+            type: [String],
+            optional: true
         }
     }).validator(),
     run({ category }) {
-        const {_id, parent, name} = category;
+        const {_id, parent, name, ids, names} = category;
+        //remove it as parent category from children by Ids
+        ids && removeParent(category.ids, '_id');
 
+        //fallback by names for old records
+        names && removeParent(category.names, 'name');
         if(parent){
-            Categories.update({name: parent, owner: this.userId}, {$pull: {children: name}});
+            Categories.update({'children.id': _id, name: parent, owner: this.userId}, {$pull: {"children": {id: _id}}});
         }
 
         return Categories.remove(_id);
     }
 });
 
+let removeParent =(childrens, type) =>{
+    childrens.forEach((cat) => {
+        Categories.update({
+            [type]: cat
+        },{
+            $set: {
+                parent: null
+            }
+        })
+    })
+
+};
 const CATEGORIES_METHODS = _.pluck([
     insert,
     update,
