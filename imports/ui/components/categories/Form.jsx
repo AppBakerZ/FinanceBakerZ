@@ -30,6 +30,9 @@ const il8n = defineMessages({
     },
     PARENT_CATEGORY: {
         id: 'CATEGORIES.PARENT_CATEGORY'
+    },
+    NO_PARENT_CATEGORY: {
+            id: 'CATEGORIES.NO_PARENT_CATEGORY'
     }
 });
 
@@ -156,10 +159,11 @@ class Form extends Component {
     }
 
     categories(){
+        const { formatMessage } = this.props.intl;
         let cats = this.props.categories.map((category) => {
             return {value: category.name, label: category.name, icon: category.icon};
         });
-        cats.unshift({value: null, label: 'No Parent'});
+        cats.unshift({value: null, label: formatMessage(il8n.NO_PARENT_CATEGORY)});
         return cats
     }
 
