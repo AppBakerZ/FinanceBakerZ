@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
-import { Button, Table, Card, FontIcon, Dialog } from 'react-toolbox';
+import { Button, Table, Card, FontIcon, Dialog, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
@@ -62,7 +62,9 @@ class CategoriesPage extends Component {
             removeConfirmMessage: false,
             openDialog: false,
             selectedCategory: null,
-            action: null
+            action: null,
+            active: false,
+            loading: false
         };
 
     }
@@ -209,6 +211,14 @@ class CategoriesPage extends Component {
         routeHelpers.changeRoute(`/app/categoryDetail/${category._id}`);
     }
 
+    handleBarClick (event, instance) {
+        this.setState({ active: false });
+    }
+
+    handleBarTimeout (event, instance) {
+        this.setState({ active: false });
+    }
+
     renderSubcategories(children, parent){
         return children.map((catName, i) => {
             let catId;
@@ -270,6 +280,16 @@ class CategoriesPage extends Component {
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative', overflowY: 'auto' }}>
                 <div className={theme.categoriesContent}>
+                    <Snackbar
+                        action='Dismiss'
+                        active={this.state.active}
+                        icon={this.state.barIcon}
+                        label={this.state.barMessage}
+                        timeout={2000}
+                        onClick={this.handleBarClick.bind(this)}
+                        onTimeout={this.handleBarTimeout.bind(this)}
+                        type={this.state.barType}
+                    />
                     <div className={theme.categoriesTitle}>
                         <h3> <FormattedMessage {...il8n.SHOW_CATEGORIES} /> </h3>
                         <Button
