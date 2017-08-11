@@ -12,6 +12,7 @@ import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import theme from './theme';
 import moment from 'moment';
 
+
 const il8n = defineMessages({
     ACCOUNT_NUMBER: {
         id: 'TRANSACTIONS.ACCOUNT_NUMBER'
@@ -97,9 +98,8 @@ class viewIncome extends Component {
     }
 
     render() {
-        let { transaction, account, currentProject} = this.props;
         const { formatMessage } = this.props.intl;
-        let { transaction, account } = this.props;
+        let { transaction, account, currentProject} = this.props;
         let { bank, number } = account;
         let details = {};
         if(currentProject){
@@ -124,7 +124,7 @@ class viewIncome extends Component {
                             onClick={this.handleBarClick.bind(this)}
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
-                            />
+                        />
                         <h3>bank deposit</h3>
                         <div className={theme.rightButtons}>
                             <Button
