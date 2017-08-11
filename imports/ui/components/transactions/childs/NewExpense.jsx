@@ -48,6 +48,9 @@ const il8n = defineMessages({
     },
     DESCRIPTION: {
         id: 'TRANSACTIONS.DESCRIPTION'
+    },
+    ADD_NEW_EXPENSE: {
+        id: 'TRANSACTIONS.ADD_NEW_EXPENSE'
     }
 });
 
@@ -395,7 +398,7 @@ class NewExpense extends Component {
         return (
             <div className={theme.incomeCard}>
                 <Card theme={theme}>
-                    <h3>add new expense</h3>
+                    <h3>{formatMessage(il8n.ADD_NEW_EXPENSE)}</h3>
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
 
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />

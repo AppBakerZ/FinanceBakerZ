@@ -8,7 +8,7 @@ import {Button, IconButton} from 'react-toolbox/lib/button';
 
 import moment from 'moment';
 import { Table, Snackbar } from 'react-toolbox';
-import {defineMessages, FormattedMessage, FormattedNumber} from 'react-intl';
+import {defineMessages, FormattedMessage, intlShape, injectIntl, FormattedNumber} from 'react-intl';
 
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import transactionsTable from './transactionsTable';
@@ -33,7 +33,14 @@ const il8n = defineMessages({
     },
     AMOUNT_OF_TRANSACTION: {
         id: 'TRANSACTIONS.AMOUNT_OF_TRANSACTION'
+    },
+    ADD_INCOME: {
+        id: 'TRANSACTIONS.ADD_INCOME'
+    },
+    TRANSACTIONS:{
+            id: 'TRANSACTIONS.TITLE'
     }
+
 });
 
 class TransactionsTable extends Component {
@@ -90,6 +97,7 @@ class TransactionsTable extends Component {
 
     }
     render() {
+        const { formatMessage } = this.props.intl;
         let transactions = this.props.transactions;
         let { totalCount } = this.props.parentProps;
         let data = transactions.map(function(transaction){
@@ -121,13 +129,13 @@ class TransactionsTable extends Component {
                         onTimeout={this.handleBarTimeout.bind(this)}
                         type={this.state.barType}
                         />
-                    <h3>Transactions</h3>
+                    <h3>{formatMessage(il8n.TRANSACTIONS)}</h3>
                     <div className={transactionsTable.rightButtons}>
                             <Button
                                 onClick={this.addIncome.bind(this)}
                                 className='header-buttons'
                                 icon='add'
-                                label="income"
+                                label= {formatMessage(il8n.ADD_INCOME)}
                                 name='Income'
                                 flat />
                             <Button
@@ -147,10 +155,11 @@ class TransactionsTable extends Component {
 
 
 TransactionsTable.propTypes = {
-    transactions: PropTypes.array.isRequired
+    transactions: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+TransactionsTable =  createContainer(() => {
 
     const local = LocalCollection.findOne({
         name: 'reports'
@@ -190,3 +199,4 @@ export default createContainer(() => {
         projectExists
     };
 }, TransactionsTable);
+export default injectIntl(TransactionsTable);
