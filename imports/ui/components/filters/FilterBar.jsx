@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component  } from 'react';
+import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { } from 'react-toolbox';
@@ -17,6 +18,7 @@ class FilterBar extends Component {
         this.state = {};
     }
     render() {
+
         return (
             <div className='filter-bar'>
                 <FilterBy parentProps={ this.props }/>
@@ -30,6 +32,11 @@ class FilterBar extends Component {
             </div>
         );
     }
+}
+
+FilterBar.propTypes = {
+    parentProps: PropTypes.object.isRequired
+
 }
 
 export default createContainer(() => {

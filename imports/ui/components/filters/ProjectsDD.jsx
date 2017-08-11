@@ -55,7 +55,8 @@ class ProjectsDD extends Component {
 }
 
 ProjectsDD.propTypes = {
-    projects: PropTypes.array.isRequired
+    projects: PropTypes.array.isRequired,
+    parentProps: PropTypes.object.isRequired
 };
 
 export default injectIntl(createContainer(() => {

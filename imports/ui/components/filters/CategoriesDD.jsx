@@ -57,7 +57,8 @@ class CategoriesDD extends Component {
 }
 
 CategoriesDD.propTypes = {
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    parentProps: PropTypes.object.isRequired
 };
 
 export default injectIntl(createContainer(() => {

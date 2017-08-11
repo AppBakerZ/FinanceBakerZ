@@ -53,10 +53,15 @@ export const actions = (methodName, paramsArray, isInsert, isUserSettings) => {
                 });
             }
             else{
-                doc = currentCollection.findOne( params[keys] );
+                if(params){
+                    doc = currentCollection.findOne( params[keys] );
+                }
             }
             //add collection key to flexible query afterwards
-            doc.collection = collection;
+            // TODO: check why doc undefined in some situations e.g category
+            if(doc){
+                doc.collection = collection
+            }
             return doc
         }
     }

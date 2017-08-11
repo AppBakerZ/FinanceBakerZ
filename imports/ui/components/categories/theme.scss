@@ -2,7 +2,7 @@
 @import "~react-toolbox/lib/button/config";
 
 .categoriesContent{
-  padding: 0 $unit * 1.8;
+  padding: 0 $unit * 1.8 $unit;
   margin-top: $unit * 4;
   width: 100%;
   .categoriesTitle{

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import { _ } from 'underscore'
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 
@@ -68,6 +69,18 @@ const il8n = defineMessages({
     STATUS: {
         id: 'PROJECTS.STATUS_OF_PROJECT'
     },
+    FIXED: {
+        id: 'PROJECTS.FIXED'
+    },
+    HOURLY: {
+        id: 'PROJECTS.HOURLY'
+    },
+    WEEKLY: {
+        id: 'PROJECTS.WEEKLY'
+    },
+    MONTHLY: {
+        id: 'PROJECTS.MONTHLY'
+    },
     PROGRESS: {
         id: 'PROJECTS.PROGRESS'
     },
@@ -119,6 +132,8 @@ class NewProjectPage extends Component {
         const { formatMessage } = this.props.intl;
 
         this.state = {
+            isNew: false,
+            clientDetails: [{name:'name', value: ''},{name:'country', value:''}],
             name: '',
             clientName: '',
             type: '',
@@ -126,7 +141,12 @@ class NewProjectPage extends Component {
             status: '',
             startAt: '',
             active: false,
-            loading: false
+            loading: false,
+            showCustomFields: false,
+            showCustomInput: false,
+            customField: '',
+            customValue: '',
+            customFields: []
         };
 
 
@@ -144,6 +164,43 @@ class NewProjectPage extends Component {
                 value: 'completed'
             }
         ];
+
+        this.types = [
+            {
+                label: formatMessage(il8n.FIXED),
+                value: 'fixed'
+            },
+            {
+                label: formatMessage(il8n.HOURLY),
+                value: 'hourly'
+            },
+            {
+                label: formatMessage(il8n.WEEKLY),
+                value: 'weekly'
+            },
+            {
+                label: formatMessage(il8n.MONTHLY),
+                value: 'monthly'
+            }
+        ];
+        this.customFields = [
+            {
+                label: 'Name',
+                value: 'name'
+            },
+            {
+                label: 'Country',
+                value: 'country'
+            },
+            {
+                label: 'Contact',
+                value: 'contact'
+            },
+            {
+                label: 'Custom Field',
+                value: 'custom'
+            }
+        ]
     }
 
 
@@ -153,16 +210,90 @@ class NewProjectPage extends Component {
             isNew: value
         })
     }
-
     componentDidMount (){
-        let { project } = this.props;
-        let { id } = this.props.params;
-        let isNew = id === 'new';
+        this.updateProjectProps(this.props)
+    }
+
+    componentWillReceiveProps (p){
+        this.updateProjectProps(p)
+    }
+
+    updateProjectProps(p){
+        let { project } = p;
+        let { id } = p.params;
+        let isNew = id === 'new', clientDetails;
         if( !isNew ){
-            Object.keys(project).length && (project.clientName = project.client.name);
+            // Object.keys(project).length && (project.clientName = project.client.name);
+            Object.keys(project).length && (clientDetails = project.client);
+            if(clientDetails){
+                clientDetails = Object.keys(clientDetails).map(function(key) {
+                    return {name: key, value: clientDetails[key]};
+                });
+                project.clientDetails = clientDetails
+            }
+            project = _.extend(this.state, project);
             this.setState(project);
         }
         this.setCurrentRoute(isNew);
+    }
+
+    changeClientDetails (idx, val)  {
+        const newShareholders = this.state.clientDetails.map((customField, sidx) => {
+            if (idx !== sidx) return customField;
+            return { ...customField, value : val };
+        });
+
+        this.setState({ clientDetails: newShareholders });
+    }
+
+    showCustomField(){
+        let { showCustomFields, showCustomInput } = this.state;
+        if(!( showCustomInput || showCustomFields)){
+            this.setState({
+                showCustomFields: true
+            });
+        }
+    }
+
+    addCustomField (name) {
+        let { customField, customFields } = this.state, errMessage, flag = false, customValue = false;
+        if( name === 'customValue'){
+            customValue = true;
+        }
+        if (!this.state.customField){
+            customValue || (errMessage = 'You must select Custom Field name From above Drop Down');
+            customValue && (errMessage = 'You must Enter Custom Field name and Value');
+            flag = true;
+        }
+        else if(customFields.includes(customField)){
+            errMessage = `The ${customField} already added`;
+            flag = true;
+        }
+        if(flag){
+            this.setState({
+                active: true,
+                barMessage: errMessage,
+                barIcon: 'error_outline',
+                barType: 'cancel'
+            });
+            return
+        }
+        this.customFields = this.customFields.filter((item) => (item.value !== customField));
+        customFields.push(customField);
+        this.setState({
+            clientDetails: this.state.clientDetails.concat([{ name: this.state.customField, value: customValue ? this.state.customValue : ''}]),
+            customFields: customFields,
+            showCustomFields: false,
+            showCustomInput: false
+        });
+    }
+
+    removeCustomField (idx) {
+        let { customFields, clientDetails } = this.state;
+        this.setState({
+            clientDetails: clientDetails.filter((s, sidx) => idx !== sidx),
+            customFields: customFields.filter((s, sidx) => idx !== sidx)
+        });
     }
 
     onSubmit(event){
@@ -172,13 +303,16 @@ class NewProjectPage extends Component {
     }
 
     createProject(){
-        const {name, clientName, type, amount, status, startAt} = this.state;
+        const {name, type, amount, status, startAt, clientDetails} = this.state;
+        let clientObj = clientDetails.reduce(function(obj,item){
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+
         Meteor.call('projects.insert', {
             project: {
                 name,
-                client: {
-                    name: clientName
-                },
+                client: clientObj,
                 type,
                 amount: Number(amount),
                 status,
@@ -206,14 +340,16 @@ class NewProjectPage extends Component {
     }
 
     updateProject(){
-        const {_id, name, clientName, type, amount, status, startAt} = this.state;
+        const {_id, name, clientDetails, type, amount, status, startAt} = this.state;
+        let clientObj = clientDetails.reduce(function(obj,item){
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
         Meteor.call('projects.update', {
             project: {
                 _id,
                 name,
-                client: {
-                    name: clientName
-                },
+                client: clientObj,
                 type,
                 amount: Number(amount),
                 status,
@@ -241,6 +377,18 @@ class NewProjectPage extends Component {
     }
 
     onChange (val, e) {
+        this.setState({[e.target.name]: val});
+    }
+    onCustomFieldChange (val, e) {
+        if(val === 'custom'){
+            this.setState({
+                customField: '',
+                customValue: '',
+                showCustomFields: false,
+                showCustomInput: true,
+            });
+            return false
+        }
         this.setState({[e.target.name]: val});
     }
 
@@ -289,40 +437,28 @@ class NewProjectPage extends Component {
                         />
 
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
-                               auto={false}
                                name='name'
                                value={this.state.name}
                                onChange={this.onChange.bind(this)}
                                required
                         />
 
-                        <Input type='text' label={formatMessage(il8n.CLIENT_NAME)}
-                               auto={false}
-                               name='clientName'
-                               maxLength={ 50 }
-                               value={this.state.clientName}
-                               onChange={this.onChange.bind(this)}
-                               required
-                        />
-
-                        <Input type='text' label={formatMessage(il8n.PROJECT_TYPE)}
-                               auto={false}
-                               name='type'
-                               maxLength={ 50 }
-                               value={this.state.type}
-                               onChange={this.onChange.bind(this)}
-                               required
+                        <Dropdown theme={theme} className={theme.projectStatus}
+                                  source={this.types}
+                                  name='type'
+                                  onChange={this.onChange.bind(this)}
+                                  label={formatMessage(il8n.PROJECT_TYPE)}
+                                  value={this.state.type}
+                                  required
                         />
 
                         <Input type='number' label={formatMessage(il8n.PROJECT_AMOUNT)}
-                               auto={false}
                                name='amount'
                                value={this.state.amount}
                                onChange={this.onChange.bind(this)}
                         />
 
                         <Dropdown theme={theme} className={theme.projectStatus}
-                                  auto={false}
                                   source={this.statuses}
                                   name='status'
                                   onChange={this.onChange.bind(this)}
@@ -337,6 +473,81 @@ class NewProjectPage extends Component {
                             onChange={this.onChange.bind(this)}
                             value={this.state.startAt}
                         />
+
+                        <h4 className={theme.clientHeading}>client details</h4>
+
+
+                        {this.state.clientDetails.map((customField, idx) => (
+                            <div className="customField" key={idx + 1}>
+                                <Input className={theme.projectCustomField} type='text' label={customField.name}
+                                       name={customField.name}
+                                       value={customField.value}
+                                       onChange={this.changeClientDetails.bind(this, idx)}
+                                       required
+                                />
+                                <div className={theme.closeBtnParent}>
+                                    <Button onClick={this.removeCustomField.bind(this, idx)}
+                                        label=''
+                                        icon='close'
+                                        raised
+                                    />
+                                </div>
+                            </div>
+                        ))}
+
+                        {this.state.showCustomInput ?
+                            <div>
+
+                                <Input className={theme.inputCustomField} type='text' label='Field Name'
+                                       name='customField'
+                                       value={this.state.customField}
+                                       onChange={this.onCustomFieldChange.bind(this)}
+                                       required
+                                />
+                                <Input className={theme.inputCustomField} type='text' label='Field Value'
+                                       name='customValue'
+                                       value={this.state.customValue}
+                                       onChange={this.onCustomFieldChange.bind(this)}
+                                       required
+                                />
+                                <div className={theme.closeBtnParent}>
+                                    <Button style={{color: 'green'}}
+                                            label=''
+                                            icon='check'
+                                            raised
+                                            onClick={this.addCustomField.bind(this, 'customValue')}
+                                    />
+                                </div>
+                            </div>
+                            : ''}
+
+                        {this.state.showCustomFields ?
+                        <div>
+
+                        <Dropdown theme={theme} className={theme.projectCustomField}
+                                  source={this.customFields}
+                                  name='customField'
+                                  onChange={this.onCustomFieldChange.bind(this)}
+                                  label='Please select Field'
+                                  value={this.state.customField}
+                                  required
+                        />
+                        <div className={theme.closeBtnParent}>
+                            <Button style={{color: 'green'}}
+                                label=''
+                                icon='check'
+                                raised
+                                onClick={this.addCustomField.bind(this)}
+                            />
+                        </div>
+                        </div>
+                        : ''}
+
+                        <div className={theme.btnParents}>
+                            <Button icon='add' onClick={this.showCustomField.bind(this)} label="Add custom fields" raised primary />
+                        </div>
+
+
 
                         {this.renderButton()}
                     </form>
@@ -357,6 +568,8 @@ NewProjectPage = createContainer((props) => {
     const project = Projects.findOne({_id: id});
     return {
         project: project ? project : {},
+        //below key is just here to run componentWillReceiveProps as first
+        test: 'componentWillReceiveProps'
     };
 }, NewProjectPage);
 
