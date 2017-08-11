@@ -8,7 +8,6 @@ import { Button, Table, Card, FontIcon, Dialog, Snackbar } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
 
-import Form from './Form.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import theme from './theme';
@@ -87,12 +86,6 @@ class CategoriesPage extends Component {
                 break;
             case 'remove':
                 return this.renderConfirmationMessage();
-                break;
-            case 'edit':
-                return <Form categories={this.props.categories} category={this.state.selectedCategory} closePopup={this.closePopup.bind(this)} />;
-                break;
-            case 'add':
-                return <Form categories={this.props.categories} closePopup={this.closePopup.bind(this)} />;
                 break;
         }
     }

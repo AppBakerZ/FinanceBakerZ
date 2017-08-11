@@ -8,7 +8,6 @@ import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, 
 
 import { Meteor } from 'meteor/meteor';
 
-import Form from './Form.jsx';
 import ProjectDetail from './childs/ProjectDetail.jsx';
 import NothingFound from '../utilityComponents/NothingFound.jsx'
 import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
@@ -183,12 +182,6 @@ class ProjectPage extends Component {
                 break;
             case 'remove':
                 return this.renderConfirmationMessage();
-                break;
-            case 'edit':
-                return <Form statuses={this.statuses} project={this.state.selectedProject} closePopup={this.closePopup.bind(this)} />;
-                break;
-            case 'add':
-                return <Form statuses={this.statuses} closePopup={this.closePopup.bind(this)} />;
                 break;
         }
 
