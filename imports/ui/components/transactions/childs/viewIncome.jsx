@@ -9,6 +9,42 @@ import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import theme from './theme';
 import moment from 'moment';
+
+const il8n = defineMessages({
+    ACCOUNT_NUMBER: {
+        id: 'TRANSACTIONS.ACCOUNT_NUMBER'
+    },
+    SENDER_BANK:{
+        id: 'TRANSACTIONS.SENDER_BANK'
+    },
+    SENDER_NAME: {
+        id: 'TRANSACTIONS.SENDER_NAME'
+    },
+    TRANSACTION_ID:{
+        id: 'TRANSACTIONS.TRANSACTION_ID'
+    },
+    DATE:{
+        id: 'TRANSACTIONS.DATE'
+    },
+    DEPOSITED_IN:{
+        id: 'TRANSACTIONS.DEPOSITED_IN'
+    },
+
+    AMOUNT:{
+        id: 'TRANSACTIONS.AMOUNT'
+    },
+    CREDIT_TYPE: {
+        id: 'TRANSACTIONS.CREDIT_TYPE'
+    },
+    PROJECT:{
+        id: 'TRANSACTIONS.PROJECT'
+    }
+
+
+
+
+});
+
 class viewIncome extends Component {
 
     constructor(props) {
@@ -59,6 +95,7 @@ class viewIncome extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         let { transaction, account } = this.props;
         let { bank, number } = account;
         //remove the bank prefix from bank account
@@ -97,22 +134,22 @@ class viewIncome extends Component {
                     </div>
                     <div className={theme.bankContent}>
                         <div className={theme.depositContent}>
-                            <h6>Transaction ID: <span>{ _id }</span></h6>
-                            <h6>Date: <span> { date } </span></h6>
-                            <h5>Deposited in: <span>{ bank }</span></h5>
-                            <h5>Account Number: <span>{ number }</span></h5>
-                            <h5>Amount: <span> <i className={userCurrencyHelpers.loggedUserCurrency()}></i> </span>  <span className={theme.price}> { amount } </span> </h5>
+                            <h6>{formatMessage(il8n.TRANSACTION_ID)}: <span>{ _id }</span></h6>
+                            <h6>{formatMessage(il8n.DATE)}: <span> { date } </span></h6>
+                            <h5>{formatMessage(il8n.DEPOSITED_IN)}: <span>{ bank }</span></h5>
+                            <h5>{formatMessage(il8n.ACCOUNT_NUMBER)}: <span>{ number }</span></h5>
+                            <h5>{formatMessage(il8n.AMOUNT)}: <span> <i className={userCurrencyHelpers.loggedUserCurrency()}></i> </span>  <span className={theme.price}> { amount } </span> </h5>
                         </div>
                         <div className={theme.accountContent}>
-                            <h5>Sender Name: <span>Saeed Anwar</span></h5>
-                            <h5>Sender Bank: <span>Habib Bank</span></h5>
-                            <h5>Account Number: <span>009123455670</span></h5>
+                            <h5>{formatMessage(il8n.SENDER_NAME)}: <span>Saeed Anwar</span></h5>
+                            <h5>{formatMessage(il8n.SENDER_BANK)}: <span>Habib Bank</span></h5>
+                            <h5>{formatMessage(il8n.ACCOUNT_NUMBER)}: <span>009123455670</span></h5>
                         </div>
                         <div className={theme.projectContent}>
                             { transaction.creditType ? (transaction.creditType === 'salary' ?
-                                <h5>CreditType: <span>Salary</span></h5> :
-                                <h5>CreditType: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>) :
-                                <h5>Project: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>
+                                <h5>{formatMessage(il8n.CREDIT_TYPE)}: <span>Salary</span></h5> :
+                                <h5>{formatMessage(il8n.CREDIT_TYPE)}: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>) :
+                                <h5>{formatMessage(il8n.PROJECT)}: <span>{ transaction.project ? transaction.project.name : 'Not Available' }</span></h5>
                             }
                         </div>
                     </div>
