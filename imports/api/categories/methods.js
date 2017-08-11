@@ -141,11 +141,6 @@ export const update = new ValidatedMethod({
             }});
         }
 
-        // if(oldCategory.parent !== parent || oldCategory.name !== name){
-        //     Categories.update({name: oldCategory.parent, owner: this.userId}, {$pull: {children: oldCategory.name}});
-        //     Categories.update({name: parent, owner: this.userId}, {$addToSet : {children: name}});
-        // }
-
         return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent: newParent}})
     }
 });

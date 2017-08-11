@@ -186,7 +186,7 @@ class SettingsPage extends Component {
 
     userRemove () {
         if(!Meteor.userId()) return;
-        var user = {account: {owner: Meteor.userId()}};
+        let user = {account: {owner: Meteor.userId()}};
         Meteor.call('userRemove', user, (err, res) => {
             if(err) {
 
@@ -382,7 +382,7 @@ class SettingsPage extends Component {
             const file = e.target.files[0];
             this.setState({
                 target: e.target.files[0]
-            })
+            });
             reader.onload = (upload) => {
                 this.setState({
                     data_uri: upload.target.result
@@ -426,7 +426,7 @@ class SettingsPage extends Component {
                            onChange={this.userImage.bind(this)}/>
                 </div>
                 <img className='user-image' src={profileImage} />
-            </div>
+            </div>;
 
 
         switch (this.state.action){

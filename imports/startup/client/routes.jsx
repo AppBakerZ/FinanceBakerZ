@@ -24,15 +24,15 @@ import ReportsPage from '../../ui/components/reports/Reports.jsx';
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
+import ProjectDetail  from '../../ui/components/projects/childs/ProjectDetail'
+import NewProjectPage from '../../ui/components/projects/childs/newProject'
+
 import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
-//transactions childrens
 import NewIncome from '../../ui/components/transactions/childs/NewIncome';
 import NewExpense from '../../ui/components/transactions/childs/NewExpense';
 import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
 
-import NewProjectPage from '../../ui/components/projects/childs/newProject'
-import ProjectDetail  from '../../ui/components/projects/childs/ProjectDetail'
 
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'

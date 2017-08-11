@@ -43,7 +43,7 @@ class TransactionsType extends Component {
     }
     selectType (type) {
         let { parentProps } = this.props.parentProps;
-        let { location, history } = parentProps;
+        let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         //whenever the transaction type change skip 0
@@ -79,7 +79,7 @@ class TransactionsType extends Component {
 TransactionsType.propTypes = {
     parentProps: PropTypes.object.isRequired
 
-}
+};
 
 export default injectIntl(createContainer(() => {
     return {

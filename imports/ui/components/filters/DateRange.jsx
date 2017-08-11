@@ -40,7 +40,7 @@ class DateRange extends Component {
     onDateChange (date, e) {
         let dateFilter = e.target.name;
         let { parentProps } = this.props.parentProps;
-        let { location, history } = parentProps;
+        let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
 
@@ -76,7 +76,7 @@ class DateRange extends Component {
 DateRange.propTypes = {
     parentProps: PropTypes.object.isRequired
 
-}
+};
 
 export default injectIntl(createContainer(() => {
     return {
