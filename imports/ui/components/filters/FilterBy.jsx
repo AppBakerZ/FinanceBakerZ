@@ -74,7 +74,7 @@ class FilterBy extends Component {
     }
     selectFilter (filter) {
         let { parentProps } = this.props.parentProps;
-        let { location, history } = parentProps;
+        let { location } = parentProps;
         let query = location.query;
         let pathname = routeHelpers.resetPagination(location.pathname);
         // transaction filter
@@ -111,7 +111,7 @@ class FilterBy extends Component {
 FilterBy.propTypes = {
     parentProps: PropTypes.object.isRequired
 
-}
+};
 
 export default injectIntl(createContainer(() => {
     return {

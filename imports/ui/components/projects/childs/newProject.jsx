@@ -223,7 +223,6 @@ class NewProjectPage extends Component {
         let { id } = p.params;
         let isNew = id === 'new', clientDetails;
         if( !isNew ){
-            // Object.keys(project).length && (project.clientName = project.client.name);
             Object.keys(project).length && (clientDetails = project.client);
             if(clientDetails){
                 clientDetails = Object.keys(clientDetails).map(function(key) {

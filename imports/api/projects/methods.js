@@ -33,9 +33,6 @@ export const insert = new ValidatedMethod({
             type: Object,
             blackbox: true
         },
-        // 'project.client.name': {
-        //     type: String
-        // },
         'project.status': {
             type: String
         },
@@ -80,9 +77,6 @@ export const update = new ValidatedMethod({
             type: Object,
             blackbox: true
         },
-        // 'project.client.name': {
-        //     type: String
-        // },
         'project.status': {
             type: String
         },

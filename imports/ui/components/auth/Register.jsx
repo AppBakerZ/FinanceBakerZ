@@ -8,7 +8,6 @@ import { Accounts } from 'meteor/accounts-base'
 
 import theme from './theme';
 
-import { Meteor } from 'meteor/meteor'
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
@@ -92,7 +91,6 @@ class Register extends Component {
                 }
 
                 );
-                var account = {account: {owner: Meteor.user()._id}};
                 setTimeout(() => {
                     routeHelpers.changeRoute('/app/settings');
                 }, 1000);

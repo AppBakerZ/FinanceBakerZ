@@ -91,44 +91,6 @@ export const incomesGroupByMonth = new ValidatedMethod({
             CountedArrayByMonths = _.sortBy(CountedArrayByMonths, '_id')
         }
 
-        /**** although old method changed but don't remove untill production check :) *****/
-        //both run different because match phase is different
-        // const sumOfIncomesByMonth = Transactions.aggregate([
-        //     match,
-        //     { "$group": {
-        //         "_id": { "$month": "$transactionAt" },
-        //         "income": { "$sum": "$amount" }
-        //     }}
-        // ]);
-        //
-        // //both run different because match phase is different
-        // match.$match.type = 'expense';
-        // const sumOfExpensesByMonth = Transactions.aggregate([
-        //     match,
-        //     { "$group": {
-        //         "_id": { "$month": "$transactionAt" },
-        //         "expense": { "$sum": "$amount" }
-        //     }}
-        // ]);
-        //
-        // const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
-        //
-        //  let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
-        //     let item = {};
-        //     if(arrayGroup.length > 1){
-        //         item = _.extend(arrayGroup[0], arrayGroup[1]);
-        //     }else{
-        //         item = arrayGroup[0]
-        //     }
-        //
-        //     if(!_.has(item, 'income')) item.income = 0;
-        //     if(!_.has(item, 'expense')) item.expense = 0;
-        //
-        //     return item
-        // });
-        // return {years: years, result: groupedByMonths}
-
-
         return {years: years, result: CountedArrayByMonths}
     }
 });

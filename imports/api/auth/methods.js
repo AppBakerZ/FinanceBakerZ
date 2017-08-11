@@ -6,7 +6,7 @@ import { Accounts } from '../accounts/accounts.js';
 
 
 MeteorAccounts.onCreateUser(function(options, user) {
-    var account = {owner: user._id};
+    let account = {owner: user._id};
     //Inserting default bank account on signup
     Accounts.insert({owner: account.owner, bank: 'bank-Gullak-Bank', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
    // Reset user object

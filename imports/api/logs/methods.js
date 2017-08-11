@@ -41,14 +41,3 @@ export const insert = new ValidatedMethod({
         return Logs.insert(log);
     }
 });
-
-// if (Meteor.isServer) {
-//     DDPRateLimiter.addRule({
-//         name(name) {
-//             return _.contains(PAYMENTS_METHODS, name);
-//         },
-//
-//         // Rate limit per connection ID
-//         connectionId() { return true; }
-//     }, 5, 1000);
-// }

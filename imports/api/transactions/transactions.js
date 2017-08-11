@@ -48,28 +48,12 @@ Transactions.schema = new SimpleSchema({
         label: 'Category Object',
         optional: true
     },
-    // 'category._id': {
-    //     type: String,
-    //     label: 'Category Id'
-    // },
-    // 'category.name': {
-    //     type: String,
-    //     label: 'Category name'
-    // },
     project: {
         type: Object,
         blackbox: true,
         label: 'project Object',
         optional: true
     },
-    // 'project._id': {
-    //     type: String,
-    //     label: 'project Id'
-    // },
-    // 'project.name': {
-    //     type: String,
-    //     label: 'project name'
-    // },
     transactionAt: {
         type: Date,
         label: 'When transaction happens',

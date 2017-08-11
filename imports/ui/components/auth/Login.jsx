@@ -81,7 +81,7 @@ class Register extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                var useraccount = {account: {owner: Meteor.user()._id}};
+                let useraccount = {account: {owner: Meteor.user()._id}};
                 Meteor.call('profileAssets', useraccount);
                 setTimeout(() => {
                     routeHelpers.changeRoute('/app/dashboard');

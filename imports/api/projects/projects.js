@@ -32,10 +32,6 @@ Projects.schema = new SimpleSchema({
         label : 'Client details',
         blackbox:true
     },
-    // 'client.name' : {
-    //     type: String,
-    //     label : 'Client name'
-    // },
     status :{
         type: String,
         label : 'Status'

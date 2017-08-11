@@ -25,7 +25,7 @@ class Pagination extends Component {
 
     handlePageClick(data) {
         const { parentProps } = this.props;
-        const { location, history } = parentProps;
+        const { location } = parentProps;
         let query = location.query;
         let selected = data.selected;
         let pathName = location.pathname;
@@ -34,14 +34,11 @@ class Pagination extends Component {
             pathName = `${pathName}/paginate`;
         }
         else{
-            pathName = pathName = pathName.slice(0, pathName.lastIndexOf('/'))
+            pathName = pathName.slice(0, pathName.lastIndexOf('/'))
         }
 
         //set the params in case of greater than 0 else default
-        routeHelpers.changeRoute(`${pathName}/${selected}`, 0, query)
-        let skip = Math.ceil(selected * this.props.local.limit);
-
-        // updateFilter('reports', 'skip', skip)
+        routeHelpers.changeRoute(`${pathName}/${selected}`, 0, query);
     }
 
     render() {
@@ -68,8 +65,7 @@ class Pagination extends Component {
 
 Pagination.propTypes = {
     parentProps: PropTypes.object.isRequired
-
-}
+};
 
 export default createContainer(() => {
     return {
