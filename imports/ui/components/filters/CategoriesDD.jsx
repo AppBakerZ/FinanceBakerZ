@@ -61,15 +61,15 @@ CategoriesDD.propTypes = {
     parentProps: PropTypes.object.isRequired
 };
 
-export default injectIntl(createContainer(() => {
+export default injectIntl(createContainer((props) => {
 
     Meteor.subscribe('categories');
     const categories = Categories.find().fetch();
-
+    let { parentProps } = props;
     return {
         categories,
         local: LocalCollection.findOne({
-            name: 'localTransactions'
+            name: parentProps.collection
         })
     };
 }, CategoriesDD));

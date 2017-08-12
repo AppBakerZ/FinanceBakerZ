@@ -39,10 +39,10 @@ FilterBar.propTypes = {
 
 };
 
-export default createContainer(() => {
+export default createContainer((props) => {
     return {
         local: LocalCollection.findOne({
-            name: 'localTransactions'
+            name: props.collection
         })
     };
 }, FilterBar);
