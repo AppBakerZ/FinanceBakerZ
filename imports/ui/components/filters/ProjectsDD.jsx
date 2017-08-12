@@ -67,7 +67,7 @@ export default injectIntl(createContainer(() => {
     return {
         projects,
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: 'localTransactions'
         })
     };
 }, ProjectsDD));

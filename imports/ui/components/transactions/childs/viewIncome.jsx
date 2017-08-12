@@ -78,7 +78,7 @@ class viewIncome extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/reports', 1200);
+                routeHelpers.changeRoute('/app/transactions', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Income deleted successfully',

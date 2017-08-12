@@ -31,7 +31,7 @@ class CategoriesDD extends Component {
 
     filterByCategories(categories) {
         let { parentProps } = this.props.parentProps;
-        let { location, history } = parentProps;
+        let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.categories = `${[categories]}`;
@@ -69,7 +69,7 @@ export default injectIntl(createContainer(() => {
     return {
         categories,
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: 'localTransactions'
         })
     };
 }, CategoriesDD));

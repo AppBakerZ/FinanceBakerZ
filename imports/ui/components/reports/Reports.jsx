@@ -31,18 +31,18 @@ class ReportsPage extends Component {
 
 
         //first update skip if given
-        params.number && updateFilter('reports', 'skip', Math.ceil(params.number * local.limit));
+        params.number && updateFilter('localTransactions', 'skip', Math.ceil(params.number * local.limit));
 
         //filters
-        updateFilter('reports', 'type', query.type || 'both');
-        updateFilter('reports', 'accounts', accounts);
-        updateFilter('reports', 'projects', projects);
-        updateFilter('reports', 'categories', categories);
+        updateFilter('localTransactions', 'type', query.type || 'both');
+        updateFilter('localTransactions', 'accounts', accounts);
+        updateFilter('localTransactions', 'projects', projects);
+        updateFilter('localTransactions', 'categories', categories);
 
         //date filters
-        updateFilter('reports', 'filter', query.filter || 'range');
-        updateFilter('reports', 'dateFrom', moment(dateFrom).format());
-        updateFilter('reports', 'dateTo', moment(dateTo).format());
+        updateFilter('localTransactions', 'filter', query.filter || 'range');
+        updateFilter('localTransactions', 'dateFrom', moment(dateFrom).format());
+        updateFilter('localTransactions', 'dateTo', moment(dateTo).format());
     }
 
     render() {
@@ -61,7 +61,7 @@ class ReportsPage extends Component {
 export default createContainer(() => {
 
     const local = LocalCollection.findOne({
-        name: 'reports'
+        name: 'localTransactions'
     });
     const pageCount = Counter.get('transactionsCount');
 

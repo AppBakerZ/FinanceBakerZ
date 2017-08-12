@@ -116,7 +116,7 @@ FilterBy.propTypes = {
 export default injectIntl(createContainer(() => {
     return {
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: 'localTransactions'
         })
     };
 }, FilterBy));

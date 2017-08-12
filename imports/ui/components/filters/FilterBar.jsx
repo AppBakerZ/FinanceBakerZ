@@ -37,12 +37,12 @@ class FilterBar extends Component {
 FilterBar.propTypes = {
     parentProps: PropTypes.object.isRequired
 
-}
+};
 
 export default createContainer(() => {
     return {
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: 'localTransactions'
         })
     };
 }, FilterBar);

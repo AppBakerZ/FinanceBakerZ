@@ -162,7 +162,7 @@ TransactionsTable.propTypes = {
 TransactionsTable =  createContainer(() => {
 
     const local = LocalCollection.findOne({
-        name: 'reports'
+        name: 'localTransactions'
     });
     const transactionsHandle = Meteor.subscribe('transaction', {
         limit : local.limit,
