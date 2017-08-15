@@ -12,6 +12,16 @@ import { Button } from 'react-toolbox';
 
 import theme from './theme.scss';
 
+const il8n = defineMessages({
+
+    NO_RECORD_EXISTS:{
+        id: 'UTILITY_COMPONENTS.NO_RECORD_EXISTS'
+    },
+    GO_BACK:{
+        id: 'UTILITY_COMPONENTS.GO_BACK'
+    }
+});
+
 class NoRecordFound extends Component {
 
     constructor(props) {
@@ -23,14 +33,15 @@ class NoRecordFound extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.projectNothing}>
-                <span className={theme.errorShow}>No Records Are Exist</span>
+                <span className={theme.errorShow}>{formatMessage(il8n.NO_RECORD_EXISTS)}</span>
                     <div className={theme.goback}>
                     <Button
                             type='button'
                             raised theme={buttonTheme}
-                            label="Go Back"
+                            label={formatMessage(il8n.GO_BACK)}
                             onClick={this.goBack.bind(this)}/>
                     </div>
             </div>
