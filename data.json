@@ -234,7 +234,9 @@
     "LEFTMENU.CATEGORIES": "Categories",
     "LEFTMENU.REPORTS": "Reports",
     "LEFTMENU.SETTINGS": "Settings",
-    "LEFTMENU.LOGOUT_BUTTON": "Logout"
+    "LEFTMENU.LOGOUT_BUTTON": "Logout",
+    "UTILITY_COMPONENTS.NO_RECORD_EXISTS": "Sorry the record you want to access is no more exist",
+    "UTILITY_COMPONENTS.GO_BACK": "Go Back"
 },
 
   "ur": {
@@ -472,7 +474,9 @@
     "LEFTMENU.CATEGORIES": "اقسام ",
     "LEFTMENU.REPORTS": "نتائج",
     "LEFTMENU.SETTINGS": " ترتیبات",
-    "LEFTMENU.LOGOUT_BUTTON": " خروج"
+    "LEFTMENU.LOGOUT_BUTTON": " خروج",
+    "UTILITY_COMPONENTS.NO_RECORD_EXISTS": "معاف کیجئے آپ کا مطلوبہ ریکارڈ موجود نھیں ھے",
+    "UTILITY_COMPONENTS.GO_BACK": "پیچھے جائیں"
   }
 
 }

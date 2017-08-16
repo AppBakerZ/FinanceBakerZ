@@ -7,6 +7,8 @@ import { userCurrencyHelpers } from '../../../../helpers/currencyHelpers';
 import { stringHelpers } from '../../../../helpers/stringHelpers';
 import { Projects } from '../../../../api/projects/projects.js';
 
+import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 import { Button, Snackbar } from 'react-toolbox';
 
@@ -108,6 +110,8 @@ class ProjectDetail extends Component {
         let date = moment(startAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
+                {Object.keys(project).length ?
+
                 <div className="container">
                     <div className={theme.titleBox}>
                         <Snackbar
@@ -153,6 +157,7 @@ class ProjectDetail extends Component {
                         </div>
                     </div>
                 </div>
+                    : <RecordsNotExists route="app/projects" />}
             </div>
 
         );
