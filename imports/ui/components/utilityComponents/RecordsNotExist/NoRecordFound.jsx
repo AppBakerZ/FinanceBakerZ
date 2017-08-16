@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import buttonTheme from '../../projects/buttonTheme.scss';
-
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 import { routeHelpers } from '../../../../helpers/routeHelpers';
@@ -40,7 +38,7 @@ class NoRecordFound extends Component {
                     <div className={theme.goback}>
                     <Button
                             type='button'
-                            raised theme={buttonTheme}
+                            raised  primary
                             label={formatMessage(il8n.GO_BACK)}
                             onClick={this.goBack.bind(this)}/>
                     </div>
