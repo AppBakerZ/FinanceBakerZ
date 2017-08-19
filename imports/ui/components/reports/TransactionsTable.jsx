@@ -179,6 +179,8 @@ TransactionsTable =  createContainer(() => {
 
     const projects = Meteor.subscribe('projects.all');
     const categories = Meteor.subscribe('categories');
+    const projectExists = Counter.get('projectExists');
+    const categoryExists = Counter.get('categoriesExists');
 
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
@@ -190,13 +192,17 @@ TransactionsTable =  createContainer(() => {
         }
     }).fetch();
 
-    const categoryExists = Categories.findOne({});
-    const projectExists = Projects.findOne({});
+    // const categoryExists = Categories.findOne({});
+    // const projectExists = Projects.findOne({});
     return {
+        categories,
+        categoryExists,
+        projects,
+        projectExists,
         local,
         transactions,
-        categoryExists,
-        projectExists
+
+
     };
 }, TransactionsTable);
 export default injectIntl(TransactionsTable);

@@ -2,9 +2,18 @@ import { Meteor } from 'meteor/meteor';
 import { Categories } from '../categories.js';
 
 Meteor.publish('categories', function () {
-    return Categories.find({
-        owner: this.userId
-    }, {sort: {createdAt: 1}});
+    return [
+        new Counter('categoriesExists', Categories.find(
+            {
+                owner: this.userId
+            })),
+        Categories.find(
+            {
+                owner: this.userId
+            },
+            {sort: {createdAt: 1}})
+
+    ];
 });
 
 Meteor.publish('categories.single', function (id) {

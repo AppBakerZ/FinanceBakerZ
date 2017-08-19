@@ -4,10 +4,20 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { _ } from 'underscore'
 
 Meteor.publish('projects.all', function(){
-    return Projects.find(
+    return [
+        new Counter('projectExists', Projects.find(
+            {
+                owner: this.userId
+            })),
+        Projects.find(
         {
             owner: this.userId
-        }, {fields: {name: 1}});
+        },
+            {fields: {name: 1}})
+    ];
+
+
+
 });
 
 
