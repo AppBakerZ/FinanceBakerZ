@@ -5,7 +5,7 @@ import { Transactions } from '../../../../api/transactions/transactions.js'
 import { Accounts } from '../../../../api/accounts/accounts'
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { userCurrencyHelpers } from '../../../../helpers/currencyHelpers'
-
+import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
 
 import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar, Card } from 'react-toolbox';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
@@ -69,6 +69,7 @@ class viewExpense extends Component {
         bank = bank && bank.split("bank-")[1];
         return (
             <div className={theme.viewExpense}>
+                {Object.keys(transaction).length ?
                 <div className="container">
                     <div className={theme.titleBox}>
                         <Snackbar
@@ -114,6 +115,7 @@ class viewExpense extends Component {
                         </div>
                     </div>
                 </div>
+                    : <RecordsNotExists route="/app/transactions" />}
             </div>
 
         );

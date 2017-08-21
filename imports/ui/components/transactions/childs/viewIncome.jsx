@@ -9,6 +9,7 @@ import { Projects } from '../../../../api/projects/projects.js'
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { stringHelpers } from '../../../../helpers/stringHelpers'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
 import theme from './theme';
 import moment from 'moment';
 
@@ -113,6 +114,7 @@ class viewIncome extends Component {
         let date = moment (transactionAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
+                {Object.keys(transaction).length ?
                 <div className="container">
                     <div className={theme.titleBox}>
                         <Snackbar
@@ -166,6 +168,7 @@ class viewIncome extends Component {
                         </div>
                     </div>
                 </div>
+                    : <RecordsNotExists route="/app/transactions" />}
             </div>
 
         );

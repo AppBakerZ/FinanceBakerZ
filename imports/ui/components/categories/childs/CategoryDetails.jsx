@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
+import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { Categories } from '../../../../api/categories/categories.js'
 
@@ -230,6 +232,7 @@ class CategoryDetail extends Component {
         let date = moment(createdAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
+                {Object.keys(category).length ?
                 <div className="container">
                     <div className={theme.titleBox}>
                         <Snackbar
@@ -267,7 +270,7 @@ class CategoryDetail extends Component {
                             {parent ? <h5><FormattedMessage {...il8n.DISPLAY_PARENT_CATEGORY} />: <span>{parent}</span></h5>  : ''}
                         </div>
                     </div>
-                </div>
+                </div> : <RecordsNotExists route="app/categories" />}
                 {this.popupTemplate()}
             </div>
 
