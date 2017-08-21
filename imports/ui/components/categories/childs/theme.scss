@@ -81,6 +81,9 @@
   width: 96%;
   display: inline-table;
   padding-bottom: 20px;
+  .card{
+    padding-bottom: $unit * 5;
+  }
   h3{
     background: #008142;
     color: #fff;
