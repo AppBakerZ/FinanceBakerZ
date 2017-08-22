@@ -58,6 +58,11 @@ Transactions.schema = new SimpleSchema({
         type: Date,
         label: 'When transaction happens',
     },
+    billUrl: {
+        type: String,
+        label: 'Bill url of expense',
+        optional: true
+    },
     createdAt: {
         type: Date,
         label: 'When transaction created',
