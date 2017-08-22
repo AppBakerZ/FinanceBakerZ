@@ -217,21 +217,22 @@ class DashboardPage extends Component {
             report : report
         };
       // prevent window popup block
-        let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
-        let win = window.open('');
-        win.document.write(loader);
-        window.oldOpen = window.open;
-        window.open = function(url) {
-            win.location = url;
-            window.open = oldOpen;
-            win.focus();
-        };
+      //   let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
+      //   let win = window.open('');
+      //   win.document.write(loader);
+      //   window.oldOpen = window.open;
+      //   window.open = function(url) {
+      //       win.location = url;
+      //       window.open = oldOpen;
+      //       win.focus();
+      //   };
 
         Meteor.call('statistics.generateReport', {params } , function(err, res){
             if (err) {
                 console.error(err);
             } else if (res) {
-                window.open("data:application/pdf;base64, " + res);
+                let parseData = JSON.parse(res);
+                window.open(parseData.Location);
             }
         })
     }
