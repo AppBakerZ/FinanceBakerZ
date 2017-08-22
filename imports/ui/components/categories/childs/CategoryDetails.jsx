@@ -105,12 +105,25 @@ class CategoryDetail extends Component {
     }
 
     removeCategory(){
-        const {_id, name, parent} = this.state;
+        const {_id, name, parent, children} = this.state;
+        let ids = [], names = [];
+        children.map((catName) =>{
+            //get all ids of children for backend
+            if(_.values(children).length && catName.id){
+                ids.push(catName.id)
+            }
+            //fall back for old categories
+            else{
+                names.push(catName)
+            }
+        });
         Meteor.call('categories.remove', {
             category: {
                 _id,
                 name,
-                parent
+                parent,
+                ids,
+                names
             }
         }, (err, response) => {
             if(err){
