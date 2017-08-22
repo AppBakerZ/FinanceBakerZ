@@ -160,7 +160,6 @@ class ProjectPage extends Component {
     }
 
     onRowClick(index){
-        // console.log('this.props.projects[index] ', this.props.projects[index]);
         let id = this.props.projects[index]._id;
         routeHelpers.changeRoute(`/app/projectDetail/${id}`);
     }

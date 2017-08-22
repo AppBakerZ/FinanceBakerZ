@@ -30,7 +30,7 @@ class ProjectsDD extends Component {
     }
     filterByProjects(projects) {
         let { parentProps } = this.props.parentProps;
-        let { location, history } = parentProps;
+        let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.projects = `${[projects]}`;
@@ -59,15 +59,15 @@ ProjectsDD.propTypes = {
     parentProps: PropTypes.object.isRequired
 };
 
-export default injectIntl(createContainer(() => {
+export default injectIntl(createContainer((props) => {
 
     Meteor.subscribe('projects.all');
     const projects = Projects.find().fetch();
-
+    let { parentProps } = props;
     return {
         projects,
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: parentProps.collection
         })
     };
 }, ProjectsDD));

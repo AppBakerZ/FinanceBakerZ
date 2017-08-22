@@ -3,8 +3,8 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 
-import webshot from 'webshot';
-import fs from 'fs';
+// import webshot from 'webshot';
+// import fs from 'fs';
 import Future from 'fibers/future';
 import moment from 'moment';
 
@@ -14,10 +14,11 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from '../transactions/transactions.js'
-import { Accounts } from '../accounts/accounts.js';
-import { Categories } from '../categories/categories.js';
-import { accountHelpers } from '/imports/helpers/accountHelpers.js'
+// import { Accounts } from '../accounts/accounts.js';
+// import { Categories } from '../categories/categories.js';
+// import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
+let AWS = require('aws-sdk');
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
@@ -246,7 +247,6 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
         };
     }
 });
-//TODO: we will optimize it after reports updates
 export const generateReport = new ValidatedMethod({
     name: 'statistics.generateReport',
     mixins : [LoggedInMixin],
@@ -279,133 +279,201 @@ export const generateReport = new ValidatedMethod({
     }).validator(),
     //run({report, date, filterBy}) {
     run({params}) {
-        //check for incomes only or expenses;
-        let isIncome = params.report === 'incomes';
-        let record, data, html_string, options, pdfData,
-            fut = new Future(),
-            fileName = "report.pdf",
-            css = Assets.getText('bootstrap.min.css'), // GENERATE HTML STRING
-            reportStyle = Assets.getText('report.css');
 
-        let query = {
-            owner: this.userId,
-            type: isIncome ? 'income' : 'expense'
+        params.owner = this.userId;
+
+        //configure AWS
+        AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
+            "secretAccessKey": Meteor.settings.AWSSecretAccessKey,
+            "AWSRegion": "us-east-1"
+        });
+
+        const Lambda = new AWS.Lambda({
+            region: 'us-east-1'
+        });
+
+        const pullParams = {
+            FunctionName: 'generate-pdf',
+            InvocationType: 'RequestResponse',
+            LogType: 'None',
+            Payload: JSON.stringify(params)
         };
 
-        if(params.multiple.length){
-            query['account'] = {$in: params.multiple};
-        }
-        if(params.date){
-            query.transactionAt = {
-                $gte: new Date(params.date.start),
-                $lte: new Date(params.date.end)
-            };
-        }
+        let fut = new Future();
 
-        SSR.compileTemplate('layout', Assets.getText('layout.html'));
-
-        Template.layout.helpers({
-            getDocType: function() {
-                return "<!DOCTYPE html>";
+        Lambda.invoke(pullParams, function(err, data){
+            if(err){
+                return console.log(err)
             }
+            console.log(data.Payload);
+            fut.return(data)
+
         });
-
-        SSR.compileTemplate('report', Assets.getText('report.html'));
-
-        /*Todo use later relation */
-        Template.report.helpers({
-            accountName : (id) => {
-                let account = Accounts.findOne({_id : id, owner: this.userId});
-                return accountHelpers.alterName(account.bank)
-            },
-            categoryName : function(category){
-                let Category = Categories.findOne({_id : category._id});
-                return Category && Category.name
-            },
-            totalIncome : function(){
-                if(params.date){
-                    let incomes = Transactions.aggregate({
-                        $match: query
-                    },{
-                        $group: { _id: null, total: { $sum: '$amount' } }
-                    });
-                    return incomes.length ? incomes[0].total : 0;
-                }
-            },
-            totalExpenses : function(){
-                query.type = 'expense';
-                if(params.date){
-                    let expenses = Transactions.aggregate({
-                        $match: query
-                    },{
-                        $group: { _id: null, total: { $sum: '$amount' } }
-                    });
-                    return expenses.length ? expenses[0].total : 0;
-                }
-            },
-            dateFormat : function(data){
-               return moment(data).format('L')
-            }
-        });
-
-        // PREPARE DATA
-        //createdAt
-        let option = {
-            sort: {
-                transactionAt: 1
-            }
-        };
-        record =  Transactions.find(query, option).fetch();
-
-        if(!record.length){
-            throw new Meteor.Error( 404, 'result not found' );
+        let data = fut.wait();
+        if( data.Payload ){
+            return data.Payload
         }
-
-        data = {
-            heading : isIncome ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
-            record: record,
-            income : isIncome
-
-        };
-
-
-        html_string = SSR.render('layout', {
-            reportStyle: reportStyle,
-            css: css,
-            template: "report",
-            data: data
-        });
-
-        // Setup Webshot options
-        options = {
-            //renderDelay: 2000,
-            "paperSize": {
-                "format": "Letter",
-                "orientation": "portrait",
-                "margin": "1cm"
-            },
-            siteType: 'html'
-        };
-
-        // Commence Webshot
-        console.log("Commencing webshot...");
-        webshot(html_string, fileName, options, function(err) {
-            fs.readFile(fileName, function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-
-                fs.unlinkSync(fileName);
-                fut.return(data);
-
-            });
-        });
-
-        pdfData = fut.wait();
-        return new Buffer(pdfData).toString('base64');
-
     }
 });
+// export const generateReport = new ValidatedMethod({
+//     name: 'statistics.generateReport',
+//     mixins : [LoggedInMixin],
+//     checkLoggedInError: {
+//         error: 'notLogged',
+//         message: 'You need to be logged in to get total Incomes and Expenses'
+//     },
+//     validate: new SimpleSchema({
+//         params : {
+//             type: Object
+//         },
+//         'params.report' : {
+//             type: String
+//         },
+//         'params.date': {
+//             type: Object
+//         },
+//         'params.date.start': {
+//             type: String
+//         },
+//         'params.date.end': {
+//             type: String
+//         },
+//         'params.filterBy' : {
+//             type: String
+//         },
+//         'params.multiple' : {
+//             type: [String]
+//         }
+//     }).validator(),
+//     //run({report, date, filterBy}) {
+//     run({params}) {
+//         //check for incomes only or expenses;
+//         let isIncome = params.report === 'incomes';
+//         let record, data, html_string, options, pdfData,
+//             fut = new Future(),
+//             fileName = "report.pdf",
+//             css = Assets.getText('bootstrap.min.css'), // GENERATE HTML STRING
+//             reportStyle = Assets.getText('report.css');
+//
+//         let query = {
+//             owner: this.userId,
+//             type: isIncome ? 'income' : 'expense'
+//         };
+//
+//         if(params.multiple.length){
+//             query['account'] = {$in: params.multiple};
+//         }
+//         if(params.date){
+//             query.transactionAt = {
+//                 $gte: new Date(params.date.start),
+//                 $lte: new Date(params.date.end)
+//             };
+//         }
+//
+//         SSR.compileTemplate('layout', Assets.getText('layout.html'));
+//
+//         Template.layout.helpers({
+//             getDocType: function() {
+//                 return "<!DOCTYPE html>";
+//             }
+//         });
+//
+//         SSR.compileTemplate('report', Assets.getText('report.html'));
+//
+//         /*Todo use later relation */
+//         Template.report.helpers({
+//             accountName : (id) => {
+//                 let account = Accounts.findOne({_id : id, owner: this.userId});
+//                 return accountHelpers.alterName(account.bank)
+//             },
+//             categoryName : function(category){
+//                 let Category = Categories.findOne({_id : category._id});
+//                 return Category && Category.name
+//             },
+//             totalIncome : function(){
+//                 if(params.date){
+//                     let incomes = Transactions.aggregate({
+//                         $match: query
+//                     },{
+//                         $group: { _id: null, total: { $sum: '$amount' } }
+//                     });
+//                     return incomes.length ? incomes[0].total : 0;
+//                 }
+//             },
+//             totalExpenses : function(){
+//                 query.type = 'expense';
+//                 if(params.date){
+//                     let expenses = Transactions.aggregate({
+//                         $match: query
+//                     },{
+//                         $group: { _id: null, total: { $sum: '$amount' } }
+//                     });
+//                     return expenses.length ? expenses[0].total : 0;
+//                 }
+//             },
+//             dateFormat : function(data){
+//                return moment(data).format('L')
+//             }
+//         });
+//
+//         // PREPARE DATA
+//         //createdAt
+//         let option = {
+//             sort: {
+//                 transactionAt: 1
+//             }
+//         };
+//         record =  Transactions.find(query, option).fetch();
+//
+//         if(!record.length){
+//             throw new Meteor.Error( 404, 'result not found' );
+//         }
+//
+//         data = {
+//             heading : isIncome ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
+//             record: record,
+//             income : isIncome
+//
+//         };
+//
+//
+//         html_string = SSR.render('layout', {
+//             reportStyle: reportStyle,
+//             css: css,
+//             template: "report",
+//             data: data
+//         });
+//
+//         // Setup Webshot options
+//         options = {
+//             //renderDelay: 2000,
+//             "paperSize": {
+//                 "format": "Letter",
+//                 "orientation": "portrait",
+//                 "margin": "1cm"
+//             },
+//             siteType: 'html'
+//         };
+//
+//         // Commence Webshot
+//         console.log("Commencing webshot...");
+//         webshot(html_string, fileName, options, function(err) {
+//             fs.readFile(fileName, function (err, data) {
+//                 if (err) {
+//                     return console.log(err);
+//                 }
+//
+//                 fs.unlinkSync(fileName);
+//                 fut.return(data
+//
+//             });
+//         });
+//
+//         pdfData = fut.wait();
+//         return new Buffer(pdfData).toString('base64');
+//
+//     }
+// });
 
 
 const EXPENSES_METHODS = _.pluck([

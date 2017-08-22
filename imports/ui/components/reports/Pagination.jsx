@@ -70,7 +70,7 @@ Pagination.propTypes = {
 export default createContainer(() => {
     return {
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: 'localTransactions'
         })
     };
 }, Pagination);

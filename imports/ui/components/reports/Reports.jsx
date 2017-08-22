@@ -10,6 +10,9 @@ import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 import theme from './theme';
 
+
+//define Const
+const collection = 'localReports';
 class ReportsPage extends Component {
 
     constructor(props) {
@@ -19,6 +22,7 @@ class ReportsPage extends Component {
     }
 
     componentWillUpdate(nextProps) {
+        console.log(nextProps);
 
         const {location, params, local} = nextProps;
         let query = location.query, accounts, projects, categories, dateFrom, dateTo;
@@ -31,25 +35,25 @@ class ReportsPage extends Component {
 
 
         //first update skip if given
-        params.number && updateFilter('reports', 'skip', Math.ceil(params.number * local.limit));
+        params.number && updateFilter(collection, 'skip', Math.ceil(params.number * local.limit));
 
         //filters
-        updateFilter('reports', 'type', query.type || 'both');
-        updateFilter('reports', 'accounts', accounts);
-        updateFilter('reports', 'projects', projects);
-        updateFilter('reports', 'categories', categories);
+        updateFilter(collection, 'type', query.type || 'both');
+        updateFilter(collection, 'accounts', accounts);
+        updateFilter(collection, 'projects', projects);
+        updateFilter(collection, 'categories', categories);
 
         //date filters
-        updateFilter('reports', 'filter', query.filter || 'range');
-        updateFilter('reports', 'dateFrom', moment(dateFrom).format());
-        updateFilter('reports', 'dateTo', moment(dateTo).format());
+        updateFilter(collection, 'filter', query.filter || 'range');
+        updateFilter(collection, 'dateFrom', moment(dateFrom).format());
+        updateFilter(collection, 'dateTo', moment(dateTo).format());
     }
 
     render() {
         return (
             <div className={theme.reports}>
-                <FilterBar parentProps={ this.props }/>
-                <TransactionsTable parentProps={this.props}/>
+                <FilterBar parentProps={ this.props } collection="localReports" />
+                <TransactionsTable parentProps={this.props} collection="localReports" />
                 <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/>
             </div>
         );
@@ -61,7 +65,7 @@ class ReportsPage extends Component {
 export default createContainer(() => {
 
     const local = LocalCollection.findOne({
-        name: 'reports'
+        name: 'localTransactions'
     });
     const pageCount = Counter.get('transactionsCount');
 

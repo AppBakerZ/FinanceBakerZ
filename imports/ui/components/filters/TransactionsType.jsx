@@ -46,8 +46,6 @@ class TransactionsType extends Component {
         let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
-        //whenever the transaction type change skip 0
-        // updateFilter('reports', 'skip', 0);
         // transaction filter
         if( query.type !== type ){
             query.type = type;
@@ -84,7 +82,7 @@ TransactionsType.propTypes = {
 export default injectIntl(createContainer(() => {
     return {
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: 'localTransactions'
         })
     };
 }, TransactionsType));

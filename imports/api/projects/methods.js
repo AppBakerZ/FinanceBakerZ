@@ -46,7 +46,6 @@ export const insert = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
-        console.log('project', project);
         project.owner = this.userId;
         return Projects.insert(project);
     }

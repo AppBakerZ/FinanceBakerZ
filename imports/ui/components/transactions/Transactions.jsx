@@ -10,6 +10,8 @@ import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 import theme from './theme';
 
+//define Const
+const collection = 'localTransactions';
 class TransactionPage extends Component {
 
     constructor(props) {
@@ -32,26 +34,26 @@ class TransactionPage extends Component {
 
         //first update skip if given else set initial
         let number = params.number || 0;
-        updateFilter('reports', 'skip', Math.ceil(number * local.limit));
+        updateFilter(collection, 'skip', Math.ceil(number * local.limit));
 
         //filters
-        updateFilter('reports', 'type', query.type || 'both');
-        updateFilter('reports', 'accounts', accounts);
-        updateFilter('reports', 'projects', projects);
-        updateFilter('reports', 'categories', categories);
+        updateFilter(collection, 'type', query.type || 'both');
+        updateFilter(collection, 'accounts', accounts);
+        updateFilter(collection, 'projects', projects);
+        updateFilter(collection, 'categories', categories);
 
         //date filters
-        updateFilter('reports', 'filter', query.filter || 'range');
-        updateFilter('reports', 'dateFrom', moment(dateFrom).format());
-        updateFilter('reports', 'dateTo', moment(dateTo).format());
+        updateFilter(collection, 'filter', query.filter || 'range');
+        updateFilter(collection, 'dateFrom', moment(dateFrom).format());
+        updateFilter(collection, 'dateTo', moment(dateTo).format());
     }
 
     render() {
         let { pageCount } = this.props;
         return (
             <div className={theme.reports}>
-                <FilterBar parentProps={ this.props }/>
-                <TransactionsTable parentProps={this.props}/>
+                <FilterBar parentProps={ this.props } collection="localTransactions" />
+                <TransactionsTable parentProps={this.props} collection="localTransactions" />
                 {pageCount ? <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/> : ''}
             </div>
         );
@@ -64,7 +66,7 @@ class TransactionPage extends Component {
 export default createContainer(() => {
 
     const local = LocalCollection.findOne({
-        name: 'reports'
+        name: 'localTransactions'
     });
     const pageCount = Counter.get('transactionsCount');
     const totalCount = Counter.get('totalCount');

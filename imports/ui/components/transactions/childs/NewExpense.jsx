@@ -133,7 +133,7 @@ class NewExpense extends Component {
             }
         }, (err, response) => {
             if(response){
-                routeHelpers.changeRoute('/app/reports', 1200);
+                routeHelpers.changeRoute('/app/transactions', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Expense created successfully',
@@ -179,7 +179,7 @@ class NewExpense extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/reports', 1200);
+                routeHelpers.changeRoute('/app/transactions', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Expense updated successfully',
@@ -206,7 +206,7 @@ class NewExpense extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/reports', 1200);
+                routeHelpers.changeRoute('/app/transactions', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Expense deleted successfully',

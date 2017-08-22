@@ -31,7 +31,7 @@ class CategoriesDD extends Component {
 
     filterByCategories(categories) {
         let { parentProps } = this.props.parentProps;
-        let { location, history } = parentProps;
+        let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.categories = `${[categories]}`;
@@ -61,15 +61,15 @@ CategoriesDD.propTypes = {
     parentProps: PropTypes.object.isRequired
 };
 
-export default injectIntl(createContainer(() => {
+export default injectIntl(createContainer((props) => {
 
     Meteor.subscribe('categories');
     const categories = Categories.find().fetch();
-
+    let { parentProps } = props;
     return {
         categories,
         local: LocalCollection.findOne({
-            name: 'reports'
+            name: parentProps.collection
         })
     };
 }, CategoriesDD));
