@@ -243,13 +243,13 @@ class NewExpense extends Component {
         }else{
             button = <div className={theme.addExpensesBtn}>
                 <Button type='submit' disabled={this.state.disableButton} icon='mode_edit' label={formatMessage(il8n.UPDATE_EXPENSE_BUTTON)} raised primary />
-                <Button
-                    onClick={this.removeExpense.bind(this)}
-                    type='button'
-                    icon='delete'
-                    label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}
-                    className='float-right'
-                    accent />
+                {/*<Button*/}
+                    {/*onClick={this.removeExpense.bind(this)}*/}
+                    {/*type='button'*/}
+                    {/*icon='delete'*/}
+                    {/*label={formatMessage(il8n.REMOVE_EXPENSE_BUTTON)}*/}
+                    {/*className='float-right'*/}
+                    {/*accent />*/}
             </div>
         }
         return button;
