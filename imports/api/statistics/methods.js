@@ -301,7 +301,7 @@ export const generateReport = new ValidatedMethod({
 
         let fut = new Future();
 
-        Lambda.invoke(pullParams, function(err, data){
+        Lambda.invoke(pullParams, (err, data) => {
             if(err){
                 return console.log(err)
             }

@@ -80,6 +80,7 @@ class DashboardPage extends Component {
         let datetime = new Date();
 
         this.state = {
+            loading: false,
             totalIncomes: null,
             totalExpenses: null,
             availableBalance: null,
@@ -209,6 +210,12 @@ class DashboardPage extends Component {
     }
 
     generatePdf(report){
+        if(this.state.loading){
+            return;
+        }
+        this.setState({
+            loading: true
+        });
 
         let params = {
             multiple : this.state.multiple,
@@ -227,7 +234,10 @@ class DashboardPage extends Component {
       //       win.focus();
       //   };
 
-        Meteor.call('statistics.generateReport', {params } , function(err, res){
+        Meteor.call('statistics.generateReport', {params } , (err, res) => {
+            this.setState({
+                loading: false
+            });
             if (err) {
                 console.error(err);
             } else if (res) {
@@ -276,7 +286,7 @@ class DashboardPage extends Component {
                 </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
-                        <Button icon='description' label={formatMessage(il8n.TOTAL_INCOMES_BUTTON)} flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_INCOMES_BUTTON)} flat disabled={this.state.loading}/>
                     </div>
                 )}
             </div>
@@ -298,7 +308,7 @@ class DashboardPage extends Component {
                 </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
-                        <Button icon='description' label={formatMessage(il8n.TOTAL_EXPENSES_BUTTON)} flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_EXPENSES_BUTTON)} flat disabled={this.state.loading}/>
                     </div>
                 )}
             </div>
