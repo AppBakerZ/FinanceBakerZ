@@ -15,7 +15,7 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from '../transactions/transactions.js'
 // import { Accounts } from '../accounts/accounts.js';
-// import { Categories } from '../categories/categories.js';
+// import { Categories } from '../categories/reports.js';
 // import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
 let AWS = require('aws-sdk');
