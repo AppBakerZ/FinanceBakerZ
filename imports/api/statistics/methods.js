@@ -14,9 +14,7 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from '../transactions/transactions.js'
-// import { Accounts } from '../accounts/accounts.js';
-// import { Categories } from '../categories/reports.js';
-// import { accountHelpers } from '/imports/helpers/accountHelpers.js'
+import { Reports } from '../reports/reports.js';
 
 let AWS = require('aws-sdk');
 
@@ -281,6 +279,9 @@ export const generateReport = new ValidatedMethod({
     run({params}) {
 
         params.owner = this.userId;
+        params.context = {
+            folder: 'reports'
+        };
 
         //configure AWS
         AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
@@ -311,6 +312,8 @@ export const generateReport = new ValidatedMethod({
         });
         let data = fut.wait();
         if( data.Payload ){
+            let parseData = JSON.parse(data.Payload);
+            Reports.insert({ reportUrl: parseData.Location, owner: this.userId});
             return data.Payload
         }
     }

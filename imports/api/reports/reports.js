@@ -25,6 +25,15 @@ Reports.schema = new SimpleSchema({
         type: String,
         label: 'Url of report'
     },
+    expireAt: {
+        type: Date,
+        label: 'report Expire At',
+        autoValue: function() {
+            if (this.isInsert) {
+                return new Date();
+            }
+        }
+    },
     createdAt: {
         type: Date,
         label: 'Created At report',
