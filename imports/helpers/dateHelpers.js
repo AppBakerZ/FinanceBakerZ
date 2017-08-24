@@ -17,6 +17,18 @@ export const dateHelpers = {
             date.end = moment().endOf(filter).format();
         }
         return date
+    },
+
+    /***** update date with type(i.e days) and increment *****/
+    //@date Date (required) date required
+    //@type string (required) type days, month
+    //@increment number (required) diff of new Date
+    updateDate(date, type, increment){
+        //check date type
+        if(moment.isDate(date)){
+            return new Date(moment(date).add(increment, type));
+        }
+
     }
 
 };

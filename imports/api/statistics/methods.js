@@ -15,6 +15,7 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from '../transactions/transactions.js'
 import { Reports } from '../reports/reports.js';
+import { limitHelpers } from '../../helpers/limitHelpers.js';
 
 let AWS = require('aws-sdk');
 
@@ -313,7 +314,7 @@ export const generateReport = new ValidatedMethod({
         let data = fut.wait();
         if( data.Payload ){
             let parseData = JSON.parse(data.Payload);
-            Reports.insert({ reportUrl: parseData.Location, owner: this.userId});
+            Reports.insert({ reportUrl: parseData.Location, owner: this.userId, expireAt: limitHelpers.getReportExpiryDate()});
             return data.Payload
         }
     }

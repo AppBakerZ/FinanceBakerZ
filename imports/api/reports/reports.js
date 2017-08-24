@@ -28,11 +28,7 @@ Reports.schema = new SimpleSchema({
     expireAt: {
         type: Date,
         label: 'report Expire At',
-        autoValue: function() {
-            if (this.isInsert) {
-                return new Date();
-            }
-        }
+        defaultValue: new Date()
     },
     createdAt: {
         type: Date,

@@ -2,7 +2,7 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Reports } from '../../api/reports/reports.js'
-let day = (60 * 60 * 24);
+// let day = (60 * 60 * 24);
 //3 days can be as (day * 3)
 
 
@@ -25,5 +25,8 @@ function setGravatars() {
 Meteor.startup(() => {
     setGravatars();
     //create Report expire Index
-    Reports.rawCollection().createIndex( { "expireAt": 1 }, { expireAfterSeconds: (day * 3) } )
+    //TODO: remove below line after one time deployment
+    Meteor.users.update({}, {$set: {'profile.businessPlan': 'Free'}}, {multi: true});
+    Reports.rawCollection().dropIndexes();
+    Reports.rawCollection().createIndex( { "expireAt": 1 }, { expireAfterSeconds: 3600 } )
 });
