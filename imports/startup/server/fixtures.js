@@ -1,6 +1,9 @@
 // fill the DB with example data on startup
 
 import { Meteor } from 'meteor/meteor';
+import { Reports } from '../../api/reports/reports.js'
+// let day = (60 * 60 * 24);
+//3 days can be as (day * 3)
 
 
 
@@ -20,5 +23,10 @@ function setGravatars() {
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
-    setGravatars()
+    setGravatars();
+    //create Report expire Index
+    //TODO: remove below line after one time deployment
+    Meteor.users.update({}, {$set: {'profile.businessPlan': 'Free'}}, {multi: true});
+    Reports.rawCollection().dropIndexes();
+    Reports.rawCollection().createIndex( { "expireAt": 1 }, { expireAfterSeconds: 3600 } )
 });

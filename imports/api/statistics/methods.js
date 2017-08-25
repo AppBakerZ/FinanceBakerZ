@@ -14,9 +14,8 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from '../transactions/transactions.js'
-// import { Accounts } from '../accounts/accounts.js';
-// import { Categories } from '../categories/reports.js';
-// import { accountHelpers } from '/imports/helpers/accountHelpers.js'
+import { Reports } from '../reports/reports.js';
+import { limitHelpers } from '../../helpers/limitHelpers.js';
 
 let AWS = require('aws-sdk');
 
@@ -281,6 +280,14 @@ export const generateReport = new ValidatedMethod({
     run({params}) {
 
         params.owner = this.userId;
+        let user = Meteor.user();
+        //set default to Free
+        let plan = user.profile.businessPlan || 'Free';
+        params.context = {
+            folder: 'reports',
+            plan : plan,
+        };
+        console.log(params);
 
         //configure AWS
         AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
@@ -303,14 +310,21 @@ export const generateReport = new ValidatedMethod({
 
         Lambda.invoke(pullParams, (err, data) => {
             if(err){
-                return console.log(err)
+                fut.return(err);
             }
-            console.log(data.Payload);
-            fut.return(data)
-
+            else{
+                console.log(data);
+                fut.return(data)
+            }
         });
         let data = fut.wait();
+        console.log('data', data);
+        if(data.message){
+            throw new Meteor.Error(500, 'ERROR! something went wrong please contact customer support official.');
+        }
         if( data.Payload ){
+            let parseData = JSON.parse(data.Payload);
+            Reports.insert({ reportUrl: parseData.Location, owner: this.userId, expireAt: limitHelpers.getReportExpiryDate()});
             return data.Payload
         }
     }
