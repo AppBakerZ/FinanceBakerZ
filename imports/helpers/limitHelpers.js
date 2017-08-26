@@ -8,10 +8,15 @@ let availablePlans = {
 
 export const limitHelpers = {
     //currently there are three Free, Personal, Professional
-    getReportExpiryDate(){
-        let user = Meteor.user();
-        //set default to Free
-        let plan = user.profile.businessPlan || 'Free';
+    getReportExpiryDate(plan){
+        if(plan){
+        //    nothing to do here
+        }
+        else{
+            let user = Meteor.user();
+            //set default to Free
+            plan = user.profile.businessPlan || 'Free';
+        }
 
         if(plan && availablePlans[plan]){
             return availablePlans[plan]

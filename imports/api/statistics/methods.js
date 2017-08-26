@@ -287,7 +287,6 @@ export const generateReport = new ValidatedMethod({
             folder: 'reports',
             plan : plan,
         };
-        console.log(params);
 
         //configure AWS
         AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
@@ -313,17 +312,18 @@ export const generateReport = new ValidatedMethod({
                 fut.return(err);
             }
             else{
-                console.log(data);
                 fut.return(data)
             }
         });
         let data = fut.wait();
-        console.log('data', data);
         if(data.message){
             throw new Meteor.Error(500, 'ERROR! something went wrong please contact customer support official.');
         }
         if( data.Payload ){
             let parseData = JSON.parse(data.Payload);
+            if(!parseData.Location){
+                throw new Meteor.Error(403, 'ERROR! something went wrong please contact customer support official.');
+            }
             Reports.insert({ reportUrl: parseData.Location, owner: this.userId, expireAt: limitHelpers.getReportExpiryDate()});
             return data.Payload
         }
@@ -488,6 +488,91 @@ export const generateReport = new ValidatedMethod({
 //
 //     }
 // });
+
+// TODO: that is the sample call for update plan move it to client when needed
+// Meteor.call('statistics.changePlan', {params: {newPlan:'Professional'} } , (err, res) => {
+//     this.setState({
+//         loading: false
+//     });
+//     if (err) {
+//         console.error(err);
+//     } else if (res) {
+//         console.log(res)
+//     }
+// })
+
+export const changePlan = new ValidatedMethod({
+    name: 'statistics.changePlan',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to change your current Plan'
+    },
+    validate: new SimpleSchema({
+        params : {
+            type: Object
+        },
+        'params.newPlan': {
+            type: String
+        }
+    }).validator(),
+
+    run({params}) {
+
+        params.owner = this.userId;
+        let user = Meteor.user();
+        //set default to Free
+        params.oldPlan = user.profile.businessPlan || 'Free';
+
+        //configure AWS
+        AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
+            "secretAccessKey": Meteor.settings.AWSSecretAccessKey,
+            "AWSRegion": Meteor.settings.AWSRegion
+        });
+
+        const Lambda = new AWS.Lambda({
+            region: Meteor.settings.AWSRegion
+        });
+
+        const pullParams = {
+            FunctionName: 'update-plan',
+            InvocationType: 'RequestResponse',
+            LogType: 'None',
+            Payload: JSON.stringify(params)
+        };
+
+        let fut = new Future();
+
+        Lambda.invoke(pullParams, (err, data) => {
+            if(err){
+                fut.return(err);
+            }
+            else{
+                fut.return(data)
+            }
+        });
+        let data = fut.wait();
+        if(data.message){
+            throw new Meteor.Error(500, 'ERROR! something went wrong please contact customer support official.');
+        }
+        Reports.find({owner: params.owner}).fetch().forEach(function(doc) {
+            let updated_url = doc.reportUrl.replace(params.oldPlan, params.newPlan);
+            Reports.update(
+                {_id: doc._id},
+                { $set: {
+                    reportUrl: updated_url,
+                    expireAt: limitHelpers.getReportExpiryDate(params.newPlan)
+                } }
+            );
+        });
+
+        return Meteor.users.update({
+            _id: params.owner
+        }, { $set: {
+            'profile.businessPlan': params.newPlan
+        }})
+    }
+});
 
 
 const EXPENSES_METHODS = _.pluck([
