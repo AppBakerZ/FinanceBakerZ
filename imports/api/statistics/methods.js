@@ -555,6 +555,16 @@ export const changePlan = new ValidatedMethod({
         if(data.message){
             throw new Meteor.Error(500, 'ERROR! something went wrong please contact customer support official.');
         }
+        Reports.find({owner: params.owner}).fetch().forEach(function(doc) {
+            let updated_url = doc.reportUrl.replace(params.oldPlan, params.newPlan);
+            Reports.update(
+                {_id: doc._id},
+                { $set: {
+                    reportUrl: updated_url,
+                    expireAt: limitHelpers.getReportExpiryDate(params.newPlan)
+                } }
+            );
+        });
 
         return Meteor.users.update({
             _id: params.owner
