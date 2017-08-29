@@ -1,3 +1,6 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
 .reports{
   width: 100%;
   padding: 30px 30px 0;
@@ -9,6 +12,19 @@
       }
     }
   }
+}
+
+.generateBtn{
+  text-align: center;
+  button{
+    font-size: $font-size + 0.1;
+    letter-spacing: $unit - 0.9;
+    height: $unit * 4.6;
+    padding: $unit - 0.6 $unit * 4.3 0;
+  }
+}
+.paddedCard{
+  padding: $unit;
 }
 
 .paginationList{
