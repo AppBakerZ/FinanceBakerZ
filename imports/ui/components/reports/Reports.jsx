@@ -73,7 +73,7 @@ class ReportsPage extends Component {
             totalIncomes: null,
             totalExpenses: null,
             availableBalance: null,
-            multiple: [],
+            accounts: [],
             filterBy: 'range',
             report: 'both',
             categories: [],
@@ -109,12 +109,15 @@ class ReportsPage extends Component {
         updateFilter(collection, 'dateFrom', moment(dateFrom).format());
         updateFilter(collection, 'dateTo', moment(dateTo).format());
 
-        // concat that method to generate reports too
-        this.state.filterBy = query.filter || 'range';
-        this.state.multiple = accounts;
-        this.state.categories = categories;
-        this.state.projects = projects;
-        this.state.report = query.type;
+    }
+
+    componentDidMount(){
+        const { location } = this.props;
+        let query = location.query, accounts;
+        accounts = query.accounts ? query.accounts.split(",") : [];
+        this.setState({
+            accounts : accounts
+        });
     }
 
     generatePdf(){
@@ -126,7 +129,7 @@ class ReportsPage extends Component {
         });
 
         let params = {
-            accounts : this.state.multiple,
+            accounts : this.state.accounts,
             filterBy : this.state.filterBy,
             date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
             report : this.state.report,
