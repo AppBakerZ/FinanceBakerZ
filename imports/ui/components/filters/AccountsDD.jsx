@@ -64,15 +64,15 @@ AccountsDD.propTypes = {
     parentProps: PropTypes.object.isRequired
 };
 
-export default injectIntl(createContainer(() => {
-
+export default injectIntl(createContainer((props) => {
+    let { parentProps } = props;
     Meteor.subscribe('accounts');
     const accounts = Accounts.find({}).fetch();
 
     return {
         accounts,
         local: LocalCollection.findOne({
-            name: 'localTransactions'
+            name: parentProps.collection
         })
     };
 }, AccountsDD));

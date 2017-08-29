@@ -79,10 +79,11 @@ TransactionsType.propTypes = {
 
 };
 
-export default injectIntl(createContainer(() => {
+export default injectIntl(createContainer((props) => {
+    let { parentProps } = props;
     return {
         local: LocalCollection.findOne({
-            name: 'localTransactions'
+            name: parentProps.collection
         })
     };
 }, TransactionsType));

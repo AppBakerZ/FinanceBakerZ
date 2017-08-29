@@ -82,13 +82,15 @@ class ReportsPage extends Component {
             availableBalance: null,
             multiple: [],
             filterBy: 'range',
+            reportType: 'both',
+            categories: [],
+            projects: [],
             dateFrom: new Date(moment(datetime).startOf('month').format()),
             dateTo: datetime
         };
     }
 
     componentWillUpdate(nextProps) {
-        console.log(nextProps);
 
         const {location, params, local} = nextProps;
         let query = location.query, accounts, projects, categories, dateFrom, dateTo;
@@ -113,25 +115,17 @@ class ReportsPage extends Component {
         updateFilter(collection, 'filter', query.filter || 'range');
         updateFilter(collection, 'dateFrom', moment(dateFrom).format());
         updateFilter(collection, 'dateTo', moment(dateTo).format());
+
+        // concat that method to generate reports too
+        this.state.filterBy = query.filter || 'range';
+        this.state.multiple = accounts;
+        this.state.categories = categories;
+        this.state.projects = projects;
+        console.log(this.state)
     }
 
     componentDidMount(){
         this.setDefaultAccounts(this.props);
-    }
-
-    handleMultipleChange (value) {
-        this.setState({multiple: value});
-        this.updateByAccount(value)
-    }
-
-    onChange (val, e) {
-        this.setState({[e.target.name]: val});
-        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name === 'filterBy' ? val : null, {[e.target.name]: val});
-    }
-
-    updateByAccount(accounts){
-        this.getAvailableBalance(accounts);
-        this.getTotalIncomesAndExpenses(accounts);
     }
 
     setDefaultAccounts (props){
@@ -141,6 +135,11 @@ class ReportsPage extends Component {
         });
         this.setState({multiple});
         this.updateByAccount(multiple)
+    }
+
+    updateByAccount(accounts){
+        this.getAvailableBalance(accounts);
+        this.getTotalIncomesAndExpenses(accounts);
     }
 
     getAvailableBalance (accounts){
@@ -172,6 +171,16 @@ class ReportsPage extends Component {
                 });
             }
         });
+    }
+
+    handleMultipleChange (value) {
+        this.setState({multiple: value});
+        this.updateByAccount(value)
+    }
+
+    onChange (val, e) {
+        this.setState({[e.target.name]: val});
+        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name === 'filterBy' ? val : null, {[e.target.name]: val});
     }
 
     renderTotalIncomes(){
@@ -220,18 +229,22 @@ class ReportsPage extends Component {
     }
 
     generatePdf(report){
-        if(this.state.loading){
-            return;
-        }
-        this.setState({
-            loading: true
-        });
+        // if(this.state.loading){
+        //     return;
+        // }
+        // this.setState({
+        //     loading: true
+        // });
 
         let params = {
             multiple : this.state.multiple,
             filterBy : this.state.filterBy,
             date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
-            report : report
+            report : report,
+            reportType : this.state.reportType,
+            categories : this.state.categories,
+            projects : this.state.projects
+
         };
         // prevent window popup block
         //   let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
@@ -244,17 +257,19 @@ class ReportsPage extends Component {
         //       win.focus();
         //   };
 
-        Meteor.call('statistics.generateReport', {params } , (err, res) => {
-            this.setState({
-                loading: false
-            });
-            if (err) {
-                console.error(err);
-            } else if (res) {
-                let parseData = JSON.parse(res);
-                window.open(parseData.Location);
-            }
-        })
+        console.log(params)
+
+        // Meteor.call('statistics.generateReport', {params } , (err, res) => {
+        //     this.setState({
+        //         loading: false
+        //     });
+        //     if (err) {
+        //         console.error(err);
+        //     } else if (res) {
+        //         let parseData = JSON.parse(res);
+        //         window.open(parseData.Location);
+        //     }
+        // })
     }
 
     render() {
