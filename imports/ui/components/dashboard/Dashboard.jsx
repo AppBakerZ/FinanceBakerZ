@@ -9,6 +9,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
 import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
@@ -210,41 +211,15 @@ class DashboardPage extends Component {
     }
 
     generatePdf(report){
-        if(this.state.loading){
-            return;
-        }
-        this.setState({
-            loading: true
-        });
-
-        let params = {
-            multiple : this.state.multiple,
-            filterBy : this.state.filterBy,
-            date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
-            report : report
+        let query = {
+            accounts : `${[this.state.multiple]}`,
+            filter : this.state.filterBy,
+            dateFrom : moment(this.state.dateFrom).format(),
+            dateTo : moment(this.state.dateTo).format(),
+            type : report
         };
-      // prevent window popup block
-      //   let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
-      //   let win = window.open('');
-      //   win.document.write(loader);
-      //   window.oldOpen = window.open;
-      //   window.open = function(url) {
-      //       win.location = url;
-      //       window.open = oldOpen;
-      //       win.focus();
-      //   };
 
-        Meteor.call('statistics.generateReport', {params } , (err, res) => {
-            this.setState({
-                loading: false
-            });
-            if (err) {
-                console.error(err);
-            } else if (res) {
-                let parseData = JSON.parse(res);
-                window.open(parseData.Location);
-            }
-        })
+        routeHelpers.changeRoute('/app/reports', 0, query)
     }
 
     renderDateRange(){

@@ -272,11 +272,19 @@ export const generateReport = new ValidatedMethod({
         'params.filterBy' : {
             type: String
         },
-        'params.multiple' : {
+        'params.accounts' : {
             type: [String]
+        },
+        'params.projects' : {
+            type: [String],
+            optional: true
+        },
+        'params.categories' : {
+            type: [String],
+            optional: true
         }
     }).validator(),
-    //run({report, date, filterBy}) {
+
     run({params}) {
 
         params.owner = this.userId;
