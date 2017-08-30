@@ -9,7 +9,6 @@ import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 
 import theme from './theme';
-import cardTheme from './cardtheme.scss';
 
 const il8n = defineMessages({
     AVAILABLE_BALANCE: {
@@ -170,11 +169,9 @@ class ReportsPage extends Component {
             <div className={theme.reports}>
                 <FilterBar parentProps={ this.props } collection="localReports" />
                 {/*TODO add formatMessage message here*/}
-                <Card theme={cardTheme} className={theme.paddedCard}>
                 <div className={theme.generateBtn} onClick={this.generatePdf.bind(this)}>
                     <Button type='submit' icon='description' label="Generate Report" raised primary disabled={this.state.loading}/>
                 </div>
-                </Card>
             </div>
         );
     }
