@@ -147,7 +147,7 @@ class TransactionsTable extends Component {
                                 flat />
                     </div>
                 </div>
-                { transactions.length ? table : totalCount ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
+                { transactions.length ? table : this.props.transactionsFind.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         );
     }
@@ -177,6 +177,8 @@ TransactionsTable =  createContainer((props) => {
     });
 
     const projects = Meteor.subscribe('projects.all');
+    const transaction = Meteor.subscribe('transactions');
+    let transactionsFind = Transactions.find().fetch();
     const categories = Meteor.subscribe('categories');
     const projectExists = Counter.get('projectExists');
     const categoryExists = Counter.get('categoriesExists');
@@ -194,6 +196,7 @@ TransactionsTable =  createContainer((props) => {
     // const categoryExists = Categories.findOne({});
     // const projectExists = Projects.findOne({});
     return {
+        transactionsFind,
         categories,
         categoryExists,
         projects,
