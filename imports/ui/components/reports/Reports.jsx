@@ -126,14 +126,28 @@ class ReportsPage extends Component {
         this.setState({
             loading: true
         });
+        const {location} = this.props;
+        let query = location.query, accounts, projects, categories, dateFrom, dateTo;
+        accounts = query.accounts ? query.accounts.split(",") : [];
+        projects = query.projects ? query.projects.split(",") : [];
+        categories = query.categories ? query.categories.split(",") : [];
+
+        dateFrom = query.dateFrom || moment().startOf('month').format();
+        dateTo = query.dateTo || moment().startOf('today').format();
+
+        this.setState({
+            dateFrom : dateFrom,
+            dateTo : dateTo
+        });
+
 
         let params = {
-            accounts : this.state.accounts,
-            filterBy : this.state.filterBy,
-            date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
-            report : this.state.report,
-            categories : this.state.categories,
-            projects : this.state.projects
+            accounts : accounts,
+            filterBy : query.filter || 'range',
+            date : dateHelpers.filterByDate(query.filter, {}, this),
+            report : query.type || 'both',
+            categories : categories,
+            projects : projects
 
         };
 
