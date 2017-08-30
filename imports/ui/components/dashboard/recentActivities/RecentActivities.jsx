@@ -79,7 +79,6 @@ class RecentActivities extends Component {
     }
 
     addIncome(){
-        // console.log("strat?")
         if(this.props.projectsFind && this.props.projectsFind.length ){
             routeHelpers.changeRoute('/app/transactions/income/add/new');
         }
@@ -99,19 +98,6 @@ class RecentActivities extends Component {
     handleBarTimeout (event, instance) {
         this.setState({ active: false });
     }
-
-    // showSnackbar(){
-    //     return(
-    //         <Snackbar
-    //             action='Dismiss'
-    //             active={this.state.active}
-    //             label={this.state.barMessage}
-    //             timeout={2000}
-    //             onClick={this.handleBarClick.bind(this)}
-    //             onTimeout={this.handleBarTimeout.bind(this)}
-    //         />
-    //     )
-    // }
 
     renderRecents(){
         return (
@@ -210,9 +196,7 @@ class RecentActivities extends Component {
         )
     }
     render() {
-        // console.log('projectsFind' ,this.props.projectsFind)
         return this.renderRecents();
-        // this.showSnackbar();
 
     }
 }
