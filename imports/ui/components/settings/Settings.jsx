@@ -606,6 +606,13 @@ class SettingsPage extends Component {
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
                             <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
+                            <Button
+                                className={theme.button}
+                                icon='add'
+                                label={formatMessage(il8n.EDIT_ACCOUNT_SETTINGS)}
+                                flat
+                                // onClick={this.addCategory.bind(this)}
+                                theme={buttonTheme}/>
                             <Snackbar
                                 action='Dismiss'
                                 active={this.state.active}

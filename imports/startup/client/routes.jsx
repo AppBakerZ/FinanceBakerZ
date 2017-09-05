@@ -22,7 +22,9 @@ import categoryDetail from '../../ui/components/categories/childs/CategoryDetail
 import newCategoryPage from '../../ui/components/categories/childs/newCategoryPage.jsx';
 
 import ReportsPage from '../../ui/components/reports/Reports.jsx';
+
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
+import editSettingsPage from '../../ui/components/settings/childs/editSettings.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
 import ProjectDetail  from '../../ui/components/projects/childs/ProjectDetail'
@@ -102,9 +104,8 @@ class Il8n extends Component {
                         <Route path="categories(/:type)(/:id)" components={{ content: newCategoryPage}} />
                         <Route path="reports(/paginate)(/:number)" components={{ content: ReportsPage }} />
 
-                        <Route path="settings" components={{ content: SettingsPage }}>
-                            <Route path=":id" />
-                        </Route>
+                        <Route path="settings" components={{ content: SettingsPage }} />
+                        <Route path="settings/edit" components={{ content: editSettingsPage}} />
                         <Route path="projectDetail(/:id)" components={{ content: ProjectDetail}} />
                         <Route path="projects(/paginate)(/:number)" components={{ content: ProjectPage}}>
                         </Route>
