@@ -87,6 +87,10 @@ export const updateProfile = new ValidatedMethod({
         },
         'users.address': {
             type: String
+        },
+        'users.imageUrl': {
+            type: String,
+            optional: true
         }
     }).validator(),
     run({ users }) {
@@ -99,6 +103,9 @@ export const updateProfile = new ValidatedMethod({
         }
         if(users.email) {
             update['emails.0.address'] = users.email;
+        }
+        if(users.imageUrl) {
+            update['profile.avatar'] = users.imageUrl;
         }
         Meteor.users.update({_id: Meteor.userId()} , {$set: update});
 

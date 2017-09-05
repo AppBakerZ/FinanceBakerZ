@@ -141,6 +141,7 @@ class SettingsPage extends Component {
           let userInfo = Meteor.user();
         this.state = {
             openDialog: false,
+            disableButton: false,
             currency: userInfo.profile.currency || '',
             language: userInfo.profile.language || '',
             check1: userInfo.profile.emailNotification,
@@ -284,8 +285,8 @@ class SettingsPage extends Component {
 
     updateProfile (event) {
         event.preventDefault();
-        const {name, number, email, address, username} = this.state;
-        let info = {users: {name, number, email, address, username}};
+        const {name, number, email, address, username, imageUrl} = this.state;
+        let info = {users: {name, number, email, address, username, imageUrl}};
         Meteor.call('settings.updateProfile', info, (err) => {
             if(err){
                 this.setState({
@@ -306,31 +307,6 @@ class SettingsPage extends Component {
             }
             this.setState({loading: false});
         });
-
-        let userId = Meteor.user()._id;
-        let metaContext = {
-            folder: "profiles",
-            uploaderId: userId
-        };
-              if(this.state.target && this.uploadImageName !== this.state.target.name) {
-                  this.uploadImageName = this.state.target.name;
-
-                  let uploader = new Slingshot.Upload('imageUploader', metaContext);
-                  uploader.send(this.state.target, (error, downloadUrl) => { // you can use refs if you like
-                      if (error) {
-                          // Log service detailed response
-                          console.error('Error uploading', uploader.xhr.response);
-                          alert(error); // you may want to fancy this up when you're ready instead of a popup.
-                      }
-                      else {
-                          // we use $set because the user can change their avatar so it overwrites the url :)
-                          Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
-                          console.log(downloadUrl);
-                          this.setState({imageUrl: downloadUrl});
-                      }
-                      this.resetImageUpload();
-                  });
-              }
     }
 
     updateAccountSettings (e) {
@@ -375,7 +351,6 @@ class SettingsPage extends Component {
 
 
     userImage(e){
-
         if(e.target.files.length){
 
             const reader = new FileReader();
@@ -389,6 +364,38 @@ class SettingsPage extends Component {
                 });
             };
             reader.readAsDataURL(file);
+
+            if(this.state.target && this.uploadImageName !== this.state.target.name) {
+                this.setState({
+                    disableButton: true,
+                });
+                this.uploadImageName = this.state.target.name;
+
+                let userId = Meteor.user()._id;
+                let metaContext = {
+                    folder: "profiles",
+                    uploaderId: userId
+                };
+
+                let uploader = new Slingshot.Upload('imageUploader', metaContext);
+                uploader.send(this.state.target, (error, downloadUrl) => { // you can use refs if you like
+                    this.setState({
+                        disableButton: false,
+                    });
+                    if (error) {
+                        // Log service detailed response
+                        console.error('Error uploading', uploader.xhr.response);
+                        console.log(error); // you may want to fancy this up when you're ready instead of a popup.
+                        this.resetImageUpload();
+                    }
+                    else {
+                        // we use $set because the user can change their avatar so it overwrites the url :)
+                        // Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                        console.log(downloadUrl);
+                        this.setState({imageUrl: downloadUrl});
+                    }
+                });
+            }
 
         }
     }
@@ -491,7 +498,7 @@ class SettingsPage extends Component {
                                onChange={this.onChange.bind(this)}
                             />
                         <div className={theme.updateBtn}>
-                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary />
+                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary disabled={this.state.disableButton}/>
                         </div>
 
                     </form>
