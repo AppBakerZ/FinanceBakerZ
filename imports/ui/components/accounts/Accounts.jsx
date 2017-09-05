@@ -1,6 +1,7 @@
 import React, { Component,  } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { List, ListItem, Button, Card, Table, Dialog } from 'react-toolbox';
 
@@ -144,6 +145,15 @@ class AccountsPage extends Component {
             openDialog: false
         });
     }
+
+    addAccount(){
+        routeHelpers.changeRoute('/app/accounts/add/new');
+    }
+
+    editAccount(account){
+        routeHelpers.changeRoute(`/app/accounts/edit/${account._id}`);
+    }
+
     getAvailableBalance (accounts, index){
         Meteor.call('statistics.availableBalance', {accounts}, (err, ab) => {
             if(ab){
@@ -181,7 +191,7 @@ class AccountsPage extends Component {
                         <Button
                             label={formatMessage(il8n.EDIT_ACCOUNTS_BUTTON)}
                             raised
-                            onClick={this.openPopup.bind(this, 'edit', account)}
+                            onClick={this.editAccount.bind(this, account)}
                             accent />
                         <Button
                             label=''
@@ -201,7 +211,7 @@ class AccountsPage extends Component {
                         icon='add'
                         label={formatMessage(il8n.ADD_ACCOUNT_BUTTON)}
                         flat
-                        onClick={this.openPopup.bind(this, 'add')}
+                        onClick={this.addAccount.bind(this)}
                         theme={buttonTheme}/>
                 </div>
                 <Card theme={tableTheme}>

@@ -15,6 +15,7 @@ import Login from '../../ui/components/auth/Login.jsx';
 import ForgotPassword from '../../ui/components/auth/ForgotPassword.jsx';
 
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
+import newAccountPage from '../../ui/components/accounts/childs/newAccountPage.jsx';
 
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
 import categoryDetail from '../../ui/components/categories/childs/CategoryDetails.jsx';
@@ -95,6 +96,7 @@ class Il8n extends Component {
                         <IndexRoute components={{ content: DashboardPage}} />
                         <Route path="dashboard" components={{ content: DashboardPage}} />
                         <Route path="accounts" components={{ content: AccountsPage }} />
+                        <Route path="accounts(/:type)(/:id)" components={{ content: newAccountPage}} />
                         <Route path="categories" components={{ content: CategoriesPage }} />
                         <Route path="categoryDetail(/:id)" components={{ content: categoryDetail}} />
                         <Route path="categories(/:type)(/:id)" components={{ content: newCategoryPage}} />
