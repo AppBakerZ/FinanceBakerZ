@@ -1,3 +1,6 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
 .reports{
   width: 100%;
   padding: 30px 30px 0;
@@ -8,6 +11,20 @@
         color: #333333;
       }
     }
+  }
+}
+
+.currencyIcons{
+  width: 100%;
+  display: inline-block;
+  i{
+    font-size: $font-size-big + 0.2;
+    float: left;
+    margin: $unit - 0.2 $unit 0 0;
+  }
+  div{
+    display: inline-block;
+    margin-top: $unit;
   }
 }
 
@@ -136,6 +153,29 @@
       width: 100% !important;
     }
   }
+}
+.emailNotification{
+  display: inline-block;
+  font-size: 1.8rem;
+  font-family: "Nexa Light Regular", "Arial", sans-serif;
+  text-transform: capitalize;
+  margin: 2rem 0 0 0;
+  color: #333333;
+  font-weight: 400;
+  line-height: 2.4rem;
+  letter-spacing: .04em;
+}
+
+.notificationCheckbox{
+  display: inline-block;
+  font-size: 2.8rem;
+  //font-family: "Nexa Light Regular", "Arial", sans-serif;
+  //text-transform: capitalize;
+  //margin: 2rem 0 0 0;
+  //color: #333333;
+  //font-weight: 400;
+  //line-height: 2.4rem;
+  //letter-spacing: .04em;
 }
 
 ////////////////////// new income styling /////////////////////////////

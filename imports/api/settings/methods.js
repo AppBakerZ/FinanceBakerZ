@@ -117,6 +117,93 @@ export const updateProfile = new ValidatedMethod({
     }
 });
 
+export const updateUserProfile = new ValidatedMethod({
+    name: 'settings.updateUserProfile',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update profile'
+    },
+    validate: new SimpleSchema({
+        'users': {
+            type: Object
+        },
+        'users.name': {
+            type: String
+        },
+        'users.username': {
+            type: String,
+            optional: true
+        },
+        'users.number': {
+            type: String
+        },
+        'users.email': {
+            type: String,
+            optional: true
+        },
+        'users.address': {
+            type: String
+        },
+        'users.imageUrl': {
+            type: String,
+            optional: true
+        },
+        'users.currency': {
+            type : Object
+        },
+        'users.currency.label': {
+            type : String
+        },
+        'users.currency.value': {
+            type : String
+        },
+        'users.language': {
+            type : Object
+        },
+        'users.language.label': {
+            type : String
+        },
+        'users.language.value': {
+            type : String
+        },
+        'users.language.direction': {
+            type : String
+        }
+    }).validator(),
+    run({ users }) {
+        if(!users.username && !users.email){
+            throw new Meteor.Error(500, 'You cannot empty the username/email.');
+        }
+        let update = {'profile.fullName': users.name, 'profile.address': users.address , 'profile.contactNumber': users.number};
+        if(users.username) {
+            update['username'] = users.username;
+        }
+        if(users.email) {
+            update['emails.0.address'] = users.email;
+        }
+        if(users.imageUrl) {
+            update['profile.avatar'] = users.imageUrl;
+        }
+
+        if(users.language){
+            update['profile.language'] = users.language;
+        }
+
+        if(users.currency){
+            update['profile.currency'] = users.currency;
+        }
+
+        Meteor.users.update({_id: Meteor.userId()} , {$set: update});
+
+        if(users.email){
+            Meteor.users.update( { _id: Meteor.user()._id }, {
+                $set: { 'profile.md5hash': Gravatar.hash( users.email ) }
+            });
+        }
+    }
+});
+
 const SETTINGS_METHODS = _.pluck([
     updateAccount,
     updateProfile

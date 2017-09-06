@@ -1,0 +1,15 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/button/config";
+
+.check {
+  width: $unit * 2.8;
+  height: $unit * 2.8;
+  &.checked {
+    background-color: $color-primary-dark;
+    border-color: $color-text;
+    &:after {
+      border-color: $color-text;
+      margin: $unit - 0.5 0 0 $unit - 0.6;
+    }
+  }
+}

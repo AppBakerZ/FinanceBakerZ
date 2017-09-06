@@ -579,6 +579,10 @@ class SettingsPage extends Component {
             openDialog: false
         });
     }
+
+    editSettings(account){
+        routeHelpers.changeRoute(`/app/settings/edit`);
+    }
     renderConfirmationMessage(){
         const { formatMessage } = this.props.intl;
         return (
@@ -606,13 +610,6 @@ class SettingsPage extends Component {
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
                             <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
-                            <Button
-                                className={theme.button}
-                                icon='add'
-                                label={formatMessage(il8n.EDIT_ACCOUNT_SETTINGS)}
-                                flat
-                                // onClick={this.addCategory.bind(this)}
-                                theme={buttonTheme}/>
                             <Snackbar
                                 action='Dismiss'
                                 active={this.state.active}
@@ -680,7 +677,15 @@ class SettingsPage extends Component {
                         </Card>
 
                         <div className={theme.buttonSite}>
+
                             <Button
+                                label={formatMessage(il8n.EDIT_INFO)}
+                                onClick={this.editSettings.bind(this)}
+                                icon=''
+                                raised
+                                primary
+                                theme={buttonTheme} />
+                            <Button style={{marginLeft: '10px'}}
                                 label={formatMessage(il8n.REMOVE_ACCOUNT_BUTTON)}
                                 onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
