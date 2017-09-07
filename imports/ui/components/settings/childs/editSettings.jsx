@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, Checkbox } from 'react-toolbox';
@@ -133,9 +132,8 @@ class editSettingsPage extends Component {
 
     constructor(props) {
         super(props);
-        let userInfo = Meteor.user();
 
-        const {formatMessage} = this.props.intl;
+        let userInfo = Meteor.user();
 
         this.state = {
             active: false,
@@ -145,11 +143,12 @@ class editSettingsPage extends Component {
             language: userInfo.profile.language || '',
             check1: userInfo.profile.emailNotification,
             check2: !userInfo.profile.emailNotification,
-            name: userInfo.profile.fullName || 'Not Available',
-            number: userInfo.profile.contactNumber || 'Not Available',
-            username: userInfo.username ? userInfo.username :'Not Available',
-            email: userInfo.emails ? userInfo.emails[0].address :'Not Available',
-            address: userInfo.profile.address || 'Not Available',
+            name: userInfo.profile.fullName,
+            number: userInfo.profile.contactNumber || '',
+            username: userInfo.username ? userInfo.username :'',
+            email: userInfo.emails ? userInfo.emails[0].address :'',
+            address: userInfo.profile.address || '',
+            imageUrl: ''
 
         };
 
@@ -178,6 +177,7 @@ class editSettingsPage extends Component {
 
     onSubmit(event){
         event.preventDefault();
+        this.setState({loading: true});
         const { passwordChanged } = this.state;
         if( passwordChanged ){
             const { oldPassword, newPassword, alterPassword} = this.state;
@@ -211,8 +211,6 @@ class editSettingsPage extends Component {
         else{
             this.updateUserProfile();
         }
-
-        this.setState({loading: true});
     }
 
     onChange (val, e) {
@@ -223,7 +221,6 @@ class editSettingsPage extends Component {
         if(field === 'check1') this.setState({'check2': false});
         else this.setState({'check1': false});
         this.setState({[field]: value});
-        this.emailNotify();
     }
 
     passwordChange (field, value) {
@@ -233,21 +230,10 @@ class editSettingsPage extends Component {
         this.setState({[field]: value});
     }
 
-    emailNotify(){
-        const {check2} = this.state;
-        let useraccount = {account: {check2, owner: Meteor.user()._id}};
-        Meteor.call('emailNotificaton', useraccount, (err) => {
-            if(err){
-                console.log(err);
-            }
-        });
-    }
-
     updateUserProfile () {
-        const { name, number, email, address, username, imageUrl } = this.state;
-        const { currency, language } = this.state;
+        const { name, number, email, address, username, imageUrl, currency, language, check1 } = this.state;
         let info = {users: {
-            name, number, email, address, username, imageUrl, currency, language
+            name, number, email, address, username, imageUrl, currency, language, check1
         }};
 
         Meteor.call('settings.updateUserProfile', info, (err) => {
@@ -314,24 +300,6 @@ class editSettingsPage extends Component {
                             type={this.state.barType}
                         />
 
-                        {/*<Dropdown theme={theme} className={theme.projectStatus}*/}
-                                  {/*source={this.countries}*/}
-                                  {/*name='country'*/}
-                                  {/*onChange={this.onChange.bind(this)}*/}
-                                  {/*label={formatMessage(il8n.SELECT_COUNTRY)}*/}
-                                  {/*value={this.state.country}*/}
-                        {/*/>*/}
-
-                        {/*<Dropdown theme={dropdownTheme} className={theme.projectStatus}*/}
-                                  {/*auto*/}
-                                  {/*source={this.banks}*/}
-                                  {/*name='bank'*/}
-                                  {/*onChange={this.onChange.bind(this)}*/}
-                                  {/*value={this.state.bank}*/}
-                                  {/*label={formatMessage(il8n.SELECT_BANK)}*/}
-                                  {/*template={this.bankIcons}*/}
-                                  {/*required*/}
-                        {/*/>*/}
                         <h4 className={theme.clientHeading}><FormattedMessage {...il8n.PERSONAL_INFORMATION} /></h4>
 
                         <Input type='text' label={<FormattedMessage {...il8n.NAME} />}
@@ -386,9 +354,9 @@ class editSettingsPage extends Component {
                         />
 
                         <div>
-                        <h6 className={theme.emailNotification}>
-                            <FormattedMessage {...il8n.EMAIL_NOTIFICATION} />
-                            <span>
+                            <h6 className={theme.emailNotification}>
+                                <FormattedMessage {...il8n.EMAIL_NOTIFICATION} />
+                                <span>
                                         <Checkbox theme={checkboxTheme} className={theme.notificationCheckbox}
                                                   checked={this.state.check1}
                                                   label="On"
@@ -400,7 +368,7 @@ class editSettingsPage extends Component {
                                                    onChange={this.handleChange.bind(this, 'check2')}
                                          />
                                     </span>
-                        </h6>
+                            </h6>
                         </div>
 
                         <h4 className={theme.clientHeading}><FormattedMessage {...il8n.CHANGE_PASSWORD} /></h4>

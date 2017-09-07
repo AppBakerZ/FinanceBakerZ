@@ -169,6 +169,9 @@ export const updateUserProfile = new ValidatedMethod({
         },
         'users.language.direction': {
             type : String
+        },
+        'users.check1': {
+            type: Boolean
         }
     }).validator(),
     run({ users }) {
@@ -193,6 +196,7 @@ export const updateUserProfile = new ValidatedMethod({
         if(users.currency){
             update['profile.currency'] = users.currency;
         }
+        update['profile.emailNotification'] = users.check1;
 
         Meteor.users.update({_id: Meteor.userId()} , {$set: update});
 
