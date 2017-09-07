@@ -129,10 +129,14 @@ class NewIncome extends Component {
 
     createIncome() {
         let {account, amount, receivedAt, receivedTime, creditType, project} = this.state;
+        let errMessage = 'You must select the project';
         if (creditType === "project" && !Object.keys(project).length) {
+            if(!this.props.projects.length){
+                errMessage = 'You should add at least a project or change the income type'
+            }
             this.setState({
                 active: true,
-                barMessage: 'You must add the project'
+                barMessage: errMessage
             });
             return
         }
@@ -267,13 +271,6 @@ class NewIncome extends Component {
         }else{
             button = <div className={theme.addIncomeBtn}>
                 <Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary />
-                {/*<Button*/}
-                    {/*onClick={this.removeIncome.bind(this)}*/}
-                    {/*type='button'*/}
-                    {/*icon='delete'*/}
-                    {/*label={formatMessage(il8n.REMOVE_INCOME_BUTTON)}*/}
-                    {/*className='float-right'*/}
-                    {/*accent />*/}
             </div>
         }
         return button;

@@ -29,6 +29,7 @@ Projects.schema = new SimpleSchema({
     },
     client :{
         type: Object,
+        optional: true,
         label : 'Client details',
         blackbox:true
     },

@@ -133,7 +133,7 @@ class editSettingsPage extends Component {
     constructor(props) {
         super(props);
 
-        let userInfo = Meteor.user();
+        let { userInfo } = props;
 
         this.state = {
             active: false,
@@ -231,9 +231,10 @@ class editSettingsPage extends Component {
     }
 
     updateUserProfile () {
-        const { name, number, email, address, username, imageUrl, currency, language, check1 } = this.state;
+        //TODO: image implementation remaining
+        const { name, number, email, address, username, currency, language, check1 } = this.state;
         let info = {users: {
-            name, number, email, address, username, imageUrl, currency, language, check1
+            name, number, email, address, username, currency, language, check1
         }};
 
         Meteor.call('settings.updateUserProfile', info, (err) => {
@@ -405,9 +406,9 @@ editSettingsPage.propTypes = {
 };
 
 editSettingsPage = createContainer((props) => {
-    const { id } = props.params;
+    const user = Meteor.user();
     return {
-        id
+        userInfo: user ? user : {}
     };
 }, editSettingsPage);
 
