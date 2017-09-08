@@ -99,7 +99,6 @@ class TransactionsTable extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let transactions = this.props.transactions;
-        let { totalCount } = this.props.parentProps;
         let data = transactions.map(function(transaction){
             return {
                 leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
@@ -147,7 +146,7 @@ class TransactionsTable extends Component {
                                 flat />
                     </div>
                 </div>
-                { transactions.length ? table : this.props.transactionsFind.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/expense/add/new"/>}
+                { transactions.length ? table : this.props.transactionsFind.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/transactions/income/add/new"/>}
             </Card>
         );
     }
