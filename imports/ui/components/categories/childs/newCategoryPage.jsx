@@ -211,8 +211,8 @@ class NewCategoryPage extends Component {
 
     onSubmit(event){
         event.preventDefault();
+        this.setState({loading: true});
         this.state.isNew ? this.createCategory() : this.updateCategory();
-        this.setState({loading: true})
     }
 
     onChange (val, e) {
@@ -243,9 +243,9 @@ class NewCategoryPage extends Component {
         const { formatMessage } = this.props.intl;
         let button;
         if(this.state.isNew){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_CATEGORY)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_CATEGORY)} raised primary disabled={this.state.loading}/></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_CATEGORIES)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_CATEGORIES)} raised primary disabled={this.state.loading}/></div>
         }
         return button;
     }

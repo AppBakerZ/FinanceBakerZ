@@ -297,8 +297,9 @@ class NewProjectPage extends Component {
 
     onSubmit(event){
         event.preventDefault();
+        this.setState({loading: true});
         this.state.isNew ? this.createProject(): this.updateProject();
-        this.setState({loading: true})
+
     }
 
     createProject(){
@@ -407,9 +408,9 @@ class NewProjectPage extends Component {
         const { formatMessage } = this.props.intl;
         let button;
         if(this.state.isNew){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_PROJECT_BUTTON)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_PROJECT_BUTTON)} raised primary disabled={this.state.loading}/></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_PROJECT_BUTTON)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_PROJECT_BUTTON)} raised primary disabled={this.state.loading}/></div>
         }
         return button;
     }
