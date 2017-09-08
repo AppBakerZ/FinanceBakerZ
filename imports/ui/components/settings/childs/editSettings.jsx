@@ -171,6 +171,84 @@ class editSettingsPage extends Component {
         this.setState({ active: false });
     }
 
+    uploadedImage(){
+        const { formatMessage } = this.props.intl;
+        let gravatar, user = Meteor.user();
+        if(user && user.profile.md5hash) {
+            gravatar = Gravatar.imageUrl(user.profile.md5hash, {
+                secure: true,
+                size: "48",
+                d: 'mm',
+                rating: 'pg'
+            });
+        }
+        let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
+        let uploadedImage = <div className='image-group'>
+            <div className="fileUpload btn btn-primary">
+                <span> <FormattedMessage {...il8n.EDIT_IMAGE_BUTTON} /> </span>
+                <input type="file"
+                       id="input"
+                       className="upload"
+                       onChange={this.userImage.bind(this)}/>
+            </div>
+            <img className='user-image' src={profileImage} />
+        </div>;
+            return uploadedImage
+    }
+
+    userImage(e){
+        if(e.target.files.length){
+
+            const reader = new FileReader();
+            const file = e.target.files[0];
+            this.setState({
+                target: e.target.files[0]
+            });
+            reader.onload = (upload) => {
+                this.setState({
+                    data_uri: upload.target.result
+                });
+            };
+            reader.readAsDataURL(file);
+                this.setState({
+                    disableButton: true,
+                });
+
+            let userId = Meteor.user()._id;
+            let metaContext = {
+                folder: "profiles",
+                uploaderId: userId
+            };
+
+            let uploader = new Slingshot.Upload('imageUploader', metaContext);
+            uploader.send(e.target.files[0], (error, downloadUrl) => { // you can use refs if you like
+                this.setState({
+                    disableButton: false,
+                });
+                if (error) {
+                    console.log('err', error)
+                    // Log service detailed response
+                    console.error('Error uploading', uploader.xhr.response);
+                    console.log(error); // you may want to fancy this up when you're ready instead of a popup.
+                    this.resetImageUpload();
+                }
+                else {
+                    // we use $set because the user can change their avatar so it overwrites the url :)
+                    // Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
+                    this.setState({imageUrl: downloadUrl});
+                }
+            });
+
+        }
+    }
+
+    resetImageUpload(){
+        this.setState({
+            data_uri: '',
+            imageUrl: ''
+        });
+    }
+
     progressBarToggle (){
         return this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
@@ -232,9 +310,9 @@ class editSettingsPage extends Component {
 
     updateUserProfile () {
         //TODO: image implementation remaining
-        const { name, number, email, address, username, currency, language, check1 } = this.state;
+        const { name, number, email, address, username, currency, language, imageUrl, check1 } = this.state;
         let info = {users: {
-            name, number, email, address, username, currency, language, check1
+            name, number, email, address, username, currency, language, imageUrl, check1
         }};
 
         Meteor.call('settings.updateUserProfile', info, (err) => {
@@ -303,6 +381,7 @@ class editSettingsPage extends Component {
 
                         <h4 className={theme.clientHeading}><FormattedMessage {...il8n.PERSONAL_INFORMATION} /></h4>
 
+                        {this.uploadedImage()}
                         <Input type='text' label={<FormattedMessage {...il8n.NAME} />}
                                name='name'
                                value={this.state.name}
@@ -392,7 +471,7 @@ class editSettingsPage extends Component {
                                onChange={this.passwordChange.bind(this, 'alterPassword')}
                         />
 
-                        <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary /></div>
+                        <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary disabled={this.state.disableButton}/></div>
 
                     </form>
                 </Card>
