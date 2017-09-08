@@ -183,7 +183,7 @@ class editSettingsPage extends Component {
             });
         }
         let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
-        let uploadedImage = <div className='image-group'>
+        return <div className='image-group'>
             <div className="fileUpload btn btn-primary">
                 <span> <FormattedMessage {...il8n.EDIT_IMAGE_BUTTON} /> </span>
                 <input type="file"
@@ -193,7 +193,8 @@ class editSettingsPage extends Component {
             </div>
             <img className='user-image' src={profileImage} />
         </div>;
-            return uploadedImage
+
+
     }
 
     userImage(e){
@@ -309,7 +310,6 @@ class editSettingsPage extends Component {
     }
 
     updateUserProfile () {
-        //TODO: image implementation remaining
         const { name, number, email, address, username, currency, language, imageUrl, check1 } = this.state;
         let info = {users: {
             name, number, email, address, username, currency, language, imageUrl, check1

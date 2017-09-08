@@ -104,10 +104,10 @@ class newAccountPage extends Component {
             //delete pre keys if attach.
             delete font.removeRightBorder;
             delete font.removeBottomBorder;
-            if(index % 3 === 0){
+            if(index % 5 === 0){
                 font.removeRightBorder = true
             }
-            let lastItems = bankIcons.length % 3 === 0 ? 3 : bankIcons.length % 3;
+            let lastItems = bankIcons.length % 5 === 0 ? 5 : bankIcons.length % 5;
             if(index > bankIcons.length - lastItems){
                 font.removeBottomBorder = true
             }
@@ -258,7 +258,7 @@ class newAccountPage extends Component {
                                   value={this.state.country}
                         />
 
-                        <Dropdown theme={dropdownTheme} className={theme.projectStatus}
+                        <Dropdown theme={dropdownTheme}
                                   auto
                                   source={this.banks}
                                   name='bank'
