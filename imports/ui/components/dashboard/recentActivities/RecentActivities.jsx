@@ -79,15 +79,16 @@ class RecentActivities extends Component {
     }
 
     addIncome(){
-        if(this.props.projectsFind && this.props.projectsFind.length ){
-            routeHelpers.changeRoute('/app/transactions/income/add/new');
-        }
-        else{
-            this.setState({
-                active: true,
-                barMessage: 'You must have a single project to add income'
-            });
-        }
+        routeHelpers.changeRoute('/app/transactions/income/add/new');
+        // if(this.props.projectsFind && this.props.projectsFind.length ){
+        //     routeHelpers.changeRoute('/app/transactions/income/add/new');
+        // }
+        // else{
+        //     this.setState({
+        //         active: true,
+        //         barMessage: 'You must have a single project to add income'
+        //     });
+        // }
 
     }
 
@@ -207,8 +208,8 @@ RecentActivities.propTypes = {
 };
 
 export default createContainer(() => {
-    const projects = Meteor.subscribe('projects.all')
-    const category = Meteor.subscribe('categories')
+    const projects = Meteor.subscribe('projects.all');
+    const category = Meteor.subscribe('categories');
 
     let projectsFind = Projects.find().fetch();
     let categoriesFind = Categories.find().fetch();

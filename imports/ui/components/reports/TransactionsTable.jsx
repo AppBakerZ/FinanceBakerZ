@@ -18,8 +18,6 @@ import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { Transactions } from '../../../api/transactions/transactions';
-import { Projects } from '../../../api/projects/projects.js';
-import { Categories } from '../../../api/categories/categories.js';
 
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
@@ -73,33 +71,34 @@ class TransactionsTable extends Component {
         }
     }
     addIncome(){
-        if(this.props.projectExists){
-            routeHelpers.changeRoute('/app/transactions/income/add/new');
-        }
-        else{
-            this.setState({
-                active: true,
-                barMessage: 'You must have a single project to add income'
-            });
-        }
+        routeHelpers.changeRoute('/app/transactions/income/add/new');
+        // if(this.props.projectExists){
+        //     routeHelpers.changeRoute('/app/transactions/income/add/new');
+        // }
+        // else{
+        //     this.setState({
+        //         active: true,
+        //         barMessage: 'You must have a single project to add income'
+        //     });
+        // }
 
     }
     addExpense(){
-        if(this.props.categoryExists){
-            routeHelpers.changeRoute('/app/transactions/expense/add/new');
-        }
-        else{
-            this.setState({
-                active: true,
-                barMessage: 'You must have a single category to add expense'
-            });
-        }
+        routeHelpers.changeRoute('/app/transactions/expense/add/new');
+        // if(this.props.categoryExists){
+        //     routeHelpers.changeRoute('/app/transactions/expense/add/new');
+        // }
+        // else{
+        //     this.setState({
+        //         active: true,
+        //         barMessage: 'You must have a single category to add expense'
+        //     });
+        // }
 
     }
     render() {
         const { formatMessage } = this.props.intl;
         let transactions = this.props.transactions;
-        let { totalCount } = this.props.parentProps;
         let data = transactions.map(function(transaction){
             return {
                 leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
@@ -147,7 +146,7 @@ class TransactionsTable extends Component {
                                 flat />
                     </div>
                 </div>
-                { transactions.length ? table : this.props.transactionsFind.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
+                { transactions.length ? table : this.props.transactionsFind.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/transactions/income/add/new"/>}
             </Card>
         );
     }
