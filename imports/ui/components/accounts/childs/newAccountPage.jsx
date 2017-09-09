@@ -48,6 +48,7 @@ class newAccountPage extends Component {
 
         this.state = {
             loading: false,
+            disableButton: false,
             parentId: null,
             iconSelected: 'en',
             isNew: false,
@@ -117,8 +118,11 @@ class newAccountPage extends Component {
     }
     onSubmit(event){
         event.preventDefault();
+        this.setState({
+            disableButton: true,
+            loading: true
+        });
         this.state.isNew ? this.createAccount() : this.updateAccount();
-        this.setState({loading: true});
     }
     createAccount(){
         const {country, number, bank} = this.state;
@@ -140,6 +144,7 @@ class newAccountPage extends Component {
                     });
                 } else {
                     this.setState({
+                        disableButton: false,
                         active: true,
                         barMessage: err.reason,
                         barIcon: 'error_outline',
@@ -151,6 +156,7 @@ class newAccountPage extends Component {
         }
         else{
             this.setState({
+                disableButton: false,
                 active: true,
                 barMessage: 'You must have to add the bank'
             });
@@ -169,6 +175,7 @@ class newAccountPage extends Component {
         }, (err, response) => {
             if(err){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -222,9 +229,9 @@ class newAccountPage extends Component {
         const { formatMessage } = this.props.intl;
         let button;
         if(this.state.isNew){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_ACCOUNTS_BUTTON)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_ACCOUNTS_BUTTON)} raised primary disabled={this.state.disableButton}/></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_ACCOUNTS_BUTTON)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_ACCOUNTS_BUTTON)} raised primary disabled={this.state.disableButton}/></div>
         }
         return button;
     }

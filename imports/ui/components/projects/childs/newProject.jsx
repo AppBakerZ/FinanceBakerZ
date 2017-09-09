@@ -142,6 +142,7 @@ class NewProjectPage extends Component {
             startAt: '',
             active: false,
             loading: false,
+            disableButton: false,
             showCustomFields: false,
             showCustomInput: false,
             customField: '',
@@ -297,8 +298,12 @@ class NewProjectPage extends Component {
 
     onSubmit(event){
         event.preventDefault();
+        this.setState({
+            disableButton: true,
+            loading: true
+        });
         this.state.isNew ? this.createProject(): this.updateProject();
-        this.setState({loading: true})
+
     }
 
     createProject(){
@@ -328,6 +333,7 @@ class NewProjectPage extends Component {
                 });
             }else{
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -357,6 +363,7 @@ class NewProjectPage extends Component {
         }, (err, response) => {
             if(err){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -407,9 +414,9 @@ class NewProjectPage extends Component {
         const { formatMessage } = this.props.intl;
         let button;
         if(this.state.isNew){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_PROJECT_BUTTON)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_PROJECT_BUTTON)} raised primary disabled={this.state.disableButton}/></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_PROJECT_BUTTON)} raised primary /></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_PROJECT_BUTTON)} raised primary disabled={this.state.disableButton}/></div>
         }
         return button;
     }

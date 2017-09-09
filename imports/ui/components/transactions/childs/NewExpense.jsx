@@ -109,8 +109,11 @@ class NewExpense extends Component {
 
     onSubmit(event){
         event.preventDefault();
+        this.setState({
+            disableButton: true,
+            loading: true
+        });
         this.state.isNew ? this.createExpense() : this.updateExpense();
-        this.setState({loading: true})
     }
 
     createExpense(){
@@ -142,6 +145,7 @@ class NewExpense extends Component {
                 });
             }else {
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -173,6 +177,7 @@ class NewExpense extends Component {
         }, (err, response) => {
             if(err){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
