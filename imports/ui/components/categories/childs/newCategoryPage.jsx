@@ -56,6 +56,7 @@ class NewCategoryPage extends Component {
             icon: '',
             active: false,
             loading: false,
+            disableButton: false,
             parentId: null,
             iconSelected: 'en',
             isNew: false,
@@ -163,13 +164,14 @@ class NewCategoryPage extends Component {
                 });
             }else{
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
                     barType: 'cancel'
                 });
             }
-            this.setState({loading: false})
+            this.setState({loading: false});
         });
     }
 
@@ -191,6 +193,7 @@ class NewCategoryPage extends Component {
         }, (err, response) => {
             if(err){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -205,13 +208,16 @@ class NewCategoryPage extends Component {
                     barType: 'accept'
                 });
             }
-            this.setState({loading: false})
+            this.setState({loading: false});
         });
     }
 
     onSubmit(event){
         event.preventDefault();
-        this.setState({loading: true});
+        this.setState({
+            disableButton: true,
+            loading: true
+        });
         this.state.isNew ? this.createCategory() : this.updateCategory();
     }
 
@@ -243,9 +249,9 @@ class NewCategoryPage extends Component {
         const { formatMessage } = this.props.intl;
         let button;
         if(this.state.isNew){
-            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_CATEGORY)} raised primary disabled={this.state.loading}/></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='add' label={formatMessage(il8n.ADD_CATEGORY)} raised primary disabled={this.state.disableButton}/></div>
         }else{
-            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_CATEGORIES)} raised primary disabled={this.state.loading}/></div>
+            button = <div className={theme.addBtn}><Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_CATEGORIES)} raised primary disabled={this.state.disableButton}/></div>
         }
         return button;
     }

@@ -86,6 +86,7 @@ class NewIncome extends Component {
             creditType: 'project',
             project: '',
             active: false,
+            disableButton: false,
             loading: false
         };
     }
@@ -123,8 +124,11 @@ class NewIncome extends Component {
 
     onSubmit(event){
         event.preventDefault();
+        this.setState({
+            disableButton: true,
+            loading: true
+        });
         this.state.isNew ? this.createIncome() : this.updateIncome();
-        this.setState({loading: true})
     }
 
     createIncome() {
@@ -135,6 +139,7 @@ class NewIncome extends Component {
                 errMessage = 'You should add at least a project or change the income type'
             }
             this.setState({
+                disableButton: false,
                 active: true,
                 barMessage: errMessage
             });
@@ -167,6 +172,7 @@ class NewIncome extends Component {
                     });
                 } else {
                     this.setState({
+                        disableButton: false,
                         active: true,
                         barMessage: err.reason,
                         barIcon: 'error_outline',
@@ -200,6 +206,7 @@ class NewIncome extends Component {
         }, (err, response) => {
             if(err){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -266,11 +273,11 @@ class NewIncome extends Component {
         let button;
         if(this.state.isNew){
             button = <div className={theme.addIncomeBtn}>
-                <Button type='submit' icon='add' label={formatMessage(il8n.ADD_INCOME_BUTTON)} raised primary />
+                <Button type='submit' icon='add' label={formatMessage(il8n.ADD_INCOME_BUTTON)} raised primary disabled={this.state.disableButton}/>
             </div>
         }else{
             button = <div className={theme.addIncomeBtn}>
-                <Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary />
+                <Button type='submit' icon='mode_edit' label={formatMessage(il8n.UPDATE_INCOME_BUTTON)} raised primary disabled={this.state.disableButton}/>
             </div>
         }
         return button;
