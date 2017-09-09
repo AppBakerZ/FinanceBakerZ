@@ -32,8 +32,6 @@ class Pagination extends Component {
         let paginationExists = (pathName.indexOf('paginate') !== -1);
         if( !paginationExists ){
             pathName = `${pathName}/paginate`;
-            console.log(pathName)
-
         }
         else{
             pathName = pathName.slice(0, pathName.lastIndexOf('/'))
