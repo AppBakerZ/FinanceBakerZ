@@ -144,7 +144,7 @@ class ReportsPage extends Component {
         let params = {
             accounts : accounts,
             filterBy : query.filter || 'range',
-            date : dateHelpers.filterByDate(query.filter, {}, this),
+            date : dateHelpers.filterByDate(query.filter || 'range', {}, this),
             report : query.type || 'both',
             categories : categories,
             projects : projects
