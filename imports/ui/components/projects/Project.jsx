@@ -280,7 +280,7 @@ class ProjectPage extends Component {
             return {
                 name,
                 status,
-                clientName: client && client.name,
+                clientName: client && client.name ? client.name :'-',
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount || 0}/> </span>)
@@ -304,7 +304,7 @@ class ProjectPage extends Component {
            />;
         return (
             <Card theme={tableTheme}>
-                { projects.length ? table : this.props.totalCount ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
+                { projects.length ? table : this.props.projectsTotal ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         )
     }
@@ -385,7 +385,7 @@ ProjectPage = createContainer(() => {
     });
 
     const pageCount = Counter.get('projectsCount');
-    const totalCount = Counter.get('totalCount');
+    const projectsTotal = Counter.get('projectsTotal');
 
     const projectsHandle = Meteor.subscribe('projects', {
         name: local.projectName === '' ? {} : {
@@ -408,7 +408,7 @@ ProjectPage = createContainer(() => {
         }),
         projectsFind,
         pageCount,
-        totalCount,
+        projectsTotal,
         projectsLoading,
         projects,
         projectsExists

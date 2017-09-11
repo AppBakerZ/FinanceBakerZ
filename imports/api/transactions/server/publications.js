@@ -63,7 +63,9 @@ let transactions = (options, query) => {
             skip: options.skip,
             limit: options.limit,
         }),
-        new Counter('totalCount', Transactions.find({})),
+        new Counter('transactionsTotal', Transactions.find({
+            owner: query.owner,
+        })),
         new Counter('transactionsCount', Transactions.find(query, {
             sort: sortbyDate
         }))

@@ -7,17 +7,22 @@ Meteor.publish('transactions', function(limit){
         limit: {type: Number}
     }).validate({limit});
 
-
-    return Transactions.find(
-        {
-            owner: this.userId
-        },
-        {
-            limit: limit,
-            sort: {
-                transactionAt: -1
-            }
-        });
+    return [
+        new Counter('transactionsTotal', Transactions.find(
+            {
+                owner: this.userId
+            })),
+        Transactions.find(
+            {
+                owner: this.userId
+            },
+            {
+                limit: limit,
+                sort: {
+                    transactionAt: -1
+                }
+            })
+    ];
 });
 
 Meteor.publish('transactions.single', function (id) {
