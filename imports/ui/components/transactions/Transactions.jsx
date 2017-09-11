@@ -69,10 +69,10 @@ export default createContainer(() => {
         name: 'localTransactions'
     });
     const pageCount = Counter.get('transactionsCount');
-    const totalCount = Counter.get('totalCount');
+    const transactionsTotal = Counter.get('transactionsTotal');
 
     return {
-        totalCount,
+        transactionsTotal,
         local: local,
         pageCount: pageCount,
     };

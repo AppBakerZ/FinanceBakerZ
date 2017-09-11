@@ -98,7 +98,7 @@ class TransactionsTable extends Component {
     }
     render() {
         const { formatMessage } = this.props.intl;
-        let transactions = this.props.transactions;
+        let { transactions, transactionsTotal } = this.props;
         let data = transactions.map(function(transaction){
             return {
                 leftIcon: transaction.type === "income" ? <Arrow primary right width='16px' height='16px' /> : <Arrow danger left width='16px' height='16px' />,
@@ -146,7 +146,7 @@ class TransactionsTable extends Component {
                                 flat />
                     </div>
                 </div>
-                { transactions.length ? table : this.props.transactionsFind.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/transactions/income/add/new"/>}
+                { transactions.length ? table : transactionsTotal.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/transactions/income/add/new"/>}
             </Card>
         );
     }
@@ -181,6 +181,7 @@ TransactionsTable =  createContainer((props) => {
     const categories = Meteor.subscribe('categories');
     const projectExists = Counter.get('projectExists');
     const categoryExists = Counter.get('categoriesExists');
+    const transactionsTotal = Counter.get('transactionsTotal');
 
     const transactionsLoading = !transactionsHandle.ready();
     const transactionsExists = !transactionsLoading && !!transactions;
@@ -202,6 +203,7 @@ TransactionsTable =  createContainer((props) => {
         projectExists,
         local,
         transactions,
+        transactionsTotal,
 
 
     };

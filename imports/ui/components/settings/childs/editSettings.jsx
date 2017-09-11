@@ -5,6 +5,7 @@ import { Input, Button, ProgressBar, Snackbar, Dropdown, Checkbox } from 'react-
 import { Card} from 'react-toolbox/lib/card';
 
 import { Meteor } from 'meteor/meteor';
+import { routeHelpers } from '/imports/helpers/routeHelpers.js';
 
 import theme from './theme';
 import checkboxTheme from './checkboxTheme.scss';
@@ -227,7 +228,6 @@ class editSettingsPage extends Component {
                     disableButton: false,
                 });
                 if (error) {
-                    console.log('err', error)
                     // Log service detailed response
                     console.error('Error uploading', uploader.xhr.response);
                     console.log(error); // you may want to fancy this up when you're ready instead of a popup.
@@ -256,27 +256,40 @@ class editSettingsPage extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        this.setState({loading: true});
+        this.setState({
+            disableButton: true,
+            loading: true
+        });
         const { passwordChanged } = this.state;
         if( passwordChanged ){
             const { oldPassword, newPassword, alterPassword} = this.state;
+            if(!(oldPassword && newPassword && alterPassword)){
+                this.setState({
+                    disableButton: false,
+                    active: true,
+                    barMessage: 'Please enter all required fields to change Password',
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
+            }
             if(newPassword !== alterPassword){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: 'Passwords do not match',
                     barIcon: 'error_outline',
                     barType: 'cancel'
                 });
+                return false;
             }
             Accounts.changePassword(oldPassword, newPassword, (err)=> {
+                this.setState({oldPassword: '', newPassword: '', alterPassword: ''});
                 this.setState({
                     passwordChanged : false
                 });
-                if(!err){
-                    this.setState({oldPassword: '', newPassword: '', alterPassword: ''});
-                }
-                else{
+                if(err){
                     this.setState({
+                        disableButton: false,
                         active: true,
                         barMessage: err.reason,
                         barIcon: 'done',
@@ -318,6 +331,7 @@ class editSettingsPage extends Component {
         Meteor.call('settings.updateUserProfile', info, (err) => {
             if(err){
                 this.setState({
+                    disableButton: false,
                     active: true,
                     barMessage: err.reason,
                     barIcon: 'error_outline',
@@ -325,6 +339,7 @@ class editSettingsPage extends Component {
                 });
             }
             else{
+                routeHelpers.changeRoute('/app/settings', 1200);
                 this.setState({
                     active: true,
                     barMessage: 'Profile updated successfully',
@@ -400,7 +415,7 @@ class editSettingsPage extends Component {
                                onChange={this.onChange.bind(this)}
                         />
 
-                        <Input type='text' label={<FormattedMessage {...il8n.EMAIL} />}
+                        <Input type='email' label={<FormattedMessage {...il8n.EMAIL} />}
                                name='email'
                                value={this.state.email}
                                onChange={this.onChange.bind(this)}
