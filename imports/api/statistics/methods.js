@@ -1,7 +1,7 @@
 // methods related to companies
 
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
+import { _ } from 'underscore';
 
 // import webshot from 'webshot';
 // import fs from 'fs';
@@ -289,6 +289,46 @@ export const generateReport = new ValidatedMethod({
 
         params.owner = this.userId;
         let user = Meteor.user();
+        //check here is at least one transaction found with given filters
+
+        //make copy of params and remove the report filter to search locally
+        let date = params.date;
+        let localParams = params;
+        if(localParams.accounts.length){
+            localParams['account'] = {$in: params.accounts};
+        }
+
+        //add $or if category or project filter found
+        if(params.projects.length || params.categories.length){
+            localParams.$or = [];
+            if(params.projects.length){
+                localParams.$or.push({
+                    'project._id': {
+                        $in: params.projects
+                    }
+                })
+            }
+            else{
+                localParams.$or.push({
+                    'category._id': {
+                        $in: params.categories
+                    }
+                })
+            }
+        }
+        localParams= _.pick(localParams, 'owner', '$or', 'account');
+        if(date){
+            localParams.transactionAt = {
+                $gte: new Date(date.start),
+                $lte: new Date(date.end),
+            };
+        }
+        localParams.type = params.report === 'incomes' ? 'income' : 'expense';
+        let transactionFound = Transactions.findOne(localParams);
+        if(!transactionFound){
+            throw new Meteor.Error(500, 'No Transaction found with selected search filters')
+        }
+
         //set default to Free
         let plan = user.profile.businessPlan || 'Free';
         params.context = {
@@ -332,7 +372,18 @@ export const generateReport = new ValidatedMethod({
             if(!parseData.Location){
                 throw new Meteor.Error(403, 'ERROR! something went wrong please contact customer support official.');
             }
-            Reports.insert({ reportUrl: parseData.Location, owner: this.userId, expireAt: limitHelpers.getReportExpiryDate()});
+
+            Reports.insert({
+                reportUrl: parseData.Location,
+                owner: this.userId,
+                expireAt: limitHelpers.getReportExpiryDate(),
+                dateFrom: new Date(date.start),
+                dateTo: new Date(date.end),
+                type: params.report,
+                categories: params.categories,
+                projects: params.projects,
+                accounts: params.accounts
+            });
             return data.Payload
         }
     }

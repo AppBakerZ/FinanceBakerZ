@@ -30,6 +30,46 @@ Reports.schema = new SimpleSchema({
         label: 'report Expire At',
         defaultValue: new Date()
     },
+    dateFrom: {
+        type: Date,
+        label: 'report Date From',
+        optional: true
+    },
+    dateTo: {
+        type: Date,
+        label: 'report Date To',
+        optional: true
+    },
+    type: {
+        type: String,
+        label: 'report type',
+        optional: true
+    },
+    exportType: {
+        type: String,
+        label: 'report type',
+        optional: true
+    },
+    FinancialType: {
+        type: String,
+        label: 'report type',
+        optional: true
+    },
+    accounts: {
+        type: [String],
+        label: 'report accounts list',
+        defaultValue: []
+    },
+    projects: {
+        type: [String],
+        label: 'report projects list',
+        defaultValue: []
+    },
+    categories: {
+        type: [String],
+        label: 'report categories list',
+        defaultValue: []
+    },
     createdAt: {
         type: Date,
         label: 'Created At report',
