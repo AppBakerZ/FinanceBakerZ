@@ -55,6 +55,21 @@ Reports.schema = new SimpleSchema({
         label: 'report type',
         optional: true
     },
+    accounts: {
+        type: [String],
+        label: 'report accounts list',
+        defaultValue: []
+    },
+    projects: {
+        type: [String],
+        label: 'report projects list',
+        defaultValue: []
+    },
+    categories: {
+        type: [String],
+        label: 'report categories list',
+        defaultValue: []
+    },
     createdAt: {
         type: Date,
         label: 'Created At report',

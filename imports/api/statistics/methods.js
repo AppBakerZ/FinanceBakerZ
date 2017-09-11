@@ -299,31 +299,31 @@ export const generateReport = new ValidatedMethod({
         }
 
         //add $or if category or project filter found
-        if(localParams.projects.length || localParams.categories.length){
+        if(params.projects.length || params.categories.length){
             localParams.$or = [];
-            if(localParams.projects.length){
+            if(params.projects.length){
                 localParams.$or.push({
                     'project._id': {
-                        $in: localParams.projects
+                        $in: params.projects
                     }
                 })
             }
             else{
                 localParams.$or.push({
                     'category._id': {
-                        $in: localParams.categories
+                        $in: params.categories
                     }
                 })
             }
         }
-        localParams= _.pick(localParams, 'owner', 'project._id', 'category._id', 'account');
-        if(params.date){
+        localParams= _.pick(localParams, 'owner', '$or', 'account');
+        if(date){
             localParams.transactionAt = {
                 $gte: new Date(date.start),
                 $lte: new Date(date.end),
             };
         }
-
+        localParams.type = params.report === 'incomes' ? 'income' : 'expense';
         let transactionFound = Transactions.findOne(localParams);
         if(!transactionFound){
             throw new Meteor.Error(500, 'No Transaction found with selected search filters')
@@ -372,7 +372,18 @@ export const generateReport = new ValidatedMethod({
             if(!parseData.Location){
                 throw new Meteor.Error(403, 'ERROR! something went wrong please contact customer support official.');
             }
-            Reports.insert({ reportUrl: parseData.Location, owner: this.userId, expireAt: limitHelpers.getReportExpiryDate()});
+
+            Reports.insert({
+                reportUrl: parseData.Location,
+                owner: this.userId,
+                expireAt: limitHelpers.getReportExpiryDate(),
+                dateFrom: new Date(date.start),
+                dateTo: new Date(date.end),
+                type: params.report,
+                categories: params.categories,
+                projects: params.projects,
+                accounts: params.accounts
+            });
             return data.Payload
         }
     }
