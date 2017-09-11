@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
+import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon, Snackbar, ProgressBar } from 'react-toolbox';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 import moment from 'moment';
 
@@ -68,6 +68,7 @@ class ReportsPage extends Component {
         let datetime = new Date();
 
         this.state = {
+            active: false,
             loading: false,
             totalIncomes: null,
             totalExpenses: null,
@@ -119,6 +120,18 @@ class ReportsPage extends Component {
         });
     }
 
+    handleBarClick (event, instance) {
+        this.setState({ active: false });
+    }
+
+    handleBarTimeout (event, instance) {
+        this.setState({ active: false });
+    }
+
+    progressBarToggle (){
+        return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
+    }
+
     generatePdf(){
         if(this.state.loading){
             return;
@@ -156,6 +169,13 @@ class ReportsPage extends Component {
                 loading: false
             });
             if (err) {
+                this.setState({
+                    disableButton: false,
+                    active: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
                 console.error(err);
             } else if (res) {
                 let parseData = JSON.parse(res);
@@ -167,6 +187,18 @@ class ReportsPage extends Component {
     render() {
         return (
             <div className={theme.reports}>
+                <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
+
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.active}
+                    icon={this.state.barIcon}
+                    label={this.state.barMessage}
+                    timeout={2000}
+                    onClick={this.handleBarClick.bind(this)}
+                    onTimeout={this.handleBarTimeout.bind(this)}
+                    type={this.state.barType}
+                />
                 <FilterBar parentProps={ this.props } collection="localReports" />
                 {/*TODO add formatMessage message here*/}
                 <div className={theme.generateBtn} onClick={this.generatePdf.bind(this)}>
