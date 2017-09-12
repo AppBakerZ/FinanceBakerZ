@@ -631,9 +631,6 @@ class SettingsPage extends Component {
                                 <h6> <FormattedMessage {...il8n.USER} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
                                 <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
-                                <div className={theme.settingBtn}>
-                                    {/*<Button label={formatMessage(il8n.EDIT_INFO)} raised accent onClick={this.openPopup.bind(this, 'personalInformation')}/>*/}
-                                </div>
                             </div>
                         </Card>
                         <Card theme={cardTheme}>
@@ -658,9 +655,6 @@ class SettingsPage extends Component {
                                              />
                                     </span>
                                 </h6>
-                                <div className={theme.settingBtn}>
-                                    {/*<Button label={formatMessage(il8n.EDIT_INFO)} raised accent onClick={this.openPopup.bind(this, 'accountSetting')} />*/}
-                                </div>
                             </div>
                         </Card>
 
@@ -671,7 +665,6 @@ class SettingsPage extends Component {
                             <div className={theme.cardContent}>
                                 <h6> <FormattedMessage {...il8n.PASSWORD} />  <span>*********</span></h6>
                                 <div className={theme.editBtn}>
-                                    {/*<Button label={formatMessage(il8n.EDIT_INFO)} raised accent onClick={this.openPopup.bind(this, 'changePassword')} />*/}
                                 </div>
                             </div>
                         </Card>

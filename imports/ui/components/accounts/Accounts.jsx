@@ -10,7 +10,6 @@ import { Accounts } from '../../../api/accounts/accounts.js';
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
-import Form from './Form.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import theme from './theme';

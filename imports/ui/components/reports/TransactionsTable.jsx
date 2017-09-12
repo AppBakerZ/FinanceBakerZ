@@ -35,6 +35,9 @@ const il8n = defineMessages({
     ADD_INCOME: {
         id: 'TRANSACTIONS.ADD_INCOME'
     },
+    ADD_EXPENSE: {
+        id: 'TRANSACTIONS.ADD_EXPENSE_BUTTON'
+    },
     TRANSACTIONS:{
             id: 'TRANSACTIONS.TITLE'
     }
@@ -141,7 +144,7 @@ class TransactionsTable extends Component {
                                 onClick={this.addExpense.bind(this)}
                                 className='header-buttons'
                                 icon='add'
-                                label="expense"
+                                label={formatMessage(il8n.ADD_EXPENSE)}
                                 name='Expense'
                                 flat />
                     </div>

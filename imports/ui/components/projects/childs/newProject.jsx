@@ -99,8 +99,8 @@ const il8n = defineMessages({
     PROJECT_NAME: {
         id: 'PROJECTS.PROJECT_NAME'
     },
-    CLIENT_NAME: {
-        id: 'PROJECTS.CLIENT_NAME'
+    CLIENT_DETAILS: {
+        id: 'PROJECTS.CLIENT_DETAILS'
     },
     PROJECT_TYPE: {
         id: 'PROJECTS.PROJECT_TYPE'
@@ -480,7 +480,7 @@ class NewProjectPage extends Component {
                             value={this.state.startAt}
                         />
 
-                        <h4 className={theme.clientHeading}>client details</h4>
+                        <h4 className={theme.clientHeading}>{formatMessage(il8n.CLIENT_DETAILS)}</h4>
 
 
                         {this.state.clientDetails.map((customField, idx) => (

@@ -377,7 +377,6 @@ class editSettingsPage extends Component {
         return (
             <div className={theme.incomeCard}>
                 <Card theme={theme}>
-                    {/*<h3>{this.state.isNew ? <FormattedMessage {...il8n.ADD_ACCOUNTS_BUTTON} /> : <FormattedMessage {...il8n.UPDATE_ACCOUNTS_BUTTON} />}</h3>*/}
                     <h3>Settings Update</h3>
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
 

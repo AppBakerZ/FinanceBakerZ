@@ -142,7 +142,6 @@ class ProjectDetail extends Component {
                         <div className={theme.depositContent}>
                             <h6>Project ID: <span>{_id}</span></h6>
                             <h6>Date: <span>{date}</span></h6>
-                            {/*<h5><FormattedMessage {...il8n.CLIENT_NAME} />: <span>{project.client && project.client.name}</span></h5>*/}
                             <h5><FormattedMessage {...il8n.AMOUNT_AGREED} />: <span><FormattedNumber value={amount || 0}/></span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_PAID} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{amountPaid === null ? 'Loading ...' : <FormattedNumber value={amountPaid || 0}/>}</span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_REMAINING} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{ amountPaid === null ? 'Loading ...' : <FormattedNumber value={(amount - amountPaid) || 0}/> } </span></h5>

@@ -14,6 +14,9 @@ const il8n = defineMessages({
     AVAILABLE_BALANCE: {
         id: 'DASHBOARD.AVAILABLE_BALANCE'
     },
+    GENERATE_REPORT: {
+        id: 'DASHBOARD.GENERATE_REPORT'
+    },
     TOTAL_INCOMES: {
         id: 'DASHBOARD.TOTAL_INCOMES'
     },
@@ -185,6 +188,7 @@ class ReportsPage extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.reports}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -202,7 +206,7 @@ class ReportsPage extends Component {
                 <FilterBar parentProps={ this.props } collection="localReports" />
                 {/*TODO add formatMessage message here*/}
                 <div className={theme.generateBtn} onClick={this.generatePdf.bind(this)}>
-                    <Button type='submit' icon='description' label="Generate Report" raised primary disabled={this.state.loading}/>
+                    <Button type='submit' icon='description' label={formatMessage(il8n.GENERATE_REPORT)} raised primary disabled={this.state.loading}/>
                 </div>
             </div>
         );
