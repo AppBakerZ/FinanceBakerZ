@@ -1,6 +1,7 @@
 {
   "en": {
     "DASHBOARD.AVAILABLE_BALANCE": "Your Available Balance is",
+    "DASHBOARD.GENERATE_REPORT": "Generate Report",
     "DASHBOARD.TOTAL_INCOMES": "Your Total Incomes are",
     "DASHBOARD.TOTAL_INCOMES_BUTTON": "Incomes Report",
     "DASHBOARD.TOTAL_EXPENSES": "Your Total Expenses are",
@@ -48,6 +49,7 @@
     "PROJECTS.UPDATE_PROJECT_BUTTON": "Update Project",
     "PROJECTS.PROJECT_NAME": "Project Name",
     "PROJECTS.CLIENT_NAME": "Client Name",
+    "PROJECTS.CLIENT_DETAILS": "Client Details",
     "PROJECTS.PROJECT_TYPE": "Type",
     "PROJECTS.PROJECT_AMOUNT": "Amount",
     "PROJECTS.STATUS": "Status:",
@@ -183,6 +185,7 @@
     "TRANSACTIONS.ADD_INCOME_BUTTON": "Add Income",
     "TRANSACTIONS.CREDIT_TYPE": "Cradit type",
     "TRANSACTIONS.ADD_INCOME": "Income",
+    "TRANSACTIONS.ADD_EXPENSE": "Expense",
     "TRANSACTIONS.UPDATE_INCOME_BUTTON": "Update Income",
     "TRANSACTIONS.TRANSACTION_ID": "Transaction id",
     "TRANSACTIONS.REMOVE_INCOME_BUTTON": "Remove Income",
@@ -241,6 +244,7 @@
 
   "ur": {
     "DASHBOARD.AVAILABLE_BALANCE": "آپ کی موجودہ رقم",
+    "DASHBOARD.GENERATE_REPORT": "نتیجہ مرتب کریں",
     "DASHBOARD.TOTAL_INCOMES": " آپ کی موجودہ آمدنی",
     "DASHBOARD.TOTAL_INCOMES_BUTTON": "آمدنی کا نتیجہ",
     "DASHBOARD.TOTAL_EXPENSES": " آپ کے موجودہ اخراجات",
@@ -288,6 +292,7 @@
     "PROJECTS.UPDATE_PROJECT_BUTTON": " منصوبے میں ترمیم کریں",
     "PROJECTS.PROJECT_NAME": "منصوبے کا نام ",
     "PROJECTS.CLIENT_NAME": " گاہک کا نام",
+    "PROJECTS.CLIENT_DETAILS": " گاہک کی تفصیلات",
     "PROJECTS.PROJECT_TYPE": "منصوبے کی قسم",
     "PROJECTS.PROJECT_AMOUNT": "منصوبے کی رقم",
     "PROJECTS.STATUS": "منصوبے کی حیثیت",
@@ -413,6 +418,7 @@
     "TRANSACTIONS.INCOME_BUTTON": "آمدنی",
     "TRANSACTIONS.EXPENSE_BUTTON": "خرچہ",
     "TRANSACTIONS.ADD_EXPENSE_BUTTON": " اخراجات کا اندراج کریں",
+    "TRANSACTIONS.ADD_EXPENSE": " اخراجات کا اندراج کریں",
     "TRANSACTIONS.UPDATE_EXPENSE_BUTTON": " اخراجات میں ترمیم کریں",
     "TRANSACTIONS.REMOVE_EXPENSE_BUTTON": "اخراجات کو حذف کرِیں",
     "TRANSACTIONS.CHANGE_BILL_BUTTON": "بل کو تبدیل کریں",

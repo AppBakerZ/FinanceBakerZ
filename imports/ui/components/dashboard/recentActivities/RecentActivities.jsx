@@ -80,16 +80,6 @@ class RecentActivities extends Component {
 
     addIncome(){
         routeHelpers.changeRoute('/app/transactions/income/add/new');
-        // if(this.props.projectsFind && this.props.projectsFind.length ){
-        //     routeHelpers.changeRoute('/app/transactions/income/add/new');
-        // }
-        // else{
-        //     this.setState({
-        //         active: true,
-        //         barMessage: 'You must have a single project to add income'
-        //     });
-        // }
-
     }
 
     handleBarClick (event, instance) {

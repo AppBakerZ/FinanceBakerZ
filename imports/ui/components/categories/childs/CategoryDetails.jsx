@@ -265,7 +265,6 @@ class CategoryDetail extends Component {
                                     label="edit"
                                     name='Income'
                                     flat />
-                            {/*<Button onClick={this.removeCategory.bind(this)}*/}
                             <Button onClick={this.openPopup.bind(this, 'removeSubcategory', category)}
                                     className='header-buttons'
                                     label="delete"

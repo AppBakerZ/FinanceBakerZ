@@ -35,6 +35,9 @@ const il8n = defineMessages({
     ADD_INCOME: {
         id: 'TRANSACTIONS.ADD_INCOME'
     },
+    ADD_EXPENSE: {
+        id: 'TRANSACTIONS.ADD_EXPENSE'
+    },
     TRANSACTIONS:{
             id: 'TRANSACTIONS.TITLE'
     }
@@ -72,29 +75,9 @@ class TransactionsTable extends Component {
     }
     addIncome(){
         routeHelpers.changeRoute('/app/transactions/income/add/new');
-        // if(this.props.projectExists){
-        //     routeHelpers.changeRoute('/app/transactions/income/add/new');
-        // }
-        // else{
-        //     this.setState({
-        //         active: true,
-        //         barMessage: 'You must have a single project to add income'
-        //     });
-        // }
-
     }
     addExpense(){
         routeHelpers.changeRoute('/app/transactions/expense/add/new');
-        // if(this.props.categoryExists){
-        //     routeHelpers.changeRoute('/app/transactions/expense/add/new');
-        // }
-        // else{
-        //     this.setState({
-        //         active: true,
-        //         barMessage: 'You must have a single category to add expense'
-        //     });
-        // }
-
     }
     render() {
         const { formatMessage } = this.props.intl;
@@ -141,7 +124,7 @@ class TransactionsTable extends Component {
                                 onClick={this.addExpense.bind(this)}
                                 className='header-buttons'
                                 icon='add'
-                                label="expense"
+                                label={formatMessage(il8n.ADD_EXPENSE)}
                                 name='Expense'
                                 flat />
                     </div>

@@ -234,8 +234,6 @@ class editSettingsPage extends Component {
                     this.resetImageUpload();
                 }
                 else {
-                    // we use $set because the user can change their avatar so it overwrites the url :)
-                    // Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
                     this.setState({imageUrl: downloadUrl});
                 }
             });
@@ -377,7 +375,6 @@ class editSettingsPage extends Component {
         return (
             <div className={theme.incomeCard}>
                 <Card theme={theme}>
-                    {/*<h3>{this.state.isNew ? <FormattedMessage {...il8n.ADD_ACCOUNTS_BUTTON} /> : <FormattedMessage {...il8n.UPDATE_ACCOUNTS_BUTTON} />}</h3>*/}
                     <h3>Settings Update</h3>
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
 
