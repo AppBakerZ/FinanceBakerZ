@@ -299,9 +299,9 @@ export const generateReport = new ValidatedMethod({
         }
 
         //add $or if category or project filter found
-        if(params.projects.length || params.categories.length){
+        if( params.projects.length || params.categories.length ){
             localParams.$or = [];
-            if(params.projects.length){
+            if( params.projects.length ){
                 localParams.$or.push({
                     'project._id': {
                         $in: params.projects
@@ -317,15 +317,18 @@ export const generateReport = new ValidatedMethod({
             }
         }
         localParams= _.pick(localParams, 'owner', '$or', 'account');
-        if(date){
+        if( date ){
             localParams.transactionAt = {
                 $gte: new Date(date.start),
                 $lte: new Date(date.end),
             };
         }
-        localParams.type = params.report === 'incomes' ? 'income' : 'expense';
+        //if type both that no type filter in query
+        if( params.report !== 'both' ){
+            localParams.type = params.report === 'incomes' ? 'income' : 'expense';
+        }
         let transactionFound = Transactions.findOne(localParams);
-        if(!transactionFound){
+        if( !transactionFound ){
             throw new Meteor.Error(500, 'No Transaction found with selected search filters')
         }
 
