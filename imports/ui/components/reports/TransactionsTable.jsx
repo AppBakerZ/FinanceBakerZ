@@ -36,7 +36,7 @@ const il8n = defineMessages({
         id: 'TRANSACTIONS.ADD_INCOME'
     },
     ADD_EXPENSE: {
-        id: 'TRANSACTIONS.ADD_EXPENSE_BUTTON'
+        id: 'TRANSACTIONS.ADD_EXPENSE'
     },
     TRANSACTIONS:{
             id: 'TRANSACTIONS.TITLE'
