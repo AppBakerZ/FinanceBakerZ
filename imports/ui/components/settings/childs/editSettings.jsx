@@ -234,8 +234,6 @@ class editSettingsPage extends Component {
                     this.resetImageUpload();
                 }
                 else {
-                    // we use $set because the user can change their avatar so it overwrites the url :)
-                    // Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": downloadUrl}});
                     this.setState({imageUrl: downloadUrl});
                 }
             });

@@ -8,8 +8,6 @@ export const Logs = new LogsCollection('logs');
 // Deny all client-side updates since we will be using methods to manage this collection
 Logs.deny({
     insert() { return true; },
-    // update() { return true; },
-    // remove() { return true; }
 });
 
 Logs.schema = new SimpleSchema({
