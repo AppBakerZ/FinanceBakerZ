@@ -5,8 +5,10 @@ import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages
 import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
+import { Reports } from '/imports/api/reports/reports.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import theme from './theme';
 
@@ -135,20 +137,37 @@ class ReportsPage extends Component {
         return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
-    filters(){
+    exportTypes(){
         return [
             {
-                name: 'test',
-                value: 'all'
+                name: 'PDF',
+                value: 'pdf'
             },
             {
-                name: 'brest',
-                value: 'day'
+                name: 'CSV',
+                value: 'csv'
+            }
+        ];
+    }
+    financialTypes(){
+        return [
+            {
+                name: 'General Report',
+                value: 'general'
+            },
+            {
+                name: 'General Ladger',
+                value: 'ladger'
+            },
+            {
+                name: 'Trial Balance',
+                value: 'trial'
             }
         ];
     }
 
     selectItem(index){
+        console.log(index)
         // let selectedTransaction =  this.props.transactions[index] ;
         // routeHelpers.changeRoute(`/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`);
     }
@@ -162,16 +181,24 @@ class ReportsPage extends Component {
         }
     }
 
-    selectFilter (filter) {
-        // let { parentProps } = this.props.parentProps;
-        // let { location } = parentProps;
-        // let query = location.query;
-        // let pathname = routeHelpers.resetPagination(location.pathname);
-        // // transaction filter
-        // if( query.filter !== filter ){
-        //     query.filter = filter;
-        //     routeHelpers.changeRoute(pathname, 0, query)
-        // }
+    selectFinancialFilter (financialType) {
+        let { location } = this.props;
+        let query = location.query;
+        // transaction filter
+        if( query.financialType !== financialType ){
+            query.financialType = financialType;
+            routeHelpers.changeRoute(location.pathname, 0, query)
+        }
+
+    }
+    selectExportFilter (exportType) {
+        let { location } = this.props;
+        let query = location.query;
+        // transaction filter
+        if( query.exportType !== exportType ){
+            query.exportType = exportType;
+            routeHelpers.changeRoute(location.pathname, 0, query)
+        }
 
     }
     filterItem (filter) {
@@ -236,12 +263,19 @@ class ReportsPage extends Component {
 
     render() {
         const { formatMessage } = this.props.intl;
+        const { reports } = this.props;
            let data = [{
                 leftIcon: '10-May-2017',
                 date: moment().format("DD-MMM-YYYY"),
                 category: (<a href="javascript:">Download Report</a>),
                 amount: 2017
-            }]
+            },
+               {
+                   leftIcon: '10-May-2017',
+                   date: moment().format("DD-MMM-YYYY"),
+                   category: (<a href="javascript:">Download Report</a>),
+                   amount: 2017
+               }];
         return (
             <div className={theme.reports}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -257,14 +291,13 @@ class ReportsPage extends Component {
                     type={this.state.barType}
                 />
                 <FilterBar parentProps={ this.props } collection="localReports" />
-                {/*TODO add formatMessage message here*/}
                 <div className={theme.generateBtn}>
                     <Dropdown
                         className={theme.filterDropDowns}
                         auto={false}
-                        source={this.filters()}
+                        source={this.financialTypes()}
                         name='filterBy'
-                        onChange={this.selectFilter.bind(this)}
+                        onChange={this.selectFinancialFilter.bind(this)}
                         label="Filter by financial type"
                         value=""
                         template={this.filterItem}
@@ -272,9 +305,9 @@ class ReportsPage extends Component {
                     <Dropdown
                         className={theme.filterDropDowns}
                         auto={false}
-                        source={this.filters()}
+                        source={this.exportTypes()}
                         name='filterBy'
-                        onChange={this.selectFilter.bind(this)}
+                        onChange={this.selectExportFilter.bind(this)}
                         label="Export As"
                         value=""
                         template={this.filterItem}
@@ -302,12 +335,17 @@ ReportsPage.propTypes = {
 };
 
 ReportsPage = createContainer(() => {
+    const reportsHandle = Meteor.subscribe('transactions');
+    Meteor.subscribe('reports');
+    const reports = Reports.find().fetch();
     const local = LocalCollection.findOne({
         name: 'localTransactions'
     });
     const pageCount = Counter.get('transactionsCount');
+    const reportsExists = Counter.get('reportsTotal');
 
     return {
+        reports,
         local: local,
         pageCount: pageCount,
     };

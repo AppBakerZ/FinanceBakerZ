@@ -23,4 +23,6 @@ import '../../api/statistics/methods.js';
 
 import '../../api/payments/methods'
 
+import '../../api/reports/reports.js'
+
 import '../../api/logs/methods'
