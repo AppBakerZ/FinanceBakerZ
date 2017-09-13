@@ -135,6 +135,53 @@ class ReportsPage extends Component {
         return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
+    filters(){
+        return [
+            {
+                name: 'test',
+                value: 'all'
+            },
+            {
+                name: 'brest',
+                value: 'day'
+            }
+        ];
+    }
+
+    selectItem(index){
+        // let selectedTransaction =  this.props.transactions[index] ;
+        // routeHelpers.changeRoute(`/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`);
+    }
+
+    getTableModel(){
+        return {
+            leftIcon: {type: String, title: "Date From"},
+            date: {type: Date, title: "Date To"},
+            category: {type: Date, title: "Download Link"},
+            amount: {type: Date, title: "Expiry Date"},
+        }
+    }
+
+    selectFilter (filter) {
+        // let { parentProps } = this.props.parentProps;
+        // let { location } = parentProps;
+        // let query = location.query;
+        // let pathname = routeHelpers.resetPagination(location.pathname);
+        // // transaction filter
+        // if( query.filter !== filter ){
+        //     query.filter = filter;
+        //     routeHelpers.changeRoute(pathname, 0, query)
+        // }
+
+    }
+    filterItem (filter) {
+        return (
+            <div>
+                <strong>{filter.name}</strong>
+            </div>
+        );
+    }
+
     generatePdf(){
         if(this.state.loading){
             return;
@@ -189,6 +236,12 @@ class ReportsPage extends Component {
 
     render() {
         const { formatMessage } = this.props.intl;
+           let data = [{
+                leftIcon: '10-May-2017',
+                date: moment().format("DD-MMM-YYYY"),
+                category: (<a href="javascript:">Download Report</a>),
+                amount: 2017
+            }]
         return (
             <div className={theme.reports}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -205,8 +258,39 @@ class ReportsPage extends Component {
                 />
                 <FilterBar parentProps={ this.props } collection="localReports" />
                 {/*TODO add formatMessage message here*/}
-                <div className={theme.generateBtn} onClick={this.generatePdf.bind(this)}>
-                    <Button type='submit' icon='description' label={formatMessage(il8n.GENERATE_REPORT)} raised primary disabled={this.state.loading}/>
+                <div className={theme.generateBtn}>
+                    <Dropdown
+                        className={theme.filterDropDowns}
+                        auto={false}
+                        source={this.filters()}
+                        name='filterBy'
+                        onChange={this.selectFilter.bind(this)}
+                        label="Filter by financial type"
+                        value=""
+                        template={this.filterItem}
+                    />
+                    <Dropdown
+                        className={theme.filterDropDowns}
+                        auto={false}
+                        source={this.filters()}
+                        name='filterBy'
+                        onChange={this.selectFilter.bind(this)}
+                        label="Export As"
+                        value=""
+                        template={this.filterItem}
+                    />
+                    <Button onClick={this.generatePdf.bind(this)} type='submit' icon='description' label={formatMessage(il8n.GENERATE_REPORT)} raised primary disabled={this.state.loading}/>
+                </div>
+                <div className={theme.reportsTable}>
+                    <h3 className={theme.reportsTableHeading}>All Reports</h3>
+                    <Card>
+                        <Table theme={theme} model={this.getTableModel()}
+                               source={data}
+                               onRowClick={this.selectItem.bind(this)}
+                               selectable={false}
+                               heading={true}
+                        />
+                    </Card>
                 </div>
             </div>
         );
