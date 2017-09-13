@@ -150,6 +150,8 @@ class NewIncome extends Component {
         receivedTime = new Date(receivedTime);
         transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && creditType === "project" && {_id: project}) || {};
+        let projectExists = Projects.findOne({_id: project._id});
+        project.name = projectExists.name;
         creditType = creditType === "project" ? 'project' : 'salary';
 
             Meteor.call('transactions.insert', {
@@ -185,12 +187,13 @@ class NewIncome extends Component {
 
     updateIncome(){
         let {_id, account, amount, receivedAt, receivedTime, creditType, project} = this.state;
-
         let transactionAt = new Date(receivedAt);
         let type = 'income';
         receivedTime = new Date(receivedTime);
         transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
         project = (project && creditType === "project" && {_id: project}) || {};
+        let projectExists = Projects.findOne({_id: project._id});
+        project.name = projectExists.name;
         creditType = creditType === "project" ? 'project' : 'salary';
 
         Meteor.call('transactions.update', {

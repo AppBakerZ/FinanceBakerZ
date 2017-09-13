@@ -8,8 +8,6 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Transactions } from './transactions.js';
-import { Projects } from '../projects/projects.js';
-import { Categories } from '../categories/categories.js';
 
 export const insert = new ValidatedMethod({
     name: 'transactions.insert',
@@ -46,11 +44,23 @@ export const insert = new ValidatedMethod({
             type: String,
             optional: true
         },
+        'transaction.project.name': {
+            type: String,
+            optional: true
+        },
         'transaction.category': {
             type: Object,
             optional: true
         },
         'transaction.category._id': {
+            type: String,
+            optional: true
+        },
+        'transaction.category.name': {
+            type: String,
+            optional: true
+        },
+        'transaction.category.icon': {
             type: String,
             optional: true
         },
@@ -65,17 +75,6 @@ export const insert = new ValidatedMethod({
     }).validator(),
     run({ transaction }) {
         transaction.owner = this.userId;
-        if(transaction.project) {
-            transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
-        }
-        else if(transaction.category){
-            let category = Categories.findOne(transaction.category._id);
-            //prevent error in case of old deleted Category
-            if(category){
-                transaction.category.name = category.name;
-                transaction.category.icon = category.icon;
-            }
-        }
         return Transactions.insert(transaction);
     }
 });
@@ -118,11 +117,23 @@ export const update = new ValidatedMethod({
             type: String,
             optional: true
         },
+        'transaction.project.name': {
+            type: String,
+            optional: true
+        },
         'transaction.category': {
             type: Object,
             optional: true
         },
         'transaction.category._id': {
+            type: String,
+            optional: true
+        },
+        'transaction.category.name': {
+            type: String,
+            optional: true
+        },
+        'transaction.category.icon': {
             type: String,
             optional: true
         },
@@ -138,17 +149,6 @@ export const update = new ValidatedMethod({
     run({ transaction }) {
         const {_id} = transaction;
         delete transaction._id;
-        if(transaction.project){
-            transaction.project._id && (transaction.project.name = Projects.findOne(transaction.project._id).name);
-        }
-        else if( transaction.category ){
-            let category = Categories.findOne(transaction.category._id);
-            //prevent error in case of old deleted Category
-            if(category){
-                transaction.category.name = category.name;
-                transaction.category.icon = category.icon;
-            }
-        }
         return Transactions.update(_id, {$set: transaction});
     }
 });

@@ -144,7 +144,7 @@ class RecentActivities extends Component {
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/?type=incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
+                    <Link to={`/app/transactions?type=incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
                 </div>
             </div>
         )
@@ -181,7 +181,7 @@ class RecentActivities extends Component {
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/?type=expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
+                    <Link to={`/app/transactions?type=expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
                 </div>
             </div>
         )
