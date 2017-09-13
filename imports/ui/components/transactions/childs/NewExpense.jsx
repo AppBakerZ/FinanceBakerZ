@@ -123,6 +123,9 @@ class NewExpense extends Component {
         spentTime = new Date(spentTime);
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
         category = category && {_id: category};
+        let categoryExists = Categories.findOne({_id: category._id});
+        category.name = categoryExists.name;
+        category.icon = categoryExists.icon;
 
         Meteor.call('transactions.insert', {
             transaction: {
@@ -163,6 +166,9 @@ class NewExpense extends Component {
         spentTime = new Date(spentTime);
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
         category = category && {_id: category};
+        let categoryExists = Categories.findOne({_id: category._id});
+        category.name = categoryExists.name;
+        category.icon = categoryExists.icon;
         Meteor.call('transactions.update', {
             transaction: {
                 _id,
