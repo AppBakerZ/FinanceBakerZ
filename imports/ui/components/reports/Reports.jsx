@@ -60,7 +60,13 @@ const il8n = defineMessages({
     },
     FILTER_BY_DATE_RANGE: {
         id: 'DASHBOARD.FILTER_BY_DATE_RANGE'
-    }
+    },
+    ALL_REPORTS: {
+        id: 'REPORTS.ALL_REPORTS'
+    },
+    EXPIRY_DATE: {
+        id: 'REPORTS.EXPIRY_DATE'
+    },
 });
 
 //define Const
@@ -84,7 +90,9 @@ class ReportsPage extends Component {
             categories: [],
             projects: [],
             dateFrom: new Date(moment(datetime).startOf('month').format()),
-            dateTo: datetime
+            dateTo: datetime,
+            financialType: 'general',
+            exportType: 'pdf'
         };
     }
 
@@ -139,45 +147,46 @@ class ReportsPage extends Component {
 
     exportTypes(){
         return [
+            //since we currently only have PDf
             {
                 name: 'PDF',
                 value: 'pdf'
             },
-            {
-                name: 'CSV',
-                value: 'csv'
-            }
+            // {
+            //     name: 'CSV',
+            //     value: 'csv'
+            // }
         ];
     }
     financialTypes(){
         return [
+            //since we currently only have General Report
             {
                 name: 'General Report',
                 value: 'general'
             },
-            {
-                name: 'General Ladger',
-                value: 'ladger'
-            },
-            {
-                name: 'Trial Balance',
-                value: 'trial'
-            }
+            // {
+            //     name: 'General Ladger',
+            //     value: 'ladger'
+            // },
+            // {
+            //     name: 'Trial Balance',
+            //     value: 'trial'
+            // }
         ];
     }
 
     selectItem(index){
-        console.log(index)
-        // let selectedTransaction =  this.props.transactions[index] ;
-        // routeHelpers.changeRoute(`/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`);
+        let selectedReport =  this.props.reports[index];
+        // routeHelpers.changeRoute(`/app/reports/${selectedReport._id}`);
     }
 
     getTableModel(){
         return {
-            leftIcon: {type: String, title: "Date From"},
-            date: {type: Date, title: "Date To"},
-            category: {type: Date, title: "Download Link"},
-            amount: {type: Date, title: "Expiry Date"},
+            dateFrom: {type: String, title: <FormattedMessage {...il8n.DATE_FROM}/>},
+            dateTo: {type: Date, title: <FormattedMessage {...il8n.DATE_TO}/>},
+            reportUrl: {type: String, title: "Download Link"},
+            expireAt: {type: Date, title: <FormattedMessage {...il8n.EXPIRY_DATE}/>},
         }
     }
 
@@ -264,18 +273,15 @@ class ReportsPage extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         const { reports } = this.props;
-           let data = [{
-                leftIcon: '10-May-2017',
-                date: moment().format("DD-MMM-YYYY"),
-                category: (<a href="javascript:">Download Report</a>),
-                amount: 2017
-            },
-               {
-                   leftIcon: '10-May-2017',
-                   date: moment().format("DD-MMM-YYYY"),
-                   category: (<a href="javascript:">Download Report</a>),
-                   amount: 2017
-               }];
+
+        let data = reports.map(function(report){
+            return {
+                dateFrom: moment(report.dateFrom).format("DD-MMM-YY"),
+                dateTo: moment(report.dateTo).format("DD-MMM-YY"),
+                reportUrl: (<a href={report.reportUrl}>Download Report</a>),
+                expireAt: moment(report.expireAt).format("DD-MMM-YY"),
+            }
+        });
         return (
             <div className={theme.reports}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -299,7 +305,7 @@ class ReportsPage extends Component {
                         name='filterBy'
                         onChange={this.selectFinancialFilter.bind(this)}
                         label="Filter by financial type"
-                        value=""
+                        value={this.state.financialType}
                         template={this.filterItem}
                     />
                     <Dropdown
@@ -309,13 +315,13 @@ class ReportsPage extends Component {
                         name='filterBy'
                         onChange={this.selectExportFilter.bind(this)}
                         label="Export As"
-                        value=""
+                        value={this.state.exportType}
                         template={this.filterItem}
                     />
                     <Button onClick={this.generatePdf.bind(this)} type='submit' icon='description' label={formatMessage(il8n.GENERATE_REPORT)} raised primary disabled={this.state.loading}/>
                 </div>
                 <div className={theme.reportsTable}>
-                    <h3 className={theme.reportsTableHeading}>All Reports</h3>
+                    <h3 className={theme.reportsTableHeading}>{formatMessage(il8n.ALL_REPORTS)}</h3>
                     <Card>
                         <Table theme={theme} model={this.getTableModel()}
                                source={data}
@@ -335,8 +341,7 @@ ReportsPage.propTypes = {
 };
 
 ReportsPage = createContainer(() => {
-    const reportsHandle = Meteor.subscribe('transactions');
-    Meteor.subscribe('reports');
+    const reportsHandle = Meteor.subscribe('reports');
     const reports = Reports.find().fetch();
     const local = LocalCollection.findOne({
         name: 'localTransactions'
