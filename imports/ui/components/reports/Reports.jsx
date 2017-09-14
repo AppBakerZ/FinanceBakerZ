@@ -5,8 +5,10 @@ import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages
 import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
+import { Reports } from '/imports/api/reports/reports.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import theme from './theme';
 
@@ -58,7 +60,13 @@ const il8n = defineMessages({
     },
     FILTER_BY_DATE_RANGE: {
         id: 'DASHBOARD.FILTER_BY_DATE_RANGE'
-    }
+    },
+    ALL_REPORTS: {
+        id: 'REPORTS.ALL_REPORTS'
+    },
+    EXPIRY_DATE: {
+        id: 'REPORTS.EXPIRY_DATE'
+    },
 });
 
 //define Const
@@ -82,7 +90,9 @@ class ReportsPage extends Component {
             categories: [],
             projects: [],
             dateFrom: new Date(moment(datetime).startOf('month').format()),
-            dateTo: datetime
+            dateTo: datetime,
+            financialType: 'general',
+            exportType: 'pdf'
         };
     }
 
@@ -133,6 +143,79 @@ class ReportsPage extends Component {
 
     progressBarToggle (){
         return this.props.loading || this.state.loading ? 'progress-bar' : 'progress-bar hide';
+    }
+
+    exportTypes(){
+        return [
+            //since we currently only have PDf
+            {
+                name: 'PDF',
+                value: 'pdf'
+            },
+            // {
+            //     name: 'CSV',
+            //     value: 'csv'
+            // }
+        ];
+    }
+    financialTypes(){
+        return [
+            //since we currently only have General Report
+            {
+                name: 'General Report',
+                value: 'general'
+            },
+            // {
+            //     name: 'General Ladger',
+            //     value: 'ladger'
+            // },
+            // {
+            //     name: 'Trial Balance',
+            //     value: 'trial'
+            // }
+        ];
+    }
+
+    selectItem(index){
+        let selectedReport =  this.props.reports[index];
+        // routeHelpers.changeRoute(`/app/reports/${selectedReport._id}`);
+    }
+
+    getTableModel(){
+        return {
+            dateFrom: {type: String, title: <FormattedMessage {...il8n.DATE_FROM}/>},
+            dateTo: {type: Date, title: <FormattedMessage {...il8n.DATE_TO}/>},
+            reportUrl: {type: String, title: "Download Link"},
+            expireAt: {type: Date, title: <FormattedMessage {...il8n.EXPIRY_DATE}/>},
+        }
+    }
+
+    selectFinancialFilter (financialType) {
+        let { location } = this.props;
+        let query = location.query;
+        // transaction filter
+        if( query.financialType !== financialType ){
+            query.financialType = financialType;
+            routeHelpers.changeRoute(location.pathname, 0, query)
+        }
+
+    }
+    selectExportFilter (exportType) {
+        let { location } = this.props;
+        let query = location.query;
+        // transaction filter
+        if( query.exportType !== exportType ){
+            query.exportType = exportType;
+            routeHelpers.changeRoute(location.pathname, 0, query)
+        }
+
+    }
+    filterItem (filter) {
+        return (
+            <div>
+                <strong>{filter.name}</strong>
+            </div>
+        );
     }
 
     generatePdf(){
@@ -189,6 +272,16 @@ class ReportsPage extends Component {
 
     render() {
         const { formatMessage } = this.props.intl;
+        const { reports } = this.props;
+
+        let data = reports.map(function(report){
+            return {
+                dateFrom: moment(report.dateFrom).format("DD-MMM-YY"),
+                dateTo: moment(report.dateTo).format("DD-MMM-YY"),
+                reportUrl: (<a href={report.reportUrl}>Download Report</a>),
+                expireAt: moment(report.expireAt).format("DD-MMM-YY"),
+            }
+        });
         return (
             <div className={theme.reports}>
                 <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
@@ -204,9 +297,39 @@ class ReportsPage extends Component {
                     type={this.state.barType}
                 />
                 <FilterBar parentProps={ this.props } collection="localReports" />
-                {/*TODO add formatMessage message here*/}
-                <div className={theme.generateBtn} onClick={this.generatePdf.bind(this)}>
-                    <Button type='submit' icon='description' label={formatMessage(il8n.GENERATE_REPORT)} raised primary disabled={this.state.loading}/>
+                <div className={theme.generateBtn}>
+                    <Dropdown
+                        className={theme.filterDropDowns}
+                        auto={false}
+                        source={this.financialTypes()}
+                        name='filterBy'
+                        onChange={this.selectFinancialFilter.bind(this)}
+                        label="Filter by financial type"
+                        value={this.state.financialType}
+                        template={this.filterItem}
+                    />
+                    <Dropdown
+                        className={theme.filterDropDowns}
+                        auto={false}
+                        source={this.exportTypes()}
+                        name='filterBy'
+                        onChange={this.selectExportFilter.bind(this)}
+                        label="Export As"
+                        value={this.state.exportType}
+                        template={this.filterItem}
+                    />
+                    <Button onClick={this.generatePdf.bind(this)} type='submit' icon='description' label={formatMessage(il8n.GENERATE_REPORT)} raised primary disabled={this.state.loading}/>
+                </div>
+                <div className={theme.reportsTable}>
+                    <h3 className={theme.reportsTableHeading}>{formatMessage(il8n.ALL_REPORTS)}</h3>
+                    <Card>
+                        <Table theme={theme} model={this.getTableModel()}
+                               source={data}
+                               onRowClick={this.selectItem.bind(this)}
+                               selectable={false}
+                               heading={true}
+                        />
+                    </Card>
                 </div>
             </div>
         );
@@ -218,12 +341,16 @@ ReportsPage.propTypes = {
 };
 
 ReportsPage = createContainer(() => {
+    const reportsHandle = Meteor.subscribe('reports');
+    const reports = Reports.find().fetch();
     const local = LocalCollection.findOne({
         name: 'localTransactions'
     });
     const pageCount = Counter.get('transactionsCount');
+    const reportsExists = Counter.get('reportsTotal');
 
     return {
+        reports,
         local: local,
         pageCount: pageCount,
     };

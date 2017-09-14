@@ -12,17 +12,87 @@
       }
     }
   }
+  .reportsTable{
+    width: 100%;
+    display: inline-block;
+    margin-top: 40px;
+    .reportsTableHeading{
+      background: #008142;
+      color: #ffffff;
+      font-size: 2.5rem;
+      text-transform: capitalize;
+      letter-spacing: 0.1rem;
+      padding: 22px 50px 18px 50px;
+    }
+    table{
+      thead{
+        tr{
+          background: #f8f8f8;
+          box-shadow: 0 3px 3px 0 #cecece;
+          th{
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            padding: 7px 50px 0;
+            border-bottom: 0;
+            border-right: 1px solid #cecece;
+            line-height: 46px;
+            letter-spacing: 0.8px;
+            &:first-of-type{
+              width: 20%;
+            }
+            &:nth-of-type(2){
+              width: 20%;
+            }
+            &:nth-of-type(3){
+              text-align: center;
+              width: 40%;
+            }
+          }
+          &:first-of-type{
+            padding: 4px 0;
+          }
+        }
+      }
+      tbody{
+        tr{
+          &:hover{
+            background: none;
+          }
+          td{
+            font-size: 20px;
+            color: #333;
+            padding: 7px 50px 0;
+            text-transform: capitalize;
+            &:nth-of-type(3){
+              text-align: center;
+              font-weight: 700;
+            }
+            a{
+              color: #333333;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .generateBtn{
   width: 100%;
   float: left;
-  text-align: center;
+  text-align: left;
+  .filterDropDowns{
+    width: 20%;
+    float: left;
+    margin-right: 20px;
+  }
   button{
     font-size: $font-size + 0.1;
     letter-spacing: $unit - 0.9;
     height: $unit * 4.6;
     padding: $unit - 0.6 $unit * 4.3 0;
+    margin: 9px 0 0 $unit * 1.8;
   }
 }
 .paddedCard{

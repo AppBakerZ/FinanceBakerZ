@@ -3,7 +3,7 @@ import { Reports } from '../reports.js';
 
 Meteor.publish('reports', function () {
     return [
-        new Counter('reportsExists', Reports.find(
+        new Counter('reportsTotal', Reports.find(
             {
                 owner: this.userId
             })),
