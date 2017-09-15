@@ -75,15 +75,13 @@ class ProjectDetail extends Component {
     editProject(){
         routeHelpers.changeRoute(`/app/projects/edit/${this.props.params.id}`);
     }
-    openDialog (action, category, e) {
+    openDialog (e) {
         if(e){
             e.stopPropagation();
             e.preventDefault();
         }
         this.setState({
             openDialog: true,
-            action,
-            selectedCategory: category || null
         });
     }
 
@@ -188,11 +186,11 @@ class ProjectDetail extends Component {
 
                 <ConfirmationMessage
                     heading={formatMessage(il8n.REMOVE_PROJECT)}
-                    informationMessage={formatMessage(il8n.INFORM_MESSAGE)}
-                    confirmationMessage={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
                     open={openDialog}
                     route="/app/projects"
-                    defaultFunction={this.removeProject.bind(this)}
+                    defaultAction={this.removeProject.bind(this)}
                     close={this.closePopup.bind(this)}
                 />
             </div>

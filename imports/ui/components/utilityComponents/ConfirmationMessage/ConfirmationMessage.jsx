@@ -52,7 +52,18 @@ const il8n = defineMessages({
     }
 });
 
+/*it need below params to warn user on an action
 
+ @open (boolean value for dialog status) required
+ @close (parent component function to close dialog) required
+ @heading (which shows on top on dialog) required
+ @information (which shows as first details line) required
+ @confirmation (which shows as second more details info) optional
+ @defaultAction (which action perform on user confirmation) required
+ @condition (if provided it will check and perform action accordingly) optional
+ @alternateFunction (if condition provided then required) optional
+
+*/
 
 class ConfirmationMessage extends Component {
 
@@ -62,8 +73,8 @@ class ConfirmationMessage extends Component {
 
     render() {
         const { formatMessage } = this.props.intl;
-        const { heading, informationMessage, confirmationMessage } = this.props;
-        const { open, close, defaultFunction, condition, alternateFunction } = this.props;
+        const { heading, information, confirmation } = this.props;
+        const { open, close, defaultAction, condition, alternateAction } = this.props;
         return <Dialog theme={dialogTheme}
                 active={open}
                 onEscKeyDown={close}
@@ -72,12 +83,12 @@ class ConfirmationMessage extends Component {
             <div className={theme.dialogContent}>
                 <div>
                     <h3> {heading} </h3>
-                    <p> {informationMessage} </p>
-                    <p> {confirmationMessage} </p>
+                    <p> { information} </p>
+                    <p> { confirmation } </p>
                 </div>
                 <div className={theme.buttonBox}>
                     <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={close} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={condition ? alternateFunction : defaultFunction} theme={dialogButtonTheme} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={condition ? alternateAction : defaultAction} theme={dialogButtonTheme} />
                 </div>
             </div>
         </Dialog>
@@ -85,6 +96,9 @@ class ConfirmationMessage extends Component {
 }
 
 ConfirmationMessage.propTypes = {
+    open: PropTypes.bool.isRequired,
+    close: PropTypes.func.isRequired,
+    information: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
     intl: intlShape.isRequired
 };

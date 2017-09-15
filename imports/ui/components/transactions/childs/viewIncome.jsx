@@ -10,6 +10,7 @@ import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { stringHelpers } from '../../../../helpers/stringHelpers'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+import ConfirmationMessage from '../../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 import theme from './theme';
 import moment from 'moment';
 
@@ -42,9 +43,16 @@ const il8n = defineMessages({
     },
     PROJECT:{
         id: 'TRANSACTIONS.PROJECT'
+    },
+    INFORM_MESSAGE: {
+        id: 'TRANSACTIONS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'TRANSACTIONS.CONFIRMATION_MESSAGE'
+    },
+    REMOVE_INCOME: {
+        id: 'TRANSACTIONS.REMOVE_INCOME_BUTTON'
     }
-
-
 
 
 });
@@ -54,7 +62,8 @@ class viewIncome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: false
+            active: false,
+            openDialog: false,
         };
 
     }
@@ -65,6 +74,9 @@ class viewIncome extends Component {
     }
 
     removeTransaction(){
+        this.setState({
+            openDialog: false
+        });
         const { id } = this.props.params;
         Meteor.call('transactions.remove', {
             transaction: {
@@ -98,9 +110,26 @@ class viewIncome extends Component {
         this.setState({ active: false });
     }
 
+    openDialog (e) {
+        if(e){
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        this.setState({
+            openDialog: true,
+        });
+    }
+
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+
     render() {
         const { formatMessage } = this.props.intl;
-        let { transaction, account, currentProject} = this.props;
+        let { openDialog } = this.state;
+        let { transaction, account, currentProject } = this.props;
         let { bank, number } = account;
         let details = {};
         if(currentProject){
@@ -136,7 +165,7 @@ class viewIncome extends Component {
                                 name='Income'
                                 flat />
                             <Button
-                                onClick={this.removeTransaction.bind(this)}
+                                onClick={this.openDialog.bind(this)}
                                 className='header-buttons'
                                 label="delete"
                                 name='Expense'
@@ -169,6 +198,15 @@ class viewIncome extends Component {
                     </div>
                 </div>
                     : <RecordsNotExists route="/app/transactions" />}
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_INCOME)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/transactions"
+                    defaultAction={this.removeTransaction.bind(this)}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
 
         );

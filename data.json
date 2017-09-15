@@ -149,7 +149,7 @@
     "TRANSACTIONS.ADD_TRANSACTIONS": "ADD SOME TO SHOW",
     "TRANSACTIONS.TITLE": "Transactions",
     "TRANSACTIONS.INFORM_MESSAGE": "This will delete all your data",
-    "TRANSACTIONS.CONFIRMATION_MESSAGE": "Are you sure to remove the project?",
+    "TRANSACTIONS.CONFIRMATION_MESSAGE": "Are you sure to remove the Transaction?",
     "TRANSACTIONS.BACK_BUTTON": "GO BACK",
     "TRANSACTIONS.REMOVE_BUTTON": "YES, REMOVE",
     "TRANSACTIONS.TRANSACTION_TYPE": "Transaction Type :",
