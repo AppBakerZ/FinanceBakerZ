@@ -8,7 +8,6 @@ import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, 
 
 import { Meteor } from 'meteor/meteor';
 
-import ProjectDetail from './childs/ProjectDetail.jsx';
 import NothingFound from '../utilityComponents/NothingFound.jsx'
 import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
@@ -16,9 +15,7 @@ import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 import { Projects } from '../../../api/projects/projects.js';
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import theme from './theme';
-import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
-import buttonTheme from './buttonTheme';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 const il8n = defineMessages({
@@ -163,28 +160,7 @@ class ProjectPage extends Component {
         let id = this.props.projects[index]._id;
         routeHelpers.changeRoute(`/app/projectDetail/${id}`);
     }
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                    active={this.state.openDialog}
-                    onEscKeyDown={this.closePopup.bind(this)}
-                    onOverlayClick={this.closePopup.bind(this)}
-                >
-                {this.switchPopupTemplate()}
-            </Dialog>
-        )
-    }
-    switchPopupTemplate(){
-        switch (this.state.action){
-            case 'show':
-                return <ProjectDetail openPopup={this.openPopup.bind(this)} closePopup={this.closePopup.bind(this)} project={this.state.selectedProject} />;
-                break;
-            case 'remove':
-                return this.renderConfirmationMessage();
-                break;
-        }
 
-    }
     openPopup (action, project) {
         this.setState({
             openDialog: true,
@@ -196,39 +172,6 @@ class ProjectPage extends Component {
         this.setState({
             openDialog: false
         });
-    }
-    renderConfirmationMessage(){
-        const { formatMessage } = this.props.intl;
-        return (
-            <div className={theme.dialogAccount}>
-                <div className={theme.confirmText}>
-                    <h3><FormattedMessage {...il8n.BANK_PROJECTS} /></h3>
-                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
-                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
-                </div>
-
-                <div className={theme.buttonArea}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
-                </div>
-            </div>
-        )
-    }
-    removeProject(){
-        const {_id} = this.state.selectedProject;
-        Meteor.call('projects.remove', {
-            project: {
-                _id
-            }
-        }, (err, response) => {
-            if(err){
-
-            }else{
-
-            }
-        });
-        // Close Popup
-        this.closePopup()
     }
 
 
@@ -363,7 +306,6 @@ class ProjectPage extends Component {
                     <Card theme={tableTheme}>
                         { this.renderProjectTable() }
                     </Card>
-                    {this.popupTemplate()}
                 </div>
                 {pageCount ? <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/> : ''}
 

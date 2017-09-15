@@ -1,9 +1,0 @@
-@import "~react-toolbox/lib/globals";
-@import "~react-toolbox/lib/button/config";
-
-.neutral:not([disabled]) {
-  &.raised, &.floating {
-    color: $color-primary-dark;
-    background-color: $color-danger;
-  }
-}

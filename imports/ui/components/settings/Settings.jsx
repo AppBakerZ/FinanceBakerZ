@@ -8,12 +8,12 @@ import { Slingshot } from 'meteor/edgee:slingshot'
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
+import ConfirmationMessage from '../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import theme from './theme';
 import cardTheme from './cardTheme';
 import checkboxTheme from './checkboxTheme';
 import buttonTheme from './buttonTheme';
-import dialogTheme from './dialogTheme';
 import { Accounts } from 'meteor/accounts-base';
 
 import currencyIcon from '/imports/ui/currencyIcon.js';
@@ -186,11 +186,19 @@ class SettingsPage extends Component {
 
 
     userRemove () {
+        this.setState({
+            openDialog: false
+        });
         if(!Meteor.userId()) return;
         let user = {account: {owner: Meteor.userId()}};
         Meteor.call('userRemove', user, (err, res) => {
             if(err) {
-
+                this.setState({
+                    active: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
             }
              else {
                 routeHelpers.changeRoute('/login');
@@ -226,20 +234,6 @@ class SettingsPage extends Component {
                 <strong>{language.label}</strong>
             </div>
         );
-    }
-
-
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                type='fullscreen'
-                active={this.state.openDialog}
-                onEscKeyDown={this.closePopup.bind(this)}
-                onOverlayClick={this.closePopup.bind(this)}
-                >
-                {this.switchPopupTemplate()}
-            </Dialog>
-        )
     }
 
 
@@ -410,161 +404,6 @@ class SettingsPage extends Component {
         return this.state.loading ? 'progress-bar' : 'progress-bar hide';
     }
 
-    switchPopupTemplate(){
-        const { formatMessage } = this.props.intl;
-        let gravatar, user = Meteor.user();
-        if(user && user.profile.md5hash) {
-            gravatar = Gravatar.imageUrl(user.profile.md5hash, {
-                secure: true,
-                size: "48",
-                d: 'mm',
-                rating: 'pg'
-            });
-        }
-        let profileImage = this.state.imageUrl || this.state.data_uri || user.profile.avatar || gravatar || "/assets/images/HQ3YU7n.gif";
-            let uploadedImage = <div className='image-group'>
-                <div className="fileUpload btn btn-primary">
-                    <span> <FormattedMessage {...il8n.EDIT_IMAGE_BUTTON} /> </span>
-                    <input type="file"
-                           id="input"
-                           className="upload"
-                           onChange={this.userImage.bind(this)}/>
-                </div>
-                <img className='user-image' src={profileImage} />
-            </div>;
-
-
-        switch (this.state.action){
-            case 'remove':
-                return this.renderConfirmationMessage();
-                break;
-            case 'personalInformation':
-                return (
-                    <form onSubmit={this.updateProfile.bind(this)} className={theme.addAccount}>
-                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_PERSONAL_INFO} /> </h3>
-                        {uploadedImage}
-                        <Input type='text' label={formatMessage(il8n.USER_NAME)}
-                               name='name'
-                               maxLength={ 25 }
-                               value={this.state.name}
-                               onChange={this.onChange.bind(this)}
-                               required
-                            />
-                        <Input type='text' label={formatMessage(il8n.USER_CONTACT_NUMBER)}
-                               name='number'
-                               maxLength={ 50 }
-                               value={this.state.number}
-                               onChange={this.onChange.bind(this)}
-                            />
-                        {Meteor.user().username ?
-
-                            (<span><Input type='text' label={formatMessage(il8n.USER_USER_NAME)}
-                               name='username'
-                               value={this.state.username}
-                               onChange={this.onChange.bind(this)}
-                               required
-                            />
-
-                        <Input type='email' label={formatMessage(il8n.USER_EMAIL)}
-                               name='email'
-                               value={this.state.email}
-                               onChange={this.onChange.bind(this)}
-                            />
-                                </span>
-                            )
-                            :
-
-                        (<span><Input type='text' label={formatMessage(il8n.USER_USER_NAME)}
-                               name='username'
-                               value={this.state.username}
-                               onChange={this.onChange.bind(this)}
-                            />
-
-                        <Input type='email' label={formatMessage(il8n.USER_EMAIL)}
-                               name='email'
-                               value={this.state.email}
-                               onChange={this.onChange.bind(this)}
-                               required
-                            />
-                                </span>
-                        )
-                        }
-                        <Input type='text' label={formatMessage(il8n.USER_ADDRESS)}
-                               name='address'
-                               value={this.state.address}
-                               onChange={this.onChange.bind(this)}
-                            />
-                        <div className={theme.updateBtn}>
-                            <Button type='submit' label={formatMessage(il8n.UPDATE_BUTTON)} raised primary disabled={this.state.disableButton}/>
-                        </div>
-
-                    </form>
-                );
-                break;
-            case 'accountSetting':
-                return (
-                    <form onSubmit={this.updateAccountSettings.bind(this)} className={theme.addAccount}>
-                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.EDIT_ACCOUNT_SETTINGS} /> </h3>
-                        <section>
-                            <Dropdown
-                                auto={false}
-                                source={currencyIcon}
-                                name='currency'
-                                onChange={this.onChange.bind(this)}
-                                label={formatMessage(il8n.SELECT_CURRENCY)}
-                                value={this.state.currency.value}
-                                template={this.currencyItem}
-                                required
-                                />
-                        </section>
-
-                        <Dropdown
-                            source={this.languages}
-                            label={formatMessage(il8n.SELECT_LANGUAGE)}
-                            onChange={this.setLanguage.bind(this)}
-                            value={this.state.language.value}
-                            template={this.languageItem}
-                            />
-
-                        <div className={theme.updateBtn}>
-                            <Button type='submit' label={formatMessage(il8n.EDIT_ACCOUNT_SETTINGS_BUTTON)} raised primary />
-                        </div>
-                    </form>
-                );
-                break;
-            case 'changePassword':
-                return (
-                    <form onSubmit={this.changePassword.bind(this)} className={theme.addAccount}>
-                        <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />
-                        <h3 className={theme.titleSetting}> <FormattedMessage {...il8n.CHANGE_USER_PASSWORD} /> </h3>
-
-                        <Input type='password' label={formatMessage(il8n.CURRENT_PASSWORD)}
-                               name='oldPassword'
-                               value={this.state.oldPassword}
-                               onChange={this.onChange.bind(this)}
-                            />
-
-                        <Input type='password' label={formatMessage(il8n.NEW_PASSWORD)}
-                               name='newPassword'
-                               value={this.state.newPassword}
-                               onChange={this.onChange.bind(this)}
-                            />
-
-                        <Input type='password' label={formatMessage(il8n.REPEAT_NEW_PASSWORD)}
-                               name='alterPassword'
-                               value={this.state.alterPassword}
-                               onChange={this.onChange.bind(this)}
-                            />
-
-                            <div className={theme.saveBtn}>
-                                <Button type='submit' label={formatMessage(il8n.SAVE_BUTTON)} raised primary disabled={!(this.state.oldPassword && this.state.newPassword && this.state.alterPassword)}/>
-                            </div>
-                    </form>
-                );
-        }
-    }
     openPopup (action, account) {
         this.setState({
             openDialog: true,
@@ -581,27 +420,11 @@ class SettingsPage extends Component {
     editSettings(account){
         routeHelpers.changeRoute(`/app/settings/edit`);
     }
-    renderConfirmationMessage(){
-        const { formatMessage } = this.props.intl;
-        return (
-            <div className={theme.dialogSetting}>
-                <div className={theme.confirmText}>
-                    <h3><FormattedMessage {...il8n.REMOVE_ACCOUNT} /></h3>
-                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
-                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
-                </div>
-
-                <div className={theme.buttonBox}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={this.userRemove.bind(this)} theme={buttonTheme}/>
-                </div>
-            </div>
-        )
-    }
 
 
     render() {
         const { formatMessage } = this.props.intl;
+        let { openDialog } = this.state;
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
@@ -684,8 +507,16 @@ class SettingsPage extends Component {
                                 theme={buttonTheme} />
                         </div>
                     </div>
-                        {this.popupTemplate()}
                 </div>
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_ACCOUNT)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/accounts"
+                    defaultAction={this.userRemove.bind(this)}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
         );
     }

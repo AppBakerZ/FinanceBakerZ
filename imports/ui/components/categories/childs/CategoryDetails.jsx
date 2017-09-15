@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
 import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+import ConfirmationMessage from '../../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { Categories } from '../../../../api/categories/categories.js'
@@ -13,8 +14,6 @@ import { Button, Snackbar, Dialog } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
 
 import theme from './theme';
-import dialogButtonTheme from '../dialogButtonTheme';
-import dialogTheme from '../dialogTheme'
 
 import fonts from '/imports/ui/fonts.js';
 
@@ -105,6 +104,9 @@ class CategoryDetail extends Component {
     }
 
     removeCategory(){
+        this.setState({
+            openDialog: false
+        });
         const {_id, name, parent, children} = this.state;
         let ids = [], names = [];
         children.map((catName) =>{
@@ -150,6 +152,9 @@ class CategoryDetail extends Component {
     }
 
     removeSubcategory(){
+        this.setState({
+            openDialog: false
+        });
         const {_id, name } = this.state;
         Meteor.call('categories.removeFromParent', {
             category: {
@@ -188,18 +193,6 @@ class CategoryDetail extends Component {
         this.setState({ active: false });
     }
 
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                    active={this.state.openDialog}
-                    onEscKeyDown={this.closePopup.bind(this)}
-                    onOverlayClick={this.closePopup.bind(this)}
-            >
-                {this.renderConfirmationMessage(this.props.isParent)}
-            </Dialog>
-        )
-    }
-
     openPopup (action, category, e) {
         if(e){
             e.stopPropagation();
@@ -217,26 +210,10 @@ class CategoryDetail extends Component {
         });
     }
 
-    renderConfirmationMessage(isParent){
-        const { formatMessage } = this.props.intl;
-        return (
-            <div className={theme.dialogContent}>
-                <div>
-                    <h3> <FormattedMessage {...il8n.REMOVE_CATEGORIES} /> </h3>
-                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
-                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
-                </div>
-                <div className={theme.buttonBox}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={isParent ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
-                </div>
-            </div>
-        )
-    }
-
     /*************** template render ***************/
     render() {
         const { formatMessage } = this.props.intl;
+        let { openDialog } = this.state;
         let { category } = this.props;
         let {_id, createdAt, parent } = category;
         if(parent && parent.name){
@@ -283,7 +260,17 @@ class CategoryDetail extends Component {
                         </div>
                     </div>
                 </div> : <RecordsNotExists route="app/categories" />}
-                {this.popupTemplate()}
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_CATEGORIES)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/categories"
+                    defaultAction={this.removeCategory.bind(this)}
+                    alternateAction={this.removeSubcategory.bind(this)}
+                    condition={!this.props.isParent}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
 
         );
