@@ -8,9 +8,10 @@ import { stringHelpers } from '../../../../helpers/stringHelpers';
 import { Projects } from '../../../../api/projects/projects.js';
 
 import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+import ConfirmationMessage from '../../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
-import { Button, Snackbar } from 'react-toolbox';
+import { Button, Snackbar, Dialog } from 'react-toolbox';
 
 import theme from './theme';
 
@@ -45,7 +46,8 @@ class ProjectDetail extends Component {
 
         this.state = {
             active: false,
-            amountPaid: null
+            amountPaid: null,
+            openDialog: false,
         };
 
         this.getPaidAmountOfProject(props.params.id)
@@ -66,6 +68,17 @@ class ProjectDetail extends Component {
 
     editProject(){
         routeHelpers.changeRoute(`/app/projects/edit/${this.props.params.id}`);
+    }
+    openDialog (action, category, e) {
+        if(e){
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        this.setState({
+            openDialog: true,
+            action,
+            selectedCategory: category || null
+        });
     }
 
     removeProject(){
@@ -94,6 +107,12 @@ class ProjectDetail extends Component {
         });
     }
 
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -106,8 +125,9 @@ class ProjectDetail extends Component {
         const { formatMessage } = this.props.intl;
         let { project } = this.props;
         let {_id, startAt, amount, status } = project;
-        let { amountPaid } = this.state;
+        let { amountPaid, openDialog} = this.state;
         let date = moment(startAt).format('DD-MMM-YYYY');
+        console.log(openDialog)
         return (
             <div className={theme.viewExpense}>
                 {Object.keys(project).length ?
@@ -131,7 +151,7 @@ class ProjectDetail extends Component {
                                     label="edit"
                                     name='Income'
                                     flat />
-                            <Button onClick={this.removeProject.bind(this)}
+                            <Button onClick={this.openDialog.bind(this)}
                                     className='header-buttons'
                                     label="delete"
                                     name='Expense'
@@ -157,6 +177,7 @@ class ProjectDetail extends Component {
                     </div>
                 </div>
                     : <RecordsNotExists route="app/projects" />}
+                <ConfirmationMessage open={openDialog} route="/app/projects" defaultFunction={this.removeProject.bind(this)} close={this.closePopup.bind(this)}/>
             </div>
 
         );
