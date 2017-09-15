@@ -60,30 +60,24 @@ class ConfirmationMessage extends Component {
         super(props);
     }
 
-    closePopup () {
-        this.setState({
-            openDialog: false
-        });
-    }
-
     render() {
         const { formatMessage } = this.props.intl;
-        console.log(this.props);
-        console.log(this.props.open);
+        const { heading, informationMessage, confirmationMessage } = this.props;
+        const { open, close, defaultFunction, condition, alternateFunction } = this.props;
         return <Dialog theme={dialogTheme}
-                active={this.props.open}
-                onEscKeyDown={this.props.close}
-                onOverlayClick={this.props.close}
+                active={open}
+                onEscKeyDown={close}
+                onOverlayClick={close}
         >
             <div className={theme.dialogContent}>
                 <div>
-                    <h3> <FormattedMessage {...il8n.REMOVE_CATEGORIES} /> </h3>
-                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
-                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
+                    <h3> {heading} </h3>
+                    <p> {informationMessage} </p>
+                    <p> {confirmationMessage} </p>
                 </div>
                 <div className={theme.buttonBox}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={this.props.condition ? this.props.alternateFunction : this.props.defaultFunction} theme={dialogButtonTheme} />
+                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={close} />
+                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={condition ? alternateFunction : defaultFunction} theme={dialogButtonTheme} />
                 </div>
             </div>
         </Dialog>

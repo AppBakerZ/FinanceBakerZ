@@ -16,6 +16,12 @@ import { Button, Snackbar, Dialog } from 'react-toolbox';
 import theme from './theme';
 
 const il8n = defineMessages({
+    INFORM_MESSAGE: {
+        id: 'PROJECTS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'PROJECTS.CONFIRMATION_MESSAGE'
+    },
     CLIENT_NAME: {
         id: 'PROJECTS.CLIENT_NAME'
     },
@@ -82,6 +88,9 @@ class ProjectDetail extends Component {
     }
 
     removeProject(){
+        this.setState({
+            openDialog: false
+        });
         const { id } = this.props.params;
         Meteor.call('projects.remove', {
             project: {
@@ -127,7 +136,6 @@ class ProjectDetail extends Component {
         let {_id, startAt, amount, status } = project;
         let { amountPaid, openDialog} = this.state;
         let date = moment(startAt).format('DD-MMM-YYYY');
-        console.log(openDialog)
         return (
             <div className={theme.viewExpense}>
                 {Object.keys(project).length ?
@@ -177,7 +185,16 @@ class ProjectDetail extends Component {
                     </div>
                 </div>
                     : <RecordsNotExists route="app/projects" />}
-                <ConfirmationMessage open={openDialog} route="/app/projects" defaultFunction={this.removeProject.bind(this)} close={this.closePopup.bind(this)}/>
+
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_PROJECT)}
+                    informationMessage={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmationMessage={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/projects"
+                    defaultFunction={this.removeProject.bind(this)}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
 
         );
