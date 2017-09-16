@@ -133,6 +133,20 @@
 body[dir="rtl"] .reportsTableHeading {
   width: 100%;
 }
+body[dir="rtl"] .generateBtn {
+  float: right;
+  width: 100%;
+  text-align: right;
+}
+body[dir="rtl"] .generateBtn .filterDropDowns {
+  float: right;
+}
+body[dir="rtl"] .generateBtn button {
+  margin-right: 20px;
+}
+body[dir="rtl"] .reportsTable table thead tr th:nth-of-type(3) {
+  width: 38%;
+}
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////

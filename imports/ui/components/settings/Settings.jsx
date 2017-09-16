@@ -130,6 +130,9 @@ const il8n = defineMessages({
     },
     EDIT_ACCOUNT_SETTINGS_BUTTON:{
         id: 'SETTINGS.EDIT_ACCOUNT_SETTINGS_BUTTON'
+    },
+    CUSTOMER_SUPPORT:{
+        id: 'ERRORS.CUSTOMER_SUPPORT'
     }
 });
 
@@ -411,6 +414,16 @@ class SettingsPage extends Component {
             selectedAccount: account || null
         });
     }
+
+    notAvailable(){
+        const { formatMessage } = this.props.intl;
+        this.setState({
+            active: true,
+            barMessage: formatMessage(il8n.CUSTOMER_SUPPORT),
+            barIcon: 'error_outline',
+            barType: 'cancel'
+        });
+    }
     closePopup () {
         this.setState({
             openDialog: false
@@ -501,7 +514,8 @@ class SettingsPage extends Component {
                                 theme={buttonTheme} />
                             <Button style={{marginLeft: '10px'}}
                                 label={formatMessage(il8n.REMOVE_ACCOUNT_BUTTON)}
-                                onClick={this.openPopup.bind(this, 'remove')}
+                                onClick={this.notAvailable.bind(this, 'remove')}
+                                // onClick={this.openPopup.bind(this, 'remove')}
                                 icon=''
                                 raised
                                 theme={buttonTheme} />

@@ -13,6 +13,24 @@ import { routeHelpers } from '../../../helpers/routeHelpers.js'
 import theme from './theme';
 
 const il8n = defineMessages({
+    GENERAL_REPORT: {
+        id: 'REPORTS.GENERAL_REPORT'
+    },
+    PDF: {
+        id: 'REPORTS.PDF'
+    },
+    FINANCIAL_TYPE: {
+        id: 'REPORTS.FINANCIAL_TYPE'
+    },
+    EXPORT_TYPE: {
+        id: 'REPORTS.EXPORT_TYPE'
+    },
+    DOWNLOAD_LINK: {
+        id: 'REPORTS.DOWNLOAD_LINK'
+    },
+    DOWNLOAD_REPORT: {
+        id: 'REPORTS.DOWNLOAD_REPORT'
+    },
     AVAILABLE_BALANCE: {
         id: 'DASHBOARD.AVAILABLE_BALANCE'
     },
@@ -146,10 +164,11 @@ class ReportsPage extends Component {
     }
 
     exportTypes(){
+        const { formatMessage } = this.props.intl;
         return [
             //since we currently only have PDf
             {
-                name: 'PDF',
+                name: formatMessage(il8n.PDF),
                 value: 'pdf'
             },
             // {
@@ -159,10 +178,11 @@ class ReportsPage extends Component {
         ];
     }
     financialTypes(){
+        const { formatMessage } = this.props.intl;
         return [
             //since we currently only have General Report
             {
-                name: 'General Report',
+                name: formatMessage(il8n.GENERAL_REPORT),
                 value: 'general'
             },
             // {
@@ -185,7 +205,7 @@ class ReportsPage extends Component {
         return {
             dateFrom: {type: String, title: <FormattedMessage {...il8n.DATE_FROM}/>},
             dateTo: {type: Date, title: <FormattedMessage {...il8n.DATE_TO}/>},
-            reportUrl: {type: String, title: "Download Link"},
+            reportUrl: {type: String, title: <FormattedMessage {...il8n.DOWNLOAD_LINK}/>},
             expireAt: {type: Date, title: <FormattedMessage {...il8n.EXPIRY_DATE}/>},
         }
     }
@@ -278,7 +298,7 @@ class ReportsPage extends Component {
             return {
                 dateFrom: moment(report.dateFrom).format("DD-MMM-YY"),
                 dateTo: moment(report.dateTo).format("DD-MMM-YY"),
-                reportUrl: (<a href={report.reportUrl}>Download Report</a>),
+                reportUrl: (<a href={report.reportUrl}>{formatMessage(il8n.DOWNLOAD_REPORT)}</a>),
                 expireAt: moment(report.expireAt).format("DD-MMM-YY"),
             }
         });
@@ -304,7 +324,7 @@ class ReportsPage extends Component {
                         source={this.financialTypes()}
                         name='filterBy'
                         onChange={this.selectFinancialFilter.bind(this)}
-                        label="Filter by financial type"
+                        label={formatMessage(il8n.FINANCIAL_TYPE)}
                         value={this.state.financialType}
                         template={this.filterItem}
                     />
@@ -314,7 +334,7 @@ class ReportsPage extends Component {
                         source={this.exportTypes()}
                         name='filterBy'
                         onChange={this.selectExportFilter.bind(this)}
-                        label="Export As"
+                        label={formatMessage(il8n.EXPORT_TYPE)}
                         value={this.state.exportType}
                         template={this.filterItem}
                     />

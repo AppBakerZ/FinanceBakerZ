@@ -375,7 +375,7 @@ class editSettingsPage extends Component {
         return (
             <div className={theme.incomeCard}>
                 <Card theme={theme}>
-                    <h3>Settings Update</h3>
+                    <h3><FormattedMessage {...il8n.TITLE} /></h3>
                     <form onSubmit={this.onSubmit.bind(this)} className={theme.incomeForm}>
 
                         <ProgressBar type="linear" mode="indeterminate" multicolor className={this.progressBarToggle()} />

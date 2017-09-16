@@ -18,6 +18,9 @@ import theme from './theme.scss';
 
 
 const il8n = defineMessages({
+    ADD_CUSTOM_FIELDS: {
+        id: 'PROJECTS.ADD_CUSTOM_FIELDS'
+    },
     NO_PROJECTS_ADDED: {
         id: 'PROJECTS.NO_PROJECTS_ADDED'
     },
@@ -550,7 +553,7 @@ class NewProjectPage extends Component {
                         : ''}
 
                         <div className={theme.btnParents}>
-                            <Button icon='add' onClick={this.showCustomField.bind(this)} label="Add custom fields" raised primary />
+                            <Button icon='add' onClick={this.showCustomField.bind(this)} label={formatMessage(il8n.ADD_CUSTOM_FIELDS)} raised primary />
                         </div>
 
 
