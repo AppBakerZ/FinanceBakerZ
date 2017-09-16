@@ -1,11 +1,27 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
-import ReactDOM from 'react-dom';
 import { Input, Button, ProgressBar, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
+import {FormattedMessage, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    ADD_ACCOUNTS_BUTTON: {
+        id: 'ACCOUNTS.ADD_ACCOUNTS_BUTTON'
+    },
+    REMOVE_ACCOUNTS_BUTTON: {
+        id: 'ACCOUNTS.REMOVE_ACCOUNTS_BUTTON'
+    },
+    UPDATE_ACCOUNTS_BUTTON: {
+        id: 'ACCOUNTS.UPDATE_ACCOUNTS_BUTTON'
+    }
+});
+
 
 class AccountsSideBar extends Component {
 
@@ -117,7 +133,7 @@ class AccountsSideBar extends Component {
                 }
 
                 else {
-                    this.props.history.replace('/app/accounts/new');
+                    routeHelpers.changeRoute('/app/accounts/new');
                     this.setState({
                         active: true,
                         barMessage: 'Account deleted successfully',
@@ -158,16 +174,16 @@ class AccountsSideBar extends Component {
         let button;
         if(this.state.isNewRoute){
             button = <div className='sidebar-buttons-group'>
-                <Button type='submit' icon='add' label='Add Account' raised primary />
+                <Button type='submit' icon='add' label={<FormattedMessage {...il8n.EDIT_ACCOUNTS_BUTTON} />} raised primary />
             </div>
         }else{
             button = <div className='sidebar-buttons-group'>
-                <Button type='submit' icon='mode_edit' label='Update Account' raised primary />
+                <Button type='submit' icon='mode_edit' label={<FormattedMessage {...il8n.UPDATE_ACCOUNTS_BUTTON} />} raised primary />
                 <Button
                     onClick={this.removeAccount.bind(this)}
                     type='button'
                     icon='delete'
-                    label='Remove Account'
+                    label={<FormattedMessage {...il8n.REMOVE_ACCOUNTS_BUTTON} />}
                     className='float-right'
                     accent />
             </div>

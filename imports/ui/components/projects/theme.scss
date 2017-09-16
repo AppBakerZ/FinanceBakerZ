@@ -211,4 +211,35 @@
     }
   }
 }
+
+.projectStatus{
+  display: block;
+  ul{
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 113px;
+    li{
+      width: 100%;
+    }
+  }
+}
 /////////////////////////// dialog styling end here /////////////////////////////////
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .inputDropdown {
+  margin-right: $unit * 3.5;
+}
+
+body[dir="rtl"] .pageTitle {
+  height: $unit * 8;
+  padding: 2.3rem 4rem 2.3rem 5rem;
+}
+
+body[dir="rtl"] .pageTitle button {
+  float: left !important;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

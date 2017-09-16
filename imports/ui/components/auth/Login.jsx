@@ -1,16 +1,34 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { IconButton, Input, Button } from 'react-toolbox';
 
-import { Link } from 'react-router'
-
-import { Accounts } from 'meteor/accounts-base'
-
 import theme from './theme';
+import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
+
+
+const il8n = defineMessages({
+    USERNAMEOREMAIL: {
+        id: 'LOGIN.USERNAMEOREMAIL'
+    },
+    PASSWORD: {
+        id: 'LOGIN.PASSWORD'
+    },
+    LOGIN_BUTTON: {
+        id: 'LOGIN.LOGIN_BUTTON'
+    },
+    REGISTER_BUTTON: {
+        id: 'LOGIN.REGISTER_BUTTON'
+    },
+    FORGOT_PASSWORD: {
+        id: 'LOGIN.FORGOT_PASSWORD'
+    }
+});
+
 
 // App component - represents the whole app
-export default class Register extends Component {
+class Register extends Component {
 
     constructor(props) {
         super(props);
@@ -28,11 +46,11 @@ export default class Register extends Component {
     }
 
     onClick (){
-        this.props.history.push('/register');
+        routeHelpers.changeRoute('/register');
     }
 
     forgotPassword (){
-        this.props.history.push('/forgotPassword');
+        routeHelpers.changeRoute('/forgotPassword');
     }
 
     onSubmit(event){
@@ -63,10 +81,10 @@ export default class Register extends Component {
                     barIcon: 'done',
                     barType: 'accept'
                 });
-                var useraccount = {account: {owner: Meteor.user()._id}};
+                let useraccount = {account: {owner: Meteor.user()._id}};
                 Meteor.call('profileAssets', useraccount);
                 setTimeout(() => {
-                    this.props.history.push('/app/dashboard');
+                    routeHelpers.changeRoute('/app/dashboard');
                 }, 1000);
             }
             this.props.progressBarUpdate(false);
@@ -74,19 +92,20 @@ export default class Register extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <form onSubmit={this.onSubmit.bind(this)} className="login" autoComplete={'off'}>
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
                 </div>
-                <Input type='text' label='Username or Email'
+                <Input type='text' label={formatMessage(il8n.USERNAMEOREMAIL)}
                        name='usernameOrEmail'
                        maxLength={ 30 }
                        value={this.state.usernameOrEmail}
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='password' label='Password'
+                <Input type='password' label={formatMessage(il8n.PASSWORD)}
                        name='password'
                        maxLength={ 20 }
                        value={this.state.password}
@@ -96,17 +115,23 @@ export default class Register extends Component {
                 <div className={theme.buttonParents}>
                     <div className={theme.buttonGroup}>
                         <Button type='submit' disabled={this.props.loading} icon='lock_open'
-                                label='Login' raised primary />
+                                label={formatMessage(il8n.LOGIN_BUTTON)} raised primary />
                     </div>
                     <div className={theme.buttonGroup}>
                         <Button type='button' disabled={this.props.loading} onClick={this.onClick.bind(this)} icon='person_add'
-                                label='Register' raised accent />
+                                label={formatMessage(il8n.REGISTER_BUTTON)} raised accent />
                     </div>
                 </div>
                 <div className={theme.forgotGroup}>
-                    <a onClick={this.forgotPassword.bind(this)} >forgot password?</a>
+                    <a onClick={this.forgotPassword.bind(this)} > <FormattedMessage {...il8n.FORGOT_PASSWORD} /> </a>
                 </div>
             </form>
         );
     }
 }
+
+Register.propTypes = {
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(Register);

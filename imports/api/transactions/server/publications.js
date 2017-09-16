@@ -1,57 +1,79 @@
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '../../incomes/incomes.js';
-import { Expenses } from '../../expences/expenses.js';
+import { Transactions } from '../../transactions/transactions.js';
+import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
-Meteor.publish('transactions', function(options) {
-    let query = {owner: this.userId};
-    options.accounts.length && (query['account'] = {$in: options.accounts});
+sortbyDate = {
+    transactionAt: -1
+};
+//remove the 's' from transactions to respect the new Transactions collection
+Meteor.publish('transaction', function(options) {
+    let query = {
+        owner: this.userId,
+        $and: []
+    };
 
-    query.$and = [];
-    options.dateFilter && datefilter(options, query);
-    options.filterByCategory && filterByCategory(options, query);
-    options.filterByProjects && filterByProjects(options, query);
+    if(options.accounts.length)
+        query['account'] = {$in: ArrayGuard(options.accounts)};
+
+    options.dateFilter && (query.transactionAt = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)});
+
+    options.filterByCategory && options.filterByCategory.length && filterByCategory(options, query);
+    options.filterByProjects && options.filterByProjects.length && filterByProjects(options, query);
 
     if(!query.$and.length) delete query.$and;
-    if(options.type == 'incomes') return Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit});
-    if(options.type == 'expenses') return Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit});
+
+    if(options.type === 'incomes') {
+        options.type = "income"
+    }
+
+    else if(options.type === 'expenses') {
+        options.type = "expense"
+    }
 
     //computing 'Transactions' below
-    return transactions(options,query);
+    return transactions(options, query);
 });
 
 
-var datefilter = (options, query) => {
-    let dateQuery = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)};
-    let temp = {$or: [{receivedAt: dateQuery}, {spentAt: dateQuery}]};
-    query.$and.push(temp);
+
+let filterByCategory = (options, query) => {
+    query['category._id'] = {
+        $in: options.filterByCategory
+    }
 };
 
 
 
-var filterByCategory = (options, query) => {
-    let temp = {$or: [{category: options.filterByCategory},{'category._id': options.filterByCategory}]};
-    query.$and.push(temp);
+let filterByProjects = (options, query) => {
+    query['project._id'] = {
+        $in: options.filterByProjects
+    }
 };
 
 
 
-var filterByProjects = (options, query) => {
-    let temp = {$or: [{project: options.filterByProjects},{'project._id': options.filterByProjects}]};
-    query.$and.push(temp);
-};
+let transactions = (options, query) => {
 
-
-
-var transactions=(options, query) => {
-    let limits,
-        incomes = Incomes.find(query, {sort: {receivedAt: -1}, limit: options.limit}).fetch(),
-        expenses = Expenses.find(query, {sort: {spentAt: -1}, limit: options.limit}).fetch(),
-        transactions = _.sortBy(incomes.concat(expenses), function(obj){return obj.receivedAt || obj.spentAt;}).reverse();
-    transactions.length = options.limit;
-    limits = _.countBy(transactions, function(obj) {return obj.receivedAt ? 'incomes': 'expenses';});
+    if(options.type && options.type !== 'both'){
+        query.type = options.type
+    }
     return [
-        Incomes.find(query, {sort: {receivedAt: -1}, limit: limits.incomes}),
-        Expenses.find(query, {sort: {spentAt: -1}, limit: limits.expenses})
-    ]
+        Transactions.find(query, {
+            sort: sortbyDate,
+            skip: options.skip,
+            limit: options.limit,
+        }),
+        new Counter('transactionsTotal', Transactions.find({
+            owner: query.owner,
+        })),
+        new Counter('transactionsCount', Transactions.find(query, {
+            sort: sortbyDate
+        }))
+    ];
+};
 
+//Guard for Operator which only work with Array like $in
+ArrayGuard = (ele) => {
+    (ele instanceof Array) || (ele = [ele]);
+    return ele
 };

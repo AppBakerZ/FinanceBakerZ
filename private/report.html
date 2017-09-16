@@ -21,7 +21,7 @@
                     <th>{{@index}}</th>
                     <th>{{accountName account}}</th>
                     <th> {{type}}</th>
-                    <th> {{dateFormat receivedAt}}</th>
+                    <th> {{dateFormat transactionAt}}</th>
                     <th> {{#if project.name}}{{project.name}}{{/if}}</th>
                     <th>{{amount}}</th>
                 </tr>
@@ -32,7 +32,7 @@
                     <th>{{@index}}</th>
                     <td>{{accountName account}}</td>
                     <td>{{categoryName category}}</td>
-                    <td> {{dateFormat spentAt}}</td>
+                    <td> {{dateFormat transactionAt}}</td>
                     <th> {{description}}</th>
                     <td>{{amount}}</td>
                 </tr>

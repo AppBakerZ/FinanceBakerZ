@@ -17,7 +17,7 @@ Meteor.startup(() => {
 
             //Deny uploads if user is not logged in.
             if (!this.userId) {
-                var message = "Please login before posting files";
+                let message = "Please login before posting files";
                 throw new Meteor.Error("Login Required", message);
             }
 

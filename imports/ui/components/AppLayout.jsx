@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Link } from 'react-router'
+import { routeHelpers } from '../../helpers/routeHelpers'
 
 import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
@@ -8,8 +8,16 @@ import AppBarExtended from './appBarExtended/AppBarExtended.jsx'
 import ConnectionStatus from '/imports/ui/components/connectionStatus/ConnectionStatus.jsx'
 
 import { Meteor } from 'meteor/meteor'
+import {FormattedMessage, defineMessages} from 'react-intl';
 
 import theme from './theme';
+
+
+const il8n = defineMessages({
+    WELCOME: {
+        id: 'APPLAYOUT.WELCOME_TITLE'
+    }
+    });
 
 // App component - represents the whole app
 class AppLayout extends Component {
@@ -42,8 +50,10 @@ class AppLayout extends Component {
         return name;
     }
     logout(){
+        //TODO: not working with custom queryParams (reports page)
+        window.location.reload();
         Meteor.logout(() => {
-            this.props.history.push('/login')
+            routeHelpers.changeRoute('/login')
         })
     }
     render() {
@@ -69,10 +79,10 @@ class AppLayout extends Component {
                     <AppBarExtended>
                         <IconButton icon='menu' accent inverse={ true } onClick={ this.toggleDrawerActive.bind(this) }/>
                         <div className={theme.headerGreeting}>
-                            <span>Welcome <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
+                            <span> <FormattedMessage {...il8n.WELCOME} />  <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
-                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
+                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex', overflow: 'auto' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                         <ConnectionStatus />
                     </div>

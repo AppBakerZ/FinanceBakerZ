@@ -3,6 +3,34 @@
 
 .table{
   padding: $unit $unit * 2.5 $unit;
+  thead{
+    tr{
+      th{
+        font-size: $unit * 2;
+        color: #333;
+        border-right: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+        &:first-child{
+          padding: 0 $unit * 2;
+          font-size: 0;
+        }
+        &:last-child{
+          border-right: 0;
+          font-size: 0;
+          padding: 0 $unit * 2.5;
+          border-left: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+        }
+        &:nth-child(2){
+          padding: 0 $unit * 1.5;
+          border-right: 0;
+        }
+        &:nth-child(3){
+          padding: 0 $unit * 1.5;
+          border-right: 0;
+          text-align: right;
+        }
+      }
+    }
+  }
   td{
     border-bottom: $unit - 0.8 solid #f1f1f1;
     padding: $unit - 0.3 $unit * 1.5 0 $unit * 1.5;
@@ -13,6 +41,9 @@
       font-size: $font-size-big;
       position: relative;
       top: $unit - 0.9;
+    }
+    &:last-child{
+      border-left: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
     }
   }
   .row {
@@ -46,7 +77,22 @@
         &:first-child{
           border-right: $unit - 0.8 solid #eeeeee;
         }
+        &:last-child{
+          border-left: solid $unit - 0.8 rgba(0, 0, 0, 0.12);
+        }
       }
     }
   }
 }
+
+/////////////////////////////////////////////////
+/////// Extra Small Media Query Start Here //////
+/////////////////////////////////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .table {
+    padding: 1rem;
+  }
+}
+/////////////////////////////////////////////////
+//////// Extra Small Media Query End Here ///////
+/////////////////////////////////////////////////

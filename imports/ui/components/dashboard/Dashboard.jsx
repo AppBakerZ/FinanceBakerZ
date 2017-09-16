@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
 import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
-import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
-import { currencyFormatHelpers, userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
 import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
@@ -22,6 +23,55 @@ import datePickerTheme from './datePickerTheme';
 import dropdownTheme from './dropdownTheme';
 import cardBackgroundTheme from './cardBackgroundTheme';
 import { accountHelpers } from '/imports/helpers/accountHelpers.js';
+import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
+
+const il8n = defineMessages({
+    AVAILABLE_BALANCE: {
+        id: 'DASHBOARD.AVAILABLE_BALANCE'
+    },
+    TOTAL_INCOMES: {
+        id: 'DASHBOARD.TOTAL_INCOMES'
+    },
+    TOTAL_INCOMES_BUTTON: {
+        id: 'DASHBOARD.TOTAL_INCOMES_BUTTON'
+    },
+    TOTAL_EXPENSES: {
+        id: 'DASHBOARD.TOTAL_EXPENSES'
+    },
+    TOTAL_EXPENSES_BUTTON: {
+        id: 'DASHBOARD.TOTAL_EXPENSES_BUTTON'
+    },
+    DATE_FROM: {
+        id: 'DASHBOARD.DATE_FROM'
+    },
+    DATE_TO: {
+        id: 'DASHBOARD.DATE_TO'
+    },
+    FILTER_BY: {
+        id: 'DASHBOARD.FILTER'
+    },
+    FILTER_BY_ACCOUNT: {
+        id: 'DASHBOARD.FILTER_BY_ACCOUNT'
+    },
+    FILTER_BY_TODAY: {
+        id: 'DASHBOARD.FILTER_BY_TODAY'
+    },
+    FILTER_BY_THIS_WEEK: {
+        id: 'DASHBOARD.FILTER_BY_THIS_WEEK'
+    },
+    FILTER_BY_THIS_MONTH: {
+        id: 'DASHBOARD.FILTER_BY_THIS_MONTH'
+    },
+    FILTER_BY_LAST_MONTH: {
+        id: 'DASHBOARD.FILTER_BY_LAST_MONTH'
+    },
+    FILTER_BY_THIS_YEAR: {
+        id: 'DASHBOARD.FILTER_BY_THIS_YEAR'
+    },
+    FILTER_BY_DATE_RANGE: {
+        id: 'DASHBOARD.FILTER_BY_DATE_RANGE'
+    }
+});
 
 class DashboardPage extends Component {
 
@@ -31,6 +81,7 @@ class DashboardPage extends Component {
         let datetime = new Date();
 
         this.state = {
+            loading: false,
             totalIncomes: null,
             totalExpenses: null,
             availableBalance: null,
@@ -118,7 +169,7 @@ class DashboardPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name == 'filterBy' ? val : null, {[e.target.name]: val});
+        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name === 'filterBy' ? val : null, {[e.target.name]: val});
     }
 
     accounts(){
@@ -130,73 +181,60 @@ class DashboardPage extends Component {
     }
 
     filters(){
+        const { formatMessage } = this.props.intl;
         return [
             {
-                name: 'Today',
+                name: formatMessage(il8n.FILTER_BY_TODAY),
                 value: 'day'
             },
             {
-                name: 'This Week',
+                name: formatMessage(il8n.FILTER_BY_THIS_WEEK),
                 value: 'week'
             },
             {
-                name: 'This Month',
+                name: formatMessage(il8n.FILTER_BY_THIS_MONTH),
                 value: 'month'
             },
             {
-                name: 'Last Month',
+                name: formatMessage(il8n.FILTER_BY_LAST_MONTH),
                 value: 'months'
             },
             {
-                name: 'This Year',
+                name: formatMessage(il8n.FILTER_BY_THIS_YEAR),
                 value: 'year'
             },
             {
-                name: 'Date Range',
+                name: formatMessage(il8n.FILTER_BY_DATE_RANGE),
                 value: 'range'
             }
         ];
     }
 
     generatePdf(report){
-
-        let params = {
-            multiple : this.state.multiple,
-            filterBy : this.state.filterBy,
-            date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
-            report : report
+        let query = {
+            accounts : `${[this.state.multiple]}`,
+            filter : this.state.filterBy,
+            dateFrom : moment(this.state.dateFrom).format(),
+            dateTo : moment(this.state.dateTo).format(),
+            type : report
         };
-      // prevent window popup block
-        let win = window.open('');
-        win.document.write("<p> Loading...</p>");
-        window.oldOpen = window.open;
-        window.open = function(url) {
-            win.location = url;
-            window.open = oldOpen;
-            win.focus();
-        }
 
-        Meteor.call('statistics.generateReport', {params } , function(err, res){
-            if (err) {
-                console.error(err);
-            } else if (res) {
-                window.open("data:application/pdf;base64, " + res);
-            }
-        })
+        routeHelpers.changeRoute('/app/reports', 0, query)
     }
 
     renderDateRange(){
+        const { formatMessage } = this.props.intl;
         let dropDowns = (
             <div className={theme.dashboardDropdown}>
                 <DatePicker className='demo' theme={datePickerTheme}
-                            label='Date From'
+                            label={formatMessage(il8n.DATE_FROM)}
                             name='dateFrom'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateFrom}
                     />
 
                 <DatePicker theme={datePickerTheme}
-                            label='Date To'
+                            label={formatMessage(il8n.DATE_TO)}
                             name='dateTo'
                             onChange={this.onChange.bind(this)}
                             value={this.state.dateTo}
@@ -204,40 +242,48 @@ class DashboardPage extends Component {
             </div>
         );
         return (
-            this.state.filterBy == 'range' ?  dropDowns : null
+            this.state.filterBy === 'range' ?  dropDowns : null
         )
     }
     renderTotalIncomes(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.incomeBox}>
-                <div className={theme.divTitle}>Your Total Incomes are</div>
+                <div className={theme.divTitle}>
+                    <FormattedMessage {...il8n.TOTAL_INCOMES} />
+                </div>
                 <div className={theme.title}>
                     <h2>
-                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalIncomes)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                        <FormattedNumber value={this.state.totalIncomes}/>
                     </h2>
                     <Arrow primary width='30px' height='35px' />
                 </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
-                        <Button icon='description' label='Income Report' flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_INCOMES_BUTTON)} flat disabled={this.state.loading}/>
                     </div>
                 )}
             </div>
         )
     }
     renderTotalExpenses(){
+        const { formatMessage } = this.props.intl;
         return (
             <div className={theme.expensesBox}>
-                <div className={theme.divTitle}>Your Total Expenses are</div>
+                <div className={theme.divTitle}>
+                    <FormattedMessage {...il8n.TOTAL_EXPENSES} />
+                </div>
                 <div className={theme.title}>
                     <h2>
-                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>{currencyFormatHelpers.currencyStandardFormat(this.state.totalExpenses)}
+                        <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                        <FormattedNumber value={this.state.totalExpenses}/>
                     </h2>
                     <Arrow down danger width='30px' height='35px' />
                 </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
-                        <Button icon='description' label='Expences Report' flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_EXPENSES_BUTTON)} flat disabled={this.state.loading}/>
                     </div>
                 )}
             </div>
@@ -246,10 +292,13 @@ class DashboardPage extends Component {
     availableBalance(){
         return (
                 <div style={{margin: "0 auto"}}>
-                    <div className={theme.availableTitle}> Your Available Balance is</div>
+                    <div className={theme.availableTitle}>
+                        <FormattedMessage {...il8n.AVAILABLE_BALANCE} />
+                    </div>
                     <div className={theme.divTitle}>
                         <h2 className="available-amount">
-                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i> {currencyFormatHelpers.currencyStandardFormat(this.state.availableBalance)}
+                            <i className={userCurrencyHelpers.loggedUserCurrency()}></i>
+                            <FormattedNumber value={this.state.availableBalance}/>
                         </h2>
                         <Arrow width='48px' height='50px' />
                     </div>
@@ -257,18 +306,19 @@ class DashboardPage extends Component {
         )
     }
     render() {
+        const { formatMessage } = this.props.intl;
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>
                 <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
                     <div className={theme.dashboardSection}>
                         <Card className={theme.cardBox}>
                             <div className='dashboard-card-group'>
-                                <Card theme={cardTheme}>
+                                <Card theme={cardTheme} className={cardTheme.responsiveCardFirst}>
                                     <Autocomplete theme={autocompleteTheme}
                                                   direction='down'
                                                   name='multiple'
                                                   onChange={this.handleMultipleChange.bind(this)}
-                                                  label='Filter By Account'
+                                                  label={formatMessage(il8n.FILTER_BY_ACCOUNT)}
                                                   source={this.accounts()}
                                                   value={this.state.multiple}
                                         />
@@ -278,18 +328,18 @@ class DashboardPage extends Component {
                                               source={this.filters()}
                                               name='filterBy'
                                               onChange={this.onChange.bind(this)}
-                                              label='Filter By'
+                                              label={formatMessage(il8n.FILTER_BY)}
                                               value={this.state.filterBy}
                                               template={this.filterItem}
                                               required
                                         />
                                     {this.renderDateRange()}
                                 </Card>
-                                <Card theme={theme}>
-                                    {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
+                                <Card theme={theme} className={theme.responsiveCardSecond}>
+                                    {this.state.totalIncomes !== null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
-                                <Card theme={theme}>
-                                    {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
+                                <Card theme={theme} className={theme.responsiveCardSecond}>
+                                    {this.state.totalExpenses !== null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
@@ -299,7 +349,7 @@ class DashboardPage extends Component {
                             <Card className="card-box">
                                 <div className={theme.availableSection}>
                                     <Card theme={cardBackgroundTheme}>
-                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                        {this.state.availableBalance !== null ? this.availableBalance() : <Loader />}
                                     </Card>
                                 </div>
                             </Card>
@@ -318,13 +368,16 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
-    accounts: PropTypes.array.isRequired
+    accounts: PropTypes.array.isRequired,
+    intl: intlShape.isRequired
 };
 
-export default createContainer(() => {
+DashboardPage = createContainer(() => {
     Meteor.subscribe('accounts');
 
     return {
         accounts: Accounts.find({}).fetch()
     };
 }, DashboardPage);
+
+export default injectIntl(DashboardPage);

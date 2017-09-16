@@ -2,7 +2,7 @@
 @import "~react-toolbox/lib/button/config";
 
 .categoriesContent{
-  padding: 0 $unit * 1.8;
+  padding: 0 $unit * 1.8 $unit;
   margin-top: $unit * 4;
   width: 100%;
   .categoriesTitle{
@@ -108,8 +108,13 @@
       border-radius: $unit - 0.5;
       &:last-of-type{
         line-height: $unit * 3.6;
-        padding: $unit - 0.8 $unit * 3.8 0;
+        padding: 0 $unit * 3.8 0;
         margin-left: $unit - 0.2;
+        top: -6px;
+        span{
+          color: white;
+          font-size: $font-size + 0.1;
+        }
       }
     }
   }
@@ -145,3 +150,17 @@
     display: inline-block;
   }
 }
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .categoriesTitle {
+  height: $unit * 8;
+  padding: 1.5rem 5rem 2rem;
+}
+body[dir="rtl"] .categoriesTitle button {
+  float: left !important;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

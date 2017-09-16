@@ -9,9 +9,7 @@ import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Accounts } from './accounts.js';
 import { Categories } from '../categories/categories.js';
-import { Incomes } from '../incomes/incomes.js';
-import { Expenses } from '../expences/expenses.js';
-import { Projects } from '../projects/projects.js';
+import { Transactions } from '../transactions/transactions.js'
 
 export const insert = new ValidatedMethod({
     name: 'accounts.insert',
@@ -78,7 +76,6 @@ export const update = new ValidatedMethod({
 
 
 
-
 export const remove = new ValidatedMethod({
     name: 'accounts.remove',
     mixins : [LoggedInMixin],
@@ -102,29 +99,6 @@ export const remove = new ValidatedMethod({
         else {
             throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
         }
-    }
-});
-
-
-
-
-export const insertAccountOnSignUp = new ValidatedMethod({
-    name: 'insertAccountOnSignUp',
-    mixins : [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to update account'
-    },
-    validate: new SimpleSchema({
-        'account': {
-            type: Object
-        },
-        'account.owner': {
-            type: String
-        }
-    }).validator(),
-    run({ account }) {
-        Accounts.insert({owner: account.owner, bank: 'bank-Default', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
     }
 });
 
@@ -204,9 +178,7 @@ export const userRemove = new ValidatedMethod({
         const {owner} = account;
          Accounts.remove({owner: owner});
          Categories.remove({owner: owner});
-         Incomes.remove({owner: owner});
-         Expenses.remove({owner: owner});
-         Projects.remove({owner: owner});
+         Transactions.remove({owner: owner});
          Meteor.users.remove({_id: owner});
     }
 });

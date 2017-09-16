@@ -1,8 +1,16 @@
 export default {
     PK: [
         {
-            label: 'Al Baraka',
-            value: 'bank-Al-Baraka'
+            label: 'Meezan Bank',
+            value: 'bank-Meezan-Bank'
+        },
+        {
+            label: 'Gullak Bank',
+            value: 'bank-Gullak-Bank'
+        },
+        {
+            label: 'Money box',
+            value: 'bank-Money-Box'
         },
         {
             label: 'Allied Bank',
@@ -11,6 +19,10 @@ export default {
         {
             label: 'Askari Bank',
             value: 'bank-Askari-Bank'
+        },
+        {
+            label: 'Al Baraka',
+            value: 'bank-Al-Baraka'
         },
         {
             label: 'Bank Al Habib',
@@ -49,10 +61,6 @@ export default {
             value: 'bank-MCB-Limited'
         },
         {
-            label: 'Meezan Bank',
-            value: 'bank-Meezan-Bank'
-        },
-        {
             label: 'NBP',
             value: 'bank-NBP'
         },
@@ -88,7 +96,7 @@ export default {
             label: 'United Bank',
             value: 'bank-United-Bank'
         }
-        ////////// 22 //////////
+        ////////// 24 //////////
     ], ///////// 1 /////////////
     US: [
         {
@@ -892,10 +900,6 @@ export default {
             value: 'bank-Mashreq-Bank'
         },
         {
-            label: 'Standard Chartered',
-            value: 'bank-Standard-Chartered'
-        },
-        {
             label: 'HBL',
             value: 'bank-HBL'
         }
@@ -1231,4 +1235,4 @@ export default {
     ]  ///////// 30 ////////////
 }
 
-////////////// Total 285 icons /////////////////////////////
+////////////// Total icons counting /////////////////////////////

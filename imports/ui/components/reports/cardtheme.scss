@@ -1,0 +1,194 @@
+@import "~react-toolbox/lib/globals";
+@import "~react-toolbox/lib/list/config";
+
+.backgroundImage{
+  background: url("../assets/images/pages-bg.png") no-repeat;
+  background-size: cover;
+}
+
+.dashboardSection{
+  margin: 0 0 $unit * 2 0;
+  width: 100%;
+  overflow: visible;
+  .cardBox{
+    padding: 0 1.5% 0 0;
+    width: 100%;
+    overflow: visible;
+    .card{
+      height: $unit * 17.5;
+      margin-top: $unit * 2;
+      margin-left: $unit * 3;
+    }
+  }
+}
+.availableSection{
+  width: 100%;
+  .availableTitle{
+    color: $color-primary-dark;
+    font-size: $font-size-tiny * 2.1;
+    margin: 0 0 $unit - 0.5 0;
+  }
+  .divTitle{
+    h2{
+      color: $color-primary-dark;
+      font-size: $font-size-small * 3.5;
+      letter-spacing: $unit - 0.7;
+      display: inline-block;
+      margin: 0 $unit * 2.8 0 0;
+    }
+  }
+}
+
+.dashboardDropdown{
+  > div{
+    display: inline-block;
+    width: 45%;
+    float: left;
+    &:last-of-type{
+      float: right;
+    }
+    label{
+      font-size: $font-size-small;
+      color: $color-text-light;
+    }
+    > div{
+      padding: $unit * 2 0 0;
+    }
+  }
+}
+
+.incomeBox{
+  margin: 0 auto;
+  .divTitle{
+    margin: $unit * 2.5 0 $unit - 0.5 0;
+    font-size: $font-size-big - 0.1;
+    color: $color-text;
+    letter-spacing: $unit - 0.9;
+  }
+  .title{
+    h2{
+      margin: 0 $unit * 2.5 $unit *2.1 0;
+      color: $color-primary;
+      font-size: $font-size-big * 2;
+      letter-spacing: $unit - 0.8;
+      display: inline-block;
+    }
+  }
+  .reportBtn{
+    width: 100%;
+    text-align: center;
+    margin-bottom: $unit * 2;
+    button{
+      color: $color-text;
+      font-size: $font-size-big - 0.1;
+    }
+  }
+}
+.expensesBox{
+  margin: 0 auto;
+  .divTitle{
+    margin: $unit * 2.5 0 $unit - 0.5 0;
+    font-size: $font-size-big - 0.1;
+    color: $color-text;
+    letter-spacing: $unit - 0.9;
+  }
+  .title{
+    h2{
+      margin: 0 $unit * 2.5 $unit *2.1 0;
+      color: $color-danger;
+      font-size: $font-size-big * 2;
+      letter-spacing: $unit - 0.8;
+      display: inline-block;
+    }
+  }
+  .reportBtn{
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    button{
+      color: $color-text;
+      font-size: $font-size-big - 0.1;
+    }
+  }
+}
+.bg{
+  width: 100%;
+}
+.availableSection{
+  background: url("../assets/images/dollars.png") $color-primary no-repeat;
+  background-position: 130% 50%;
+  height: $unit * 17;
+}
+.recentActivitiesWrapper{
+  width: 100%;
+  margin-top: $unit * 3;
+}
+.incomeOverviewWrapper{
+  width: 100%;
+}
+
+/////////////////////////////////////////////////
+/////// Extra Small Media Query Start Here //////
+/////////////////////////////////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .backgroundImage{
+    padding: 0 !important;
+  }
+  .cardBox{
+    padding: 0 !important;
+    > div{
+      display: block !important;
+      &:first-child{
+        card{
+          padding: 0 1rem;
+        }
+      }
+      .responsiveCardSecond{
+        width:50%;
+        margin: $unit * 2 !important;
+      }
+    }
+  }
+  .availableTitle{
+    font-size: 2.3rem !important;
+  }
+  .divTitle{
+    h2{
+      font-size: 3rem !important;
+      float: left;
+      margin: 3px 20px 0 0 !important;
+    }
+    svg{
+      width: 30px;
+    }
+  }
+  .availableSection{
+    background-position: 80% 50%;
+  }
+  .recentActivitiesWrapper{
+    > div{
+      display: block;
+    }
+  }
+  .incomeOverviewWrapper{
+    > div{
+      margin-top: 0;
+    }
+  }
+}
+/////////////////////////////////////////////////
+//////// Extra Small Media Query End Here ///////
+/////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .dashboardDropdown > div {
+  float: right;
+}
+body[dir="rtl"] .dashboardDropdown > div:last-of-type {
+  float: left;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

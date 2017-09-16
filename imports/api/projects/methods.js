@@ -1,13 +1,11 @@
 // methods related to companies
 
 import { Meteor } from 'meteor/meteor';
-import { Match } from 'meteor/check';
 import { _ } from 'meteor/underscore';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
-import { Incomes } from '../incomes/incomes.js';
 import { Projects } from './projects.js';
 
 export const insert = new ValidatedMethod({
@@ -32,10 +30,8 @@ export const insert = new ValidatedMethod({
             type: String
         },
         'project.client': {
-            type: Object
-        },
-        'project.client.name': {
-            type: String
+            type: Object,
+            blackbox: true
         },
         'project.status': {
             type: String
@@ -77,10 +73,8 @@ export const update = new ValidatedMethod({
             type: String
         },
         'project.client': {
-            type: Object
-        },
-        'project.client.name': {
-            type: String
+            type: Object,
+            blackbox: true
         },
         'project.status': {
             type: String
@@ -117,27 +111,10 @@ export const remove = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
-        return Projects.remove(project._id);
-    }
-});
-
-export const calculateIncome = new ValidatedMethod({
-    name: 'calculateIncome',
-    mixins: [LoggedInMixin],
-    checkLoggedInError: {
-        error: 'notLogged',
-        message: 'You need to be logged in to display project information'
-    },
-    validate: new SimpleSchema({
-        'project': {
-            type: Object
-        },
-        'project._id': {
-            type: String
+        if (!(Projects.find({owner: Meteor.userId()}).fetch().length > 1)) {
+            throw new Meteor.Error(500, 'Invalid action! Single Project is mandatory,You cant remove it.');
         }
-    }).validator(),
-    run({ project }) {
-        return Incomes.aggregate([{$match: {"project._id": project._id } }, {$group: {_id: "project._id", total: {$sum: '$amount'} }}])
+        return Projects.remove(project._id);
     }
 });
 

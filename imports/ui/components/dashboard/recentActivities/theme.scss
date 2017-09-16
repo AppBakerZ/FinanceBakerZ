@@ -13,9 +13,10 @@
     border-radius: 0;
     margin-bottom: $unit * 2;
     min-height: $unit * 34;
+    height: $unit * 38.9;
     h3{
       background: $color-primary;
-      padding: $unit * 2.2 0 $unit * 1.8 $unit * 5;
+      padding: $unit * 2.2 $unit * 2 $unit * 1.8 $unit * 5;
       color: $color-primary-dark;
       letter-spacing: $unit - 0.9;
       font-size: $font-size-small * 1.8;
@@ -29,9 +30,10 @@
     border-radius: 0;
     margin-bottom: $unit * 2;
     min-height: $unit * 34;
+    height: $unit * 38.9;
     h3{
       background: $color-accent;
-      padding: $unit * 2.2 0 $unit * 1.8 $unit * 5;
+      padding: $unit * 2.2 $unit * 2 $unit * 1.8 $unit * 5;
       color: $color-primary-dark;
       letter-spacing: $unit - 0.9;
       font-size: $font-size-small * 1.8;
@@ -92,3 +94,61 @@
     letter-spacing: $unit - 0.9;
   }
 }
+
+/////////////////////////////////////////////////
+/////// Extra Small Media Query Start Here //////
+/////////////////////////////////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .recentIncomeWrapper{
+    width: 100%;
+    .card {
+      min-height: auto;
+      h3{
+        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+      }
+    }
+  }
+  .recentExpensesWrapper{
+    width: 100%;
+    .card {
+      min-height: auto;
+      h3{
+        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+      }
+    }
+  }
+  .tableLink{
+    margin-bottom: 14px;
+  }
+}
+/////////////////////////////////////////////////
+//////// Extra Small Media Query End Here ///////
+/////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .recentIncomeWrapper {
+  margin: 0;
+  width: 49%;
+}
+body[dir="rtl"] .recentExpensesWrapper {
+  margin: 0 15px 0 0;
+  width: 50%;
+}
+
+body[dir="rtl"] th:last-child {
+  border-right: solid 0.2rem rgba(0, 0, 0, 0.12);
+  border-left: 0;
+}
+
+body[dir="rtl"] .card {
+  margin: 0;
+}
+
+body[dir="rtl"] .tableLink {
+  margin-top: $unit;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

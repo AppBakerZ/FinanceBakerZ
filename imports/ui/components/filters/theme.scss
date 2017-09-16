@@ -1,0 +1,187 @@
+.datePickers{
+  display: inline-block !important;
+  width: 75% !important;
+  margin-right: 0 !important;
+  margin-bottom: 15px;
+  > div{
+    width: 26.7%;
+    display: inline-block;
+    margin: 0 0 0 20px;
+    top: 3px;
+    position: relative;
+    &:before{
+      position: absolute;
+      top: 50%;
+      right: 0.8rem;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      content: "";
+      border-top: 0.54857rem solid rgba(0, 0, 0, 0.12);
+      border-right: 0.54857rem solid transparent;
+      border-left: 0.54857rem solid transparent;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+.dropDowns{
+  width: 20%;
+  display: inline-block;
+  float: left;
+  top: 7px;
+  margin-bottom: 20px;
+  div{
+    label{
+      color: #333333;
+    }
+  }
+}
+.filterDropDowns{
+  width: 20%;
+  display: inline-block;
+  div{
+    label{
+      color: #333333;
+    }
+  }
+}
+.autoCompleteParent{
+  .autocomplete{
+    width: 100%;
+    display: inline-block;
+    > div{
+      width: 20%;
+      display: inline-block;
+      float: left;
+      label{
+        color: #333333;
+      }
+    }
+    .values{
+      width: 80%;
+      float: right;
+      padding-left: 20px;
+      > div{
+        line-height: 4rem;
+        padding: 0.2rem 3.5rem 0 1rem;
+        background: #ebebeb;
+        color: #777777;
+        font-size: 16px;
+        z-index: 300;
+        margin-top: 1rem;
+        float: left;
+        margin-right: 10px;
+        span{
+          margin: 0 0.4rem 0;
+          top: 10px;
+          right: 3px;
+          text-transform: capitalize;
+          letter-spacing: 0.5px;
+          svg{
+            background: #5c5c5c !important;
+            path{
+              stroke: #ffffff !important;
+            }
+          }
+        }
+      }
+    }
+    .suggestions{
+      width: 20%;
+    }
+  }
+}
+.autoCompleteIncomeParent{
+  width: 78%;
+  float: left;
+  margin-left: 20px;
+  .autoCompleteIncome{
+    width: 100%;
+    display: inline-block;
+    top: 0;
+    > div{
+      width: 26%;
+      display: inline-block;
+      float: left;
+      label{
+        color: #333333;
+      }
+    }
+    .values{
+      width: 71%;
+      float: right;
+      margin-left: 20px;
+      > div{
+        line-height: 4rem;
+        padding: 0.2rem 3.5rem 0 1rem;
+        background: #ebebeb;
+        color: #777777;
+        font-size: 16px;
+        z-index: 300;
+        margin-top: 1rem;
+        float: left;
+        margin-right: 10px;
+        span{
+          margin: 0 0.4rem 0;
+          top: 10px;
+          right: 3px;
+          text-transform: capitalize;
+          letter-spacing: 0.5px;
+          svg{
+            background: #5c5c5c !important;
+            path{
+              stroke: #ffffff !important;
+            }
+          }
+        }
+      }
+    }
+    .suggestions{
+      width: 26%;
+      margin: 0;
+      top: 55px;
+    }
+  }
+}
+
+body[dir="rtl"] .filterDropDowns div div:after {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .filterDropDowns {
+  margin-left: 15px;
+}
+body[dir="rtl"] .datePickers div:before {
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .autoCompleteParent .autocomplete div{
+  float: right;
+}
+body[dir="rtl"] .autoCompleteParent .autocomplete .values{
+  float: left;
+}
+body[dir="rtl"] .autoCompleteParent .autocomplete div:after{
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .dropDowns{
+  float: right;
+}
+body[dir="rtl"] .dropDowns div:after{
+  left: 0;
+  right: auto;
+}
+body[dir="rtl"] .autoCompleteIncomeParent{
+  margin: 0 10px 0 0;
+}
+body[dir="rtl"] .autoCompleteIncomeParent div .values{
+  float: left;
+}
+body[dir="rtl"] .autoCompleteIncomeParent div .values div{
+  float: right;
+}
+body[dir="rtl"] .autoCompleteIncomeParent div div:after{
+  left: 0;
+  right: auto;
+}

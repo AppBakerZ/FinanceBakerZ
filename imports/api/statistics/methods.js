@@ -1,10 +1,10 @@
 // methods related to companies
 
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
+import { _ } from 'underscore';
 
-import webshot from 'webshot';
-import fs from 'fs';
+// import webshot from 'webshot';
+// import fs from 'fs';
 import Future from 'fibers/future';
 import moment from 'moment';
 
@@ -13,19 +13,18 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
-import { Expenses } from '../expences/expenses.js';
-import { Incomes } from '../incomes/incomes.js';
-import { Accounts } from '../accounts/accounts.js';
-import { Categories } from '../categories/categories.js';
-import { accountHelpers } from '/imports/helpers/accountHelpers.js'
+import { Transactions } from '../transactions/transactions.js'
+import { Reports } from '../reports/reports.js';
+import { limitHelpers } from '../../helpers/limitHelpers.js';
 
+let AWS = require('aws-sdk');
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to get Available Balance'
+        message: 'You need to be logged in to get Incomes Group By Project'
     },
     validate: new SimpleSchema({
         year: {
@@ -35,15 +34,17 @@ export const incomesGroupByMonth = new ValidatedMethod({
     }).validator(),
     run({year}) {
 
+        //match for current user transactions
         let match = {"$match": {
                 owner: this.userId
             }};
 
-        const getYears = Incomes.aggregate([
+        //get all unique years exists in DB
+        const getYears = Transactions.aggregate([
             match,
             { "$group": {
                 "_id": null,
-                "years": { $addToSet:  {$year: "$receivedAt"} }
+                "years": { $addToSet:  {$year: "$transactionAt"} }
             }}
         ]);
 
@@ -54,49 +55,79 @@ export const incomesGroupByMonth = new ValidatedMethod({
             years = getYears[0].years;
         }
 
-        const yearQuery = {
+        // specify formatted year query in $match
+        match.$match.transactionAt = {
             $gte: new Date(moment([year]).startOf('year').format()),
             $lte: new Date(moment([year]).endOf('year').format())
         };
 
-        match.$match.receivedAt = yearQuery;
-        const sumOfIncomesByMonth = Incomes.aggregate([
-            match,
+        //UPDATED METHOD BEGINS
+        //here in first group stage we nest group with two keys income and expense
+        //both have own type of sum based on condition
+        let CountedArrayByMonths = Transactions.aggregate([match,
             { "$group": {
-                "_id": { "$month": "$receivedAt" },
-                "income": { "$sum": "$amount" }
-            }}
-        ]);
+                "_id": { "$month": "$transactionAt" },
+                "income": {
+                    "$sum": {
+                        "$cond": [
+                            { "$eq": [ "$type", "income" ] },
+                            '$amount',
+                            0
+                        ]
+                    }
+                },
+                "expense": {
+                    "$sum": {
+                        "$cond": [
+                            { "$eq": [ "$type", "expense" ] },
+                            "$amount",
+                            0
+                        ]
+                    }
+                },
+            }}]);
+        //
+        if(CountedArrayByMonths.length){
+            CountedArrayByMonths = _.sortBy(CountedArrayByMonths, '_id')
+        }
 
-        delete match.$match.receivedAt;
-        match.$match.spentAt = yearQuery;
-        const sumOfExpensesByMonth = Expenses.aggregate([
-            match,
-            { "$group": {
-                "_id": { "$month": "$spentAt" },
-                "expense": { "$sum": "$amount" }
-            }}
-        ]);
-
-        const incomeAndExpensesArray = _.groupBy(sumOfIncomesByMonth.concat(sumOfExpensesByMonth), '_id');
-
-         let groupedByMonths = _.map(incomeAndExpensesArray, (arrayGroup) => {
-            let item = {};
-            if(arrayGroup.length > 1){
-                item = _.extend(arrayGroup[0], arrayGroup[1]);
-            }else{
-                item = arrayGroup[0]
-            }
-
-            if(!_.has(item, 'income')) item.income = 0;
-            if(!_.has(item, 'expense')) item.expense = 0;
-
-            return item
-        });
-
-        return {years: years, result: groupedByMonths}
+        return {years: years, result: CountedArrayByMonths}
     }
 });
+
+
+export const incomesGroupByProject = new ValidatedMethod({
+    name: 'statistics.incomesGroupByProject',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to get Incomes Group By Project'
+    },
+    validate: new SimpleSchema({
+        'project': {
+            type: Object
+        },
+        'project._id': {
+            type: String
+        }
+    }).validator(),
+    run({ project }) {
+        const paidAmountArray = Transactions.aggregate([{
+            $match: {
+                'project._id': project._id
+            }
+        }, {
+            $group: {
+                _id: 'project._id', total: {
+                    $sum: '$amount'
+                }
+            }
+        }]);
+
+        return paidAmountArray.length ? paidAmountArray[0] : {total: 0}
+    }
+});
+
 
 export const availableBalance = new ValidatedMethod({
     name: 'statistics.availableBalance',
@@ -112,27 +143,42 @@ export const availableBalance = new ValidatedMethod({
     }).validator(),
     run({accounts}) {
         let query = {
-            owner: this.userId
+            owner: this.userId,
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
-        const sumOfIncomes = Incomes.aggregate({
+
+        let counting = Transactions.aggregate([{
             $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        const sumOfExpenses = Expenses.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        const totalIncomes = sumOfIncomes.length ? sumOfIncomes[0].total : 0;
-        const totalExpenses = sumOfExpenses.length ? sumOfExpenses[0].total : 0;
-
-        return totalIncomes - totalExpenses;
+        }, { "$group": {
+            "_id": "null",
+            "income": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "income" ] },
+                        '$amount',
+                        0
+                    ]
+                }
+            },
+            "expense": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "expense" ] },
+                        "$amount",
+                        0
+                    ]
+                }
+            },
+        }},{
+            //now just subtract total expense from incomes to get current Balance
+            "$project": {
+            "count": {
+                "$subtract": [ "$income", "$expense" ]
+            }
+        }}]);
+        return counting.length ? counting[0].count : 0
     }
 });
 
@@ -159,39 +205,47 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
     }).validator(),
     run({accounts, date}) {
         let query = {
-            owner: this.userId
+            owner: this.userId,
         };
         if(accounts.length){
             query['account'] = {$in: accounts}
         }
         if(date){
-            query['receivedAt'] = {
+            query['transactionAt'] = {
                 $gte: new Date(date.start),
                 $lte: new Date(date.end)
             };
         }
-        const sumOfIncomes = Incomes.aggregate({
+
+        let countedArray = Transactions.aggregate([{
             $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
-        query.spentAt = query.receivedAt;
-        delete query.receivedAt;
-
-        const sumOfExpenses = Expenses.aggregate({
-            $match: query
-        },{
-            $group: { _id: null, total: { $sum: '$amount' } }
-        });
-
+        }, { "$group": {
+            "_id": "null",
+            "income": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "income" ] },
+                        '$amount',
+                        0
+                    ]
+                }
+            },
+            "expense": {
+                "$sum": {
+                    "$cond": [
+                        { "$eq": [ "$type", "expense" ] },
+                        "$amount",
+                        0
+                    ]
+                }
+            },
+        }}]);
         return {
-            incomes: sumOfIncomes.length ? sumOfIncomes[0].total : 0,
-            expenses: sumOfExpenses.length ? sumOfExpenses[0].total : 0
+            incomes: countedArray.length ? countedArray[0].income : 0,
+            expenses: countedArray.length ? countedArray[0].expense : 0
         };
     }
 });
-
 export const generateReport = new ValidatedMethod({
     name: 'statistics.generateReport',
     mixins : [LoggedInMixin],
@@ -218,135 +272,218 @@ export const generateReport = new ValidatedMethod({
         'params.filterBy' : {
             type: String
         },
-        'params.multiple' : {
+        'params.accounts' : {
             type: [String]
+        },
+        'params.projects' : {
+            type: [String],
+            optional: true
+        },
+        'params.categories' : {
+            type: [String],
+            optional: true
         }
     }).validator(),
-    //run({report, date, filterBy}) {
+
     run({params}) {
-        let record, data, html_string, options, pdfData,
-            fut = new Future(),
-            fileName = "report.pdf",
-            css = Assets.getText('bootstrap.min.css'), // GENERATE HTML STRING
-            reportStyle = Assets.getText('report.css');
 
-        let query = {
-            owner: this.userId
-        };
+        params.owner = this.userId;
+        let user = Meteor.user();
+        //check here is at least one transaction found with given filters
 
-        if(params.multiple.length){
-            query['account'] = {$in: params.multiple};
+        //make copy of params and remove the report filter to search locally
+        let date = params.date;
+        let localParams = params;
+        if(localParams.accounts.length){
+            localParams['account'] = {$in: params.accounts};
         }
-        if(params.date){
-            let fetch = (params.report == 'incomes') ? 'receivedAt' : 'spentAt';
-            query[fetch] = {
-                $gte: new Date(params.date.start),
-                $lte: new Date(params.date.end)
+
+        //add $or if category or project filter found
+        if( params.projects.length || params.categories.length ){
+            localParams.$or = [];
+            if( params.projects.length ){
+                localParams.$or.push({
+                    'project._id': {
+                        $in: params.projects
+                    }
+                })
+            }
+            else{
+                localParams.$or.push({
+                    'category._id': {
+                        $in: params.categories
+                    }
+                })
+            }
+        }
+        localParams= _.pick(localParams, 'owner', '$or', 'account');
+        if( date ){
+            localParams.transactionAt = {
+                $gte: new Date(date.start),
+                $lte: new Date(date.end),
             };
         }
-
-        SSR.compileTemplate('layout', Assets.getText('layout.html'));
-
-        Template.layout.helpers({
-            getDocType: function() {
-                return "<!DOCTYPE html>";
-            }
-        });
-
-        SSR.compileTemplate('report', Assets.getText('report.html'));
-
-        /*Todo use later relation */
-        Template.report.helpers({
-            accountName : (id) => {
-                let account = Accounts.findOne({_id : id, owner: this.userId});
-                return accountHelpers.alterName(account.bank)
-            },
-            categoryName : function(category){
-                return Categories.findOne({_id : category._id}).name;
-            },
-            totalIncome : function(){
-                if(params.date){
-                    let incomes = Incomes.aggregate({
-                        $match: query
-                    },{
-                        $group: { _id: null, total: { $sum: '$amount' } }
-                    });
-                    return incomes.length ? incomes[0].total : 0;
-                }
-            },
-            totalExpenses : function(){
-                if(params.date){
-                    let expenses = Expenses.aggregate({
-                        $match: query
-                    },{
-                        $group: { _id: null, total: { $sum: '$amount' } }
-                    });
-                    return expenses.length ? expenses[0].total : 0;
-                }
-            },
-            dateFormat : function(data){
-               return moment(data).format('L')
-            }
-        });
-
-        // PREPARE DATA
-        //createdAt
-        let option = {sort: {}};
-        (params.report == 'incomes') ? option.sort['receivedAt'] = 1 : option.sort['spentAt'] = 1;
-        record =  (params.report == 'incomes') ? Incomes.find(query, option).fetch() : Expenses.find(query, option).fetch();
-
-        if(!record.length){
-            throw new Meteor.Error( 404, 'result not found' );
+        //if type both that no type filter in query
+        if( params.report !== 'both' ){
+            localParams.type = params.report === 'incomes' ? 'income' : 'expense';
+        }
+        let transactionFound = Transactions.findOne(localParams);
+        if( !transactionFound ){
+            throw new Meteor.Error(500, 'No Transaction found with selected search filters')
         }
 
-        data = {
-            heading : (params.report == 'incomes') ? ('Incomes Report for ' + params.filterBy) : ('Expenses Report for ' + params.filterBy),
-            record: record,
-            income : (params.report == 'incomes')
-
+        //set default to Free
+        let plan = user.profile.businessPlan || 'Free';
+        params.context = {
+            folder: 'reports',
+            plan : plan,
         };
 
-
-        html_string = SSR.render('layout', {
-            reportStyle: reportStyle,
-            css: css,
-            template: "report",
-            data: data
+        //configure AWS
+        AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
+            "secretAccessKey": Meteor.settings.AWSSecretAccessKey,
+            "AWSRegion": "us-east-1"
         });
 
-        // Setup Webshot options
-        options = {
-            //renderDelay: 2000,
-            "paperSize": {
-                "format": "Letter",
-                "orientation": "portrait",
-                "margin": "1cm"
-            },
-            siteType: 'html'
+        const Lambda = new AWS.Lambda({
+            region: 'us-east-1'
+        });
+
+        const pullParams = {
+            FunctionName: 'generate-pdf',
+            InvocationType: 'RequestResponse',
+            LogType: 'None',
+            Payload: JSON.stringify(params)
         };
 
-        // Commence Webshot
-        console.log("Commencing webshot...");
-        webshot(html_string, fileName, options, function(err) {
-            fs.readFile(fileName, function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
+        let fut = new Future();
 
-                fs.unlinkSync(fileName);
-                fut.return(data);
+        Lambda.invoke(pullParams, (err, data) => {
+            if(err){
+                fut.return(err);
+            }
+            else{
+                fut.return(data)
+            }
+        });
+        let data = fut.wait();
+        if(data.message){
+            throw new Meteor.Error(500, 'ERROR! something went wrong please contact customer support official.');
+        }
+        if( data.Payload ){
+            let parseData = JSON.parse(data.Payload);
+            if(!parseData.Location){
+                throw new Meteor.Error(403, 'ERROR! something went wrong please contact customer support official.');
+            }
 
+            Reports.insert({
+                reportUrl: parseData.Location,
+                owner: this.userId,
+                expireAt: limitHelpers.getReportExpiryDate(),
+                dateFrom: new Date(date.start),
+                dateTo: new Date(date.end),
+                type: params.report,
+                categories: params.categories,
+                projects: params.projects,
+                accounts: params.accounts
             });
+            return data.Payload
+        }
+    }
+});
+
+// TODO: that is the sample call for update plan move it to client when needed
+// Meteor.call('statistics.changePlan', {params: {newPlan:'Professional'} } , (err, res) => {
+//     this.setState({
+//         loading: false
+//     });
+//     if (err) {
+//         console.error(err);
+//     } else if (res) {
+//         console.log(res)
+//     }
+// })
+
+export const changePlan = new ValidatedMethod({
+    name: 'statistics.changePlan',
+    mixins : [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to change your current Plan'
+    },
+    validate: new SimpleSchema({
+        params : {
+            type: Object
+        },
+        'params.newPlan': {
+            type: String
+        }
+    }).validator(),
+
+    run({params}) {
+
+        params.owner = this.userId;
+        let user = Meteor.user();
+        //set default to Free
+        params.oldPlan = user.profile.businessPlan || 'Free';
+
+        //configure AWS
+        AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
+            "secretAccessKey": Meteor.settings.AWSSecretAccessKey,
+            "AWSRegion": Meteor.settings.AWSRegion
         });
 
-        pdfData = fut.wait();
-        return new Buffer(pdfData).toString('base64');
+        const Lambda = new AWS.Lambda({
+            region: Meteor.settings.AWSRegion
+        });
 
+        const pullParams = {
+            FunctionName: 'update-plan',
+            InvocationType: 'RequestResponse',
+            LogType: 'None',
+            Payload: JSON.stringify(params)
+        };
+
+        let fut = new Future();
+
+        Lambda.invoke(pullParams, (err, data) => {
+            if(err){
+                fut.return(err);
+            }
+            else{
+                fut.return(data)
+            }
+        });
+        let data = fut.wait();
+        if(data.message){
+            throw new Meteor.Error(500, 'ERROR! something went wrong please contact customer support official.');
+        }
+        Reports.find({owner: params.owner}).fetch().forEach(function(doc) {
+            let updated_url = doc.reportUrl.replace(params.oldPlan, params.newPlan);
+            Reports.update(
+                {_id: doc._id},
+                { $set: {
+                    reportUrl: updated_url,
+                    expireAt: limitHelpers.getReportExpiryDate(params.newPlan)
+                } }
+            );
+        });
+
+        return Meteor.users.update({
+            _id: params.owner
+        }, { $set: {
+            'profile.businessPlan': params.newPlan
+        }})
     }
 });
 
 
 const EXPENSES_METHODS = _.pluck([
+    incomesGroupByMonth,
+    incomesGroupByProject,
+    availableBalance,
+    totalIncomesAndExpenses,
+    generateReport
 ], 'name');
 
 if (Meteor.isServer) {

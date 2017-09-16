@@ -177,3 +177,33 @@
   }
 }
 ///////////////////////////// dialog styling ///////////////////////////////////////
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .settingTitle {
+  height: $unit * 8;
+  padding: 1.8rem 5rem 1.8rem;
+}
+body[dir="rtl"] .editBtn {
+  float: left;
+}
+body[dir="rtl"] .editBtn button {
+  padding: 0 5.5rem 5px;
+}
+body[dir="rtl"] .settingContent h6 span label {
+  margin: $unit * 1.2 $unit * 3 0 0;
+}
+body[dir="rtl"] .settingContent h6 span label span {
+  padding-right: 0.8rem;
+  margin-top: 0;
+}
+body[dir="rtl"] .settingBtn button {
+  padding: 0 5.5rem 5px;
+}
+body[dir="rtl"] .settingContent button:last-of-type {
+  margin: 0 10px 0 0;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////
