@@ -8,13 +8,26 @@ import { stringHelpers } from '../../../../helpers/stringHelpers';
 import { Projects } from '../../../../api/projects/projects.js';
 
 import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+import ConfirmationMessage from '../../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
-import { Button, Snackbar } from 'react-toolbox';
+import { Button, Snackbar, Dialog } from 'react-toolbox';
 
 import theme from './theme';
 
 const il8n = defineMessages({
+    EDIT: {
+        id: 'COMMON.EDIT'
+    },
+    DELETE: {
+        id: 'COMMON.DELETE'
+    },
+    INFORM_MESSAGE: {
+        id: 'PROJECTS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'PROJECTS.CONFIRMATION_MESSAGE'
+    },
     CLIENT_NAME: {
         id: 'PROJECTS.CLIENT_NAME'
     },
@@ -45,7 +58,8 @@ class ProjectDetail extends Component {
 
         this.state = {
             active: false,
-            amountPaid: null
+            amountPaid: null,
+            openDialog: false,
         };
 
         this.getPaidAmountOfProject(props.params.id)
@@ -67,8 +81,20 @@ class ProjectDetail extends Component {
     editProject(){
         routeHelpers.changeRoute(`/app/projects/edit/${this.props.params.id}`);
     }
+    openDialog (e) {
+        if(e){
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        this.setState({
+            openDialog: true,
+        });
+    }
 
     removeProject(){
+        this.setState({
+            openDialog: false
+        });
         const { id } = this.props.params;
         Meteor.call('projects.remove', {
             project: {
@@ -94,6 +120,12 @@ class ProjectDetail extends Component {
         });
     }
 
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+
     handleBarClick (event, instance) {
         this.setState({ active: false });
     }
@@ -106,7 +138,7 @@ class ProjectDetail extends Component {
         const { formatMessage } = this.props.intl;
         let { project } = this.props;
         let {_id, startAt, amount, status } = project;
-        let { amountPaid } = this.state;
+        let { amountPaid, openDialog} = this.state;
         let date = moment(startAt).format('DD-MMM-YYYY');
         return (
             <div className={theme.viewExpense}>
@@ -128,12 +160,12 @@ class ProjectDetail extends Component {
                         <div className={theme.rightButtons}>
                             <Button onClick={this.editProject.bind(this)}
                                     className='header-buttons'
-                                    label="edit"
+                                    label={formatMessage(il8n.EDIT)}
                                     name='Income'
                                     flat />
-                            <Button onClick={this.removeProject.bind(this)}
+                            <Button onClick={this.openDialog.bind(this)}
                                     className='header-buttons'
-                                    label="delete"
+                                    label={formatMessage(il8n.DELETE)}
                                     name='Expense'
                                     flat />
                         </div>
@@ -157,6 +189,16 @@ class ProjectDetail extends Component {
                     </div>
                 </div>
                     : <RecordsNotExists route="app/projects" />}
+
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_PROJECT)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/projects"
+                    defaultAction={this.removeProject.bind(this)}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
 
         );

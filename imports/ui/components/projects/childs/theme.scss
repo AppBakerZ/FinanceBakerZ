@@ -235,3 +235,33 @@
     }
   }
 }
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .viewExpense .titleBox {
+  width: 100%;
+  display: inline-block;
+}
+body[dir="rtl"] .viewExpense .titleBox .rightButtons {
+  float: left;
+}
+body[dir="rtl"] .projectCustomField {
+  float: right;
+}
+body[dir="rtl"] .incomeForm .customField {
+  width: 100%;
+  float: right;
+}
+body[dir="rtl"] .closeBtnParent {
+  float: left;
+}
+body[dir="rtl"] .closeBtnParent button {
+  float: right !important;
+}
+body[dir="rtl"] .btnParents button {
+  float: right !important;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

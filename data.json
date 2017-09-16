@@ -1,5 +1,7 @@
 {
   "en": {
+    "COMMON.EDIT": "Edit",
+    "COMMON.DELETE": "Delete",
     "DASHBOARD.AVAILABLE_BALANCE": "Your Available Balance is",
     "DASHBOARD.GENERATE_REPORT": "Generate Report",
     "DASHBOARD.TOTAL_INCOMES": "Your Total Incomes are",
@@ -34,7 +36,7 @@
     "PROJECTS.SHOW_PROJECTS": "Projects",
     "PROJECTS.BANK_PROJECTS": "bank project",
     "PROJECTS.INFORM_MESSAGE": "This will remove your all data",
-    "PROJECTS.CONFIRMATION_MESSAGE": "Are you sure to remove your bank project?",
+    "PROJECTS.CONFIRMATION_MESSAGE": "Are you sure to remove your project?",
     "PROJECTS.BACK_BUTTON": "GO BACK",
     "PROJECTS.REMOVE_BUTTON": "YES, REMOVE",
     "PROJECTS.ADD_NEW_PROJECTS": "Add New",
@@ -71,6 +73,7 @@
     "PROJECTS.HOURLY": "Hourly",
     "PROJECTS.WEEKLY": "Weekly",
     "PROJECTS.MONTHLY": "Monthly",
+    "PROJECTS.ADD_CUSTOM_FIELDS": "Add custom fields",
     "ACCOUNTS.BANK_ACCOUNTS": "Cards and Bank Accounts",
     "ACCOUNTS.ADD_ACCOUNT_BUTTON": "ACCOUNT",
     "ACCOUNTS.ADD_ACCOUNT": "add account",
@@ -149,7 +152,7 @@
     "TRANSACTIONS.ADD_TRANSACTIONS": "ADD SOME TO SHOW",
     "TRANSACTIONS.TITLE": "Transactions",
     "TRANSACTIONS.INFORM_MESSAGE": "This will delete all your data",
-    "TRANSACTIONS.CONFIRMATION_MESSAGE": "Are you sure to remove the project?",
+    "TRANSACTIONS.CONFIRMATION_MESSAGE": "Are you sure to remove the Transaction?",
     "TRANSACTIONS.BACK_BUTTON": "GO BACK",
     "TRANSACTIONS.REMOVE_BUTTON": "YES, REMOVE",
     "TRANSACTIONS.TRANSACTION_TYPE": "Transaction Type :",
@@ -231,6 +234,12 @@
     "REGISTER.REGISTER_BUTTON": "Register",
     "REPORTS.EXPIRY_DATE":"Expiry Date",
     "REPORTS.ALL_REPORTS": "All Reports",
+    "REPORTS.GENERAL_REPORT": "General Report",
+    "REPORTS.PDF": "PDF",
+    "REPORTS.FINANCIAL_TYPE": "Financial type",
+    "REPORTS.EXPORT_TYPE": "Export Type",
+    "REPORTS.DOWNLOAD_LINK": "Download Link",
+    "REPORTS.DOWNLOAD_REPORT": "Download Report",
     "APPLAYOUT.WELCOME_TITLE": "Welcome",
     "LEFTMENU.DASHBOARD": "Dashboard",
     "LEFTMENU.PROJECTS": "Projects",
@@ -241,10 +250,15 @@
     "LEFTMENU.SETTINGS": "Settings",
     "LEFTMENU.LOGOUT_BUTTON": "Logout",
     "UTILITY_COMPONENTS.NO_RECORD_EXISTS": "Sorry the record you want to access is no more exist",
-    "UTILITY_COMPONENTS.GO_BACK": "Go Back"
+    "UTILITY_COMPONENTS.GO_BACK": "Go Back",
+    "ERRORS.INTERNET_ERROR": "Unable to connect to the internet. Please check your network settings.",
+    "ERRORS.CUSTOMER_SUPPORT": "Please contact customer support official.",
+    "ERRORS.NO_RECORD_FOUND": "No Transaction found with selected search filters."
 },
 
   "ur": {
+    "COMMON.EDIT": "ترمیم کریں",
+    "COMMON.DELETE": "حذف کریں",
     "DASHBOARD.AVAILABLE_BALANCE": "آپ کی موجودہ رقم",
     "DASHBOARD.GENERATE_REPORT": "نتیجہ مرتب کریں",
     "DASHBOARD.TOTAL_INCOMES": " آپ کی موجودہ آمدنی",
@@ -316,6 +330,7 @@
     "PROJECTS.HOURLY": "فی گھنٹہ",
     "PROJECTS.WEEKLY": "ہفتہ وار",
     "PROJECTS.MONTHLY": "ماہانہ",
+    "PROJECTS.ADD_CUSTOM_FIELDS": "اپنی مرضی کی تفصیلات شامل کریں",
     "ACCOUNTS.BANK_ACCOUNTS": "کارڈز اور اکاؤنٹس ",
     "ACCOUNTS.ADD_ACCOUNT": " اکاؤنٹ کا اندراج کریں" ,
     "ACCOUNTS.ADD_ACCOUNT_BUTTON": " اکاؤنٹ کا اندراج کریں",
@@ -476,6 +491,12 @@
     "REGISTER.REGISTER_BUTTON": "رجسٹر",
     "REPORTS.EXPIRY_DATE": "حذف ہونے کی تاریخ",
     "REPORTS.ALL_REPORTS": "تمام نتاءج",
+    "REPORTS.GENERAL_REPORT": "عمومی نتیجہ",
+    "REPORTS.PDF": "پی ڈی ایف",
+    "REPORTS.FINANCIAL_TYPE": "مالیاتی قسم",
+    "REPORTS.EXPORT_TYPE": "برآمدی قسم",
+    "REPORTS.DOWNLOAD_LINK": "نتیجےکالنک",
+    "REPORTS.DOWNLOAD_REPORT": "نتیجہ حاصل کریں",
     "APPLAYOUT.WELCOME_TITLE": "خوش آمدید" ,
     "LEFTMENU.DASHBOARD": "ڈیش بورڈ",
     "LEFTMENU.PROJECTS": " منصوبے",
@@ -486,7 +507,10 @@
     "LEFTMENU.SETTINGS": " ترتیبات",
     "LEFTMENU.LOGOUT_BUTTON": " خروج",
     "UTILITY_COMPONENTS.NO_RECORD_EXISTS": "معاف کیجئے آپ کا مطلوبہ ریکارڈ موجود نھیں ھے",
-    "UTILITY_COMPONENTS.GO_BACK": "پیچھے جائیں"
+    "UTILITY_COMPONENTS.GO_BACK": "پیچھے جائیں",
+    "ERRORS.INTERNET_ERROR": "انٹرنیٹ سے رابطہ ممکن نہیں ہورہا، براءے مہربانی اپنے نیٹ ورک کی ترتیبات کی جانچ پڑتال کریں",
+    "ERRORS.CUSTOMER_SUPPORT": "براءے مہربانی کسٹمر سپورٹ کے نماءندے سے رابطہ کریں.",
+    "ERRORS.NO_RECORD_FOUND": "آپ کی موجودہ تلاش کے ساتھ کوءی دستاویز نہیں ملی"
   }
 
 }

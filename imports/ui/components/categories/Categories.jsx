@@ -7,14 +7,13 @@ import { Button, Table, Card, FontIcon, Dialog, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Categories } from '../../../api/categories/categories.js';
+import ConfirmationMessage from '../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 
 import theme from './theme';
 import buttonTheme from './buttonTheme';
 import tableTheme from './tableTheme';
-import dialogButtonTheme from './dialogButtonTheme';
-import dialogTheme from './dialogTheme';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 
@@ -68,26 +67,8 @@ class CategoriesPage extends Component {
 
     }
 
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                active={this.state.openDialog}
-                onEscKeyDown={this.closePopup.bind(this)}
-                onOverlayClick={this.closePopup.bind(this)}
-                >
-                {this.switchPopupTemplate()}
-            </Dialog>
-        )
-    }
-    switchPopupTemplate(){
-        switch (this.state.action){
-            case 'removeSubcategory':
-                return this.renderConfirmationMessage('removeSubcategory');
-                break;
-            case 'remove':
-                return this.renderConfirmationMessage();
-                break;
-        }
+    checkSubCategory() {
+        return this.state.action === 'removeSubcategory';
     }
 
     addCategory(){
@@ -109,23 +90,10 @@ class CategoriesPage extends Component {
             openDialog: false
         });
     }
-    renderConfirmationMessage(isRemoveSubcategory){
-        const { formatMessage } = this.props.intl;
-        return (
-            <div className={theme.dialogContent}>
-                <div>
-                    <h3> <FormattedMessage {...il8n.REMOVE_CATEGORIES} /> </h3>
-                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
-                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
-                </div>
-                <div className={theme.buttonBox}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={!isRemoveSubcategory ? this.removeCategory.bind(this) : this.removeSubcategory.bind(this)} theme={dialogButtonTheme} />
-                </div>
-            </div>
-        )
-    }
     removeCategory(){
+        this.setState({
+            openDialog: false
+        });
         const { _id, name, parent, children } = this.state.selectedCategory;
         let ids = [], names = [];
         children.map((catName) =>{
@@ -171,6 +139,9 @@ class CategoriesPage extends Component {
     }
 
     removeSubcategory(){
+        this.setState({
+            openDialog: false
+        });
         const { _id, name } = this.state.selectedCategory;
         Meteor.call('categories.removeFromParent', {
             category: {
@@ -239,6 +210,7 @@ class CategoriesPage extends Component {
     }
     render() {
         const { formatMessage } = this.props.intl;
+        const { openDialog } = this.state;
         const model = {
             icon: {type: String},
             content: {type: String},
@@ -308,7 +280,17 @@ class CategoriesPage extends Component {
                         }
                     </Card>
                 </div>
-                {this.popupTemplate()}
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_CATEGORIES)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/categories"
+                    defaultAction={this.removeCategory.bind(this)}
+                    alternateAction={this.removeSubcategory.bind(this)}
+                    condition={this.checkSubCategory()}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
         );
     }
@@ -320,7 +302,6 @@ CategoriesPage.propTypes = {
 };
 
 CategoriesPage = createContainer(() => {
-    Meteor.subscribe('categories');
     const categoriesHandle = Meteor.subscribe('categories');
     const categoriesLoading = !categoriesHandle.ready();
     const categories = Categories.find({

@@ -6,18 +6,71 @@ import { Accounts } from '../../../../api/accounts/accounts'
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { userCurrencyHelpers } from '../../../../helpers/currencyHelpers'
 import RecordsNotExists from '../../utilityComponents/RecordsNotExist/NoRecordFound';
+import ConfirmationMessage from '../../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import { Button, Table, FontIcon, Autocomplete, Dropdown, DatePicker, Dialog, Input, ProgressBar, Snackbar, Card } from 'react-toolbox';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 import theme from './theme';
 
+const il8n = defineMessages({
+    EDIT: {
+        id: 'COMMON.EDIT'
+    },
+    DELETE: {
+        id: 'COMMON.DELETE'
+    },
+    EXPENSE: {
+        id: 'TRANSACTIONS.EXPENSE'
+    },
+    ACCOUNT_NUMBER: {
+        id: 'TRANSACTIONS.ACCOUNT_NUMBER'
+    },
+    SENDER_BANK:{
+        id: 'TRANSACTIONS.SENDER_BANK'
+    },
+    SENDER_NAME: {
+        id: 'TRANSACTIONS.SENDER_NAME'
+    },
+    TRANSACTION_ID:{
+        id: 'TRANSACTIONS.TRANSACTION_ID'
+    },
+    DATE:{
+        id: 'TRANSACTIONS.DATE'
+    },
+    DEPOSITED_IN:{
+        id: 'TRANSACTIONS.DEPOSITED_IN'
+    },
+
+    AMOUNT:{
+        id: 'TRANSACTIONS.AMOUNT'
+    },
+    CREDIT_TYPE: {
+        id: 'TRANSACTIONS.CREDIT_TYPE'
+    },
+    PROJECT:{
+        id: 'TRANSACTIONS.PROJECT'
+    },
+    INFORM_MESSAGE: {
+        id: 'TRANSACTIONS.INFORM_MESSAGE'
+    },
+    CONFIRMATION_MESSAGE: {
+        id: 'TRANSACTIONS.CONFIRMATION_MESSAGE'
+    },
+    REMOVE_EXPENSE: {
+        id: 'TRANSACTIONS.REMOVE_EXPENSE_BUTTON'
+    }
+
+
+});
+
 class viewExpense extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            active: false
+            active: false,
+            openDialog: false,
         };
 
     }
@@ -27,6 +80,9 @@ class viewExpense extends Component {
     }
 
     removeTransaction(){
+        this.setState({
+            openDialog: false
+        });
         const { id } = this.props.params;
         Meteor.call('transactions.remove', {
             transaction: {
@@ -59,9 +115,28 @@ class viewExpense extends Component {
     handleBarTimeout (event, instance) {
         this.setState({ active: false });
     }
+
+    openDialog (e) {
+        if(e){
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        this.setState({
+            openDialog: true,
+        });
+    }
+
+    closePopup () {
+        this.setState({
+            openDialog: false
+        });
+    }
+
     /*************** template render ***************/
     render() {
+        const { formatMessage } = this.props.intl;
         let { transaction, account } = this.props;
+        let { openDialog } = this.state;
         let {_id, transactionAt, category, amount, description } = transaction;
         let { bank, number } = account;
         let date = moment(transactionAt).format('DD-MMM-YYYY');
@@ -82,16 +157,16 @@ class viewExpense extends Component {
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
                         />
-                        <h3>bank deposit</h3>
+                        <h3><FormattedMessage {...il8n.EXPENSE} /></h3>
                         <div className={theme.rightButtons}>
                             <Button onClick={this.editTransaction.bind(this)}
                                 className='header-buttons'
-                                label="edit"
+                                label={formatMessage(il8n.EDIT)}
                                 name='Income'
                                 flat />
-                            <Button onClick={this.removeTransaction.bind(this)}
+                            <Button onClick={this.openDialog.bind(this)}
                                 className='header-buttons'
-                                label="delete"
+                                label={formatMessage(il8n.DELETE)}
                                 name='Expense'
                                 flat />
                         </div>
@@ -116,6 +191,16 @@ class viewExpense extends Component {
                     </div>
                 </div>
                     : <RecordsNotExists route="/app/transactions" />}
+
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.REMOVE_EXPENSE)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/transactions"
+                    defaultAction={this.removeTransaction.bind(this)}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
 
         );
