@@ -14,6 +14,12 @@ import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages
 import theme from './theme';
 
 const il8n = defineMessages({
+    EDIT: {
+        id: 'COMMON.EDIT'
+    },
+    DELETE: {
+        id: 'COMMON.DELETE'
+    },
     ACCOUNT_NUMBER: {
         id: 'TRANSACTIONS.ACCOUNT_NUMBER'
     },
@@ -152,12 +158,12 @@ class viewExpense extends Component {
                         <div className={theme.rightButtons}>
                             <Button onClick={this.editTransaction.bind(this)}
                                 className='header-buttons'
-                                label="edit"
+                                label={formatMessage(il8n.EDIT)}
                                 name='Income'
                                 flat />
                             <Button onClick={this.openDialog.bind(this)}
                                 className='header-buttons'
-                                label="delete"
+                                label={formatMessage(il8n.DELETE)}
                                 name='Expense'
                                 flat />
                         </div>

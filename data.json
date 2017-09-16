@@ -1,5 +1,7 @@
 {
   "en": {
+    "COMMON.EDIT": "Edit",
+    "COMMON.DELETE": "Delete",
     "DASHBOARD.AVAILABLE_BALANCE": "Your Available Balance is",
     "DASHBOARD.GENERATE_REPORT": "Generate Report",
     "DASHBOARD.TOTAL_INCOMES": "Your Total Incomes are",
@@ -245,6 +247,8 @@
 },
 
   "ur": {
+    "COMMON.EDIT": "ترمیم کریں",
+    "COMMON.DELETE": "حذف کریں",
     "DASHBOARD.AVAILABLE_BALANCE": "آپ کی موجودہ رقم",
     "DASHBOARD.GENERATE_REPORT": "نتیجہ مرتب کریں",
     "DASHBOARD.TOTAL_INCOMES": " آپ کی موجودہ آمدنی",

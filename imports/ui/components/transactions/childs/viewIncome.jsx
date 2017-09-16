@@ -16,6 +16,12 @@ import moment from 'moment';
 
 
 const il8n = defineMessages({
+    EDIT: {
+        id: 'COMMON.EDIT'
+    },
+    DELETE: {
+        id: 'COMMON.DELETE'
+    },
     ACCOUNT_NUMBER: {
         id: 'TRANSACTIONS.ACCOUNT_NUMBER'
     },
@@ -161,13 +167,13 @@ class viewIncome extends Component {
                             <Button
                                 onClick={this.editTransaction.bind(this)}
                                 className='header-buttons'
-                                label="edit"
+                                label={formatMessage(il8n.EDIT)}
                                 name='Income'
                                 flat />
                             <Button
                                 onClick={this.openDialog.bind(this)}
                                 className='header-buttons'
-                                label="delete"
+                                label={formatMessage(il8n.DELETE)}
                                 name='Expense'
                                 flat />
                         </div>

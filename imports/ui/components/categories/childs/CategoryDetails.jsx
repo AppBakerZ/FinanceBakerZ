@@ -19,6 +19,12 @@ import fonts from '/imports/ui/fonts.js';
 
 
 const il8n = defineMessages({
+    EDIT: {
+        id: 'COMMON.EDIT'
+    },
+    DELETE: {
+        id: 'COMMON.DELETE'
+    },
     INFORM_MESSAGE: {
         id: 'CATEGORIES.INFORM_MESSAGE'
     },
@@ -239,12 +245,12 @@ class CategoryDetail extends Component {
                         <div className={theme.rightButtons}>
                             <Button onClick={this.editCategory.bind(this)}
                                     className='header-buttons'
-                                    label="edit"
+                                    label={formatMessage(il8n.EDIT)}
                                     name='Income'
                                     flat />
                             <Button onClick={this.openPopup.bind(this, 'removeSubcategory', category)}
                                     className='header-buttons'
-                                    label="delete"
+                                    label={formatMessage(il8n.DELETE)}
                                     name='Expense'
                                     flat />
                         </div>

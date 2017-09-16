@@ -16,6 +16,12 @@ import { Button, Snackbar, Dialog } from 'react-toolbox';
 import theme from './theme';
 
 const il8n = defineMessages({
+    EDIT: {
+        id: 'COMMON.EDIT'
+    },
+    DELETE: {
+        id: 'COMMON.DELETE'
+    },
     INFORM_MESSAGE: {
         id: 'PROJECTS.INFORM_MESSAGE'
     },
@@ -154,12 +160,12 @@ class ProjectDetail extends Component {
                         <div className={theme.rightButtons}>
                             <Button onClick={this.editProject.bind(this)}
                                     className='header-buttons'
-                                    label="edit"
+                                    label={formatMessage(il8n.EDIT)}
                                     name='Income'
                                     flat />
                             <Button onClick={this.openDialog.bind(this)}
                                     className='header-buttons'
-                                    label="delete"
+                                    label={formatMessage(il8n.DELETE)}
                                     name='Expense'
                                     flat />
                         </div>
