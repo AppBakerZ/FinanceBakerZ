@@ -77,7 +77,13 @@ class NewCategoryPage extends Component {
     }
 
     categories(){
-        let cats = this.props.categories.map((category) => {
+        const { params, categories } = this.props;
+        const { id } = params;
+
+        let cats = categories.filter((category) => {
+            return category._id !== id
+        });
+        cats = cats.map((category) => {
             return {value: category._id, label: category.name, icon: category.icon, name: category.name};
         });
         cats.unshift({value: null, label: 'No Parent'});
@@ -344,7 +350,6 @@ NewCategoryPage.propTypes = {
 
 NewCategoryPage = createContainer((props) => {
     const { id } = props.params;
-    Meteor.subscribe('categories');
     const categoriesHandle = Meteor.subscribe('categories');
     const categoriesLoading = !categoriesHandle.ready();
     const categories = Categories.find({

@@ -302,7 +302,6 @@ CategoriesPage.propTypes = {
 };
 
 CategoriesPage = createContainer(() => {
-    Meteor.subscribe('categories');
     const categoriesHandle = Meteor.subscribe('categories');
     const categoriesLoading = !categoriesHandle.ready();
     const categories = Categories.find({
