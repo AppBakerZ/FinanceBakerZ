@@ -481,12 +481,12 @@ class SettingsPage extends Component {
                                             checked={this.state.check1}
                                             label="On"
                                             onChange={this.handleChange.bind(this, 'check1')}
-                                            />
+                                            disabled={true}/>
                                          <Checkbox theme={checkboxTheme}
                                              checked={this.state.check2}
                                              label="Off"
                                              onChange={this.handleChange.bind(this, 'check2')}
-                                             />
+                                             disabled={true}/>
                                     </span>
                                 </h6>
                             </div>

@@ -20,6 +20,9 @@ const il8n = defineMessages({
     DELETE: {
         id: 'COMMON.DELETE'
     },
+    EXPENSE: {
+        id: 'TRANSACTIONS.EXPENSE'
+    },
     ACCOUNT_NUMBER: {
         id: 'TRANSACTIONS.ACCOUNT_NUMBER'
     },
@@ -154,7 +157,7 @@ class viewExpense extends Component {
                             onTimeout={this.handleBarTimeout.bind(this)}
                             type={this.state.barType}
                         />
-                        <h3>bank deposit</h3>
+                        <h3><FormattedMessage {...il8n.EXPENSE} /></h3>
                         <div className={theme.rightButtons}>
                             <Button onClick={this.editTransaction.bind(this)}
                                 className='header-buttons'
