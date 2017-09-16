@@ -484,7 +484,7 @@ class NewProjectPage extends Component {
 
 
                         {this.state.clientDetails.map((customField, idx) => (
-                            <div className="customField" key={idx + 1}>
+                            <div className={theme.customField} key={idx + 1}>
                                 <Input className={theme.projectCustomField} type='text' label={customField.name}
                                        name={customField.name}
                                        value={customField.value}

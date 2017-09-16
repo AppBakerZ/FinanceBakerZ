@@ -11,6 +11,7 @@
       letter-spacing: $unit - 0.9;
       word-spacing: $unit - 0.5;
       margin: 0 0 $unit * 1.2 0;
+      text-align: center;
     }
     p{
       line-height: $unit * 2;
@@ -31,7 +32,7 @@
         line-height: $unit * 3.6;
         padding: 0 $unit * 3.8 0;
         margin-left: $unit - 0.2;
-        top: -6px;
+        top: -1px;
         span{
           color: white;
           font-size: $font-size + 0.1;
@@ -40,3 +41,21 @@
     }
   }
 }
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .dialogContent h3 {
+  width: 100%;
+}
+body[dir="rtl"] .dialogContent p {
+  margin: 15px 0 0 0;
+  display: inline-block;
+  width: 100%;
+}
+body[dir="rtl"] .dialogContent .buttonBox button:last-of-type {
+  margin: 0 10px 0 0;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////
