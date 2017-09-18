@@ -184,7 +184,7 @@ class NewExpense extends Component {
         else{
             //fall back for old records in old transactions
             category.name = this.state.categoryName;
-            category.icon = this.state.categoryName;
+            category.icon = this.state.categoryIcon;
         }
         Meteor.call('transactions.update', {
             transaction: {
