@@ -199,7 +199,7 @@ class NewIncome extends Component {
         if(projectExists){
             project.name = projectExists.name;
         }
-        else{
+        else if(_.keys(project).length){
             //fall back for old records in old transactions
             project.name = this.state.projectName
         }
