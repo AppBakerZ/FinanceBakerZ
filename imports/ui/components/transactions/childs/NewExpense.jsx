@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { _ } from 'underscore';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 
@@ -70,6 +71,8 @@ class NewExpense extends Component {
             spentAt: datetime,
             spentTime: datetime,
             category: '',
+            categoryName: '',
+            categoryIcon: '',
             active: false,
             loading: false,
             billUrl: '',
@@ -81,7 +84,12 @@ class NewExpense extends Component {
         p.expense.billUrl = p.expense.billUrl || '';
         p.expense.spentTime = p.expense.transactionAt;
         p.expense.spentAt = p.expense.transactionAt;
-        p.expense.category = p.expense.category && p.expense.category._id;
+        if(p.expense.category){
+            let { category } = p.expense;
+            p.expense.category = category._id;
+            p.expense.categoryName = category.name;
+            p.expense.categoryIcon = category.icon;
+        }
         this.setState(p.expense);
         let isNew = p.params.id === 'new';
         this.setCurrentRoute(isNew);
@@ -169,8 +177,15 @@ class NewExpense extends Component {
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
         category = category && {_id: category};
         let categoryExists = Categories.findOne({_id: category._id});
-        category.name = categoryExists.name;
-        category.icon = categoryExists.icon;
+        if(categoryExists){
+            category.name = categoryExists.name;
+            category.icon = categoryExists.icon;
+        }
+        else{
+            //fall back for old records in old transactions
+            category.name = this.state.categoryName;
+            category.icon = this.state.categoryName;
+        }
         Meteor.call('transactions.update', {
             transaction: {
                 _id,
@@ -314,6 +329,18 @@ class NewExpense extends Component {
     }
 
     categories(){
+        const { categories } = this.props;
+        const { category, categoryName, categoryIcon } = this.state;
+        //
+        //if any category deleted then just add value to prevent empty values on updating record
+        let index = _.findIndex(categories, {_id: category});
+        if(index === -1){
+            categories.push({
+                _id: category,
+                name: categoryName,
+                icon: categoryIcon
+            })
+        }
         return this.props.categories.map((category) => {
             category.value = category._id;
             return category;

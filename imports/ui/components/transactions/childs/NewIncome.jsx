@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
+import { _ } from 'underscore';
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 import { Card} from 'react-toolbox/lib/card';
@@ -198,6 +199,10 @@ class NewIncome extends Component {
         if(projectExists){
             project.name = projectExists.name;
         }
+        else{
+            //fall back for old records in old transactions
+            project.name = this.state.projectName
+        }
         creditType = creditType === "project" ? 'project' : 'salary';
 
         Meteor.call('transactions.update', {
@@ -339,6 +344,18 @@ class NewIncome extends Component {
     }
 
     projects(){
+        const { projects } = this.props;
+        const {project, projectName} = this.state;
+
+        //if any project deleted then just add value to prevent empty values on updating record
+        let index = _.findIndex(projects, {_id: project});
+        if(index === -1){
+            projects.push({
+                _id: project,
+                name: projectName
+            })
+        }
+
         return this.props.projects.map((project) => {
             project.value = project._id;
             project.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
