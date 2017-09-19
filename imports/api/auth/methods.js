@@ -5,7 +5,8 @@ import { Accounts } from '../accounts/accounts.js';
 import { Categories } from '../categories/categories.js';
 import { Projects } from '../projects/projects.js';
 
-
+//import config
+import { appConfig } from '../../startup/server/config.js'
 
 MeteorAccounts.onCreateUser(function(options, user) {
     let account = {owner: user._id};
@@ -14,8 +15,13 @@ MeteorAccounts.onCreateUser(function(options, user) {
     Categories.insert({owner: account.owner, name: 'Default Category', icon: 'icon-icons_building' });
     Projects.insert({owner: account.owner, name: 'Default Project', type: 'fixed', status: 'progress', startAt: new Date()});
    // Reset user object
-    if (options.profile)
+    if (options.profile) {
+        //add plan from here untill it will be implemented in front end
+        if (!options.profile.businessPlan) {
+            options.profile.businessPlan = appConfig.availablePlans[0];
+        }
         user.profile = options.profile;
+    }
     if(user.emails && user.emails.length)
         user.profile.md5hash = Gravatar.hash(user.emails[0].address);
     return user;
