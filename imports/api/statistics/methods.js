@@ -18,6 +18,8 @@ import { Reports } from '../reports/reports.js';
 import { limitHelpers } from '../../helpers/limitHelpers.js';
 
 let AWS = require('aws-sdk');
+//import config
+import { appConfig } from '../../startup/server/config.js'
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
@@ -332,8 +334,8 @@ export const generateReport = new ValidatedMethod({
             throw new Meteor.Error(500, 'No Transaction found with selected search filters')
         }
 
-        //set default to Free
-        let plan = user.profile.businessPlan || 'Free';
+        //set default to initial plan from app config (Free)
+        let plan = user.profile.businessPlan || appConfig.availablePlans[0];
         params.context = {
             folder: 'reports',
             plan : plan,
@@ -425,7 +427,7 @@ export const changePlan = new ValidatedMethod({
         params.owner = this.userId;
         let user = Meteor.user();
         //set default to Free
-        params.oldPlan = user.profile.businessPlan || 'Free';
+        params.oldPlan = user.profile.businessPlan || appConfig.availablePlans[0];
 
         //configure AWS
         AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
