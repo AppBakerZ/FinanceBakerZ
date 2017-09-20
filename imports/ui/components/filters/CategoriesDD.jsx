@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { _ } from 'underscore'
 import { createContainer } from 'meteor/react-meteor-data';
 import { Autocomplete, Checkbox } from 'react-toolbox';
 import { Meteor } from 'meteor/meteor';
@@ -20,14 +19,13 @@ class CategoriesDD extends Component {
 
     constructor(props) {
         super(props);
+        let { parentProps } = this.props.parentProps;
+        let { location } = parentProps;
         this.state = {
-            categories: [],
-            selectedCategories: [],
-            childrenIncluded: false
+            childrenIncluded: location.query.childrenIncluded === 'true'
         }
     }
-
-    categories() {
+    categories(){
         let categories = {};
         this.props.categories.forEach((category) => {
             categories[category._id] = category.name;
@@ -35,76 +33,36 @@ class CategoriesDD extends Component {
 
         return categories;
     }
-    updateFilter(proxy, e){
-        let { categories } = this.state;
-        const allCategories = this.props.categories;
-        if(e.target.checked && categories){
-                let childCategories = allCategories.filter(child => {
-                    return child.parent && child.parent.id === categories
-                });
-                if(childCategories.length){
-                    childCategories = childCategories.map(cat => {
-                        return cat._id
-                    });
-                    categories = _.union(categories, childCategories)
-                }
-        }
-        else{
-            categories = categories.slice(0, 1);
-        }
-        this.setState({
-            childrenIncluded: e.target.checked,
-            categories,
-        });
-        this.updateCategories(categories)
-    }
 
-    updateCategories(categories){
-        // const { categories } = this.state;
-        console.log('state', categories);
+    filterByCategories(categories) {
+        this.setState({
+            categories: categories,
+        });
         let { parentProps } = this.props.parentProps;
         let { location } = parentProps;
         let pathname = routeHelpers.resetPagination(location.pathname);
         let query = location.query;
         query.categories = `${[categories]}`;
+        query.childrenIncluded = this.state.childrenIncluded;
         routeHelpers.changeRoute(pathname, 0, query);
     }
 
-    filterByCategories(category) {
-        const allCategories = this.props.categories;
-        // category = categories.slice(0, 1);
-        if(this.state.childrenIncluded){
-                let childCategories = allCategories.filter(child => {
-                    return child.parent && child.parent.id === category
-                });
-                if(childCategories.length){
-                    childCategories = childCategories.map(cat => {
-                        return cat._id
-                    });
-                    category = _.union(category, childCategories)
-                }
-
-        }
+    updateFilter(proxy, e){
+        const { categories } = this.state;
         this.setState({
-            categories: category
-        })
-        this.updateCategories(category)
-
-        // if(category){
-        //     let childCategories = allCategories.filter(child => {
-        //         return child.parent && child.parent.id === category
-        //     });
-        //     if(childCategories.length){
-        //         childCategories = childCategories.map(cat => {
-        //             return cat._id
-        //         });
-        //         category = _.union(category, childCategories);
-        //     }
-        //
-        // }
+            childrenIncluded: e.target.checked,
+        });
+        let { parentProps } = this.props.parentProps;
+        let { location } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
+        let query = location.query;
+        query.categories = `${[categories]}`;
+        query.childrenIncluded = e.target.checked;
+        routeHelpers.changeRoute(pathname, 0, query);
     }
 
     render() {
+
         const { formatMessage } = this.props.intl;
         return (
             <div className={theme.autoCompleteIncomeParent}>
@@ -119,9 +77,9 @@ class CategoriesDD extends Component {
                     multiple={false}
                     />
 
-                <Checkbox
+                <Checkbox className={theme.childCategories}
                           checked={this.state.childrenIncluded}
-                          label="Include Children"
+                          label="Include Child Categories"
                           onChange={this.updateFilter.bind(this)}
                           />
             </div>

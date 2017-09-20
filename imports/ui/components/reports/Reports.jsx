@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
 import { Reports } from '/imports/api/reports/reports.js'
+import { Categories } from '/imports/api/categories/categories.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
@@ -272,6 +273,19 @@ class ReportsPage extends Component {
         dateFrom = query.dateFrom || moment().startOf('month').format();
         dateTo = query.dateTo || moment().startOf('today').format();
 
+        if(query.childrenIncluded === 'true'){
+            const allCategories = this.props.categories;
+            let childCategories = allCategories.filter(child => {
+                return child.parent && child.parent.id === categories[0]
+            });
+            if(childCategories.length){
+                childCategories = childCategories.map(cat => {
+                    return cat._id
+                });
+                categories = _.union(categories, childCategories)
+            }
+        }
+
         this.setState({
             dateFrom : dateFrom,
             dateTo : dateTo
@@ -380,7 +394,9 @@ ReportsPage.propTypes = {
 
 ReportsPage = createContainer(() => {
     const reportsHandle = Meteor.subscribe('reports');
+    const categoriesHandle = Meteor.subscribe('categories');
     const reports = Reports.find().fetch();
+    const categories = Categories.find().fetch();
     const local = LocalCollection.findOne({
         name: 'localTransactions'
     });
@@ -389,6 +405,7 @@ ReportsPage = createContainer(() => {
 
     return {
         reports,
+        categories,
         local: local,
         pageCount: pageCount,
     };
