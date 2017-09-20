@@ -19,7 +19,7 @@ import { limitHelpers } from '../../helpers/limitHelpers.js';
 
 let AWS = require('aws-sdk');
 //import config
-import { appConfig } from '../../startup/server/config.js'
+import { appConfig } from '../../utils/config.js'
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
