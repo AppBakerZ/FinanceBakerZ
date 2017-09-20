@@ -45,6 +45,13 @@
     }
   }
 }
+.childCategories{
+  width: 25%;
+  display: inline-block;
+  position: absolute;
+  left: 28%;
+  top: 45px;
+}
 .autoCompleteParent{
   .autocomplete{
     width: 100%;
@@ -95,6 +102,7 @@
   width: 78%;
   float: left;
   margin-left: 20px;
+  position: relative;
   .autoCompleteIncome{
     width: 100%;
     display: inline-block;
