@@ -143,6 +143,18 @@ class ReportsPage extends Component {
         updateFilter(collection, 'dateFrom', moment(dateFrom).format());
         updateFilter(collection, 'dateTo', moment(dateTo).format());
 
+        if(this.state.dateFrom.getTime() != new Date(dateFrom).getTime()){
+            this.setState({
+                dateFrom : new Date(dateFrom),
+            });
+        }
+        if(this.state.dateTo.getTime() != new Date(dateTo).getTime()){
+            this.setState({
+                dateTo : new Date(dateTo)
+            });
+        }
+
+
     }
 
     componentDidMount(){
@@ -248,23 +260,24 @@ class ReportsPage extends Component {
     generatePdf(){
         let userPlan = this.getUserPlan();
         let previousTotal = this.props.reports.length;
-        if(previousTotal >= appConfig[userPlan].reports.count){
-            this.setState({
-                disableButton: false,
-                active: true,
-                barMessage: "You already reached your limit based on current plan",
-                barIcon: 'error_outline',
-                barType: 'cancel'
-            });
-            return;
-        }
+        //for now it commented to ensure different tests
+        // if(previousTotal >= appConfig[userPlan].reports.count){
+        //     this.setState({
+        //         disableButton: false,
+        //         active: true,
+        //         barMessage: "You already reached your limit based on current plan",
+        //         barIcon: 'error_outline',
+        //         barType: 'cancel'
+        //     });
+        //     return;
+        // }
         if(this.state.loading){
             return;
         }
         this.setState({
             loading: true
         });
-        const {location} = this.props;
+        const { location } = this.props;
         let query = location.query, accounts, projects, categories, dateFrom, dateTo;
         accounts = query.accounts ? query.accounts.split(",") : [];
         projects = query.projects ? query.projects.split(",") : [];
@@ -286,16 +299,11 @@ class ReportsPage extends Component {
             }
         }
 
-        this.setState({
-            dateFrom : dateFrom,
-            dateTo : dateTo
-        });
-
 
         let params = {
             accounts : accounts,
             filterBy : query.filter || 'range',
-            date : dateHelpers.filterByDate(query.filter || 'range', {}, this),
+            date : dateHelpers.filterByDate(query.filter || this.state.filterBy, {}, this),
             report : query.type || 'both',
             categories : categories,
             projects : projects
