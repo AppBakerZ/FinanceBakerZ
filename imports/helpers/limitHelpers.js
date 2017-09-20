@@ -1,7 +1,7 @@
 //set different expiry time for different plans
 import { dateHelpers } from './dateHelpers.js'
 //import config
-import { appConfig } from '../startup/server/config.js'
+import { appConfig } from '../utils/config.js'
 let applyLimits = {
     Free : dateHelpers.updateDate(new Date(), 'days', 3),
     Personal: dateHelpers.updateDate(new Date(), 'days', 7),

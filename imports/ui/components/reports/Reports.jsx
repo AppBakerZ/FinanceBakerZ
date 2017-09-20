@@ -9,6 +9,8 @@ import { Reports } from '/imports/api/reports/reports.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
+//import config
+import { appConfig } from '../../../utils/config.js'
 
 import theme from './theme';
 
@@ -238,7 +240,23 @@ class ReportsPage extends Component {
         );
     }
 
+    getUserPlan(){
+        return Meteor.user() && Meteor.user().profile && Meteor.user().profile.businessPlan || appConfig.availablePlans[0];
+    }
+
     generatePdf(){
+        let userPlan = this.getUserPlan();
+        let previousTotal = this.props.reports.length;
+        if(previousTotal >= appConfig[userPlan].reports.count){
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: "You already reached your limit based on current plan",
+                barIcon: 'error_outline',
+                barType: 'cancel'
+            });
+            return;
+        }
         if(this.state.loading){
             return;
         }

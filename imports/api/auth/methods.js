@@ -6,7 +6,7 @@ import { Categories } from '../categories/categories.js';
 import { Projects } from '../projects/projects.js';
 
 //import config
-import { appConfig } from '../../startup/server/config.js'
+import { appConfig } from '../../utils/config.js'
 
 MeteorAccounts.onCreateUser(function(options, user) {
     let account = {owner: user._id};
