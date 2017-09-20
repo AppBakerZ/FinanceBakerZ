@@ -73,7 +73,7 @@ class CategoriesDD extends Component {
                     onChange={this.filterByCategories.bind(this)}
                     label={formatMessage(il8n.FILTER_BY_CATEGORY)}
                     source={this.categories()}
-                    value={this.props.local.categories}
+                    value={this.props.local.categories[0]}
                     multiple={false}
                     />
 
