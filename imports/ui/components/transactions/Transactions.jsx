@@ -40,18 +40,6 @@ class TransactionPage extends Component {
         updateFilter(collection, 'type', query.type || 'both');
         updateFilter(collection, 'accounts', accounts);
         updateFilter(collection, 'projects', projects);
-        if(query.childrenIncluded === 'true'){
-            const allCategories = this.props.categories;
-            let childCategories = allCategories.filter(child => {
-                return child.parent && child.parent.id === categories[0]
-            });
-            if(childCategories.length){
-                childCategories = childCategories.map(cat => {
-                    return cat._id
-                });
-                categories = _.union(categories, childCategories)
-            }
-        }
         updateFilter(collection, 'categories', categories);
 
         //date filters
