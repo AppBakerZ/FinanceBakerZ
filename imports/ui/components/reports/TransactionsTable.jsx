@@ -145,6 +145,25 @@ TransactionsTable =  createContainer((props) => {
     const local = LocalCollection.findOne({
         name: props.collection
     });
+    const { location } = props.parentProps;
+
+    /*
+     all below function is to get categories if child categories flag true
+     include all child categories but display only parent category in suggession box
+     */
+    let query = location.query, combinedCategories = local.categories;
+    if(local.categories.length && query.childrenIncluded === 'true'){
+        const allCategories = props.parentProps.categories;
+        let childCategories = allCategories.filter(child => {
+            return child.parent && child.parent.id === local.categories[0]
+        });
+        if(childCategories.length){
+            childCategories = childCategories.map(cat => {
+                return cat._id
+            });
+            combinedCategories = _.union(local.categories, childCategories)
+        }
+    }
     const transactionsHandle = Meteor.subscribe('transaction', {
         limit : local.limit,
         skip: local.skip,
@@ -154,7 +173,7 @@ TransactionsTable =  createContainer((props) => {
             dateTo: local.dateTo
         }),
         type: local.type,
-        filterByCategory: local.type === 'expenses' ? local.categories : '',
+        filterByCategory: local.type === 'expenses' ? combinedCategories : '',
         filterByProjects: local.type === 'incomes' ? local.projects : ''
     });
 

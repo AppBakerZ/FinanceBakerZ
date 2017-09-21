@@ -47,6 +47,25 @@ class CategoriesDD extends Component {
         routeHelpers.changeRoute(pathname, 0, query);
     }
 
+    onQueryChange(value){
+        let allCategories = this.props.categories;
+        let catIds = allCategories.map(category =>{
+            return category._id
+        });
+        if(!catIds.includes(value)){
+            let {categories} = this.props.local;
+            if(categories && categories.length){
+                let { parentProps } = this.props.parentProps;
+                let { location } = parentProps;
+                let pathname = routeHelpers.resetPagination(location.pathname);
+                let query = location.query;
+                query.categories = '';
+                query.childrenIncluded = this.state.childrenIncluded;
+                routeHelpers.changeRoute(pathname, 0, query);
+            }
+        }
+    }
+
     updateFilter(proxy, e){
         const { categories } = this.state;
         this.setState({
@@ -73,8 +92,9 @@ class CategoriesDD extends Component {
                     onChange={this.filterByCategories.bind(this)}
                     label={formatMessage(il8n.FILTER_BY_CATEGORY)}
                     source={this.categories()}
-                    value={this.props.local.categories[0]}
+                    value={this.props.local.categories}
                     multiple={false}
+                    onQueryChange={this.onQueryChange.bind(this)}
                     />
 
                 <Checkbox className={theme.childCategories}
