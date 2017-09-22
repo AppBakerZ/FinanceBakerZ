@@ -37,3 +37,4 @@ jparker:gravatar
 natestrauser:publish-performant-counts
 mikowals:batch-insert
 http
+percolate:migrations

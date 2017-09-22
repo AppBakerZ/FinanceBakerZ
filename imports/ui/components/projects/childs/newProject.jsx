@@ -102,6 +102,9 @@ const il8n = defineMessages({
     PROJECT_NAME: {
         id: 'PROJECTS.PROJECT_NAME'
     },
+    PROJECT_DESCRIPTION: {
+        id: 'PROJECTS.PROJECT_DESCRIPTION'
+    },
     CLIENT_DETAILS: {
         id: 'PROJECTS.CLIENT_DETAILS'
     },
@@ -138,6 +141,7 @@ class NewProjectPage extends Component {
             isNew: false,
             clientDetails: [{name:'name', value: ''},{name:'country', value:''}],
             name: '',
+            description: '',
             clientName: '',
             type: '',
             amount: '',
@@ -310,7 +314,7 @@ class NewProjectPage extends Component {
     }
 
     createProject(){
-        const {name, type, amount, status, startAt, clientDetails} = this.state;
+        const {name, type, description, amount, status, startAt, clientDetails} = this.state;
         let clientObj = clientDetails.reduce(function(obj,item){
             obj[item.name] = item.value;
             return obj;
@@ -319,6 +323,7 @@ class NewProjectPage extends Component {
         Meteor.call('projects.insert', {
             project: {
                 name,
+                description,
                 client: clientObj,
                 type,
                 amount: Number(amount),
@@ -348,7 +353,7 @@ class NewProjectPage extends Component {
     }
 
     updateProject(){
-        const {_id, name, clientDetails, type, amount, status, startAt} = this.state;
+        const {_id, name, description, clientDetails, type, amount, status, startAt} = this.state;
         let clientObj = clientDetails.reduce(function(obj,item){
             obj[item.name] = item.value;
             return obj;
@@ -357,6 +362,7 @@ class NewProjectPage extends Component {
             project: {
                 _id,
                 name,
+                description,
                 client: clientObj,
                 type,
                 amount: Number(amount),
@@ -448,6 +454,13 @@ class NewProjectPage extends Component {
                         <Input type='text' label={formatMessage(il8n.PROJECT_NAME)}
                                name='name'
                                value={this.state.name}
+                               onChange={this.onChange.bind(this)}
+                               required
+                        />
+
+                        <Input type='text' label={formatMessage(il8n.PROJECT_DESCRIPTION)}
+                               name='description'
+                               value={this.state.description}
                                onChange={this.onChange.bind(this)}
                                required
                         />

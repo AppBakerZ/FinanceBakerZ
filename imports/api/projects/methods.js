@@ -26,6 +26,9 @@ export const insert = new ValidatedMethod({
         'project.name': {
             type: String
         },
+        'project.description': {
+            type: String
+        },
         'project.type': {
             type: String
         },
@@ -67,6 +70,9 @@ export const update = new ValidatedMethod({
             optional: true
         },
         'project.name': {
+            type: String
+        },
+        'project.description': {
             type: String
         },
         'project.type': {
