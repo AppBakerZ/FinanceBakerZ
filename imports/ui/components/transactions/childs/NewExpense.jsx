@@ -73,6 +73,8 @@ class NewExpense extends Component {
             category: '',
             categoryName: '',
             categoryIcon: '',
+            accountBank: '',
+            accountNumber: '',
             active: false,
             loading: false,
             billUrl: '',
@@ -89,6 +91,14 @@ class NewExpense extends Component {
             p.expense.category = category._id;
             p.expense.categoryName = category.name;
             p.expense.categoryIcon = category.icon;
+        }
+        if(p.expense.account){
+            let { account } = p.expense;
+            p.expense.account = account._id;
+            p.expense.accountBank = account.bank;
+            if(p.expense.accountNumber){
+                account.number = p.expense.accountNumber
+            }
         }
         this.setState(p.expense);
         let isNew = p.params.id === 'new';
@@ -135,6 +145,17 @@ class NewExpense extends Component {
         if(categoryExists){
             category.name = categoryExists.name;
             category.icon = categoryExists.icon;
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
         }
 
         Meteor.call('transactions.insert', {
@@ -185,6 +206,17 @@ class NewExpense extends Component {
             //fall back for old records in old transactions
             category.name = this.state.categoryName;
             category.icon = this.state.categoryIcon;
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
         }
         Meteor.call('transactions.update', {
             transaction: {
@@ -296,7 +328,19 @@ class NewExpense extends Component {
     }
 
     accounts(){
-        return this.props.accounts.map((account, index) => {
+        const { accounts } = this.props;
+        const { account, accountBank, accountNumber } = this.state;
+        //
+        //if any account deleted then just add value to prevent empty values on updating record
+        let index = _.findIndex(accounts, {_id: account});
+        if(index === -1){
+            accounts.push({
+                _id: account,
+                bank: accountBank,
+                number: accountNumber
+            })
+        }
+        return accounts.map((account, index) => {
             account.value = account._id;
 
             index++;

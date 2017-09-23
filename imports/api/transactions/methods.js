@@ -21,7 +21,17 @@ export const insert = new ValidatedMethod({
             type: Object
         },
         'transaction.account': {
+            type: Object
+        },
+        'transaction.account._id': {
             type: String
+        },
+        'transaction.account.bank': {
+            type: String
+        },
+        'transaction.account.number': {
+            type: String,
+            optional: true
         },
         'transaction.amount': {
             type: Number
@@ -94,7 +104,17 @@ export const update = new ValidatedMethod({
             type: String
         },
         'transaction.account': {
+            type: Object
+        },
+        'transaction.account._id': {
             type: String
+        },
+        'transaction.account.bank': {
+            type: String
+        },
+        'transaction.account.number': {
+            type: String,
+            optional: true
         },
         'transaction.amount': {
             type: Number

@@ -21,7 +21,8 @@ Transactions.schema = new SimpleSchema({
         label: 'Owner of transaction'
     },
     account: {
-        type: String,
+        type: Object,
+        blackbox: true,
         label: 'Account of transaction'
     },
     amount: {

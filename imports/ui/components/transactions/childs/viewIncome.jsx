@@ -138,16 +138,19 @@ class viewIncome extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let { openDialog } = this.state;
-        let { transaction, account, currentProject } = this.props;
-        let { bank, number } = account;
+        let { transaction, currentProject } = this.props;
         let details = {};
         if(currentProject){
             details = currentProject;
         }
 
+
+        let { amount, _id, transactionAt, project, account } = transaction;
+        // add safeguard for nested values
+        account = account ? account : {};
+        let { bank, number } = account;
         //remove the bank prefix from bank account
         bank = bank && bank.split("bank-")[1];
-        let { amount, _id, transactionAt, project } = transaction;
 
         let date = moment (transactionAt).format('DD-MMM-YYYY');
         return (
