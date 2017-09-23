@@ -12,8 +12,9 @@ Meteor.publish('transaction', function(options) {
         $and: []
     };
 
-    if(options.accounts.length)
-        query['account'] = {$in: ArrayGuard(options.accounts)};
+    if(options.accounts.length){
+        query['account._id'] = {$in: ArrayGuard(options.accounts)};
+    }
 
     options.dateFilter && (query.transactionAt = {$gte: new Date(options.dateFilter.start), $lte: new Date(options.dateFilter.end)});
 

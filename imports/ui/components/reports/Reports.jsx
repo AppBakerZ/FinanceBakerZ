@@ -143,12 +143,12 @@ class ReportsPage extends Component {
         updateFilter(collection, 'dateFrom', moment(dateFrom).format());
         updateFilter(collection, 'dateTo', moment(dateTo).format());
 
-        if(this.state.dateFrom.getTime() != new Date(dateFrom).getTime()){
+        if(this.state.dateFrom.getTime() !== new Date(dateFrom).getTime()){
             this.setState({
                 dateFrom : new Date(dateFrom),
             });
         }
-        if(this.state.dateTo.getTime() != new Date(dateTo).getTime()){
+        if(this.state.dateTo.getTime() !== new Date(dateTo).getTime()){
             this.setState({
                 dateTo : new Date(dateTo)
             });
@@ -260,6 +260,7 @@ class ReportsPage extends Component {
     generatePdf(){
         let userPlan = this.getUserPlan();
         let previousTotal = this.props.reports.length;
+
         //for now it commented to ensure different tests
         // if(previousTotal >= appConfig[userPlan].reports.count){
         //     this.setState({

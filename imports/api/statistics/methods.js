@@ -148,7 +148,7 @@ export const availableBalance = new ValidatedMethod({
             owner: this.userId,
         };
         if(accounts.length){
-            query['account'] = {$in: accounts}
+            query['account._id'] = {$in: accounts}
         }
 
         let counting = Transactions.aggregate([{
@@ -210,7 +210,7 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
             owner: this.userId,
         };
         if(accounts.length){
-            query['account'] = {$in: accounts}
+            query['account._id'] = {$in: accounts}
         }
         if(date){
             query['transactionAt'] = {
@@ -297,7 +297,7 @@ export const generateReport = new ValidatedMethod({
         let date = params.date;
         let localParams = params;
         if(localParams.accounts.length){
-            localParams['account'] = {$in: params.accounts};
+            localParams['account._id'] = {$in: params.accounts};
         }
 
         //add $or if category or project filter found
