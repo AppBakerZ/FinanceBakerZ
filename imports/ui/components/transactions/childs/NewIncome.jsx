@@ -82,6 +82,8 @@ class NewIncome extends Component {
         this.state = {
             account: '',
             amount: '',
+            accountBank: '',
+            accountNumber: '',
             receivedAt: datetime,
             receivedTime: datetime,
             creditType: 'project',
@@ -97,6 +99,14 @@ class NewIncome extends Component {
         p.income.receivedAt = p.income.transactionAt;
         if( p.income && p.income.creditType ){
             p.income.creditType === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
+        }
+        if(p.income.account){
+            let { account } = p.income;
+            p.income.account = account._id;
+            p.income.accountBank = account.bank;
+            if(p.income.accountNumber){
+                account.number = p.income.accountNumber
+            }
         }
         this.setState(p.income);
         let isNew = p.params.id === 'new';
@@ -155,6 +165,17 @@ class NewIncome extends Component {
         if(projectExists){
             project.name = projectExists.name;
         }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
+        }
         creditType = creditType === "project" ? 'project' : 'salary';
 
             Meteor.call('transactions.insert', {
@@ -202,6 +223,17 @@ class NewIncome extends Component {
         else if(_.keys(project).length){
             //fall back for old records in old transactions
             project.name = this.state.projectName
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
         }
         creditType = creditType === "project" ? 'project' : 'salary';
 
@@ -315,7 +347,19 @@ class NewIncome extends Component {
     }
 
     accounts(){
-        return this.props.accounts.map((account, index) => {
+        const { accounts } = this.props;
+        const { account, accountBank, accountNumber } = this.state;
+        //
+        //if any account deleted then just add value to prevent empty values on updating record
+        let index = _.findIndex(accounts, {_id: account});
+        if(index === -1){
+            accounts.push({
+                _id: account,
+                bank: accountBank,
+                number: accountNumber
+            })
+        }
+        return accounts.map((account, index) => {
             account.value = account._id;
 
             index++;

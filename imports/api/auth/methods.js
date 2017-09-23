@@ -11,9 +11,25 @@ import { appConfig } from '../../utils/config.js'
 MeteorAccounts.onCreateUser(function(options, user) {
     let account = {owner: user._id};
     //Inserting default bank account on signup
-    Accounts.insert({owner: account.owner, bank: 'bank-Gullak-Bank', country: 'PK', purpose: 'Bank Account', icon: 'abc' });
-    Categories.insert({owner: account.owner, name: 'Default Category', icon: 'icon-icons_building' });
-    Projects.insert({owner: account.owner, name: 'Default Project', type: 'fixed', status: 'progress', startAt: new Date()});
+    Accounts.insert({
+        owner: account.owner,
+        bank: 'bank-Gullak-Bank',
+        country: 'PK',
+        purpose: 'Bank Account',
+        icon: 'abc'
+    });
+    Categories.insert({
+        owner: account.owner,
+        name: 'Default Category',
+        icon: 'icon-icons_building'
+    });
+    Projects.insert({
+        owner: account.owner,
+        name: 'Default Project',
+        description: 'Default Project',
+        type: 'fixed', status: 'progress',
+        startAt: new Date()
+    });
    // Reset user object
     if (options.profile) {
         //add plan from here untill it will be implemented in front end
