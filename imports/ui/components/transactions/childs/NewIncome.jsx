@@ -389,18 +389,20 @@ class NewIncome extends Component {
 
     projects(){
         const { projects } = this.props;
-        const {project, projectName} = this.state;
+        const {project, projectName, isNew } = this.state;
 
-        //if any project deleted then just add value to prevent empty values on updating record
-        let index = _.findIndex(projects, {_id: project});
-        if(index === -1){
-            projects.push({
-                _id: project,
-                name: projectName
-            })
+        if(!isNew){
+            //if any project deleted then just add value to prevent empty values on updating record
+            let index = _.findIndex(projects, {_id: project});
+            if(index === -1){
+                projects.push({
+                    _id: project,
+                    name: projectName
+                })
+            }
         }
 
-        return this.props.projects.map((project) => {
+        return projects.map((project) => {
             project.value = project._id;
             project.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
             return project;
@@ -441,7 +443,7 @@ class NewIncome extends Component {
                         />
 
                         <Dropdown theme={dropdownTheme}
-                                  className={theme.bankFonts}
+                                  className={theme.accountsDropdown}
                                   auto={false}
                                   source={this.accounts()}
                                   name='account'
