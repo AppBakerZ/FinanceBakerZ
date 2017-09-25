@@ -156,6 +156,16 @@ class NewIncome extends Component {
             });
             return
         }
+
+        if (!Object.keys(account).length) {
+            errMessage = 'You must select the account';
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: errMessage
+            });
+            return
+        }
         let transactionAt = new Date(receivedAt);
         let type='income';
         receivedTime = new Date(receivedTime);
@@ -215,6 +225,7 @@ class NewIncome extends Component {
         let type = 'income';
         receivedTime = new Date(receivedTime);
         transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        //project processing
         project = (project && creditType === "project" && {_id: project}) || {};
         let projectExists = Projects.findOne({_id: project._id});
         if(projectExists){
@@ -223,6 +234,16 @@ class NewIncome extends Component {
         else if(_.keys(project).length){
             //fall back for old records in old transactions
             project.name = this.state.projectName
+        }
+        //account processing
+        if (!Object.keys(account).length) {
+            errMessage = 'You must select the account';
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: errMessage
+            });
+            return
         }
         account = {_id: account};
         let accountExists = Accounts.findOne({_id: account._id});
