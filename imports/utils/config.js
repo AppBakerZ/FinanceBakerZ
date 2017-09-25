@@ -1,6 +1,6 @@
 export const appConfig = ({
     //just update when ever core plans updated or changed
-    availablePlans : ['Free', 'Personal', 'Professional'],
+    availablePlans : ['free', 'personal', 'professional'],
     Free: {
         reports: {
             count: 5,
