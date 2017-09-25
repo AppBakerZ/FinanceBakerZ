@@ -140,11 +140,30 @@ class NewExpense extends Component {
         let type = 'expense';
         spentTime = new Date(spentTime);
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        //category processing
+        if (!Object.keys(category).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the category'
+            });
+            return
+        }
         category = category && {_id: category};
         let categoryExists = Categories.findOne({_id: category._id});
         if(categoryExists){
             category.name = categoryExists.name;
             category.icon = categoryExists.icon;
+        }
+
+        //account processing
+        if (!Object.keys(account).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the account'
+            });
+            return
         }
         account = {_id: account};
         let accountExists = Accounts.findOne({_id: account._id});
@@ -196,6 +215,15 @@ class NewExpense extends Component {
         let type = 'expense';
         spentTime = new Date(spentTime);
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        //category processing
+        if (!Object.keys(category).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the category'
+            });
+            return
+        }
         category = category && {_id: category};
         let categoryExists = Categories.findOne({_id: category._id});
         if(categoryExists){
@@ -206,6 +234,15 @@ class NewExpense extends Component {
             //fall back for old records in old transactions
             category.name = this.state.categoryName;
             category.icon = this.state.categoryIcon;
+        }
+        //account processing
+        if (!Object.keys(account).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the account'
+            });
+            return
         }
         account = {_id: account};
         let accountExists = Accounts.findOne({_id: account._id});
