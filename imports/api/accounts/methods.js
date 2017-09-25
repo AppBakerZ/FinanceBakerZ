@@ -93,12 +93,13 @@ export const remove = new ValidatedMethod({
     }).validator(),
     run({ account }) {
         const {_id} = account;
-        if (Accounts.find({owner: Meteor.userId()}).fetch().length > 1) {
-            return Accounts.remove(_id);
-        }
-        else {
+        if (!(Accounts.find({owner: Meteor.userId()}).fetch().length > 1)) {
             throw new Meteor.Error(500, 'Invalid action! Single account is mandatory,You cant remove it.');
         }
+        else if(Transactions.findOne({'account._id': account._id})){
+            throw new Meteor.Error(500, 'Invalid action! some transactions found within account, please update them with New Account.');
+        }
+        return Accounts.remove(_id);
     }
 });
 
