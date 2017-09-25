@@ -318,7 +318,7 @@ export const generateReport = new ValidatedMethod({
                 })
             }
         }
-        localParams= _.pick(localParams, 'owner', '$or', 'account');
+        localParams= _.pick(localParams, 'owner', '$or', 'account._id');
         if( date ){
             localParams.transactionAt = {
                 $gte: new Date(date.start),

@@ -374,18 +374,21 @@ class NewExpense extends Component {
 
     categories(){
         const { categories } = this.props;
-        const { category, categoryName, categoryIcon } = this.state;
-        //
-        //if any category deleted then just add value to prevent empty values on updating record
-        let index = _.findIndex(categories, {_id: category});
-        if(index === -1){
-            categories.push({
-                _id: category,
-                name: categoryName,
-                icon: categoryIcon
-            })
+        const { category, categoryName, categoryIcon, isNew } = this.state;
+
+        if(!isNew){
+            //if any category deleted then just add value to prevent empty values on updating record
+            let index = _.findIndex(categories, {_id: category});
+            if(index === -1){
+                categories.push({
+                    _id: category,
+                    name: categoryName,
+                    icon: categoryIcon
+                })
+            }
         }
-        return this.props.categories.map((category) => {
+
+        return categories.map((category) => {
             category.value = category._id;
             return category;
         })
@@ -491,7 +494,7 @@ class NewExpense extends Component {
                             type={this.state.barType}
                         />
 
-                        <Dropdown theme={dropdownTheme}
+                        <Dropdown theme={dropdownTheme} className={theme.accountsDropdown}
                                   auto={false}
                                   source={this.accounts()}
                                   name='account'
