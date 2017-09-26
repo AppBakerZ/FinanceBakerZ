@@ -32,7 +32,8 @@
     "underscore": "^1.8.3",
     "webshot": "^0.18.0",
     "winston": "^2.3.1",
-    "aws-sdk": "^2.100.0"
+    "aws-sdk": "^2.100.0",
+    "ssl-root-cas": "^1.2.3"
   },
   "cssModules": {
     "extensions": [

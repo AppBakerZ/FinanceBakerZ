@@ -8,12 +8,12 @@ export const Payments = new PaymentCollection('payments');
 // Deny all client-side updates since we will be using methods to manage this collection
 Payments.deny({
     insert() { return true; },
-    // update() { return true; },
-    // remove() { return true; }
+    update() { return true; },
+    remove() { return true; }
 });
 
 Payments.schema = new SimpleSchema({
-    user: {
+    userId: {
         type: String,
         label: 'User of payment'
     },
@@ -21,9 +21,18 @@ Payments.schema = new SimpleSchema({
         type: Number,
         label: 'Amount of Payment'
     },
+    method: {
+        type: String,
+        label: 'Method of Payment'
+    },
     status: {
         type: String,
         label: 'status of Payment',
+        optional: true
+    },
+    description: {
+        type: String,
+        label: 'description about Payment',
         optional: true
     },
     createdAt: {
