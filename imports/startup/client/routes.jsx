@@ -15,14 +15,28 @@ import Login from '../../ui/components/auth/Login.jsx';
 import ForgotPassword from '../../ui/components/auth/ForgotPassword.jsx';
 
 import AccountsPage from '../../ui/components/accounts/Accounts.jsx';
+import newAccountPage from '../../ui/components/accounts/childs/newAccountPage.jsx';
 
 import CategoriesPage from '../../ui/components/categories/Categories.jsx';
+import categoryDetail from '../../ui/components/categories/childs/CategoryDetails.jsx';
+import newCategoryPage from '../../ui/components/categories/childs/newCategoryPage.jsx';
 
 import ReportsPage from '../../ui/components/reports/Reports.jsx';
+
 import SettingsPage from '../../ui/components/settings/Settings.jsx';
+import editSettingsPage from '../../ui/components/settings/childs/editSettings.jsx';
 
 import ProjectPage from '../../ui/components/projects/Project.jsx';
+import ProjectDetail  from '../../ui/components/projects/childs/ProjectDetail'
+import NewProjectPage from '../../ui/components/projects/childs/newProject'
+
 import TransactionPage from '../../ui/components/transactions/Transactions.jsx';
+import NewIncome from '../../ui/components/transactions/childs/NewIncome';
+import NewExpense from '../../ui/components/transactions/childs/NewExpense';
+import viewIncome from '../../ui/components/transactions/childs/viewIncome';
+import viewExpense from '../../ui/components/transactions/childs/viewExpense';
+
+
 
 import EasyPaisa from '../../ui/components/payments/easypaisa';
 import EasyPayCallBack from '../../ui/components/payments/EasyPayCallBack';
@@ -46,7 +60,7 @@ let checkAuth = (nextState, replace, next, setIntervalHandel) => {
 
 let requireAuth = (nextState, replace, next) => {
     let setIntervalHandel;
-    setIntervalHandel = setInterval(() => {
+    setIntervalHandel = Meteor.setInterval(() => {
         if (Meteor.user() !== undefined){
             checkAuth(nextState, replace, next, setIntervalHandel)
         }
@@ -82,28 +96,35 @@ class Il8n extends Component {
     render() {
         return (
             <IntlProvider locale={this.getUserLang().value} messages={this.getMessages()} >
-                <Router history={ browserHistory }>
+                {/* below key with Math.random is a fix of router warning*/}
+                {/*<Warning: [react-router] You cannot change <Router routes>; it will be ignored*/}
+                <Router history={ browserHistory } key={Math.random()}>
                     <Route path="app" component={AppLayout} onEnter={requireAuth}>
                         <IndexRoute components={{ content: DashboardPage}} />
                         <Route path="dashboard" components={{ content: DashboardPage}} />
                         <Route path="accounts" components={{ content: AccountsPage }} />
+                        <Route path="accounts(/:type)(/:id)" components={{ content: newAccountPage}} />
                         <Route path="categories" components={{ content: CategoriesPage }} />
-                        <Route path="reports" components={{ content: ReportsPage }}>
-                            <Route path=":id" />
+                        <Route path="categoryDetail(/:id)" components={{ content: categoryDetail}} />
+                        <Route path="categories(/:type)(/:id)" components={{ content: newCategoryPage}} />
+                        <Route path="reports(/paginate)(/:number)" components={{ content: ReportsPage }} />
+
+                        <Route path="settings" components={{ content: SettingsPage }} />
+                        <Route path="settings/edit" components={{ content: editSettingsPage}} />
+                        <Route path="projectDetail(/:id)" components={{ content: ProjectDetail}} />
+                        <Route path="projects(/paginate)(/:number)" components={{ content: ProjectPage}}>
                         </Route>
-                        <Route path="settings" components={{ content: SettingsPage }}>
-                            <Route path=":id" />
-                        </Route>
-                        <Route path="projects" components={{ content: ProjectPage}}>
-                        </Route>
-                        <Route path="transactions" components={{ content: TransactionPage}}>
+                        <Route path="projects(/:type)(/:id)" components={{ content: NewProjectPage}} />
+                        <Route path="transactions(/paginate)(/:number)" components={{ content: TransactionPage}}>
                             <Route path="incomes" >
-                                <Route path="new" />
                             </Route>
                             <Route path="expenses" >
-                                <Route path="new" />
                             </Route>
                         </Route>
+                        <Route path="transactions/income(/:id)" components={{content: viewIncome}} />
+                        <Route path="transactions/expense(/:id)" components={{content: viewExpense}} />
+                        <Route path="transactions/income(/:type)(/:id)" components={{content: NewIncome}}/>
+                        <Route path="transactions/expense(/:type)(/:id)" components={{content: NewExpense}}/>
                         <Route path="easyPaisa" components={{ content: EasyPaisa}} />
                         <Route path="EasyPayCallBack" components={{ content: EasyPayCallBack}} />
                         <Route path="payments" components={{ content: PaymentPage}} />

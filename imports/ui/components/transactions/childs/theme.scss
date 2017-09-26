@@ -1,0 +1,103 @@
+.viewExpense{
+  padding: 30px;
+  width: 100%;
+  display: inline-table;
+  .titleBox{
+    padding: 0 50px 0 50px;
+    background: #008142;
+    h3{
+      color: #fff;
+      letter-spacing: 1px;
+      font-size: 2.5rem;
+      display: inline-block;
+      text-transform: uppercase;
+      padding: 23px 30px 17px 0;
+    }
+    .rightButtons{
+      float: right;
+      margin-top: 20px;
+      button{
+        font-size: 25px;
+        padding: 4px 10px 0 10px;
+        letter-spacing: 1px;
+        line-height: 40px;
+        height: 40px;
+        color: white;
+        &:first-child{
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+  .bankContent{
+    box-shadow: 0 0 5px 1px #e0e0e0;
+    padding: 0 25px;
+    .depositContent{
+      padding: 45px 25px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      h6{
+        font-size: 16px;
+        font-weight: normal;
+        display: inline-block;
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
+        margin: 0 0 40px 0;
+        &:last-of-type{
+          margin-left: 50px;
+        }
+      }
+      h5{
+        font-size: 20px;
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
+        margin-bottom: 30px;
+        .price{
+          color: #008142;
+          font-family: "Nexa Bold Regular", "Arial", sans-serif;
+        }
+        &:last-of-type{
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .accountContent{
+      padding: 45px 25px 40px;
+      border-bottom: 1px solid #e0e0e0;
+      h5{
+        font-size: 20px;
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
+        margin-bottom: 30px;
+        &:last-of-type{
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .projectContent{
+      padding: 45px 25px 40px;
+      h5{
+        font-size: 20px;
+        font-family: "Nexa Light Regular", "Arial", sans-serif;
+        margin-bottom: 30px;
+        span{
+          color: #008142;
+          font-family: "Nexa Bold Regular", "Arial", sans-serif;
+        }
+        &:last-of-type{
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////////
+//////////// rtl styling start here /////////////
+/////////////////////////////////////////////////
+body[dir="rtl"] .viewExpense .titleBox {
+  width: 100%;
+  display: inline-block;
+}
+body[dir="rtl"] .viewExpense .titleBox .rightButtons {
+  float: left;
+}
+/////////////////////////////////////////////////
+//////////// rtl styling end here ///////////////
+/////////////////////////////////////////////////

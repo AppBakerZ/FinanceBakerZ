@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Link } from 'react-router'
+import { routeHelpers } from '../../helpers/routeHelpers'
 
 import { Layout, Panel, IconButton, Sidebar, Snackbar } from 'react-toolbox';
 import LeftMenu from './leftMenu/LeftMenu.jsx'
@@ -50,8 +50,10 @@ class AppLayout extends Component {
         return name;
     }
     logout(){
+        //TODO: not working with custom queryParams (reports page)
+        window.location.reload();
         Meteor.logout(() => {
-            this.props.history.push('/login')
+            routeHelpers.changeRoute('/login')
         })
     }
     render() {
@@ -80,7 +82,7 @@ class AppLayout extends Component {
                             <span> <FormattedMessage {...il8n.WELCOME} />  <b>{this.name()}</b> <img src = { profileImage } width="45" height="45" /><i className="material-icons" onClick={this.logout.bind(this)}>&#xE8AC;</i></span>
                         </div>
                     </AppBarExtended>
-                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex' }}>
+                    <div className="page-content-wrapper" style={{ flex: 1, display: 'flex', overflow: 'auto' }}>
                         {React.cloneElement(this.props.content, {toggleSidebar: this.toggleSidebar.bind(this)})}
                         <ConnectionStatus />
                     </div>

@@ -1,18 +1,24 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
-
 import { Autocomplete } from 'react-toolbox';
-
 import { Meteor } from 'meteor/meteor';
-
 import { Projects } from '../../../api/projects/projects.js';
+import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
+
+import theme from './theme';
+
+const il8n = defineMessages({
+    FILTER_BY_PROJECT: {
+        id: 'TRANSACTIONS.FILTER_BY_PROJECT'
+    }
+});
 
 class ProjectsDD extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {};
     }
     projects(){
         let projects = {};
@@ -22,35 +28,46 @@ class ProjectsDD extends Component {
 
         return projects;
     }
-
     filterByProjects(projects) {
-        this.setState({multiple: projects});
-        this.props.getProjects(projects)
+        let { parentProps } = this.props.parentProps;
+        let { location } = parentProps;
+        let pathname = routeHelpers.resetPagination(location.pathname);
+        let query = location.query;
+        query.projects = `${[projects]}`;
+        routeHelpers.changeRoute(pathname, 0, query)
     }
-
     render() {
+        const { formatMessage } = this.props.intl;
         return (
-            <Autocomplete
-                direction='down'
-                onChange={this.filterByProjects.bind(this)}
-                label='Projects'
-                source={this.projects()}
-                value={this.state.multiple}
-                />
+            <div className={theme.autoCompleteIncomeParent}>
+                <Autocomplete
+                    theme={theme}
+                    className={theme.autoCompleteIncome}
+                    direction='down'
+                    onChange={this.filterByProjects.bind(this)}
+                    label={formatMessage(il8n.FILTER_BY_PROJECT)}
+                    source={this.projects()}
+                    value={this.props.local.projects}
+                    />
+            </div>
         );
     }
 }
 
 ProjectsDD.propTypes = {
-    projects: PropTypes.array.isRequired
+    projects: PropTypes.array.isRequired,
+    parentProps: PropTypes.object.isRequired
 };
 
-export default createContainer(() => {
+export default injectIntl(createContainer((props) => {
 
     Meteor.subscribe('projects.all');
     const projects = Projects.find().fetch();
-
+    let { parentProps } = props;
     return {
-        projects
+        projects,
+        local: LocalCollection.findOne({
+            name: parentProps.collection
+        })
     };
-}, ProjectsDD);
+}, ProjectsDD));

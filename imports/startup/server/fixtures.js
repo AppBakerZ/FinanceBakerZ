@@ -1,8 +1,6 @@
 // fill the DB with example data on startup
 
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from '../../api/accounts/accounts.js';
-
 
 
 function setGravatars() {
@@ -21,5 +19,10 @@ function setGravatars() {
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
-    setGravatars()
+    setGravatars();
+    Meteor.users.update({'profile.businessPlan': {$exists: false}}, {$set: {'profile.businessPlan': 'free'}}, {multi: true})
+    Meteor.users.update({'profile.businessPlan': 'Free',}, {$set: {'profile.businessPlan': 'free'}}, {multi: true})
+    Meteor.users.update({'profile.businessPlan': 'Personal',}, {$set: {'profile.businessPlan': 'personal'}}, {multi: true})
+    Meteor.users.update({'profile.businessPlan': 'Professional',}, {$set: {'profile.businessPlan': 'professional'}}, {multi: true})
+
 });

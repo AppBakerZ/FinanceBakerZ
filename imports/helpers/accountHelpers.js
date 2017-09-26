@@ -1,6 +1,9 @@
 
 export const accountHelpers = {
     alterName(bank){
-        return bank.substring(5).replace(/-/g, " ");
+        if(bank && typeof bank === 'string'){
+            return bank.substring(5).replace(/-/g, " ");
+        }
+        return ''
     }
 };

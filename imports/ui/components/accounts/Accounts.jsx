@@ -1,24 +1,22 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component,  } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
-import { List, ListItem, Button, Card, Table, Dialog } from 'react-toolbox';
-import { Link } from 'react-router'
+import { List, ListItem, Button, Card, Table, Dialog, Snackbar } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import { accountHelpers } from '/imports/helpers/accountHelpers.js'
 
-import Form from './Form.jsx';
 import Loader from '/imports/ui/components/loader/Loader.jsx';
+import ConfirmationMessage from '../utilityComponents/ConfirmationMessage/ConfirmationMessage';
 
 import theme from './theme';
 import tableTheme from './tableTheme';
 import buttonTheme from './buttonTheme';
-import dialogTheme from './dialogTheme';
 
-import bankFonts from '/imports/ui/bankFonts.js';
-import countries from '/imports/ui/countries.js';
 import {FormattedMessage, intlShape, injectIntl, FormattedNumber ,defineMessages} from 'react-intl';
 
 
@@ -55,6 +53,9 @@ const il8n = defineMessages({
     },
     AVAILABLE_BALANCE: {
         id: 'ACCOUNTS.AVAILABLE_BALANCE'
+    },
+    NOT_AVAILABLE: {
+        id: 'ACCOUNTS.NOT_AVAILABLE'
     }
 });
 
@@ -67,39 +68,15 @@ class AccountsPage extends Component {
             removeConfirmMessage: false,
             openDialog: false,
             selectedAccount: null,
-            action: null
+            action: null,
+            active: false,
+            loading: false,
         };
 
     }
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                active={this.state.openDialog}
-                onEscKeyDown={this.closePopup.bind(this)}
-                onOverlayClick={this.closePopup.bind(this)}
-                >
-                {this.switchPopupTemplate()}
-            </Dialog>
-        )
-    }
-    switchPopupTemplate(){
-        switch (this.state.action){
-            case 'remove':
-                return this.renderConfirmationMessage();
-                break;
-            case 'edit':
-                return <Form account={this.state.selectedAccount} closePopup={this.closePopup.bind(this)} />;
-                break;
-            case 'add':
-                return <Form closePopup={this.closePopup.bind(this)} />;
-                break;
-        }
-
-    }
-    openPopup (action, account) {
+    openPopup (account) {
         this.setState({
             openDialog: true,
-            action,
             selectedAccount: account || null
         });
     }
@@ -108,24 +85,10 @@ class AccountsPage extends Component {
             openDialog: false
         });
     }
-    renderConfirmationMessage(){
-        const { formatMessage } = this.props.intl;
-        return (
-            <div className={theme.dialogAccount}>
-                <div className={theme.confirmText}>
-                    <h3> <FormattedMessage {...il8n.BANK_ACCOUNT} /> </h3>
-                    <p> <FormattedMessage {...il8n.INFORM_MESSAGE} /> </p>
-                    <p> <FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /> </p>
-                </div>
-
-                <div className={theme.buttonBox}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised onClick={this.removeAccount.bind(this)} theme={buttonTheme}/>
-                </div>
-            </div>
-        )
-    }
     removeAccount(){
+        this.setState({
+            openDialog: false
+        });
         const {_id} = this.state.selectedAccount;
         Meteor.call('accounts.remove', {
             account: {
@@ -133,6 +96,12 @@ class AccountsPage extends Component {
             }
         }, (err, response) => {
             if(err){
+                this.setState({
+                    active: true,
+                    barMessage: err.reason,
+                    barIcon: 'error_outline',
+                    barType: 'cancel'
+                });
 
             }else{
 
@@ -143,6 +112,15 @@ class AccountsPage extends Component {
             openDialog: false
         });
     }
+
+    addAccount(){
+        routeHelpers.changeRoute('/app/accounts/add/new');
+    }
+
+    editAccount(account){
+        routeHelpers.changeRoute(`/app/accounts/edit/${account._id}`);
+    }
+
     getAvailableBalance (accounts, index){
         Meteor.call('statistics.availableBalance', {accounts}, (err, ab) => {
             if(ab){
@@ -158,6 +136,24 @@ class AccountsPage extends Component {
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={balance}/> </span>
         )
     }
+
+    openDialog (e) {
+        if(e){
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        this.setState({
+            openDialog: true,
+        });
+    }
+
+    handleBarClick (event, instance) {
+        this.setState({ active: false });
+    }
+
+    handleBarTimeout (event, instance) {
+        this.setState({ active: false });
+    }
     renderAccount() {
         const { formatMessage } = this.props.intl;
         const model = {
@@ -171,7 +167,7 @@ class AccountsPage extends Component {
                 content:
                     <div>
                         <div> <FormattedMessage {...il8n.BANK} />  <strong>{accountHelpers.alterName(account.bank)}</strong></div>
-                        <div> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> <strong>{account.number || 'Not Available'}</strong></div>
+                        <div> <FormattedMessage {...il8n.ACCOUNT_NUMBER} /> <strong>{account.number || formatMessage(il8n.NOT_AVAILABLE)}</strong></div>
                         {this.getAvailableBalance([account._id], index)}
                         <div> <FormattedMessage {...il8n.AVAILABLE_BALANCE} /> <strong>{this.getFormattedCurrency(account.availableBalance || 0) || 'Loading ...'}</strong></div>
                     </div>,
@@ -180,13 +176,13 @@ class AccountsPage extends Component {
                         <Button
                             label={formatMessage(il8n.EDIT_ACCOUNTS_BUTTON)}
                             raised
-                            onClick={this.openPopup.bind(this, 'edit', account)}
+                            onClick={this.editAccount.bind(this, account)}
                             accent />
                         <Button
                             label=''
                             icon='close'
                             raised
-                            onClick={this.openPopup.bind(this, 'remove', account)}
+                            onClick={this.openPopup.bind(this, account)}
                             theme={buttonTheme} />
                     </div>
             }
@@ -200,7 +196,7 @@ class AccountsPage extends Component {
                         icon='add'
                         label={formatMessage(il8n.ADD_ACCOUNT_BUTTON)}
                         flat
-                        onClick={this.openPopup.bind(this, 'add')}
+                        onClick={this.addAccount.bind(this)}
                         theme={buttonTheme}/>
                 </div>
                 <Card theme={tableTheme}>
@@ -216,14 +212,34 @@ class AccountsPage extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
+        let { openDialog } = this.state;
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.active}
+                    icon={this.state.barIcon}
+                    label={this.state.barMessage}
+                    timeout={2000}
+                    onClick={this.handleBarClick.bind(this)}
+                    onTimeout={this.handleBarTimeout.bind(this)}
+                    type={this.state.barType}
+                />
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
                         {this.renderAccount()}
                     </List>
                 </div>
-                {this.popupTemplate()}
+                <ConfirmationMessage
+                    heading={formatMessage(il8n.BANK_ACCOUNT)}
+                    information={formatMessage(il8n.INFORM_MESSAGE)}
+                    confirmation={formatMessage(il8n.CONFIRMATION_MESSAGE)}
+                    open={openDialog}
+                    route="/app/accounts"
+                    defaultAction={this.removeAccount.bind(this)}
+                    close={this.closePopup.bind(this)}
+                />
             </div>
         );
     }

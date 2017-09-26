@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 import { Input, Button } from 'react-toolbox';
 import { Link } from 'react-router'
@@ -99,7 +99,7 @@ class ForgotPassword extends Component {
     {
         return (
             <div>
-                {this.state.isPassword == false ? this.showEmail() : this.showPassword()}
+                {this.state.isPassword === false ? this.showEmail() : this.showPassword()}
             </div>
         )
     }

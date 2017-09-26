@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
 import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
-import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from '../../../api/accounts/accounts.js';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
 import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
@@ -80,6 +81,7 @@ class DashboardPage extends Component {
         let datetime = new Date();
 
         this.state = {
+            loading: false,
             totalIncomes: null,
             totalExpenses: null,
             availableBalance: null,
@@ -167,7 +169,7 @@ class DashboardPage extends Component {
 
     onChange (val, e) {
         this.setState({[e.target.name]: val});
-        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name == 'filterBy' ? val : null, {[e.target.name]: val});
+        this.getTotalIncomesAndExpenses(this.state.multiple, e.target.name === 'filterBy' ? val : null, {[e.target.name]: val});
     }
 
     accounts(){
@@ -209,31 +211,15 @@ class DashboardPage extends Component {
     }
 
     generatePdf(report){
-
-        let params = {
-            multiple : this.state.multiple,
-            filterBy : this.state.filterBy,
-            date : dateHelpers.filterByDate(this.state.filterBy, {}, this),
-            report : report
+        let query = {
+            accounts : `${[this.state.multiple]}`,
+            filter : this.state.filterBy,
+            dateFrom : moment(this.state.dateFrom).format(),
+            dateTo : moment(this.state.dateTo).format(),
+            type : report
         };
-      // prevent window popup block
-        let loader = '<html> <head> <style> div{ text-align: center; font-size: 40px; margin-top: 280px }  </style> </head> <body> <div> Loading...</div> </body>';
-        let win = window.open('');
-        win.document.write(loader);
-        window.oldOpen = window.open;
-        window.open = function(url) {
-            win.location = url;
-            window.open = oldOpen;
-            win.focus();
-        }
 
-        Meteor.call('statistics.generateReport', {params } , function(err, res){
-            if (err) {
-                console.error(err);
-            } else if (res) {
-                window.open("data:application/pdf;base64, " + res);
-            }
-        })
+        routeHelpers.changeRoute('/app/reports', 0, query)
     }
 
     renderDateRange(){
@@ -256,7 +242,7 @@ class DashboardPage extends Component {
             </div>
         );
         return (
-            this.state.filterBy == 'range' ?  dropDowns : null
+            this.state.filterBy === 'range' ?  dropDowns : null
         )
     }
     renderTotalIncomes(){
@@ -275,7 +261,7 @@ class DashboardPage extends Component {
                 </div>
                 {(!this.state.totalIncomes ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'incomes')}>
-                        <Button icon='description' label={formatMessage(il8n.TOTAL_INCOMES_BUTTON)} flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_INCOMES_BUTTON)} flat disabled={this.state.loading}/>
                     </div>
                 )}
             </div>
@@ -297,7 +283,7 @@ class DashboardPage extends Component {
                 </div>
                 {(!this.state.totalExpenses ||
                     <div className={theme.reportBtn} onClick={this.generatePdf.bind(this, 'expenses')}>
-                        <Button icon='description' label={formatMessage(il8n.TOTAL_EXPENSES_BUTTON)} flat />
+                        <Button icon='description' label={formatMessage(il8n.TOTAL_EXPENSES_BUTTON)} flat disabled={this.state.loading}/>
                     </div>
                 )}
             </div>
@@ -350,10 +336,10 @@ class DashboardPage extends Component {
                                     {this.renderDateRange()}
                                 </Card>
                                 <Card theme={theme} className={theme.responsiveCardSecond}>
-                                    {this.state.totalIncomes != null ? this.renderTotalIncomes() : <Loader primary />}
+                                    {this.state.totalIncomes !== null ? this.renderTotalIncomes() : <Loader primary />}
                                 </Card>
                                 <Card theme={theme} className={theme.responsiveCardSecond}>
-                                    {this.state.totalExpenses != null ? this.renderTotalExpenses() : <Loader danger />}
+                                    {this.state.totalExpenses !== null ? this.renderTotalExpenses() : <Loader danger />}
                                 </Card>
                             </div>
                         </Card>
@@ -363,7 +349,7 @@ class DashboardPage extends Component {
                             <Card className="card-box">
                                 <div className={theme.availableSection}>
                                     <Card theme={cardBackgroundTheme}>
-                                        {this.state.availableBalance != null ? this.availableBalance() : <Loader />}
+                                        {this.state.availableBalance !== null ? this.availableBalance() : <Loader />}
                                     </Card>
                                 </div>
                             </Card>

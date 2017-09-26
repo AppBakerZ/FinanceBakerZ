@@ -9,3 +9,7 @@ import './register-api.js';
 
 import './email.js';
 import './aws.js';
+import './logger.js'
+
+//this define the migrations which run once ever
+import './migrations.js'

@@ -7,7 +7,7 @@ import { HTTP } from 'meteor/http'
 //         storeId:5820,
 //         Hash_key: 'SW7Z00D2XGFZZSG8'
 //         url:'https://easypay.easypaisa.com.pk/easypay-service/PartnerBusinessService/META-INF/wsdl/partner/transaction/PartnerBusinessService.wsdl',
-//         mode:env != 'production' ? 'TEST' : 'PRODUCTION'
+//         mode:env !== 'production' ? 'TEST' : 'PRODUCTION'
 //     }
 // };
 
@@ -44,10 +44,10 @@ function maketestreqest(form){
                },
                function (error, result) {
                    if (!error) {
-                       console.log(result);
+                       // console.log(result);
                        return result
                    }
-                   console.log(error);
+                   // console.log(error);
                    return error
                })
 }
@@ -59,29 +59,26 @@ function makeInitialRequest(fname){
         //ignoreBaseNameSpaces : true
     }, function(err, client) {
         if(err){
-            console.log('error occured', err);
+            // console.log('error occured', err);
             return cb(err);
         }
 
         client.addSoapHeader(testConfig);
-        console.log('testConfig', testConfig);
-        console.log("client.soapHeaders", client.soapHeaders);
+        // console.log('testConfig', testConfig);
+        // console.log("client.soapHeaders", client.soapHeaders);
 
         client[fname](args, function(err, result, raw, soapHeader) {
             if(err){
-                console.log('ERROR');
-                console.log("err.body", err.body);
+                // console.log('ERROR');
+                // console.log("err.body", err.body);
             }else{
-                console.log("result", fname, result);
-                console.log("raw", fname, raw);
-                console.log("soapHeader", fname, soapHeader)
+                // console.log("result", fname, result);
+                // console.log("raw", fname, raw);
+                // console.log("soapHeader", fname, soapHeader)
             }
         });
 
     });
 }
 
-//TODO:complete dynamic request based on dynamic arguments.
-export const easyPaisa = {
-    maketestreqest: maketestreqest
-};
+module.exports = maketestreqest;

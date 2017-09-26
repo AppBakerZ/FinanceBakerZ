@@ -1,35 +1,32 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
+import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
-import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
-import { ReactiveVar } from 'meteor/reactive-var'
 
-import Form from './Form.jsx';
-import ProjectDetail from './ProjectDetail.jsx';
-import Loader from '/imports/ui/components/loader/Loader.jsx';
+import NothingFound from '../utilityComponents/NothingFound.jsx'
+import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
+import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 
 import { Projects } from '../../../api/projects/projects.js';
 import { userCurrencyHelpers } from '../../../helpers/currencyHelpers.js'
 import theme from './theme';
-import dialogTheme from './dialogTheme';
 import tableTheme from './tableTheme';
-import buttonTheme from './buttonTheme';
 import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages} from 'react-intl';
-
-const RECORDS_PER_PAGE = 8;
-
-let pageNumber = 1,
-    query = new ReactiveVar({
-        limit : RECORDS_PER_PAGE * pageNumber
-    });
 
 const il8n = defineMessages({
     NO_PROJECTS_ADDED: {
         id: 'PROJECTS.NO_PROJECTS_ADDED'
+    },
+    GENERALIZED_FILTER: {
+        id: 'PROJECTS.GENERALIZED_FILTER'
+    },
+    NO_PROJECTS_MATCHED: {
+        id: 'PROJECTS.NO_PROJECTS_MATCHED'
     },
     ADD_PROJECTS: {
         id: 'PROJECTS.ADD_PROJECT_TO_SHOW'
@@ -99,7 +96,11 @@ class ProjectPage extends Component {
 
         this.state = {
             filter : {
-                client : {}
+                name: '',
+                client : {
+                    name: ''
+                },
+                status:''
             },
 
             removeConfirmMessage: false,
@@ -126,38 +127,40 @@ class ProjectPage extends Component {
             }
         ];
     }
-    onRowClick(index){
-        console.log('this.props.projects[index] ', this.props.projects[index]);
-        this.openPopup('show', this.props.projects[index])
-    }
-    popupTemplate(){
-        return(
-            <Dialog theme={dialogTheme}
-                    active={this.state.openDialog}
-                    onEscKeyDown={this.closePopup.bind(this)}
-                    onOverlayClick={this.closePopup.bind(this)}
-                >
-                {this.switchPopupTemplate()}
-            </Dialog>
-        )
-    }
-    switchPopupTemplate(){
-        switch (this.state.action){
-            case 'show':
-                return <ProjectDetail openPopup={this.openPopup.bind(this)} closePopup={this.closePopup.bind(this)} project={this.state.selectedProject} />;
-                break;
-            case 'remove':
-                return this.renderConfirmationMessage();
-                break;
-            case 'edit':
-                return <Form statuses={this.statuses} project={this.state.selectedProject} closePopup={this.closePopup.bind(this)} />;
-                break;
-            case 'add':
-                return <Form statuses={this.statuses} closePopup={this.closePopup.bind(this)} />;
-                break;
-        }
 
+    componentWillUpdate(nextProps) {
+        const { location, params, local } = nextProps;
+        let query = location.query;
+
+        //first update skip if given else set initial
+        let number = params.number || 0;
+        updateFilter('localProjects', 'skip', Math.ceil(number * local.limit));
+
+        //filters
+        updateFilter('localProjects', 'projectName', query.projectName);
+        updateFilter('localProjects', 'client.name', query['client.name']);
+        updateFilter('localProjects', 'status', query.status);
     }
+
+    componentDidMount(){
+        this.updateFilters()
+    }
+
+    updateFilters(){
+        const { location } = this.props;
+        let { filter } =  this.state;
+        let query = location.query;
+        query.projectName && (filter['name'] = query.projectName);
+        query['client.name'] && (filter['client']['name'] = query['client.name']);
+        query.status && (filter['status'] = query.status);
+        this.setState([filter])
+    }
+
+    onRowClick(index){
+        let id = this.props.projects[index]._id;
+        routeHelpers.changeRoute(`/app/projectDetail/${id}`);
+    }
+
     openPopup (action, project) {
         this.setState({
             openDialog: true,
@@ -170,82 +173,47 @@ class ProjectPage extends Component {
             openDialog: false
         });
     }
-    renderConfirmationMessage(){
-        const { formatMessage } = this.props.intl;
-        return (
-            <div className={theme.dialogAccount}>
-                <div className={theme.confirmText}>
-                    <h3><FormattedMessage {...il8n.BANK_PROJECTS} /></h3>
-                    <p><FormattedMessage {...il8n.INFORM_MESSAGE} /></p>
-                    <p><FormattedMessage {...il8n.CONFIRMATION_MESSAGE} /></p>
-                </div>
 
-                <div className={theme.buttonArea}>
-                    <Button label={formatMessage(il8n.BACK_BUTTON)} raised primary onClick={this.closePopup.bind(this)} />
-                    <Button label={formatMessage(il8n.REMOVE_BUTTON)} raised theme={buttonTheme} onClick={this.removeProject.bind(this)}/>
-                </div>
-            </div>
-        )
-    }
-    removeProject(){
-        const {_id} = this.state.selectedProject;
-        Meteor.call('projects.remove', {
-            project: {
-                _id
-            }
-        }, (err, response) => {
-            if(err){
-
-            }else{
-
-            }
-        });
-        // Close Popup
-        this.closePopup()
-    }
-
-    /*************** Infinite scroll ***************/
-    handleScroll(event) {
-        let infiniteState = event.nativeEvent;
-        if((infiniteState.srcElement.scrollTop + infiniteState.srcElement.offsetHeight) > (infiniteState.srcElement.scrollHeight -1)){
-            console.log('handleScroll');
-            let copyQuery = query.get();
-            copyQuery.limit  = RECORDS_PER_PAGE * (pageNumber += 1);
-            query.set(copyQuery);
-        }
-    }
 
     /*************** onChange filter value***************/
     onChangeFilter(val, event){
-        let copyQuery = query.get(),
-            label = event.target.name,
+        let { location } = this.props;
+        let query = location.query;
+        let label = event.target.name,
             filter = _.extend(this.state.filter, this.state.filter);
-
         filter[label] = val;
-        if(label == 'client.name'){
+
+        //reset pagination on any filter change
+        let pathname = routeHelpers.resetPagination(location.pathname);
+
+        if(label === 'name'){
+            // transaction filter
+            if( query.projectName !== val ){
+                query.projectName = val;
+                routeHelpers.changeRoute(pathname, 0, query)
+            }
+        }
+        else{
+            if( query[label] !== val ){
+                query[label] = val;
+                routeHelpers.changeRoute(pathname, 0, query)
+            }
+        }
+        if(label === 'client.name'){
             filter['client']['name'] = val;
         }
         this.setState({ filter});
-        if(val){
-            copyQuery[label] = (label != 'status') ? { $regex : val} : val;
-        }
-        else{
-            delete  copyQuery[label]
-        }
-
-        pageNumber = 1;
-        copyQuery.limit  = RECORDS_PER_PAGE * pageNumber;
-        query.set(copyQuery);
     }
 
     resetStatusFilter(){
-        let copyQuery = query.get(),
-            filter = _.extend(this.state.filter, this.state.filter);
-
+        let { location } = this.props;
+        let { filter } = this.state;
+        let query = location.query;
+        delete query.status;
         filter.status = '';
-        this.setState({ filter});
-        delete copyQuery.status;
-        query.set(copyQuery);
+        this.setState({ filter });
+        let pathname = routeHelpers.resetPagination(location.pathname);
+        routeHelpers.changeRoute(pathname, 0, query);
     }
 
     renderProjectTable() {
@@ -255,10 +223,10 @@ class ProjectPage extends Component {
             return {
                 name,
                 status,
-                clientName: client && client.name,
+                clientName: client && client.name ? client.name :'-',
                 startAt: startAt ? moment(startAt).format("MMM Do YY") : 'Not Start Yet',
                 amount: (<span>
-        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount}/> </span>)
+        <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={amount || 0}/> </span>)
             };
         });
 
@@ -277,26 +245,22 @@ class ProjectPage extends Component {
                             selectable={false}
                             source={projects}
            />;
-      const something =
-            <div className={theme.projectNothing}>
-                <span className={theme.errorShow}><FormattedMessage {...il8n.NO_PROJECTS_ADDED} /></span>
-                <div className={theme.addProjectBtn}>
-                    <Button type='button' icon='add' raised primary onClick={this.openPopup.bind(this, 'add')} />
-                </div>
-                <span className={theme.errorShow}><FormattedMessage {...il8n.ADD_PROJECTS} /></span>
-            </div>;
         return (
             <Card theme={tableTheme}>
-                { this.props.projectsExists ||  projects.length ? table : something}
-                { this.props.projectsLoading ? <div className={theme.loaderParent}><Loader primary spinner /></div> : ''}
+                { projects.length ? table : this.props.projectsTotal ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         )
     }
 
+    addProject(){
+        routeHelpers.changeRoute('/app/projects/add/new');
+    }
+
     render() {
         const { formatMessage } = this.props.intl;
+        let { pageCount } = this.props;
         return (
-            <div className="projects"  onScroll={this.handleScroll}>
+            <div className="projects">
                 <div className="container">
                     <div>
                         <div className={theme.inputField}>
@@ -335,15 +299,16 @@ class ProjectPage extends Component {
                             icon='add'
                             label={formatMessage(il8n.ADD_NEW_PROJECTS)}
                             flat
-                            onClick={this.openPopup.bind(this, 'add')}
+                            onClick={this.addProject.bind(this)}
                             theme={theme}
                             />
                     </div>
                     <Card theme={tableTheme}>
-                        {this.props.projectsLoading && this.props.projects.length < RECORDS_PER_PAGE ? <Loader primary /> : this.renderProjectTable()}
+                        { this.renderProjectTable() }
                     </Card>
-                    {this.popupTemplate()}
                 </div>
+                {pageCount ? <Pagination pageCount={this.props.pageCount} parentProps={ this.props }/> : ''}
+
             </div>
         );
     }
@@ -355,11 +320,37 @@ ProjectPage.propTypes = {
 };
 
 ProjectPage = createContainer(() => {
-    const projectsHandle = Meteor.subscribe('projects', query.get());
+    let projectsFind = Projects.find().fetch();
+
+    const local = LocalCollection.findOne({
+        name: 'localProjects'
+    });
+
+    const pageCount = Counter.get('projectsCount');
+    const projectsTotal = Counter.get('projectsTotal');
+
+    const projectsHandle = Meteor.subscribe('projects', {
+        name: local.projectName === '' ? {} : {
+            $regex: local.projectName
+        },
+        'client.name': local.client.name === '' ? {} : {
+            $regex: local.client.name
+        },
+        status: local.status,
+        limit : local.limit,
+        skip: local.skip,
+    });
+
     const projectsLoading = !projectsHandle.ready();
     const projects = Projects.find().fetch();
     const projectsExists = !projectsLoading && !!projects.length;
     return {
+        local: LocalCollection.findOne({
+            name: 'localProjects'
+        }),
+        projectsFind,
+        pageCount,
+        projectsTotal,
         projectsLoading,
         projects,
         projectsExists

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Drawer, List, ListItem, FontIcon } from 'react-toolbox';
 import { Link } from 'react-router'
+import { routeHelpers } from '../../../helpers/routeHelpers'
 
 import { Meteor } from 'meteor/meteor'
 
@@ -57,8 +58,9 @@ class LeftMenu extends Component {
         this.props.toggleDrawerActive();
     }
     logout(){
+        window.location.reload();
         Meteor.logout(() => {
-            this.props.history.push('/login')
+            routeHelpers.changeRoute('/login')
         })
     }
     easyPaisa(){
@@ -80,14 +82,14 @@ class LeftMenu extends Component {
         });
     }
     isActive(path){
-        return this.props.location.pathname == `/app/${path}` ? listItemTheme.active : ''
+        return this.props.location.pathname === `/app/${path}` ? listItemTheme.active : ''
     }
     getUserLang(){
         return this.props.user && this.props.user.profile && this.props.user.profile.language || '';
     }
     setDirection(){
         let dir = this.getUserLang() ? this.getUserLang().direction : 'ltr';
-        return dir == 'ltr' ? 'left' : 'right'
+        return dir === 'ltr' ? 'left' : 'right'
     }
     render() {
         const { formatMessage } = this.props.intl;

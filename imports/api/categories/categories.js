@@ -24,14 +24,34 @@ Categories.schema = new SimpleSchema({
         label: 'Icon of category'
     },
     children: {
-        type: [String],
+        type: [Object],
         label: 'children Array of category',
         defaultValue: []
     },
-    parent: {
+    'children.$.id': {
         type: String,
+        label: 'id of child category',
+        optional: true
+    },
+    'children.$.name': {
+        type: String,
+        label: 'name of child category',
+        optional: true
+    },
+    parent: {
+        type: Object,
         label: 'Parent of category',
         defaultValue: null,
+        optional: true
+    },
+    'parent.name': {
+        type: String,
+        label: 'name of Parent category',
+        optional: true
+    },
+    'parent.id': {
+        type: String,
+        label: 'id of Parent category',
         optional: true
     },
     owner: {

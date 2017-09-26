@@ -34,4 +34,7 @@ meteorhacks:ssr
 edgee:slingshot
 msavin:mongol
 jparker:gravatar
+natestrauser:publish-performant-counts
+mikowals:batch-insert
 http
+percolate:migrations

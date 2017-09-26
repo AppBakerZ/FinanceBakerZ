@@ -1,15 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { Card, Table, Button } from 'react-toolbox';
+import { Card, Snackbar , Table, Button } from 'react-toolbox';
 import { Link } from 'react-router'
 
 import { Meteor } from 'meteor/meteor';
-import { Incomes } from '/imports/api/incomes/incomes.js';
-import { Expenses } from '/imports/api/expences/expenses.js';
 
+import { Projects } from '/imports/api/projects/projects.js';
+import { Categories } from '/imports/api/categories/categories.js';
+
+import { Transactions } from '/imports/api/transactions/transactions.js';
+
+import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
-
 import Loader from '/imports/ui/components/loader/Loader.jsx';
 import Arrow from '/imports/ui/components/arrow/Arrow.jsx';
 import {FormattedMessage, FormattedNumber, defineMessages} from 'react-intl';
@@ -57,12 +61,46 @@ class RecentActivities extends Component {
         super(props);
 
         this.state = {
+            active : false
         };
+    }
+
+    addExpense(){
+        if(this.props.categoriesFind && this.props.categoriesFind.length){
+            routeHelpers.changeRoute('/app/transactions/expense/add/new');
+        }
+        else{
+            this.setState({
+                active: true,
+                barMessage: 'You must have a single category to add expense'
+            });
+        }
+
+    }
+
+    addIncome(){
+        routeHelpers.changeRoute('/app/transactions/income/add/new');
+    }
+
+    handleBarClick (event, instance) {
+        this.setState({ active: false });
+    }
+
+    handleBarTimeout (event, instance) {
+        this.setState({ active: false });
     }
 
     renderRecents(){
         return (
             <div className='dashboard-card-group'>
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.active}
+                    label={this.state.barMessage}
+                    timeout={2000}
+                    onClick={this.handleBarClick.bind(this)}
+                    onTimeout={this.handleBarTimeout.bind(this)}
+                />
                 <div className={theme.recentIncomeWrapper}>
                     {this.renderRecentIncomes()}
                 </div>
@@ -83,18 +121,17 @@ class RecentActivities extends Component {
         let incomes = this.props.incomes.map(function(i){
             return {
                 icon: <Arrow primary width='16px' height='16px' />,
-                projects: i.type == "project" ? i.project.name || i.project : i.type,
+                projects: i.type === "project" ? i.project.name || i.project : i.type,
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={incomes} theme={tableTheme}/>;
         const add =
             <div className={theme.errorShowIncomes}>
-                <Link to={ `/app/transactions/incomes/new`}>
-                <Button type='button' icon='add' raised primary  />
-                <p> <FormattedMessage {...il8n.ADD_SOME_INCOMES} /> </p> </Link>
+                <Button type='button' icon='add' raised primary onClick={this.addIncome.bind(this)} />
+                <p> <FormattedMessage {...il8n.ADD_SOME_INCOMES} /> </p>
             </div>;
         return this.props.incomesExists ? table : add
     }
@@ -107,7 +144,7 @@ class RecentActivities extends Component {
                     {this.props.incomesLoading ? <Loader primary /> : this.getIncomesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
+                    <Link to={`/app/transactions?type=incomes`}> <FormattedMessage {...il8n.VIEW_ALL_INCOMES} /> </Link>
                 </div>
             </div>
         )
@@ -128,12 +165,11 @@ class RecentActivities extends Component {
                 iconLeft: <Arrow down danger width='16px' height='16px' />
             }
         });
-        const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>
+        const table = <Table selectable={false} heading={true} model={model} source={expenses} theme={tableRightTheme}/>;
         const add =
             <div className={theme.errorShowExpenses}>
-                <Link to={`/app/transactions/expenses/new`}>
-                <Button type='button' icon='add' raised accent />
-                <p> <FormattedMessage {...il8n.ADD_SOME_EXPENSES} /> </p> </Link>
+                <Button type='button' icon='add' raised accent onClick={this.addExpense.bind(this)} />
+                <p> <FormattedMessage {...il8n.ADD_SOME_EXPENSES} /> </p>
             </div>;
         return this.props.expensesExists ? table : add
     }
@@ -145,13 +181,14 @@ class RecentActivities extends Component {
                     {this.props.expensesLoading ? <Loader accent /> : this.getExpensesOrAdd()}
                 </Card>
                 <div className={theme.tableLink}>
-                    <Link to={`/app/transactions/expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
+                    <Link to={`/app/transactions?type=expenses`}> <FormattedMessage {...il8n.VIEW_ALL_EXPENSES} /> </Link>
                 </div>
             </div>
         )
     }
     render() {
         return this.renderRecents();
+
     }
 }
 
@@ -161,18 +198,37 @@ RecentActivities.propTypes = {
 };
 
 export default createContainer(() => {
-    const incomesHandle = Meteor.subscribe('incomes', 5);
+    const projects = Meteor.subscribe('projects.all');
+    const category = Meteor.subscribe('categories');
+
+    let projectsFind = Projects.find().fetch();
+    let categoriesFind = Categories.find().fetch();
+    const incomesHandle = Meteor.subscribe('transactions.incomes', 5);
     const incomesLoading = !incomesHandle.ready();
-    const incomes = Incomes.find({}, {fields: {amount: 1, type: 1, project: 1}}).fetch();
+    const incomes = Transactions.find({
+        type: 'income'
+    }, {
+        fields: {
+            amount: 1, type: 1, project: 1
+        }
+    }).fetch();
     const incomesExists = !incomesLoading && !!incomes.length;
 
 
-    const expensesHandle = Meteor.subscribe('expenses', 5);
+    const expensesHandle = Meteor.subscribe('transactions.expenses', 5);
     const expensesLoading = !expensesHandle.ready();
-    const expenses = Expenses.find({}, {fields: {amount: 1, 'category': 1}}).fetch();
+    const expenses = Transactions.find({
+        type: 'expense'
+    }, {
+        fields: {
+            amount: 1, 'category': 1
+        }
+    }).fetch();
     const expensesExists = !expensesLoading && !!expenses.length;
 
     return {
+        categoriesFind,
+        projectsFind,
         incomesLoading,
         incomes,
         incomesExists,

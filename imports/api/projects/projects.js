@@ -23,17 +23,19 @@ Projects.schema = new SimpleSchema({
       type : String,
       label : 'Project name'
     },
+    description : {
+      type : String,
+      label : 'Project description'
+    },
     type:{
         type: String,
         label : 'Project type'
     },
     client :{
         type: Object,
-        label : 'Client details'
-    },
-    'client.name' : {
-        type: String,
-        label : 'Client name'
+        optional: true,
+        label : 'Client details',
+        blackbox:true
     },
     status :{
         type: String,
@@ -45,6 +47,11 @@ Projects.schema = new SimpleSchema({
         optional: true
     },
     amount : {
+        type: Number,
+        label : 'Amount of project',
+        optional: true
+    },
+    budget : {
         type: Number,
         label : 'Amount of project',
         optional: true

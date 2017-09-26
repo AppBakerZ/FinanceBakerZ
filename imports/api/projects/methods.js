@@ -1,7 +1,6 @@
 // methods related to companies
 
 import { Meteor } from 'meteor/meteor';
-import { Match } from 'meteor/check';
 import { _ } from 'meteor/underscore';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
@@ -27,14 +26,15 @@ export const insert = new ValidatedMethod({
         'project.name': {
             type: String
         },
+        'project.description': {
+            type: String
+        },
         'project.type': {
             type: String
         },
         'project.client': {
-            type: Object
-        },
-        'project.client.name': {
-            type: String
+            type: Object,
+            blackbox: true
         },
         'project.status': {
             type: String
@@ -72,14 +72,15 @@ export const update = new ValidatedMethod({
         'project.name': {
             type: String
         },
+        'project.description': {
+            type: String
+        },
         'project.type': {
             type: String
         },
         'project.client': {
-            type: Object
-        },
-        'project.client.name': {
-            type: String
+            type: Object,
+            blackbox: true
         },
         'project.status': {
             type: String
@@ -116,6 +117,9 @@ export const remove = new ValidatedMethod({
         }
     }).validator(),
     run({ project }) {
+        if (!(Projects.find({owner: Meteor.userId()}).fetch().length > 1)) {
+            throw new Meteor.Error(500, 'Invalid action! Single Project is mandatory,You cant remove it.');
+        }
         return Projects.remove(project._id);
     }
 });
