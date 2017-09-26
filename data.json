@@ -250,9 +250,8 @@
     "LEFTMENU.REPORTS": "Reports",
     "LEFTMENU.SETTINGS": "Settings",
     "LEFTMENU.PAYMENTS": "Payments",
-    "LEFTMENU.LOGOUT_BUTTON": "Logout",
     "PAYMENTS.PAYMENTS": "Payments",
-    "PAYMENTS.METHOD": "Payment Method"
+    "PAYMENTS.METHOD": "Payment Method",
     "LEFTMENU.LOGOUT_BUTTON": "Logout",
     "UTILITY_COMPONENTS.NO_RECORD_EXISTS": "Sorry the record you want to access is no more exist",
     "UTILITY_COMPONENTS.GO_BACK": "Go Back",
