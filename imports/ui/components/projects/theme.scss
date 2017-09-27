@@ -231,6 +231,10 @@
 body[dir="rtl"] .inputDropdown {
   margin-right: $unit * 3.5;
 }
+body[dir="rtl"] .inputDropdown div div:after{
+  left: 0;
+  right: auto;
+}
 
 body[dir="rtl"] .pageTitle {
   height: $unit * 8;

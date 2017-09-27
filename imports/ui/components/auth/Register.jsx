@@ -147,7 +147,7 @@ class Register extends Component {
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo With Text" />
                 </div>
-                <Dropdown
+                <Dropdown className={theme.selectRegister}
                     source={this.plans()}
                     name='plan'
                     label="Select Plan"

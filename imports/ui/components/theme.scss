@@ -5,12 +5,15 @@
   background: url("../assets/images/login-bg.png") no-repeat center;
   background-size: 80%;
   flex: 1;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
   overflow-y: auto;
-  height: 80vh;
-  min-height: 80vh;
+  height: 85vh;
+  min-height: 85vh;
+  .cardLogin{
+    margin: 70px auto 40px !important;
+  }
 }
 
 .headerGreeting{
