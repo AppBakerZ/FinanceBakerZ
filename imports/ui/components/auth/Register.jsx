@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers'
+import { stringHelpers } from '../../../helpers/stringHelpers'
 import { appConfig } from '/imports/utils/config.js'
 
 import { IconButton, Input, Button, Dropdown } from 'react-toolbox';
@@ -120,13 +121,13 @@ class Register extends Component {
         return appConfig.availablePlans.map((plan, i)=>{
             if(i === 0){
                 return {
-                    title: plan,
+                    title: stringHelpers.capitalize(plan),
                     value: plan.toLowerCase(),
                 }
             }
             else{
                 return {
-                    title: `${plan} (6 months trial)`,
+                    title: `${stringHelpers.capitalize(plan)} (6 months trial)`,
                     value: plan.toLowerCase(),
                 }
             }
