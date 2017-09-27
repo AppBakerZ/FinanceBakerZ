@@ -128,6 +128,16 @@ export const update = new ValidatedMethod({
         else{
             oldParent = oldCategory.parent
         }
+        if(oldParent && (parent === undefined)){
+            Categories.update({_id, owner: this.userId}, {$set: {parent: null}});
+            if(_id){
+                Categories.update({'children.id': _id, owner: this.userId}, {$pull: {"children": {id: _id}}});
+            }
+            //fall back for old code
+            else{
+                Categories.update({children: name, owner: this.userId}, {$pull: {"children": name}});
+            }
+        }
 
         if(oldParent !== parent || oldCategory.name !== name){
             //if found any old value then omit
