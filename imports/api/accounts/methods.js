@@ -70,6 +70,18 @@ export const update = new ValidatedMethod({
     run({ account }) {
         const {_id} = account;
         delete account._id;
+
+        let oldAccount = Accounts.findOne({_id});
+        //update fields in linked transactions
+        let update = {$set:{}}, linkedDocUpdate = false;
+        if(oldAccount.bank !== account.bank){
+            linkedDocUpdate = true;
+            update.$set['account.bank'] = account.bank
+        }
+        //so if core fields changed then
+        if(linkedDocUpdate){
+            Transactions.update({'account._id': _id}, update, {multi: true})
+        }
         return Accounts.update(_id, {$set: account});
     }
 });
