@@ -8,6 +8,7 @@ import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 
 import { Categories } from './categories.js';
+import { Transactions } from '../transactions/transactions';
 
 export const insert = new ValidatedMethod({
     name: 'categories.insert',
@@ -139,6 +140,21 @@ export const update = new ValidatedMethod({
                     name: name
                 }
             }});
+        }
+
+        //update updated field in linked transactions
+        let update = {$set:{}}, linkedDocUpdate = false;
+        if(oldCategory.name !== category.name){
+            linkedDocUpdate = true;
+            update.$set['category.name'] = category.name
+        }
+        if(oldCategory.icon !== category.icon){
+            linkedDocUpdate = true;
+            update.$set['category.icon'] = category.icon
+        }
+        //so if core fields changed then
+        if(linkedDocUpdate){
+            Transactions.update({'category._id': _id}, update, {multi: true})
         }
 
         return Categories.update({_id, owner: this.userId}, {$set: {name, icon, parent: newParent}})

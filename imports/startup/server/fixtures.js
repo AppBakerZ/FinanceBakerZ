@@ -20,9 +20,4 @@ function setGravatars() {
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
     setGravatars();
-    Meteor.users.update({'profile.businessPlan': {$exists: false}}, {$set: {'profile.businessPlan': 'free'}}, {multi: true})
-    Meteor.users.update({'profile.businessPlan': 'Free',}, {$set: {'profile.businessPlan': 'free'}}, {multi: true})
-    Meteor.users.update({'profile.businessPlan': 'Personal',}, {$set: {'profile.businessPlan': 'personal'}}, {multi: true})
-    Meteor.users.update({'profile.businessPlan': 'Professional',}, {$set: {'profile.businessPlan': 'professional'}}, {multi: true})
-
 });
