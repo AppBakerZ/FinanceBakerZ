@@ -287,6 +287,7 @@ class NewCategoryPage extends Component {
 
     render() {
         const { formatMessage } = this.props.intl;
+        const { children }  = this.state;
         return (
             <div className={theme.incomeCard}>
                 <Card theme={theme}>
@@ -324,16 +325,19 @@ class NewCategoryPage extends Component {
                                   required
                         />
 
-                        <Dropdown theme={theme} className={theme.projectStatus}
-                                  auto
-                                  source={this.categories()}
-                                  name='parentId'
-                                  onChange={this.onChangeParentCategory.bind(this)}
-                                  label={formatMessage(il8n.PARENT_CATEGORY)}
-                                  value={this.state.parentId}
-                                  template={this.categoryItem}
-                                  required
-                        />
+                        {/*hide the option if category has any children*/}
+                        {children && (children.length > 0) ? '' :
+                        < Dropdown theme={theme} className={theme.projectStatus}
+                            auto
+                            source={this.categories()}
+                            name='parentId'
+                            onChange={this.onChangeParentCategory.bind(this)}
+                            label={formatMessage(il8n.PARENT_CATEGORY)}
+                            value={this.state.parentId}
+                            template={this.categoryItem}
+                            required
+                            />
+                        }
 
                         {this.renderButton()}
                     </form>
