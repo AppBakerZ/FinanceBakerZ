@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
+import { _ } from 'underscore';
 
 import { Input, Button, ProgressBar, Snackbar, Dropdown, DatePicker, TimePicker } from 'react-toolbox';
 import { Card} from 'react-toolbox/lib/card';
@@ -81,6 +82,8 @@ class NewIncome extends Component {
         this.state = {
             account: '',
             amount: '',
+            accountBank: '',
+            accountNumber: '',
             receivedAt: datetime,
             receivedTime: datetime,
             creditType: 'project',
@@ -96,6 +99,14 @@ class NewIncome extends Component {
         p.income.receivedAt = p.income.transactionAt;
         if( p.income && p.income.creditType ){
             p.income.creditType === "project" && ((p.income.projectName = p.income.project.name) && (p.income.project = p.income.project._id));
+        }
+        if(p.income.account){
+            let { account } = p.income;
+            p.income.account = account._id;
+            p.income.accountBank = account.bank;
+            if(p.income.accountNumber){
+                account.number = p.income.accountNumber
+            }
         }
         this.setState(p.income);
         let isNew = p.params.id === 'new';
@@ -145,6 +156,16 @@ class NewIncome extends Component {
             });
             return
         }
+
+        if (!Object.keys(account).length) {
+            errMessage = 'You must select the account';
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: errMessage
+            });
+            return
+        }
         let transactionAt = new Date(receivedAt);
         let type='income';
         receivedTime = new Date(receivedTime);
@@ -153,6 +174,17 @@ class NewIncome extends Component {
         let projectExists = Projects.findOne({_id: project._id});
         if(projectExists){
             project.name = projectExists.name;
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
         }
         creditType = creditType === "project" ? 'project' : 'salary';
 
@@ -193,10 +225,36 @@ class NewIncome extends Component {
         let type = 'income';
         receivedTime = new Date(receivedTime);
         transactionAt.setHours(receivedTime.getHours(), receivedTime.getMinutes(), 0, 0);
+        //project processing
         project = (project && creditType === "project" && {_id: project}) || {};
         let projectExists = Projects.findOne({_id: project._id});
         if(projectExists){
             project.name = projectExists.name;
+        }
+        else if(_.keys(project).length){
+            //fall back for old records in old transactions
+            project.name = this.state.projectName
+        }
+        //account processing
+        if (!Object.keys(account).length) {
+            errMessage = 'You must select the account';
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: errMessage
+            });
+            return
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
         }
         creditType = creditType === "project" ? 'project' : 'salary';
 
@@ -310,7 +368,19 @@ class NewIncome extends Component {
     }
 
     accounts(){
-        return this.props.accounts.map((account, index) => {
+        const { accounts } = this.props;
+        const { account, accountBank, accountNumber } = this.state;
+        //
+        //if any account deleted then just add value to prevent empty values on updating record
+        let index = _.findIndex(accounts, {_id: account});
+        if(index === -1){
+            accounts.push({
+                _id: account,
+                bank: accountBank,
+                number: accountNumber
+            })
+        }
+        return accounts.map((account, index) => {
             account.value = account._id;
 
             index++;
@@ -339,7 +409,21 @@ class NewIncome extends Component {
     }
 
     projects(){
-        return this.props.projects.map((project) => {
+        const { projects } = this.props;
+        const {project, projectName, isNew } = this.state;
+
+        if(!isNew){
+            //if any project deleted then just add value to prevent empty values on updating record
+            let index = _.findIndex(projects, {_id: project});
+            if(index === -1){
+                projects.push({
+                    _id: project,
+                    name: projectName
+                })
+            }
+        }
+
+        return projects.map((project) => {
             project.value = project._id;
             project.icon = 'http://www.clasesdeperiodismo.com/wp-content/uploads/2012/02/radiohead-in-rainbows.png';
             return project;
@@ -380,7 +464,7 @@ class NewIncome extends Component {
                         />
 
                         <Dropdown theme={dropdownTheme}
-                                  className={theme.bankFonts}
+                                  className={theme.accountsDropdown}
                                   auto={false}
                                   source={this.accounts()}
                                   name='account'

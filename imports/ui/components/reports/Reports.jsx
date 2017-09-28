@@ -6,9 +6,12 @@ import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
 import { Reports } from '/imports/api/reports/reports.js'
+import { Categories } from '/imports/api/categories/categories.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
+//import config
+import { appConfig } from '../../../utils/config.js'
 
 import theme from './theme';
 
@@ -140,6 +143,18 @@ class ReportsPage extends Component {
         updateFilter(collection, 'dateFrom', moment(dateFrom).format());
         updateFilter(collection, 'dateTo', moment(dateTo).format());
 
+        if(this.state.dateFrom.getTime() !== new Date(dateFrom).getTime()){
+            this.setState({
+                dateFrom : new Date(dateFrom),
+            });
+        }
+        if(this.state.dateTo.getTime() !== new Date(dateTo).getTime()){
+            this.setState({
+                dateTo : new Date(dateTo)
+            });
+        }
+
+
     }
 
     componentDidMount(){
@@ -238,14 +253,32 @@ class ReportsPage extends Component {
         );
     }
 
+    getUserPlan(){
+        return Meteor.user() && Meteor.user().profile && Meteor.user().profile.businessPlan || appConfig.availablePlans[0];
+    }
+
     generatePdf(){
+        let userPlan = this.getUserPlan();
+        let previousTotal = this.props.reports.length;
+
+        //for now it commented to ensure different tests
+        // if(previousTotal >= appConfig[userPlan].reports.count){
+        //     this.setState({
+        //         disableButton: false,
+        //         active: true,
+        //         barMessage: "You already reached your limit based on current plan",
+        //         barIcon: 'error_outline',
+        //         barType: 'cancel'
+        //     });
+        //     return;
+        // }
         if(this.state.loading){
             return;
         }
         this.setState({
             loading: true
         });
-        const {location} = this.props;
+        const { location } = this.props;
         let query = location.query, accounts, projects, categories, dateFrom, dateTo;
         accounts = query.accounts ? query.accounts.split(",") : [];
         projects = query.projects ? query.projects.split(",") : [];
@@ -254,16 +287,24 @@ class ReportsPage extends Component {
         dateFrom = query.dateFrom || moment().startOf('month').format();
         dateTo = query.dateTo || moment().startOf('today').format();
 
-        this.setState({
-            dateFrom : dateFrom,
-            dateTo : dateTo
-        });
+        if(query.childrenIncluded === 'true'){
+            const allCategories = this.props.categories;
+            let childCategories = allCategories.filter(child => {
+                return child.parent && child.parent.id === categories[0]
+            });
+            if(childCategories.length){
+                childCategories = childCategories.map(cat => {
+                    return cat._id
+                });
+                categories = _.union(categories, childCategories)
+            }
+        }
 
 
         let params = {
             accounts : accounts,
             filterBy : query.filter || 'range',
-            date : dateHelpers.filterByDate(query.filter || 'range', {}, this),
+            date : dateHelpers.filterByDate(query.filter || this.state.filterBy, {}, this),
             report : query.type || 'both',
             categories : categories,
             projects : projects
@@ -362,7 +403,9 @@ ReportsPage.propTypes = {
 
 ReportsPage = createContainer(() => {
     const reportsHandle = Meteor.subscribe('reports');
+    const categoriesHandle = Meteor.subscribe('categories');
     const reports = Reports.find().fetch();
+    const categories = Categories.find().fetch();
     const local = LocalCollection.findOne({
         name: 'localTransactions'
     });
@@ -371,6 +414,7 @@ ReportsPage = createContainer(() => {
 
     return {
         reports,
+        categories,
         local: local,
         pageCount: pageCount,
     };

@@ -37,6 +37,11 @@ import viewIncome from '../../ui/components/transactions/childs/viewIncome';
 import viewExpense from '../../ui/components/transactions/childs/viewExpense';
 
 
+
+import EasyPaisa from '../../ui/components/payments/easypaisa';
+import EasyPayCallBack from '../../ui/components/payments/EasyPayCallBack';
+import PaymentPage from '../../ui/components/payments/payments';
+import {addLocaleData} from 'react-intl';
 import {injectIntl, IntlProvider, FormattedRelative,} from 'react-intl';
 import localeData from '../../../data.json'
 let checkAuth = (nextState, replace, next, setIntervalHandel) => {
@@ -120,6 +125,9 @@ class Il8n extends Component {
                         <Route path="transactions/expense(/:id)" components={{content: viewExpense}} />
                         <Route path="transactions/income(/:type)(/:id)" components={{content: NewIncome}}/>
                         <Route path="transactions/expense(/:type)(/:id)" components={{content: NewExpense}}/>
+                        <Route path="easyPaisa" components={{ content: EasyPaisa}} />
+                        <Route path="EasyPayCallBack" components={{ content: EasyPayCallBack}} />
+                        <Route path="payments" components={{ content: PaymentPage}} />
                     </Route>
                     <Route path="/" component={AuthLayout}>
                         <IndexRoute component={ Login} />

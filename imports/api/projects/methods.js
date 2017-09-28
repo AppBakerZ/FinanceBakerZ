@@ -7,6 +7,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { LoggedInMixin } from 'meteor/tunifight:loggedin-mixin';
 import { Projects } from './projects.js';
+import { Transactions } from '../transactions/transactions.js';
 
 export const insert = new ValidatedMethod({
     name: 'projects.insert',
@@ -24,6 +25,9 @@ export const insert = new ValidatedMethod({
             optional: true
         },
         'project.name': {
+            type: String
+        },
+        'project.description': {
             type: String
         },
         'project.type': {
@@ -69,6 +73,9 @@ export const update = new ValidatedMethod({
         'project.name': {
             type: String
         },
+        'project.description': {
+            type: String
+        },
         'project.type': {
             type: String
         },
@@ -91,6 +98,19 @@ export const update = new ValidatedMethod({
     run({ project }) {
         const {_id} = project;
         delete project._id;
+
+        let oldProject = Projects.findOne({_id});
+
+        //update fields in linked transactions
+        let update = {$set:{}}, linkedDocUpdate = false;
+        if(oldProject.name !== project.name){
+            linkedDocUpdate = true;
+            update.$set['project.name'] = project.name
+        }
+        //so if core fields changed then
+        if(linkedDocUpdate){
+            Transactions.update({'project._id': _id}, update, {multi: true})
+        }
         return Projects.update(_id, {$set: project});
     }
 });
@@ -100,7 +120,7 @@ export const remove = new ValidatedMethod({
     mixins : [LoggedInMixin],
     checkLoggedInError: {
         error: 'notLogged',
-        message: 'You need to be logged in to remove category'
+        message: 'You need to be logged in to remove project'
     },
     validate: new SimpleSchema({
         'project': {

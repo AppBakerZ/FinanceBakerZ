@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { _ } from 'underscore';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../../helpers/routeHelpers.js'
 
@@ -70,6 +71,10 @@ class NewExpense extends Component {
             spentAt: datetime,
             spentTime: datetime,
             category: '',
+            categoryName: '',
+            categoryIcon: '',
+            accountBank: '',
+            accountNumber: '',
             active: false,
             loading: false,
             billUrl: '',
@@ -81,7 +86,20 @@ class NewExpense extends Component {
         p.expense.billUrl = p.expense.billUrl || '';
         p.expense.spentTime = p.expense.transactionAt;
         p.expense.spentAt = p.expense.transactionAt;
-        p.expense.category = p.expense.category && p.expense.category._id;
+        if(p.expense.category){
+            let { category } = p.expense;
+            p.expense.category = category._id;
+            p.expense.categoryName = category.name;
+            p.expense.categoryIcon = category.icon;
+        }
+        if(p.expense.account){
+            let { account } = p.expense;
+            p.expense.account = account._id;
+            p.expense.accountBank = account.bank;
+            if(p.expense.accountNumber){
+                account.number = p.expense.accountNumber
+            }
+        }
         this.setState(p.expense);
         let isNew = p.params.id === 'new';
         this.setCurrentRoute(isNew);
@@ -122,11 +140,41 @@ class NewExpense extends Component {
         let type = 'expense';
         spentTime = new Date(spentTime);
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        //category processing
+        if (!Object.keys(category).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the category'
+            });
+            return
+        }
         category = category && {_id: category};
         let categoryExists = Categories.findOne({_id: category._id});
         if(categoryExists){
             category.name = categoryExists.name;
             category.icon = categoryExists.icon;
+        }
+
+        //account processing
+        if (!Object.keys(account).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the account'
+            });
+            return
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
         }
 
         Meteor.call('transactions.insert', {
@@ -167,10 +215,46 @@ class NewExpense extends Component {
         let type = 'expense';
         spentTime = new Date(spentTime);
         transactionAt.setHours(spentTime.getHours(), spentTime.getMinutes(), 0, 0);
+        //category processing
+        if (!Object.keys(category).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the category'
+            });
+            return
+        }
         category = category && {_id: category};
         let categoryExists = Categories.findOne({_id: category._id});
-        category.name = categoryExists.name;
-        category.icon = categoryExists.icon;
+        if(categoryExists){
+            category.name = categoryExists.name;
+            category.icon = categoryExists.icon;
+        }
+        else{
+            //fall back for old records in old transactions
+            category.name = this.state.categoryName;
+            category.icon = this.state.categoryIcon;
+        }
+        //account processing
+        if (!Object.keys(account).length) {
+            this.setState({
+                disableButton: false,
+                active: true,
+                barMessage: 'You must select the account'
+            });
+            return
+        }
+        account = {_id: account};
+        let accountExists = Accounts.findOne({_id: account._id});
+        if(accountExists){
+            account.bank = accountExists.bank;
+            accountExists.number && (account.number = accountExists.number)
+        }
+        else{
+            //fall back for old records in old transactions
+            account.bank = this.state.accountBank;
+            this.state.accountNumber && (account.number = this.state.accountNumber);
+        }
         Meteor.call('transactions.update', {
             transaction: {
                 _id,
@@ -281,7 +365,19 @@ class NewExpense extends Component {
     }
 
     accounts(){
-        return this.props.accounts.map((account, index) => {
+        const { accounts } = this.props;
+        const { account, accountBank, accountNumber } = this.state;
+        //
+        //if any account deleted then just add value to prevent empty values on updating record
+        let index = _.findIndex(accounts, {_id: account});
+        if(index === -1){
+            accounts.push({
+                _id: account,
+                bank: accountBank,
+                number: accountNumber
+            })
+        }
+        return accounts.map((account, index) => {
             account.value = account._id;
 
             index++;
@@ -314,7 +410,22 @@ class NewExpense extends Component {
     }
 
     categories(){
-        return this.props.categories.map((category) => {
+        const { categories } = this.props;
+        const { category, categoryName, categoryIcon, isNew } = this.state;
+
+        if(!isNew){
+            //if any category deleted then just add value to prevent empty values on updating record
+            let index = _.findIndex(categories, {_id: category});
+            if(index === -1){
+                categories.push({
+                    _id: category,
+                    name: categoryName,
+                    icon: categoryIcon
+                })
+            }
+        }
+
+        return categories.map((category) => {
             category.value = category._id;
             return category;
         })
@@ -420,7 +531,7 @@ class NewExpense extends Component {
                             type={this.state.barType}
                         />
 
-                        <Dropdown theme={dropdownTheme}
+                        <Dropdown theme={dropdownTheme} className={theme.accountsDropdown}
                                   auto={false}
                                   source={this.accounts()}
                                   name='account'

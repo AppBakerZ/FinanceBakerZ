@@ -23,6 +23,10 @@ Projects.schema = new SimpleSchema({
       type : String,
       label : 'Project name'
     },
+    description : {
+      type : String,
+      label : 'Project description'
+    },
     type:{
         type: String,
         label : 'Project type'

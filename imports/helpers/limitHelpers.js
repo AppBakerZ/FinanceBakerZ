@@ -1,7 +1,8 @@
 //set different expiry time for different plans
 import { dateHelpers } from './dateHelpers.js'
-//TODO: main data should be comes from config
-let availablePlans = {
+//import config
+import { appConfig } from '../utils/config.js'
+let applyLimits = {
     Free : dateHelpers.updateDate(new Date(), 'days', 3),
     Personal: dateHelpers.updateDate(new Date(), 'days', 7),
     Professional: dateHelpers.updateDate(new Date(), 'month', 1)};
@@ -15,11 +16,11 @@ export const limitHelpers = {
         else{
             let user = Meteor.user();
             //set default to Free
-            plan = user.profile.businessPlan || 'Free';
+            plan = user.profile.businessPlan || appConfig.availablePlans[0];
         }
 
-        if(plan && availablePlans[plan]){
-            return availablePlans[plan]
+        if(plan && applyLimits[plan]){
+            return applyLimits[plan]
         }
     }
 };

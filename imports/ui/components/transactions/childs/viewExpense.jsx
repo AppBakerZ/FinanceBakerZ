@@ -135,9 +135,11 @@ class viewExpense extends Component {
     /*************** template render ***************/
     render() {
         const { formatMessage } = this.props.intl;
-        let { transaction, account } = this.props;
+        let { transaction } = this.props;
         let { openDialog } = this.state;
-        let {_id, transactionAt, category, amount, description } = transaction;
+        let {_id, transactionAt, category, amount, description, account } = transaction;
+        // add safeguard for nested values
+        account = account ? account : {};
         let { bank, number } = account;
         let date = moment(transactionAt).format('DD-MMM-YYYY');
         //remove the bank prefix from bank account

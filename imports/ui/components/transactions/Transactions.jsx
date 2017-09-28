@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
+import { Categories } from '/imports/api/categories/categories.js'
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
 import TransactionsTable from '/imports/ui/components/reports/TransactionsTable.jsx';
 import Pagination from '/imports/ui/components/reports/Pagination.jsx';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 import theme from './theme';
-
 //define Const
 const collection = 'localTransactions';
 class TransactionPage extends Component {
@@ -64,14 +64,16 @@ class TransactionPage extends Component {
 
 
 export default createContainer(() => {
-
+    Meteor.subscribe('categories');
     const local = LocalCollection.findOne({
         name: 'localTransactions'
     });
+    const categories = Categories.find().fetch();
     const pageCount = Counter.get('transactionsCount');
     const transactionsTotal = Counter.get('transactionsTotal');
 
     return {
+        categories,
         transactionsTotal,
         local: local,
         pageCount: pageCount,

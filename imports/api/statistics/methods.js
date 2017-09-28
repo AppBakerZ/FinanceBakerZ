@@ -18,6 +18,8 @@ import { Reports } from '../reports/reports.js';
 import { limitHelpers } from '../../helpers/limitHelpers.js';
 
 let AWS = require('aws-sdk');
+//import config
+import { appConfig } from '../../utils/config.js'
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
@@ -146,7 +148,7 @@ export const availableBalance = new ValidatedMethod({
             owner: this.userId,
         };
         if(accounts.length){
-            query['account'] = {$in: accounts}
+            query['account._id'] = {$in: accounts}
         }
 
         let counting = Transactions.aggregate([{
@@ -208,7 +210,7 @@ export const totalIncomesAndExpenses = new ValidatedMethod({
             owner: this.userId,
         };
         if(accounts.length){
-            query['account'] = {$in: accounts}
+            query['account._id'] = {$in: accounts}
         }
         if(date){
             query['transactionAt'] = {
@@ -295,7 +297,7 @@ export const generateReport = new ValidatedMethod({
         let date = params.date;
         let localParams = params;
         if(localParams.accounts.length){
-            localParams['account'] = {$in: params.accounts};
+            localParams['account._id'] = {$in: params.accounts};
         }
 
         //add $or if category or project filter found
@@ -316,7 +318,7 @@ export const generateReport = new ValidatedMethod({
                 })
             }
         }
-        localParams= _.pick(localParams, 'owner', '$or', 'account');
+        localParams= _.pick(localParams, 'owner', '$or', 'account._id');
         if( date ){
             localParams.transactionAt = {
                 $gte: new Date(date.start),
@@ -332,8 +334,8 @@ export const generateReport = new ValidatedMethod({
             throw new Meteor.Error(500, 'No Transaction found with selected search filters')
         }
 
-        //set default to Free
-        let plan = user.profile.businessPlan || 'Free';
+        //set default to initial plan from app config (Free)
+        let plan = user.profile.businessPlan || appConfig.availablePlans[0];
         params.context = {
             folder: 'reports',
             plan : plan,
@@ -425,7 +427,7 @@ export const changePlan = new ValidatedMethod({
         params.owner = this.userId;
         let user = Meteor.user();
         //set default to Free
-        params.oldPlan = user.profile.businessPlan || 'Free';
+        params.oldPlan = user.profile.businessPlan || appConfig.availablePlans[0];
 
         //configure AWS
         AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,

@@ -34,6 +34,9 @@ const il8n = defineMessages({
     SETTINGS: {
         id: 'LEFTMENU.SETTINGS'
     },
+    PAYMENTS: {
+        id: 'LEFTMENU.PAYMENTS'
+    },
     LOGOUT_BUTTON: {
         id: 'LEFTMENU.LOGOUT_BUTTON'
     }
@@ -58,6 +61,19 @@ class LeftMenu extends Component {
         window.location.reload();
         Meteor.logout(() => {
             routeHelpers.changeRoute('/login')
+        })
+    }
+    easyPaisa(){
+        Meteor.call('payments.insert',{
+            payment: {
+                amount: 5000,
+                method: 'easy Pay',
+                description: 'basic plan',
+                status: 'pending'
+            }
+        }, (err, response)=>{
+            console.log('err', err);
+            console.log('response', response);
         })
     }
     componentWillReceiveProps(props) {
@@ -101,6 +117,9 @@ class LeftMenu extends Component {
                     <Link to={`/app/settings`} onClick={this.toggleDrawerActive.bind(this)}>
                         <ListItem className={this.isActive('settings')} caption= {formatMessage(il8n.SETTINGS)} leftIcon='settings' theme={listItemTheme}/>
                     </Link>
+                    {/*<Link to={`/app/payments`} onClick={this.toggleDrawerActive.bind(this)}>*/}
+                        {/*<ListItem className={this.isActive('payments')} caption= {formatMessage(il8n.PAYMENTS)} leftIcon='payment' theme={listItemTheme}/>*/}
+                    {/*</Link>*/}
                     <ListItem caption= {formatMessage(il8n.LOGOUT_BUTTON)} leftIcon='power_settings_new' onClick={this.logout.bind(this)} theme={listItemTheme}/>
                 </List>
             </Drawer>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers'
+import { stringHelpers } from '../../../helpers/stringHelpers'
+import { appConfig } from '/imports/utils/config.js'
 
-import { IconButton, Input, Button } from 'react-toolbox';
+import { IconButton, Input, Button, Dropdown } from 'react-toolbox';
 
 import { Accounts } from 'meteor/accounts-base'
 
@@ -37,6 +39,7 @@ class Register extends Component {
         super(props);
 
         this.state = {
+            plan: props.location.query.plan || '',
             fullName: '',
             usernameOrEmail: '',
             password: '',
@@ -55,7 +58,16 @@ class Register extends Component {
     onSubmit(event){
         event.preventDefault();
 
-        const {fullName, usernameOrEmail, password} = this.state;
+        const {fullName, usernameOrEmail, password, plan} = this.state;
+        if(!Object.keys(plan).length){
+            this.props.showSnackbar({
+                activeSnackbar: true,
+                barMessage: 'You must select the membership plan',
+                barIcon: 'error_outline',
+                barType: 'cancel'
+            });
+            return
+        }
         let selector;
         if (typeof usernameOrEmail === 'string')
             if (usernameOrEmail.indexOf('@') === -1)
@@ -64,16 +76,22 @@ class Register extends Component {
                 selector = {email: usernameOrEmail};
 
         const key = Object.keys(selector)[0];
-
         this.props.progressBarUpdate(true);
         let currency = {label: "Pakistani Rupee", value: "currency-Pakistani-Rupee"},
-            language = { label: 'English', value: 'en', direction: 'ltr' };
+            language = { label: 'English', value: 'en', direction: 'ltr' },
+            businessPlan = plan,
             emailNotification = true;
 
         Accounts.createUser({
             [key]: selector[key],
             password,
-            profile: {fullName, currency, emailNotification, language }
+            profile: {
+                businessPlan,
+                fullName,
+                currency,
+                emailNotification,
+                language
+            }
         }, (err) => {
             if(err){
                 this.props.showSnackbar({
@@ -99,6 +117,30 @@ class Register extends Component {
         });
     }
 
+    plans(){
+        return appConfig.availablePlans.map((plan, i)=>{
+            if(i === 0){
+                return {
+                    title: stringHelpers.capitalize(plan),
+                    value: plan.toLowerCase(),
+                }
+            }
+            else{
+                return {
+                    title: `${stringHelpers.capitalize(plan)} (6 months trial)`,
+                    value: plan.toLowerCase(),
+                }
+            }
+
+        });
+    }
+
+    businessPlans (plan) {
+        return (
+            <strong>{plan.title}</strong>
+        );
+    }
+
     render() {
         const { formatMessage } = this.props.intl;
         return (
@@ -106,6 +148,15 @@ class Register extends Component {
                 <div className={theme.logoWithText}>
                     <img src={'../assets/images/logo-withText.png'} alt="Logo With Text" />
                 </div>
+                <Dropdown className={theme.selectRegister}
+                    source={this.plans()}
+                    name='plan'
+                    label="Select Plan"
+                    onChange={this.onChange.bind(this)}
+                    value={this.state.plan}
+                    template={this.businessPlans}
+                    required
+                />
                 <Input type='text' label={formatMessage(il8n.USERNAME)}
                        name='fullName'
                        maxLength={ 30 }

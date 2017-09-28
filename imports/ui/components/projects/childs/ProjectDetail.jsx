@@ -31,6 +31,9 @@ const il8n = defineMessages({
     CLIENT_NAME: {
         id: 'PROJECTS.CLIENT_NAME'
     },
+    PROJECT_DESCRIPTION: {
+        id: 'PROJECTS.PROJECT_DESCRIPTION'
+    },
     AMOUNT_AGREED: {
         id: 'PROJECTS.AMOUNT_AGREED'
     },
@@ -137,7 +140,7 @@ class ProjectDetail extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let { project } = this.props;
-        let {_id, startAt, amount, status } = project;
+        let {_id, startAt, amount, status, description } = project;
         let { amountPaid, openDialog} = this.state;
         let date = moment(startAt).format('DD-MMM-YYYY');
         return (
@@ -174,7 +177,8 @@ class ProjectDetail extends Component {
                         <div className={theme.depositContent}>
                             <h6>Project ID: <span>{_id}</span></h6>
                             <h6>Date: <span>{date}</span></h6>
-                            <h5><FormattedMessage {...il8n.AMOUNT_AGREED} />: <span><FormattedNumber value={amount || 0}/></span></h5>
+                            <h5><FormattedMessage {...il8n.PROJECT_DESCRIPTION} />: <span>{description}</span></h5>
+                            <h5><FormattedMessage {...il8n.AMOUNT_AGREED}/>: <span><FormattedNumber value={amount || 0}/></span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_PAID} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{amountPaid === null ? 'Loading ...' : <FormattedNumber value={amountPaid || 0}/>}</span></h5>
                             <h5><FormattedMessage {...il8n.AMOUNT_REMAINING} />: <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <span className={theme.price}>{ amountPaid === null ? 'Loading ...' : <FormattedNumber value={(amount - amountPaid) || 0}/> } </span></h5>
                             <h5><FormattedMessage {...il8n.PROJECT_STATUS} />: <span className={theme.price}>{status} </span></h5>
