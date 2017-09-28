@@ -16,7 +16,8 @@ class EasyPaisa extends Component {
 
     confirmPayment (){
         //here 2nd post back Url given which redirect after successful payment
-        const postBackUrl = 'http://localhost:3000/app/easyPayCAllBack';
+        const postBackUrl = `${Meteor.absoluteUrl()}app/easyPayCAllBack`;
+        // const postBackUrl = 'http://localhost:3000/app/easyPayCAllBack';
         let queryParams = this.props.location.query;
         window.location = `https://easypay.easypaisa.com.pk/easypay/Confirm.jsf?auth_token=${queryParams.auth_token}&postBackURL=${postBackUrl}`;
     }

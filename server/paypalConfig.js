@@ -1,0 +1,3 @@
+Meteor.Paypal.config({
+    host: ''
+});
