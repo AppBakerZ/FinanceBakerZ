@@ -360,14 +360,8 @@ class DashboardPage extends Component {
                         <RecentActivities />
                     </div>
                     <div className={theme.incomeOverviewWrapper}>
-                        { this.state.totalExpenses || this.state.totalIncomes ? <Graph/>
-                            : <Card className="card-box">
-                            <RecordsNotExists route="app/transactions/income/add/new"/>
-                            </Card>
-                        }
-
+                        <Graph />
                     </div>
-
                 </div>
             </div>
         );
