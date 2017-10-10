@@ -12,6 +12,7 @@ import { userCurrencyHelpers } from '/imports/helpers/currencyHelpers.js'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 
 import RecentActivities from './recentActivities/RecentActivities.jsx';
+import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 import Graph from '/imports/ui/components/dashboard/graphs/Graph.jsx';
 import Loader from '../loader/Loader.jsx';
 import Arrow from '../arrow/Arrow.jsx';
@@ -359,8 +360,14 @@ class DashboardPage extends Component {
                         <RecentActivities />
                     </div>
                     <div className={theme.incomeOverviewWrapper}>
-                        <Graph />
+                        { this.state.totalExpenses || this.state.totalIncomes ? <Graph/>
+                            : <Card className="card-box">
+                            <RecordsNotExists route="app/transactions/income/add/new"/>
+                            </Card>
+                        }
+
                     </div>
+
                 </div>
             </div>
         );
