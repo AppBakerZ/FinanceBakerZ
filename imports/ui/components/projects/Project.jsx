@@ -247,7 +247,7 @@ class ProjectPage extends Component {
            />;
         return (
             <Card theme={tableTheme}>
-                { projects.length ? table : this.props.projectsTotal ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
+                { projects.length ? table : this.props.projectsTotal ? <NothingFound route="/app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         )
     }

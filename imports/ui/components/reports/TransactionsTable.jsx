@@ -129,7 +129,7 @@ class TransactionsTable extends Component {
                                 flat />
                     </div>
                 </div>
-                { transactions.length ? table : transactionsTotal.length ? <NothingFound route="app/transactions/income/add/new"/>: <RecordsNotExists route="app/transactions/income/add/new"/>}
+                { transactions.length ? table : transactionsTotal.length ? <NothingFound route="/app/transactions/income/add/new"/>: <RecordsNotExists route="app/transactions/income/add/new"/>}
             </Card>
         );
     }

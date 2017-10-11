@@ -390,7 +390,7 @@ class ReportsPage extends Component {
                                                  onRowClick={this.selectItem.bind(this)}
                                                  selectable={false}
                                                  heading={true}
-                        /> : <RecordsNotExists route="app/transactions/income/add/new"/>}
+                        /> : <RecordsNotExists route="/app/reports"/>}
 
 
                     </Card>
