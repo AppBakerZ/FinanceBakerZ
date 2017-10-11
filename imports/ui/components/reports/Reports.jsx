@@ -5,6 +5,7 @@ import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages
 import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
+import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 import { Reports } from '/imports/api/reports/reports.js'
 import { Categories } from '/imports/api/categories/categories.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
@@ -384,12 +385,14 @@ class ReportsPage extends Component {
                 <div className={theme.reportsTable}>
                     <h3 className={theme.reportsTableHeading}>{formatMessage(il8n.ALL_REPORTS)}</h3>
                     <Card>
-                        <Table theme={theme} model={this.getTableModel()}
-                               source={data}
-                               onRowClick={this.selectItem.bind(this)}
-                               selectable={false}
-                               heading={true}
-                        />
+                        {reports.length ? <Table theme={theme} model={this.getTableModel()}
+                                                 source={data}
+                                                 onRowClick={this.selectItem.bind(this)}
+                                                 selectable={false}
+                                                 heading={true}
+                        /> : <RecordsNotExists route="app/transactions/income/add/new"/>}
+
+
                     </Card>
                 </div>
             </div>
