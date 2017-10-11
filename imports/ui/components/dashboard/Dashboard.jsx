@@ -312,7 +312,7 @@ class DashboardPage extends Component {
                 <div className={theme.backgroundImage} style={{ display: 'flex', flexWrap: 'wrap', padding: '1%'}}>
                     <div className={theme.dashboardSection}>
                         <Card className={theme.cardBox}>
-                            <div className='dashboard-card-group'>
+                            <div className={theme.dashboardCardGroup}>
                                 <Card theme={cardTheme} className={cardTheme.responsiveCardFirst}>
                                     <Autocomplete theme={autocompleteTheme}
                                                   direction='down'

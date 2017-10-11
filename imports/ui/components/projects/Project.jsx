@@ -303,7 +303,7 @@ class ProjectPage extends Component {
                             theme={theme}
                             />
                     </div>
-                    <Card theme={tableTheme}>
+                    <Card theme={tableTheme} className={theme.responsiveTable}>
                         { this.renderProjectTable() }
                     </Card>
                 </div>

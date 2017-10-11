@@ -96,36 +96,6 @@
 }
 
 /////////////////////////////////////////////////
-/////// Extra Small Media Query Start Here //////
-/////////////////////////////////////////////////
-@media (min-width: 320px) and (max-width: 767px){
-  .recentIncomeWrapper{
-    width: 100%;
-    .card {
-      min-height: auto;
-      h3{
-        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
-      }
-    }
-  }
-  .recentExpensesWrapper{
-    width: 100%;
-    .card {
-      min-height: auto;
-      h3{
-        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
-      }
-    }
-  }
-  .tableLink{
-    margin-bottom: 14px;
-  }
-}
-/////////////////////////////////////////////////
-//////// Extra Small Media Query End Here ///////
-/////////////////////////////////////////////////
-
-/////////////////////////////////////////////////
 //////////// rtl styling start here /////////////
 /////////////////////////////////////////////////
 body[dir="rtl"] .recentIncomeWrapper {
@@ -152,3 +122,51 @@ body[dir="rtl"] .tableLink {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+
+/////// Extra Small Media Query Start Here //////
+@media (min-width: 320px) and (max-width: 767px){
+  .recentIncomeWrapper{
+    width: 100%;
+    margin-right: 0;
+    .card {
+      min-height: 0;
+      height: auto;
+      padding-bottom: 10px;
+      h3{
+        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+      }
+    }
+  }
+  .recentExpensesWrapper{
+    width: 100%;
+    .card {
+      min-height: 0;
+      height: auto;
+      padding-bottom: 10px;
+      h3{
+        padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+      }
+    }
+  }
+  .tableLink{
+    margin-bottom: 14px;
+  }
+}
+//////// Extra Small Media Query End Here ///////
+
+//////// Small Media Query start Here ///////////
+@media (min-width: 768px) and (max-width: 991px){
+  .tableLink{
+    margin-bottom: 14px !important;
+  }
+  .recentIncomeWrapper .card{
+    height: auto;
+    min-height: 0;
+  }
+  .recentExpensesWrapper .card{
+    height: auto;
+    min-height: 0;
+  }
+}
+//////// Small Media Query End Here /////////////

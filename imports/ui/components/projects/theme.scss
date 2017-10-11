@@ -247,3 +247,47 @@ body[dir="rtl"] .pageTitle button {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+/////////////////////// extra small media query start here //////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .inputField{
+    width: 100%;
+    margin: 0;
+  }
+  .inputDropdown{
+    width: 100%;
+  }
+  .pageTitle{
+    padding: 2.7rem 2rem 2.3rem 2rem;
+  }
+  .pageTitle h3{
+    font-size: 2.3rem;
+  }
+  .pageTitle button{
+    font-size: 1.6rem !important;
+  }
+  .responsiveTable{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    display: grid;
+  }
+}
+/////////////////////// extra small media query end here ////////////////////////
+
+/////////////////////// small media query start here ////////////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .inputField{
+    width: 30%;
+  }
+  .inputDropdown{
+    width: 30%;
+  }
+  .responsiveTable{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    display: grid;
+  }
+}
+/////////////////////// small media query end here //////////////////////////////
