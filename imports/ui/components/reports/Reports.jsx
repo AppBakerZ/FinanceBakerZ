@@ -5,7 +5,7 @@ import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages
 import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
-import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
+import CustomMessage from '../utilityComponents/customMessage/customMessage.jsx'
 import { Reports } from '/imports/api/reports/reports.js'
 import { Categories } from '/imports/api/categories/categories.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
@@ -390,7 +390,7 @@ class ReportsPage extends Component {
                                                  onRowClick={this.selectItem.bind(this)}
                                                  selectable={false}
                                                  heading={true}
-                        /> : <RecordsNotExists route="/app/reports"/>}
+                        /> : <CustomMessage message="No Reports Found. Generate a report to display here"/>}
 
 
                     </Card>
