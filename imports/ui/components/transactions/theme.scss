@@ -88,3 +88,27 @@
     color: $color-primary !important;
   }
 }
+
+//////////////// extra small media query start here ///////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .reports{
+    padding: 30px 15px;
+  }
+  .reports .filterDropDowns{
+    width: 100%;
+  }
+  .incomeForm{
+    padding: 15px !important;
+  }
+  .accountsDropdown ul li{
+    border-right: 0;
+    width: 100% !important;
+  }
+  .accountsDropdown ul li div{
+    border-right: 0 !important;
+  }
+}
+//////////////// extra small media query end here /////////////////////
+
+//////////////// small media query start here /////////////////////////
+//////////////// small media query end here ///////////////////////////

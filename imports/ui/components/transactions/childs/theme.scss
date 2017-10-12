@@ -101,3 +101,60 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+//////////////// extra small media query start here ///////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .viewExpense{
+    padding: 9px;
+  }
+  .viewExpense .titleBox{
+    padding: 0 20px 15px 20px;
+    display: inline-block;
+    width: 100%;
+  }
+  .viewExpense .titleBox h3{
+    padding: 23px 30px 0 0;
+  }
+  .viewExpense .bankContent{
+    padding: 0 15px;
+  }
+  .viewExpense .bankContent .depositContent{
+    padding: 20px 0 20px;
+  }
+  .viewExpense .bankContent .depositContent h6{
+    margin: 0 0 20px 0;
+    font-size: 15px;
+  }
+  .viewExpense .bankContent .depositContent h6:last-of-type{
+    margin-left: 0;
+  }
+  .viewExpense .bankContent .depositContent h5{
+    margin: 0 0 20px 0;
+    font-size: 15px;
+  }
+  .viewExpense .bankContent .depositContent h5:last-of-type{
+    margin-bottom: 0;
+  }
+  .viewExpense .bankContent .accountContent{
+    padding: 20px 0;
+  }
+  .viewExpense .bankContent .accountContent h5{
+    margin: 0 0 20px 0;
+    font-size: 15px;
+  }
+  .viewExpense .bankContent .accountContent h5:last-of-type{
+    margin-bottom: 0;
+  }
+  .viewExpense .bankContent .projectContent{
+    padding: 20px 0;
+  }
+  .viewExpense .bankContent .projectContent h5{
+    font-size: 15px;
+  }
+}
+//////////////// extra small media query end here /////////////////////
+@media (min-width: 320px) and (max-width: 442px){
+  .viewExpense .titleBox .rightButtons{
+    margin-top: 0;
+  }
+}
