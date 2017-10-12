@@ -4,7 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown, Card } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
-import RecordsNotExists from '../../utilityComponents/RecordsNotExists.jsx'
+import CustomMessage from '../../utilityComponents/customMessage/customMessage.jsx'
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../../helpers/currencyHelpers.js'
 import theme from './theme';
@@ -104,7 +104,7 @@ export default class Graph extends Component {
         let minHeight = {};
         if(!(graph && graph.length)){
             minHeight = {
-                height: '300px'
+                height: '150px'
             };
         }
 
@@ -156,7 +156,7 @@ export default class Graph extends Component {
                         <Area type='monotone' dataKey='expense' stroke='#e0b255' fill="url(#colorExpense)" fillOpacity={1} />
                     </AreaChart>
                 </ResponsiveContainer> :
-                    <RecordsNotExists route="app/transactions/income/add/new"/>
+                    <CustomMessage message="Not enough data to show Graph. Please add more Transactions then graph will appear here"/>
                 }
             </div>
         </Card>;
