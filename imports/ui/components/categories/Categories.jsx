@@ -268,7 +268,7 @@ class CategoriesPage extends Component {
                             onClick={this.addCategory.bind(this)}
                             theme={buttonTheme}/>
                     </div>
-                    <Card theme={tableTheme}>
+                    <Card theme={tableTheme} className={theme.categoriesTable}>
                         {this.props.categoriesLoading ? <Loader accent/> : this.props.categoriesExists ?
                             <Table className={theme.table} theme={tableTheme}
                                    selectable={false}
