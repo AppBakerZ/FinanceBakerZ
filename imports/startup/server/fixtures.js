@@ -20,4 +20,6 @@ function setGravatars() {
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
     setGravatars();
+    //TODO: delete that line after successful deployment once
+    Meteor.users.update({}, {$set: {'profile.language':{ label: 'English', value: 'en', direction: 'ltr' }}})
 });
