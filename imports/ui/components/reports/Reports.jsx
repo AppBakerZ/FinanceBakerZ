@@ -383,7 +383,7 @@ class ReportsPage extends Component {
                 </div>
                 <div className={theme.reportsTable}>
                     <h3 className={theme.reportsTableHeading}>{formatMessage(il8n.ALL_REPORTS)}</h3>
-                    <Card>
+                    <Card className={theme.tableBox}>
                         <Table theme={theme} model={this.getTableModel()}
                                source={data}
                                onRowClick={this.selectItem.bind(this)}
