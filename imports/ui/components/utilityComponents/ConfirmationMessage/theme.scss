@@ -59,3 +59,14 @@ body[dir="rtl"] .dialogContent .buttonBox button:last-of-type {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+////////////// extra small media query start here /////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .dialogContent .buttonBox button{
+    padding: $unit - 0.8 $unit * 2.4 0;
+  }
+  .dialogContent .buttonBox button:last-of-type{
+    padding: 0 $unit * 2.3 0;
+  }
+}
+////////////// extra small media query end here ///////////////////
