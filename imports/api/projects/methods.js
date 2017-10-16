@@ -134,6 +134,9 @@ export const remove = new ValidatedMethod({
         if (!(Projects.find({owner: Meteor.userId()}).fetch().length > 1)) {
             throw new Meteor.Error(500, 'Invalid action! Single Project is mandatory,You cant remove it.');
         }
+        else if(Transactions.findOne({'project._id': project._id})){
+            throw new Meteor.Error(500, 'Invalid action! some transactions found with this Project, please update them with another Project.');
+        }
         return Projects.remove(project._id);
     }
 });

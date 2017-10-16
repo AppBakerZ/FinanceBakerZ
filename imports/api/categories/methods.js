@@ -238,6 +238,9 @@ export const remove = new ValidatedMethod({
         if (!(Categories.find({owner: Meteor.userId()}).fetch().length > 1)) {
             throw new Meteor.Error(500, 'Invalid action! Single Category is mandatory,You cant remove it.');
         }
+        else if(Transactions.findOne({'category._id': _id})){
+            throw new Meteor.Error(500, 'Invalid action! some transactions found with this Category, please update them with another Category.');
+        }
         //remove it as parent category from children by Ids
         ids && removeParent(category.ids, '_id');
 
