@@ -72,6 +72,17 @@
     }
     .projectContent{
       padding: 45px 25px 40px;
+      .imageDiv {
+        h5 {
+          font-size: 20px;
+          font-family: "Nexa Light Regular", "Arial", sans-serif;
+          margin-bottom: 30px;
+          span {
+            color: #008142;
+            font-family: "Nexa Bold Regular", "Arial", sans-serif;
+          }
+        }
+      }
       h5{
         font-size: 20px;
         font-family: "Nexa Light Regular", "Arial", sans-serif;
@@ -80,9 +91,9 @@
           color: #008142;
           font-family: "Nexa Bold Regular", "Arial", sans-serif;
         }
-        &:last-of-type{
-          margin-bottom: 10px;
-        }
+        //&:last-of-type{
+        //  margin-bottom: 10px;
+        //}
       }
     }
   }
