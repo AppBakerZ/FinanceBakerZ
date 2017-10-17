@@ -121,7 +121,7 @@ class RecentActivities extends Component {
         let incomes = this.props.incomes.map(function(i){
             return {
                 icon: <Arrow primary width='16px' height='16px' />,
-                projects: i.type === "project" ? i.project.name || i.project : i.type,
+                projects: i.creditType === "project" ? i.project.name : i.creditType || i.type,
                 amount: (<span>
         <i className={userCurrencyHelpers.loggedUserCurrency()}></i> <FormattedNumber value={i.amount}/> </span>),
                 iconLast: <Arrow primary width='16px' height='16px' />
@@ -209,7 +209,7 @@ export default createContainer(() => {
         type: 'income'
     }, {
         fields: {
-            amount: 1, type: 1, project: 1
+            amount: 1, type: 1, project: 1, creditType: 1
         }
     }).fetch();
     const incomesExists = !incomesLoading && !!incomes.length;
