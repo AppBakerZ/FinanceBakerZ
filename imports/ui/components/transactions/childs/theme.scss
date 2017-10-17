@@ -158,3 +158,19 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
     margin-top: 0;
   }
 }
+@media (min-width: 360px) and (max-width: 767px){
+  .viewExpense .titleBox h3{
+    padding: 23px 15px 0 0;
+    font-size: 2rem;
+  }
+  .viewExpense .titleBox .rightButtons{
+    margin-top: 20px;
+  }
+  .viewExpense .titleBox .rightButtons button{
+    font-size: 19px;
+    padding: 4px 8px 0 8px;
+  }
+  .viewExpense .titleBox .rightButtons button:first-of-type{
+    margin-right: 0;
+  }
+}

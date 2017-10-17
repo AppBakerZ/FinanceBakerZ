@@ -220,6 +220,9 @@ body[dir="rtl"] .settingContent button:last-of-type {
     padding: 0;
     margin-bottom: 2rem;
   }
+  .cardContent h6{
+    font-size: 1.6rem;
+  }
   .cardContent h6:last-of-type{
     width: 100%;
   }
@@ -234,7 +237,11 @@ body[dir="rtl"] .settingContent button:last-of-type {
     margin-top: 2rem;
   }
   .buttonSite button{
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    padding: 0.4rem 1.9rem 0;
+  }
+  .removeStyling{
+    padding: 10px !important;
   }
 }
 //////////////////// extra small media query end here ////////////////////

@@ -440,7 +440,7 @@ class SettingsPage extends Component {
         let { openDialog } = this.state;
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                <div className={theme.removeStyling} style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
                             <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
