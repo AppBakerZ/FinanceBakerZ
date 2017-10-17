@@ -117,6 +117,27 @@ export const updateProfile = new ValidatedMethod({
     }
 });
 
+export const updateProfileImage = new ValidatedMethod({
+    name: 'settings.updateProfileImage',
+    mixins: [LoggedInMixin],
+    checkLoggedInError: {
+        error: 'notLogged',
+        message: 'You need to be logged in to update profile'
+    },
+    validate: new SimpleSchema({
+        'users': {
+            type: Object
+        },
+        'users.imageUrl': {
+            type: String,
+            optional: true
+        }
+    }).validator(),
+    run({ users }) {
+        Meteor.users.update({_id: Meteor.userId()} , {$set: {'profile.avatar': users.imageUrl}});
+    }
+});
+
 export const updateUserProfile = new ValidatedMethod({
     name: 'settings.updateUserProfile',
     mixins: [LoggedInMixin],
