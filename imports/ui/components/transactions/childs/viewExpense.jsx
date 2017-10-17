@@ -137,7 +137,7 @@ class viewExpense extends Component {
         const { formatMessage } = this.props.intl;
         let { transaction } = this.props;
         let { openDialog } = this.state;
-        let {_id, transactionAt, category, amount, description, account } = transaction;
+        let {_id, transactionAt, category, amount, description, account, billUrl } = transaction;
         // add safeguard for nested values
         account = account ? account : {};
         let { bank, number } = account;
@@ -189,6 +189,13 @@ class viewExpense extends Component {
                         </div>
                         <div className={theme.projectContent}>
                             <h5>Category: <span>{category ? category.name : 'Not Found'}</span></h5>
+                            {billUrl ?
+                                <div className={theme.imageDiv}>
+                                    <h5>Expense Bill: </h5>
+                                    <img className='expenses-bill' src={billUrl} />
+                                </div>
+                            : ''}
+
                         </div>
                     </div>
                 </div>

@@ -438,6 +438,7 @@ class SettingsPage extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let { openDialog } = this.state;
+        let profileImage = Meteor.user().profile.avatar || "/assets/images/HQ3YU7n.gif";
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
@@ -458,6 +459,9 @@ class SettingsPage extends Component {
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
                                 <h5><FormattedMessage {...il8n.PERSONAL_INFORMATION} /></h5>
+                                <div className='image-group'>
+                                    <img className='user-image' src={profileImage} />
+                                </div>
                             </div>
                             <div className={theme.cardContent}>
                                 <h6> <FormattedMessage {...il8n.NAME} />  <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
