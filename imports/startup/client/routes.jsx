@@ -133,7 +133,7 @@ class Il8n extends Component {
                         <IndexRoute component={ Login} />
                         <Route path="register" component={ Register} />
                         <Route path="login" component={ Login} />
-                        <Route path="forgotPassword" component={ ForgotPassword} />
+                        <Route path="forgotPassword(/:token)" component={ ForgotPassword} />
                     </Route>
                 </Router>
             </IntlProvider>
