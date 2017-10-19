@@ -92,7 +92,17 @@ class ForgotPassword extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        this.setState({isPassword: true});
+        let obj = {
+            email: {
+                from:'no-reply@financeBakerz.com',
+                to: 'raza2022@gmail.com'
+            }
+        };
+        Meteor.call('emails.send', obj, (err, res) => {
+            console.log('err', err)
+            console.log('res', res)
+        });
+        // this.setState({isPassword: true});
     }
 
     render()

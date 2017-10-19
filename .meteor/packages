@@ -39,3 +39,4 @@ http
 percolate:migrations
 mrt:paypal
 standard-minifier-js
+email
