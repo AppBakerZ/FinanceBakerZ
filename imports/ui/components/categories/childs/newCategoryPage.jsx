@@ -327,7 +327,7 @@ class NewCategoryPage extends Component {
 
                         {/*hide the option if category has any children*/}
                         {children && (children.length > 0) ? '' :
-                        < Dropdown theme={theme} className={theme.projectStatus}
+                        < Dropdown theme={theme} className={theme.projectStatusResponsive}
                             auto
                             source={this.categories()}
                             name='parentId'

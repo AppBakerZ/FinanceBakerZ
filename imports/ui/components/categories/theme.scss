@@ -172,6 +172,10 @@ body[dir="rtl"] .categoriesTitle button {
     overflow: auto;
     white-space: nowrap;
   }
+  .categoriesContent{
+    padding: 0 1.5rem 1rem;
+    margin-top: 1.5rem;
+  }
   .categoriesContent .categoriesTitle{
     padding: 2rem 2rem;
     display: inline-block;

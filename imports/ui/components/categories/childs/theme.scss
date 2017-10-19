@@ -276,5 +276,28 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
   .viewExpense .bankContent .depositContent h5{
     margin: 0 0 20px 0;
   }
+  .projectStatusResponsive ul li{
+    width: 100% !important;
+  }
+  .projectStatusResponsive ul li div i{
+    margin-right: 5px;
+  }
+  .projectStatusResponsive div strong{
+    margin-left: 5px;
+  }
 }
 //////////// extra small media query end here /////////////////
+
+//////////// small media query start here ///////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .projectStatusResponsive ul li{
+    width: 100% !important;
+  }
+  .projectStatusResponsive ul li div i{
+    margin-right: 5px;
+  }
+  .projectStatusResponsive div strong{
+    margin-left: 5px;
+  }
+}
+//////////// small media query end here /////////////////////////

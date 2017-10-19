@@ -201,11 +201,11 @@ class CategoriesPage extends Component {
                 return;
             }
             return <span key={catName + i}>
-                    <div onClick={this.categoryDetail.bind(this, category)}>
-                        {catName}
-                        <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
-                    </div>
-                    </span>
+                <div onClick={this.categoryDetail.bind(this, category)}>
+                    {catName}
+                    <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
+                </div>
+                </span>
         });
     }
     render() {
