@@ -1,24 +1,20 @@
 import { browserHistory } from 'react-router';
+import { AppConfig } from '/imports/utils/config';
 
 export const routeHelpers = {
     /***** when want to change route programmatically and optional delay *****/
      //@route string (required) given the route with params
     //@time number (optional) if given routes changed after given time
     //@query object (optional) if given then append
-    changeRoute: (pathname, time, query = {}) => {
-        if(time){
+    changeRoute: (pathname, time, query = {}, history) => {
+        if(history && AppConfig.previousRoute){
+            // if(AppConfig.previousRoute.includes(Meteor.absoluteUrl())){
             Meteor.setTimeout(() => {
-                browserHistory.push({
-                    pathname: pathname,
-                    query: query
-                })
+                browserHistory.push(AppConfig.previousRoute)
             }, time)
         }
-        else{
-            browserHistory.push({
-                pathname: pathname,
-                query: query
-            })
+        else {
+            changePath(pathname, query, time)
         }
     },
 
@@ -31,4 +27,14 @@ export const routeHelpers = {
         }
         return pathname
     }
+};
+
+//generalize function for all conditions
+changePath = (pathname, query, time) =>{
+    Meteor.setTimeout(() => {
+        browserHistory.push({
+            pathname: pathname,
+            query: query
+        })
+    }, time)
 };

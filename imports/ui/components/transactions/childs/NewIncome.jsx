@@ -199,7 +199,7 @@ class NewIncome extends Component {
                 }
             }, (err, response) => {
                 if (response) {
-                    routeHelpers.changeRoute('/app/transactions', 1200);
+                    routeHelpers.changeRoute('/app/transactions', 1200, {}, true);
                     this.setState({
                         active: true,
                         barMessage: 'Income created successfully',
@@ -278,7 +278,7 @@ class NewIncome extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/transactions', 1200);
+                routeHelpers.changeRoute('/app/transactions', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Income updated successfully',
@@ -305,7 +305,7 @@ class NewIncome extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/transactions', 1200);
+                routeHelpers.changeRoute('/app/transactions', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Income deleted successfully',

@@ -19,7 +19,7 @@ import { limitHelpers } from '../../helpers/limitHelpers.js';
 
 let AWS = require('aws-sdk');
 //import config
-import { appConfig } from '../../utils/config.js'
+import { AppConfig } from '../../utils/config.js'
 
 export const incomesGroupByMonth = new ValidatedMethod({
     name: 'statistics.incomesGroupByMonth',
@@ -335,7 +335,7 @@ export const generateReport = new ValidatedMethod({
         }
 
         //set default to initial plan from app config (Free)
-        let plan = user.profile.businessPlan || appConfig.availablePlans[0];
+        let plan = user.profile.businessPlan || AppConfig.availablePlans[0];
         params.context = {
             folder: 'reports',
             plan : plan,
@@ -427,7 +427,7 @@ export const changePlan = new ValidatedMethod({
         params.owner = this.userId;
         let user = Meteor.user();
         //set default to Free
-        params.oldPlan = user.profile.businessPlan || appConfig.availablePlans[0];
+        params.oldPlan = user.profile.businessPlan || AppConfig.availablePlans[0];
 
         //configure AWS
         AWS.config.update({ "accessKeyId": Meteor.settings.AWSAccessKeyId,
