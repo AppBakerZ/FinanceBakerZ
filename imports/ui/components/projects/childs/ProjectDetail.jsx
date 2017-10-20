@@ -112,7 +112,7 @@ class ProjectDetail extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/projects', 1200);
+                routeHelpers.changeRoute('/app/projects', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Project deleted successfully',

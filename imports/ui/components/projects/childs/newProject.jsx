@@ -332,7 +332,7 @@ class NewProjectPage extends Component {
             }
         }, (err, response) => {
             if(response){
-                routeHelpers.changeRoute('/app/projects', 1200);
+                routeHelpers.changeRoute('/app/projects', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Project created successfully',
@@ -379,7 +379,7 @@ class NewProjectPage extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/projects', 1200);
+                routeHelpers.changeRoute('/app/projects', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Project updated successfully',

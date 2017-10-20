@@ -12,7 +12,7 @@ import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 //import config
-import { AppConfig } from '../../../utils/config.js'
+import { AppConfig } from '/imports/utils/config'
 
 import theme from './theme';
 
@@ -214,6 +214,7 @@ class ReportsPage extends Component {
 
     selectItem(index){
         let selectedReport =  this.props.reports[index];
+        // AppConfig.setPreviousRoute(location.href);
         // routeHelpers.changeRoute(`/app/reports/${selectedReport._id}`);
     }
 

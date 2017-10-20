@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { AppConfig} from "/imports/utils/config";
 
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 
@@ -158,6 +159,7 @@ class ProjectPage extends Component {
 
     onRowClick(index){
         let id = this.props.projects[index]._id;
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute(`/app/projectDetail/${id}`);
     }
 
@@ -253,6 +255,7 @@ class ProjectPage extends Component {
     }
 
     addProject(){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute('/app/projects/add/new');
     }
 

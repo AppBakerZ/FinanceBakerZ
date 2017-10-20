@@ -16,7 +16,7 @@ import NothingFound from '../utilityComponents/NothingFound.jsx'
 import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
-import { AppConfig } from "../../../utils/config";
+import { AppConfig } from "/imports/utils/config";
 
 import { Transactions } from '../../../api/transactions/transactions';
 
