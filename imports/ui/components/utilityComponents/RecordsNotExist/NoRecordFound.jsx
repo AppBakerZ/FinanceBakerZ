@@ -32,7 +32,6 @@ class NoRecordFound extends Component {
     }
 
     render() {
-        AppConfig.setPreviousRoute(location.href);
         const { formatMessage } = this.props.intl;
         return (
             <div className={theme.projectNothing}>
