@@ -164,3 +164,30 @@ body[dir="rtl"] .categoriesTitle button {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+//////////// extra small media query start here ///////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .categoriesTable{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .categoriesContent{
+    padding: 0 1.5rem 1rem;
+    margin-top: 1.5rem;
+  }
+  .categoriesContent .categoriesTitle{
+    padding: 2rem 2rem;
+    display: inline-block;
+    width: 100%;
+  }
+  .categoriesContent .categoriesTitle h3{
+    font-size: 25px;
+  }
+  .categoriesContent .categoriesTitle button{
+    padding: 0.3rem 0 0 0;
+    height: 4.4rem;
+    font-size: 17px !important;
+  }
+}
+//////////// extra small media query end here /////////////////

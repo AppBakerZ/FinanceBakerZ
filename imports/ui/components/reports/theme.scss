@@ -150,3 +150,34 @@ body[dir="rtl"] .reportsTable table thead tr th:nth-of-type(3) {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+////////////////// extra small media query start here ////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .reports{
+    padding: 15px;
+  }
+  .reports .generateBtn .filterDropDowns{
+    width: 100%;
+    margin-right: 0;
+  }
+  .reports .generateBtn button{
+    width: 100%;
+    margin: 9px 0 0 0;
+  }
+  .reports .reportsTable .tableBox{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  }
+}
+////////////////// extra small media query end here //////////////////////
+
+////////////////// small media query start here //////////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .reports .reportsTable .tableBox{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  }
+}
+////////////////// small media query end here ////////////////////////////

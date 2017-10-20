@@ -92,6 +92,11 @@
   .table {
     padding: 1rem;
   }
+  .recentTable{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  }
 }
 /////////////////////////////////////////////////
 //////// Extra Small Media Query End Here ///////

@@ -201,9 +201,6 @@
           color: #008142;
           font-family: "Nexa Bold Regular", "Arial", sans-serif;
         }
-        //&:last-of-type{
-        //  margin-bottom: 10px;
-        //}
       }
     }
     .accountContent{
@@ -235,3 +232,19 @@
     }
   }
 }
+
+////////// extra small media query start here ////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .incomeCard{
+    margin: 15px auto 0;
+    padding-bottom: 15px;
+  }
+  .incomeCard .incomeForm{
+    padding: 15px;
+  }
+  .incomeCard .incomeForm button{
+    margin: 10px auto 0;
+  }
+
+}
+////////// extra small media query end here //////////////////

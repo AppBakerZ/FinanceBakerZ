@@ -169,13 +169,6 @@
 .notificationCheckbox{
   display: inline-block;
   font-size: 2.8rem;
-  //font-family: "Nexa Light Regular", "Arial", sans-serif;
-  //text-transform: capitalize;
-  //margin: 2rem 0 0 0;
-  //color: #333333;
-  //font-weight: 400;
-  //line-height: 2.4rem;
-  //letter-spacing: .04em;
 }
 
 ////////////////////// new income styling /////////////////////////////
@@ -275,3 +268,11 @@
     }
   }
 }
+
+//////////////////// extra small media query start here //////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .incomeCard .incomeForm{
+    padding: 10px 15px 20px;
+  }
+}
+//////////////////// extra small media query end here ////////////////////

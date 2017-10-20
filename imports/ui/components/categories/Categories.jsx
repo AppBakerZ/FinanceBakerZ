@@ -201,11 +201,11 @@ class CategoriesPage extends Component {
                 return;
             }
             return <span key={catName + i}>
-                    <div onClick={this.categoryDetail.bind(this, category)}>
-                        {catName}
-                        <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
-                    </div>
-                    </span>
+                <div onClick={this.categoryDetail.bind(this, category)}>
+                    {catName}
+                    <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
+                </div>
+                </span>
         });
     }
     render() {
@@ -268,7 +268,7 @@ class CategoriesPage extends Component {
                             onClick={this.addCategory.bind(this)}
                             theme={buttonTheme}/>
                     </div>
-                    <Card theme={tableTheme}>
+                    <Card theme={tableTheme} className={theme.categoriesTable}>
                         {this.props.categoriesLoading ? <Loader accent/> : this.props.categoriesExists ?
                             <Table className={theme.table} theme={tableTheme}
                                    selectable={false}

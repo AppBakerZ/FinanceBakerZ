@@ -441,7 +441,7 @@ class SettingsPage extends Component {
         let profileImage = Meteor.user().profile.avatar || "/assets/images/HQ3YU7n.gif";
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                <div className={theme.removeStyling} style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
                             <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
