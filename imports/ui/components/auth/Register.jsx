@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers'
 import { stringHelpers } from '../../../helpers/stringHelpers'
-import { appConfig } from '/imports/utils/config.js'
+import { AppConfig } from '/imports/utils/config.js'
 
 import { IconButton, Input, Button, Dropdown } from 'react-toolbox';
 
@@ -118,7 +118,7 @@ class Register extends Component {
     }
 
     plans(){
-        return appConfig.availablePlans.map((plan, i)=>{
+        return AppConfig.availablePlans.map((plan, i)=>{
             if(i === 0){
                 return {
                     title: stringHelpers.capitalize(plan),

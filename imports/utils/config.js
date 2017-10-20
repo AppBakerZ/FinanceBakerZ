@@ -1,4 +1,4 @@
-export const appConfig = ({
+export const AppConfig = ({
     //just update when ever core plans updated or changed
     availablePlans : ['free', 'personal', 'professional'],
     Free: {
@@ -18,5 +18,10 @@ export const appConfig = ({
             count: 15,
             expires: 30 //days
         }
+    },
+    previousRoute : false,
+    setPreviousRoute : (route) =>{
+        route && (route = route.replace(Meteor.absoluteUrl(), '/'));
+        AppConfig.previousRoute = route;
     }
 });

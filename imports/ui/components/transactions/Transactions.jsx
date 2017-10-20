@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
+import { AppConfig } from "../../../utils/config";
 import { Categories } from '/imports/api/categories/categories.js'
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
 import TransactionsTable from '/imports/ui/components/reports/TransactionsTable.jsx';

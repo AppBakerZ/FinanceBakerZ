@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 
+import { AppConfig } from "/imports/utils/config";
 import { Card, CardTitle, Button, DatePicker, FontIcon, Autocomplete, Dropdown, Table, Fonticon } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
@@ -306,6 +307,7 @@ class DashboardPage extends Component {
         )
     }
     render() {
+        AppConfig.setPreviousRoute(false);
         const { formatMessage } = this.props.intl;
         return (
             <div style={{ flex: 1, overflowY: 'auto' }}>

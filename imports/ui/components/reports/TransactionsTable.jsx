@@ -16,6 +16,7 @@ import NothingFound from '../utilityComponents/NothingFound.jsx'
 import RecordsNotExists from '../utilityComponents/RecordsNotExists.jsx'
 
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { AppConfig } from "/imports/utils/config";
 
 import { Transactions } from '../../../api/transactions/transactions';
 
@@ -55,6 +56,7 @@ class TransactionsTable extends Component {
     }
     selectItem(index){
         let selectedTransaction =  this.props.transactions[index] ;
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute(`/app/transactions/${selectedTransaction.type}/${selectedTransaction._id}`);
     }
     handleBarClick (event, instance) {
@@ -74,9 +76,11 @@ class TransactionsTable extends Component {
         }
     }
     addIncome(){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute('/app/transactions/income/add/new');
     }
     addExpense(){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute('/app/transactions/expense/add/new');
     }
     render() {

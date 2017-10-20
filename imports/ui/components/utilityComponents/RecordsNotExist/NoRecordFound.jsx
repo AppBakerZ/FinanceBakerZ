@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-intl';
 
 import { routeHelpers } from '../../../../helpers/routeHelpers';
+import { AppConfig } from "/imports/utils/config";
 
 import PropTypes from 'prop-types';
 
@@ -31,6 +32,7 @@ class NoRecordFound extends Component {
     }
 
     render() {
+        AppConfig.setPreviousRoute(location.href);
         const { formatMessage } = this.props.intl;
         return (
             <div className={theme.projectNothing}>
