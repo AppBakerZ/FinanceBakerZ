@@ -208,8 +208,11 @@ body[dir="rtl"] .dashboardDropdown > div:last-of-type {
   }
   .cardBox .responsiveCardSecond{
     margin-left: 0 !important;
-    width: 50%;
+    width: 49%;
     float: left;
+  }
+  .cardBox .responsiveCardSecond:last-of-type{
+    float: right;
   }
   .recentActivitiesWrapper div{
     display: block;
