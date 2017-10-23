@@ -13,32 +13,23 @@ Meteor.startup(() => {
             return "Reset Password Request!";
         },
         html(user, url) {
-            SSR.compileTemplate('emailLayout', Assets.getText('emailLayout.html'));
-            SSR.compileTemplate('test', Assets.getText('test.html'));
-            Template.emailLayout.helpers({
-                getDocType: function() {
-                    return "<!DOCTYPE html>";
-                }
-            });
-            let css = Assets.getText('bootstrap.min.css');
-            let customStyle = Assets.getText('forgotPassword.css');
-            let Group = Assets.getText('Group.png');
-            let footerLogo = Assets.getText('footer-logo.png');
-            let data = {
-                css,
-                customStyle,
-            };
-            return SSR.render('emailLayout', {
-                css: css,
-                customStyle,
-                template: "test",
-                Group,
-                footerLogo,
-                data: {
-                    Group,
-                    footerLogo
-                },
-            });
+            SSR.compileTemplate('compiled', Assets.getText('compiled.html'));
+            // let html = Assets.getText('compiled.html')
+            // SSR.compileTemplate('compiled', Assets.getText('compiled.html'));
+            // Template.emailLayout.helpers({
+            //     getDocType: function() {
+            //         return "<!DOCTYPE html>";
+            //     }
+            // });
+            //
+            // let htmlString = SSR.render('emailLayout', {
+            //     template: "compiled",
+            //     data: {
+            //         url
+            //     },
+            // });
+            // console.log(html);
+            return SSR.render( 'compiled', {url} )
         }
     }
 });
