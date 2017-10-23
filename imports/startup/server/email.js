@@ -14,13 +14,15 @@ Meteor.startup(() => {
         },
         html(user, url) {
             //get precompiled template which compiled with http://premailer.dialect.ca/
-            SSR.compileTemplate('t', Assets.getText('t.html'));
+            //the below one has better formatting in different cases
+            // http://www.mailermailer.com/resources/tools/magic-css-inliner-tool.rwp
+            SSR.compileTemplate('compiled', Assets.getText('compiled.html'));
             let data = {
                 url,
                 userName: user.profile.fullName
             };
             //then render the compiled template with data
-            return SSR.render('t', data )
+            return SSR.render('compiled', data )
         }
     }
 });

@@ -79,19 +79,20 @@
             height: 44px;
             margin: 8px 0 8px 0;
         }
-        .footer span{
+        .footer a{
+            text-decoration: none;
             display: inline-block;
             color: white;
             font-size: 12px;
             margin: 25px 0 0 0;
         }
-        .footer span:first-of-type{
+        .footer a:first-of-type{
             padding-right: 10px;
             border-right: 1px solid white;
             margin-right: 8px;
         }
 
-
+        /*/////// extra small media query start here /////////*/
         @media (min-width: 320px) and (max-width: 767px){
             .email-content {
                 width: 100%;
@@ -116,40 +117,42 @@
                 padding: 0 20px;
                 text-align: center;
             }
-            .footer span{
+            .footer a{
+                text-decoration: none;
+                color: white;
                 display: block;
             }
-            .footer span:last-of-type{
+            .footer a:last-of-type{
                 margin: 10px 0 0 0;
             }
-            .footer span:first-of-type {
+            .footer a:first-of-type {
                 padding-right: 0;
                 border-right: 0;
                 margin-right: 0;
             }
         }
-
+        /*/////// extra small media query end here ///////////*/
 
     </style>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 </head>
 <body>
-<div class="email-content" style="width:600px;display:block;margin-top:30px;margin-bottom:0;margin-right:auto;margin-left:auto;box-shadow:0 0 4px 0 #333;" >
-    <img src="https://s3.amazonaws.com/financebakerz/Assets/Images/Group.png" alt="" style="width:600px;height:238px;display:inline-block;margin-bottom:30px;" >
-    <div class="content" style="text-align:center;" >
-        <h2 style="margin-top:0;margin-bottom:20px;margin-right:0;margin-left:0;font-size:16px;text-transform:capitalize;color:#333;font-family:'Open Sans', sans-serif;font-weight:400;" >Hi, {{userName}}!</h2>
-        <h3 style="margin-top:0;margin-bottom:20px;margin-right:0;margin-left:0;font-family:'Open Sans', sans-serif;font-size:14px;color:#0d8243;font-weight:700;" >There was a request to change your password.</h3>
-        <p style="margin-top:0;margin-bottom:25px;margin-right:0;margin-left:0;font-family:'Open Sans', sans-serif;font-size:12px;font-weight:400;color:#333;line-height:25px;padding-top:0;padding-bottom:0;padding-right:90px;padding-left:90px;" >
+<div class="email-content">
+    <img src="https://s3.amazonaws.com/financebakerz/Assets/Images/Group.png" alt="">
+    <div class="content">
+        <h2>Hi, {{userName}}!</h2>
+        <h3>There was a request to change your password.</h3>
+        <p>
             If you didn't this request, just ignore this email. Otherwise, please click on the button below
             to change your password.
         </p>
-        <a href="{{url}}" style="text-decoration:none;display:inline-block;padding-top:1px;padding-bottom:0;padding-right:0;padding-left:0;width:240px;height:40px;background-color:#0d8243;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;color:white;outline-style:none;font-family:'Open Sans', sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;border-width:0;border-radius:10px;line-height:40px;box-shadow:0 3px 9px 2px #d2d2d2;margin-top:0;margin-bottom:30px;margin-right:0;margin-left:0;" >change password</a>
-        <span style="font-family:'Open Sans', sans-serif;font-size:12px;font-weight:400;display:block;margin-top:0;margin-bottom:30px;margin-right:0;margin-left:0;" >This link will be valid for next 12 hours.</span>
+        <a href="{{url}}">change password</a>
+        <span>This link will be valid for next 12 hours.</span>
     </div>
-    <div class="footer" style="width:100%;display:inline-block;background-color:#464646;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:0;padding-bottom:0;padding-right:60px;padding-left:60px;" >
-        <span style="display:inline-block;color:white;font-size:12px;margin-top:25px;margin-bottom:0;margin-right:0;margin-left:0;" >contact@financebakerz.com</span>
-        <span style="display:inline-block;color:white;font-size:12px;margin-top:25px;margin-bottom:0;margin-right:0;margin-left:0;" >www.financebakerz.com</span>
-        <img src="https://s3.amazonaws.com/financebakerz/Assets/Images/footer-logo.png" alt="" style="display:inline-block;float:right;width:60px;height:44px;margin-top:8px;margin-bottom:8px;margin-right:0;margin-left:0;" >
+    <div class="footer">
+        <a>contact@financebakerz.com</a>
+        <a>www.financebakerz.com</a>
+        <img src="https://s3.amazonaws.com/financebakerz/Assets/Images/footer-logo.png" alt="">
     </div>
 </div>
 </body>
