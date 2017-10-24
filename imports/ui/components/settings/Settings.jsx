@@ -154,7 +154,7 @@ class SettingsPage extends Component {
             loading: false,
             number: userInfo.profile.contactNumber || '' ,
             username: userInfo.username || '',
-            email: userInfo.emails ? userInfo.emails[0].address : '',
+            email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || '',
             imageUrl: ''
         };
@@ -438,6 +438,7 @@ class SettingsPage extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let { openDialog } = this.state;
+        let { emails } = Meteor.user();
         let profileImage = Meteor.user().profile.avatar || "/assets/images/HQ3YU7n.gif";
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
@@ -467,7 +468,7 @@ class SettingsPage extends Component {
                                 <h6> <FormattedMessage {...il8n.NAME} />  <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.CONTACT_NUMBER} />  <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.USER} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
-                                <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {(emails && emails.length) ? emails[0].address :'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                             </div>
                         </Card>
