@@ -38,8 +38,14 @@ MeteorAccounts.onCreateUser(function(options, user) {
         }
         user.profile = options.profile;
     }
-    if(user.emails && user.emails.length)
+
+    if(user.emails && user.emails.length){
         user.profile.md5hash = Gravatar.hash(user.emails[0].address);
+    }
+    else{
+        user.emails = []
+    }
+
     return user;
 
 });
