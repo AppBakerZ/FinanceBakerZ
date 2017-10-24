@@ -97,6 +97,10 @@ export const updateProfile = new ValidatedMethod({
         if(!users.username && !users.email){
             throw new Meteor.Error(500, 'You cannot empty the username/email.');
         }
+        let alreadyExists = Meteor.users.findOne({'emails.address': users.email});
+        if(alreadyExists && alreadyExists._id !== Meteor.user()._id){
+            throw new Meteor.Error(500, 'Email already attached with another Account');
+        }
         let update = {'profile.fullName': users.name, 'profile.address': users.address , 'profile.contactNumber': users.number};
         if(users.username) {
             update['username'] = users.username;
@@ -198,6 +202,10 @@ export const updateUserProfile = new ValidatedMethod({
     run({ users }) {
         if(!users.username && !users.email){
             throw new Meteor.Error(500, 'You cannot empty the username/email.');
+        }
+        let alreadyExists = Meteor.users.findOne({'emails.address': users.email});
+        if(alreadyExists && alreadyExists._id !== Meteor.user()._id){
+            throw new Meteor.Error(500, 'Email already attached with another Account');
         }
         let update = {'profile.fullName': users.name, 'profile.address': users.address , 'profile.contactNumber': users.number};
         if(users.username) {
