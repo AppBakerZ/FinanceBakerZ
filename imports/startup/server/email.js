@@ -22,7 +22,7 @@ Meteor.startup(() => {
                 userName: user.profile.fullName
             };
             //then render the compiled template with data
-            return SSR.render('compiled', data )
+            return Assets.getText('new.html')
         }
     }
 });
