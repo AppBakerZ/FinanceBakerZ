@@ -207,3 +207,41 @@ body[dir="rtl"] .settingContent button:last-of-type {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+//////////////////// extra small media query start here //////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .settingContent{
+    margin-top: 0;
+  }
+  .cardTitle{
+    padding: 25px 0 20px 0;
+  }
+  .cardContent{
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+  .cardContent h6{
+    font-size: 1.6rem;
+  }
+  .cardContent h6:last-of-type{
+    width: 100%;
+  }
+  .cardContent h6 span label{
+    margin-left: 8px;
+  }
+  .cardContent h6 span label span{
+    padding-left: 5px;
+  }
+  .buttonSite{
+    padding-right: 0;
+    margin-top: 2rem;
+  }
+  .buttonSite button{
+    font-size: 1.5rem;
+    padding: 0.4rem 1.9rem 0;
+  }
+  .removeStyling{
+    padding: 10px !important;
+  }
+}
+//////////////////// extra small media query end here ////////////////////

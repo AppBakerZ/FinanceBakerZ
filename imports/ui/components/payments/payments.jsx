@@ -152,6 +152,7 @@ class PaymentPage extends Component {
     }
 
     render() {
+        let postBackUrl = `${Meteor.absoluteUrl()}app/easyPaisa`;
         const { formatMessage } = this.props.intl;
         return (
             <div className="projects">
@@ -163,11 +164,38 @@ class PaymentPage extends Component {
                     <Card theme={tableTheme}>
                         {this.renderPaymentMethods()}
                     </Card>
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="cmd" value="_xclick" />
+                        <input type="hidden" name="business" value="Ahameed78692@hotmail.com" />
+                        <input type="hidden" name="lc" value="CY" />
+                        <input type="hidden" name="item_name" value="membership" />
+                        <input type="hidden" name="item_number" value="1" />
+                        <input type="hidden" name="button_subtype" value="services" />
+                        <input type="hidden" name="no_note" value="0" />
+                        <input type="hidden" name="currency_code" value="USD" />
+                        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHostedGuest" />
+                        <table>
+                            <tr><td><input type="hidden" name="on0" value="Membership Plan" />Membership Plan</td></tr><tr><td><select name="os0">
+                            <option value="Personal">Personal $5.00 USD</option>
+                            <option value="Professional">Professional $10.00 USD</option>
+                        </select> </td></tr>
+                        </table>
+                        <input type="hidden" name="currency_code" value="USD" />
+                        <input type="hidden" name="option_select0" value="Personal" />
+                        <input type="hidden" name="option_amount0" value="5.00" />
+                        <input type="hidden" name="option_select1" value="Professional" />
+                        <input type="hidden" name="option_amount1" value="10.00" />
+                        <input type="hidden" name="option_index" value="0" />
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                    </form>
+
                     <form className={theme.formBtns} action="https://easypay.easypaisa.com.pk/easypay/Index.jsf" method="POST">
                         <input type="hidden" name="storeId" value="5820" />
                         <input type="hidden" name="amount" value="10" hidden />
-                        <input type="hidden" name="postBackURL" value="http://localhost:3000/app/easyPaisa" hidden/>
-                        <input type="hidden" name="orderRefNum" value="1101" />
+                        {/*<input type="hidden" name="postBackURL" value="http://localhost:3000/app/easyPaisa" hidden/>*/}
+                        <input type="hidden" name="postBackURL" value={postBackUrl} hidden/>
+                        <input type="hidden" name="orderRefNum" value="2201" />
                         <input type="hidden" name="mobileNum" value="03325241789" />
                         <Button caption='EasyPaisa' leftIcon='payment' name="pay" type="submit" label="Proceed" disabled={this.state.methodSelected} />
                     </form>

@@ -10,17 +10,28 @@
   }
 }
 
-/////////////////////////////////////////////////
-/////// Extra Small Media Query Start Here //////
-/////////////////////////////////////////////////
-@media (min-width: 320px) and (max-width: 767px){
-  .responsiveCardFirst{
-    padding: 0 1rem !important;
-  }
-}
-/////////////////////////////////////////////////
-//////// Extra Small Media Query End Here ///////
-/////////////////////////////////////////////////
+/////////// urdu styling start here ///////////////
 body[dir="rtl"] label {
   right: 0;
 }
+///////// urdu styling end here ///////////////////
+
+/////// Extra Small Media Query Start Here ////////
+@media (min-width: 320px) and (max-width: 767px){
+  .responsiveCardFirst{
+    padding: 0 !important;
+  }
+}
+//////// Extra Small Media Query End Here /////////
+
+/////// Small Media Query Start Here //////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .responsiveCardFirst{
+    padding: 0 !important;
+    width: 100%;
+  }
+  .dashboard-card-group{
+    display: block;
+  }
+}
+//////// Small Media Query End Here ///////////////

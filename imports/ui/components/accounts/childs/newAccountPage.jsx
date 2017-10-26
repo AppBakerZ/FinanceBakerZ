@@ -135,7 +135,7 @@ class newAccountPage extends Component {
                 }
             }, (err, response) => {
                 if (response) {
-                    routeHelpers.changeRoute('/app/accounts', 1200);
+                    routeHelpers.changeRoute('/app/accounts', 1200, {}, true);
                     this.setState({
                         active: true,
                         barMessage: 'Account created successfully',
@@ -182,7 +182,7 @@ class newAccountPage extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/accounts', 1200);
+                routeHelpers.changeRoute('/app/accounts', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Account updated successfully',

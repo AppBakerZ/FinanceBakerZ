@@ -5,3 +5,11 @@
   padding: 0 $unit * 2.5;
   margin-bottom: $unit - 0.8;
 }
+
+//////////////////// extra small media query start here //////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .card{
+    padding: 0 10px;
+  }
+}
+//////////////////// extra small media query end here ////////////////////

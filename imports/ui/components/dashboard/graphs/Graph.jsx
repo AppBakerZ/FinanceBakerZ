@@ -4,6 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Dropdown, Card } from 'react-toolbox';
 
 import { Meteor } from 'meteor/meteor';
+import CustomMessage from '../../utilityComponents/customMessage/customMessage.jsx'
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 import { currencyFormatHelpers, userCurrencyHelpers } from '../../../../helpers/currencyHelpers.js'
 import theme from './theme';
@@ -99,6 +100,14 @@ export default class Graph extends Component {
     };
 
     render() {
+        let { graph } = this.state;
+        let minHeight = {};
+        if(!(graph && graph.length)){
+            minHeight = {
+                height: '150px'
+            };
+        }
+
 
         let yearDropdown = null;
         if(this.state.graphSelectedYear){
@@ -120,7 +129,8 @@ export default class Graph extends Component {
                 <h3> <FormattedMessage {...il8n.INCOME_OVERVIEW} /> </h3>
                 {yearDropdown}
             </div>
-            <div className={theme.areaChart}>
+            <div className={theme.areaChart} style={minHeight} >
+                {graph && graph.length ?
                 <ResponsiveContainer>
                     <AreaChart data={this.state.graph}
                                margin={{top: 15, right: 30, left: 50, bottom: 10}}>
@@ -145,9 +155,11 @@ export default class Graph extends Component {
                         <Area type='monotone' dataKey='income' stroke="#008148" fill="url(#colorIncome)" fillOpacity={1} />
                         <Area type='monotone' dataKey='expense' stroke='#e0b255' fill="url(#colorExpense)" fillOpacity={1} />
                     </AreaChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> :
+                    <CustomMessage message="Not enough data to show Graph. Please add more Transactions then graph will appear here"/>
+                }
             </div>
-        </Card>
+        </Card>;
 
         return this.state.graph ? chart : null;
     }

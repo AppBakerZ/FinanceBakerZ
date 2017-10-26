@@ -50,3 +50,26 @@
     }
   }
 }
+
+////////////// extra small media query start here ////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .values{
+    max-height: 31vh !important;
+  }
+  .values li div{
+    height: 6rem;
+    padding-top: 1rem;
+  }
+  .values li div i{
+    font-size: 4rem;
+  }
+}
+////////////// extra small media query end here //////////////////
+
+////////////// small media query start here //////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .values{
+    max-height: 35vh !important;
+  }
+}
+////////////// small media query end here ////////////////////////

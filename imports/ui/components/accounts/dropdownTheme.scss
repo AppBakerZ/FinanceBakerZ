@@ -48,3 +48,40 @@
     }
   }
 }
+
+/////////////// extra small media query start here /////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .dropdown .values{
+    max-height: 38vh !important;
+  }
+  .dropdown .values li{
+    width: 50% !important;
+  }
+  .dropdown .values li div{
+    border-right: 0;
+  }
+  .dropdown .values li .removeBottomBorder{
+    border-bottom: $unit - 0.8 solid #d3d3d3 !important;
+  }
+  .dropdown .values li:last-of-type div{
+    border-bottom: 0;
+  }
+  .dropdown .values li:last-of-type .removeBottomBorder{
+    border-bottom: 0 !important;
+  }
+  .dropdown .values li:nth-last-of-type(2) .removeBottomBorder{
+    border-bottom: 0 !important;
+  }
+  .dropdown .values li:nth-last-of-type(2) div{
+    border-bottom: 0 !important;
+  }
+}
+/////////////// extra small media query end here ///////////////////
+
+/////////////// small media query start here ///////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .dropdown .values{
+    max-height: 36vh !important;
+  }
+}
+/////////////// small media query end here /////////////////////////

@@ -2,6 +2,7 @@ import React, { Component,  } from 'react';
 import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { AppConfig} from "../../../utils/config";
 
 import { List, ListItem, Button, Card, Table, Dialog, Snackbar } from 'react-toolbox';
 
@@ -114,10 +115,12 @@ class AccountsPage extends Component {
     }
 
     addAccount(){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute('/app/accounts/add/new');
     }
 
     editAccount(account){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute(`/app/accounts/edit/${account._id}`);
     }
 

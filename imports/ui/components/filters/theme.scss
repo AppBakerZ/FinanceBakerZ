@@ -152,6 +152,7 @@
   }
 }
 
+/////////////////// rtl ////////////////////////
 body[dir="rtl"] .filterDropDowns div div:after {
   left: 0;
   right: auto;
@@ -193,3 +194,82 @@ body[dir="rtl"] .autoCompleteIncomeParent div div:after{
   left: 0;
   right: auto;
 }
+/////////////////// rtl ////////////////////////
+
+//////////////// extra small media query start here ///////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .filterDropDowns{
+    width: 100%;
+  }
+  .datePickers{
+    width: 100% !important;
+  }
+  .datePickers > div{
+    width: 100%;
+    margin: 0;
+  }
+  .autocomplete > div{
+    width: 100% !important;
+  }
+  .autocomplete .suggestions{
+    width: 100% !important;
+  }
+  .autocomplete .values{
+    width: 100% !important;
+    padding-left: 0 !important;
+  }
+  .dropDowns{
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .autoCompleteIncomeParent{
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+  .childCategories{
+    left: 0;
+    top: 75px;
+    width: 100%;
+  }
+}
+//////////////// extra small media query end here /////////////////////
+
+//////////////// small media query start here /////////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .filterDropDowns{
+    width: 30%;
+  }
+  .datePickers{
+    width: 70% !important;
+  }
+  .datePickers > div{
+    width: 45%;
+  }
+  .autocomplete > div{
+    width: 30% !important;
+  }
+  .autocomplete .values{
+    width: 70% !important;
+  }
+  .autocomplete .suggestions{
+    width: 30% !important;
+  }
+  .dropDowns{
+    width: 30%;
+  }
+  .autoCompleteIncomeParent{
+    width: 67%;
+  }
+  .autoCompleteIncomeParent .autoCompleteIncome ul{
+    width: 55% !important;
+  }
+  .autoCompleteIncomeParent .autoCompleteIncome > div{
+    width: 40% !important;
+  }
+  .autoCompleteIncomeParent .childCategories{
+    width: 45%;
+    left: 45%;
+  }
+}
+//////////////// small media query end here ///////////////////////////

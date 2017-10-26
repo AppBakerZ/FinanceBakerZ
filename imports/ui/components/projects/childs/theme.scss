@@ -265,3 +265,53 @@ body[dir="rtl"] .btnParents button {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+///////////////// extra small media query start here ///////////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .incomeCard .incomeForm{
+    padding: 20px;
+  }
+  .customField .projectCustomField{
+    width: 80% !important;
+  }
+  .customField .closeBtnParent{
+    width: 20% !important;
+  }
+  .viewExpense{
+    padding: 5px;
+  }
+  .titleBox{
+    padding: 0 20px 10px !important;
+    width: 100%;
+    float: left;
+  }
+  .titleBox h3{
+    padding: 23px 0 0 0 !important;
+  }
+  .bankContent{
+    padding: 0 !important;
+    display: inline-block;
+    width: 100%;
+  }
+  .bankContent .depositContent{
+    padding: 20px 15px 10px !important;
+  }
+  .bankContent .depositContent h6{
+    margin: 0 0 10px 0 !important;
+    display: block !important;
+  }
+  .bankContent .depositContent h6:last-of-type{
+    margin: 0 0 20px 0 !important;
+  }
+  .bankContent .depositContent h5{
+    font-size: 16px !important;
+    margin-bottom: 20px !important;
+  }
+}
+///////////////// extra small media query end here /////////////////////////
+@media (min-width: 320px) and (max-width: 515px){
+  .titleBox .rightButtons{
+    width: 100%;
+    margin-top: 0 !important;
+  }
+}

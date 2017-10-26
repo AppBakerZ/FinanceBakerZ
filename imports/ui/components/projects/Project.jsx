@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment';
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
+import { AppConfig} from "/imports/utils/config";
 
 import { Autocomplete, Button, DatePicker, Dialog, Dropdown, IconButton, Input, Snackbar, Table, ProgressBar, Card} from 'react-toolbox';
 
@@ -158,6 +159,7 @@ class ProjectPage extends Component {
 
     onRowClick(index){
         let id = this.props.projects[index]._id;
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute(`/app/projectDetail/${id}`);
     }
 
@@ -247,12 +249,13 @@ class ProjectPage extends Component {
            />;
         return (
             <Card theme={tableTheme}>
-                { projects.length ? table : this.props.projectsTotal ? <NothingFound route="app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
+                { projects.length ? table : this.props.projectsTotal ? <NothingFound route="/app/projects/add/new"/>: <RecordsNotExists route="app/projects/add/new"/>}
             </Card>
         )
     }
 
     addProject(){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute('/app/projects/add/new');
     }
 
@@ -303,7 +306,7 @@ class ProjectPage extends Component {
                             theme={theme}
                             />
                     </div>
-                    <Card theme={tableTheme}>
+                    <Card theme={tableTheme} className={theme.responsiveTable}>
                         { this.renderProjectTable() }
                     </Card>
                 </div>

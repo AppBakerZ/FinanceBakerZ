@@ -15,7 +15,6 @@
 }
 
 .paginationList{
-  //margin-right: 0.3em;
   color: blue;
   user-select: none;
   cursor: pointer;
@@ -230,3 +229,75 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+//////////// extra small media query start here ///////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .incomeCard .incomeForm{
+    padding: 15px;
+  }
+  .incomeCard .card{
+    padding-bottom: 20px;
+  }
+  .incomeCard button{
+    margin: 20px auto 0;
+  }
+  .viewExpense{
+    padding: 15px;
+  }
+  .viewExpense .titleBox{
+    width: 100%;
+    display: inline-block;
+    padding: 0 20px;
+  }
+  .viewExpense .titleBox h3{
+    font-size: 2.2rem;
+    padding: 23px 0 17px 0;
+  }
+  .viewExpense .titleBox .rightButtons button{
+    font-size: 20px;
+    padding: 2px 2px 0 2px;
+  }
+  .viewExpense .titleBox .rightButtons button:first-of-type{
+    margin-right: 0;
+  }
+  .viewExpense .bankContent{
+    padding: 0 15px;
+  }
+  .viewExpense .bankContent .depositContent{
+    padding: 20px 0;
+  }
+  .viewExpense .bankContent .depositContent h6{
+    margin: 0 0 20px 0;
+    display: block;
+  }
+  .viewExpense .bankContent .depositContent h6:last-of-type{
+    margin-left: 0;
+  }
+  .viewExpense .bankContent .depositContent h5{
+    margin: 0 0 20px 0;
+  }
+  .projectStatusResponsive ul li{
+    width: 100% !important;
+  }
+  .projectStatusResponsive ul li div i{
+    margin-right: 5px;
+  }
+  .projectStatusResponsive div strong{
+    margin-left: 5px;
+  }
+}
+//////////// extra small media query end here /////////////////
+
+//////////// small media query start here ///////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .projectStatusResponsive ul li{
+    width: 100% !important;
+  }
+  .projectStatusResponsive ul li div i{
+    margin-right: 5px;
+  }
+  .projectStatusResponsive div strong{
+    margin-left: 5px;
+  }
+}
+//////////// small media query end here /////////////////////////

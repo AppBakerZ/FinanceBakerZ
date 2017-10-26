@@ -6,7 +6,7 @@ import { Categories } from '../categories/categories.js';
 import { Projects } from '../projects/projects.js';
 
 //import config
-import { appConfig } from '../../utils/config.js'
+import { AppConfig } from '../../utils/config.js'
 
 MeteorAccounts.onCreateUser(function(options, user) {
     let account = {owner: user._id};
@@ -34,12 +34,18 @@ MeteorAccounts.onCreateUser(function(options, user) {
     if (options.profile) {
         //add plan from here untill it will be implemented in front end
         if (!options.profile.businessPlan) {
-            options.profile.businessPlan = appConfig.availablePlans[0];
+            options.profile.businessPlan = AppConfig.availablePlans[0];
         }
         user.profile = options.profile;
     }
-    if(user.emails && user.emails.length)
+
+    if(user.emails && user.emails.length){
         user.profile.md5hash = Gravatar.hash(user.emails[0].address);
+    }
+    else{
+        user.emails = []
+    }
+
     return user;
 
 });

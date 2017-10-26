@@ -5,13 +5,14 @@ import {FormattedMessage, FormattedNumber, intlShape, injectIntl, defineMessages
 import moment from 'moment';
 
 import FilterBar from '/imports/ui/components/filters/FilterBar.jsx';
+import CustomMessage from '../utilityComponents/customMessage/customMessage.jsx'
 import { Reports } from '/imports/api/reports/reports.js'
 import { Categories } from '/imports/api/categories/categories.js'
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { dateHelpers } from '../../../helpers/dateHelpers.js'
 import { routeHelpers } from '../../../helpers/routeHelpers.js'
 //import config
-import { appConfig } from '../../../utils/config.js'
+import { AppConfig } from '/imports/utils/config'
 
 import theme from './theme';
 
@@ -213,6 +214,7 @@ class ReportsPage extends Component {
 
     selectItem(index){
         let selectedReport =  this.props.reports[index];
+        // AppConfig.setPreviousRoute(location.href);
         // routeHelpers.changeRoute(`/app/reports/${selectedReport._id}`);
     }
 
@@ -254,7 +256,7 @@ class ReportsPage extends Component {
     }
 
     getUserPlan(){
-        return Meteor.user() && Meteor.user().profile && Meteor.user().profile.businessPlan || appConfig.availablePlans[0];
+        return Meteor.user() && Meteor.user().profile && Meteor.user().profile.businessPlan || AppConfig.availablePlans[0];
     }
 
     generatePdf(){
@@ -262,7 +264,7 @@ class ReportsPage extends Component {
         let previousTotal = this.props.reports.length;
 
         //for now it commented to ensure different tests
-        // if(previousTotal >= appConfig[userPlan].reports.count){
+        // if(previousTotal >= AppConfig[userPlan].reports.count){
         //     this.setState({
         //         disableButton: false,
         //         active: true,
@@ -383,13 +385,15 @@ class ReportsPage extends Component {
                 </div>
                 <div className={theme.reportsTable}>
                     <h3 className={theme.reportsTableHeading}>{formatMessage(il8n.ALL_REPORTS)}</h3>
-                    <Card>
-                        <Table theme={theme} model={this.getTableModel()}
-                               source={data}
-                               onRowClick={this.selectItem.bind(this)}
-                               selectable={false}
-                               heading={true}
-                        />
+                    <Card className={theme.tableBox}>
+                        {reports.length ? <Table theme={theme} model={this.getTableModel()}
+                                                 source={data}
+                                                 onRowClick={this.selectItem.bind(this)}
+                                                 selectable={false}
+                                                 heading={true}
+                        /> : <CustomMessage message="No Reports Found. Generate a report to display here"/>}
+
+
                     </Card>
                 </div>
             </div>

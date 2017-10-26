@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
 import { routeHelpers } from '../../../helpers/routeHelpers.js';
+import { AppConfig} from "/imports/utils/config";
 
 import { Button, Table, Card, FontIcon, Dialog, Snackbar } from 'react-toolbox';
 
@@ -72,6 +73,7 @@ class CategoriesPage extends Component {
     }
 
     addCategory(){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute('/app/categories/add/new');
     }
     openPopup (action, category, e) {
@@ -172,6 +174,7 @@ class CategoriesPage extends Component {
     }
 
     categoryDetail(category){
+        AppConfig.setPreviousRoute(location.href);
         routeHelpers.changeRoute(`/app/categoryDetail/${category._id}`);
     }
 
@@ -201,11 +204,11 @@ class CategoriesPage extends Component {
                 return;
             }
             return <span key={catName + i}>
-                    <div onClick={this.categoryDetail.bind(this, category)}>
-                        {catName}
-                        <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
-                    </div>
-                    </span>
+                <div onClick={this.categoryDetail.bind(this, category)}>
+                    {catName}
+                    <a data-text={name} onClick={this.openPopup.bind(this, 'removeSubcategory', category)} > x </a>
+                </div>
+                </span>
         });
     }
     render() {
@@ -268,7 +271,7 @@ class CategoriesPage extends Component {
                             onClick={this.addCategory.bind(this)}
                             theme={buttonTheme}/>
                     </div>
-                    <Card theme={tableTheme}>
+                    <Card theme={tableTheme} className={theme.categoriesTable}>
                         {this.props.categoriesLoading ? <Loader accent/> : this.props.categoriesExists ?
                             <Table className={theme.table} theme={tableTheme}
                                    selectable={false}

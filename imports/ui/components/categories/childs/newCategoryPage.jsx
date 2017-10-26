@@ -161,7 +161,7 @@ class NewCategoryPage extends Component {
             }
         }, (err, response) => {
             if(response){
-                routeHelpers.changeRoute('/app/categories', 1200);
+                routeHelpers.changeRoute('/app/categories', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Category created successfully',
@@ -206,7 +206,7 @@ class NewCategoryPage extends Component {
                     barType: 'cancel'
                 });
             }else{
-                routeHelpers.changeRoute('/app/categories', 1200);
+                routeHelpers.changeRoute('/app/categories', 1200, {}, true);
                 this.setState({
                     active: true,
                     barMessage: 'Category updated successfully',
@@ -327,7 +327,7 @@ class NewCategoryPage extends Component {
 
                         {/*hide the option if category has any children*/}
                         {children && (children.length > 0) ? '' :
-                        < Dropdown theme={theme} className={theme.projectStatus}
+                        < Dropdown theme={theme} className={theme.projectStatusResponsive}
                             auto
                             source={this.categories()}
                             name='parentId'

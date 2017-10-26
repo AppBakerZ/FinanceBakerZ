@@ -147,7 +147,7 @@ class editSettingsPage extends Component {
             name: userInfo.profile.fullName,
             number: userInfo.profile.contactNumber || '',
             username: userInfo.username ? userInfo.username :'',
-            email: userInfo.emails ? userInfo.emails[0].address :'',
+            email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address :'',
             address: userInfo.profile.address || '',
             imageUrl: ''
 

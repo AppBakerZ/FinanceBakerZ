@@ -109,3 +109,51 @@
 body[dir="rtl"] .rightButtons {
   float: left !important;
 }
+
+//////////////// extra small media query start here ///////////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .tableParent{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .cardReport .titleBg{
+    padding: 0 20px 0;
+  }
+  .cardReport .titleBg h3{
+    padding: 23px 0 17px 0;
+  }
+  .cardReport .titleBg .rightButtons button:first-child{
+    margin-right: 0;
+  }
+}
+//////////////// extra small media query end here /////////////////////
+
+@media (min-width: 320px) and (max-width: 540px){
+  .cardReport .titleBg{
+    padding: 0 15px 10px;
+  }
+  .cardReport .titleBg h3{
+    padding: 23px 30px 0 0;
+  }
+  .cardReport .titleBg .rightButtons{
+    margin-top: 0;
+    width: 100%;
+  }
+  .cardReport .titleBg .rightButtons button{
+    padding: 4px 0 0;
+  }
+  .cardReport .titleBg .rightButtons button:first-child{
+    margin-right: 10px;
+  }
+}
+
+//////////////// small media query start here /////////////////////////
+@media (min-width: 768px) and (max-width: 991px){
+  .tableParent{
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+  }
+}
+//////////////// small media query end here ///////////////////////////

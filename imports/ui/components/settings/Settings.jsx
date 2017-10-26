@@ -154,7 +154,7 @@ class SettingsPage extends Component {
             loading: false,
             number: userInfo.profile.contactNumber || '' ,
             username: userInfo.username || '',
-            email: userInfo.emails ? userInfo.emails[0].address : '',
+            email: userInfo.emails && userInfo.emails.length ? userInfo.emails[0].address : '',
             address: userInfo.profile.address || '',
             imageUrl: ''
         };
@@ -438,9 +438,11 @@ class SettingsPage extends Component {
     render() {
         const { formatMessage } = this.props.intl;
         let { openDialog } = this.state;
+        let { emails } = Meteor.user();
+        let profileImage = Meteor.user().profile.avatar || "/assets/images/HQ3YU7n.gif";
         return (
             <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                <div className={theme.removeStyling} style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <div className={theme.settingContent}>
                         <div className={theme.settingTitle}>
                             <h3> <FormattedMessage {...il8n.TITLE} /> </h3>
@@ -458,12 +460,15 @@ class SettingsPage extends Component {
                         <Card theme={cardTheme}>
                             <div className={theme.cardTitle}>
                                 <h5><FormattedMessage {...il8n.PERSONAL_INFORMATION} /></h5>
+                                <div className='image-group'>
+                                    <img className='user-image' src={profileImage} />
+                                </div>
                             </div>
                             <div className={theme.cardContent}>
                                 <h6> <FormattedMessage {...il8n.NAME} />  <span>{Meteor.user().profile.fullName || 'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.CONTACT_NUMBER} />  <span> {Meteor.user().profile.contactNumber || 'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.USER} /> <span> { Meteor.user().username ? Meteor.user().username :'Not Available'} </span> </h6>
-                                <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {Meteor.user().emails ? Meteor.user().emails[0].address :'Not Available'}</span></h6>
+                                <h6> <FormattedMessage {...il8n.EMAIL} /> <span> {(emails && emails.length) ? emails[0].address :'Not Available'}</span></h6>
                                 <h6> <FormattedMessage {...il8n.ADDRESS} /> <span> {Meteor.user().profile.address || 'Not Available'}</span></h6>
                             </div>
                         </Card>
