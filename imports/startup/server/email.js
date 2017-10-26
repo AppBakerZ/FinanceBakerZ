@@ -14,17 +14,14 @@ Meteor.startup(() => {
         },
         html(user, url) {
 
-            SSR.compileTemplate('b', Assets.getText('b.html'));
+            SSR.compileTemplate('resetPassword', Assets.getText('resetPassword.html'));
 
-            Template.b.helpers({
-                getDocType: function() {
-                    return "<!DOCTYPE html>";
-                }
-            });
-
-
+            let data = {
+                url,
+                userName: user.profile.fullName
+            };
             //then render the compiled template with data
-            return SSR.render('b', {} )
+            return SSR.render('resetPassword', data )
         }
     }
 });
