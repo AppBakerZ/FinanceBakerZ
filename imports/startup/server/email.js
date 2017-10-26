@@ -13,16 +13,18 @@ Meteor.startup(() => {
             return "Reset Password Request!";
         },
         html(user, url) {
-            //get precompiled template which compiled with http://premailer.dialect.ca/
-            //the below one has better formatting in different cases
-            // http://www.mailermailer.com/resources/tools/magic-css-inliner-tool.rwp
-            SSR.compileTemplate('compiled', Assets.getText('compiled.html'));
-            let data = {
-                url,
-                userName: user.profile.fullName
-            };
+
+            SSR.compileTemplate('b', Assets.getText('b.html'));
+
+            Template.b.helpers({
+                getDocType: function() {
+                    return "<!DOCTYPE html>";
+                }
+            });
+
+
             //then render the compiled template with data
-            return Assets.getText('new.html')
+            return SSR.render('b', {} )
         }
     }
 });
