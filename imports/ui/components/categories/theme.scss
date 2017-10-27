@@ -167,11 +167,6 @@ body[dir="rtl"] .categoriesTitle button {
 
 //////////// extra small media query start here ///////////////
 @media (min-width: 320px) and (max-width: 767px){
-  .categoriesTable{
-    width: 100%;
-    overflow: auto;
-    white-space: nowrap;
-  }
   .categoriesContent{
     padding: 0 1.5rem 1rem;
     margin-top: 1.5rem;
@@ -182,12 +177,25 @@ body[dir="rtl"] .categoriesTitle button {
     width: 100%;
   }
   .categoriesContent .categoriesTitle h3{
-    font-size: 25px;
+    font-size: 28px;
   }
   .categoriesContent .categoriesTitle button{
-    padding: 0.3rem 0 0 0;
-    height: 4.4rem;
-    font-size: 17px !important;
+    padding: 0;
+    height: 50px;
+    min-width: 50px;
+    width: 50px;
+    font-size: 0 !important;
+    border-radius: 50%;
+    background: #008142 !important;
+    position: fixed;
+    bottom: 10px;
+    right: 13px;
+    box-shadow: 0 0 10px 0 #666;
+    z-index: 302;
+  }
+  .categoriesContent .categoriesTitle button span{
+    font-size: 30px;
+    margin: 0;
   }
 }
 //////////// extra small media query end here /////////////////

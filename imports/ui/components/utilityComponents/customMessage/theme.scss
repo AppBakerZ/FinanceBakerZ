@@ -226,9 +226,7 @@
 }
 /////////////////////////// dialog styling end here /////////////////////////////////
 
-/////////////////////////////////////////////////
-//////////// rtl styling start here /////////////
-/////////////////////////////////////////////////
+/////////////////// rtl styling start here //////////////////
 body[dir="rtl"] .inputDropdown {
   margin-right: $unit * 3.5;
 }
@@ -241,6 +239,18 @@ body[dir="rtl"] .pageTitle {
 body[dir="rtl"] .pageTitle button {
   float: left !important;
 }
-/////////////////////////////////////////////////
-//////////// rtl styling end here ///////////////
-/////////////////////////////////////////////////
+/////////////////// rtl styling end here ////////////////////
+
+/////////// extra small media query start here //////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .projectNothing .errorShow{
+    padding: 0 5px;
+    white-space: normal;
+    margin: 0 !important;
+    font-size: 18px;
+  }
+  .projectNothing{
+    white-space: normal;
+  }
+}
+/////////// extra small media query end here ////////////////

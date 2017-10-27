@@ -59,3 +59,13 @@ body[dir="rtl"] .autocomplete .value span:last-of-type {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+////// extra small media query start here ///////////
+@media (min-width: 320px) and (max-width: 767px){
+  body[dir="rtl"] .input:after {
+    top: 75%;
+    right: auto;
+    left: 0;
+  }
+}
+////// extra small media query end here /////////////

@@ -218,7 +218,7 @@ class AccountsPage extends Component {
         const { formatMessage } = this.props.intl;
         let { openDialog } = this.state;
         return (
-            <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
+            <div className={theme.accountTableResponsive} style={{ flex: 1, display: 'flex', position: 'relative' }}>
                 <Snackbar
                     action='Dismiss'
                     active={this.state.active}
@@ -229,7 +229,7 @@ class AccountsPage extends Component {
                     onTimeout={this.handleBarTimeout.bind(this)}
                     type={this.state.barType}
                 />
-                <div style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
+                <div className={theme.accountResponsive} style={{ flex: 1, padding: '1.8rem', overflowY: 'auto' }}>
                     <List ripple>
                         {this.renderAccount()}
                     </List>

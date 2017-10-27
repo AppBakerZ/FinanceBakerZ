@@ -195,6 +195,10 @@ body[dir="rtl"] .dashboardDropdown > div:last-of-type {
   .dashboardDropdown div{
     width: 100%;
   }
+  body[dir="rtl"] .dropdownDate div div:after {
+    right: auto;
+    left: 0;
+  }
 }
 //////// Extra Small Media Query End Here ///////
 
