@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 import { Accounts } from 'meteor/accounts-base'
 import { routeHelpers } from '/imports/helpers/routeHelpers'
 
@@ -45,6 +46,24 @@ class ForgotPassword extends Component {
             loading: false,
             active: false,
         }
+    }
+
+    componentDidMount(){
+        let self = this;
+        let { isToken } = this.state;
+        if(isToken){
+            let obj = {
+                users: {
+                    token: isToken
+                }
+            };
+            Meteor.call('users.retrieveEmail', obj, (err, res) => {
+                if(!err){
+                    this.setState({email: res})
+                }
+            })
+        }
+
     }
 
     showEmail(){
@@ -131,7 +150,7 @@ class ForgotPassword extends Component {
     }
 
     resetPassword(){
-        let { newPassword, confirmPassword, isToken} = this.state;
+        let { newPassword, confirmPassword, isToken, email} = this.state;
         if(newPassword !== confirmPassword){
             this.setState({
                 disableButton: false,
@@ -147,17 +166,20 @@ class ForgotPassword extends Component {
             console.log(err);
             console.log(response);
             if(!err){
-                let obj = {
-                    email: {
-                        to: 'raza2022@gmail.com',
-                        subject: 'Password Changed',
-                        template: 'passwordChanged.html',
-                    }
-                };
-                Meteor.call('emails.send', obj, function(err, res){
-                    console.log(err)
-                    console.log(res)
-                });
+                if(email){
+                    let obj = {
+                        email: {
+                            to: email,
+                            subject: 'Password Changed',
+                            template: 'passwordChanged.html',
+                        }
+                    };
+                    Meteor.call('emails.send', obj, function(err, res){
+                        console.log(err)
+                        console.log(res)
+                    });
+                }
+
                 routeHelpers.changeRoute('/login', 1200);
                 this.setState({
                     active: true,

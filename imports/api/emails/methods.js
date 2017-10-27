@@ -22,7 +22,7 @@ export const sendEmail = new ValidatedMethod({
     }).validator(),
     run({ email }) {
         let { to, template, subject } = email;
-        let user = Meteor.users.findOne({'emails.address': "raza2022@gmail.com"});
+        let user = Meteor.users.findOne({'emails.address': to});
         let data = {
             userName: user && user.profile.fullName
         };
