@@ -10,7 +10,7 @@ import {FormattedMessage, intlShape, injectIntl, defineMessages} from 'react-int
 
 const il8n = defineMessages({
     USERNAMEOREMAIL: {
-        id: 'LOGIN.USERNAMEOREMAIL'
+        id: 'SETTINGS.EMAIL'
     },
     PASSWORD: {
         id: 'LOGIN.PASSWORD'
@@ -35,7 +35,7 @@ class Register extends Component {
 
         this.state = {
             fullName: '',
-            usernameOrEmail: '',
+            email: '',
             password: '',
             loading: false
         }
@@ -56,17 +56,11 @@ class Register extends Component {
     onSubmit(event){
         event.preventDefault();
 
-        const {usernameOrEmail, password} = this.state;
-        let user;
-        if (typeof usernameOrEmail === 'string')
-            if (usernameOrEmail.indexOf('@') === -1)
-                user = {username: usernameOrEmail};
-            else
-                user = {email: usernameOrEmail};
+        const {email, password} = this.state;
 
         this.props.progressBarUpdate(true);
 
-        Meteor.loginWithPassword(user, password, (err) => {
+        Meteor.loginWithPassword({email}, password, (err) => {
             if(err){
                 this.props.showSnackbar({
                     activeSnackbar: true,
@@ -99,9 +93,9 @@ class Register extends Component {
                     <img src={'../assets/images/logo-withText.png'} alt="Logo-with-text" />
                 </div>
                 <Input type='text' label={formatMessage(il8n.USERNAMEOREMAIL)}
-                       name='usernameOrEmail'
+                       name='email'
                        maxLength={ 30 }
-                       value={this.state.usernameOrEmail}
+                       value={this.state.email}
                        onChange={this.onChange.bind(this)}
                        required
                     />
