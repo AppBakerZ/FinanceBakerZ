@@ -144,9 +144,20 @@ class ForgotPassword extends Component {
             return false;
         }
         Accounts.resetPassword(isToken, newPassword, (err, response) => {
-            console.log(err)
-            console.log(response)
+            console.log(err);
+            console.log(response);
             if(!err){
+                let obj = {
+                    email: {
+                        to: 'raza2022@gmail.com',
+                        subject: 'Password Changed',
+                        template: 'passwordChanged.html',
+                    }
+                };
+                Meteor.call('emails.send', obj, function(err, res){
+                    console.log(err)
+                    console.log(res)
+                });
                 routeHelpers.changeRoute('/login', 1200);
                 this.setState({
                     active: true,
