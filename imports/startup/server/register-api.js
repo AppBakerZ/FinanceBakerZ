@@ -28,3 +28,5 @@ import '../../api/reports/server/publications.js'
 import '../../api/logs/methods'
 
 import '../../api/emails/methods.js'
+
+import '../../api/users/methods.js'

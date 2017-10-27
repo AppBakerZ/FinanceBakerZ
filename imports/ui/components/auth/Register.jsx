@@ -18,7 +18,7 @@ const il8n = defineMessages({
         id: 'REGISTER.FULLNAME'
     },
     USERNAMEOREMAIL: {
-        id: 'REGISTER.USERNAMEOREMAIL'
+        id: "SETTINGS.EMAIL"
     },
     PASSWORD: {
         id: 'REGISTER.PASSWORD'
@@ -41,7 +41,7 @@ class Register extends Component {
         this.state = {
             plan: props.location.query.plan || '',
             fullName: '',
-            usernameOrEmail: '',
+            email: '',
             password: '',
             loading: false
         }
@@ -58,7 +58,7 @@ class Register extends Component {
     onSubmit(event){
         event.preventDefault();
 
-        const {fullName, usernameOrEmail, password, plan} = this.state;
+        const {fullName, email, password, plan} = this.state;
         if(!Object.keys(plan).length){
             this.props.showSnackbar({
                 activeSnackbar: true,
@@ -68,14 +68,14 @@ class Register extends Component {
             });
             return
         }
-        let selector;
-        if (typeof usernameOrEmail === 'string')
-            if (usernameOrEmail.indexOf('@') === -1)
-                selector = {username: usernameOrEmail};
-            else
-                selector = {email: usernameOrEmail};
+        // let selector;
+        // if (typeof usernameOrEmail === 'string')
+        //     if (usernameOrEmail.indexOf('@') === -1)
+        //         selector = {username: usernameOrEmail};
+        //     else
+        //         selector = {email: usernameOrEmail};
 
-        const key = Object.keys(selector)[0];
+        // const key = Object.keys(selector)[0];
         this.props.progressBarUpdate(true);
         let currency = {label: "Pakistani Rupee", value: "currency-Pakistani-Rupee"},
             language = { label: 'English', value: 'en', direction: 'ltr' },
@@ -83,7 +83,8 @@ class Register extends Component {
             emailNotification = true;
 
         Accounts.createUser({
-            [key]: selector[key],
+            // [key]: selector[key],
+            email,
             password,
             profile: {
                 businessPlan,
@@ -164,10 +165,10 @@ class Register extends Component {
                        onChange={this.onChange.bind(this)}
                        required
                     />
-                <Input type='text' label={formatMessage(il8n.USERNAMEOREMAIL)}
-                       name='usernameOrEmail'
+                <Input type='email' label={formatMessage(il8n.USERNAMEOREMAIL)}
+                       name='email'
                        maxLength={ 30 }
-                       value={this.state.usernameOrEmail}
+                       value={this.state.email}
                        onChange={this.onChange.bind(this)}
                        required
                     />

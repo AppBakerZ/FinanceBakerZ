@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
+import { Accounts } from 'meteor/accounts-base';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Email } from 'meteor/email';
@@ -13,23 +13,29 @@ export const sendEmail = new ValidatedMethod({
         'email.to': {
             type: String
         },
-        'email.from': {
+        'email.subject': {
+            type: String
+        },
+        'email.template': {
             type: String
         },
     }).validator(),
     run({ email }) {
-        let { from, to } = email;
-        console.log(from);
-        console.log(to);
-        if(Meteor.isServer){
-            this.unblock();
-            Email.send({
-                to: 'raza2022@gmail.com',
-                from: 'no-reply@financebakerz.com',
-                subject: 'Hello from Meteor!',
-                html: 'This is a test of Email.send.'
-            });
-        }
+        let { to, template, subject } = email;
+        let user = Meteor.users.findOne({'emails.address': to});
+        let data = {
+            userName: user && user.profile.fullName
+        };
 
+        SSR.compileTemplate( template, Assets.getText( template ));
+
+        Accounts.emailTemplates.from = "FinanceBakerz <no-reply@financebakerz.com>";
+        this.unblock();
+        Email.send({
+            to: to,
+            from: 'no-reply@financebakerz.com',
+            subject: subject,
+            html: SSR.render( template, data )
+        });
     }
 });
