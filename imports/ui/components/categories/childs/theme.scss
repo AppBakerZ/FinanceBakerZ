@@ -154,6 +154,9 @@
         &:first-child{
           margin-right: 20px;
         }
+        span{
+          display: none;
+        }
       }
     }
   }
@@ -242,26 +245,20 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
     margin: 20px auto 0;
   }
   .viewExpense{
-    padding: 15px;
+    padding: 10px;
   }
   .viewExpense .titleBox{
     width: 100%;
     display: inline-block;
     padding: 0 20px;
+    position: relative;
   }
   .viewExpense .titleBox h3{
     font-size: 2.2rem;
     padding: 23px 0 17px 0;
   }
-  .viewExpense .titleBox .rightButtons button{
-    font-size: 20px;
-    padding: 2px 2px 0 2px;
-  }
-  .viewExpense .titleBox .rightButtons button:first-of-type{
-    margin-right: 0;
-  }
   .viewExpense .bankContent{
-    padding: 0 15px;
+    padding: 0 10px;
   }
   .viewExpense .bankContent .depositContent{
     padding: 20px 0;
@@ -284,6 +281,33 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
   }
   .projectStatusResponsive div strong{
     margin-left: 5px;
+  }
+
+  .viewExpense .titleBox .rightButtons button{
+    font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 40px;
+    min-width: 40px;
+    height: 40px !important;
+    border-radius: 50%;
+    background: #008142;
+    box-shadow: 0 0 10px 2px #666666;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+  }
+  .viewExpense .titleBox .rightButtons button:last-of-type{
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    top: auto;
+    box-shadow: 0 0 10px 0 #666666;
+  }
+  .viewExpense .titleBox .rightButtons button span{
+    display: inline-block !important;
+    font-size: 24px;
+    margin: 3px 0 0 6px;
   }
 }
 //////////// extra small media query end here /////////////////

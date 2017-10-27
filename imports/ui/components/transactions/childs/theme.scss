@@ -26,6 +26,9 @@
         &:first-child{
           margin-right: 20px;
         }
+        span{
+          display: none;
+        }
       }
     }
   }
@@ -91,9 +94,6 @@
           color: #008142;
           font-family: "Nexa Bold Regular", "Arial", sans-serif;
         }
-        //&:last-of-type{
-        //  margin-bottom: 10px;
-        //}
       }
     }
   }
@@ -115,6 +115,7 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
 
 //////////////// extra small media query start here ///////////////////
 @media (min-width: 320px) and (max-width: 767px){
+
   .viewExpense{
     padding: 9px;
   }
@@ -127,7 +128,7 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
     padding: 23px 30px 0 0;
   }
   .viewExpense .bankContent{
-    padding: 0 15px;
+    padding: 0 10px;
   }
   .viewExpense .bankContent .depositContent{
     padding: 20px 0 20px;
@@ -162,26 +163,36 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
   .viewExpense .bankContent .projectContent h5{
     font-size: 15px;
   }
-}
-//////////////// extra small media query end here /////////////////////
-@media (min-width: 320px) and (max-width: 442px){
-  .viewExpense .titleBox .rightButtons{
-    margin-top: 0;
-  }
-}
-@media (min-width: 360px) and (max-width: 767px){
-  .viewExpense .titleBox h3{
-    padding: 23px 15px 0 0;
-    font-size: 2rem;
-  }
-  .viewExpense .titleBox .rightButtons{
-    margin-top: 20px;
+
+  .viewExpense .titleBox{
+    position: relative;
   }
   .viewExpense .titleBox .rightButtons button{
-    font-size: 19px;
-    padding: 4px 8px 0 8px;
+    font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 40px;
+    min-width: 40px;
+    height: 40px !important;
+    border-radius: 50%;
+    background: #008142;
+    box-shadow: 0 0 10px 2px #666666;
+    position: absolute;
+    right: 10px;
+    top: 20px;
   }
-  .viewExpense .titleBox .rightButtons button:first-of-type{
-    margin-right: 0;
+  .viewExpense .titleBox .rightButtons button:last-of-type{
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    top: auto;
+    box-shadow: 0 0 10px 0 #666666;
+  }
+  .viewExpense .titleBox .rightButtons button span{
+    display: inline-block !important;
+    font-size: 24px;
+    margin: 3px 0 0 6px;
   }
 }
+
+//////////////// extra small media query end here /////////////////////

@@ -152,6 +152,19 @@ body[dir="rtl"] .tableLink {
   .tableLink{
     margin-bottom: 14px;
   }
+  body[dir="rtl"] .recentIncomeWrapper {
+    width: 100%;
+  }
+  body[dir="rtl"] .recentExpensesWrapper {
+    margin: 0;
+    width: 100%;
+  }
+  .errorShowIncomes p{
+    font-size: 16px;
+  }
+  .errorShowExpenses p{
+    font-size: 16px;
+  }
 }
 //////// Extra Small Media Query End Here ///////
 
@@ -167,6 +180,19 @@ body[dir="rtl"] .tableLink {
   .recentExpensesWrapper .card{
     height: auto;
     min-height: 0;
+  }
+  body[dir="rtl"] .recentIncomeWrapper {
+    width: 100%;
+  }
+  body[dir="rtl"] .recentExpensesWrapper {
+    margin: 0;
+    width: 100%;
+  }
+  body[dir="rtl"] .recentIncomeWrapper h3 {
+    width: 100%;
+  }
+  body[dir="rtl"] .recentExpensesWrapper h3{
+    width: 100%;
   }
 }
 //////// Small Media Query End Here /////////////

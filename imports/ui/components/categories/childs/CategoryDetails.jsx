@@ -247,11 +247,13 @@ class CategoryDetail extends Component {
                                     className='header-buttons'
                                     label={formatMessage(il8n.EDIT)}
                                     name='Income'
+                                    icon='mode_edit'
                                     flat />
                             <Button onClick={this.openPopup.bind(this, 'removeSubcategory', category)}
                                     className='header-buttons'
                                     label={formatMessage(il8n.DELETE)}
                                     name='Expense'
+                                    icon='delete'
                                     flat />
                         </div>
                     </div>
