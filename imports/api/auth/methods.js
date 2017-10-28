@@ -41,6 +41,17 @@ MeteorAccounts.onCreateUser(function(options, user) {
 
     if(user.emails && user.emails.length){
         user.profile.md5hash = Gravatar.hash(user.emails[0].address);
+        let obj = {
+            email: {
+                to: user.emails[0].address,
+                subject: 'Welcome to FinanceBakerz',
+                template: 'w.html',
+            }
+        };
+        Meteor.call('emails.send', obj, function(err, res){
+            console.log(err)
+            console.log(res)
+        });
     }
     else{
         user.emails = []
