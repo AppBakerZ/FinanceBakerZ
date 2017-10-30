@@ -97,6 +97,15 @@
     overflow: auto;
     white-space: nowrap;
   }
+  .table tr th:nth-of-type(2){
+    font-size: 16px !important;
+  }
+  .table tr th:nth-of-type(3){
+    font-size: 16px !important;
+  }
+  .table tr td{
+    font-size: 16px;
+  }
 }
 /////////////////////////////////////////////////
 //////// Extra Small Media Query End Here ///////
