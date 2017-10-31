@@ -1,6 +1,7 @@
 // fill the DB with example data on startup
 
 import { Meteor } from 'meteor/meteor';
+import { Reports } from "/imports/api/reports/reports";
 
 
 function setGravatars() {
@@ -21,6 +22,5 @@ function setGravatars() {
 Meteor.startup(() => {
     setGravatars();
     //TODO: delete that line after successful deployment once
-    Meteor.users.update({}, {$set: {'profile.language':{ label: 'English', value: 'en', direction: 'ltr' }}}, {multi: true});
-    Meteor.users.update({emails: {$exists: false}}, {$set: {emails: []}}, {multi: true})
+    Reports.rawCollection().dropIndexes();
 });
