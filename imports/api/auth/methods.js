@@ -9,6 +9,7 @@ import { Projects } from '../projects/projects.js';
 import { AppConfig } from '../../utils/config.js'
 
 MeteorAccounts.onCreateUser(function(options, user) {
+    console.log("************", options)
     let account = {owner: user._id};
     //Inserting default bank account on signup
     Accounts.insert({
@@ -46,6 +47,9 @@ MeteorAccounts.onCreateUser(function(options, user) {
                 to: user.emails[0].address,
                 subject: 'Welcome to FinanceBakerz',
                 template: 'welcomeEmail.html',
+                data: {
+                    fullName: options.profile && options.profile.fullName,
+                },
             }
         };
         Meteor.call('emails.send', obj, function(err, res){
