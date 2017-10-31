@@ -295,6 +295,17 @@ class editSettingsPage extends Component {
                     });
                     return false;
                 }
+                let obj = {
+                    email: {
+                        to: Meteor.user().emails[0].address,
+                        subject: 'Password Changed',
+                        template: 'passwordChanged.html',
+                    }
+                };
+                Meteor.call('emails.send', obj, function(err, res){
+                    console.log(err);
+                    console.log(res);
+                });
                 this.updateUserProfile();
             })
         }

@@ -110,3 +110,50 @@ body[dir="rtl"] .buttonParent button {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+///////// extra small media query start here ////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .accountResponsive{
+    padding: 0 !important;
+  }
+  .accountContent .accountTitle{
+    width: 100%;
+    display: inline-block;
+    padding: 2.3rem 2rem 1.7rem 2rem;
+  }
+  .accountContent .accountTitle h3{
+    font-size: 20px;
+  }
+  .accountContent .accountTitle button{
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-radius: 50%;
+    background: #008142 !important;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 302;
+    box-shadow: 0 0 10px 0 #666;
+  }
+  .accountContent .accountTitle button span{
+    font-size: 30px;
+    margin-right: 0;
+  }
+  .accountTableResponsive{
+    flex: inherit;
+    display: inline-block;
+    width: 100%;
+  }
+  body[dir="rtl"] .buttonParent button {
+    padding: 0.4rem 1.3rem 0 1.3rem;
+  }
+  body[dir="rtl"] .buttonParent button:last-of-type{
+    margin: 0;
+  }
+}
+///////// extra small media query end here //////////////

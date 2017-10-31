@@ -326,6 +326,7 @@ class DashboardPage extends Component {
                                         />
 
                                     <Dropdown theme={dropdownTheme}
+                                              className={theme.dropdownDate}
                                               auto={false}
                                               source={this.filters()}
                                               name='filterBy'

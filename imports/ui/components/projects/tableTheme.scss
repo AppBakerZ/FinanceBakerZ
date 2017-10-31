@@ -54,3 +54,25 @@
     }
   }
 }
+
+//////// extra small media query start here ///////////
+@media (min-width: 320px) and (max-width: 767px){
+  .card .table{
+    padding: 1rem;
+  }
+  .card .table thead tr th{
+    font-size: 16px;
+    padding: 0 1rem;
+  }
+  .card .table thead tr th:first-of-type{
+    padding: 0 1rem;
+  }
+  .card .table tbody tr td{
+    font-size: 16px;
+    padding: 0 1rem;
+  }
+  .card .table tbody tr td:first-of-type{
+    padding: 0 1rem;
+  }
+}
+//////// extra small media query end here /////////////

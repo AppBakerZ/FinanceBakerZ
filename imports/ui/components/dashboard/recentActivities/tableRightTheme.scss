@@ -90,21 +90,29 @@
   }
 }
 
-/////////////////////////////////////////////////
 /////// Extra Small Media Query Start Here //////
-/////////////////////////////////////////////////
+
 @media (min-width: 320px) and (max-width: 767px){
   .table {
     padding: 1rem;
   }
+  .table tr th:nth-of-type(2){
+    font-size: 16px !important;
+  }
+  .table tr th:nth-of-type(3){
+    font-size: 16px !important;
+  }
+  .table tr td{
+    font-size: 16px;
+  }
+  .table tr td:nth-of-type(3) i{
+    left: 0 !important;
+  }
 }
-/////////////////////////////////////////////////
-//////// Extra Small Media Query End Here ///////
-/////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
+//////// Extra Small Media Query End Here ///////
+
 //////////// rtl styling start here /////////////
-/////////////////////////////////////////////////
 body[dir="rtl"] th{
   text-align: right !important;
 }
@@ -135,6 +143,4 @@ body[dir="rtl"] td:first-child {
 body[dir="rtl"] td:nth-child(2){
   text-align: right;
 }
-/////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
-/////////////////////////////////////////////////

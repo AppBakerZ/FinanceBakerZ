@@ -100,20 +100,47 @@ body[dir="rtl"] td div span div {
   .card table{
     padding: 1.5rem 1.5rem;
   }
+  .card table tr{
+    position: relative;
+  }
+  .card table tr td:last-of-type{
+    position: absolute;
+    right: 20px;
+    width: auto !important;
+  }
+  .card table tr td:last-of-type div{
+    margin: 23px 0 1rem 0;
+  }
+  .card table tr td div span div{
+    margin-right: 1rem;
+  }
   .card table tr td{
-    padding: 0 1.5rem;
+    padding: 0 !important;
+    width: 100% !important;
+    float: left;
+    border-bottom: 0 !important;
+    border-right: 0 !important;
+    text-align: left !important;
   }
   .card table tr td:first-of-type i{
     font-size: 5rem;
   }
-  .card table tr td:first-of-type{
-    padding: 1.5rem 1.5rem 1.5rem 1rem;
-  }
   .card table tr td:nth-of-type(2){
     padding: 0 1.5rem 0 1.5rem;
   }
+  .card table tr td:nth-of-type(2){
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+    padding: 0 0 10px 0 !important;
+  }
+  .card table tr:last-of-type td:nth-of-type(2){
+    border-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  .card table tr td:first-of-type{
+    padding: 20px 0 0 0 !important;
+  }
   .card table tr td div div strong{
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 /////////// extra small media query end here /////////////////

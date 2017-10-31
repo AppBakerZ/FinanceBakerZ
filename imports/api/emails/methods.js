@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
+import { Accounts } from 'meteor/accounts-base';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Email } from 'meteor/email';
+import { _ } from 'underscore';
 
 export const sendEmail = new ValidatedMethod({
     name: 'emails.send',
@@ -13,23 +14,37 @@ export const sendEmail = new ValidatedMethod({
         'email.to': {
             type: String
         },
-        'email.from': {
+        'email.subject': {
             type: String
+        },
+        'email.template': {
+            type: String
+        },
+        'email.data': {
+            type: Object,
+            optional: true,
+            blackbox: true
         },
     }).validator(),
     run({ email }) {
-        let { from, to } = email;
-        console.log(from);
-        console.log(to);
-        if(Meteor.isServer){
-            this.unblock();
-            Email.send({
-                to: 'raza2022@gmail.com',
-                from: 'no-reply@financebakerz.com',
-                subject: 'Hello from Meteor!',
-                html: 'This is a test of Email.send.'
-            });
+        let { to, template, subject, data } = email;
+        let user = Meteor.users.findOne({'emails.address': to});
+        let templateData = {
+            userName: user && user.profile.fullName
+        };
+        if(data){
+            _.extend(templateData, data)
         }
 
+        SSR.compileTemplate( template, Assets.getText( template ));
+
+        Accounts.emailTemplates.from = "FinanceBakerz <no-reply@financebakerz.com>";
+        this.unblock();
+        Email.send({
+            to: to,
+            from: 'no-reply@financebakerz.com',
+            subject: subject,
+            html: SSR.render( template, templateData )
+        });
     }
 });

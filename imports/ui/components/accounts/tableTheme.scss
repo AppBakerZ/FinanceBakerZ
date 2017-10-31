@@ -52,3 +52,45 @@
     }
   }
 }
+
+////////// extra small media query start here /////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .card table{
+    padding: 1rem 1.5rem;
+  }
+  .card table td{
+    width: 100% !important;
+    float: left;
+    border-bottom: 0 !important;
+    border-right: 0 !important;
+    padding: 10px 0 !important;
+  }
+  .card table td:first-of-type i{
+    color: black;
+  }
+  .card table td:last-of-type{
+    text-align: left !important;
+    border-bottom: 1px solid #cecece !important;
+    padding: 10px 0 20px !important;
+    margin-bottom: 10px;
+  }
+  .card table td div div {
+    font-size: 15px !important;
+    margin-left: 0 !important;
+  }
+  .card table tr:hover{
+    background: none;
+  }
+  .card table tr:last-of-type td:last-of-type{
+    border-bottom: 0 !important;
+    margin-bottom: 0;
+  }
+  body[dir="rtl"] .card table tr td {
+    border-right: 0 !important;
+    border-left: 0 !important;
+  }
+  body[dir="rtl"] .card table {
+    padding: 1rem;
+  }
+}
+////////// extra small media query end here ///////////////

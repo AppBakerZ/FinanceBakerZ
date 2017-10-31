@@ -248,3 +248,11 @@ body[dir="rtl"] .pageTitle button {
 /////////////////////////////////////////////////
 //////////// rtl styling end here ///////////////
 /////////////////////////////////////////////////
+
+/////////// extra small media query start here //////////////
+@media (min-width: 320px) and (max-width: 767px){
+  .projectNothing{
+    white-space: normal;
+  }
+}
+/////////// extra small media query end here ////////////////

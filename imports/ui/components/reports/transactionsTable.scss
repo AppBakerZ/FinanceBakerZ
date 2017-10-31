@@ -112,19 +112,95 @@ body[dir="rtl"] .rightButtons {
 
 //////////////// extra small media query start here ///////////////////
 @media (min-width: 320px) and (max-width: 767px){
-  .tableParent{
-    width: 100%;
-    overflow: auto;
-    white-space: nowrap;
-  }
   .cardReport .titleBg{
     padding: 0 20px 0;
   }
   .cardReport .titleBg h3{
     padding: 23px 0 17px 0;
   }
-  .cardReport .titleBg .rightButtons button:first-child{
-    margin-right: 0;
+  body[dir="rtl"] .cardReport .titleBg h3 {
+    padding: 7px 0 7px 0;
+  }
+  .cardReport .titleBg .rightButtons button{
+    margin: 0;
+    padding: 3px 0 0 0 !important;
+    font-size: 0;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 50%;
+    background: #008142 !important;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 302;
+    box-shadow: 0 0 10px 0 #666;
+  }
+  .cardReport .titleBg .rightButtons button:first-of-type{
+    margin: 0 !important;
+  }
+  .cardReport .titleBg .rightButtons button:last-of-type{
+    bottom: 55px;
+    right: 10px;
+    background: #c71111 !important;
+  }
+  .cardReport .titleBg .rightButtons button:last-of-type span{
+    display: none;
+  }
+  .cardReport .titleBg .rightButtons button:last-of-type:before{
+    content: "";
+    width: 13px;
+    height: 3px;
+    display: inline-block;
+    background: white;
+    position: relative;
+    top: -1px;
+  }
+  .cardReport .titleBg .rightButtons button span{
+    font-size: 20px;
+    margin: 0;
+  }
+  .table{
+    padding-top: 10px;
+  }
+  .table thead{
+    display: none;
+  }
+  .table thead tr th{
+    padding: 0.2rem 2rem 0 2rem;
+    display: none;
+  }
+
+  .table tbody tr td{
+    font-size: 16px;
+  }
+  .table tbody tr td:first-of-type svg{
+    position: relative;
+    top: 2.5px;
+  }
+  .table tbody tr td:first-of-type{
+    padding: 10px 0 6px 3px;
+    width: 10%;
+    float: left;
+    border-right: 0;
+  }
+  .table tbody tr td:nth-of-type(2){
+    display: none;
+  }
+  .table tbody tr td:last-of-type{
+    display: none;
+  }
+  .table tbody tr td:nth-of-type(3){
+    width: 55%;
+    float: left;
+    padding: 10px 0 6px 10px;
+  }
+  .table tbody tr td:nth-of-type(4){
+    width: 35%;
+    float: left;
+    padding: 10px 10px 6px 10px;
+    border-right: 0;
   }
 }
 //////////////// extra small media query end here /////////////////////
