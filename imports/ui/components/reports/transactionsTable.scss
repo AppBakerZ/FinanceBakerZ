@@ -118,6 +118,9 @@ body[dir="rtl"] .rightButtons {
   .cardReport .titleBg h3{
     padding: 23px 0 17px 0;
   }
+  body[dir="rtl"] .cardReport .titleBg h3 {
+    padding: 7px 0 7px 0;
+  }
   .cardReport .titleBg .rightButtons button{
     margin: 0;
     padding: 3px 0 0 0 !important;
