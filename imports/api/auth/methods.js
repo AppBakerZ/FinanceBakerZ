@@ -45,7 +45,7 @@ MeteorAccounts.onCreateUser(function(options, user) {
             email: {
                 to: user.emails[0].address,
                 subject: 'Welcome to FinanceBakerz',
-                template: 'w.html',
+                template: 'welcomeEmail.html',
             }
         };
         Meteor.call('emails.send', obj, function(err, res){
