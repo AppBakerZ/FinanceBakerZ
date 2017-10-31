@@ -164,6 +164,13 @@ body[dir="rtl"] .viewExpense .titleBox .rightButtons {
     font-size: 15px;
   }
 
+  body[dir="rtl"] .viewExpense .titleBox .rightButtons button {
+    left: 10px;
+    right: auto;
+  }
+  body[dir="rtl"] .viewExpense .titleBox .rightButtons button span {
+    margin: 2px 7px 0 0;
+  }
   .viewExpense .titleBox{
     position: relative;
   }
