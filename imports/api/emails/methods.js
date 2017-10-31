@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Email } from 'meteor/email';
+import { _ } from 'underscore';
 
 export const sendEmail = new ValidatedMethod({
     name: 'emails.send',
@@ -19,13 +20,21 @@ export const sendEmail = new ValidatedMethod({
         'email.template': {
             type: String
         },
+        'email.data': {
+            type: Object,
+            optional: true,
+            blackbox: true
+        },
     }).validator(),
     run({ email }) {
-        let { to, template, subject } = email;
+        let { to, template, subject, data } = email;
         let user = Meteor.users.findOne({'emails.address': to});
-        let data = {
+        let templateData = {
             userName: user && user.profile.fullName
         };
+        if(data){
+            _.extend(templateData, data)
+        }
 
         SSR.compileTemplate( template, Assets.getText( template ));
 
@@ -35,7 +44,7 @@ export const sendEmail = new ValidatedMethod({
             to: to,
             from: 'no-reply@financebakerz.com',
             subject: subject,
-            html: SSR.render( template, data )
+            html: SSR.render( template, templateData )
         });
     }
 });
