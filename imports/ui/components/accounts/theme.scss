@@ -149,5 +149,11 @@ body[dir="rtl"] .buttonParent button {
     display: inline-block;
     width: 100%;
   }
+  body[dir="rtl"] .buttonParent button {
+    padding: 0.4rem 1.3rem 0 1.3rem;
+  }
+  body[dir="rtl"] .buttonParent button:last-of-type{
+    margin: 0;
+  }
 }
 ///////// extra small media query end here //////////////
