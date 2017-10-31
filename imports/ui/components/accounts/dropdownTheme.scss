@@ -54,6 +54,9 @@
   .dropdown .values{
     max-height: 38vh !important;
   }
+  body[dir="rtl"] .dropdown .values {
+    max-height: 30vh !important;
+  }
   .dropdown .values li{
     width: 50% !important;
   }

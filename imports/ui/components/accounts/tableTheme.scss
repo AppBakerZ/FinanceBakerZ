@@ -85,5 +85,12 @@
     border-bottom: 0 !important;
     margin-bottom: 0;
   }
+  body[dir="rtl"] .card table tr td {
+    border-right: 0 !important;
+    border-left: 0 !important;
+  }
+  body[dir="rtl"] .card table {
+    padding: 1rem;
+  }
 }
 ////////// extra small media query end here ///////////////

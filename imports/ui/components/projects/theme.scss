@@ -292,6 +292,9 @@ body[dir="rtl"] .pageTitle button {
   .projectNothing{
     white-space: normal;
   }
+  body[dir="rtl"] .inputDropdown {
+    margin-right: 0;
+  }
 }
 /////////////////////// extra small media query end here ////////////////////////
 

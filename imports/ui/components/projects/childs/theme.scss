@@ -311,6 +311,13 @@ body[dir="rtl"] .btnParents button {
     margin-bottom: 20px !important;
   }
 
+  body[dir="rtl"] .titleBox .rightButtons button {
+    left: 10px;
+    right: auto;
+  }
+  body[dir="rtl"] .titleBox .rightButtons button span {
+    margin: 2px 7px 0 0;
+  }
   .titleBox .rightButtons button{
     font-size: 0 !important;
     margin: 0 !important;

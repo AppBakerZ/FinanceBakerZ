@@ -242,9 +242,11 @@
   .incomeCard .incomeForm{
     padding: 15px;
   }
+  body[dir="rtl"] .incomeCard .incomeForm {
+    padding: 10px;
+  }
   .incomeCard .incomeForm button{
     margin: 10px auto 0;
   }
-
 }
 ////////// extra small media query end here //////////////////
